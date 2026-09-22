@@ -14,6 +14,9 @@ func check(condition: bool, message: String) -> void:
 func eq(actual: Variant, expected: Variant, message: String = "") -> void:
 	if typeof(actual) != typeof(expected) and not (_is_number(actual) and _is_number(expected)):
 		failures.append("%s expected %s (%s), got %s (%s)" % [message, expected, type_string(typeof(expected)), actual, type_string(typeof(actual))])
+	elif (typeof(actual) == TYPE_FLOAT or typeof(expected) == TYPE_FLOAT) and _is_number(actual) and _is_number(expected):
+		if not is_equal_approx(float(actual), float(expected)):
+			failures.append("%s expected %s, got %s" % [message, expected, actual])
 	elif actual != expected:
 		failures.append("%s expected %s, got %s" % [message, expected, actual])
 
@@ -47,5 +50,6 @@ func run_with(board_rows: Array, tray_shapes: Array, jokers: Array = []) -> BMRu
 	return run
 
 
+## A tray piece that is not part of the bag (uid -1), for scoring tests.
 func shape(family: StringName, rot: int = 0, color: int = BMShapes.COLOR_RED) -> Dictionary:
-	return BMShapes.make_shape(family, rot, color)
+	return BMPieces.make(-1, family, rot, color)

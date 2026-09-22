@@ -15,7 +15,8 @@ const COLOR_STONE := 6
 const OFFER_COLOR_COUNT := 6
 const COLOR_NAMES := ["Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Stone"]
 
-## Family definitions in draw order. `weight` is a percentage; `min_round` gates availability.
+## Family definitions. `weight` (percent) now only weights random piece offers in the shop;
+## trays are dealt from the player's bag (BMBag). `min_round` is kept for reference only.
 const FAMILIES := [
 	{"id": &"single", "name": "Single", "weight": 8, "min_round": 1, "cells": [[0, 0]]},
 	{"id": &"bar2", "name": "Bar 2", "weight": 12, "min_round": 1, "cells": [[0, 0], [1, 0]]},
@@ -85,35 +86,9 @@ static func make_shape(id: StringName, rot: int, color: int) -> Dictionary:
 	return {"family": id, "rot": rot % rots.size(), "cells": cells, "color": color}
 
 
-static func available_families(round_number: int) -> Array:
-	var out: Array = []
-	for f in FAMILIES:
-		if round_number >= int(f.min_round):
-			out.append(f)
-	return out
-
-
 static func shape_size(shape: Dictionary) -> Vector2i:
 	var s := Vector2i.ZERO
 	for c: Vector2i in shape.cells:
 		s.x = maxi(s.x, c.x + 1)
 		s.y = maxi(s.y, c.y + 1)
 	return s
-
-
-static func shape_to_dict(shape: Dictionary) -> Dictionary:
-	if shape.is_empty():
-		return {}
-	return {"family": String(shape.family), "rot": shape.rot, "color": shape.color}
-
-
-static func shape_from_dict(d: Dictionary) -> Dictionary:
-	if d.is_empty():
-		return {}
-	return make_shape(StringName(d.family), int(d.rot), int(d.color))
-
-
-static func signature(shape: Dictionary) -> String:
-	if shape.is_empty():
-		return "-"
-	return "%s:%d:%d" % [shape.family, shape.rot, shape.color]

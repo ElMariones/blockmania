@@ -1,6 +1,6 @@
 # BLOCKMANIA — Asset Plan and Art Brief
 
-**Version:** 0.1 · **Status:** inventory only; no production assets generated yet. The M0 prototype uses procedural placeholders drawn in code (beveled blocks, backdrop, placeholder block-letter logotype); none of them are production assets · **Companion:** [GAME_DESIGN_DOCUMENT.md](GAME_DESIGN_DOCUMENT.md)
+**Version:** 0.2 · **Status:** art generation started 2026-09-22. Generated source candidates are cataloged in [assets/ASSET_MANIFEST.md](assets/ASSET_MANIFEST.md); none has been integrated or approved as final. The M0 prototype still uses procedural placeholders drawn in code. · **Companion:** [GAME_DESIGN_DOCUMENT.md](GAME_DESIGN_DOCUMENT.md)
 
 ## 1. Purpose and visual target
 
@@ -40,6 +40,9 @@ This document lists the art, animation, UI, audio, and Steam marketing assets ne
 | `placement_ghost` | 2 sets | Valid and invalid footprints, anchor indicator, projected cleared lines | P0/P1 | Must align exactly with the rules layer. |
 | `board_themes` | 4 skins | Standard arcade, midnight neon, brass workshop, ultraviolet grid | P2 | Cosmetic only; maintain same grid readability. |
 | `boss_marks` | 6 | Small symbol plus large round-intro badge per boss | P2 | Visual shorthand never replaces the written rule. |
+| `block_material_finish` | 5 (Chrome, Neon, Gold, Glass, Prism) × board/tray/tile sizes | Overlay finish per material, plus shatter and clear variants for Glass and Gold | P1 | Each needs a shape cue (streaks, double outline, coin, glare, band) as well as color. The prototype draws these procedurally in `block_painter.gd`. |
+| `piece_stamp_badge` | 4 (Encore, Refund, Tip, Memory) | Lettered badge that stays legible at 20 px and 90 px | P1 | Letter plus shape. Colors are secondary. |
+| `schematic_level_pip` | 1 set | Family level indicator for tray, bag view, and receipt | P2 | Numeric text always present. |
 
 **Shape art principle:** author reusable tile components. Shape definitions specify cell coordinates and colors in data; do not create a raster asset for every footprint/orientation. This reduces inconsistency and supports preview/ghost rendering.
 
@@ -52,6 +55,8 @@ This document lists the art, animation, UI, audio, and Steam marketing assets ne
 | `joker_icon` | 24 | Simplified icon for HUD/tooltips | P1/P2 | Ideally derived from same art language, not automatically cropped. |
 | `joker_trigger_vfx` | 3 rarity families + 6 semantic variants | Pulse, chip burst, multiplier bloom, rule shift, board effect, economy event | P1/P2 | One Joker's effect must be distinguishable from score total. |
 | `consumable_art` | 8 | One icon/illustration per item; unused/selected/used states | P1/P2 | Visual grammar different from passive Jokers. |
+| `workshop_card_art` | 14 (13 tools + Schematic family variants) | Card frame and icon per Workshop card (plating, tubing, leaf, glassworks, prism, 4 stamps, copier, shredder, turntable, repaint, schematic) | P1/P2 | Distinct "tool" grammar from Jokers and items; target count shown in text. |
+| `joker_illustration` (bag era) | +14 | Hoarder, Architect, Straight Edge, Square Deal, Last Piece, Postmaster, Lean Bag, Foundry, Neon Sign, Specialist, Recycler, Glass Cannon, Collector, Mimic | P2 | Joker total is now 38. |
 | `kit_badge` | 3 | Standard, Compact, High Roller selection emblems | P2 | Clear starting tradeoff in adjacent live text. |
 | `collection_unknown` | 1 | Undiscovered silhouette/card treatment | P2 | No gameplay information leak beyond desired unlock presentation. |
 
@@ -65,7 +70,8 @@ This document lists the art, animation, UI, audio, and Steam marketing assets ne
 | Game HUD | Score/target meter, placements, combo, Credits, Refresh, boss rule, Joker strip, tray, pause | P0/P1 | Board dominates at 1080p and stays usable at 720p. |
 | Score receipt | Compact event badge, expanded Chips/Mult ledger, trigger order indicators | P1 | Should explain surprising scores without pausing the run. |
 | Round intro/outro | Target card, boss badge, reward tally, continue button | P1 | Animation skippable. |
-| Shop | Five offer cards, prices, Credits, reroll, sell, reorder, next-boss preview | P1 | Confirm purchase/sale feedback and disabled affordability states. |
+| Shop | Nine offers (3 Jokers, 2 items, 2 Workshop, 2 pieces), prices, Credits, reroll, sell, reorder, next-boss preview, View Bag | P1 | Confirm purchase/sale feedback and disabled affordability states. |
+| Bag view and Workshop picker | Piece tiles (material, stamp, text label), draw/tray/discard groupings, selection state, color chooser, "n of N chosen" status, confirm/cancel | P1 | Draw order is never revealed. Selection shows a "SELECTED" label and a border, not only color. |
 | Tutorial | Callout bubble, pointer, step progress, skip/replay affordance | P1 | Never covers the active cells being taught. |
 | Collection | Joker grid, discovery state, boss list, stats, run history | P2 | Good search/filter behavior if content grows. |
 | Run result | Victory/defeat banner, seed, build summary, stats, share text action | P2 | Do not make score readout dependent on animated count-up. |
@@ -80,7 +86,7 @@ This document lists the art, animation, UI, audio, and Steam marketing assets ne
 2. **Workbench view:** board slightly left, shop/Joker elements appear as physical tokens in a right-hand workspace. Useful for tactile feel but must preserve board size.
 3. **Minimal tournament view:** crisp board, thin HUD, restrained effects for clarity and accessibility.
 
-Before production art, make grayscale wireframes at 1920×1080 and 1280×720 for gameplay, shop, and round result. Then create one non-production color concept board for the chosen direction. The project owner has requested the actual image asset generation later, so this document does not include generated sprites or mockups.
+The owner has authorized cozy pixel-art asset generation. The current source candidates cover a style reference, one Joker frame, six block colors, one button, two Joker illustrations, and one illustration each for a boss, consumable, and Workshop tool. Grayscale wireframes at 1920×1080 and 1280×720 are still needed to validate composition before UI integration. See the [visual asset manifest](assets/ASSET_MANIFEST.md) for files, IDs, and status.
 
 ## 7. VFX and motion inventory
 
@@ -108,6 +114,7 @@ Before production art, make grayscale wireframes at 1920×1080 and 1280×720 for
 | Placement | 4 size/intensity classes × 3 variations | P1 | Avoid repetitive click fatigue. |
 | Hover/select/UI | 12–18 distinct cues | P1 | Low-volume and non-irritating in rapid use. |
 | Clears/combo | Single, double, triple+, combo escalation, target hit | P1 | Audio communicates success if visuals reduced. |
+| Bag/pieces | Glass shatter, Gold coin, stamp trigger (4), Workshop apply, piece added/removed, reshuffle | P1/P2 | Shatter is a loss cue, so it must be distinct from a clear. |
 | Joker/consumable | 3 rarity families + 6 semantic cues | P1/P2 | Layered under score cue, limited polyphony. |
 | Shop/economy | Purchase, sell, reroll, insufficient Credits, reward | P1 | Crisp feedback with no casino-like monetization implication. |
 | Boss/results | Reveal, danger, round win, boss win, run win, defeat | P2 | Strong but volume-controlled. |

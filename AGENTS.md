@@ -6,7 +6,7 @@ This file applies to the repository root and all future subdirectories unless a 
 
 You are a senior Godot game developer and design-minded collaborator working on **BLOCKMANIA**, a premium, single-player Windows desktop game intended for Steam. Build an original, polished block placement roguelike with a readable 8×8 puzzle board, three-shape tray, score targets, shops, Jokers, bosses, and satisfying arcade presentation. Own the quality of the whole player experience: deterministic rules, clear UI, responsive input, restrained effects, accessibility, maintainable data, and reliable saves.
 
-**Implementation is authorized** (owner, 2026-09-22): develop the game alongside the owner, keeping `AGENTS.md`, `TASKS.md`, and the other docs current, committing and pushing to `https://github.com/ElMariones/blockmania.git`. The project is at the **M0 rules prototype / early M1** stage. All visuals are procedural placeholders drawn in code; **production art and audio are still not authorized**: do not generate or import sprites, fonts, music, or SFX until the owner asks. Distinguish settled decisions from hypotheses.
+**Implementation is authorized** (owner, 2026-09-22): develop the game alongside the owner, keeping `AGENTS.md`, `TASKS.md`, and the other docs current, committing and pushing to `https://github.com/ElMariones/blockmania.git`. The project is at the **M0 rules prototype / early M1** stage, with the Bag system (GDD §16) implemented. All visuals are procedural placeholders drawn in code; **production art and audio are still not authorized**: do not generate or import sprites, fonts, music, or SFX until the owner asks. Distinguish settled decisions from hypotheses.
 
 ## Source of truth
 
@@ -55,14 +55,15 @@ If documents conflict, resolve the discrepancy in favor of the owner's latest in
 
 | Path | Responsibility |
 |---|---|
-| `game/rules/` | Pure rules: `BMBoard`, `BMRngStream`, `BMTrayGenerator`, `BMResolver` (placement pipeline). No nodes. |
-| `game/content/` | Data catalogs with stable string IDs: `BMShapes`, `BMJokers` (+ effect functions), `BMConsumables`, `BMBosses`, `BMRunConfig` (targets, economy, Kits). |
+| `game/rules/` | Pure rules: `BMBoard` (cells + owner/material layers), `BMRngStream`, `BMBag` (draw/discard piles, dealing, legality guarantee), `BMResolver` (placement pipeline). No nodes. |
+| `game/content/` | Data catalogs with stable string IDs: `BMShapes`, `BMPieces` (starter bag, materials, stamps, Schematic values), `BMTools` (Workshop cards), `BMJokers` (+ effect functions), `BMConsumables`, `BMBosses`, `BMRunConfig` (targets, economy, Kits). |
 | `game/run/` | `BMRun` (complete run state + every player command, history, replay, `to_dict`/`from_dict`) and `BMSaveStore` (local saves/settings). |
-| `game/ui/` | Screens and widgets built in code: `BMGameScreen`, `BMShopScreen`, `BMTitleScreen`, `BMBoardView`, `BMTraySlot`, `BMUI` kit, `BMPalette`. |
+| `game/ui/` | Screens and widgets built in code: `BMGameScreen`, `BMShopScreen` (with the Workshop picker), `BMTitleScreen`, `BMBoardView`, `BMTraySlot`, `BMBagView`, `BMPieceTile`, `BMUI` kit, `BMPalette`. |
 | `game/presentation/` | Visual-only helpers: `BMBlockPainter` (procedural beveled blocks), `BMBackdrop`. |
 | `game/main.gd` + `main.tscn` | App root `BMMain`: routes screens, the single `act()` entry point, autosave, pause, input-map registration. |
 | `tests/` | Headless test runner and `test_*.gd` suites (extend `BMTestCase`). |
-| `tools/` | `BMAutoplayer` (greedy bot) and `simulate.gd` (balance probe). Dev-only. |
+| `tools/` | `BMAutoplayer` (preview-guided bot with a configurable shop policy), `simulate.gd` (quick balance probe), `experiments.gd` (paired-seed content experiments: curve / jokers / upgrades). Dev-only. |
+| `docs/balance/` | Saved experiment reports that justify provisional numbers. |
 | `addons/godot_ai/` | Third-party editor plugin (MIT) for AI tooling; dev-only, see THIRD_PARTY.md. |
 
 Future: `game/audio`, `assets/source`, `assets/export`, `docs`. Godot resource paths and stable IDs (Joker/boss/item/shape IDs, save keys) must not be renamed casually: saves depend on them.
@@ -72,6 +73,9 @@ Future: `game/audio`, `assets/source`, `assets/export`, `docs`. Godot resource p
 - Every player action is a `BMRun` command returning a result Dictionary. UI calls only `BMMain.act(action_dict)`, which applies, autosaves, and routes. Never mutate `BMRun` from UI code.
 - The placement pipeline lives only in `BMResolver.resolve_placement`. Score previews run it on `run.clone()`, so preview equals result by construction.
 - New Joker: add a `CATALOG` entry in `game/content/jokers.gd`, implement its phase function (`chips` / `add_mult` / `x_mult`) or rule hook in `BMRun`/`BMResolver`, add a trigger and a no-trigger test in `tests/test_jokers.gd`, and make sure the card text matches the code. Set `implemented: false` to keep an unfinished card out of the shop.
+- The Bag: trays are dealt only through `BMBag`. Every bag piece has a unique `uid`, and each piece is in exactly one of the draw pile, the tray, or the discard pile (a test enforces this). Temporary pieces have `uid -1` and `temporary: true` and never enter a pile. Bag edits (`buy_tool`, `buy_piece`) happen only in the shop.
+- New material or stamp: add it to `BMPieces`, hook it into `BMResolver` at the documented pipeline step, draw a non-color cue in `BMBlockPainter`, add a Workshop card if needed, and add tests in `tests/test_bag.gd`.
+- Content changes that affect balance: run `tools/experiments.gd` (jokers / upgrades) and save the report to `docs/balance/` when numbers change.
 - Randomness only through the run's `BMRngStream`s. UI must never consume gameplay RNG; cosmetic randomness (screen shake) uses the global RNG.
 - Bump `BMRun.SCHEMA_VERSION` and add a migration in `BMSaveStore.load_run` whenever `to_dict()` changes shape.
 - Build UI controls in code with `set_anchors_and_offsets_preset` (plain `set_anchors_preset` inside `_ready` left controls at zero size).
@@ -86,6 +90,8 @@ Future: `game/audio`, `assets/source`, `assets/export`, `docs`. Godot resource p
 "<godot>" --headless --path . --script res://tests/run_tests.gd -- jokers
 # Balance probe: number of runs, first seed
 "<godot>" --headless --path . --script res://tools/simulate.gd -- 200 1
+# Content experiments (paired seeds): mode curve|jokers|upgrades|all, runs, first seed, report path
+"<godot>" --headless --path . --script res://tools/experiments.gd -- all 60 1 res://docs/balance/experiments_v1.md
 ```
 
 `<godot>` is the Godot 4.7.2 console executable (owner's machine: `C:/Users/mario/Downloads/Godot_v4.7.2-stable_win64_console.exe`).

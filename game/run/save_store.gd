@@ -39,7 +39,11 @@ static func load_run() -> BMRun:
 	if int(data.get("schema", 0)) > BMRun.SCHEMA_VERSION:
 		push_warning("Run save is from a newer version; ignoring it.")
 		return null
-	# Future: migrate older schemas here before from_dict.
+	# Migrations go here. Schema 1 (pre-Bag prototype, random tray draws) has no bag or piece
+	# identities, so it cannot be converted faithfully; those prototype saves are ignored.
+	if int(data.get("schema", 0)) < 2:
+		push_warning("Run save predates the Bag (schema 1); it cannot be resumed.")
+		return null
 	var run := BMRun.from_dict(data.run)
 	if run.phase in [BMRun.Phase.RUN_WON, BMRun.Phase.RUN_LOST, BMRun.Phase.ABANDONED]:
 		return null

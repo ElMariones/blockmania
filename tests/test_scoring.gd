@@ -65,10 +65,10 @@ func test_joker_chips_add_mult_then_x_mult_order() -> void:
 	var run := run_with(_double_clear_board(), [shape(&"square2")], ["golden_ratio", "wide_awake"])
 	run.round_state.placements_made = 2 # this is the 3rd placement -> Golden Ratio x1.5
 	var r := run.place(0, Vector2i(6, 6))
-	# chips: 40 cells + 200 lines + 40 multi = 280; mult (1 + 2) * 1.5 = 4.5
+	# chips: 40 cells + 200 lines + 40 multi = 280; mult (1 + 3) * 1.5 = 6
 	eq(r.chips, 280, "chips")
-	eq(r.mult, 4.5, "mult")
-	eq(r.points, 1260, "points")
+	eq(r.mult, 6.0, "mult")
+	eq(r.points, 1680, "points")
 	var kinds: Array = []
 	for it in r.items:
 		kinds.append(it.kind)
@@ -111,9 +111,9 @@ func test_last_call_multi_line_bonus() -> void:
 func test_points_floor_once() -> void:
 	var run := run_with(EMPTY_ROWS, [shape(&"single")], ["hollow_point"])
 	var r := run.place(0, Vector2i(3, 3))
-	# 10 chips x 2.5 mult = 25 exactly; now a fractional case with Spark 0.25
-	eq(r.points, 25, "10 x 2.5")
+	# 10 chips x 1.5 mult = 15 exactly; now a fractional case with Spark 0.25
+	eq(r.points, 15, "10 x 1.5")
 	var run2 := run_with(EMPTY_ROWS, [shape(&"bar3")], ["hollow_point"])
 	run2.round_state.pending_mult = 0.25
 	var r2 := run2.place(0, Vector2i(0, 0))
-	eq(r2.points, 82, "30 x 2.75 = 82.5 floors to 82")
+	eq(r2.points, 52, "30 x 1.75 = 52.5 floors to 52")

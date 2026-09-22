@@ -2,7 +2,7 @@
 
 **Status:** M0 rules prototype (playable, placeholder visuals) · **Engine:** Godot 4.7.2 stable (GDScript) · **Target:** premium desktop game on Steam
 
-BLOCKMANIA is a single-player, turn-based block placement roguelike. Place shapes on an 8×8 board, clear complete rows and columns, beat escalating round targets, and build a run around rule-changing Jokers. The moment-to-moment puzzle should feel immediate; the run should reward planning, risk, and surprising combinations.
+BLOCKMANIA is a single-player, turn-based block placement roguelike. Place pieces from your own customizable **bag** on an 8×8 board, clear complete rows and columns, beat escalating round targets, and build a run around rule-changing Jokers and upgraded pieces. The moment-to-moment puzzle should feel immediate; the run should reward planning, risk, and surprising combinations.
 
 ## Start here
 
@@ -15,19 +15,22 @@ BLOCKMANIA is a single-player, turn-based block placement roguelike. Place shape
 
 Open the folder in **Godot 4.7.2** and press Play (main scene `res://game/main.tscn`). A full 12-round run is playable: title, round intros, board and tray, score receipt, Jokers, items, bosses, shop, and run end. The run autosaves after every action; **Continue Run** on the title resumes it.
 
-Controls: drag a shape onto the board, or click a shape and then click a cell. Right-click or Esc cancels. Keyboard: `1`–`3` select a shape, arrows/WASD move it, Enter/Space place, `R` refresh, Esc pauses.
+Controls: drag a shape onto the board, or click a shape and then click a cell. Right-click or Esc cancels. Keyboard: `1`–`3` select a shape, arrows/WASD move it, Enter/Space place, `R` refresh, `B` shows your bag, Esc pauses.
 
 ## Tests and tools
 
 ```bash
 godot --headless --path . --import                                   # first time / after adding scripts
 godot --headless --path . --script res://tests/run_tests.gd          # rule, determinism, save tests
-godot --headless --path . --script res://tools/simulate.gd -- 200 1  # greedy-bot balance probe
+godot --headless --path . --script res://tools/simulate.gd -- 200 1  # bot balance probe
+godot --headless --path . --script res://tools/experiments.gd -- all 40 1 res://docs/balance/report.md  # paired-seed content experiments
 ```
 
 ## What exists
 
-- Deterministic rules layer: seeded shape/shop/boss streams, tray guarantees, the full scoring pipeline with an itemized receipt, 23/24 Jokers, 5/8 items, 5/6 bosses, economy, shop, replayable action history.
+- Deterministic rules layer: seeded shape/shop/boss streams, the full scoring pipeline with an itemized receipt, 37/38 Jokers, 5/8 items, 5/6 bosses, economy, shop, replayable action history.
+- **The Bag** (GDD §16): a visible, persistent set of pieces dealt through draw/discard piles, with materials (Chrome, Neon, Gold, Glass, Prism), stamps (Encore, Refund, Tip, Memory), Schematic family levels, a Workshop for copying/removing/rotating/repainting/upgrading pieces, and pieces for sale.
+- Simulation tooling: a preview-guided autoplayer and paired-seed experiments; reports in `docs/balance/`.
 - Placeholder presentation drawn in code (beveled blocks, backdrop). **No production art or audio yet**, by owner direction.
 
 ## Confirmed direction

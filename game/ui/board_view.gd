@@ -79,7 +79,7 @@ func play_resolution(r: Dictionary, reduced_motion: bool) -> void:
 	var cleared: Array = r.cleared.duplicate()
 	cleared.append_array(r.mirror_cleared)
 	for e in cleared:
-		_fx_clears.append({"cell": e.cell, "color": e.color, "t": 0.0})
+		_fx_clears.append({"cell": e.cell, "color": e.color, "mat": BMPieces.MATERIALS[int(e.get("mat", 0))], "t": 0.0})
 	queue_redraw()
 
 
@@ -132,7 +132,7 @@ func _draw() -> void:
 				var rr := r
 				if place_fx != 1.0:
 					rr = Rect2(r.get_center() - r.size * place_fx / 2.0, r.size * place_fx)
-				BMBlockPainter.draw_block(self, rr, v)
+				BMBlockPainter.draw_block(self, rr, v, 1.0, BMPieces.MATERIALS[run.board.get_mat(p)])
 
 	# Ghost footprint.
 	if not ghost_shape.is_empty():
@@ -142,7 +142,7 @@ func _draw() -> void:
 				continue
 			var r := cell_rect(p)
 			if ghost_valid:
-				BMBlockPainter.draw_block(self, r, int(ghost_shape.color), 0.45)
+				BMBlockPainter.draw_block(self, r, int(ghost_shape.color), 0.45, String(ghost_shape.get("material", "")))
 				draw_rect(r.grow(-2), Color(1, 1, 1, 0.8), false, 2.0)
 			else:
 				# Invalid: coral outline plus diagonal hatch, so it never depends on color alone.
@@ -169,7 +169,7 @@ func _draw() -> void:
 		var r := cell_rect(fx.cell)
 		var s := 1.0 - 0.6 * k
 		var rr := Rect2(r.get_center() - r.size * s / 2.0, r.size * s)
-		BMBlockPainter.draw_block(self, rr, fx.color, 1.0 - k)
+		BMBlockPainter.draw_block(self, rr, fx.color, 1.0 - k, fx.mat)
 		draw_rect(rr, Color(1, 1, 1, (1.0 - k) * 0.7))
 
 	if keyboard_focus and not ghost_shape.is_empty():

@@ -31,6 +31,7 @@ var _jokers_header: Label
 var _items_box: VBoxContainer
 var _items_header: Label
 var _seed_label: Label
+var _bag_button: Button
 
 # Held-shape state.
 var held_slot := -1
@@ -143,7 +144,7 @@ func _build() -> void:
 	refresh_button.custom_minimum_size = Vector2(150, 180)
 	refresh_button.tooltip_text = "Replace every unplaced shape in the tray. Costs no placement. (R)"
 	tray.add_child(refresh_button)
-	var hint := BMUI.label("Drag or click a shape, then place it  |  Right-click / Esc cancels  |  1-3 select, arrows move, Enter places, R refresh", 15, BMPalette.TEXT_DIM)
+	var hint := BMUI.label("Drag or click a shape, then place it  |  Right-click / Esc cancels  |  1-3 select, arrows move, Enter places, R refresh, B bag", 15, BMPalette.TEXT_DIM)
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	center.add_child(hint)
 
@@ -169,6 +170,9 @@ func _build() -> void:
 	_seed_label = BMUI.label("", 15, BMPalette.TEXT_DIM)
 	_seed_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	bottom.add_child(_seed_label)
+	_bag_button = BMUI.button("Bag", _show_bag, 18)
+	_bag_button.tooltip_text = "See every piece in your bag: draw pile, tray, and discard pile. (B)"
+	bottom.add_child(_bag_button)
 	bottom.add_child(BMUI.button("Pause (Esc)", func() -> void: main.show_pause(), 18))
 
 	drag_layer = Control.new()
@@ -239,12 +243,14 @@ func refresh_all() -> void:
 	for i in 3:
 		slots[i].setup(run.tray[i], held_slot == i, run.slot_fits(i))
 		slots[i].focused_by_key = held_mode == "key" and held_slot == i
+		slots[i].tooltip_text = BMPieces.describe(run.tray[i]) if not run.tray[i].is_empty() else ""
+	_bag_button.text = "Bag (B)"
 	refresh_button.text = "Refresh\n%s" % ("locked" if boss == "lockdown" else "%d left" % rs.refreshes_left)
 	refresh_button.disabled = run.refreshes_available() <= 0 or not run.can_act_in_round() or rs.status == BMRun.OUT_OF_PLACEMENTS
 
 	_refresh_jokers()
 	_refresh_items()
-	_seed_label.text = "Seed %d" % run.run_seed
+	_seed_label.text = "Seed %d\nBag %d: draw %d, discard %d" % [run.run_seed, run.bag.size(), run.draw_pile.size(), run.discard_pile.size()]
 	_refresh_status_banner()
 	board_view.queue_redraw()
 
@@ -380,6 +386,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not (event is InputEventKey) or not event.pressed:
 		return
 	if overlay.get_child_count() > 0:
+		if event.is_action("bm_cancel") and _bag_open():
+			close_overlay()
+			get_viewport().set_input_as_handled()
 		return
 	if event.is_action("bm_cancel"):
 		if held_slot >= 0:
@@ -395,6 +404,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			return
 	if event.is_action("bm_refresh"):
 		_do_action({"a": "refresh"})
+		get_viewport().set_input_as_handled()
+		return
+	if event.is_action("bm_bag"):
+		_cancel_hold()
+		_show_bag()
 		get_viewport().set_input_as_handled()
 		return
 	if held_slot < 0:
@@ -528,6 +542,8 @@ func _do_action(a: Dictionary) -> void:
 	match r.get("type", ""):
 		"place":
 			_present_placement(r)
+			if not r.events.is_empty():
+				_set_message(", ".join(PackedStringArray(r.events)), BMPalette.BRASS)
 		"refresh":
 			_set_message(", ".join(PackedStringArray(r.get("events", []))), BMPalette.CYAN)
 		"use":
@@ -556,6 +572,8 @@ func _present_placement(r: Dictionary) -> void:
 func _write_receipt(r: Dictionary) -> void:
 	var t := ""
 	t += "[b]%s[/b]  (%d cell%s, %s)\n" % [BMShapes.family(r.shape.family).name, r.placed.size(), "s" if r.placed.size() != 1 else "", BMShapes.COLOR_NAMES[r.shape.color]]
+	if BMPieces.is_upgraded(r.shape):
+		t += "[color=#%s]%s[/color]\n" % [BMPalette.CYAN.to_html(false), BMPieceTile.short_label(r.shape)]
 	var chips_hex := BMPalette.CHIPS.to_html(false)
 	var mult_hex := BMPalette.MULT.to_html(false)
 	for it in r.items:
@@ -568,6 +586,8 @@ func _write_receipt(r: Dictionary) -> void:
 				t += "%s  [color=#%s]x%s Mult[/color]\n" % [it.label, mult_hex, BMUI.fmt_mult(it.value)]
 	if not r.mirror_cleared.is_empty():
 		t += "Mirror Maze removed %d cell(s)\n" % r.mirror_cleared.size()
+	for e in r.get("events", []):
+		t += "[color=#%s]%s[/color]\n" % [BMPalette.BRASS.to_html(false), e]
 	t += "\n[b][color=#%s]%s Chips[/color] x [color=#%s]%s Mult[/color] = %s[/b]" % [chips_hex, BMUI.fmt_int(r.chips), mult_hex, BMUI.fmt_mult(r.mult), BMUI.fmt_int(r.points)]
 	if r.combo_after > 0:
 		t += "\nCombo now x%d" % r.combo_after
@@ -657,6 +677,10 @@ func _overlay_panel(edge: Color = BMPalette.CYAN) -> VBoxContainer:
 	return v
 
 
+func _bag_open() -> bool:
+	return overlay.find_children("*", "BMBagView", true, false).size() > 0
+
+
 func close_overlay() -> void:
 	BMUI.clear_children(overlay)
 
@@ -679,6 +703,24 @@ func _show_dialog(text: String, buttons: Array) -> void:
 		if first == null:
 			first = btn
 	first.grab_focus.call_deferred()
+
+
+func _show_bag() -> void:
+	if run == null or overlay.get_child_count() > 0:
+		return
+	var v := _overlay_panel(BMPalette.CYAN)
+	v.get_parent().custom_minimum_size = Vector2(1180, 0)
+	var scroll := ScrollContainer.new()
+	scroll.custom_minimum_size = Vector2(1140, 660)
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	v.add_child(scroll)
+	var bag_view := BMBagView.new()
+	bag_view.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(bag_view)
+	bag_view.setup(run)
+	var close := BMUI.button("Close (Esc)", close_overlay, 20)
+	v.add_child(close)
+	close.grab_focus.call_deferred()
 
 
 func _show_round_intro() -> void:

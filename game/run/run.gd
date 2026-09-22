@@ -5,7 +5,7 @@ extends RefCounted
 ## a result Dictionary ({ok: bool, error: String, ...}). Seed + history replays a run exactly.
 ## to_dict()/from_dict() capture a complete state between actions (saves, previews, tests).
 
-const SCHEMA_VERSION := 1
+const SCHEMA_VERSION := 2
 
 enum Phase { ROUND, ROUND_RESULT, SHOP, RUN_WON, RUN_LOST, ABANDONED }
 
@@ -36,6 +36,8 @@ class RoundState:
 	var cash_out := 0
 	var status := PLAYING
 	var fixed_cells: Array[Vector2i] = []
+	var reshuffles := 0 ## Discard pile shuffled back into the draw pile.
+	var rescued_deals := 0 ## Legality guarantee had to swap in a piece (or a temporary Single).
 
 	func to_dict() -> Dictionary:
 		var fixed: Array = []
@@ -48,6 +50,7 @@ class RoundState:
 			"first_refresh_done": first_refresh_done, "tiny_insurance_used": tiny_insurance_used,
 			"mirror_used": mirror_used, "pending_chips": pending_chips, "pending_mult": pending_mult,
 			"cash_out": cash_out, "status": status, "fixed_cells": fixed,
+			"reshuffles": reshuffles, "rescued_deals": rescued_deals,
 		}
 
 	static func from_dict(d: Dictionary) -> RoundState:
@@ -71,6 +74,8 @@ class RoundState:
 		r.status = String(d.status)
 		for p in d.fixed_cells:
 			r.fixed_cells.append(Vector2i(int(p[0]), int(p[1])))
+		r.reshuffles = int(d.get("reshuffles", 0))
+		r.rescued_deals = int(d.get("rescued_deals", 0))
 		return r
 
 
@@ -88,8 +93,13 @@ var jokers_sold := 0
 var bosses: Array[String] = []
 var board := BMBoard.new()
 var tray: Array = [{}, {}, {}]
-var last_tray_signature := ""
-var rejected_draws := 0
+## The Bag (GDD §16): every piece the player owns, plus this round's piles of uids.
+var bag: Array = []
+var draw_pile: Array = []
+var discard_pile: Array = []
+var next_uid := 0
+## Schematic levels per shape family id (String -> int).
+var family_levels := {}
 var round_state := RoundState.new()
 var shop := {}
 var history: Array = []
@@ -109,8 +119,11 @@ static func new_run(seed_value: int, kit: String = "standard") -> BMRun:
 	run.rng_boss = BMRngStream.new(seed_value, "boss")
 	run.credits = int(BMRunConfig.kit(run.kit_id).credits)
 	run.bosses = BMBosses.choose_run_bosses(run.rng_boss)
+	run.bag = BMPieces.starter_bag()
+	run.next_uid = run.bag.size()
 	run.stats = {"lines_cleared": 0, "placements": 0, "total_points": 0, "best_placement": 0,
-		"highest_combo": 0, "triple_clears": 0, "rounds_won": 0, "jokers_bought": 0, "refreshes": 0}
+		"highest_combo": 0, "triple_clears": 0, "rounds_won": 0, "jokers_bought": 0, "refreshes": 0,
+		"tools_bought": 0, "pieces_bought": 0}
 	run._start_round()
 	return run
 
@@ -132,8 +145,9 @@ static func random_seed() -> int:
 	return rng.randi_range(1, 999_999_999)
 
 
+## Full state copy without the action history (previews and bots never need it).
 func clone() -> BMRun:
-	return BMRun.from_dict(to_dict())
+	return BMRun.from_dict(to_dict(false))
 
 
 # --- Queries -------------------------------------------------------------------------------
@@ -144,6 +158,14 @@ func kit() -> Dictionary:
 
 func joker_slots() -> int:
 	return int(kit().joker_slots)
+
+
+func family_level(family: StringName) -> int:
+	return int(family_levels.get(String(family), 0))
+
+
+func add_credits(n: int) -> void:
+	credits = clampi(credits + n, 0, BMRunConfig.CREDIT_CAP)
 
 
 func act() -> int:
@@ -270,6 +292,10 @@ func apply_action(a: Dictionary) -> Dictionary:
 			return move_joker(int(a.from), int(a.to))
 		"leave_shop":
 			return leave_shop()
+		"buy_tool":
+			return buy_tool(int(a.i), a.get("targets", []), int(a.get("color", -1)))
+		"buy_piece":
+			return buy_piece(int(a.i))
 		"abandon":
 			return abandon()
 	return _fail("Unknown action %s" % a)
@@ -399,6 +425,96 @@ func buy_consumable(offer: int) -> Dictionary:
 	return {"ok": true, "type": "buy_consumable", "item": id, "price": price}
 
 
+## Buys a Workshop card and applies it at once to the chosen bag pieces (uids).
+## `color` is required by Repaint. Nothing changes if validation fails.
+func buy_tool(offer: int, targets: Array = [], color: int = -1) -> Dictionary:
+	if phase != Phase.SHOP:
+		return _fail("The shop is closed.")
+	if offer < 0 or offer >= shop.tools.size() or shop.tools[offer].is_empty():
+		return _fail("That offer is gone.")
+	var o: Dictionary = shop.tools[offer]
+	var def := BMTools.get_def(o.id)
+	if credits < int(def.cost):
+		return _fail("Not enough Credits.")
+	var uids: Array[int] = []
+	for t in targets:
+		if not uids.has(int(t)):
+			uids.append(int(t))
+	var max_targets := int(def.max_targets)
+	if max_targets == 0 and not uids.is_empty():
+		return _fail("This card does not target pieces.")
+	if max_targets > 0 and (uids.is_empty() or uids.size() > max_targets):
+		return _fail("Choose 1 to %d piece%s." % [max_targets, "s" if max_targets > 1 else ""])
+	var pieces: Array = []
+	for uid in uids:
+		var p := BMBag.piece_by_uid(self, uid)
+		if p.is_empty():
+			return _fail("That piece is not in your bag.")
+		pieces.append(p)
+	match def.kind:
+		"material":
+			for p in pieces:
+				if p.material == def.value:
+					return _fail("A chosen piece is already %s." % BMPieces.MATERIAL_DEFS[def.value].name)
+			for p in pieces:
+				p.material = def.value
+		"stamp":
+			for p in pieces:
+				if p.stamp == def.value:
+					return _fail("That piece already has this stamp.")
+			for p in pieces:
+				p.stamp = def.value
+		"copy":
+			if bag.size() + pieces.size() > BMPieces.MAX_BAG:
+				return _fail("Your bag is full (%d pieces)." % BMPieces.MAX_BAG)
+			for p in pieces:
+				BMBag.add_piece(self, p)
+		"remove":
+			if bag.size() - pieces.size() < BMPieces.MIN_BAG:
+				return _fail("Your bag must keep at least %d pieces." % BMPieces.MIN_BAG)
+			for uid in uids:
+				BMBag.remove_piece(self, uid)
+		"rotate":
+			for p in pieces:
+				if BMShapes.rotations(p.family).size() < 2:
+					return _fail("%s has only one orientation." % BMShapes.family(p.family).name)
+			for p in pieces:
+				var turned := BMShapes.make_shape(p.family, int(p.rot) + 1, int(p.color))
+				p.rot = turned.rot
+				p.cells = turned.cells
+		"repaint":
+			if color < 0 or color >= BMShapes.OFFER_COLOR_COUNT:
+				return _fail("Choose a color.")
+			for p in pieces:
+				p.color = color
+		"schematic":
+			var key := String(o.family)
+			family_levels[key] = int(family_levels.get(key, 0)) + 1
+	credits -= int(def.cost)
+	shop.tools[offer] = {}
+	stats.tools_bought += 1
+	history.append({"a": "buy_tool", "i": offer, "targets": uids.duplicate(), "color": color})
+	return {"ok": true, "type": "buy_tool", "item": o.id, "price": int(def.cost)}
+
+
+func buy_piece(offer: int) -> Dictionary:
+	if phase != Phase.SHOP:
+		return _fail("The shop is closed.")
+	if offer < 0 or offer >= shop.pieces.size() or shop.pieces[offer].is_empty():
+		return _fail("That offer is gone.")
+	var d: Dictionary = shop.pieces[offer]
+	if credits < int(d.cost):
+		return _fail("Not enough Credits.")
+	if bag.size() >= BMPieces.MAX_BAG:
+		return _fail("Your bag is full (%d pieces)." % BMPieces.MAX_BAG)
+	credits -= int(d.cost)
+	var p := BMBag.add_piece(self, BMPieces.from_dict(d))
+	shop.pieces[offer] = {}
+	stats.pieces_bought += 1
+	history.append({"a": "buy_piece", "i": offer})
+	return {"ok": true, "type": "buy_piece", "piece": p, "price": int(d.cost)}
+
+
 func reroll_shop() -> Dictionary:
 	if phase != Phase.SHOP:
 		return _fail("The shop is closed.")
@@ -473,28 +589,26 @@ func _start_round() -> void:
 			board.set_cell(p, BMShapes.COLOR_STONE)
 	round_state = rs
 	tray = [{}, {}, {}]
+	BMBag.start_round(self)
 	_deal_fresh_tray()
 
 
 func _deal_fresh_tray() -> void:
-	var dealt := BMTrayGenerator.deal(rng_shapes, board, round_number, 3, last_tray_signature)
-	tray = dealt.shapes.duplicate()
-	rejected_draws += int(dealt.rejected)
-	last_tray_signature = BMTrayGenerator.signature_of(tray)
+	tray = [{}, {}, {}]
+	BMBag.deal(self, [0, 1, 2])
 
 
 func _do_tray_refresh(label: String) -> Dictionary:
-	var slots: Array[int] = []
-	var old: Array = []
+	var slots: Array = []
 	for i in tray.size():
 		if not tray[i].is_empty():
 			slots.append(i)
-			old.append(tray[i])
-	var dealt := BMTrayGenerator.deal(rng_shapes, board, round_number, slots.size(), BMTrayGenerator.signature_of(old))
-	rejected_draws += int(dealt.rejected)
-	for k in slots.size():
-		tray[slots[k]] = dealt.shapes[k]
+			BMBag.discard(self, tray[i])
+			tray[i] = {}
+	var dealt := BMBag.deal(self, slots)
 	var events: Array = [label]
+	if dealt.temporary:
+		events.append("No piece in your bag fits: a temporary Single was dealt")
 	if not round_state.first_refresh_done:
 		round_state.first_refresh_done = true
 		var bonus := jokers.count("second_look")
@@ -520,6 +634,9 @@ func _after_round_action() -> Dictionary:
 	if tray_is_empty():
 		_deal_fresh_tray()
 		events.append("New tray")
+		for p in tray:
+			if not p.is_empty() and bool(p.get("temporary", false)):
+				events.append("No piece in your bag fits: a temporary Single was dealt")
 	if rs.placements_left <= 0:
 		if consumables.has("extra_turn"):
 			rs.status = OUT_OF_PLACEMENTS
@@ -539,7 +656,9 @@ func _after_round_action() -> Dictionary:
 		rs.tiny_insurance_used = true
 		for i in tray.size():
 			if not tray[i].is_empty():
-				tray[i] = BMShapes.make_shape(&"single", 0, int(tray[i].color))
+				var color := int(tray[i].color)
+				BMBag.discard(self, tray[i])
+				tray[i] = BMPieces.temporary_single(color)
 				break
 		rs.status = PLAYING
 		events.append("Tiny Insurance: a Single replaced a stuck shape")
@@ -570,7 +689,7 @@ func _win_round() -> void:
 		lines.append({"label": "Unused placements (%d)" % unused, "value": bonus})
 	if BMRunConfig.is_boss_round(round_number):
 		lines.append({"label": "Boss defeated", "value": BMRunConfig.BOSS_CREDITS})
-	if unused >= 3:
+	if unused >= 2:
 		for i in jokers.count("spare_parts"):
 			lines.append({"label": "Spare Parts", "value": BMRunConfig.SPARE_PARTS_CREDITS})
 	for i in rs.cash_out:
@@ -595,7 +714,7 @@ func _lose(reason: String) -> void:
 
 func _open_shop() -> void:
 	phase = Phase.SHOP
-	shop = {"jokers": [], "consumables": [], "reroll_cost": BMRunConfig.REROLL_BASE}
+	shop = {"jokers": [], "consumables": [], "tools": [], "pieces": [], "reroll_cost": BMRunConfig.REROLL_BASE}
 	_fill_shop_offers()
 
 
@@ -623,6 +742,52 @@ func _fill_shop_offers() -> void:
 		items.append(pool[idx])
 		pool.remove_at(idx)
 	shop.consumables = items
+	var tool_offers: Array = []
+	var tool_ids: Array = BMTools.WEIGHTS.keys()
+	for i in BMRunConfig.TOOL_OFFERS:
+		var tool_weights: Array = []
+		for tid in tool_ids:
+			var taken := false
+			for o in tool_offers:
+				if o.id == tid and tid != "schematic":
+					taken = true
+			tool_weights.append(0 if taken else int(BMTools.WEIGHTS[tid]))
+		var id: String = tool_ids[rng_shop.weighted_index(tool_weights)]
+		var offer := {"id": id, "family": ""}
+		if id == "schematic":
+			var fams: Array = []
+			for p in bag:
+				if not fams.has(String(p.family)):
+					fams.append(String(p.family))
+			fams.sort()
+			offer.family = fams[rng_shop.randi_range(0, fams.size() - 1)]
+		tool_offers.append(offer)
+	shop.tools = tool_offers
+	var piece_offers: Array = []
+	for i in BMRunConfig.PIECE_OFFERS:
+		piece_offers.append(_roll_piece_offer())
+	shop.pieces = piece_offers
+
+
+## A random piece for sale: any family (including Bar 5 and Square 3x3), any rotation and
+## color, sometimes pre-upgraded. Price rises with upgrades and size.
+func _roll_piece_offer() -> Dictionary:
+	var fam_weights: Array = []
+	for f in BMShapes.FAMILIES:
+		fam_weights.append(int(f.weight) + 4)
+	var fam: Dictionary = BMShapes.FAMILIES[rng_shop.weighted_index(fam_weights)]
+	var rot := rng_shop.randi_range(0, BMShapes.rotations(fam.id).size() - 1)
+	var color := rng_shop.randi_range(0, BMShapes.OFFER_COLOR_COUNT - 1)
+	var material := ""
+	var stamp := ""
+	if rng_shop.randi_range(1, 100) <= 30:
+		material = BMPieces.MATERIALS[rng_shop.randi_range(1, BMPieces.MATERIALS.size() - 1)]
+	if rng_shop.randi_range(1, 100) <= 15:
+		var stamps: Array = BMPieces.STAMP_DEFS.keys()
+		stamp = stamps[rng_shop.randi_range(0, stamps.size() - 1)]
+	var d := BMPieces.to_dict(BMPieces.make(-1, fam.id, rot, color, material, stamp))
+	d.cost = 2 + (1 if material != "" else 0) + (1 if stamp != "" else 0) + (1 if fam.cells.size() >= 5 else 0)
+	return d
 
 
 func _pick_joker(rarity: int, exclude: Array[String]) -> String:
@@ -640,20 +805,24 @@ func _pick_joker(rarity: int, exclude: Array[String]) -> String:
 
 # --- Serialization -------------------------------------------------------------------------
 
-func to_dict() -> Dictionary:
+func to_dict(include_history: bool = true) -> Dictionary:
 	var tray_data: Array = []
 	for s in tray:
-		tray_data.append(BMShapes.shape_to_dict(s))
+		tray_data.append(BMPieces.to_dict(s))
+	var bag_data: Array = []
+	for p in bag:
+		bag_data.append(BMPieces.to_dict(p))
 	return {
 		"schema": SCHEMA_VERSION,
 		"seed": run_seed, "kit": kit_id,
 		"rng": {"shapes": rng_shapes.get_state(), "shop": rng_shop.get_state(), "boss": rng_boss.get_state()},
 		"phase": PHASE_NAMES[phase], "round": round_number, "credits": credits,
 		"jokers": jokers.duplicate(), "consumables": consumables.duplicate(), "jokers_sold": jokers_sold,
-		"bosses": bosses.duplicate(), "board": board.to_array(), "tray": tray_data,
-		"last_tray_signature": last_tray_signature, "rejected_draws": rejected_draws,
+		"bosses": bosses.duplicate(), "board": board.to_dict(), "tray": tray_data,
+		"bag": bag_data, "draw_pile": draw_pile.duplicate(), "discard_pile": discard_pile.duplicate(),
+		"next_uid": next_uid, "family_levels": family_levels.duplicate(),
 		"round_state": round_state.to_dict(), "shop": shop.duplicate(true),
-		"history": history.duplicate(true), "stats": stats.duplicate(),
+		"history": history.duplicate(true) if include_history else [], "stats": stats.duplicate(),
 		"last_round_result": last_round_result.duplicate(true), "end_reason": end_reason,
 	}
 
@@ -675,12 +844,17 @@ static func from_dict(d: Dictionary) -> BMRun:
 	run.consumables.assign(d.consumables)
 	run.jokers_sold = int(d.jokers_sold)
 	run.bosses.assign(d.bosses)
-	run.board = BMBoard.from_array(d.board)
+	run.board = BMBoard.from_dict(d.board)
 	run.tray = []
 	for s in d.tray:
-		run.tray.append(BMShapes.shape_from_dict(s))
-	run.last_tray_signature = String(d.last_tray_signature)
-	run.rejected_draws = int(d.rejected_draws)
+		run.tray.append(BMPieces.from_dict(s))
+	run.bag = []
+	for p in d.bag:
+		run.bag.append(BMPieces.from_dict(p))
+	run.draw_pile = _integral(d.draw_pile.duplicate())
+	run.discard_pile = _integral(d.discard_pile.duplicate())
+	run.next_uid = int(d.next_uid)
+	run.family_levels = _integral(d.family_levels.duplicate())
 	run.round_state = RoundState.from_dict(d.round_state)
 	run.shop = _integral(d.shop.duplicate(true))
 	run.history = _integral(d.history.duplicate(true))

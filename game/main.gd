@@ -191,6 +191,7 @@ func _register_input_actions() -> void:
 		"bm_place": [KEY_ENTER, KEY_KP_ENTER, KEY_SPACE],
 		"bm_refresh": [KEY_R],
 		"bm_cancel": [KEY_ESCAPE],
+		"bm_bag": [KEY_B],
 	}
 	for action in map:
 		if InputMap.has_action(action):

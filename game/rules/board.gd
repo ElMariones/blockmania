@@ -3,22 +3,41 @@ extends RefCounted
 ## 8x8 occupancy grid. Pure data: no nodes, no rendering.
 ## Cell value EMPTY (-1) means free; any other value is the block color id
 ## (see BMShapes.COLOR_*). Coordinates: x = column (A..H), y = row (1..8), origin top-left.
+## Parallel layers remember where each occupied cell came from, so effects can trigger when
+## the cell is cleared later: `owners` = bag piece uid (-1 for none/temporary/boss cells),
+## `mats` = material index into BMPieces.MATERIALS (0 = plain).
 
 const SIZE := 8
 const EMPTY := -1
 
 var cells := PackedInt32Array()
+var owners := PackedInt32Array()
+var mats := PackedInt32Array()
 
 
 func _init() -> void:
 	cells.resize(SIZE * SIZE)
 	cells.fill(EMPTY)
+	owners.resize(SIZE * SIZE)
+	owners.fill(-1)
+	mats.resize(SIZE * SIZE)
+	mats.fill(0)
 
 
 func duplicate_board() -> BMBoard:
 	var b := BMBoard.new()
 	b.cells = cells.duplicate()
+	b.owners = owners.duplicate()
+	b.mats = mats.duplicate()
 	return b
+
+
+func get_owner(p: Vector2i) -> int:
+	return owners[p.y * SIZE + p.x]
+
+
+func get_mat(p: Vector2i) -> int:
+	return mats[p.y * SIZE + p.x]
 
 
 static func in_bounds(p: Vector2i) -> bool:
@@ -77,11 +96,14 @@ func fits_anywhere(footprint: Array[Vector2i]) -> bool:
 
 
 ## Writes the footprint; caller must have validated with can_place.
-func place(footprint: Array[Vector2i], anchor: Vector2i, color: int) -> Array[Vector2i]:
+func place(footprint: Array[Vector2i], anchor: Vector2i, color: int, owner: int = -1, mat: int = 0) -> Array[Vector2i]:
 	var placed: Array[Vector2i] = []
 	for c in footprint:
 		var p := c + anchor
-		set_cell(p, color)
+		var i := p.y * SIZE + p.x
+		cells[i] = color
+		owners[i] = owner
+		mats[i] = mat
 		placed.append(p)
 	return placed
 
@@ -131,25 +153,29 @@ static func line_union(rows: Array[int], cols: Array[int]) -> Array[Vector2i]:
 	return out
 
 
-## Clears the cells and returns [{cell, color}] for presentation.
+## Clears the cells and returns [{cell, color, owner, mat}] for scoring and presentation.
 func clear_cells(targets: Array[Vector2i]) -> Array[Dictionary]:
 	var removed: Array[Dictionary] = []
 	for p in targets:
-		var v := get_cell(p)
-		if v != EMPTY:
-			removed.append({"cell": p, "color": v})
-			set_cell(p, EMPTY)
+		var i := p.y * SIZE + p.x
+		if cells[i] != EMPTY:
+			removed.append({"cell": p, "color": cells[i], "owner": owners[i], "mat": mats[i]})
+			cells[i] = EMPTY
+			owners[i] = -1
+			mats[i] = 0
 	return removed
 
 
-func to_array() -> Array:
-	return Array(cells)
+func to_dict() -> Dictionary:
+	return {"cells": Array(cells), "owners": Array(owners), "mats": Array(mats)}
 
 
-static func from_array(data: Array) -> BMBoard:
+static func from_dict(d: Dictionary) -> BMBoard:
 	var b := BMBoard.new()
-	for i in mini(data.size(), SIZE * SIZE):
-		b.cells[i] = int(data[i])
+	for i in SIZE * SIZE:
+		b.cells[i] = int(d.cells[i])
+		b.owners[i] = int(d.owners[i])
+		b.mats[i] = int(d.mats[i])
 	return b
 
 

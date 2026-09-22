@@ -4,7 +4,7 @@ extends RefCounted
 
 const ROUND_COUNT := 12
 const ROUNDS_PER_ACT := 4
-const TARGETS := [600, 850, 1100, 1450, 1850, 2400, 3100, 4000, 5000, 6300, 7800, 10000]
+const TARGETS := [450, 650, 850, 1150, 1600, 2100, 2800, 3700, 4700, 6000, 7500, 10000]
 
 # Base scoring (GDD §5 "Base scoring event").
 const CHIPS_PER_CELL := 10
@@ -22,8 +22,10 @@ const CREDIT_CAP := 99
 const JOKER_OFFERS := 3
 const CONSUMABLE_OFFERS := 2
 const CONSUMABLE_SLOTS := 2
+const TOOL_OFFERS := 2
+const PIECE_OFFERS := 2
 const REROLL_BASE := 2
-const SPARE_PARTS_CREDITS := 1
+const SPARE_PARTS_CREDITS := 2
 const CASH_OUT_CREDITS := 4
 
 ## Rarity weights [common, uncommon, rare] per act: 65/30/5 shifting to 40/40/20 by act 3.

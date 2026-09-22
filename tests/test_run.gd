@@ -5,14 +5,14 @@ extends BMTestCase
 func test_new_run_initial_state() -> void:
 	var run := BMRun.new_run(1234)
 	eq(run.round_number, 1, "round")
-	eq(run.round_state.target, 600, "target")
+	eq(run.round_state.target, BMRunConfig.TARGETS[0], "target")
 	eq(run.round_state.placements_left, 12, "placements")
 	eq(run.refreshes_available(), 1, "one refresh")
 	eq(run.credits, 0, "credits")
 	eq(run.bosses.size(), 3, "three bosses")
 	eq(run.bosses[2], "last_call", "final boss")
 	check(run.bosses[0] != run.bosses[1], "bosses do not repeat")
-	check(BMTrayGenerator.any_fits(run.board, run.tray), "opening tray is legal")
+	check(BMBag.any_fits(run.board, run.tray), "opening tray is legal")
 
 
 func test_high_roller_kit() -> void:
@@ -135,7 +135,7 @@ func test_shop_flow_buy_sell_reroll_capacity() -> void:
 	eq(run.jokers[3], "crossbar", "moved")
 	check(run.leave_shop().ok, "leave")
 	eq(run.round_number, 2, "next round")
-	eq(run.round_state.target, 850, "next target")
+	eq(run.round_state.target, BMRunConfig.TARGETS[1], "next target")
 
 
 func test_shop_offers_deterministic() -> void:

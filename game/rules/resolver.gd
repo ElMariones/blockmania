@@ -1,31 +1,45 @@
 class_name BMResolver
 extends RefCounted
-## Resolves one placement atomically (GDD §5 "Modifier pipeline") and returns an immutable
-## resolution record for presentation, receipts, and tests. Presentation never changes the
-## outcome; it only reads the record.
+## Resolves one placement atomically (GDD §5 "Modifier pipeline", §16.3 piece upgrades) and
+## returns an immutable resolution record for presentation, receipts, and tests. Presentation
+## never changes the outcome; it only reads the record.
+##
+## Order inside the pipeline:
+##   step 3 base Chips: cells, Chrome, Schematic level, lines, multi-line, combo, boss
+##   step 4 additive Chips: Polish, then Jokers top to bottom (Mimic copies the Joker below it)
+##   step 5 additive Mult: 1 + Schematic level + Neon cells cleared + Spark + Jokers; floor 1
+##   step 6 xMult: Encore stamp (on clear), Glass (once per placement), then Jokers
+##   step 7 Points = floor(Chips x Mult); step 8 remove cells; step 9 counters, stamps, Gold,
+##   Glass shatter rolls (shapes stream), combo.
 ##
 ## Clear waves: removing cells can never complete a new line, and no current card adds cells
-## after a clear, so every placement resolves in exactly one wave. The record still stores a
-## `waves` array so After Clear effects can add waves later (cap: BMRunConfig.MAX_CLEAR_WAVES).
+## after a clear, so every placement resolves in exactly one wave (record keeps `waves`).
 
 
 ## Caller (BMRun.place) has validated phase, slot, and legality.
 static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictionary:
 	var rs := run.round_state
-	var shape: Dictionary = run.tray[slot]
+	var piece: Dictionary = run.tray[slot]
 	var board := run.board
 	var board_before := board.duplicate_board()
+	var material := String(piece.get("material", ""))
+	var stamp := String(piece.get("stamp", ""))
+	var prism := material == "prism"
 
 	var placements_left_before := rs.placements_left
 	var combo_before := rs.combo
 	var score_before := rs.score
+	var credits_before := run.credits
+	var discard_before := run.discard_pile.size()
 
 	# Step 1: snapshot and place.
-	var placed := board.place(shape.cells, anchor, shape.color)
+	var placed := board.place(piece.cells, anchor, int(piece.color), int(piece.get("uid", -1)), BMPieces.material_index(material))
 	run.tray[slot] = {}
+	BMBag.discard(run, piece)
 	rs.placements_left -= 1
 	rs.placements_made += 1
-	rs.color_history.append(int(shape.color))
+	rs.color_history.append(-1 if prism else int(piece.color))
+	var empties_tray := run.tray_is_empty()
 
 	# Step 2: Before Clear effects — none in current content. Detect lines on the placed board.
 	var rows := board.full_rows()
@@ -48,9 +62,32 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 				if board.get_cell(p) != BMBoard.EMPTY and not clear_set.has(p):
 					mirror_extra.append(p)
 
+	# Materials of every cell leaving the board this placement.
+	var neon_cleared := 0
+	var gold_cleared := 0
+	var glass_cleared := 0
+	var glass_owners: Array[int] = []
+	for p in clear_set + mirror_extra:
+		match BMPieces.MATERIALS[board.get_mat(p)]:
+			"neon":
+				neon_cleared += 1
+			"gold":
+				gold_cleared += 1
+			"glass":
+				glass_cleared += 1
+				var o := board.get_owner(p)
+				if o >= 0 and not glass_owners.has(o):
+					glass_owners.append(o)
+	glass_owners.sort()
+
+	var family_level := run.family_level(piece.family)
 	var ctx := {
 		"cell_count": placed.size(),
-		"color": int(shape.color),
+		"color": int(piece.color),
+		"prism": prism,
+		"family": piece.family,
+		"material": material,
+		"stamp": stamp,
 		"rows": rows.size(),
 		"cols": cols.size(),
 		"lines": lines,
@@ -67,17 +104,34 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 		"refreshes_available": run.refreshes_available(),
 		"jokers_sold": run.jokers_sold,
 		"mirror_removed": mirror_extra.size(),
+		"bag_size": run.bag.size(),
+		"upgraded_count": BMBag.upgraded_count(run),
+		"distinct_families": BMBag.distinct_families(run),
+		"family_level": family_level,
+		"discard_size": discard_before,
+		"empties_tray": empties_tray,
+		"neon_cleared": neon_cleared,
+		"gold_cleared": gold_cleared,
+		"glass_cleared": glass_cleared,
 	}
 
 	# Step 3: base Chips.
 	var items: Array[Dictionary] = []
 	var chips := 0
 	var cell_chips := BMRunConfig.CHIPS_PER_CELL * placed.size()
-	if run.has_active_joker("long_game") and rs.placements_made <= 3:
+	if run.has_active_joker("long_game") and rs.placements_made <= 1:
 		items.append({"label": "Cells x%d (Long Game: no cell Chips)" % placed.size(), "kind": "chips", "value": 0, "source": "joker", "joker": "long_game"})
 	else:
 		items.append({"label": "Cells x%d" % placed.size(), "kind": "chips", "value": cell_chips, "source": "base"})
 		chips += cell_chips
+	if material == "chrome":
+		var chrome := BMPieces.CHROME_CHIPS_PER_CELL * placed.size()
+		items.append({"label": "Chrome cells x%d" % placed.size(), "kind": "chips", "value": chrome, "source": "piece"})
+		chips += chrome
+	if family_level > 0:
+		var lvl_chips := BMPieces.LEVEL_CHIPS * family_level
+		items.append({"label": "%s Lv %d" % [BMShapes.family(piece.family).name, family_level], "kind": "chips", "value": lvl_chips, "source": "piece"})
+		chips += lvl_chips
 	if lines > 0:
 		var line_chips := BMRunConfig.CHIPS_PER_LINE * lines
 		var line_label := "Lines x%d" % lines
@@ -98,42 +152,49 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 			items.append({"label": "Last Call multi-line", "kind": "chips", "value": BMBosses.LAST_CALL_MULTI_LINE_CHIPS, "source": "boss"})
 			chips += BMBosses.LAST_CALL_MULTI_LINE_CHIPS
 
-	# Step 4: additive Chips — consumables first, then Jokers left to right.
+	var effects := _joker_effects(run)
+
+	# Step 4: additive Chips — consumables first, then Jokers top to bottom.
 	if rs.pending_chips != 0:
 		items.append({"label": "Polish", "kind": "chips", "value": rs.pending_chips, "source": "consumable"})
 		chips += rs.pending_chips
-	for i in run.jokers.size():
-		var id: String = run.jokers[i]
-		if not run.is_joker_active(id):
-			continue
-		var c := BMJokers.chips(id, ctx)
+	for e in effects:
+		var c := BMJokers.chips(e.effect, ctx)
 		if c != 0:
-			items.append({"label": BMJokers.get_def(id).name, "kind": "chips", "value": c, "source": "joker", "joker": id, "slot": i})
+			items.append({"label": e.label, "kind": "chips", "value": c, "source": "joker", "joker": e.id, "slot": e.slot})
 			chips += c
 
 	# Step 5: additive Mult, floor 1.
 	var mult := 1.0
+	if family_level > 0:
+		var lvl_mult := BMPieces.LEVEL_MULT * family_level
+		items.append({"label": "%s Lv %d" % [BMShapes.family(piece.family).name, family_level], "kind": "mult", "value": lvl_mult, "source": "piece"})
+		mult += lvl_mult
+	if neon_cleared > 0:
+		var neon := BMPieces.NEON_MULT_PER_CELL * neon_cleared
+		items.append({"label": "Neon cells cleared x%d" % neon_cleared, "kind": "mult", "value": neon, "source": "piece"})
+		mult += neon
 	if rs.pending_mult != 0.0:
 		items.append({"label": "Spark", "kind": "mult", "value": rs.pending_mult, "source": "consumable"})
 		mult += rs.pending_mult
-	for i in run.jokers.size():
-		var id: String = run.jokers[i]
-		if not run.is_joker_active(id):
-			continue
-		var m := BMJokers.add_mult(id, ctx)
+	for e in effects:
+		var m := BMJokers.add_mult(e.effect, ctx)
 		if m != 0.0:
-			items.append({"label": BMJokers.get_def(id).name, "kind": "mult", "value": m, "source": "joker", "joker": id, "slot": i})
+			items.append({"label": e.label, "kind": "mult", "value": m, "source": "joker", "joker": e.id, "slot": e.slot})
 			mult += m
 	mult = maxf(1.0, mult)
 
 	# Step 6: multiplicative Mult.
-	for i in run.jokers.size():
-		var id: String = run.jokers[i]
-		if not run.is_joker_active(id):
-			continue
-		var x := BMJokers.x_mult(id, ctx)
+	if is_clearing and stamp == "encore":
+		items.append({"label": "Encore Stamp", "kind": "xmult", "value": BMPieces.ENCORE_X_MULT, "source": "piece"})
+		mult *= BMPieces.ENCORE_X_MULT
+	if glass_cleared > 0:
+		items.append({"label": "Glass cleared", "kind": "xmult", "value": BMPieces.GLASS_X_MULT, "source": "piece"})
+		mult *= BMPieces.GLASS_X_MULT
+	for e in effects:
+		var x := BMJokers.x_mult(e.effect, ctx)
 		if x != 1.0:
-			items.append({"label": BMJokers.get_def(id).name, "kind": "xmult", "value": x, "source": "joker", "joker": id, "slot": i})
+			items.append({"label": e.label, "kind": "xmult", "value": x, "source": "joker", "joker": e.id, "slot": e.slot})
 			mult *= x
 
 	# Step 7: Points with full precision, one rounding.
@@ -143,11 +204,36 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 	var cleared := board.clear_cells(clear_set)
 	var mirror_cleared := board.clear_cells(mirror_extra)
 
-	# Step 9: combo, target progress, counters, statistics.
+	# Step 9: combo, target progress, piece effects, counters, statistics.
+	var events: Array[String] = []
 	rs.combo = mini(BMRunConfig.COMBO_CAP, combo_before + 1) if is_clearing else 0
 	rs.score += points
 	rs.pending_chips = 0
 	rs.pending_mult = 0.0
+	if gold_cleared > 0:
+		run.add_credits(BMPieces.GOLD_CREDITS_PER_CELL * gold_cleared)
+		events.append("Gold: +%d Credit%s" % [gold_cleared, "s" if gold_cleared != 1 else ""])
+	if stamp == "tip":
+		run.add_credits(BMPieces.TIP_CREDITS)
+		events.append("Tip Stamp: +%d Credit" % BMPieces.TIP_CREDITS)
+	if stamp == "refund":
+		rs.placements_left += 1
+		events.append("Refund Stamp: this placement was free")
+	if stamp == "memory":
+		if run.consumables.size() < BMRunConfig.CONSUMABLE_SLOTS:
+			run.consumables.append("spark")
+			events.append("Memory Stamp: gained a Spark")
+		else:
+			events.append("Memory Stamp: item slots full")
+	var shattered: Array[int] = []
+	for uid in glass_owners:
+		if run.rng_shapes.randi_range(1, BMPieces.GLASS_SHATTER_ONE_IN) == 1:
+			var name := BMPieces.describe(BMBag.piece_by_uid(run, uid)).get_slice("\n", 0)
+			if BMBag.remove_piece(run, uid):
+				shattered.append(uid)
+				events.append("Glass %s shattered and left your bag" % name)
+			else:
+				events.append("Glass %s cracked but held (bag at minimum size)" % name)
 	run.stats.lines_cleared += lines
 	run.stats.placements += 1
 	run.stats.total_points += points
@@ -166,7 +252,7 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 		"type": "place",
 		"slot": slot,
 		"anchor": anchor,
-		"shape": shape,
+		"shape": piece,
 		"placed": placed,
 		"rows": rows,
 		"cols": cols,
@@ -184,7 +270,29 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 		"score_before": score_before,
 		"score_after": rs.score,
 		"target": rs.target,
+		"credits_gained": run.credits - credits_before,
+		"events": events,
+		"shattered": shattered,
 	}
+
+
+## Active scoring effects in resolution order. Mimic resolves as a copy of the Joker directly
+## below it (never another Mimic, never a rule-only or disabled card).
+static func _joker_effects(run: BMRun) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	for i in run.jokers.size():
+		var id: String = run.jokers[i]
+		if not run.is_joker_active(id):
+			continue
+		var name: String = BMJokers.get_def(id).name
+		if id == "mimic":
+			if i + 1 < run.jokers.size():
+				var target: String = run.jokers[i + 1]
+				if BMJokers.is_copyable(target) and run.is_joker_active(target):
+					out.append({"id": id, "effect": target, "slot": i, "label": "Mimic (%s)" % BMJokers.get_def(target).name})
+			continue
+		out.append({"id": id, "effect": id, "slot": i, "label": name})
+	return out
 
 
 static func _touches_diagonal(board_before: BMBoard, placed: Array[Vector2i]) -> bool:

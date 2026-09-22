@@ -1,6 +1,6 @@
 # BLOCKMANIA — Game Design Document
 
-**Version:** 0.2 — implementation started (M0 prototype) · **Date:** 2026-09-22 · **Platform:** Windows desktop at launch, Steam distribution · **Engine:** Godot 4.x stable at implementation start
+**Version:** 0.3 — the Bag (customizable pieces) added; M0 prototype · **Date:** 2026-09-22 · **Platform:** Windows desktop at launch, Steam distribution · **Engine:** Godot 4.x stable at implementation start
 
 ## 1. Vision
 
@@ -43,11 +43,11 @@ Online multiplayer, leaderboards that require a backend, mobile ports, procedura
 
 ## 3. Core play at a glance
 
-1. Enter a round with an empty 8×8 board, a target score, 12 placements, a three-shape tray, one free tray Refresh, and the current Jokers.
+1. Enter a round with an empty 8×8 board, a target score, 12 placements, a three-piece tray dealt from **your bag of pieces** (§16), one free tray Refresh, and the current Jokers.
 2. Select a tray shape and place it in any position where all its cells fit inside empty board cells. Shapes do not rotate in the standard rules.
 3. Score the placement, clear every completed row and column simultaneously, apply Joker effects in the published order, and update the round total.
 4. Keep placing until the target is reached. The round ends immediately after the complete scoring sequence that crosses the target. Remaining placements improve the payout.
-5. Earn Credits, visit the shop, improve the build, then start the next round with a clean board.
+5. Earn Credits, visit the shop, improve the build (Jokers, items, and bag edits: upgrade, copy, remove, or add pieces), then start the next round with a clean board.
 6. Win after round 12. Lose when placements are spent below target, or when no legal placement or usable rescue action remains.
 
 There is no falling gravity, timer, color matching, or manual board reset during a round. Colors mark shapes and effects, but occupied cells behave identically unless an effect explicitly changes them.
@@ -68,27 +68,26 @@ Standard mode has no Undo. Placement previews and cancel input must be reliable 
 
 - Exactly three offered shapes are visible. Selecting and placing one removes only that offer. After all three have been placed, deal a new tray.
 - A shape keeps its orientation. Hover/drag shows a ghost in legal cells, a distinct invalid footprint on failure, and the lines that would clear. Preview score is an estimate that includes all known deterministic effects.
-- The baseline shape pool below has 12 geometric families. After choosing a family, choose uniformly among its distinct rotations; the resulting orientation is fixed once offered. Large shapes carry higher scoring potential and placement risk. Shape color is selected independently from six equally weighted colors, subject to no more than two identical colors in a fresh tray.
+- **Superseded by the Bag (§16):** trays are now dealt from the player's own bag of persistent pieces. The table below still defines the 12 families, and its weights (+4 each) now only drive which pieces the shop offers for sale. Large shapes carry higher scoring potential and placement risk.
 
-| Shape family | Cells | Draft draw weight | Availability |
+| Shape family | Cells | Shop offer weight (before +4) | In starter bag |
 |---|---:|---:|---|
-| Single | 1 | 8% | All rounds |
-| Bar 2 | 2 | 12% | All rounds |
-| Bar 3 | 3 | 14% | All rounds |
-| L 3 | 3 | 10% | All rounds |
-| Square 2×2 | 4 | 10% | All rounds |
-| Bar 4 | 4 | 10% | All rounds |
-| L 4 | 4 | 9% | All rounds |
-| T 4 | 4 | 8% | All rounds |
-| Zigzag 4 | 4 | 8% | All rounds |
-| Plus 5 | 5 | 5% | All rounds |
-| Bar 5 | 5 | 4% | Round 3 onward |
-| Square 3×3 | 9 | 2% | Round 3 onward |
+| Single | 1 | 8% | 2 |
+| Bar 2 | 2 | 12% | 3 |
+| Bar 3 | 3 | 14% | 4 |
+| L 3 | 3 | 10% | 4 |
+| Square 2×2 | 4 | 10% | 2 |
+| Bar 4 | 4 | 10% | 2 |
+| L 4 | 4 | 9% | 2 |
+| T 4 | 4 | 8% | 2 |
+| Zigzag 4 | 4 | 8% | 2 |
+| Plus 5 | 5 | 5% | 1 |
+| Bar 5 | 5 | 4% | 0 (buy in shop) |
+| Square 3×3 | 9 | 2% | 0 (buy in shop) |
 
-Unavailable families are removed and remaining weights renormalized. The exact weights are tuning values to review after prototype playtests.
-- Opening trays exclude 3×3 squares and 5-cell bars in rounds 1–2. The tutorial uses scripted offers.
-- Each fresh tray must contain at least one legal offered shape at the time it is dealt. This guarantee does not prevent the player from creating a future dead end with later placements.
-- Shape selection uses seeded weighted draws. Consecutive identical trays are disallowed. The generator records rejected draws for deterministic replays and debugging. Balancing should measure legal placement counts, early failures, and shape frequency rather than secretly rewriting the board.
+The exact weights are tuning values to review after prototype playtests. The tutorial uses scripted offers.
+- Each fresh tray must contain at least one legal offered piece at the time it is dealt (method in §16.2). This guarantee does not prevent the player from creating a future dead end with later placements.
+- Dealing uses the seeded shape stream. Balancing should measure legal placement counts, early failures, and rescued deals rather than secretly rewriting the board.
 
 ### Refresh and failure
 
@@ -140,18 +139,20 @@ Effects describe their trigger in plain language and show their contribution in 
 
 | Round | Act | Target Points | Special rule |
 |---:|---|---:|---|
-| 1 | 1 | 600 | Standard |
-| 2 | 1 | 850 | Standard |
-| 3 | 1 | 1,100 | Standard |
-| 4 | 1 | 1,450 | Boss |
-| 5 | 2 | 1,850 | Standard |
-| 6 | 2 | 2,400 | Standard |
-| 7 | 2 | 3,100 | Standard |
-| 8 | 2 | 4,000 | Boss |
-| 9 | 3 | 5,000 | Standard |
-| 10 | 3 | 6,300 | Standard |
-| 11 | 3 | 7,800 | Standard |
+| 1 | 1 | 450 | Standard |
+| 2 | 1 | 650 | Standard |
+| 3 | 1 | 850 | Standard |
+| 4 | 1 | 1,150 | Boss |
+| 5 | 2 | 1,600 | Standard |
+| 6 | 2 | 2,100 | Standard |
+| 7 | 2 | 2,800 | Standard |
+| 8 | 2 | 3,700 | Boss |
+| 9 | 3 | 4,700 | Standard |
+| 10 | 3 | 6,000 | Standard |
+| 11 | 3 | 7,500 | Standard |
 | 12 | 3 | 10,000 | Final boss |
+
+*Revised 2026-09-23 from simulation (§16.9). The original draft was 600 / 850 / 1,100 / 1,450 / 1,850 / 2,400 / 3,100 / 4,000 / 5,000 / 6,300 / 7,800 / 10,000; its first rounds were steeper than its later ones.*
 
 Targets are tuning placeholders. Telemetry from local playtests should track median placements to win, loss reasons, shop purchases, and scores by build. The first three rounds should teach line clears before demanding large multipliers. Mid-run targets should make a directionally coherent build valuable; final rounds should demand synergies without relying on one overpowered Joker.
 
@@ -175,7 +176,7 @@ The same boss modifier must never silently make a Joker text false. Disabled or 
 ### Credits and shop
 
 - After a win: **3 Credits** base, **+1 Credit per two unused placements** (maximum +3), **+2 Credits for a boss**. No Credits are paid for losing.
-- A shop appears after every won round except round 12. It contains three Joker offers and two consumable offers. Prices and descriptions are visible before purchase.
+- A shop appears after every won round except round 12. It contains three Joker offers, two consumable offers, two Workshop cards (bag edits), and two pieces for the bag (§16.4–16.5). Prices and descriptions are visible before purchase. Reroll replaces every offer.
 - Jokers cost 3/5/8 Credits for common/uncommon/rare. Consumables cost 3–5 Credits. The first shop reroll costs 2 Credits, then rises by 1 each reroll within that shop. Leaving resets the reroll price.
 - Five Joker slots and two consumable slots. A purchase at capacity requires selling or using an item first; the UI never discards an item automatically.
 - Selling a Joker returns half its printed cost, rounded up. Consumables cannot be sold. Credits carry through the run and are capped at 99.
@@ -197,31 +198,31 @@ The collection records discovered Jokers, bosses, consumables, best run, win cou
 
 ## 7. Joker content specification
 
-Jokers are passive, visible, orderable modifiers. “This placement” refers to the current scoring event; “round” resets on board reset. Color-sensitive cards refer to the placed shape's assigned color, never to color matching on the board. Values and costs are provisional. Every card needs a tooltip with its trigger, current counter if any, and recent contribution.
+Jokers are passive, visible, orderable modifiers. The table below is the original 24; §16.6 adds 14 bag-era Jokers (38 total). “This placement” refers to the current scoring event; “round” resets on board reset. Color-sensitive cards refer to the placed shape's assigned color, never to color matching on the board. Values and costs are provisional. Every card needs a tooltip with its trigger, current counter if any, and recent contribution.
 
 | Rarity | Joker | Effect |
 |---|---|---|
 | Common | **Clean Sweep** | +50 Chips when exactly one line clears. |
-| Common | **Crossbar** | +100 Chips when a row and column clear together. |
-| Common | **Small Change** | +20 Chips per placed cell when placing a shape of 1–3 cells. |
+| Common | **Crossbar** | +150 Chips when a row and column clear together. *(was +100; tuned §16.9)* |
+| Common | **Small Change** | +15 Chips per placed cell when placing a shape of 1–3 cells. *(was +20)* |
 | Common | **Heavy Hand** | +100 Chips when placing a shape of 5 or more cells. |
 | Common | **First Strike** | First clearing placement each round gains +150 Chips. |
 | Common | **Neat Freak** | +40 Chips if the placed shape touches no occupied cell diagonally before placement. |
 | Common | **Corner Office** | +60 Chips if any placed cell occupies a board corner. |
-| Common | **Blue Mood** | Blue shapes gain +1 additive Mult. |
-| Common | **Chain Link** | +0.5 additive Mult per current combo level on clearing placements. |
-| Common | **Spare Parts** | +1 Credit after a round won with at least three placements unused. |
+| Common | **Blue Mood** | Blue shapes gain +2 additive Mult. *(was +1)* |
+| Common | **Chain Link** | +1 additive Mult per current combo level on clearing placements. *(was +0.5)* |
+| Common | **Spare Parts** | +2 Credits after a round won with at least two placements unused. *(was +1 with three)* |
 | Common | **Tiny Insurance** | Once per round, when no offered shape fits and no tray Refresh is available, replace one unplaced shape with a single-cell piece before defeat is checked. |
 | Common | **Second Look** | First Refresh each round additionally grants +1 placement. |
-| Uncommon | **Wide Awake** | +2 additive Mult when two or more lines clear in a placement. |
-| Uncommon | **Hollow Point** | +1.5 additive Mult when the board has at least 32 empty cells before placement. |
-| Uncommon | **Pressure Cooker** | +0.5 additive Mult for every four occupied cells before placement, maximum +4. |
+| Uncommon | **Wide Awake** | +3 additive Mult when two or more lines clear in a placement. *(was +2)* |
+| Uncommon | **Hollow Point** | +0.5 additive Mult when the board has at least 44 empty cells before placement. *(was +1.5 at 32)* |
+| Uncommon | **Pressure Cooker** | +0.5 additive Mult for every eight occupied cells before placement, maximum +2. *(was every four, max +4)* |
 | Uncommon | **Golden Ratio** | Every third placed shape in a round gets ×1.5 Mult. Counter shown on card. |
-| Uncommon | **Color Cycle** | When three consecutive placed shapes have different colors, the third gains ×2 Mult. Sequence shown on card. |
+| Uncommon | **Color Cycle** | When three consecutive placed shapes have different colors, the third gains ×1.75 Mult. Sequence shown on card. *(was ×2)* |
 | Uncommon | **Patch Panel** | After the first clear each round, remove one extra occupied cell chosen by the player; this removal cannot itself clear a line. |
-| Uncommon | **Long Game** | Gain +1 placement per round; first three placements of the round gain no cell Chips. |
+| Uncommon | **Long Game** | Gain +1 placement per round; the first placement of the round gains no cell Chips. *(was first three)* |
 | Uncommon | **Fire Sale** | Each Joker sold this run gives a permanent +0.25 additive Mult, maximum +2. Selling this card ends its bonus. |
-| Rare | **Jackpot Window** | If exactly three lines clear in one placement, apply ×4 Mult. |
+| Rare | **Jackpot Window** | If three or more lines clear in one placement, apply ×4 Mult. *(was exactly three)* |
 | Rare | **Mirror Maze** | The first row clear each round also clears the mirrored row if occupied; the mirrored removal grants 50 Chips but cannot chain. |
 | Rare | **Compound Interest** | On every second clearing placement in a round, apply ×1.75 Mult. Counter resets each round. |
 | Rare | **Last Stand** | When no Refresh and three or fewer placements remain, all scoring placements gain ×2 Mult. |
@@ -359,8 +360,9 @@ Given the same content version, seed, Kit, purchases, and player actions, a run 
 4. Review every color-based effect under accessibility palettes and The Color Blind boss.
 5. Playtest whether board-clearing Jokers produce enough score to justify their shop cost.
 6. **The Echo Chamber has no effect with current content.** Only placements that create extra clear waves are affected, and no current card creates one (removing cells can never complete a line). The prototype withholds it from the boss pool until the owner chooses: rework the rule, add After Clear cards that create waves, or replace the boss.
-7. **Joker order is currently result-neutral.** Additive Chips, additive Mult, and multiplicative Mult resolve in separate phases, and multiplication is commutative, so reordering never changes a score with the current 24 cards. Either accept order as organizational or add order-sensitive cards.
-8. Early balance probe: a greedy bot with no Joker strategy averaged about 67 Points per placement over 200 seeds and usually ended in round 2. Treat it as a lower bound, not a verdict, and confirm with human playtests before changing targets.
+7. ~~Joker order is result-neutral.~~ **Resolved by Mimic (§16.6):** it copies the Joker directly below it, so order now matters. More order-sensitive cards can follow if playtests like it.
+8. Balance probe: the improved autoplayer (§16.9) motivated the revised targets in §5. Confirm with human playtests.
+9. Bag questions for the owner: see §16.10.
 
 ## 14. Reference and originality notes
 
@@ -374,17 +376,182 @@ Where this document left room for interpretation, the prototype chose the readin
 |---|---|
 | Shape orientations | Distinct 90° rotations of each family only; mirrored L/zigzag variants are not generated. |
 | Anchor | The top-left corner of a shape's bounding box. |
-| Refresh | Replaces only unplaced tray slots and keeps empty slots empty. The new set must contain a legal shape and must not repeat the replaced set exactly. |
-| Rescue order | Target check → refill an empty tray → placements check (Extra Turn prompt) → fit check → Refresh prompt → Tiny Insurance (automatic, leftmost unplaced shape becomes a Single of the same color) → rescue item prompt (Second Tray) → defeat. |
+| Refresh | Moves unplaced tray pieces to the discard pile and draws replacements for those slots only; empty slots stay empty. The refreshed tray must contain a legal piece (§16.2). |
+| Rescue order | Target check → refill an empty tray → placements check (Extra Turn prompt) → fit check → Refresh prompt → Tiny Insurance (automatic: the leftmost unplaced piece goes to the discard pile and a temporary Single of the same color replaces it) → rescue item prompt (Second Tray) → defeat. |
 | Consumable scoring | Polish and Spark apply before Joker effects within their pipeline step and are shown in the receipt. |
 | Extra Turn | Remaining placements cannot exceed 16 after use. |
-| Color Cycle | Sliding window over the last three placed shapes in the current round; resets each round. |
+| Color Cycle | Sliding window over the last three placed shapes in the current round; resets each round. Prism pieces are wild and never match another color. |
 | Mirror Maze | Triggers on the first placement each round that clears any row. Uses the lowest-index cleared row; its mirror is row `7 − r`. Occupied cells in the mirror row that are not already clearing are removed in the same step for +50 Chips. Copies stack Chips, not removals. |
 | Last Stand | Checked before the placement: no Refresh available and 3 or fewer placements left, counting the current one. |
 | Chain Link | Uses the combo level shown before the placement (the same level that gives combo Chips). |
 | Fire Sale | Counts every Joker sold this run, including sales made before Fire Sale was bought. |
-| Shop reroll | Refills all three Joker and both item offers, including slots already bought. |
+| Shop reroll | Refills every offer (Jokers, items, Workshop, pieces), including slots already bought. |
 | Shop rarity by act | Uses the act of the next round: 65/30/5, 53/35/12, then 40/40/20. |
 | Selling and reordering | Allowed in the shop and between placements during a round. |
 | Standard Kit | Starts with 0 Credits (High Roller starts with 4). |
 | Withheld content | Patch Panel, Eraser, Lucky Paint, and Blueprint need target-picking UI and are not offered yet. The Echo Chamber is withheld (§13 item 6). |
+
+## 16. The Bag — a customizable set of pieces
+
+**Status:** implemented in the prototype (2026-09-23). Numbers are provisional and were first tuned with the autoplayer (§16.9). The owner requested this system: the pieces that appear in the tray are something the player can **see, buy, copy, delete, add to, and upgrade**, the way a deck-builder treats its deck.
+
+### 16.1 Goals
+
+- Turn the tray from a random draw into a **build**: players can shape what they will be offered, not only how they score it.
+- Keep the puzzle honest and readable: every piece that can be dealt is visible in the Bag view, and upgrades are marked on the board as well as in the tray.
+- Add strategies that stand apart from Joker scoring: a thin bag of reliable shapes, a big bag with many families, bags built around materials, stamped utility pieces, and leveled shape families.
+- Keep determinism, save/resume, and "no opaque punishment" intact.
+
+### 16.2 Pieces, the bag, and dealing (rules)
+
+- A **piece** is a concrete shape with a fixed **family, orientation, and color**, plus an optional **material** and an optional **stamp**. Each piece has a unique id for the run.
+- **Starter bag (every Kit):** 24 pieces in 10 families. Singles ×2, Bar 2 ×3, Bar 3 ×4, L 3 ×4 (one of each orientation), Square 2×2 ×2, Bar 4 ×2, L 4 ×2, T 4 ×2, Zigzag 4 ×2, Plus 5 ×1, with colors spread evenly. Bar 5 and Square 3×3 are not in the starter bag. Players add them from the shop, which replaces the old "round 3 onward" gate.
+- **Bag size:** at least 12 and at most 60 pieces. Nothing can shrink the bag below 12, whether a card, a tool, or a Glass shatter.
+- **Each round:** the whole bag is shuffled into a **draw pile** using the run's shape stream. Trays are dealt by drawing from the front. Placed pieces and pieces refreshed away go to the **discard pile**. When the draw pile is empty, the discard pile is shuffled back in. Every round starts again from the full bag.
+- **Refresh** moves the unplaced tray pieces to the discard pile and draws replacements for those slots only. Empty slots stay empty.
+- **Legality guarantee (unchanged promise, new method):** a freshly dealt or refreshed tray always contains at least one piece that fits the board when dealt.
+  1. If none of the tray's pieces fits, the last dealt slot is swapped with the first fitting piece in the draw pile. The swapped-out piece takes its place in the pile, so nothing is lost or duplicated.
+  2. If no piece in the draw pile fits, the discard pile is searched the same way.
+  3. If no owned piece fits anywhere, a **temporary Single** is dealt. It is marked "Temporary" in the tray tooltip and never enters the bag. The piece it replaced returns to the bottom of the draw pile.
+- **Tiny Insurance** also produces a temporary Single. The piece it replaces goes to the discard pile.
+- The old "no identical consecutive trays" rule is retired: with a real bag, repeated trays can only come from the player's own bag composition.
+- **Visibility:** the Bag view (key **B** in a round, **View Bag** in the shop) lists the draw pile, the tray, and the discard pile, sorted by family so draw order is never revealed. Schematic levels are listed too. Each piece has a tooltip with its full text.
+
+### 16.3 Piece upgrades
+
+A piece has **at most one material and at most one stamp**; applying a new one replaces the old. Board cells remember their piece's material after placement, so effects that trigger "when cleared" work on cells placed turns earlier.
+
+| Material | Effect | Pipeline step | Visual cue (not color-only) |
+|---|---|---|---|
+| **Chrome** | Each cell scores +20 Chips when placed. | 3 (base Chips) | Silver frame and diagonal streaks |
+| **Neon** | Each Neon cell cleared gives +0.5 Mult to that placement. | 5 (additive Mult) | Double outline |
+| **Gold** | Each Gold cell cleared gives +1 Credit. | 9 (after scoring) | Coin mark and brass frame |
+| **Glass** | ×1.5 Mult once when a placement clears any Glass cell. Afterwards, each Glass piece with a cleared cell has a 1 in 4 chance to **shatter** and leave the bag (never below 12 pieces). | 6 (xMult), shatter at 9 | See-through face with a glare streak |
+| **Prism** | Counts as every color for Joker effects: it triggers Blue Mood, and it never matches another color for Color Cycle. Disabled by The Color Blind. | Joker conditions | Six-color band at the foot of the cell |
+
+| Stamp | Effect |
+|---|---|
+| **Encore** (E) | If this piece clears a line: ×2 Mult (pipeline step 6, before Glass and Jokers). |
+| **Refund** (R) | Placing this piece does not use up a placement. |
+| **Tip** (T) | +2 Credits whenever this piece is placed. |
+| **Memory** (M) | Whenever this piece is placed, gain a Spark item if an item slot is free. |
+
+**Schematic levels** belong to a shape family, not to a piece. Each level gives every piece of that family **+25 Chips (step 3) and +0.25 Mult (step 5)** when placed. There is no level cap in the prototype.
+
+Glass shatter rolls use the run's shape stream, in ascending piece-id order, after scoring. The same seed and actions always produce the same shatters. The score preview is unaffected, because shattering happens after Points are awarded.
+
+**Updated pipeline order** (extends §5):
+
+1. **Step 3:** cells, Chrome, Schematic Chips, lines, multi-line, combo, boss.
+2. **Step 4:** Polish, then Jokers top to bottom.
+3. **Step 5:** 1 + Schematic Mult + Neon + Spark + Jokers, with a floor of 1.
+4. **Step 6:** Encore (on a clear), Glass, then Joker xMult.
+5. **Step 7:** Points.
+6. **Step 8:** cell removal.
+7. **Step 9:** combo, Gold, Tip, Refund, Memory, shatter.
+
+### 16.4 Workshop cards (shop)
+
+Workshop cards are bag edits bought and applied **immediately** in the shop. Buying one opens the bag picker, where the player chooses targets (and a color for Repaint). Nothing is charged until the choice is confirmed, and an invalid choice changes nothing. Bag edits happen only between rounds, so a round's piles are never disturbed.
+
+| Card | Cost | Effect | Targets |
+|---|---:|---|---|
+| Chrome Plating | 3 | Material → Chrome | up to 2 |
+| Neon Tubing | 3 | Material → Neon | up to 2 |
+| Gold Leaf | 4 | Material → Gold | 1 |
+| Glassworks | 3 | Material → Glass | up to 2 |
+| Prism Coat | 3 | Material → Prism | up to 2 |
+| Encore / Refund Stamp | 4 | Stamp | up to 2 |
+| Tip / Memory Stamp | 3 | Stamp | up to 2 |
+| Copier | 4 | Add an exact copy of a piece (material and stamp included) | 1 |
+| Shredder | 2 | Remove pieces (bag stays ≥ 12) | up to 2 |
+| Turntable | 2 | Rotate 90° clockwise (not for one-orientation families) | up to 2 |
+| Repaint | 2 | Set to a chosen color | up to 3 |
+| Schematic: *family* | 3 | +1 level for that family (drawn from families in the bag) | none |
+
+Draw weights (provisional): Schematic 12, Chrome 8, Neon 7, Shredder 7, Copier 6, Glass 5, Tip 5, Turntable 5, Repaint 5, Gold 4, Prism 4, Encore 4, Refund 4, Memory 4. A listing never shows the same non-Schematic card twice.
+
+### 16.5 Pieces for sale
+
+Each shop offers **2 pieces**. The family is drawn from the §4 weights +4 (so large shapes appear), with a random orientation and color. There is a 30% chance of a random material and a 15% chance of a random stamp. **Price = 2, +1 with a material, +1 with a stamp, +1 for 5+ cells.**
+
+**Shop listing (updated §6):** 3 Jokers, 2 items, 2 Workshop cards, and 2 pieces. Reroll refreshes all of them.
+
+### 16.6 Bag-era Jokers
+
+| Rarity | Joker | Effect |
+|---|---|---|
+| Uncommon | **Hoarder** | +1 Chip for each piece in your bag. |
+| Common | **Architect** | +60 Chips when placing an L 3 or L 4 piece. |
+| Common | **Straight Edge** | +15 Chips per cell when placing a Bar piece. |
+| Common | **Square Deal** | +2 Mult when placing a Square piece. |
+| Common | **Last Piece** | +80 Chips when this placement empties the tray. |
+| Common | **Postmaster** | +40 Chips when placing a stamped piece. |
+| Uncommon | **Lean Bag** | +0.25 Mult for each piece your bag has below 24 (max +3). |
+| Uncommon | **Foundry** | +8 Chips for each upgraded piece (material or stamp) in your bag. |
+| Uncommon | **Neon Sign** | Neon cells cleared give an extra +0.5 Mult each. |
+| Uncommon | **Specialist** | +0.5 Mult per Schematic level of the placed piece's family. |
+| Uncommon | **Recycler** | +0.1 Mult for each piece in the discard pile before placement (max +1). |
+| Rare | **Glass Cannon** | ×1.5 Mult when a placement clears any Glass cell. |
+| Rare | **Collector** | ×(1 + 0.1 per shape family in your bag beyond 6); ×1.4 with the starter bag. |
+| Rare | **Mimic** | Copies the scoring effect of the Joker directly below it. It does not copy another Mimic, rule-only Jokers, or disabled Jokers. |
+
+These bring the catalog to **38 Jokers** (37 in shop rotation; Patch Panel is still withheld). **Mimic** is the first card whose position matters, which answers §13 item 7: order now changes outcomes.
+
+### 16.7 Presentation and accessibility
+
+- Tray, bag tiles, the drag ghost, and board cells all show material finishes and stamp badges. Each finish has a shape cue (streaks, double outline, coin, glare, band) and every tile has a text label, so materials never depend on color alone.
+- The receipt lists piece effects (Chrome, Schematic level, Encore, Neon, Glass) with their values. After-score events (Gold Credits, Tip, Refund, Memory, shatter) appear in the receipt and the message line.
+- The shop gains a **Workshop** row and a **Pieces for your bag** row. The picker lists every bag piece as a selectable tile with a "SELECTED" label, the Repaint color chosen by name, and a live "n of N chosen" status.
+
+### 16.8 Determinism and saves
+
+- New run state: bag, draw and discard piles, next piece id, family levels, and per-cell owner and material layers on the board. Save **schema 2**.
+- Schema-1 prototype saves (random trays, no piece identities) cannot be converted faithfully and are ignored.
+- Replays include `buy_tool` targets and color and `buy_piece`. All bag randomness uses the shape and shop streams.
+
+### 16.9 Simulation and tuning
+
+`tools/experiments.gd` runs the autoplayer on **paired seeds** (the same seeds for every variant). Modes:
+
+- **curve:** per-round difficulty.
+- **jokers:** each Joker owned from round 1, compared with a no-Joker baseline, with trigger rates.
+- **upgrades:** material, stamp, Schematic, and bag-surgery scenarios compared with the baseline.
+
+The latest report is kept in `docs/balance/`.
+
+Findings that changed provisional numbers:
+
+- **Round targets.** With the original targets (600 / 850 / 1,100 …), the bot failed round 1 in 30% of runs and round 2 in 62%, while the few runs that survived cleared later rounds easily: the early curve was steeper than the late one. New provisional targets: **450, 650, 850, 1,150, 1,600, 2,100, 2,800, 3,700, 4,700, 6,000, 7,500, 10,000** (§5).
+- **Method caveat.** The autoplayer clears lines as soon as it can and keeps the board nearly empty; a one-placement lookahead helps it set up some multi-line clears. Adding a term for "build near-full lines" made it much *worse* (average round 4.6 → 1.3 at high weight). Building toward multi-line clears is genuinely risky in this ruleset, so multi-line and combo cards need big payoffs. The bot still cannot judge them fairly, and human playtests must decide.
+- **Three tuning passes** (paired seeds, card owned from round 1; Δ = change in average round reached vs. the same seeds without it). Reports: `docs/balance/`.
+
+| Change | Why (simulation evidence) |
+|---|---|
+| Hollow Point +1.5 Mult at ≥32 empty → **+0.5 Mult at ≥44 empty** | Triggered 97–100% of placements; Δ +4.2 rounds (the strongest card). Now Δ +2.1. |
+| Pressure Cooker +0.5 per 4 occupied (max +4) → **per 8 occupied (max +2)** | Δ +3.6 → +2.3. |
+| Hoarder common +3 Chips/piece → **uncommon +1 Chip/piece** | Always-on; Δ +4.1 as a common → +1.9 as an uncommon. |
+| Recycler +0.25/discarded (max +3) → **+0.1 (max +1)** | Δ +4.0 → +2.5. |
+| Collector ×0.15 → **×0.1 per family beyond 6** | Always-on rare, Δ +2.7 → +2.3. |
+| Small Change +20 → **+15 Chips/cell**; Color Cycle ×2 → **×1.75** | Commons and uncommons above their tier. |
+| Foundry +12 → **+8/upgraded piece**; Lean Bag +0.5 (max +4) → **+0.25 (max +3)** | Build payoffs were 25–28% win-rate outliers. They remain the strongest builds (Foundry + 6 Chrome: Δ +5.5, 13% wins). |
+| Crossbar +100 → **+150**; Wide Awake +2 → **+3**; Chain Link +0.5 → **+1/combo level**; Jackpot Window exactly 3 → **3 or more lines** | Trigger rates 0–4%; raising the payoff makes the risk of building worth it. Still bot-limited. |
+| Blue Mood +1 → **+2**; Spare Parts +1 Credit with ≥3 unused → **+2 with ≥2**; Long Game first 3 placements → **first placement** without cell Chips | Blue Mood and Spare Parts were roughly neutral and Long Game was harmful (Δ −0.6); now Δ +1.3, +0.5, +0.4. |
+| Encore: line Chips ×2 → **×2 Mult on clear**; Refund: +1 placement on clear → **placing it is free**; Tip +1 → **+2 Credits**; Memory: Spark on clear → **Spark whenever placed**; stamp cards target **up to 2 pieces** | A stamp on one piece in 24 barely registered (Δ −0.1 to +0.3). Now Refund, Tip, and Memory each add about +1 round for 2 stamps. Encore stays situational (+0.3). |
+| Chrome +15 → **+20 Chips/cell** | 4 Chrome pieces now match 4 Glass or 4 Neon in value (Δ +1.5 vs +1.0 / +2.6). |
+
+- **Card profiles after tuning** (Δ rounds, card alone):
+  - *Engine cards* (always useful): Recycler, Pressure Cooker, Hollow Point, Collector, Color Cycle, Hoarder, about +1.9 to +2.5.
+  - *Solid commons:* Last Piece, Small Change, Corner Office, Straight Edge, First Strike, Architect, Blue Mood, Neat Freak, Clean Sweep, about +1.0 to +1.9.
+  - *Build payoffs* (≈0 alone, +3.4 to +5.5 in their build): Foundry, Neon Sign, Specialist, Lean Bag, Glass Cannon, Postmaster.
+  - *Human-skill cards* (bot-limited): Crossbar, Wide Awake, Jackpot Window, Chain Link, Mirror Maze, Last Stand.
+  - *Rule and utility cards:* Second Look, Tiny Insurance, Fire Sale, Spare Parts. No card is harmful any more.
+- **Bag edits.** Upgrades matter: Neon +2.6, Schematic Lv 2 on a common family +1.3 to +1.6, Chrome +1.5, stamps about +1 each. Shredding awkward pieces or copying Singles is roughly neutral for the bot. These are strategy tools, not raw power. Adding Bar 5 and Square 3×3 helps (+1.3) because big pieces score more cell Chips.
+- **Difficulty curve (final, 100 seeds).** Average round reached 4.3. Clear rates: round 1 100%, round 2 97%, round 3 67%, round 4 (boss) 49%, then about 45–63% per later round. This is a lower bound for a player who plans ahead.
+
+### 16.10 Open questions for the owner
+
+1. Should Kits get different starter bags? For example, Compact Kit could start with 18 pieces, which would suit Lean Bag.
+2. Should Workshop cards also be usable during a round (targeting only draw-pile pieces), like Balatro's tarots? The prototype keeps bag edits in the shop for clarity.
+3. Should materials and stamps be sold in packs with a choose-1-of-3 reveal? It adds excitement but also UI time.
+4. Glass shatter currently removes the piece even if it has a stamp. Should stamped Glass be protected?
