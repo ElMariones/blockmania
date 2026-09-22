@@ -1,8 +1,8 @@
 class_name BMPieceTile
 extends Control
-## One bag piece as a small selectable tile: the shape with its material and stamp, a short
-## text line (never color-only), and a full description tooltip. Used by the bag view, the
-## Workshop target picker, and shop piece offers.
+## One bag piece as a small selectable tile: the piece with its material and stamp, a short
+## text line (never color-only), and a full-description tooltip. Selected tiles get a sun rim,
+## a lift, and a "PICKED" tag.
 
 signal toggled_piece(uid: int)
 
@@ -12,7 +12,7 @@ var selected := false
 var dimmed := false
 var hovered := false
 
-const TILE := Vector2(118, 112)
+const TILE := Vector2(132, 124)
 
 
 func _init(p: Dictionary = {}) -> void:
@@ -25,6 +25,15 @@ func _init(p: Dictionary = {}) -> void:
 func _ready() -> void:
 	mouse_entered.connect(func() -> void: hovered = true; queue_redraw())
 	mouse_exited.connect(func() -> void: hovered = false; queue_redraw())
+	if selectable:
+		mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+
+
+func _make_custom_tooltip(for_text: String) -> Object:
+	var l := BMStyle.label(for_text, 20, BMStyle.CREAM)
+	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	l.custom_minimum_size = Vector2(400, 0)
+	return l
 
 
 func _gui_input(event: InputEvent) -> void:
@@ -34,28 +43,30 @@ func _gui_input(event: InputEvent) -> void:
 
 
 func _draw() -> void:
-	var r := Rect2(Vector2.ZERO, size)
-	var sb := StyleBoxFlat.new()
-	sb.bg_color = BMPalette.BG_DEEP
-	sb.set_corner_radius_all(8)
-	sb.border_color = BMPalette.PANEL_EDGE
-	sb.set_border_width_all(2)
+	var lift := -6.0 if selected else 0.0
+	var r := Rect2(Vector2(0, lift + 6), size - Vector2(0, 6))
+	draw_style_box(BMStyle.box("panel_inset", Vector4.ZERO), r)
 	if selected:
-		sb.border_color = BMPalette.BRASS
-		sb.set_border_width_all(4)
+		draw_rect(r.grow(-2), BMStyle.SUN, false, 6.0)
 	elif hovered and selectable:
-		sb.border_color = BMPalette.CYAN
-	draw_style_box(sb, r)
+		draw_rect(r.grow(-2), BMStyle.SKY, false, 4.0)
 	if piece.is_empty():
 		return
 	var dims := Vector2(BMShapes.shape_size(piece))
-	var cell := minf(22.0, minf((size.x - 16) / dims.x, (size.y - 34) / dims.y))
-	var origin := Vector2((size.x - dims.x * cell) / 2.0, 8 + (size.y - 34 - dims.y * cell) / 2.0)
+	var cell := floorf(minf(24.0, minf((size.x - 24) / dims.x, (size.y - 52) / dims.y)))
+	var origin := (Vector2((size.x - dims.x * cell) / 2.0, r.position.y + 10 + (size.y - 56 - dims.y * cell) / 2.0)).round()
 	BMBlockPainter.draw_shape(self, piece, origin, cell, 0.4 if dimmed else 1.0)
-	var font := get_theme_default_font()
-	draw_string(font, Vector2(0, size.y - 8), short_label(piece), HORIZONTAL_ALIGNMENT_CENTER, size.x, 13, BMPalette.TEXT if not dimmed else BMPalette.TEXT_DIM)
+	var f := BMStyle.font
+	var text := short_label(piece)
+	var w := f.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x
+	var col := BMStyle.CREAM if BMPieces.is_upgraded(piece) else BMStyle.TEXT_DIM
+	draw_string(f, Vector2((size.x - minf(w, size.x - 8)) / 2.0, r.end.y - 12), text, HORIZONTAL_ALIGNMENT_LEFT, size.x - 8, 20, col)
 	if selected:
-		draw_string(font, Vector2(6, 16), "SELECTED", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, BMPalette.BRASS)
+		# Tag sized to its text, centered on the top edge and inside the tile (scroll areas clip).
+		var tw := BMStyle.font_bold.get_string_size("PICKED", HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x
+		var tag := Rect2(Vector2((size.x - tw - 20) / 2.0, r.position.y - 2), Vector2(tw + 20, 30))
+		draw_style_box(BMStyle.box("pill_sun", Vector4.ZERO), tag)
+		draw_string(BMStyle.font_bold, tag.position + Vector2(10, 22), "PICKED", HORIZONTAL_ALIGNMENT_LEFT, -1, 20, BMStyle.INK)
 
 
 static func short_label(p: Dictionary) -> String:
@@ -68,4 +79,4 @@ static func short_label(p: Dictionary) -> String:
 		parts.append(BMPieces.STAMP_DEFS[s].name.replace(" Stamp", ""))
 	if parts.is_empty():
 		return BMShapes.family(p.family).name
-	return " + ".join(parts)
+	return "+".join(parts)

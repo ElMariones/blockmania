@@ -56,7 +56,7 @@ static func clear_run() -> void:
 
 
 static func load_settings() -> Dictionary:
-	var s := {"reduced_motion": false, "block_patterns": false, "fast_animations": false}
+	var s := {"reduced_motion": false, "block_patterns": false, "fast_animations": false, "crt": "soft"}
 	var cfg := ConfigFile.new()
 	if cfg.load(SETTINGS_PATH) == OK:
 		for k in s:

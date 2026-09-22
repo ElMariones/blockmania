@@ -7,6 +7,10 @@ extends VBoxContainer
 
 signal selection_changed(uids: Array)
 
+const COLS := 8
+const GAP := 10
+const WIDTH := COLS * BMPieceTile.TILE.x + (COLS - 1) * GAP
+
 var run: BMRun
 var select_max := 0
 var selected: Array = []
@@ -17,7 +21,10 @@ func setup(new_run: BMRun, max_select: int = 0) -> void:
 	run = new_run
 	select_max = max_select
 	selected = []
-	add_theme_constant_override("separation", 10)
+	add_theme_constant_override("separation", 12)
+	# Exactly COLS tiles wide and centered by the caller, so every section lines up on one grid.
+	custom_minimum_size.x = WIDTH
+	size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	_build()
 
 
@@ -25,25 +32,34 @@ func _build() -> void:
 	BMUI.clear_children(self)
 	_tiles.clear()
 	var in_round := run.phase == BMRun.Phase.ROUND and select_max == 0
-	var header := "YOUR BAG  %d pieces   (min %d, max %d)" % [run.bag.size(), BMPieces.MIN_BAG, BMPieces.MAX_BAG]
-	add_child(BMUI.label(header, 20, BMPalette.CYAN))
-	var levels := PackedStringArray()
+	var head := BMStyle.hbox(12)
+	add_child(head)
+	head.add_child(BMStyle.icon_rect("icon_bag", 1.0))
+	# Inside the Workshop picker the card title is the main heading; keep the bag header quieter.
+	var head_size := 30 if select_max > 0 else 40
+	head.add_child(BMStyle.label("YOUR BAG  %d PIECES" % run.bag.size(), head_size, BMStyle.SUN, true, 10))
+	var lim := BMStyle.label("min %d  -  max %d" % [BMPieces.MIN_BAG, BMPieces.MAX_BAG], 20, BMStyle.TEXT_DIM, false, 6)
+	lim.size_flags_vertical = Control.SIZE_SHRINK_END
+	head.add_child(lim)
 	var keys := run.family_levels.keys()
 	keys.sort()
-	for k in keys:
-		levels.append("%s Lv %d" % [BMShapes.family(StringName(k)).name, int(run.family_levels[k])])
-	if not levels.is_empty():
-		add_child(BMUI.label("Schematics: " + ", ".join(levels), 16, BMPalette.BRASS))
+	if not keys.is_empty():
+		var lv := HFlowContainer.new()
+		lv.add_theme_constant_override("h_separation", 8)
+		lv.add_child(BMStyle.label("SCHEMATICS", 20, BMStyle.TEXT_DIM, true, 6))
+		for k in keys:
+			lv.add_child(BMStyle.pill("%s LV %d" % [BMShapes.family(StringName(k)).name.to_upper(), int(run.family_levels[k])], "sun", 20))
+		add_child(lv)
 	if in_round:
 		var tray_pieces: Array = []
 		for p in run.tray:
 			if not p.is_empty():
 				tray_pieces.append(p)
-		_section("DRAW PILE  %d  (order hidden)" % run.draw_pile.size(), _pieces_for(run.draw_pile))
-		_section("IN TRAY  %d" % tray_pieces.size(), tray_pieces)
-		_section("DISCARD PILE  %d  (shuffled back in when the draw pile runs out)" % run.discard_pile.size(), _pieces_for(run.discard_pile))
+		_section("DRAW PILE  %d" % run.draw_pile.size(), "order hidden", "sky", _pieces_for(run.draw_pile))
+		_section("IN TRAY  %d" % tray_pieces.size(), "", "sun", tray_pieces)
+		_section("DISCARD PILE  %d" % run.discard_pile.size(), "shuffled back in when the draw pile runs out", "plum", _pieces_for(run.discard_pile))
 	else:
-		_section("", run.bag)
+		_section("", "", "", run.bag)
 
 
 func _pieces_for(uids: Array) -> Array:
@@ -55,14 +71,19 @@ func _pieces_for(uids: Array) -> Array:
 	return out
 
 
-func _section(title: String, pieces: Array) -> void:
+func _section(title: String, note: String, kind: String, pieces: Array) -> void:
 	if title != "":
-		add_child(BMUI.label(title, 16, BMPalette.TEXT_DIM))
+		var h := BMStyle.hbox(10)
+		h.add_child(BMStyle.pill(title, kind, 20))
+		if note != "":
+			var n := BMStyle.label(note, 20, BMStyle.TEXT_DIM, false, 6)
+			h.add_child(n)
+		add_child(h)
 	var sorted := pieces.duplicate()
 	sorted.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return BMPieces.sort_key(a) < BMPieces.sort_key(b))
 	var grid := HFlowContainer.new()
-	grid.add_theme_constant_override("h_separation", 8)
-	grid.add_theme_constant_override("v_separation", 8)
+	grid.add_theme_constant_override("h_separation", GAP)
+	grid.add_theme_constant_override("v_separation", GAP)
 	add_child(grid)
 	for p in sorted:
 		var t := BMPieceTile.new(p)
@@ -71,7 +92,7 @@ func _section(title: String, pieces: Array) -> void:
 		grid.add_child(t)
 		_tiles.append(t)
 	if sorted.is_empty():
-		grid.add_child(BMUI.label("(empty)", 15, BMPalette.TEXT_DIM))
+		grid.add_child(BMStyle.label("(empty)", 20, BMStyle.TEXT_DIM))
 
 
 func _on_toggle(uid: int) -> void:

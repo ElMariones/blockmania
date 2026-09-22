@@ -197,17 +197,17 @@ static func counter_text(id: String, run: BMRun) -> String:
 	match id:
 		"golden_ratio":
 			var next := 3 - (run.round_state.placements_made % 3)
-			return "Next trigger in %d placement(s)" % next
+			return "Triggers in %d placement%s" % [next, "" if next == 1 else "s"]
 		"compound_interest":
-			return "Clearing placements this round: %d" % run.round_state.clearing_placements
+			return "Clears this round: %d" % run.round_state.clearing_placements
 		"color_cycle":
 			var names := PackedStringArray()
 			var h: Array = run.round_state.color_history
 			for i in range(maxi(0, h.size() - 2), h.size()):
 				names.append(BMShapes.COLOR_NAMES[h[i]])
-			return "Recent colors: %s" % (", ".join(names) if names.size() > 0 else "none")
+			return "Recent: %s" % (", ".join(names) if names.size() > 0 else "none")
 		"fire_sale":
-			return "Jokers sold this run: %d" % run.jokers_sold
+			return "Jokers sold: %d" % run.jokers_sold
 		"first_strike":
 			return "Used this round" if run.round_state.clearing_placements > 0 else "Ready"
 		"tiny_insurance":
@@ -215,21 +215,21 @@ static func counter_text(id: String, run: BMRun) -> String:
 		"mirror_maze":
 			return "Used this round" if run.round_state.mirror_used else "Ready"
 		"hoarder":
-			return "Bag: %d pieces (+%d Chips)" % [run.bag.size(), run.bag.size()]
+			return "%d pieces: +%d Chips" % [run.bag.size(), run.bag.size()]
 		"lean_bag":
-			return "Bag: %d pieces (+%s Mult)" % [run.bag.size(), str(minf(3.0, 0.25 * maxi(0, 24 - run.bag.size())))]
+			return "%d pieces: +%s Mult" % [run.bag.size(), str(minf(3.0, 0.25 * maxi(0, 24 - run.bag.size())))]
 		"foundry":
-			return "Upgraded pieces: %d (+%d Chips)" % [BMBag.upgraded_count(run), 8 * BMBag.upgraded_count(run)]
+			return "%d upgraded: +%d Chips" % [BMBag.upgraded_count(run), 8 * BMBag.upgraded_count(run)]
 		"collector":
 			var fams := BMBag.distinct_families(run)
-			return "Families in bag: %d (x%s)" % [fams, str(1.0 + 0.1 * maxi(0, fams - 6))]
+			return "%d families: x%s Mult" % [fams, str(1.0 + 0.1 * maxi(0, fams - 6))]
 		"recycler":
 			return "Discard pile: %d" % run.discard_pile.size()
 		"mimic":
 			var i := run.jokers.find("mimic")
 			if i >= 0 and i + 1 < run.jokers.size():
 				return "Copying: %s" % get_def(run.jokers[i + 1]).name
-			return "Copying: nothing (place a Joker below it)"
+			return "Copying: nothing below"
 	return ""
 
 

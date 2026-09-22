@@ -48,12 +48,17 @@ _Last updated: 2026-09-23 — the Bag (customizable pieces), 14 new Jokers, Work
 - [x] 5 of 6 bosses active: Cramped Cabinet, Taxman, Color Blind, Lockdown, Last Call.
 - [ ] **Patch Panel** Joker — needs a board cell-picking interaction (withheld from shop).
 - [ ] **Eraser**, **Lucky Paint**, **Blueprint** — need cell / color / shape pickers (withheld from shop).
-- [ ] Joker trigger presentation in resolution order (currently a brief flash on triggered cards).
-- [ ] Score count-up + clear sweep VFX polish; Fast Animations toggle; skip input for sequences.
+- [x] Joker trigger presentation in resolution order: sequenced card pulses with Chips/Mult pop text (capped at 6 per placement).
+- [x] Score count-up (rolling counter, liquid tube) and clear VFX (sweep, wave-delayed bursts, shards, streams, CRT shock).
+- [ ] Fast Animations toggle; skip input for sequences.
 - [ ] Audio: placeholder SFX families (pickup, place by size, clears 1/2/3+, invalid, purchase) — no audio yet.
-- [~] Visual asset production: first 14 image-generator source candidates (style reference, Joker frame, primary button, six blocks, two Joker illustrations, boss, consumable, Workshop tool) saved under `assets/source/generated/`; full content and UI queue recorded in `assets/ASSET_MANIFEST.md`. No game integration or final export yet.
-- [ ] Grayscale wireframes at 1920×1080 and 1280×720 (ASSET_PLAN §11 step 1) to validate layout before generated art is integrated.
-- [ ] Verify layout at 1280×720, 16:10, ultrawide (only 1600×900 window checked so far).
+- [x] **UI overhaul** (2026-09-23): original pixel-art kit and Blockhead fonts generated as code, swirl shader background, CRT filter (Off/Soft/Full), particle VFX, new title/round/shop/pause/bag/modals. See ASSET_PLAN §12.
+- [x] Image-generator art (`assets/source/generated/`) reviewed by the owner: **not adopted**.
+- [x] Layout verified at 1920×1080, 1280×720, 1680×1050 and 2560×1080 with `tools/shoot.py`; stage children checked for minimum-size overflow.
+- [x] Title-screen Options (CRT, motion, block patterns, controls) before starting a run.
+- [ ] Joker art: emblems are icon tiles for now; per-Joker illustrations drawn as code (pixel sprites) would add identity.
+- [ ] Hover and tooltip pass with real mouse playtesting (tooltips are styled; hover lifts are verified in fixtures only).
+- [ ] The Joker rack rebuilds on every refresh; keep the hover state across rebuilds.
 
 ## M2 — Content complete
 

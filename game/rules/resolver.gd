@@ -215,7 +215,7 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 		events.append("Gold: +%d Credit%s" % [gold_cleared, "s" if gold_cleared != 1 else ""])
 	if stamp == "tip":
 		run.add_credits(BMPieces.TIP_CREDITS)
-		events.append("Tip Stamp: +%d Credit" % BMPieces.TIP_CREDITS)
+		events.append("Tip Stamp: +%d Credit%s" % [BMPieces.TIP_CREDITS, "s" if BMPieces.TIP_CREDITS != 1 else ""])
 	if stamp == "refund":
 		rs.placements_left += 1
 		events.append("Refund Stamp: this placement was free")

@@ -1,6 +1,6 @@
 # BLOCKMANIA — Asset Plan and Art Brief
 
-**Version:** 0.2 · **Status:** art generation started 2026-09-22. Generated source candidates are cataloged in [assets/ASSET_MANIFEST.md](assets/ASSET_MANIFEST.md); none has been integrated or approved as final. The M0 prototype still uses procedural placeholders drawn in code. · **Companion:** [GAME_DESIGN_DOCUMENT.md](GAME_DESIGN_DOCUMENT.md)
+**Version:** 0.3 · **Status:** 2026-09-23 UI overhaul shipped with an original, code-authored pixel-art kit (§12). The image-generator candidates from 2026-09-22 (`assets/source/generated/`) were reviewed by the owner and **not adopted**. They stay out of the game and out of the repository. · **Companion:** [GAME_DESIGN_DOCUMENT.md](GAME_DESIGN_DOCUMENT.md)
 
 ## 1. Purpose and visual target
 
@@ -86,7 +86,7 @@ This document lists the art, animation, UI, audio, and Steam marketing assets ne
 2. **Workbench view:** board slightly left, shop/Joker elements appear as physical tokens in a right-hand workspace. Useful for tactile feel but must preserve board size.
 3. **Minimal tournament view:** crisp board, thin HUD, restrained effects for clarity and accessibility.
 
-The owner has authorized cozy pixel-art asset generation. The current source candidates cover a style reference, one Joker frame, six block colors, one button, two Joker illustrations, and one illustration each for a boss, consumable, and Workshop tool. Grayscale wireframes at 1920×1080 and 1280×720 are still needed to validate composition before UI integration. See the [visual asset manifest](assets/ASSET_MANIFEST.md) for files, IDs, and status.
+The layout exploration above was realized as code-authored pixel art; see §12. The 2026-09-22 image-generator candidates were not adopted.
 
 ## 7. VFX and motion inventory
 
@@ -160,3 +160,18 @@ Also plan for a trailer title/end card, social preview art, press kit logo and s
 4. Create final logo and Steam materials from the established in-game identity.
 
 Begin full asset generation after the board layout, block material, and UI concept are chosen from vertical-slice exploration.
+
+## 12. Implemented UI kit (2026-09-23)
+
+Everything below is original, authored as code in this repository, and regenerated from source. No external images, fonts or VFX libraries are used.
+
+| Deliverable | Source | Output | Status |
+|---|---|---|---|
+| Pixel UI kit: 7 block faces (6 colors + stone), 5 material overlays (Chrome, Neon, Gold, Glass, Prism), 4 stamp badges, empty cell, panels (plate, plain, sun, boss, inset, paper, tooltip), brass board frame, buttons in 5 colors × normal/hover/pressed + disabled, card and rack frames per rarity/type, pills, ~20 icons | `tools/art/gen_ui.py` (Pillow; drawn at 1× art pixels, exported 4× nearest) | `assets/ui/*.png`, `assets/ui/nine.json` (9-slice margins) | In game; prototype-final |
+| "Blockhead" pixel typeface, regular + bold (Latin, digits, punctuation) | `tools/art/gen_font.py` (fontTools) | `assets/fonts/blockhead*.ttf` | In game; em = 10 px, use sizes 20/30/40/60/80 |
+| Swirl background (domain-warped fbm, polar swirl, Bayer-dithered 5-band posterize, moods: title/round/boss/shop, pulse on big scores) | `game/presentation/shaders/bg_swirl.gdshader` | runtime | In game; motion off under reduced motion |
+| CRT post-process (warp, scanlines, aberration, glow, vignette, grain, roll bar, shock on big clears); Off / Soft (default) / Full | `game/presentation/shaders/crt.gdshader`, `BMCrtLayer` | runtime | In game; pointer input remapped through the warp |
+| Particle VFX: pixel bursts, sparks, stars, confetti, coins, glass shards, homing score streams, pop text, screen shake (cap 900 particles) | `game/presentation/fx_layer.gd` | runtime | In game; reduced motion suppresses motion, keeps text |
+| Chunky block logo with drop-in, bob and shine | `game/ui/title_screen.gd` | runtime | Placeholder logo until a final one is commissioned |
+
+Screens covered: title (+ Options), round HUD (score machine, marquee, receipt, Joker rack, items, tray, Refresh/Concede), round intro, round result, run end, pause, bag view, shop ("The Toybox") and Workshop picker. Checked at 1920×1080, 1280×720, 1680×1050 (16:10) and 2560×1080 (ultrawide).

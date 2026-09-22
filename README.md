@@ -1,6 +1,6 @@
 # BLOCKMANIA
 
-**Status:** M0 rules prototype (playable, placeholder visuals) · **Engine:** Godot 4.7.2 stable (GDScript) · **Target:** premium desktop game on Steam
+**Status:** early M1 (playable; original pixel-art UI, CRT filter, VFX; no audio yet) · **Engine:** Godot 4.7.2 stable (GDScript) · **Target:** premium desktop game on Steam
 
 BLOCKMANIA is a single-player, turn-based block placement roguelike. Place pieces from your own customizable **bag** on an 8×8 board, clear complete rows and columns, beat escalating round targets, and build a run around rule-changing Jokers and upgraded pieces. The moment-to-moment puzzle should feel immediate; the run should reward planning, risk, and surprising combinations.
 
@@ -31,7 +31,8 @@ godot --headless --path . --script res://tools/experiments.gd -- all 40 1 res://
 - Deterministic rules layer: seeded shape/shop/boss streams, the full scoring pipeline with an itemized receipt, 37/38 Jokers, 5/8 items, 5/6 bosses, economy, shop, replayable action history.
 - **The Bag** (GDD §16): a visible, persistent set of pieces dealt through draw/discard piles, with materials (Chrome, Neon, Gold, Glass, Prism), stamps (Encore, Refund, Tip, Memory), Schematic family levels, a Workshop for copying/removing/rotating/repainting/upgrading pieces, and pieces for sale.
 - Simulation tooling: a preview-guided autoplayer and paired-seed experiments; reports in `docs/balance/`.
-- Placeholder presentation drawn in code (beveled blocks, backdrop). **No production art or audio yet**, by owner direction.
+- Original pixel-art UI generated as code (`tools/art/`), swirl shader background, optional CRT filter (Options / pause menu: Off, Soft, Full) and particle effects. **No audio yet**, by owner direction.
+- Screenshots without the editor: `python tools/shoot.py fixture.gd out.png 1920x1080` (see `tools/shoot.py`).
 
 ## Confirmed direction
 

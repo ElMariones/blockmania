@@ -1,37 +1,45 @@
 class_name BMGameScreen
 extends Control
-## Round screen: board center, score/target left, Jokers and items right, tray below.
-## Input: drag-and-release, click-to-hold then click board, or keyboard (1-3, arrows/WASD,
-## Enter/Space, R, Esc). All actions go through `main.act()`; this screen only presents.
+## Round screen ("the cabinet"): marquee on top, board center, score machine + receipt left,
+## Joker rack + items right, tray and the Refresh button below. Layout is a fixed 1920x1080
+## stage centered in any aspect ratio. Input: drag-and-release, click-to-hold then click board,
+## or keyboard (1-3, arrows/WASD, Enter/Space, R, B, Esc). All actions go through main.act().
+
+const STAGE := Vector2(1920, 1080)
 
 var main: Node ## BMMain
 var run: BMRun
 
+var stage: Control
 var board_view: BMBoardView
 var slots: Array[BMTraySlot] = []
 var refresh_button: Button
 var drag_layer: Control
 var overlay: Control
 
-var _round_label: Label
+var _marquee: BMHud.Marquee
+var _score: BMHud.Counter
 var _target_label: Label
-var _score_label: Label
-var _score_bar: ProgressBar
-var _placements_label: Label
-var _refresh_label: Label
+var _tube: BMHud.Tube
+var _preview_box: HBoxContainer
+var _preview_hint: Label
+var _lamps: BMHud.Lamps
+var _moves_label: Label
+var _refresh_count: Label
 var _combo_label: Label
-var _credits_label: Label
+var _combo_icon: TextureRect
+var _credits: BMHud.Counter
+var _boss_panel: PanelContainer
 var _boss_box: VBoxContainer
-var _receipt: RichTextLabel
-var _preview_label: Label
-var _message_label: Label
-var _action_row: HBoxContainer
-var _jokers_box: VBoxContainer
+var _receipt: BMHud.Receipt
+## Stuck with no Refresh: the Refresh button becomes Concede.
+var _concede_mode := false
 var _jokers_header: Label
-var _items_box: VBoxContainer
+var _jokers_box: VBoxContainer
 var _items_header: Label
-var _seed_label: Label
+var _items_box: HBoxContainer
 var _bag_button: Button
+var _joker_cards: Array[BMCard] = []
 
 # Held-shape state.
 var held_slot := -1
@@ -39,141 +47,174 @@ var held_mode := "" ## "drag", "sticky", or "key"
 var key_anchor := Vector2i(3, 3)
 var _press_pos := Vector2.ZERO
 ## Pointer position in canvas coordinates, tracked from input events (works for real and
-## simulated input alike).
+## simulated input alike, and after the CRT remap).
 var _mouse := Vector2.ZERO
 var _preview_cache_key := ""
 var _intro_shown_for := -1
-var _last_result: Dictionary = {}
 
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_PASS
 	_build()
+	resized.connect(_center_stage)
+	_center_stage()
+
+
+func _center_stage() -> void:
+	if stage:
+		stage.position = ((size - STAGE) / 2.0).round()
+
+
+func _at(c: Control, pos: Vector2, sz: Vector2) -> Control:
+	c.position = pos
+	c.size = sz
+	c.custom_minimum_size = Vector2.ZERO
+	stage.add_child(c)
+	return c
 
 
 func _build() -> void:
-	var margin := MarginContainer.new()
-	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	for side in ["left", "right", "top", "bottom"]:
-		margin.add_theme_constant_override("margin_" + side, 36)
-	add_child(margin)
-	var cols := BMUI.hbox(36)
-	margin.add_child(cols)
+	stage = Control.new()
+	stage.size = STAGE
+	stage.mouse_filter = Control.MOUSE_FILTER_PASS
+	add_child(stage)
 
-	# Left column: round status, boss, receipt.
-	var left := BMUI.vbox(14)
-	left.custom_minimum_size.x = 390
-	cols.add_child(left)
-	var status := BMUI.panel()
-	left.add_child(status)
-	var sv := BMUI.vbox(6)
-	status.add_child(sv)
-	_round_label = BMUI.label("", 18, BMPalette.TEXT_DIM)
-	sv.add_child(_round_label)
-	_target_label = BMUI.label("", 22, BMPalette.BRASS)
-	sv.add_child(_target_label)
-	_score_label = BMUI.label("0", 64, BMPalette.TEXT)
-	sv.add_child(_score_label)
-	_score_bar = ProgressBar.new()
-	_score_bar.custom_minimum_size.y = 16
-	_score_bar.show_percentage = false
-	sv.add_child(_score_bar)
-	var grid := GridContainer.new()
-	grid.columns = 2
-	grid.add_theme_constant_override("h_separation", 24)
-	grid.add_theme_constant_override("v_separation", 4)
-	sv.add_child(grid)
-	_placements_label = BMUI.label("", 21)
-	_refresh_label = BMUI.label("", 21)
-	_combo_label = BMUI.label("", 21)
-	_credits_label = BMUI.label("", 21, BMPalette.BRASS)
-	for l in [_placements_label, _refresh_label, _combo_label, _credits_label]:
-		grid.add_child(l)
-
-	var boss_panel := BMUI.panel(BMPalette.BG_DEEP, BMPalette.CORAL)
-	left.add_child(boss_panel)
-	_boss_box = BMUI.vbox(4)
-	boss_panel.add_child(_boss_box)
-
-	var receipt_panel := BMUI.panel()
-	receipt_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	left.add_child(receipt_panel)
-	var rv := BMUI.vbox(6)
-	receipt_panel.add_child(rv)
-	rv.add_child(BMUI.label("LAST PLACEMENT", 16, BMPalette.TEXT_DIM))
-	_receipt = RichTextLabel.new()
-	_receipt.bbcode_enabled = true
-	_receipt.fit_content = false
-	_receipt.scroll_active = true
-	_receipt.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	_receipt.add_theme_font_size_override("normal_font_size", 18)
-	_receipt.add_theme_font_size_override("bold_font_size", 20)
-	rv.add_child(_receipt)
-
-	# Center column: board, messages, tray.
-	var center := BMUI.vbox(10)
-	center.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	cols.add_child(center)
+	# --- Marquee and board ---
+	_marquee = BMHud.Marquee.new()
+	_at(_marquee, Vector2(576, 6), Vector2(768, 72))
 	board_view = BMBoardView.new()
-	board_view.custom_minimum_size = Vector2(720, 720)
-	board_view.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	board_view.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	center.add_child(board_view)
-	_preview_label = BMUI.label("", 22, BMPalette.BRASS)
-	_preview_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	center.add_child(_preview_label)
-	_message_label = BMUI.label("", 20, BMPalette.TEXT)
-	_message_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_message_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	center.add_child(_message_label)
-	_action_row = BMUI.hbox(12)
-	_action_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	center.add_child(_action_row)
-	var tray := BMUI.hbox(18)
-	tray.alignment = BoxContainer.ALIGNMENT_CENTER
-	center.add_child(tray)
+	_at(board_view, Vector2(568, 82), Vector2(784, 784))
+
+	# --- Tray ---
 	for i in 3:
 		var s := BMTraySlot.new()
 		s.slot = i
-		s.custom_minimum_size = Vector2(230, 180)
 		s.pressed.connect(_on_slot_pressed)
-		tray.add_child(s)
+		_at(s, Vector2(560 + i * 212, 878), Vector2(200, 176))
 		slots.append(s)
-	refresh_button = BMUI.button("Refresh", func() -> void: _do_action({"a": "refresh"}), 20)
-	refresh_button.custom_minimum_size = Vector2(150, 180)
-	refresh_button.tooltip_text = "Replace every unplaced shape in the tray. Costs no placement. (R)"
-	tray.add_child(refresh_button)
-	var hint := BMUI.label("Drag or click a shape, then place it  |  Right-click / Esc cancels  |  1-3 select, arrows move, Enter places, R refresh, B bag", 15, BMPalette.TEXT_DIM)
-	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	center.add_child(hint)
+	refresh_button = BMStyle.button("", _on_refresh_button, "mint", 20)
+	refresh_button.icon = BMStyle.tex("icon_refresh")
+	refresh_button.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	refresh_button.vertical_icon_alignment = VERTICAL_ALIGNMENT_TOP
+	refresh_button.tooltip_text = "Refresh (R): replace every unplaced piece in the tray. Costs no placement."
+	_at(refresh_button, Vector2(1196, 878), Vector2(164, 176))
 
-	# Right column: Jokers, items, pause.
-	var right := BMUI.vbox(10)
-	right.custom_minimum_size.x = 420
-	cols.add_child(right)
-	_jokers_header = BMUI.label("", 18, BMPalette.TEXT_DIM)
-	right.add_child(_jokers_header)
-	var scroll := ScrollContainer.new()
-	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	right.add_child(scroll)
-	_jokers_box = BMUI.vbox(8)
-	_jokers_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	scroll.add_child(_jokers_box)
-	_items_header = BMUI.label("", 18, BMPalette.TEXT_DIM)
-	right.add_child(_items_header)
-	_items_box = BMUI.vbox(8)
-	right.add_child(_items_box)
-	var bottom := BMUI.hbox(10)
-	right.add_child(bottom)
-	_seed_label = BMUI.label("", 15, BMPalette.TEXT_DIM)
-	_seed_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	bottom.add_child(_seed_label)
-	_bag_button = BMUI.button("Bag", _show_bag, 18)
+	# --- Left: score machine ---
+	var score_panel := BMStyle.panel("panel_plate", Vector4(-6, -8, -6, -12))
+	_at(score_panel, Vector2(36, 12), Vector2(508, 380))
+	var sv := BMStyle.vbox(4)
+	score_panel.add_child(sv)
+	var srow := BMStyle.hbox(10)
+	sv.add_child(srow)
+	srow.add_child(BMStyle.pill("SCORE", "sun", 20))
+	var sp := Control.new()
+	sp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	srow.add_child(sp)
+	srow.add_child(BMStyle.icon_rect("icon_target", 0.75))
+	_target_label = BMStyle.label("", 30, BMStyle.PINK_L, true, 8)
+	srow.add_child(_target_label)
+	_score = BMHud.Counter.new()
+	_score.add_theme_font_override("font", BMStyle.font_bold)
+	_score.add_theme_font_size_override("font_size", 80)
+	_score.add_theme_color_override("font_color", BMStyle.CREAM)
+	_score.add_theme_color_override("font_outline_color", BMStyle.INK)
+	_score.add_theme_constant_override("outline_size", 14)
+	_score.add_theme_color_override("font_shadow_color", Color(BMStyle.PINK, 0.6))
+	_score.add_theme_constant_override("shadow_offset_x", 0)
+	_score.add_theme_constant_override("shadow_offset_y", 6)
+	_score.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_score.text = "0"
+	sv.add_child(_score)
+	_tube = BMHud.Tube.new()
+	_tube.custom_minimum_size = Vector2(0, 36)
+	sv.add_child(_tube)
+	var prev_panel := BMStyle.panel("panel_inset", Vector4(4, 0, 4, 0))
+	prev_panel.custom_minimum_size = Vector2(0, 76)
+	sv.add_child(prev_panel)
+	var pc := CenterContainer.new()
+	prev_panel.add_child(pc)
+	var pstack := BMStyle.vbox(0)
+	pc.add_child(pstack)
+	_preview_box = BMStyle.hbox(8)
+	_preview_box.alignment = BoxContainer.ALIGNMENT_CENTER
+	pstack.add_child(_preview_box)
+	_preview_hint = BMStyle.label("Pick up a piece to preview its score", 20, BMStyle.TEXT_DIM)
+	_preview_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	pstack.add_child(_preview_hint)
+	var stats := GridContainer.new()
+	stats.columns = 2
+	stats.add_theme_constant_override("h_separation", 12)
+	stats.add_theme_constant_override("v_separation", 2)
+	sv.add_child(stats)
+	var moves_row := BMStyle.hbox(6)
+	moves_row.add_child(BMStyle.icon_rect("icon_hand", 0.75))
+	_moves_label = BMStyle.label("", 30, BMStyle.CREAM, true, 8)
+	moves_row.add_child(_moves_label)
+	moves_row.tooltip_text = "Placements left this round"
+	stats.add_child(moves_row)
+	_lamps = BMHud.Lamps.new()
+	_lamps.custom_minimum_size = Vector2(360, 40)
+	_lamps.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	stats.add_child(_lamps)
+	var misc := BMStyle.hbox(18)
+	sv.add_child(misc)
+	var ref_row := BMStyle.hbox(6)
+	ref_row.add_child(BMStyle.icon_rect("icon_refresh", 0.75))
+	_refresh_count = BMStyle.label("", 30, BMStyle.MINT_L, true, 8)
+	ref_row.add_child(_refresh_count)
+	misc.add_child(ref_row)
+	var combo_row := BMStyle.hbox(6)
+	_combo_icon = BMStyle.icon_rect("icon_flame", 0.75)
+	combo_row.add_child(_combo_icon)
+	_combo_label = BMStyle.label("", 30, BMStyle.PINK_L, true, 8)
+	combo_row.add_child(_combo_label)
+	misc.add_child(combo_row)
+	var sp2 := Control.new()
+	sp2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	misc.add_child(sp2)
+	var cred_row := BMStyle.hbox(6)
+	cred_row.add_child(BMStyle.icon_rect("icon_coin", 0.75))
+	_credits = BMHud.Counter.new()
+	_credits.add_theme_font_override("font", BMStyle.font_bold)
+	_credits.add_theme_font_size_override("font_size", 30)
+	_credits.add_theme_color_override("font_color", BMStyle.SUN)
+	_credits.add_theme_color_override("font_outline_color", BMStyle.INK)
+	_credits.add_theme_constant_override("outline_size", 8)
+	cred_row.add_child(_credits)
+	misc.add_child(cred_row)
+
+	# --- Left: boss + receipt ---
+	_boss_panel = BMStyle.panel("panel_plate", Vector4(8, 2, 8, 2))
+	_at(_boss_panel, Vector2(36, 400), Vector2(508, 152))
+	_boss_box = BMStyle.vbox(2)
+	_boss_panel.add_child(_boss_box)
+	_receipt = BMHud.Receipt.new()
+	_at(_receipt, Vector2(52, 562), Vector2(476, 480))
+
+	# --- Right: Jokers, items, buttons ---
+	var jh := BMStyle.hbox(8)
+	_at(jh, Vector2(1376, 16), Vector2(508, 40))
+	_jokers_header = BMStyle.header("JOKERS", 30)
+	jh.add_child(_jokers_header)
+	var hint := BMStyle.label("top resolves first", 20, BMStyle.TEXT_DIM, false, 6)
+	hint.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	jh.add_child(hint)
+	_jokers_box = BMStyle.vbox(8)
+	_at(_jokers_box, Vector2(1376, 64), Vector2(508, 652))
+	_items_header = BMStyle.header("ITEMS", 30)
+	_at(_items_header, Vector2(1376, 728), Vector2(508, 40))
+	_items_box = BMStyle.hbox(12)
+	_at(_items_box, Vector2(1376, 772), Vector2(508, 184))
+	_bag_button = BMStyle.button("BAG", _show_bag, "sky", 30)
+	_bag_button.icon = BMStyle.tex("icon_bag")
 	_bag_button.tooltip_text = "See every piece in your bag: draw pile, tray, and discard pile. (B)"
-	bottom.add_child(_bag_button)
-	bottom.add_child(BMUI.button("Pause (Esc)", func() -> void: main.show_pause(), 18))
+	_at(_bag_button, Vector2(1376, 966), Vector2(300, 80))
+	var pause := BMStyle.button("MENU", func() -> void: main.show_pause(), "plum", 20)
+	pause.icon = BMStyle.tex("icon_gear")
+	pause.tooltip_text = "Pause, settings and controls (Esc)"
+	_at(pause, Vector2(1690, 966), Vector2(190, 80))
 
 	drag_layer = Control.new()
 	drag_layer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -192,9 +233,28 @@ func _build() -> void:
 func bind(new_run: BMRun) -> void:
 	run = new_run
 	board_view.run = run
+	_apply_motion()
 	_cancel_hold()
+	_score.set_target(run.round_state.score, true)
+	_credits.set_target(run.credits, true)
+	_tube.value = 0.0
 	refresh_all()
+	_receipt.print_rows([{"text": "Round %d. Good luck!" % run.round_number, "color": Color(BMStyle.INK, 0.6)}])
+	if BMSwirlBackground.instance:
+		BMSwirlBackground.instance.set_mood("boss" if run.current_boss() != "" else "round")
 	_maybe_show_phase_overlay()
+
+
+func _apply_motion() -> void:
+	var rm: bool = main.settings.reduced_motion
+	board_view.reduced_motion = rm
+	_marquee.reduced_motion = rm
+	_tube.reduced_motion = rm
+	_score.reduced_motion = rm
+	_credits.reduced_motion = rm
+	_receipt.reduced_motion = rm
+	for s in slots:
+		s.reduced_motion = rm
 
 
 func refresh_all() -> void:
@@ -202,41 +262,39 @@ func refresh_all() -> void:
 		return
 	var rs := run.round_state
 	var boss := run.current_boss()
-	_round_label.text = "ROUND %d / %d   ACT %d%s" % [run.round_number, BMRunConfig.ROUND_COUNT, run.act(), "   BOSS" if boss != "" else ""]
-	_target_label.text = "TARGET  %s" % BMUI.fmt_int(rs.target)
-	_score_label.text = BMUI.fmt_int(rs.score)
-	_score_bar.max_value = rs.target
-	_score_bar.value = mini(rs.score, rs.target)
-	_placements_label.text = "Placements  %d" % rs.placements_left
-	_placements_label.add_theme_color_override("font_color", BMPalette.CORAL if rs.placements_left <= 3 else BMPalette.TEXT)
+	_marquee.boss = boss != ""
+	_marquee.text = "ROUND %d" % run.round_number
+	_marquee.sub = ("BOSS: " + BMBosses.get_def(boss).name.to_upper()) if boss != "" else "ACT %d OF 3" % run.act()
+	_target_label.text = "/ " + BMUI.fmt_int(rs.target)
+	_score.set_target(rs.score)
+	_tube.set_fraction(float(rs.score) / maxf(1.0, rs.target))
+	_moves_label.text = str(rs.placements_left)
+	_moves_label.add_theme_color_override("font_color", BMStyle.PINK_L if rs.placements_left <= 3 else BMStyle.CREAM)
+	_lamps.set_counts(rs.placements_left, maxi(rs.placements_left + rs.placements_made, int(run.kit().placements)))
 	if boss == "lockdown":
-		_refresh_label.text = "Refresh  LOCKED"
+		_refresh_count.text = "LOCKED"
 	else:
-		_refresh_label.text = "Refresh  %d" % rs.refreshes_left
-	_combo_label.text = "Combo  x%d" % rs.combo
-	_credits_label.text = "Credits  %d" % run.credits
-	var extras: Array[String] = []
-	if rs.pending_chips > 0:
-		extras.append("+%d Chips next" % rs.pending_chips)
-	if rs.pending_mult > 0:
-		extras.append("+%s Mult next" % BMUI.fmt_mult(rs.pending_mult))
-	if rs.cash_out > 0:
-		extras.append("Cash Out x%d" % rs.cash_out)
-	if not extras.is_empty():
-		_combo_label.text += "   (" + ", ".join(extras) + ")"
+		_refresh_count.text = "x%d" % rs.refreshes_left
+	_combo_label.text = "x%d" % rs.combo
+	_combo_icon.modulate = Color.WHITE if rs.combo > 0 else Color(1, 1, 1, 0.35)
+	_combo_label.modulate = Color.WHITE if rs.combo > 0 else Color(1, 1, 1, 0.5)
+	_credits.set_target(run.credits)
 
 	BMUI.clear_children(_boss_box)
+	_boss_panel.add_theme_stylebox_override("panel", BMStyle.box("panel_boss" if boss != "" else "panel_plate", Vector4(8, 2, 8, 2)))
+	var head := BMStyle.hbox(8)
+	_boss_box.add_child(head)
+	head.add_child(BMStyle.icon_rect("icon_skull", 0.75))
 	if boss != "":
 		var d := BMBosses.get_def(boss)
-		_boss_box.add_child(BMUI.label("BOSS ROUND: " + d.name.to_upper(), 19, BMPalette.CORAL))
-		var rule := BMUI.label(d.rule, 17)
+		head.add_child(BMStyle.label("BOSS: " + d.name.to_upper(), 20, BMStyle.PINK_L, true, 6))
+		var rule := BMStyle.label(d.rule, 20, BMStyle.CREAM)
 		rule.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		_boss_box.add_child(rule)
 	else:
 		var d := BMBosses.get_def(run.act_boss())
-		_boss_box.add_child(BMUI.label("ACT %d BOSS (ROUND %d)" % [run.act(), run.act() * 4], 16, BMPalette.TEXT_DIM))
-		_boss_box.add_child(BMUI.label(d.name, 19, BMPalette.CORAL))
-		var rule := BMUI.label(d.rule, 16, BMPalette.TEXT_DIM)
+		head.add_child(BMStyle.label("ROUND %d BOSS: %s" % [run.act() * 4, d.name.to_upper()], 20, BMStyle.PINK_L, true, 6))
+		var rule := BMStyle.label(d.rule, 20, BMStyle.TEXT_DIM)
 		rule.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		_boss_box.add_child(rule)
 
@@ -244,77 +302,136 @@ func refresh_all() -> void:
 		slots[i].setup(run.tray[i], held_slot == i, run.slot_fits(i))
 		slots[i].focused_by_key = held_mode == "key" and held_slot == i
 		slots[i].tooltip_text = BMPieces.describe(run.tray[i]) if not run.tray[i].is_empty() else ""
-	_bag_button.text = "Bag (B)"
-	refresh_button.text = "Refresh\n%s" % ("locked" if boss == "lockdown" else "%d left" % rs.refreshes_left)
-	refresh_button.disabled = run.refreshes_available() <= 0 or not run.can_act_in_round() or rs.status == BMRun.OUT_OF_PLACEMENTS
+	_concede_mode = run.phase == BMRun.Phase.ROUND and (rs.status == BMRun.OUT_OF_PLACEMENTS or (rs.status == BMRun.STUCK and run.refreshes_available() <= 0))
+	if _concede_mode:
+		BMStyle.button_boxes(refresh_button, "pink")
+		refresh_button.icon = BMStyle.tex("icon_skull")
+		refresh_button.text = "CONCEDE\nROUND"
+		refresh_button.disabled = false
+		refresh_button.tooltip_text = "No legal move is left. Use an item that can help, or concede to end the run."
+	else:
+		BMStyle.button_boxes(refresh_button, "mint")
+		refresh_button.icon = BMStyle.tex("icon_refresh")
+		refresh_button.text = "REFRESH\n" + ("LOCKED" if boss == "lockdown" else "x%d" % rs.refreshes_left)
+		refresh_button.disabled = run.refreshes_available() <= 0 or not run.can_act_in_round() or rs.status == BMRun.OUT_OF_PLACEMENTS
+		refresh_button.tooltip_text = "Refresh (R): replace every unplaced piece in the tray. Costs no placement."
 
 	_refresh_jokers()
 	_refresh_items()
-	_seed_label.text = "Seed %d\nBag %d: draw %d, discard %d" % [run.run_seed, run.bag.size(), run.draw_pile.size(), run.discard_pile.size()]
+	_bag_button.text = "BAG  %d" % run.draw_pile.size()
+	_bag_button.tooltip_text = "Your bag: %d pieces. Draw pile %d, discard pile %d. (B)" % [run.bag.size(), run.draw_pile.size(), run.discard_pile.size()]
 	_refresh_status_banner()
 	board_view.queue_redraw()
 
 
-func _refresh_jokers(pulse: Array = []) -> void:
+func _refresh_jokers() -> void:
 	BMUI.clear_children(_jokers_box)
-	_jokers_header.text = "JOKERS  %d / %d   (resolve top to bottom)" % [run.jokers.size(), run.joker_slots()]
+	_joker_cards.clear()
+	_jokers_header.text = "JOKERS %d/%d" % [run.jokers.size(), run.joker_slots()]
 	var can_edit := run.can_act_in_round()
 	for i in run.jokers.size():
 		var id := run.jokers[i]
-		var row := BMUI.hbox(6)
-		var up := BMUI.button("Up", func() -> void: _do_action({"a": "move", "from": i, "to": i - 1}), 14)
-		up.disabled = i == 0 or not can_edit
-		var down := BMUI.button("Down", func() -> void: _do_action({"a": "move", "from": i, "to": i + 1}), 14)
-		down.disabled = i == run.jokers.size() - 1 or not can_edit
-		var sell := BMUI.button("Sell +%d" % BMJokers.sell_value(id), func() -> void: _confirm_sell(i), 14)
-		sell.disabled = not can_edit
-		row.add_child(up)
-		row.add_child(down)
-		row.add_child(sell)
-		var card := BMUI.joker_card(run, id, row)
+		var card := BMCard.joker_rack(run, id)
+		card.reduced_motion = main.settings.reduced_motion
+		var ctrl := _joker_controls(i, id, can_edit)
+		card.hover_controls = ctrl
+		ctrl.visible = false
+		card.add_child(ctrl)
 		_jokers_box.add_child(card)
-		if pulse.has(id) and not main.settings.reduced_motion:
-			card.pivot_offset = Vector2(200, 50)
-			var tw := card.create_tween()
-			card.modulate = Color(1.6, 1.5, 1.0)
-			tw.tween_property(card, "modulate", Color.WHITE, 0.35)
-	if run.jokers.is_empty():
-		var l := BMUI.label("No Jokers yet. Buy them in the shop after a round.", 16, BMPalette.TEXT_DIM)
-		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		_jokers_box.add_child(l)
+		_joker_cards.append(card)
+	for i in range(run.jokers.size(), run.joker_slots()):
+		var empty := BMStyle.panel("panel_inset", Vector4.ZERO)
+		empty.custom_minimum_size = Vector2(0, 124)
+		var l := BMStyle.label("empty slot", 20, Color(BMStyle.TEXT_DIM, 0.5))
+		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		empty.add_child(l)
+		_jokers_box.add_child(empty)
+
+
+## Floating toolbar shown while hovering a Joker: move up/down and sell.
+func _joker_controls(i: int, id: String, can_edit: bool) -> Control:
+	var wrap := Control.new()
+	wrap.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	wrap.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	var bar := BMStyle.hbox(4)
+	wrap.add_child(bar)
+	var up := BMStyle.button("", func() -> void: _do_action({"a": "move", "from": i, "to": i - 1}), "plum", 20)
+	up.icon = BMStyle.tex("icon_arrow_up")
+	up.tooltip_text = "Move up (resolves earlier)"
+	up.disabled = i == 0 or not can_edit
+	var down := BMStyle.button("", func() -> void: _do_action({"a": "move", "from": i, "to": i + 1}), "plum", 20)
+	down.icon = BMStyle.tex("icon_arrow_down")
+	down.tooltip_text = "Move down (resolves later)"
+	down.disabled = i == run.jokers.size() - 1 or not can_edit
+	var sell := BMStyle.button("SELL +%d" % BMJokers.sell_value(id), func() -> void: _confirm_sell(i), "pink", 20)
+	sell.disabled = not can_edit
+	for b in [up, down, sell]:
+		bar.add_child(b)
+	wrap.resized.connect(func() -> void:
+		bar.reset_size()
+		bar.position = Vector2(wrap.size.x - bar.size.x - 10, wrap.size.y - bar.size.y - 8))
+	return wrap
 
 
 func _refresh_items() -> void:
 	BMUI.clear_children(_items_box)
-	_items_header.text = "ITEMS  %d / %d" % [run.consumables.size(), BMRunConfig.CONSUMABLE_SLOTS]
+	_items_header.text = "ITEMS %d/%d" % [run.consumables.size(), BMRunConfig.CONSUMABLE_SLOTS]
 	for i in run.consumables.size():
 		var reason := run.consumable_usable(i)
-		var use := BMUI.button("Use", func() -> void: _do_action({"a": "use", "i": i}), 16)
+		var card := BMCard.item_rack(run.consumables[i])
+		card.custom_minimum_size = Vector2(248, 180)
+		var box := card.get_child(0) as VBoxContainer
+		var body := BMStyle.label(BMConsumables.get_def(run.consumables[i]).text, 20, Color(BMStyle.INK, 0.75))
+		body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		body.max_lines_visible = 2
+		body.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		box.add_child(body)
+		var use := BMStyle.button("USE", func() -> void: _do_action({"a": "use", "i": i}), "mint", 20)
 		use.disabled = reason != ""
 		use.tooltip_text = reason if reason != "" else "Use this item now."
-		_items_box.add_child(BMUI.item_card(run.consumables[i], use))
+		box.add_child(use)
+		_items_box.add_child(card)
+	for i in range(run.consumables.size(), BMRunConfig.CONSUMABLE_SLOTS):
+		var empty := BMStyle.panel("panel_inset", Vector4.ZERO)
+		empty.custom_minimum_size = Vector2(248, 180)
+		var l := BMStyle.label("empty", 20, Color(BMStyle.TEXT_DIM, 0.5))
+		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		empty.add_child(l)
+		_items_box.add_child(empty)
 
 
 func _refresh_status_banner() -> void:
-	BMUI.clear_children(_action_row)
 	var rs := run.round_state
 	if run.phase != BMRun.Phase.ROUND:
 		return
 	match rs.status:
 		BMRun.STUCK:
 			if run.refreshes_available() > 0:
-				_set_message("No offered shape fits. Use Refresh to get a new tray.", BMPalette.BRASS)
+				_set_message("NOTHING FITS!  HIT REFRESH", BMStyle.SUN, 0.0)
 			else:
-				_set_message("No offered shape fits. Use an item that can help, or concede the round.", BMPalette.CORAL)
-				_action_row.add_child(BMUI.button("Concede Round", _confirm_concede, 18))
+				_set_message("NOTHING FITS!  USE AN ITEM OR CONCEDE", BMStyle.PINK_L, 0.0)
 		BMRun.OUT_OF_PLACEMENTS:
-			_set_message("Out of placements. Use Extra Turn to continue, or concede.", BMPalette.CORAL)
-			_action_row.add_child(BMUI.button("Concede Round", _confirm_concede, 18))
+			_set_message("OUT OF PLACEMENTS!  EXTRA TURN OR CONCEDE", BMStyle.PINK_L, 0.0)
+		_:
+			if _marquee.message.begins_with("NOTHING FITS") or _marquee.message.begins_with("OUT OF"):
+				_marquee.message = ""
 
 
-func _set_message(text: String, color: Color = BMPalette.TEXT) -> void:
-	_message_label.text = text
-	_message_label.add_theme_color_override("font_color", color)
+## Messages flash on the marquee sign so they never cover board cells.
+## duration 0 = stays until replaced.
+func _set_message(text: String, color: Color = BMStyle.CREAM, duration: float = 2.6) -> void:
+	if text == "":
+		return
+	_marquee.flash(text.to_upper(), color, duration)
+
+
+func _on_refresh_button() -> void:
+	if _concede_mode:
+		_confirm_concede()
+	else:
+		_do_action({"a": "refresh"})
 
 
 # --- Input ---------------------------------------------------------------------------------
@@ -330,7 +447,6 @@ func _on_slot_pressed(slot: int) -> void:
 	held_slot = slot
 	held_mode = "drag"
 	_press_pos = _mouse
-	_set_message("")
 	_update_ghost_from_mouse()
 	refresh_all()
 
@@ -355,7 +471,7 @@ func _input(event: InputEvent) -> void:
 			if board_view.ghost_valid:
 				_place_held(board_view.ghost_anchor)
 			elif moved:
-				_cancel_hold("That shape does not fit there. It went back to the tray.")
+				_cancel_hold("That piece doesn't fit there, so it went back to the tray.")
 			else:
 				held_mode = "sticky"
 		elif moved:
@@ -370,7 +486,7 @@ func _input(event: InputEvent) -> void:
 		if board_view.ghost_valid:
 			_place_held(board_view.ghost_anchor)
 		else:
-			_set_message("That shape does not fit there.", BMPalette.CORAL)
+			_set_message("That piece doesn't fit there.", BMStyle.PINK_L)
 		get_viewport().set_input_as_handled()
 
 
@@ -432,7 +548,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		if board_view.ghost_valid:
 			_place_held(board_view.ghost_anchor)
 		else:
-			_set_message("That shape does not fit there.", BMPalette.CORAL)
+			_set_message("That piece doesn't fit there.", BMStyle.PINK_L)
 		get_viewport().set_input_as_handled()
 
 
@@ -469,7 +585,8 @@ func _update_ghost_from_mouse() -> void:
 	board_view.keyboard_focus = false
 	if not _mouse_over_board():
 		board_view.clear_ghost()
-		_preview_label.text = ""
+		_preview_cache_key = ""
+		_show_preview({})
 		return
 	var top_left := _board_local_mouse() - _held_top_left_offset()
 	var anchor := board_view.anchor_from_top_left(top_left)
@@ -484,12 +601,34 @@ func _show_ghost(anchor: Vector2i) -> void:
 		return
 	_preview_cache_key = key
 	if board_view.ghost_valid:
-		var p := run.preview_place(held_slot, anchor)
-		if p.ok:
-			var lines_text := "" if p.lines == 0 else "   %d line%s" % [p.lines, "s" if p.lines > 1 else ""]
-			_preview_label.text = "%s Chips x %s Mult = %s%s" % [BMUI.fmt_int(p.chips), BMUI.fmt_mult(p.mult), BMUI.fmt_int(p.points), lines_text]
+		_show_preview(run.preview_place(held_slot, anchor))
 	else:
-		_preview_label.text = ""
+		_show_preview({"invalid": true})
+
+
+## Score preview: [chip] chips x [mult] mult = points (+ lines tag).
+func _show_preview(p: Dictionary) -> void:
+	BMUI.clear_children(_preview_box)
+	if p.get("invalid", false):
+		_preview_hint.text = "Doesn't fit here"
+		_preview_hint.add_theme_color_override("font_color", BMStyle.PINK_L)
+		_preview_hint.visible = true
+		return
+	if p.is_empty() or not p.get("ok", false):
+		_preview_hint.text = "Pick up a piece to preview its score" if held_slot < 0 else "Move over the board"
+		_preview_hint.add_theme_color_override("font_color", BMStyle.TEXT_DIM)
+		_preview_hint.visible = true
+		return
+	_preview_hint.visible = false
+	_preview_box.add_child(BMStyle.icon_rect("icon_chip", 0.75))
+	_preview_box.add_child(BMStyle.label(BMUI.fmt_int(p.chips), 30, BMStyle.CHIPS, true, 8))
+	_preview_box.add_child(BMStyle.label("x", 30, BMStyle.CREAM, true, 8))
+	_preview_box.add_child(BMStyle.icon_rect("icon_mult", 0.75))
+	_preview_box.add_child(BMStyle.label(BMUI.fmt_mult(p.mult), 30, BMStyle.MULT, true, 8))
+	_preview_box.add_child(BMStyle.label("=", 30, BMStyle.CREAM, true, 8))
+	_preview_box.add_child(BMStyle.label(BMUI.fmt_int(p.points), 30, BMStyle.SUN, true, 8))
+	if p.lines > 0:
+		_preview_box.add_child(BMStyle.pill("%d LINE%s" % [p.lines, "S" if p.lines > 1 else ""], "mint", 20))
 
 
 func _cancel_hold(message: String = "") -> void:
@@ -499,10 +638,10 @@ func _cancel_hold(message: String = "") -> void:
 	if board_view:
 		board_view.keyboard_focus = false
 		board_view.clear_ghost()
-	if _preview_label:
-		_preview_label.text = ""
+	if _preview_box:
+		_show_preview({})
 	if message != "":
-		_set_message(message, BMPalette.CORAL)
+		_set_message(message, BMStyle.PINK_L)
 	if drag_layer:
 		drag_layer.queue_redraw()
 	if run != null and slots.size() == 3:
@@ -515,11 +654,18 @@ func _draw_drag_layer() -> void:
 	if held_slot < 0 or held_mode == "key" or run == null or run.tray[held_slot].is_empty():
 		return
 	var cell := board_view.cell_size()
-	var top_left := drag_layer.get_global_transform().affine_inverse() * _mouse - _held_top_left_offset()
+	var local_mouse := drag_layer.get_global_transform().affine_inverse() * _mouse
 	var shape: Dictionary = run.tray[held_slot]
-	var alpha := 0.35 if board_view.ghost_valid else 0.85
+	if board_view.ghost_valid:
+		# The snapped ghost is the real preview; the hand only carries a small token beside
+		# the cursor so the two never overlap into a double image.
+		var tcell := floorf(cell * 0.4)
+		BMBlockPainter.draw_shape(drag_layer, shape, (local_mouse + Vector2(18, 18)).round(), tcell, 0.9)
+		return
+	var top_left := local_mouse - _held_top_left_offset()
+	var alpha := 0.95
 	for c: Vector2i in shape.cells:
-		drag_layer.draw_rect(Rect2(top_left + Vector2(c) * cell + Vector2(8, 10), Vector2(cell, cell)), Color(0, 0, 0, 0.25 * alpha))
+		drag_layer.draw_rect(Rect2(top_left + Vector2(c) * cell + Vector2(10, 14), Vector2(cell, cell)), Color(BMStyle.INK, 0.4 * alpha))
 	BMBlockPainter.draw_shape(drag_layer, shape, top_left, cell, alpha)
 
 
@@ -536,105 +682,130 @@ func _do_action(a: Dictionary) -> void:
 		return
 	var r: Dictionary = main.act(a)
 	if not r.ok:
-		_set_message(r.error, BMPalette.CORAL)
+		_set_message(r.error, BMStyle.PINK_L)
 		return
-	_set_message("")
 	match r.get("type", ""):
 		"place":
 			_present_placement(r)
 			if not r.events.is_empty():
-				_set_message(", ".join(PackedStringArray(r.events)), BMPalette.BRASS)
+				_set_message("  ".join(PackedStringArray(r.events)), BMStyle.SUN)
 		"refresh":
-			_set_message(", ".join(PackedStringArray(r.get("events", []))), BMPalette.CYAN)
+			_set_message(", ".join(PackedStringArray(r.get("events", []))), BMStyle.MINT_L)
+			if BMFx.instance:
+				for s in slots:
+					BMFx.instance.stars(s.get_global_rect().get_center(), 3, 60.0)
 		"use":
-			_set_message("Used %s." % BMConsumables.get_def(r.item).name, BMPalette.CYAN)
+			_set_message("Used %s." % BMConsumables.get_def(r.item).name, BMStyle.MINT_L)
 		"sell":
-			_set_message("Sold %s for %d Credits." % [BMJokers.get_def(r.item).name, r.value], BMPalette.BRASS)
+			_set_message("Sold %s for %d Credits." % [BMJokers.get_def(r.item).name, r.value], BMStyle.SUN)
 	var tray_events: Array = r.get("tray_events", [])
 	for e in tray_events:
-		if String(e).begins_with("Tiny Insurance"):
-			_set_message(e, BMPalette.BRASS)
+		if String(e).begins_with("Tiny Insurance") or String(e).begins_with("No piece"):
+			_set_message(e, BMStyle.SUN)
 	refresh_all()
 	if r.get("type", "") == "place":
-		_refresh_jokers(r.triggered_jokers)
-	_maybe_show_phase_overlay(0.0 if main.settings.reduced_motion else 0.6)
+		_animate_jokers(r)
+	_maybe_show_phase_overlay(0.0 if main.settings.reduced_motion else 0.9)
 
 
 func _present_placement(r: Dictionary) -> void:
-	_last_result = r
-	board_view.play_resolution(r, main.settings.reduced_motion)
+	board_view.play_resolution(r)
 	_write_receipt(r)
-	_score_popup(r)
-	if r.lines >= 2 and not main.settings.reduced_motion:
-		_shake(4.0 + 2.0 * r.lines)
+	var fx := BMFx.instance
+	var center := Vector2.ZERO
+	for p: Vector2i in r.placed:
+		center += board_view.cell_global_center(p)
+	center /= maxf(1.0, r.placed.size())
+	if fx:
+		var size_px := 40 if r.points < 300 else (60 if r.points < 1200 else 80)
+		fx.pop_text(center + Vector2(0, -30), "+" + BMUI.fmt_int(r.points), BMStyle.SUN if r.lines > 0 else BMStyle.CREAM, size_px, 90.0, 1.0)
+		fx.stream(center, _score.get_global_rect().get_center(), BMStyle.SUN, mini(18, 4 + r.lines * 5))
+		if r.credits_gained > 0:
+			fx.coins(center, _credits.get_global_rect().get_center(), mini(8, r.credits_gained * 2))
+		if r.lines >= 2:
+			var words := ["", "", "DOUBLE!", "TRIPLE!", "QUAD!", "MEGA!"]
+			fx.pop_text(board_view.get_global_rect().get_center(), words[mini(r.lines, 5)], BMStyle.PINK_L, 80, 40.0, 1.2)
+			fx.confetti(board_view.get_global_rect(), 30 + r.lines * 15)
+		elif r.combo_after >= 2 and r.lines > 0:
+			fx.pop_text(center + Vector2(0, 40), "COMBO x%d" % r.combo_after, BMStyle.SKY_L, 30, 50.0, 0.9)
+		fx.shake(2.0 + 5.0 * r.lines)
+	if r.lines > 0:
+		if BMCrtLayer.instance:
+			BMCrtLayer.instance.shock(0.25 * r.lines)
+		if BMSwirlBackground.instance:
+			BMSwirlBackground.instance.pulse(0.3 * r.lines)
+	for uid in r.get("shattered", []):
+		if fx:
+			fx.shards(center, 18)
+
+
+## Joker cards bounce in resolution order, each showing its contribution.
+func _animate_jokers(r: Dictionary) -> void:
+	var delay := 0.15
+	var shown := 0
+	for it in r.items:
+		if it.source != "joker" or not it.has("slot") or shown >= 6:
+			continue
+		var slot: int = it.slot
+		if slot >= _joker_cards.size():
+			continue
+		var card := _joker_cards[slot]
+		var txt := ""
+		var col := BMStyle.SUN
+		match it.kind:
+			"chips":
+				txt = "+%s" % BMUI.fmt_int(it.value)
+				col = BMStyle.SKY_L
+			"mult":
+				txt = "+%s MULT" % BMUI.fmt_mult(it.value)
+				col = BMStyle.PINK_L
+			"xmult":
+				txt = "x%s MULT" % BMUI.fmt_mult(it.value)
+				col = BMStyle.SUN
+		# Weak reference: a refresh may free the card before the timer fires.
+		var card_ref: WeakRef = weakref(card)
+		get_tree().create_timer(delay).timeout.connect(func() -> void:
+			var c := card_ref.get_ref() as BMCard
+			if c != null:
+				c.pulse(txt, col))
+		delay += 0.12
+		shown += 1
 
 
 func _write_receipt(r: Dictionary) -> void:
-	var t := ""
-	t += "[b]%s[/b]  (%d cell%s, %s)\n" % [BMShapes.family(r.shape.family).name, r.placed.size(), "s" if r.placed.size() != 1 else "", BMShapes.COLOR_NAMES[r.shape.color]]
+	var rows: Array = []
+	var fam_name: String = BMShapes.family(r.shape.family).name
+	rows.append({"text": "%s  (%d cells)" % [fam_name, r.placed.size()], "bold": true})
 	if BMPieces.is_upgraded(r.shape):
-		t += "[color=#%s]%s[/color]\n" % [BMPalette.CYAN.to_html(false), BMPieceTile.short_label(r.shape)]
-	var chips_hex := BMPalette.CHIPS.to_html(false)
-	var mult_hex := BMPalette.MULT.to_html(false)
+		rows.append({"text": BMPieceTile.short_label(r.shape), "color": Color("#1f63b8")})
 	for it in r.items:
 		match it.kind:
 			"chips":
-				t += "%s  [color=#%s]+%s Chips[/color]\n" % [it.label, chips_hex, BMUI.fmt_int(it.value)]
+				rows.append({"text": it.label, "value": "+%s" % BMUI.fmt_int(it.value), "value_color": Color("#1f63b8")})
 			"mult":
-				t += "%s  [color=#%s]+%s Mult[/color]\n" % [it.label, mult_hex, BMUI.fmt_mult(it.value)]
+				rows.append({"text": it.label, "value": "+%s mult" % BMUI.fmt_mult(it.value), "value_color": Color("#c42848")})
 			"xmult":
-				t += "%s  [color=#%s]x%s Mult[/color]\n" % [it.label, mult_hex, BMUI.fmt_mult(it.value)]
+				rows.append({"text": it.label, "value": "x%s mult" % BMUI.fmt_mult(it.value), "value_color": Color("#c42848")})
 	if not r.mirror_cleared.is_empty():
-		t += "Mirror Maze removed %d cell(s)\n" % r.mirror_cleared.size()
+		rows.append({"text": "Mirror Maze removed %d cells" % r.mirror_cleared.size(), "color": Color(BMStyle.INK, 0.7)})
 	for e in r.get("events", []):
-		t += "[color=#%s]%s[/color]\n" % [BMPalette.BRASS.to_html(false), e]
-	t += "\n[b][color=#%s]%s Chips[/color] x [color=#%s]%s Mult[/color] = %s[/b]" % [chips_hex, BMUI.fmt_int(r.chips), mult_hex, BMUI.fmt_mult(r.mult), BMUI.fmt_int(r.points)]
+		rows.append({"text": e, "color": Color("#8a5a00")})
+	rows.append({"dashes": true})
+	rows.append({"text": "%s x %s" % [BMUI.fmt_int(r.chips), BMUI.fmt_mult(r.mult)], "value": "= %s" % BMUI.fmt_int(r.points), "bold": true, "value_color": Color("#c42848")})
 	if r.combo_after > 0:
-		t += "\nCombo now x%d" % r.combo_after
-	_receipt.text = t
-
-
-func _score_popup(r: Dictionary) -> void:
-	var center := Vector2.ZERO
-	for p: Vector2i in r.placed:
-		center += board_view.cell_rect(p).get_center()
-	center /= maxf(1.0, r.placed.size())
-	var l := BMUI.label("+%s" % BMUI.fmt_int(r.points), 34 + mini(30, r.lines * 8), BMPalette.BRASS if r.lines > 0 else BMPalette.TEXT)
-	l.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.8))
-	l.add_theme_constant_override("outline_size", 8)
-	l.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(l)
-	l.global_position = board_view.global_position + center - Vector2(40, 30)
-	if main.settings.reduced_motion:
-		var tw0 := l.create_tween()
-		tw0.tween_interval(0.6)
-		tw0.tween_callback(l.queue_free)
-		return
-	var tw := l.create_tween()
-	tw.set_parallel(true)
-	tw.tween_property(l, "global_position:y", l.global_position.y - 70, 0.7).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
-	tw.tween_property(l, "modulate:a", 0.0, 0.7).set_delay(0.25)
-	tw.chain().tween_callback(l.queue_free)
-
-
-func _shake(strength: float) -> void:
-	var tw := board_view.create_tween()
-	var base := board_view.position
-	for i in 5:
-		var off := Vector2(randf_range(-1, 1), randf_range(-1, 1)) * strength * (1.0 - i / 5.0)
-		tw.tween_property(board_view, "position", base + off, 0.03)
-	tw.tween_property(board_view, "position", base, 0.03)
+		rows.append({"text": "Combo now x%d" % r.combo_after, "color": Color(BMStyle.INK, 0.6)})
+	_receipt.print_rows(rows)
 
 
 func _confirm_sell(index: int) -> void:
 	var id := run.jokers[index]
 	_show_dialog("Sell %s for %d Credits?" % [BMJokers.get_def(id).name, BMJokers.sell_value(id)],
-		[["Sell", func() -> void: _do_action({"a": "sell", "i": index})], ["Keep", func() -> void: pass]])
+		[["SELL", "pink", func() -> void: _do_action({"a": "sell", "i": index})], ["KEEP", "plum", func() -> void: pass]])
 
 
 func _confirm_concede() -> void:
 	_show_dialog("Concede this round? The run will end.",
-		[["Concede", func() -> void: _do_action({"a": "concede"})], ["Back", func() -> void: pass]])
+		[["CONCEDE", "pink", func() -> void: _do_action({"a": "concede"})], ["BACK", "plum", func() -> void: pass]])
 
 
 # --- Overlays ------------------------------------------------------------------------------
@@ -657,148 +828,261 @@ func _maybe_show_phase_overlay(delay: float = 0.0) -> void:
 			_show_run_end()
 
 
-func _overlay_panel(edge: Color = BMPalette.CYAN) -> VBoxContainer:
+func _modal(frame: String = "panel_plate", width: float = 680.0) -> VBoxContainer:
 	var dim := ColorRect.new()
-	dim.color = Color(0, 0, 0, 0.6)
+	dim.color = Color(BMStyle.INK, 0.62)
 	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	dim.mouse_filter = Control.MOUSE_FILTER_STOP
 	overlay.add_child(dim)
 	var center := CenterContainer.new()
 	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	dim.add_child(center)
-	var p := BMUI.panel(BMPalette.PANEL, edge)
-	p.custom_minimum_size = Vector2(620, 0)
+	var p := BMStyle.panel(frame, Vector4(24, 16, 24, 20))
+	p.custom_minimum_size = Vector2(width, 0)
 	center.add_child(p)
-	var v := BMUI.vbox(12)
+	var v := BMStyle.vbox(12)
 	p.add_child(v)
 	if not main.settings.reduced_motion:
-		p.modulate.a = 0.0
-		p.create_tween().tween_property(p, "modulate:a", 1.0, 0.18)
+		dim.modulate.a = 0.0
+		dim.create_tween().tween_property(dim, "modulate:a", 1.0, 0.15)
+		p.scale = Vector2(0.8, 0.8)
+		p.resized.connect(func() -> void: p.pivot_offset = p.size / 2.0)
+		var tw := p.create_tween()
+		tw.tween_property(p, "scale", Vector2(1.04, 1.04), 0.16).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		tw.tween_property(p, "scale", Vector2.ONE, 0.08)
 	return v
-
-
-func _bag_open() -> bool:
-	return overlay.find_children("*", "BMBagView", true, false).size() > 0
 
 
 func close_overlay() -> void:
 	BMUI.clear_children(overlay)
 
 
+func _centered(c: Control) -> CenterContainer:
+	var cc := CenterContainer.new()
+	cc.add_child(c)
+	return cc
+
+
 func _show_dialog(text: String, buttons: Array) -> void:
-	var v := _overlay_panel(BMPalette.BRASS)
-	var l := BMUI.label(text, 24)
+	var v := _modal("panel_plate", 620)
+	var l := BMStyle.label(text, 30, BMStyle.CREAM, true, 8)
 	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(l)
-	var row := BMUI.hbox(12)
+	var row := BMStyle.hbox(16)
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
 	v.add_child(row)
 	var first: Button
 	for b in buttons:
-		var cb: Callable = b[1]
-		var btn := BMUI.button(b[0], func() -> void:
+		var cb: Callable = b[2]
+		var btn := BMStyle.button(b[0], func() -> void:
 			close_overlay()
-			cb.call())
+			cb.call(), b[1], 30)
+		btn.custom_minimum_size = Vector2(200, 72)
 		row.add_child(btn)
 		if first == null:
 			first = btn
-	first.grab_focus.call_deferred()
+	BMStyle.focus_later(first)
 
 
 func _show_bag() -> void:
 	if run == null or overlay.get_child_count() > 0:
 		return
-	var v := _overlay_panel(BMPalette.CYAN)
-	v.get_parent().custom_minimum_size = Vector2(1180, 0)
+	var v := _modal("panel_plate", 1240)
 	var scroll := ScrollContainer.new()
-	scroll.custom_minimum_size = Vector2(1140, 660)
+	scroll.custom_minimum_size = Vector2(BMBagView.WIDTH + 24, 700)
+	scroll.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	v.add_child(scroll)
 	var bag_view := BMBagView.new()
-	bag_view.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.add_child(bag_view)
 	bag_view.setup(run)
-	var close := BMUI.button("Close (Esc)", close_overlay, 20)
+	var close := BMStyle.button("CLOSE  (ESC)", close_overlay, "sun", 30)
+	close.custom_minimum_size = Vector2(0, 72)
 	v.add_child(close)
-	close.grab_focus.call_deferred()
+	BMStyle.focus_later(close)
+
+
+func _bag_open() -> bool:
+	return overlay.find_children("*", "BMBagView", true, false).size() > 0
 
 
 func _show_round_intro() -> void:
 	var boss := run.current_boss()
-	var v := _overlay_panel(BMPalette.CORAL if boss != "" else BMPalette.CYAN)
-	v.add_child(BMUI.label("ROUND %d  /  ACT %d" % [run.round_number, run.act()], 20, BMPalette.TEXT_DIM))
-	v.add_child(BMUI.label("TARGET  %s" % BMUI.fmt_int(run.round_state.target), 44, BMPalette.BRASS))
-	v.add_child(BMUI.label("%d placements   %d Refresh" % [run.round_state.placements_left, run.refreshes_available()], 22))
+	var v := _modal("panel_boss" if boss != "" else "panel_plate", 680)
+	v.add_child(_centered(BMStyle.pill("ROUND %d  -  ACT %d" % [run.round_number, run.act()], "pink" if boss != "" else "sun", 30)))
+	var tl := BMStyle.label("TARGET", 30, BMStyle.TEXT_DIM, true, 8)
+	tl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	v.add_child(tl)
+	var big := BMStyle.label(BMUI.fmt_int(run.round_state.target), 80, BMStyle.SUN, true, 16)
+	big.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	big.add_theme_color_override("font_shadow_color", Color(BMStyle.PINK, 0.7))
+	big.add_theme_constant_override("shadow_offset_y", 8)
+	big.add_theme_constant_override("shadow_offset_x", 0)
+	v.add_child(big)
+	var facts := BMStyle.hbox(28)
+	facts.alignment = BoxContainer.ALIGNMENT_CENTER
+	var f1 := BMStyle.hbox(6)
+	f1.add_child(BMStyle.icon_rect("icon_hand", 0.75))
+	var pl: int = run.round_state.placements_left
+	f1.add_child(BMStyle.label("%d placement%s" % [pl, "" if pl == 1 else "s"], 20, BMStyle.CREAM, true))
+	var f2 := BMStyle.hbox(6)
+	f2.add_child(BMStyle.icon_rect("icon_refresh", 0.75))
+	var rf := run.refreshes_available()
+	f2.add_child(BMStyle.label("%d refresh%s" % [rf, "" if rf == 1 else "es"], 20, BMStyle.CREAM, true))
+	facts.add_child(f1)
+	facts.add_child(f2)
+	v.add_child(facts)
 	if boss != "":
 		var d := BMBosses.get_def(boss)
-		v.add_child(BMUI.label("BOSS: " + d.name, 28, BMPalette.CORAL))
-		var rule := BMUI.label(d.rule, 20)
+		var bp := BMStyle.panel("panel_inset", Vector4(10, 8, 10, 8))
+		var bv := BMStyle.vbox(4)
+		bp.add_child(bv)
+		var bh := BMStyle.hbox(8)
+		bh.add_child(BMStyle.icon_rect("icon_skull", 1.0))
+		bh.add_child(BMStyle.label("BOSS: " + d.name.to_upper(), 30, BMStyle.PINK_L, true, 8))
+		bv.add_child(bh)
+		var rule := BMStyle.label(d.rule, 20, BMStyle.CREAM)
 		rule.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		v.add_child(rule)
-		var tip := BMUI.label("Counterplay: " + d.counter, 17, BMPalette.TEXT_DIM)
+		bv.add_child(rule)
+		var tip := BMStyle.label("Tip: " + d.counter, 20, BMStyle.TEXT_DIM)
 		tip.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		v.add_child(tip)
+		bv.add_child(tip)
 		var disabled: Array[String] = []
 		for id in run.jokers:
 			if not run.is_joker_active(id):
 				disabled.append(BMJokers.get_def(id).name)
 		if not disabled.is_empty():
-			v.add_child(BMUI.label("Disabled this round: " + ", ".join(disabled), 17, BMPalette.CORAL))
+			bv.add_child(BMStyle.label("Disabled this round: " + ", ".join(disabled), 20, BMStyle.PINK_L))
+		v.add_child(bp)
 	elif run.round_number % BMRunConfig.ROUNDS_PER_ACT == 1:
+		# First round of an act: preview the act's boss so it never arrives as a surprise.
 		var d := BMBosses.get_def(run.act_boss())
-		v.add_child(BMUI.label("This act's boss (round %d): %s" % [run.act() * 4, d.name], 20, BMPalette.CORAL))
-		var rule := BMUI.label(d.rule, 17, BMPalette.TEXT_DIM)
-		rule.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		v.add_child(rule)
-	var b := BMUI.button("Start Round", close_overlay, 24)
+		var np := BMStyle.panel("panel_inset", Vector4(10, 6, 10, 8))
+		var nv := BMStyle.vbox(4)
+		np.add_child(nv)
+		var nh := BMStyle.hbox(8)
+		nh.add_child(BMStyle.icon_rect("icon_skull", 0.75))
+		nh.add_child(BMStyle.label("ACT BOSS, ROUND %d:  %s" % [run.act() * BMRunConfig.ROUNDS_PER_ACT, String(d.name).to_upper()], 20, BMStyle.PINK_L, true, 6))
+		nv.add_child(nh)
+		var note := BMStyle.label(d.rule, 20, BMStyle.CREAM)
+		note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		nv.add_child(note)
+		v.add_child(np)
+	var gap := Control.new()
+	gap.custom_minimum_size.y = 6
+	v.add_child(gap)
+	var b := BMStyle.button("START ROUND", close_overlay, "sun", 40)
+	b.custom_minimum_size = Vector2(0, 88)
 	v.add_child(b)
-	b.grab_focus.call_deferred()
+	BMStyle.focus_later(b)
 
 
 func _show_round_result() -> void:
 	var res := run.last_round_result
-	var v := _overlay_panel(BMPalette.BRASS)
-	v.add_child(BMUI.label("ROUND %d CLEARED" % res.round, 40, BMPalette.BRASS))
-	v.add_child(BMUI.label("%s / %s points   %d placement(s) unused" % [BMUI.fmt_int(res.score), BMUI.fmt_int(res.target), res.unused], 22))
+	var v := _modal("panel_plate", 660)
+	var t := BMStyle.label("ROUND %d CLEARED!" % res.round, 60, BMStyle.SUN, true, 14)
+	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	t.add_theme_color_override("font_shadow_color", Color(BMStyle.PINK, 0.7))
+	t.add_theme_constant_override("shadow_offset_y", 6)
+	t.add_theme_constant_override("shadow_offset_x", 0)
+	v.add_child(t)
+	var sc := BMStyle.label("%s / %s points   -   %d placements unused" % [BMUI.fmt_int(res.score), BMUI.fmt_int(res.target), res.unused], 20, BMStyle.CREAM, true)
+	sc.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	v.add_child(sc)
+	var paper := BMStyle.panel("panel_paper", Vector4(16, 8, 16, 14))
+	var pv := BMStyle.vbox(4)
+	paper.add_child(pv)
 	for line in res.credit_lines:
-		v.add_child(BMUI.label("%s   +%d Credits" % [line.label, line.value], 20, BMPalette.TEXT_DIM))
-	v.add_child(BMUI.label("Credits now: %d" % run.credits, 24, BMPalette.BRASS))
+		var row := BMStyle.hbox(8)
+		var l := BMStyle.label(line.label, 20, BMStyle.INK)
+		l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(l)
+		row.add_child(BMStyle.label("+%d" % line.value, 20, Color("#8a5a00"), true))
+		row.add_child(BMStyle.icon_rect("icon_coin", 0.5))
+		pv.add_child(row)
+	# Total earned (after the Credit cap), then the wallet balance, so the two never get confused.
+	pv.add_child(BMHud.Dashes.new())
+	var trow := BMStyle.hbox(8)
+	var tl := BMStyle.label("Earned", 20, BMStyle.INK, true)
+	tl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	trow.add_child(tl)
+	trow.add_child(BMStyle.label("+%d" % int(res.credits_gained), 20, Color("#8a5a00"), true))
+	trow.add_child(BMStyle.icon_rect("icon_coin", 0.5))
+	pv.add_child(trow)
+	v.add_child(paper)
+	var total := BMStyle.hbox(8)
+	total.alignment = BoxContainer.ALIGNMENT_CENTER
+	total.add_child(BMStyle.label("YOU HAVE", 30, BMStyle.CREAM, true, 8))
+	total.add_child(BMStyle.icon_rect("icon_coin", 1.0))
+	total.add_child(BMStyle.label("%d" % run.credits, 40, BMStyle.SUN, true, 10))
+	v.add_child(total)
 	var last: bool = res.round >= BMRunConfig.ROUND_COUNT
-	var b := BMUI.button("Finish Run" if last else "Continue to Shop", func() -> void:
+	var b := BMStyle.button("FINISH RUN" if last else "TO THE SHOP", func() -> void:
 		close_overlay()
-		main.act({"a": "continue"}), 24)
+		main.act({"a": "continue"}), "mint", 40)
+	b.custom_minimum_size = Vector2(0, 88)
 	v.add_child(b)
-	b.grab_focus.call_deferred()
+	BMStyle.focus_later(b)
+	if BMFx.instance:
+		BMFx.instance.confetti(Rect2(Vector2(0, 0), size), 160)
+		BMFx.instance.coins(board_view.get_global_rect().get_center(), _credits.get_global_rect().get_center(), 8)
 
 
 func _show_run_end() -> void:
 	var won := run.phase == BMRun.Phase.RUN_WON
-	var v := _overlay_panel(BMPalette.BRASS if won else BMPalette.CORAL)
-	v.add_child(BMUI.label("RUN COMPLETE" if won else ("RUN ABANDONED" if run.phase == BMRun.Phase.ABANDONED else "RUN OVER"), 44, BMPalette.BRASS if won else BMPalette.CORAL))
-	var reason := BMUI.label(run.end_reason, 22)
+	var v := _modal("panel_plate" if won else "panel_boss", 720)
+	var title := "YOU WIN!" if won else ("RUN ABANDONED" if run.phase == BMRun.Phase.ABANDONED else "GAME OVER")
+	var t := BMStyle.label(title, 80, BMStyle.SUN if won else BMStyle.PINK_L, true, 16)
+	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	v.add_child(t)
+	var reason := BMStyle.label(run.end_reason, 20, BMStyle.CREAM, true)
 	reason.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	reason.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(reason)
+	# Run summary: two stat columns in an inset, then the Joker build.
 	var s := run.stats
-	v.add_child(BMUI.label("Reached round %d   Seed %d" % [run.round_number, run.run_seed], 20, BMPalette.TEXT_DIM))
-	v.add_child(BMUI.label("Lines %d   Best placement %s   Highest combo x%d" % [s.lines_cleared, BMUI.fmt_int(s.best_placement), s.highest_combo], 20, BMPalette.TEXT_DIM))
+	var sp := BMStyle.panel("panel_inset", Vector4(12, 6, 12, 8))
+	var sv := BMStyle.vbox(8)
+	sp.add_child(sv)
+	var grid := GridContainer.new()
+	grid.columns = 4
+	grid.add_theme_constant_override("h_separation", 18)
+	grid.add_theme_constant_override("v_separation", 4)
+	var rs := run.round_state
+	var pairs := [["Round", "%d / %d" % [run.round_number, BMRunConfig.ROUND_COUNT]], ["Lines cleared", BMUI.fmt_int(s.lines_cleared)],
+			["Last score", "%s / %s" % [BMUI.fmt_int(rs.score), BMUI.fmt_int(rs.target)]], ["Best placement", BMUI.fmt_int(s.best_placement)],
+			["Bag size", str(run.bag.size())], ["Highest combo", "x%d" % s.highest_combo]]
+	for pair in pairs:
+		var k := BMStyle.label(pair[0], 20, BMStyle.TEXT_DIM)
+		k.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		grid.add_child(k)
+		grid.add_child(BMStyle.label(pair[1], 20, BMStyle.CREAM, true))
+	sv.add_child(grid)
 	var names := PackedStringArray()
 	for id in run.jokers:
 		names.append(BMJokers.get_def(id).name)
-	if names.size() > 0:
-		var build := BMUI.label("Build: " + ", ".join(names), 18, BMPalette.TEXT_DIM)
-		build.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		v.add_child(build)
-	var row := BMUI.hbox(12)
-	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	var build := BMStyle.label("Jokers: " + (", ".join(names) if names.size() > 0 else "none"), 20, BMStyle.SUN_L)
+	build.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	sv.add_child(build)
+	var seed_l := BMStyle.label("Seed %d" % run.run_seed, 20, BMStyle.TEXT_DIM)
+	sv.add_child(seed_l)
+	v.add_child(sp)
+	var row := BMStyle.hbox(12)
 	v.add_child(row)
-	var again := BMUI.button("New Run", func() -> void:
+	var again := BMStyle.button("NEW RUN", func() -> void:
 		close_overlay()
-		main.start_new_run(BMRun.random_seed()), 22)
-	row.add_child(again)
-	row.add_child(BMUI.button("Same Seed", func() -> void:
+		main.start_new_run(BMRun.random_seed()), "sun", 30)
+	var same := BMStyle.button("SAME SEED", func() -> void:
 		close_overlay()
-		main.start_new_run(run.run_seed), 22))
-	row.add_child(BMUI.button("Title", func() -> void:
+		main.start_new_run(run.run_seed), "sky", 30)
+	var title_b := BMStyle.button("TITLE", func() -> void:
 		close_overlay()
-		main.show_title(), 22))
-	again.grab_focus.call_deferred()
+		main.show_title(), "plum", 30)
+	for b in [again, same, title_b]:
+		b.custom_minimum_size = Vector2(0, 72)
+		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(b)
+	BMStyle.focus_later(again)
+	if won and BMFx.instance:
+		BMFx.instance.confetti(Rect2(Vector2.ZERO, size), 260)

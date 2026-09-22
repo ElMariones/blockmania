@@ -1,0 +1,230 @@
+{
+ "panel_plate": [
+  28,
+  28,
+  28,
+  36
+ ],
+ "panel_plate_plain": [
+  20,
+  20,
+  20,
+  28
+ ],
+ "panel_sun": [
+  20,
+  20,
+  20,
+  28
+ ],
+ "panel_boss": [
+  28,
+  28,
+  28,
+  36
+ ],
+ "panel_inset": [
+  16,
+  16,
+  16,
+  16
+ ],
+ "panel_paper": [
+  12,
+  12,
+  12,
+  24
+ ],
+ "panel_tooltip": [
+  16,
+  16,
+  16,
+  16
+ ],
+ "board_frame": [
+  40,
+  40,
+  40,
+  48
+ ],
+ "btn_sun_normal": [
+  16,
+  12,
+  16,
+  20
+ ],
+ "btn_sun_hover": [
+  16,
+  12,
+  16,
+  20
+ ],
+ "btn_sun_pressed": [
+  16,
+  12,
+  16,
+  20
+ ],
+ "btn_mint_normal": [
+  16,
+  12,
+  16,
+  20
+ ],
+ "btn_mint_hover": [
+  16,
+  12,
+  16,
+  20
+ ],
+ "btn_mint_pressed": [
+  16,
+  12,
+  16,
+  20
+ ],
+ "btn_pink_normal": [
+  16,
+  12,
+  16,
+  20
+ ],
+ "btn_pink_hover": [
+  16,
+  12,
+  16,
+  20
+ ],
+ "btn_pink_pressed": [
+  16,
+  12,
+  16,
+  20
+ ],
+ "btn_sky_normal": [
+  16,
+  12,
+  16,
+  20
+ ],
+ "btn_sky_hover": [
+  16,
+  12,
+  16,
+  20
+ ],
+ "btn_sky_pressed": [
+  16,
+  12,
+  16,
+  20
+ ],
+ "btn_plum_normal": [
+  16,
+  12,
+  16,
+  20
+ ],
+ "btn_plum_hover": [
+  16,
+  12,
+  16,
+  20
+ ],
+ "btn_plum_pressed": [
+  16,
+  12,
+  16,
+  20
+ ],
+ "btn_disabled": [
+  16,
+  12,
+  16,
+  20
+ ],
+ "card_common": [
+  24,
+  28,
+  24,
+  32
+ ],
+ "card_uncommon": [
+  24,
+  28,
+  24,
+  32
+ ],
+ "card_rare": [
+  24,
+  28,
+  24,
+  32
+ ],
+ "card_item": [
+  24,
+  28,
+  24,
+  32
+ ],
+ "card_tool": [
+  24,
+  28,
+  24,
+  32
+ ],
+ "rack_common": [
+  20,
+  20,
+  20,
+  24
+ ],
+ "rack_uncommon": [
+  20,
+  20,
+  20,
+  24
+ ],
+ "rack_rare": [
+  20,
+  20,
+  20,
+  24
+ ],
+ "rack_item": [
+  20,
+  20,
+  20,
+  24
+ ],
+ "pill_sun": [
+  12,
+  12,
+  12,
+  12
+ ],
+ "pill_pink": [
+  12,
+  12,
+  12,
+  12
+ ],
+ "pill_sky": [
+  12,
+  12,
+  12,
+  12
+ ],
+ "pill_mint": [
+  12,
+  12,
+  12,
+  12
+ ],
+ "pill_plum": [
+  12,
+  12,
+  12,
+  12
+ ]
+}

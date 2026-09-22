@@ -1,7 +1,8 @@
 class_name BMTraySlot
 extends Control
-## One of the three tray offers. Draws its shape centered; shows held / no-fit / empty states
-## with text and outline cues as well as color.
+## One of the three tray offers: a recessed well with a key tag. The piece floats gently,
+## lifts with a shadow on hover, and shows text states ("HOLDING", "NO ROOM") so nothing
+## depends on color alone.
 
 signal pressed(slot: int)
 
@@ -11,14 +12,18 @@ var held := false
 var fits := true
 var hovered := false
 var focused_by_key := false
+var reduced_motion := false
+var _t := 0.0
+var _lift := 0.0
 
-const MINI_CELL := 38.0
+const MINI_CELL := 44.0
 
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
-	mouse_entered.connect(func() -> void: hovered = true; queue_redraw())
-	mouse_exited.connect(func() -> void: hovered = false; queue_redraw())
+	mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	mouse_entered.connect(func() -> void: hovered = true)
+	mouse_exited.connect(func() -> void: hovered = false)
 
 
 func setup(new_shape: Dictionary, is_held: bool, shape_fits: bool) -> void:
@@ -35,32 +40,46 @@ func _gui_input(event: InputEvent) -> void:
 			accept_event()
 
 
+func _process(delta: float) -> void:
+	_t += delta
+	var target := 1.0 if (hovered or focused_by_key) and not held and not shape.is_empty() else 0.0
+	_lift = move_toward(_lift, target, delta * 8.0)
+	queue_redraw()
+
+
 func _draw() -> void:
 	var r := Rect2(Vector2.ZERO, size)
-	var sb := StyleBoxFlat.new()
-	sb.bg_color = BMPalette.PANEL
-	sb.set_corner_radius_all(12)
-	sb.border_color = BMPalette.PANEL_EDGE
-	sb.set_border_width_all(2)
+	draw_style_box(BMStyle.box("panel_inset", Vector4.ZERO), r)
 	if (hovered or focused_by_key) and not shape.is_empty() and not held:
-		sb.border_color = BMPalette.CYAN
-		sb.set_border_width_all(3)
-	if held:
-		sb.border_color = BMPalette.BRASS
-		sb.set_border_width_all(3)
-	draw_style_box(sb, r)
-	var font := get_theme_default_font()
-	draw_string(font, Vector2(12, 24), str(slot + 1), HORIZONTAL_ALIGNMENT_LEFT, -1, 16, BMPalette.TEXT_DIM)
+		draw_rect(r.grow(-6), Color(BMStyle.SUN, 0.10))
+	# Key tag.
+	var tag := Rect2(Vector2(10, 10), Vector2(28, 28))
+	draw_style_box(BMStyle.box("pill_plum", Vector4.ZERO), tag)
+	draw_string(BMStyle.font_bold, tag.position + Vector2(8, 22), str(slot + 1), HORIZONTAL_ALIGNMENT_LEFT, -1, 20, BMStyle.CREAM)
 	if shape.is_empty():
-		draw_string(font, Vector2(0, size.y / 2.0 + 6), "placed", HORIZONTAL_ALIGNMENT_CENTER, size.x, 16, Color(BMPalette.TEXT_DIM, 0.5))
+		draw_string(BMStyle.font, Vector2(0, size.y / 2.0 + 8), "placed", HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, Color(BMStyle.TEXT_DIM, 0.5))
 		return
 	var dims := Vector2(BMShapes.shape_size(shape))
-	var cell := minf(MINI_CELL, minf((size.x - 30) / dims.x, (size.y - 40) / dims.y))
-	var lift := -6.0 if hovered and not held else 0.0
-	var origin := (size - dims * cell) / 2.0 + Vector2(0, lift + 6)
-	var alpha := 0.3 if held else (1.0 if fits else 0.45)
+	var cell := floorf(minf(MINI_CELL, minf((size.x - 36) / dims.x, (size.y - 56) / dims.y)))
+	var bob := 0.0 if reduced_motion else roundf(sin(_t * 2.2 + slot * 1.7) * 2.0)
+	var lift := -8.0 * _lift
+	var origin := ((size - dims * cell) / 2.0 + Vector2(0, bob + lift - 4)).round()
+	var alpha := 0.25 if held else (1.0 if fits else 0.5)
+	# Soft drop shadow grows with lift.
+	if not held:
+		for c: Vector2i in shape.cells:
+			draw_rect(Rect2(origin + Vector2(c) * cell + Vector2(4, 6 + 6 * _lift), Vector2(cell, cell)), Color(BMStyle.INK, 0.45))
 	BMBlockPainter.draw_shape(self, shape, origin, cell, alpha)
 	if held:
-		draw_string(font, Vector2(0, size.y - 12), "holding", HORIZONTAL_ALIGNMENT_CENTER, size.x, 14, BMPalette.BRASS)
+		_caption("HOLDING", BMStyle.SUN)
 	elif not fits:
-		draw_string(font, Vector2(0, size.y - 12), "no space", HORIZONTAL_ALIGNMENT_CENTER, size.x, 14, BMPalette.INVALID)
+		_caption("NO ROOM", BMStyle.PINK)
+	elif bool(shape.get("temporary", false)):
+		_caption("TEMPORARY", BMStyle.SKY)
+
+
+func _caption(text: String, color: Color) -> void:
+	var w := BMStyle.font_bold.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x + 24
+	var rr := Rect2(Vector2((size.x - w) / 2.0, size.y - 40), Vector2(w, 32))
+	draw_style_box(BMStyle.box("pill_plum", Vector4.ZERO), rr)
+	draw_string(BMStyle.font_bold, rr.position + Vector2(12, 23), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, color)
