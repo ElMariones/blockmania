@@ -57,7 +57,26 @@ const CATALOG := [
 	# --- Round-play update (docs/design/round_play_update.md §6) ---
 	{"id": "hot_hand", "name": "Hot Hand", "rarity": RARE, "phase": "x_mult", "text": "x1.5 Mult on placements from a tray that formed a Hand."},
 	{"id": "card_sharp", "name": "Card Sharp", "rarity": UNCOMMON, "phase": "rule", "text": "A full tray dealt by a Refresh or Second Tray can form a Hand."},
+	{"id": "patience", "name": "Patience", "rarity": UNCOMMON, "phase": "chips", "text": "Each placement that clears nothing stores +40 Chips (max +200). The next clearing placement adds them and resets."},
+	{"id": "locksmith", "name": "Locksmith", "rarity": UNCOMMON, "phase": "add_mult", "text": "+1 Mult when the placed piece fills a one-block hole closed on all four sides; +75 Chips more if it also clears a line."},
+	{"id": "countdown", "name": "Countdown", "rarity": UNCOMMON, "phase": "x_mult", "text": "x1.5 Mult on the third of three placements in a row with fewer blocks each time (like 5, 4, 3)."},
+	{"id": "breakage_bonus", "name": "Breakage Bonus", "rarity": UNCOMMON, "phase": "rule", "text": "+2 Credits whenever one of your Glass pieces shatters."},
+	{"id": "insurance_policy", "name": "Insurance Policy", "rarity": RARE, "phase": "rule", "text": "Once: when you would lose a round, replay it from the start with no free Refresh. Then this card is destroyed."},
+	{"id": "showboat", "name": "Showboat", "rarity": RARE, "phase": "add_mult", "text": "+2 Mult for each Feat you earn for the first time this round."},
+	{"id": "full_tank", "name": "Full Tank", "rarity": UNCOMMON, "phase": "add_mult", "text": "+2 Mult when you place while your placements are at their refill cap."},
+	{"id": "overflow", "name": "Overflow", "rarity": COMMON, "phase": "rule", "text": "When a line clear would refill past your cap, each wasted refill gives +1 Credit (max 3 per round)."},
+	{"id": "keystone", "name": "Keystone", "rarity": RARE, "phase": "x_mult", "text": "x2 Mult when a piece of 1 or 2 blocks clears two or more lines."},
+	{"id": "draftsman", "name": "Draftsman", "rarity": UNCOMMON, "phase": "rule", "text": "Clearing a row and a column in the same placement gives you an Eraser (if an item slot is free)."},
+	{"id": "periscope", "name": "Periscope", "rarity": COMMON, "phase": "rule", "text": "Shows the next three pieces in your draw pile."},
+	{"id": "loan_shark", "name": "Loan Shark", "rarity": COMMON, "phase": "rule", "cost": 0, "text": "Costs 0. When bought: +6 Credits. After each won round, 2 Credits go to repay the loan until 8 are repaid. Cannot be sold until then."},
 ]
+
+const PATIENCE_STEP := 40
+const PATIENCE_MAX := 200
+const LOAN_CREDITS := 6
+const LOAN_TOTAL := 8
+const LOAN_INSTALLMENT := 2
+const OVERFLOW_MAX := 3
 
 static var _by_id := {}
 
@@ -70,7 +89,10 @@ static func get_def(id: String) -> Dictionary:
 
 
 static func cost(id: String) -> int:
-	return RARITY_COST[int(get_def(id).get("rarity", COMMON))]
+	var d := get_def(id)
+	if d.has("cost"):
+		return int(d.cost)
+	return RARITY_COST[int(d.get("rarity", COMMON))]
 
 
 static func sell_value(id: String) -> int:
@@ -132,6 +154,10 @@ static func chips(id: String, ctx: Dictionary) -> int:
 			return 40 if ctx.stamp != "" else 0
 		"foundry":
 			return 8 * ctx.upgraded_count
+		"patience":
+			return ctx.patience_store if ctx.is_clearing else 0
+		"locksmith":
+			return 75 if ctx.holes_filled > 0 and ctx.is_clearing else 0
 	return 0
 
 
@@ -160,6 +186,12 @@ static func add_mult(id: String, ctx: Dictionary) -> float:
 			return 0.5 * ctx.family_level
 		"recycler":
 			return minf(1.0, 0.1 * ctx.discard_size)
+		"locksmith":
+			return 1.0 if ctx.holes_filled > 0 else 0.0
+		"showboat":
+			return 2.0 * ctx.new_feats
+		"full_tank":
+			return 2.0 if ctx.at_cap else 0.0
 	return 0.0
 
 
@@ -190,6 +222,13 @@ static func x_mult(id: String, ctx: Dictionary) -> float:
 			return 2.0 if ctx.refreshes_available == 0 and ctx.placements_left_before <= 3 else 1.0
 		"hot_hand":
 			return 1.5 if ctx.hand != "" else 1.0
+		"countdown":
+			var h: Array = ctx.size_history
+			if h.size() >= 3 and h[h.size() - 3] > h[h.size() - 2] and h[h.size() - 2] > h[h.size() - 1]:
+				return 1.5
+			return 1.0
+		"keystone":
+			return 2.0 if ctx.cell_count <= 2 and ctx.lines >= 2 else 1.0
 	return 1.0
 
 
@@ -219,6 +258,32 @@ static func counter_text(id: String, run: BMRun) -> String:
 			return "Used this round" if run.round_state.tiny_insurance_used else "Ready"
 		"mirror_maze":
 			return "Used this round" if run.round_state.mirror_used else "Ready"
+		"patience":
+			return "Stored: +%d Chips" % run.round_state.patience_store
+		"countdown":
+			var sh: Array = run.round_state.size_history
+			var last := PackedStringArray()
+			for i in range(maxi(0, sh.size() - 2), sh.size()):
+				last.append(str(sh[i]))
+			return "Recent sizes: %s" % (", ".join(last) if last.size() > 0 else "none")
+		"showboat":
+			return "Feats this round: %d" % run.round_state.feats_seen.size()
+		"full_tank":
+			return "Placements %d / %d" % [run.round_state.placements_left, run.round_state.placement_cap]
+		"overflow":
+			return "Paid this round: %d / %d" % [run.round_state.overflow_paid, OVERFLOW_MAX]
+		"loan_shark":
+			return "Owed: %d Credits" % run.loan_debt if run.loan_debt > 0 else "Repaid"
+		"insurance_policy":
+			return "Unused: saves one lost round"
+		"periscope":
+			var names := PackedStringArray()
+			for i in mini(3, run.draw_pile.size()):
+				var p := BMBag.piece_by_uid(run, int(run.draw_pile[i]))
+				names.append(BMPieces.describe(p).get_slice("\n", 0))
+			if run.draw_pile.size() < 3:
+				names.append("reshuffle")
+			return "Next: " + ", ".join(names)
 		"patch_panel":
 			if run.round_state.patch_ready:
 				return "Ready: remove a block"

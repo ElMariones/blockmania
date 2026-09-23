@@ -81,8 +81,8 @@ Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/r
 
 - [x] Tray Hands: Twins / Staircase / Monochrome / Triplets / Grand Slam on natural deals (`BMHands`, `tests/test_hands.gd`), Hot Hand and Card Sharp Jokers. Presentation: every deal spins the tray like slot reels; Hands get a ribbon, chase lights, a callout, particles, and their own fanfare (`tools/audio/gen_sfx_features.py`).
 - [x] Item targeting (cells / one cell / color / tray slot / slot + color / slot + shape) with board overlays, keyboard control, and CANCEL/ERASE buttons on the item card. Eraser, Blueprint, Lucky Paint, and Patch Panel are live; new Punch, Color Purge, and **Emergency Brick** (a throwable physics brick: grab and fling it, or click a slot; it bounces off the screen edges and smashes into the slot it hits). Board tools remove cells without scoring (`tests/test_tools.gd`).
-- [ ] Feats in the resolution record (Crossfire, Double Tap, Hat Trick, Clean Board, Needle Threader, Last Breath).
-- [ ] **(owner)** 14 new Jokers: Patience, Locksmith, Countdown, Breakage Bonus, Insurance Policy, Showboat (from ideas.md); Full Tank, Overflow, Keystone, Draftsman, Card Sharp, Hot Hand, Periscope, Loan Shark.
+- [x] Feats in the resolution record (`BMFeats`): Crossfire, Double Tap, Hat Trick, Clean Board, Needle Threader, Last Breath. They show as gold medal banners and receipt lines.
+- [x] 14 new Jokers (52 total): Patience, Locksmith, Countdown, Breakage Bonus, Insurance Policy, Showboat, Full Tank, Overflow, Keystone, Draftsman, Card Sharp, Hot Hand, Periscope, Loan Shark, each with trigger and no-trigger tests. Periscope draws the next pieces on its card; Insurance gets a stamp and a replay dialog; Loan Shark has its own coin sound.
 - [ ] **(owner)** Bosses: The Warden (replaces Echo Chamber) and The Undertaker. Consumable: Emergency Brick.
 - [ ] Fit indicators on tray pieces; bag statistics panel.
 - [ ] **(owner)** Kit starter bags, Boss Crate (choose 1 of 3 after bosses), campaign combo grace (simulate first).

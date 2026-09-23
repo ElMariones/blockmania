@@ -42,6 +42,11 @@ class RoundState:
 	var reshuffles := 0 ## Discard pile shuffled back into the draw pile.
 	var rescued_deals := 0 ## Legality guarantee had to swap in a piece (or a temporary Single).
 	var hands_formed := 0 ## Tray Hands formed this round.
+	var size_history: Array = [] ## Cells of each placed piece (Countdown).
+	var feats_seen: Array = [] ## Feat ids earned this round (Showboat).
+	var patience_store := 0
+	var overflow_paid := 0
+	var insured := false ## This round is an Insurance Policy replay.
 
 	func to_dict() -> Dictionary:
 		var fixed: Array = []
@@ -56,6 +61,8 @@ class RoundState:
 			"patch_ready": patch_ready, "patch_used": patch_used,
 			"cash_out": cash_out, "status": status, "fixed_cells": fixed,
 			"reshuffles": reshuffles, "rescued_deals": rescued_deals, "hands_formed": hands_formed,
+			"size_history": size_history.duplicate(), "feats_seen": feats_seen.duplicate(),
+			"patience_store": patience_store, "overflow_paid": overflow_paid, "insured": insured,
 		}
 
 	static func from_dict(d: Dictionary) -> RoundState:
@@ -85,6 +92,13 @@ class RoundState:
 		r.reshuffles = int(d.get("reshuffles", 0))
 		r.rescued_deals = int(d.get("rescued_deals", 0))
 		r.hands_formed = int(d.get("hands_formed", 0))
+		for v in d.get("size_history", []):
+			r.size_history.append(int(v))
+		for v in d.get("feats_seen", []):
+			r.feats_seen.append(String(v))
+		r.patience_store = int(d.get("patience_store", 0))
+		r.overflow_paid = int(d.get("overflow_paid", 0))
+		r.insured = bool(d.get("insured", false))
 		return r
 
 
@@ -109,6 +123,10 @@ var discard_pile: Array = []
 var next_uid := 0
 ## Schematic levels per shape family id (String -> int).
 var family_levels := {}
+## Loan Shark: Credits still owed (repaid from round payouts).
+var loan_debt := 0
+## Set when an Insurance Policy replays a lost round (reported once in the action result).
+var _insurance_event := false
 var round_state := RoundState.new()
 var shop := {}
 var history: Array = []
@@ -493,7 +511,11 @@ func concede_round() -> Dictionary:
 		return _fail("You can only concede when stuck.")
 	history.append({"a": "concede"})
 	_lose("Conceded: no legal placement remained." if round_state.status == STUCK else "Conceded: out of placements.")
-	return {"ok": true, "type": "concede", "phase": phase}
+	var r := {"ok": true, "type": "concede", "phase": phase}
+	if _insurance_event:
+		_insurance_event = false
+		r.insurance = true
+	return r
 
 
 func abandon() -> Dictionary:
@@ -534,6 +556,9 @@ func buy_joker(offer: int) -> Dictionary:
 	jokers.append(id)
 	shop.jokers[offer] = ""
 	stats.jokers_bought += 1
+	if id == "loan_shark":
+		add_credits(BMJokers.LOAN_CREDITS)
+		loan_debt += BMJokers.LOAN_TOTAL
 	history.append({"a": "buy_joker", "i": offer})
 	return {"ok": true, "type": "buy_joker", "item": id, "price": price}
 
@@ -665,6 +690,8 @@ func sell_joker(index: int) -> Dictionary:
 	if index < 0 or index >= jokers.size():
 		return _fail("No Joker in that slot.")
 	var id := jokers[index]
+	if id == "loan_shark" and loan_debt > 0:
+		return _fail("Repay the loan first (%d Credits owed)." % loan_debt)
 	var value := BMJokers.sell_value(id)
 	jokers.remove_at(index)
 	credits = mini(BMRunConfig.CREDIT_CAP, credits + value)
@@ -782,9 +809,21 @@ func _do_tray_refresh(label: String) -> Dictionary:
 	return {"ok": true, "type": "refresh", "events": events, "hand": hand}
 
 
-## Win/loss/stuck evaluation after any round action. Order: target first (a crossing
-## placement always wins), then tray refill, then placements, then legality and rescues.
+## Win/loss/stuck evaluation after any round action (see _evaluate_round). Reports an
+## Insurance Policy claim once.
 func _after_round_action() -> Dictionary:
+	var r := _evaluate_round()
+	if _insurance_event:
+		_insurance_event = false
+		r.insurance = true
+		r.phase = phase
+		r.status = round_state.status
+	return r
+
+
+## Order: target first (a crossing placement always wins), then tray refill, then placements,
+## then legality and rescues.
+func _evaluate_round() -> Dictionary:
 	var events: Array = []
 	var rs := round_state
 	if phase != Phase.ROUND:
@@ -858,6 +897,10 @@ func _win_round() -> void:
 			lines.append({"label": "Spare Parts", "value": BMRunConfig.SPARE_PARTS_CREDITS})
 	for i in rs.cash_out:
 		lines.append({"label": "Cash Out", "value": BMRunConfig.CASH_OUT_CREDITS})
+	if loan_debt > 0:
+		var pay := mini(BMJokers.LOAN_INSTALLMENT, loan_debt)
+		loan_debt -= pay
+		lines.append({"label": "Loan Shark repayment", "value": -pay})
 	var total := 0
 	for l in lines:
 		total += int(l.value)
@@ -871,6 +914,15 @@ func _win_round() -> void:
 
 
 func _lose(reason: String) -> void:
+	if phase == Phase.ROUND and jokers.has("insurance_policy"):
+		# Insurance Policy: replay this round from the start without the free Refresh.
+		jokers.erase("insurance_policy")
+		stats["insurance_claims"] = int(stats.get("insurance_claims", 0)) + 1
+		_start_round()
+		round_state.refreshes_left = 0
+		round_state.insured = true
+		_insurance_event = true
+		return
 	round_state.status = LOST
 	phase = Phase.RUN_LOST
 	end_reason = reason
@@ -984,7 +1036,7 @@ func to_dict(include_history: bool = true) -> Dictionary:
 		"jokers": jokers.duplicate(), "consumables": consumables.duplicate(), "jokers_sold": jokers_sold,
 		"bosses": bosses.duplicate(), "board": board.to_dict(), "tray": tray_data,
 		"bag": bag_data, "draw_pile": draw_pile.duplicate(), "discard_pile": discard_pile.duplicate(),
-		"next_uid": next_uid, "family_levels": family_levels.duplicate(),
+		"next_uid": next_uid, "family_levels": family_levels.duplicate(), "loan_debt": loan_debt,
 		"round_state": round_state.to_dict(), "shop": shop.duplicate(true),
 		"history": history.duplicate(true) if include_history else [], "stats": stats.duplicate(),
 		"last_round_result": last_round_result.duplicate(true), "end_reason": end_reason,
@@ -1019,6 +1071,7 @@ static func from_dict(d: Dictionary) -> BMRun:
 	run.discard_pile = _integral(d.discard_pile.duplicate())
 	run.next_uid = int(d.next_uid)
 	run.family_levels = _integral(d.family_levels.duplicate())
+	run.loan_debt = int(d.get("loan_debt", 0))
 	run.round_state = RoundState.from_dict(d.round_state)
 	run.shop = _integral(d.shop.duplicate(true))
 	run.history = _integral(d.history.duplicate(true))

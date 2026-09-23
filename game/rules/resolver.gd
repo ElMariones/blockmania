@@ -42,6 +42,7 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 	rs.placements_left -= 1
 	rs.placements_made += 1
 	rs.color_history.append(-1 if prism else int(piece.color))
+	rs.size_history.append(placed.size())
 	var empties_tray := run.tray_is_empty()
 
 	# Step 2: Before Clear effects — none in current content. Detect lines on the placed board.
@@ -84,6 +85,14 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 	glass_owners.sort()
 
 	var family_level := run.family_level(piece.family)
+	var holes_filled := _holes_filled(board_before, placed)
+	var feats := BMFeats.detect({"rows": rows.size(), "cols": cols.size(), "lines": lines,
+		"combo_before": combo_before, "holes_filled": holes_filled, "placements_left_before": placements_left_before,
+		"occupied_after": board.occupied_count() - clear_set.size() - mirror_extra.size()})
+	var new_feats := 0
+	for f in feats:
+		if not rs.feats_seen.has(f):
+			new_feats += 1
 	var ctx := {
 		"cell_count": placed.size(),
 		"color": int(piece.color),
@@ -117,6 +126,12 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 		"gold_cleared": gold_cleared,
 		"glass_cleared": glass_cleared,
 		"hand": hand,
+		"holes_filled": holes_filled,
+		"feats": feats,
+		"new_feats": new_feats,
+		"size_history": rs.size_history.duplicate(),
+		"at_cap": placements_left_before >= rs.placement_cap,
+		"patience_store": rs.patience_store,
 	}
 
 	# Step 3: base Chips.
@@ -238,6 +253,25 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 		rs.placements_left += refilled
 		if refilled > 0:
 			events.append("Lines cleared: +%d placement%s" % [refilled, "" if refilled == 1 else "s"])
+		var wasted := lines * BMRunConfig.REFILL_PER_LINE - refilled
+		if wasted > 0 and run.has_active_joker("overflow"):
+			var pay := mini(wasted, BMJokers.OVERFLOW_MAX - rs.overflow_paid)
+			if pay > 0:
+				rs.overflow_paid += pay
+				run.add_credits(pay)
+				events.append("Overflow: +%d Credit%s" % [pay, "" if pay == 1 else "s"])
+	if run.has_active_joker("patience"):
+		rs.patience_store = 0 if is_clearing else mini(BMJokers.PATIENCE_MAX, rs.patience_store + BMJokers.PATIENCE_STEP)
+	if rows.size() > 0 and cols.size() > 0 and run.has_active_joker("draftsman"):
+		if run.consumables.size() < BMRunConfig.CONSUMABLE_SLOTS:
+			run.consumables.append("eraser")
+			events.append("Draftsman: gained an Eraser")
+		else:
+			events.append("Draftsman: item slots full")
+	for f in feats:
+		if not rs.feats_seen.has(f):
+			rs.feats_seen.append(f)
+		run.stats["feats"] = int(run.stats.get("feats", 0)) + 1
 	if is_clearing and not rs.patch_used and not rs.patch_ready and run.has_active_joker("patch_panel"):
 		rs.patch_ready = true
 		events.append("Patch Panel ready: remove one block")
@@ -257,6 +291,9 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 			if BMBag.remove_piece(run, uid):
 				shattered.append(uid)
 				events.append("Glass %s shattered and left your bag" % name)
+				if run.has_active_joker("breakage_bonus"):
+					run.add_credits(2)
+					events.append("Breakage Bonus: +2 Credits")
 			else:
 				events.append("Glass %s cracked but held (bag at minimum size)" % name)
 	run.stats.lines_cleared += lines
@@ -299,6 +336,8 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 		"events": events,
 		"shattered": shattered,
 		"placements_refilled": refilled,
+		"feats": feats,
+		"new_feats": new_feats,
 	}
 
 
@@ -319,6 +358,22 @@ static func _joker_effects(run: BMRun) -> Array[Dictionary]:
 			continue
 		out.append({"id": id, "effect": id, "slot": i, "label": name})
 	return out
+
+
+## Placed cells that filled a one-block hole: empty before, with all four sides blocked (by
+## blocks or the board edge).
+static func _holes_filled(board_before: BMBoard, placed: Array[Vector2i]) -> int:
+	var n := 0
+	for p in placed:
+		var closed := true
+		for d in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
+			var q: Vector2i = p + d
+			if BMBoard.in_bounds(q) and board_before.is_empty(q):
+				closed = false
+				break
+		if closed:
+			n += 1
+	return n
 
 
 static func _touches_diagonal(board_before: BMBoard, placed: Array[Vector2i]) -> bool:

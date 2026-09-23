@@ -31,6 +31,11 @@ const JOKER_ICON := {
 	"second_look": "icon_refresh", "long_game": "icon_hand", "chain_link": "icon_flame",
 	"first_strike": "icon_target", "last_stand": "icon_skull", "hoarder": "icon_bag",
 	"lean_bag": "icon_bag", "mimic": "icon_target", "collector": "icon_star",
+	"patch_panel": "icon_eraser", "hot_hand": "icon_flame", "card_sharp": "icon_tag",
+	"patience": "icon_hand", "locksmith": "icon_lock", "countdown": "icon_arrow_down",
+	"breakage_bonus": "icon_coin", "insurance_policy": "icon_shield", "showboat": "icon_medal",
+	"full_tank": "icon_bulb_on", "overflow": "icon_coin", "keystone": "icon_target",
+	"draftsman": "icon_eraser", "periscope": "icon_scope", "loan_shark": "icon_coin",
 }
 
 
@@ -152,7 +157,12 @@ static func joker_rack(run: BMRun, id: String) -> BMCard:
 	text.max_lines_visible = 1 if counter != "" else 2
 	text.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	v.add_child(text)
-	if counter != "":
+	if id == "periscope" and run != null:
+		var peek := PeekStrip.new()
+		peek.run = run
+		peek.tooltip_text = counter
+		v.add_child(peek)
+	elif counter != "":
 		# Counters can be long ("Copying: nothing ..."); trim instead of widening the rack.
 		var cl := BMStyle.label(counter, 20, Color("#1f63b8"), true)
 		cl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
@@ -348,3 +358,28 @@ class Emblem extends Control:
 			var w := f.get_string_size(level_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x
 			draw_string_outline(f, Vector2((size.x - w) / 2.0, size.y - 8), level_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, 8, BMStyle.INK)
 			draw_string(f, Vector2((size.x - w) / 2.0, size.y - 8), level_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, BMStyle.SUN)
+
+
+## Periscope: the next three pieces of the draw pile as tiny drawings (presentation only).
+class PeekStrip extends Control:
+	var run: BMRun
+
+	func _ready() -> void:
+		custom_minimum_size = Vector2(0, 32)
+		mouse_filter = Control.MOUSE_FILTER_PASS
+
+	func _draw() -> void:
+		draw_string(BMStyle.font_bold, Vector2(0, 22), "NEXT", HORIZONTAL_ALIGNMENT_LEFT, -1, 20, Color("#1f63b8"))
+		var x := 56.0
+		for i in 3:
+			if i >= run.draw_pile.size():
+				draw_string(BMStyle.font_bold, Vector2(x, 22), "?", HORIZONTAL_ALIGNMENT_LEFT, -1, 20, Color(BMStyle.INK, 0.5))
+				x += 40.0
+				continue
+			var p := BMBag.piece_by_uid(run, int(run.draw_pile[i]))
+			if p.is_empty():
+				continue
+			var dims := Vector2(BMShapes.shape_size(p))
+			var cell := floorf(minf(10.0, 28.0 / maxf(dims.x, dims.y)))
+			BMBlockPainter.draw_shape(self, p, Vector2(x, (32.0 - dims.y * cell) / 2.0).round(), cell)
+			x += dims.x * cell + 16.0

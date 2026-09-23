@@ -225,6 +225,10 @@ func _play_result_sound(a: Dictionary, r: Dictionary) -> void:
 			BMAudio.sfx("workshop")
 		"buy_joker", "buy_consumable", "buy_piece":
 			BMAudio.sfx("buy")
+			if r.get("item", "") == "loan_shark":
+				BMAudio.sfx_later("loan_cash", 0.15)
+				if BMFx.instance:
+					BMFx.instance.coins(get_global_rect().get_center(), Vector2(160, 60), 10)
 		"sell":
 			BMAudio.sfx("sell")
 		"reroll":
@@ -240,6 +244,8 @@ func _purchase_text(r: Dictionary) -> String:
 		"buy_tool":
 			return "Used %s." % BMTools.get_def(r.item).name
 		"buy_joker":
+			if r.item == "loan_shark":
+				return "Loan Shark lent you %d Credits. It takes %d back after each won round." % [BMJokers.LOAN_CREDITS, BMJokers.LOAN_INSTALLMENT]
 			return "%s joined your rack!" % BMJokers.get_def(r.item).name
 		"buy_consumable":
 			return "Bought %s." % BMConsumables.get_def(r.item).name

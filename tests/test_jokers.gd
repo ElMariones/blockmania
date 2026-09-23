@@ -266,3 +266,152 @@ func test_mimic_copies_joker_below() -> void:
 	eq(rule.points, 10, "rule-only Jokers are not copied")
 	var double := _place(EMPTY_ROWS, shape(&"single"), Vector2i(0, 0), ["mimic", "mimic", "hollow_point"])
 	eq(double.mult, 2.0, "second Mimic copies Hollow Point, first copies nothing (1 + 0.5 + 0.5)")
+
+
+# --- Round-play update Jokers and Feats (docs/design/round_play_update.md §5-6) ---
+
+const CROSS := [".......1", ".......1", ".......1", ".......1", ".......1", ".......1", ".......1", "1111111."]
+## A one-block hole at (7, 0): closed by the board edge on two sides and blocks on the others.
+const HOLE := ["1111111.", ".......1", "........", "........", "........", "........", "........", "........"]
+
+
+func test_feats_are_detected_and_reported() -> void:
+	var r := _place(CROSS, shape(&"single"), Vector2i(7, 7), [])
+	check(r.feats.has("crossfire"), "crossfire: %s" % str(r.feats))
+	check(r.feats.has("needle_threader"), "the single filled a closed hole")
+	check(r.feats.has("clean_board"), "board ends empty")
+	var quiet := _place(EMPTY_ROWS, shape(&"single"), Vector2i(3, 3), [])
+	eq(quiet.feats.size(), 0, "no clear, no feats")
+	var last := _place(ONE_ROW, shape(&"single"), Vector2i(7, 0), [], func(run: BMRun) -> void: run.round_state.placements_left = 1)
+	check(last.feats.has("last_breath"), "last placement clear")
+
+
+func test_showboat_pays_only_for_new_feats() -> void:
+	var run := run_with(CROSS, [shape(&"single"), shape(&"single")], ["showboat"])
+	run.round_state.target = 999999
+	var r := run.place(0, Vector2i(7, 7))
+	eq(_joker_value(r, "showboat"), 2.0 * r.feats.size(), "+2 per new feat")
+	run.board = board_from(ONE_ROW)
+	r = run.place(1, Vector2i(7, 0))
+	check(_joker_value(r, "showboat") == null or float(_joker_value(r, "showboat")) < 2.0 * r.feats.size(), "repeats pay nothing")
+
+
+func test_patience_stores_and_releases() -> void:
+	var run := run_with(EMPTY_ROWS, [shape(&"single"), shape(&"single"), shape(&"single")], ["patience"])
+	eq(_joker_value(run.place(0, Vector2i(0, 5)), "patience"), null, "quiet turn scores nothing")
+	run.place(1, Vector2i(2, 5))
+	eq(run.round_state.patience_store, 80, "two quiet turns stored")
+	run.board = board_from(ONE_ROW)
+	eq(_joker_value(run.place(2, Vector2i(7, 0)), "patience"), 80, "released on a clear")
+	eq(run.round_state.patience_store, 0, "reset")
+
+
+func test_locksmith() -> void:
+	var r := _place(HOLE, shape(&"single"), Vector2i(7, 0), ["locksmith"])
+	var mult := 0.0
+	var chips := 0
+	for it in r.items:
+		if it.get("joker", "") == "locksmith":
+			if it.kind == "mult":
+				mult = it.value
+			elif it.kind == "chips":
+				chips = it.value
+	eq(mult, 1.0, "hole filled: +1 Mult")
+	eq(chips, 75, "and cleared a line: +75 Chips")
+	eq(_joker_value(_place(EMPTY_ROWS, shape(&"single"), Vector2i(3, 3), ["locksmith"]), "locksmith"), null, "open cell: nothing")
+
+
+func test_countdown_needs_three_shrinking_pieces() -> void:
+	var run := run_with(EMPTY_ROWS, [shape(&"square2"), shape(&"bar3"), shape(&"bar2")], ["countdown"])
+	run.place(0, Vector2i(0, 0))
+	run.place(1, Vector2i(0, 3))
+	eq(_joker_value(run.place(2, Vector2i(0, 5)), "countdown"), 1.5, "4, 3, 2")
+	var flat := run_with(EMPTY_ROWS, [shape(&"bar2"), shape(&"bar2"), shape(&"bar2")], ["countdown"])
+	flat.place(0, Vector2i(0, 0))
+	flat.place(1, Vector2i(0, 3))
+	eq(_joker_value(flat.place(2, Vector2i(0, 5)), "countdown"), null, "equal sizes: no")
+
+
+func test_full_tank() -> void:
+	eq(_joker_value(_place(EMPTY_ROWS, shape(&"single"), Vector2i(0, 0), ["full_tank"], func(run: BMRun) -> void:
+		run.round_state.placement_cap = 15
+		run.round_state.placements_left = 15), "full_tank"), 2.0, "at cap")
+	eq(_joker_value(_place(EMPTY_ROWS, shape(&"single"), Vector2i(0, 0), ["full_tank"], func(run: BMRun) -> void:
+		run.round_state.placement_cap = 15
+		run.round_state.placements_left = 12), "full_tank"), null, "below cap")
+
+
+func test_keystone() -> void:
+	eq(_joker_value(_place(CROSS, shape(&"single"), Vector2i(7, 7), ["keystone"]), "keystone"), 2.0, "a single clears two lines")
+	eq(_joker_value(_place(ONE_ROW, shape(&"single"), Vector2i(7, 0), ["keystone"]), "keystone"), null, "one line: no")
+
+
+func test_overflow_pays_for_wasted_refills() -> void:
+	var run := run_with(CROSS, [shape(&"single")], ["overflow"])
+	run.round_state.placement_cap = 15
+	run.round_state.placements_left = 15
+	var before := run.credits
+	run.place(0, Vector2i(7, 7))
+	eq(run.credits - before, 1, "refill 2 from 14: one wasted -> 1 Credit")
+
+
+func test_draftsman_gives_an_eraser_on_row_and_column() -> void:
+	var run := run_with(CROSS, [shape(&"single")], ["draftsman"])
+	run.place(0, Vector2i(7, 7))
+	check(run.consumables.has("eraser"), "eraser gained")
+	var no := run_with(ONE_ROW, [shape(&"single")], ["draftsman"])
+	no.place(0, Vector2i(7, 0))
+	check(not no.consumables.has("eraser"), "row only: nothing")
+
+
+func test_loan_shark_pays_now_and_repays_later() -> void:
+	var run := BMRun.new_run(3)
+	run.round_state.score = run.round_state.target
+	run._after_round_action()
+	run.continue_after_round()
+	run.shop.jokers[0] = "loan_shark"
+	var before := run.credits
+	check(run.buy_joker(0).ok, "bought for 0")
+	eq(run.credits, before + BMJokers.LOAN_CREDITS, "+6 now")
+	eq(run.loan_debt, BMJokers.LOAN_TOTAL, "owes 8")
+	check(not run.sell_joker(run.jokers.find("loan_shark")).ok, "cannot sell while owing")
+	run.leave_shop()
+	run.round_state.score = run.round_state.target
+	run._after_round_action()
+	eq(run.loan_debt, BMJokers.LOAN_TOTAL - BMJokers.LOAN_INSTALLMENT, "repaid 2 from the payout")
+
+
+func test_insurance_policy_replays_a_lost_round_once() -> void:
+	var run := BMRun.new_run(11)
+	run.jokers.assign(["insurance_policy"])
+	run.round_state.placements_left = 0
+	var r := run._after_round_action()
+	check(bool(r.get("insurance", false)), "claim reported")
+	eq(run.phase, BMRun.Phase.ROUND, "still playing")
+	eq(run.round_state.score, 0, "round restarted")
+	eq(run.round_state.refreshes_left, 0, "no free refresh")
+	check(not run.jokers.has("insurance_policy"), "card destroyed")
+	run.round_state.placements_left = 0
+	run._after_round_action()
+	eq(run.phase, BMRun.Phase.RUN_LOST, "second loss is final")
+
+
+func test_breakage_bonus_on_shatter() -> void:
+	var run := run_with(ONE_ROW, [shape(&"single")], ["breakage_bonus"])
+	var glass := BMBag.add_piece(run, BMPieces.make(-1, &"single", 0, 0, "glass"))
+	run.tray[0] = glass.duplicate(true)
+	run.board = BMBoard.new()
+	var one_row: Array[Vector2i] = []
+	for x in 7:
+		run.board.place([Vector2i.ZERO] as Array[Vector2i], Vector2i(x, 0), 0, int(glass.uid), BMPieces.material_index("glass"))
+	var credits := run.credits
+	var shattered := false
+	for attempt in 40:
+		var trial := run.clone()
+		var r := trial.place(0, Vector2i(7, 0))
+		if not r.shattered.is_empty():
+			eq(trial.credits - credits, 2, "+2 credits on shatter")
+			shattered = true
+			break
+		run.rng_shapes.randi_range(0, 1)
+	check(shattered, "a shatter happened within 40 seeds")

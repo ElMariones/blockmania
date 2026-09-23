@@ -760,6 +760,8 @@ func _do_action(a: Dictionary) -> void:
 		if String(e).begins_with("Tiny Insurance") or String(e).begins_with("No piece"):
 			_set_message(e, BMStyle.SUN)
 	refresh_all()
+	if bool(r.get("insurance", false)):
+		_show_insurance_claim()
 	if r.get("type", "") == "place":
 		_animate_jokers(r)
 	_maybe_show_phase_overlay(0.0 if main.settings.reduced_motion else 0.9)
@@ -795,6 +797,21 @@ func _present_placement(r: Dictionary) -> void:
 	for uid in r.get("shattered", []):
 		if fx:
 			fx.shards(center, 18)
+	var feats: Array = r.get("feats", [])
+	var shown := 0
+	for f in BMFeats.ORDER:
+		if feats.has(f) and shown < 2:
+			_feat_banner(f, 0.25 + shown * 0.45, shown)
+			shown += 1
+	if r.lines == 0 and run.has_active_joker("patience"):
+		var pi := run.jokers.find("patience")
+		if pi >= 0 and pi < _joker_cards.size():
+			var ref: WeakRef = weakref(_joker_cards[pi])
+			BMAudio.sfx_later("patience_tick", 0.2)
+			get_tree().create_timer(0.2).timeout.connect(func() -> void:
+				var c := ref.get_ref() as BMCard
+				if c != null:
+					c.pulse("+%d STORED" % BMJokers.PATIENCE_STEP, BMStyle.SKY_L))
 	var refilled := int(r.get("placements_refilled", 0))
 	if refilled > 0 and fx:
 		var moves_at := _moves_label.get_global_rect().get_center()
@@ -972,6 +989,8 @@ func _write_receipt(r: Dictionary) -> void:
 	rows.append({"text": "%s x %s" % [BMUI.fmt_int(r.chips), BMUI.fmt_mult(r.mult)], "value": "= %s" % BMUI.fmt_int(r.points), "bold": true, "value_color": Color("#c42848")})
 	if r.combo_after > 0:
 		rows.append({"text": "Combo now x%d" % r.combo_after, "color": Color(BMStyle.INK, 0.6)})
+	for f in r.get("feats", []):
+		rows.append({"text": "Feat: %s" % BMFeats.get_def(f).name, "color": Color("#a86a00"), "bold": true})
 	_receipt.print_rows(rows)
 
 
@@ -1187,7 +1206,7 @@ func _show_round_result() -> void:
 		var l := BMStyle.label(line.label, 20, BMStyle.INK)
 		l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(l)
-		row.add_child(BMStyle.label("+%d" % line.value, 20, Color("#8a5a00"), true))
+		row.add_child(BMStyle.label("%+d" % line.value, 20, Color("#8a5a00") if int(line.value) >= 0 else Color("#c42848"), true))
 		row.add_child(BMStyle.icon_rect("icon_coin", 0.5))
 		pv.add_child(row)
 	# Total earned (after the Credit cap), then the wallet balance, so the two never get confused.
@@ -1763,3 +1782,97 @@ func _show_shape_picker(k: int) -> void:
 	back.custom_minimum_size = Vector2(0, 60)
 	v.add_child(back)
 	BMStyle.focus_later(first)
+
+
+# --- Feats and Insurance -----------------------------------------------------------------------
+
+## A gold medal plate that slams in over the board and floats away. Text states the Feat, so it
+## never depends on color or motion (reduced motion shows it still, then removes it).
+func _feat_banner(feat: String, delay: float, row: int) -> void:
+	var fx := BMFx.instance
+	if fx == null:
+		return
+	var d := BMFeats.get_def(feat)
+	var plate := BMStyle.panel("panel_sun", Vector4(14, 6, 18, 8))
+	plate.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var h := BMStyle.hbox(10)
+	plate.add_child(h)
+	var medal := TextureRect.new()
+	medal.texture = BMStyle.tex("icon_medal")
+	medal.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	medal.custom_minimum_size = medal.texture.get_size() * 1.5
+	medal.stretch_mode = TextureRect.STRETCH_SCALE
+	h.add_child(medal)
+	var v := BMStyle.vbox(0)
+	h.add_child(v)
+	v.add_child(BMStyle.label(String(d.name).to_upper() + "!", 30, BMStyle.INK, true))
+	var desc := BMStyle.label(String(d.text), 20, Color(BMStyle.INK, 0.75))
+	desc.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	desc.custom_minimum_size = Vector2(440, 0)
+	v.add_child(desc)
+	plate.visible = false
+	fx.add_child(plate)
+	var ref: WeakRef = weakref(plate)
+	var board := board_view.get_global_rect()
+	get_tree().create_timer(delay).timeout.connect(func() -> void:
+		var p := ref.get_ref() as PanelContainer
+		if p == null:
+			return
+		p.reset_size()
+		p.pivot_offset = p.size / 2.0
+		p.position = Vector2(board.get_center().x - p.size.x / 2.0, board.position.y + 110 + row * 96).round()
+		p.visible = true
+		BMAudio.sfx("feat", 1.0 + 0.12 * row)
+		if BMFx.instance:
+			BMFx.instance.stars(p.get_global_rect().get_center(), 8, p.size.x * 0.5, BMStyle.SUN_L)
+		var tw := p.create_tween()
+		if not main.settings.reduced_motion:
+			p.scale = Vector2(0.3, 0.3)
+			p.rotation = -0.12
+			tw.tween_property(p, "scale", Vector2(1.12, 1.12), 0.14).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+			tw.parallel().tween_property(p, "rotation", 0.03, 0.14)
+			tw.tween_property(p, "scale", Vector2.ONE, 0.08)
+			tw.parallel().tween_property(p, "rotation", 0.0, 0.08)
+			tw.tween_interval(1.0)
+			tw.tween_property(p, "position:y", p.position.y - 60, 0.35).set_ease(Tween.EASE_IN)
+			tw.parallel().tween_property(p, "modulate:a", 0.0, 0.35)
+		else:
+			tw.tween_interval(1.6)
+		tw.tween_callback(p.queue_free))
+
+
+## Insurance Policy paid out: a stamp slams onto the screen, then a dialog explains the replay.
+func _show_insurance_claim() -> void:
+	BMAudio.sfx("insurance")
+	var fx := BMFx.instance
+	if fx:
+		fx.shake(12.0)
+		fx.confetti(Rect2(Vector2.ZERO, size), 80)
+		var t := _tool_sprite("icon_shield", board_view.get_global_rect().get_center(), 8.0)
+		if t != null:
+			t.scale = Vector2(2.2, 2.2)
+			t.rotation = -0.4
+			var tw := t.create_tween()
+			tw.tween_property(t, "scale", Vector2.ONE, 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+			tw.parallel().tween_property(t, "rotation", 0.08, 0.18)
+			tw.tween_interval(0.5)
+			tw.tween_property(t, "modulate:a", 0.0, 0.3)
+			tw.tween_callback(t.queue_free)
+	_intro_shown_for = run.round_number
+	get_tree().create_timer(0.0 if main.settings.reduced_motion else 0.9).timeout.connect(func() -> void:
+		if overlay.get_child_count() > 0:
+			return
+		var v := _modal("panel_plate", 680)
+		var title := BMStyle.label("INSURANCE CLAIMED!", 60, BMStyle.MINT_L, true, 14)
+		title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		v.add_child(title)
+		var body := BMStyle.label("Your policy paid out. Round %d starts over from an empty board, without the free Refresh. The Insurance Policy card is used up." % run.round_number, 20, BMStyle.CREAM)
+		body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		body.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		v.add_child(body)
+		var b := BMStyle.button("TRY AGAIN", func() -> void:
+			close_overlay()
+			_spin_tray(0.05, _tray_hand()), "mint", 40)
+		b.custom_minimum_size = Vector2(0, 88)
+		v.add_child(b)
+		BMStyle.focus_later(b))
