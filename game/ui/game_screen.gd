@@ -447,7 +447,7 @@ func _on_slot_pressed(slot: int) -> void:
 	if held_slot == slot:
 		_cancel_hold()
 		return
-	if run.tray[slot].is_empty():
+	if run.tray[slot].is_empty() or slots[slot].is_spinning():
 		return
 	held_slot = slot
 	held_mode = "drag"
@@ -562,7 +562,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _select_by_key(slot: int) -> void:
-	if not _input_enabled() or run.tray[slot].is_empty():
+	if not _input_enabled() or run.tray[slot].is_empty() or slots[slot].is_spinning():
 		return
 	held_slot = slot
 	held_mode = "key"
@@ -706,19 +706,21 @@ func _do_action(a: Dictionary) -> void:
 		"refresh":
 			_set_message(", ".join(PackedStringArray(r.get("events", []))), BMStyle.MINT_L)
 			BMAudio.sfx("refresh")
-			_play_deal(0.2)
+			_spin_tray(0.1, String(r.get("hand", "")))
 			if BMFx.instance:
 				for s in slots:
 					BMFx.instance.stars(s.get_global_rect().get_center(), 3, 60.0)
 		"use":
 			_set_message("Used %s." % BMConsumables.get_def(r.item).name, BMStyle.MINT_L)
 			BMAudio.sfx("item")
+			if r.item == "second_tray":
+				_spin_tray(0.1, String(r.get("hand", "")))
 		"sell":
 			_set_message("Sold %s for %d Credits." % [BMJokers.get_def(r.item).name, r.value], BMStyle.SUN)
 			BMAudio.sfx("sell")
 	var tray_events: Array = r.get("tray_events", [])
 	if tray_events.has("New tray"):
-		_play_deal(0.45)
+		_spin_tray(0.3, String(r.get("tray_hand", "")))
 	for e in tray_events:
 		if String(e).begins_with("Tiny Insurance") or String(e).begins_with("No piece"):
 			_set_message(e, BMStyle.SUN)
@@ -797,10 +799,85 @@ func _play_placement_sounds(r: Dictionary) -> void:
 		BMAudio.sfx_later("coin", 0.4 + i * 0.09, 1.0 + i * 0.06)
 
 
-## Three soft card flicks as a new tray slides in.
-func _play_deal(delay: float) -> void:
+## A new deal spins the tray like three slot reels that stop left to right, then reveals the
+## Tray Hand if the deal formed one. Presentation only: the tray is already dealt.
+func _spin_tray(delay: float, hand: String) -> void:
+	var rm: bool = main.settings.reduced_motion
+	var reel: Array = []
+	for i in 12:
+		if not run.bag.is_empty():
+			reel.append(run.bag.pick_random()) # cosmetic: global RNG, never the run's streams
+	var stop_at := 0.0
+	var any := false
 	for i in 3:
-		BMAudio.sfx_later("deal", delay + i * 0.08, 1.0 + i * 0.05)
+		if run.tray[i].is_empty():
+			continue
+		any = true
+		stop_at = delay + 0.42 + i * 0.17
+		slots[i].spin(stop_at, reel)
+		if rm:
+			BMAudio.sfx_later("deal", delay + i * 0.08, 1.0 + i * 0.05)
+		else:
+			BMAudio.sfx_later("reel_stop_%d" % (i + 1), stop_at)
+	if any and not rm:
+		BMAudio.sfx_later("reel_spin", delay * 0.5)
+	if hand != "":
+		get_tree().create_timer(0.05 if rm else stop_at + 0.08).timeout.connect(_reveal_hand.bind(hand))
+
+
+## The Hand's fanfare: well flash, big name callout, reward line, themed particles.
+func _reveal_hand(hand: String) -> void:
+	if run == null:
+		return
+	var d := BMHands.get_def(hand)
+	var color: Color = BMTraySlot.HAND_COLORS.get(hand, BMStyle.SUN)
+	BMAudio.sfx("hand_" + hand)
+	_set_message("%s!  %s" % [String(d.name).to_upper(), d.short], color, 3.2)
+	var tray_rect := Rect2(slots[0].global_position, slots[2].get_global_rect().end - slots[0].global_position)
+	var top := Vector2(tray_rect.get_center().x, tray_rect.position.y - 90)
+	for i in 3:
+		if String(run.tray[i].get("hand", "")) == hand:
+			slots[i].flare()
+	var fx := BMFx.instance
+	if fx == null:
+		return
+	fx.pop_text(top + Vector2(0, -40), String(d.name).to_upper() + "!", color, 60, 70.0, 1.3)
+	fx.pop_text(top + Vector2(0, 16), d.short, BMStyle.CREAM, 20, 50.0, 1.6)
+	for i in 3:
+		var c := slots[i].get_global_rect().get_center()
+		fx.stars(c, 5, 70.0, color)
+		fx.ring(c, color, 110.0)
+	match hand:
+		BMHands.STAIRCASE:
+			for i in 5:
+				fx.burst(tray_rect.position + Vector2(tray_rect.size.x * (0.1 + i * 0.2), tray_rect.size.y - i * 30), [BMStyle.MINT, BMStyle.MINT_L], 8, 240.0, 8.0)
+			fx.pop_text(_moves_label.get_global_rect().get_center() + Vector2(0, -36), "+1", BMStyle.MINT_L, 30, 40.0, 0.9)
+		BMHands.MONOCHROME:
+			var bc: Color = BMFinishes.hue(int(run.tray[0].color)) if run.tray[0].has("color") else color
+			for i in 3:
+				fx.burst(slots[i].get_global_rect().get_center(), [bc, bc.lightened(0.3), BMStyle.CREAM], 22, 460.0, 10.0)
+		BMHands.TRIPLETS:
+			fx.confetti(Rect2(tray_rect.position - Vector2(0, 300), Vector2(tray_rect.size.x, 10)), 70)
+			fx.shake(6.0)
+		BMHands.GRAND_SLAM:
+			fx.confetti(Rect2(Vector2.ZERO, size), 220)
+			for i in 3:
+				fx.coins(slots[i].get_global_rect().get_center(), _credits.get_global_rect().get_center(), 6)
+			fx.shake(12.0)
+			if BMCrtLayer.instance:
+				BMCrtLayer.instance.shock(0.8)
+			if BMSwirlBackground.instance:
+				BMSwirlBackground.instance.pulse(1.0)
+		_:
+			for i in 3:
+				fx.sparks(slots[i].get_global_rect().get_center(), color, 10)
+
+
+func _tray_hand() -> String:
+	for p in run.tray:
+		if not p.is_empty() and String(p.get("hand", "")) != "":
+			return String(p.hand)
+	return ""
 
 
 ## Joker cards bounce in resolution order, each showing its contribution.
@@ -1044,7 +1121,9 @@ func _show_round_intro() -> void:
 	var gap := Control.new()
 	gap.custom_minimum_size.y = 6
 	v.add_child(gap)
-	var b := BMStyle.button("START ROUND", close_overlay, "sun", 40)
+	var b := BMStyle.button("START ROUND", func() -> void:
+		close_overlay()
+		_spin_tray(0.05, _tray_hand()), "sun", 40)
 	b.custom_minimum_size = Vector2(0, 88)
 	v.add_child(b)
 	BMStyle.focus_later(b)

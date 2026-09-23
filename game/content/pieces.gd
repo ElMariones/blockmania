@@ -77,6 +77,8 @@ static func to_dict(p: Dictionary) -> Dictionary:
 		"material": String(p.get("material", "")), "stamp": String(p.get("stamp", ""))}
 	if bool(p.get("temporary", false)):
 		d.temporary = true
+	if String(p.get("hand", "")) != "":
+		d.hand = String(p.hand)
 	return d
 
 
@@ -86,6 +88,8 @@ static func from_dict(d: Dictionary) -> Dictionary:
 	var p := make(int(d.uid), StringName(d.family), int(d.rot), int(d.color), String(d.get("material", "")), String(d.get("stamp", "")))
 	if bool(d.get("temporary", false)):
 		p.temporary = true
+	if String(d.get("hand", "")) != "":
+		p.hand = String(d.hand)
 	return p
 
 

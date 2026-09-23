@@ -6,7 +6,7 @@ func test_new_run_initial_state() -> void:
 	var run := BMRun.new_run(1234)
 	eq(run.round_number, 1, "round")
 	eq(run.round_state.target, BMRunConfig.TARGETS[0], "target")
-	eq(run.round_state.placements_left, 15, "placements")
+	eq(run.round_state.placement_cap, 15, "placements")
 	eq(run.refreshes_available(), 1, "one refresh")
 	eq(run.credits, 0, "credits")
 	eq(run.bosses.size(), 3, "three bosses")
@@ -18,7 +18,7 @@ func test_new_run_initial_state() -> void:
 func test_high_roller_kit() -> void:
 	var run := BMRun.new_run(1, "high_roller")
 	eq(run.credits, 4, "starting credits")
-	eq(run.round_state.placements_left, 14, "placements")
+	eq(run.round_state.placement_cap, 14, "placements")
 
 
 func test_line_clear_refills_one_placement_per_line() -> void:

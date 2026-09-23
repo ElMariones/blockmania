@@ -54,6 +54,9 @@ const CATALOG := [
 	{"id": "glass_cannon", "name": "Glass Cannon", "rarity": RARE, "phase": "x_mult", "text": "x1.5 Mult when a placement clears any Glass cell."},
 	{"id": "collector", "name": "Collector", "rarity": RARE, "phase": "x_mult", "text": "x0.1 Mult for each different shape family in your bag beyond 6 (x1.4 with 10 families)."},
 	{"id": "mimic", "name": "Mimic", "rarity": RARE, "phase": "copy", "text": "Copies the scoring effect of the Joker directly below it."},
+	# --- Round-play update (docs/design/round_play_update.md §6) ---
+	{"id": "hot_hand", "name": "Hot Hand", "rarity": RARE, "phase": "x_mult", "text": "x1.5 Mult on placements from a tray that formed a Hand."},
+	{"id": "card_sharp", "name": "Card Sharp", "rarity": UNCOMMON, "phase": "rule", "text": "A full tray dealt by a Refresh or Second Tray can form a Hand."},
 ]
 
 static var _by_id := {}
@@ -185,6 +188,8 @@ static func x_mult(id: String, ctx: Dictionary) -> float:
 			return 1.75 if ctx.is_clearing and ctx.clearing_index % 2 == 0 else 1.0
 		"last_stand":
 			return 2.0 if ctx.refreshes_available == 0 and ctx.placements_left_before <= 3 else 1.0
+		"hot_hand":
+			return 1.5 if ctx.hand != "" else 1.0
 	return 1.0
 
 

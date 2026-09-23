@@ -80,7 +80,7 @@ _Last updated: 2026-09-23 — Placements now refill on line clears (15, +1 per l
 
 Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/round_play_update.md). This includes the review of `ideas.md` (keep / later / discard).
 
-- [ ] **(owner)** Tray Hands: Twins / Staircase / Monochrome / Triplets / Grand Slam, decided on natural deals only; Bag view shows the odds.
+- [x] Tray Hands: Twins / Staircase / Monochrome / Triplets / Grand Slam on natural deals (`BMHands`, `tests/test_hands.gd`), Hot Hand and Card Sharp Jokers. Presentation: every deal spins the tray like slot reels; Hands get a ribbon, chase lights, a callout, particles, and their own fanfare (`tools/audio/gen_sfx_features.py`).
 - [ ] Reusable targeting framework (cell / tray slot / choose-1-of-N) → Eraser, Blueprint, Lucky Paint, Patch Panel, plus new Punch and Color Purge tools.
 - [ ] Feats in the resolution record (Crossfire, Double Tap, Hat Trick, Clean Board, Needle Threader, Last Breath).
 - [ ] **(owner)** 14 new Jokers: Patience, Locksmith, Countdown, Breakage Bonus, Insurance Policy, Showboat (from ideas.md); Full Tank, Overflow, Keystone, Draftsman, Card Sharp, Hot Hand, Periscope, Loan Shark.

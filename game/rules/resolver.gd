@@ -5,10 +5,12 @@ extends RefCounted
 ## never changes the outcome; it only reads the record.
 ##
 ## Order inside the pipeline:
-##   step 3 base Chips: cells, Chrome, Schematic level, lines, multi-line, combo, boss
+##   step 3 base Chips: cells, Chrome, Schematic level, lines, multi-line, combo, boss, Twins hand
 ##   step 4 additive Chips: Polish, then Jokers top to bottom (Mimic copies the Joker below it)
-##   step 5 additive Mult: 1 + Schematic level + Neon cells cleared + Spark + Jokers; floor 1
-##   step 6 xMult: Encore stamp (on clear), Glass (once per placement), then Jokers
+##   step 5 additive Mult: 1 + Schematic level + Neon cells cleared + Spark + Triplets/Grand Slam
+##         hand + Jokers; floor 1
+##   step 6 xMult: Encore stamp (on clear), Glass (once per placement), Monochrome/Grand Slam
+##         hand, then Jokers
 ##   step 7 Points = floor(Chips x Mult); step 8 remove cells; step 9 counters, stamps, Gold,
 ##   Glass shatter rolls (shapes stream), combo, line refills (placements back up to the cap).
 ##
@@ -25,6 +27,7 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 	var material := String(piece.get("material", ""))
 	var stamp := String(piece.get("stamp", ""))
 	var prism := material == "prism"
+	var hand := String(piece.get("hand", ""))
 
 	var placements_left_before := rs.placements_left
 	var combo_before := rs.combo
@@ -113,6 +116,7 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 		"neon_cleared": neon_cleared,
 		"gold_cleared": gold_cleared,
 		"glass_cleared": glass_cleared,
+		"hand": hand,
 	}
 
 	# Step 3: base Chips.
@@ -151,6 +155,9 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 		if lines > 1 and run.boss_active("last_call"):
 			items.append({"label": "Last Call multi-line", "kind": "chips", "value": BMBosses.LAST_CALL_MULTI_LINE_CHIPS, "source": "boss"})
 			chips += BMBosses.LAST_CALL_MULTI_LINE_CHIPS
+	if hand == BMHands.TWINS:
+		items.append({"label": "Twins hand", "kind": "chips", "value": BMHands.TWINS_CHIPS, "source": "hand", "hand": hand})
+		chips += BMHands.TWINS_CHIPS
 
 	var effects := _joker_effects(run)
 
@@ -177,6 +184,9 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 	if rs.pending_mult != 0.0:
 		items.append({"label": "Spark", "kind": "mult", "value": rs.pending_mult, "source": "consumable"})
 		mult += rs.pending_mult
+	if hand in [BMHands.TRIPLETS, BMHands.GRAND_SLAM]:
+		items.append({"label": "%s hand" % BMHands.get_def(hand).name, "kind": "mult", "value": BMHands.TRIPLETS_MULT, "source": "hand", "hand": hand})
+		mult += BMHands.TRIPLETS_MULT
 	for e in effects:
 		var m := BMJokers.add_mult(e.effect, ctx)
 		if m != 0.0:
@@ -191,6 +201,9 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 	if glass_cleared > 0:
 		items.append({"label": "Glass cleared", "kind": "xmult", "value": BMPieces.GLASS_X_MULT, "source": "piece"})
 		mult *= BMPieces.GLASS_X_MULT
+	if hand in [BMHands.MONOCHROME, BMHands.GRAND_SLAM]:
+		items.append({"label": "%s hand" % BMHands.get_def(hand).name, "kind": "xmult", "value": BMHands.MONOCHROME_X_MULT, "source": "hand", "hand": hand})
+		mult *= BMHands.MONOCHROME_X_MULT
 	for e in effects:
 		var x := BMJokers.x_mult(e.effect, ctx)
 		if x != 1.0:
@@ -233,6 +246,9 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 			events.append("Memory Stamp: item slots full")
 	var shattered: Array[int] = []
 	for uid in glass_owners:
+		# A Glass piece that already shattered can still have cells on the board; it rolls no more.
+		if BMBag.piece_by_uid(run, uid).is_empty():
+			continue
 		if run.rng_shapes.randi_range(1, BMPieces.GLASS_SHATTER_ONE_IN) == 1:
 			var name := BMPieces.describe(BMBag.piece_by_uid(run, uid)).get_slice("\n", 0)
 			if BMBag.remove_piece(run, uid):

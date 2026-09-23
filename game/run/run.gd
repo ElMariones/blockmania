@@ -5,7 +5,7 @@ extends RefCounted
 ## a result Dictionary ({ok: bool, error: String, ...}). Seed + history replays a run exactly.
 ## to_dict()/from_dict() capture a complete state between actions (saves, previews, tests).
 
-const SCHEMA_VERSION := 3
+const SCHEMA_VERSION := 4
 
 enum Phase { ROUND, ROUND_RESULT, SHOP, RUN_WON, RUN_LOST, ABANDONED }
 
@@ -39,6 +39,7 @@ class RoundState:
 	var fixed_cells: Array[Vector2i] = []
 	var reshuffles := 0 ## Discard pile shuffled back into the draw pile.
 	var rescued_deals := 0 ## Legality guarantee had to swap in a piece (or a temporary Single).
+	var hands_formed := 0 ## Tray Hands formed this round.
 
 	func to_dict() -> Dictionary:
 		var fixed: Array = []
@@ -51,7 +52,7 @@ class RoundState:
 			"first_refresh_done": first_refresh_done, "tiny_insurance_used": tiny_insurance_used,
 			"mirror_used": mirror_used, "pending_chips": pending_chips, "pending_mult": pending_mult,
 			"cash_out": cash_out, "status": status, "fixed_cells": fixed,
-			"reshuffles": reshuffles, "rescued_deals": rescued_deals,
+			"reshuffles": reshuffles, "rescued_deals": rescued_deals, "hands_formed": hands_formed,
 		}
 
 	static func from_dict(d: Dictionary) -> RoundState:
@@ -78,6 +79,7 @@ class RoundState:
 			r.fixed_cells.append(Vector2i(int(p[0]), int(p[1])))
 		r.reshuffles = int(d.get("reshuffles", 0))
 		r.rescued_deals = int(d.get("rescued_deals", 0))
+		r.hands_formed = int(d.get("hands_formed", 0))
 		return r
 
 
@@ -596,9 +598,33 @@ func _start_round() -> void:
 	_deal_fresh_tray()
 
 
-func _deal_fresh_tray() -> void:
+## Deals a whole new tray and checks it for a Hand. Returns the Hand id or "".
+func _deal_fresh_tray() -> String:
 	tray = [{}, {}, {}]
 	BMBag.deal(self, [0, 1, 2])
+	return _apply_hand()
+
+
+## Marks the three tray pieces with their Hand and grants the one-time rewards
+## (docs/design/round_play_update.md §2). Returns the Hand id or "".
+func _apply_hand() -> String:
+	var hand := BMHands.detect(tray)
+	if hand == "":
+		return ""
+	for p in tray:
+		p.hand = hand
+	var rs := round_state
+	match hand:
+		BMHands.STAIRCASE:
+			rs.placements_left += BMHands.STAIRCASE_PLACEMENTS
+		BMHands.TRIPLETS:
+			rs.refreshes_left += BMHands.TRIPLETS_REFRESHES
+		BMHands.GRAND_SLAM:
+			rs.refreshes_left += BMHands.TRIPLETS_REFRESHES
+			add_credits(BMHands.GRAND_SLAM_CREDITS)
+	rs.hands_formed += 1
+	stats["hands"] = int(stats.get("hands", 0)) + 1
+	return hand
 
 
 func _do_tray_refresh(label: String) -> Dictionary:
@@ -612,6 +638,11 @@ func _do_tray_refresh(label: String) -> Dictionary:
 	var events: Array = [label]
 	if dealt.temporary:
 		events.append("No piece in your bag fits: a temporary Single was dealt")
+	var hand := ""
+	if slots.size() == 3 and has_active_joker("card_sharp"):
+		hand = _apply_hand()
+		if hand != "":
+			events.append("Card Sharp: %s!" % BMHands.get_def(hand).name)
 	if not round_state.first_refresh_done:
 		round_state.first_refresh_done = true
 		var bonus := jokers.count("second_look")
@@ -621,7 +652,7 @@ func _do_tray_refresh(label: String) -> Dictionary:
 	stats.refreshes += 1
 	if round_state.status == STUCK:
 		round_state.status = PLAYING
-	return {"ok": true, "type": "refresh", "events": events}
+	return {"ok": true, "type": "refresh", "events": events, "hand": hand}
 
 
 ## Win/loss/stuck evaluation after any round action. Order: target first (a crossing
@@ -634,8 +665,9 @@ func _after_round_action() -> Dictionary:
 	if rs.score >= rs.target:
 		_win_round()
 		return {"round_won": true, "phase": phase}
+	var hand := ""
 	if tray_is_empty():
-		_deal_fresh_tray()
+		hand = _deal_fresh_tray()
 		events.append("New tray")
 		for p in tray:
 			if not p.is_empty() and bool(p.get("temporary", false)):
@@ -645,7 +677,7 @@ func _after_round_action() -> Dictionary:
 			rs.status = OUT_OF_PLACEMENTS
 		else:
 			_lose("Out of placements: %d / %d points." % [rs.score, rs.target])
-		return {"status": rs.status, "phase": phase, "tray_events": events}
+		return {"status": rs.status, "phase": phase, "tray_events": events, "tray_hand": hand}
 	var any_fit := false
 	for i in tray.size():
 		if slot_fits(i):
@@ -669,7 +701,7 @@ func _after_round_action() -> Dictionary:
 		rs.status = STUCK
 	else:
 		_lose("No offered shape fits and no rescue remains.")
-	return {"status": rs.status, "phase": phase, "tray_events": events}
+	return {"status": rs.status, "phase": phase, "tray_events": events, "tray_hand": hand}
 
 
 func _has_rescue_consumable() -> bool:
