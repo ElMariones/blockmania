@@ -1,48 +1,76 @@
 class_name BMBlockPainter
 extends RefCounted
-## Draws toy blocks from the pixel-art kit (Classic block_*.png or Endless skin_*.png,
-## all 22x22 art px) with material overlays and stamp badges. The optional
-## accessibility patterns add a per-color mark without changing game rules.
+## Draws toy blocks: the Classic plastic kit (block_*.png) or an animated finish sheet
+## (finish_<id>.png, see BMFinishes). A campaign material draws its finish face in place of the
+## plastic; an Endless block style applies the same faces to every block. Glowing finishes get a
+## stepped pixel halo in a separate pass under the blocks. Stamps are animated badges.
+## The optional accessibility patterns add a per-color mark without changing game rules.
+##
+## Animation reads `clock`, advanced by BMMain; with `reduced_motion` every face shows its calm
+## rest frame, so no information depends on motion.
 
 static var show_patterns := false
-const ENDLESS_SKINS := ["classic", "glass", "crystal", "neon", "gold", "marble", "cyberpunk",
-	"wood", "candy", "lava", "ice", "chrome", "aurora", "starfall"]
-const RARE_SKINS := ["aurora", "starfall"]
+static var reduced_motion := false
+static var clock := 0.0
 
 
-static func draw_block(ci: CanvasItem, rect: Rect2, color_id: int, alpha: float = 1.0, material: String = "", tint: Color = Color.WHITE, skin: String = "classic", time: float = 0.0) -> void:
-	var sprite: Texture2D = BMStyle.block_tex(color_id)
-	if skin != "classic" and color_id >= 0 and color_id < BMShapes.OFFER_COLOR_COUNT and ENDLESS_SKINS.has(skin):
-		sprite = BMStyle.tex("skin_%s_%s" % [skin, BMStyle.BLOCK_NAMES[color_id]])
-	var a := alpha * (0.62 if material == "glass" else 1.0)
-	ci.draw_texture_rect(sprite, rect, false, Color(tint.r, tint.g, tint.b, a))
-	if material != "":
-		ci.draw_texture_rect(BMStyle.tex("mat_" + material), rect, false, Color(1, 1, 1, alpha))
-	if skin in RARE_SKINS:
-		_draw_rare_shimmer(ci, rect, skin, alpha, time)
+## The finish that styles a cell: its material wins, then the Endless style, else none.
+static func finish_for(material: String, skin: String) -> String:
+	if BMFinishes.has_sheet(material):
+		return material
+	return skin if BMFinishes.has_sheet(skin) else ""
+
+
+static func _time() -> float:
+	return 0.0 if reduced_motion else clock + 0.001
+
+
+## True when blocks in this finish change over time (callers redraw every frame).
+static func is_animated(finish: String) -> bool:
+	return not reduced_motion and BMFinishes.has_sheet(finish) and finish != "wood"
+
+
+static func draw_block(ci: CanvasItem, rect: Rect2, color_id: int, alpha: float = 1.0, material: String = "", tint: Color = Color.WHITE, skin: String = "classic", cell := Vector2i.ZERO) -> void:
+	var finish := finish_for(material, skin)
+	var modulate := Color(tint.r, tint.g, tint.b, tint.a * alpha)
+	if finish == "" or color_id < 0 or color_id >= BMShapes.OFFER_COLOR_COUNT:
+		ci.draw_texture_rect(BMStyle.block_tex(color_id), rect, false, modulate)
+	else:
+		ci.draw_texture_rect_region(BMStyle.tex("finish_" + finish), rect, BMFinishes.region(finish, color_id, cell, _time()), modulate)
 	if show_patterns and color_id < BMShapes.OFFER_COLOR_COUNT:
 		_draw_pattern(ci, rect, color_id, alpha)
 
 
-static func _draw_rare_shimmer(ci: CanvasItem, rect: Rect2, skin: String, alpha: float, time: float) -> void:
-	var u := rect.size.x / 22.0
-	var p := rect.position
-	if skin == "aurora":
-		var shift := 0.4 + 0.3 * sin(time * 3.5 + p.x * 0.03)
-		ci.draw_line(p + Vector2(4, 16) * u, p + Vector2(17, 5) * u, Color(BMStyle.MINT_L, shift * alpha), 2 * u)
-	else:
-		var star := Vector2(6 + fposmod(time * 6.0 + p.x * 0.05, 10.0), 10)
-		var bright := Color(BMStyle.SUN_L, 0.7 * alpha)
-		ci.draw_line(p + (star + Vector2(-2, 0)) * u, p + (star + Vector2(2, 0)) * u, bright, maxf(2.0, u))
-		ci.draw_line(p + (star + Vector2(0, -2)) * u, p + (star + Vector2(0, 2)) * u, bright, maxf(2.0, u))
+## Halo for glowing finishes. Draw it for every cell before the blocks themselves, so light
+## spills into the gaps and onto empty neighbours without covering other blocks.
+static func draw_glow(ci: CanvasItem, rect: Rect2, color_id: int, alpha: float = 1.0, material: String = "", skin: String = "classic", cell := Vector2i.ZERO) -> void:
+	var finish := finish_for(material, skin)
+	if finish == "" or color_id < 0 or color_id >= BMShapes.OFFER_COLOR_COUNT:
+		return
+	var strength := float(BMFinishes.def(finish).glow)
+	if strength <= 0.0:
+		return
+	if not reduced_motion:
+		strength *= 0.82 + 0.18 * sin(clock * 2.6 + (cell.x + cell.y) * 0.8)
+	var reach := rect.size.x * 7.0 / 22.0
+	var c := BMFinishes.glow_color(finish, color_id)
+	ci.draw_texture_rect(BMStyle.tex("block_glow"), rect.grow(reach), false, Color(c, strength * alpha))
 
 
-static func draw_stamp(ci: CanvasItem, cell_rect: Rect2, stamp: String, alpha: float = 1.0) -> void:
+## A stamp badge overhanging the top-right corner of a cell.
+static func draw_stamp(ci: CanvasItem, cell_rect: Rect2, stamp: String, alpha: float = 1.0, phase: int = 0) -> void:
 	if stamp == "":
 		return
-	var s := cell_rect.size.x * 0.5
+	var s := roundf(cell_rect.size.x * 12.0 / 22.0)
 	var r := Rect2(cell_rect.position + Vector2(cell_rect.size.x - s * 0.8, -s * 0.2), Vector2(s, s))
-	ci.draw_texture_rect(BMStyle.tex("stamp_" + stamp), r, false, Color(1, 1, 1, alpha))
+	draw_stamp_icon(ci, r, stamp, alpha, phase)
+
+
+## A stamp badge filling `rect` (cards, tooltips).
+static func draw_stamp_icon(ci: CanvasItem, rect: Rect2, stamp: String, alpha: float = 1.0, phase: int = 0) -> void:
+	if stamp == "":
+		return
+	ci.draw_texture_rect_region(BMStyle.tex("stamp_" + stamp), rect, BMFinishes.stamp_region(_time(), phase), Color(1, 1, 1, alpha))
 
 
 static func _draw_pattern(ci: CanvasItem, rect: Rect2, color_id: int, alpha: float) -> void:
@@ -58,12 +86,15 @@ static func _draw_pattern(ci: CanvasItem, rect: Rect2, color_id: int, alpha: flo
 		5: ci.draw_colored_polygon(PackedVector2Array([center + Vector2(0, -s * 1.3), center + Vector2(s * 1.3, 0), center + Vector2(0, s * 1.3), center + Vector2(-s * 1.3, 0)]), c)
 
 
-## Draws a whole piece with its top-left at `origin`, including material and stamp badge.
-static func draw_shape(ci: CanvasItem, shape: Dictionary, origin: Vector2, cell: float, alpha: float = 1.0, tint: Color = Color.WHITE, skin: String = "classic", time: float = 0.0) -> void:
+## Draws a whole piece with its top-left at `origin`: glow pass, blocks, then the stamp badge.
+static func draw_shape(ci: CanvasItem, shape: Dictionary, origin: Vector2, cell: float, alpha: float = 1.0, tint: Color = Color.WHITE, skin: String = "classic") -> void:
 	var material := String(shape.get("material", ""))
+	var color := int(shape.color)
 	for c: Vector2i in shape.cells:
-		draw_block(ci, Rect2(origin + Vector2(c) * cell, Vector2(cell, cell)), int(shape.color), alpha, material, tint, skin, time)
+		draw_glow(ci, Rect2(origin + Vector2(c) * cell, Vector2(cell, cell)), color, alpha, material, skin, c)
+	for c: Vector2i in shape.cells:
+		draw_block(ci, Rect2(origin + Vector2(c) * cell, Vector2(cell, cell)), color, alpha, material, tint, skin, c)
 	var stamp := String(shape.get("stamp", ""))
 	if stamp != "" and not shape.cells.is_empty():
 		var first: Vector2i = shape.cells[0]
-		draw_stamp(ci, Rect2(origin + Vector2(first) * cell, Vector2(cell, cell)), stamp, alpha)
+		draw_stamp(ci, Rect2(origin + Vector2(first) * cell, Vector2(cell, cell)), stamp, alpha, int(shape.get("uid", 0)))

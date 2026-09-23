@@ -9,7 +9,7 @@
 - All seven music exports are 44.1 kHz stereo Ogg Vorbis, quality 4. The editable master is the deterministic source code and its song data. Music is rendered to WAV before encoding, then the intermediate WAV is removed.
 - Runtime mapping, playlists, rate limits and gain control: `game/audio/audio.gd`. Music and SFX use separate Godot buses routed to Master. There are no external audio licenses to track.
 - Endless x5/x8 combo percussion is synthesized at runtime by `game/audio/audio.gd` as a looping PCM layer on the Music bus, using each arrangement's BPM and beat count. It has no separate media file or third-party source.
-- Endless finish cues: `game/audio/audio.gd` synthesizes a short 22.05 kHz, 16-bit PCM placement and clear cue for each non-classic block finish on first use. These are code-authored, cached at runtime, and played through the SFX bus; there are no new external samples or files. Fresh Board also uses the existing win jingle and switches to its own music playlist.
+- Block finish and stamp cues: `tools/audio/gen_finish_sfx.py` writes `fin_<finish>_place.wav` and `fin_<finish>_clear.wav` for the 14 finishes (Endless block styles and campaign material faces) and `stamp_<stamp>.wav` for the four stamps, 44.1 kHz 16-bit, using `dsp.py` and helpers from `gen_sfx.py`. Run `python tools/audio/gen_finish_sfx.py`. `BMAudio.finish_sfx` and `stamp_sfx` play them (loaded on first use). Fresh Board also uses the existing win jingle and switches to its own music playlist.
 
 ## Music
 

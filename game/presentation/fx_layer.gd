@@ -47,13 +47,89 @@ func sparks(at: Vector2, color: Color, count: int = 10, speed: float = 520.0) ->
 			"size": 4.0, "color": color, "kind": "spark", "grav": 0.2})
 
 
-func stars(at: Vector2, count: int = 6, radius: float = 60.0) -> void:
+func stars(at: Vector2, count: int = 6, radius: float = 60.0, color: Color = BMStyle.SUN_L) -> void:
 	if reduced_motion:
 		return
 	for i in count:
 		var off := Vector2(randf_range(-radius, radius), randf_range(-radius * 0.6, radius * 0.6))
 		_add({"pos": at + off, "vel": Vector2(0, -40), "life": randf_range(0.4, 0.8), "size": 4.0,
-			"color": BMStyle.SUN_L, "kind": "star", "grav": 0.0})
+			"color": color, "kind": "star", "grav": 0.0})
+
+
+## One quick four-point twinkle (finish placement glints).
+func glint(at: Vector2, color: Color = Color.WHITE) -> void:
+	if reduced_motion:
+		return
+	_add({"pos": at, "vel": Vector2.ZERO, "life": 0.32, "size": 4.0, "color": color, "kind": "star", "grav": 0.0})
+
+
+## An expanding square outline (neon flash, electric pulses).
+func ring(at: Vector2, color: Color, reach: float = 80.0) -> void:
+	if reduced_motion:
+		return
+	_add({"pos": at, "vel": Vector2.ZERO, "life": 0.3, "size": reach, "color": color, "kind": "ring", "grav": 0.0})
+
+
+## Square glitch bits that hop sideways in pixel steps.
+func bits(at: Vector2, colors: Array, count: int = 8) -> void:
+	if reduced_motion:
+		return
+	for i in count:
+		_add({"pos": at + Vector2(randf_range(-30, 30), randf_range(-30, 30)).snapped(Vector2(4, 4)),
+			"vel": Vector2(randf_range(-60, 60), randf_range(-160, -40)), "life": randf_range(0.35, 0.7),
+			"size": [4.0, 8.0, 12.0][randi() % 3], "color": colors[randi() % colors.size()], "kind": "bit", "grav": 0.0})
+
+
+## Glowing embers that float up and flicker out.
+func embers(at: Vector2, colors: Array, count: int = 6, spread: float = 60.0) -> void:
+	if reduced_motion:
+		return
+	for i in count:
+		_add({"pos": at + Vector2(randf_range(-spread, spread) * 0.45, randf_range(-10, 20)),
+			"vel": Vector2(randf_range(-40, 40), randf_range(-260, -120)), "life": randf_range(0.6, 1.2),
+			"size": randf_range(8, 12), "color": colors[randi() % colors.size()], "kind": "ember", "grav": -0.08})
+
+
+## Soft lights drifting upward with a sway (aurora).
+func motes(at: Vector2, colors: Array, count: int = 4, spread: float = 60.0) -> void:
+	if reduced_motion:
+		return
+	for i in count:
+		_add({"pos": at + Vector2(randf_range(-spread, spread) * 0.5, randf_range(-20, 20)),
+			"vel": Vector2(0, randf_range(-110, -50)), "life": randf_range(0.9, 1.6), "size": randf_range(6, 10),
+			"color": colors[randi() % colors.size()], "kind": "mote", "grav": 0.0, "rot": randf() * TAU})
+
+
+## Tumbling wood splinters.
+func chips(at: Vector2, colors: Array, count: int = 6) -> void:
+	if reduced_motion:
+		return
+	for i in count:
+		var a := randf() * TAU
+		_add({"pos": at, "vel": Vector2(cos(a), sin(a)) * randf_range(160, 420) + Vector2(0, -160), "life": randf_range(0.5, 0.9),
+			"size": randf_range(8, 14), "color": colors[randi() % colors.size()], "kind": "chip", "grav": 1.0,
+			"rot": randf() * TAU, "spin": randf_range(-14, 14)})
+
+
+## Candy sprinkles: short rods in many colors.
+func sprinkles(at: Vector2, colors: Array, count: int = 10) -> void:
+	if reduced_motion:
+		return
+	for i in count:
+		var a := randf() * TAU
+		_add({"pos": at, "vel": Vector2(cos(a), sin(a)) * randf_range(180, 420) + Vector2(0, -140), "life": randf_range(0.55, 0.95),
+			"size": 10.0, "color": colors[randi() % colors.size()], "kind": "sprinkle", "grav": 1.0,
+			"rot": randf() * TAU, "spin": randf_range(-10, 10)})
+
+
+## Snowflakes that drift down with a sway.
+func snow(at: Vector2, count: int = 6, spread: float = 60.0) -> void:
+	if reduced_motion:
+		return
+	for i in count:
+		_add({"pos": at + Vector2(randf_range(-spread, spread) * 0.5, randf_range(-spread, 0) * 0.5),
+			"vel": Vector2(randf_range(-50, 50), randf_range(-120, -30)), "life": randf_range(0.9, 1.5),
+			"size": 4.0, "color": Color(0.94, 0.98, 1.0), "kind": "snow", "grav": 0.12, "rot": randf() * TAU})
 
 
 func dust(at: Vector2, width: float, count: int = 10) -> void:
@@ -85,13 +161,13 @@ func coins(from: Vector2, to: Vector2, count: int = 6) -> void:
 			"color": BMStyle.SUN, "kind": "coin", "grav": 0.0, "vel": Vector2.ZERO})
 
 
-func shards(at: Vector2, count: int = 14) -> void:
+func shards(at: Vector2, count: int = 14, color: Color = Color(0.85, 0.97, 1.0, 0.9)) -> void:
 	if reduced_motion:
 		return
 	for i in count:
 		var a := randf() * TAU
 		_add({"pos": at, "vel": Vector2(cos(a), sin(a)) * randf_range(150, 480), "life": randf_range(0.5, 0.9),
-			"size": randf_range(6, 12), "color": Color(0.85, 0.97, 1.0, 0.9), "kind": "shard", "grav": 1.0,
+			"size": randf_range(6, 12), "color": color, "kind": "shard", "grav": 1.0,
 			"rot": randf() * TAU, "spin": randf_range(-12, 12)})
 
 
@@ -173,6 +249,13 @@ func _process(delta: float) -> void:
 				if p.kind == "confetti":
 					p.vel.x += sin(p.life * 6.0) * 30.0 * delta
 					p.vel = p.vel.limit_length(320.0)
+				elif p.kind == "snow" or p.kind == "mote":
+					p.rot += delta * 4.0
+					p.vel.x = sin(p.rot) * 40.0
+					if p.kind == "snow":
+						p.vel = p.vel.limit_length(140.0)
+				elif p.kind == "bit":
+					p.vel *= 1.0 - minf(1.0, delta * 3.0)
 				p.pos += p.vel * delta
 				p.rot += p.spin * delta
 		alive.append(p)
@@ -211,6 +294,39 @@ func _draw() -> void:
 				c.a *= 0.4 + 0.6 * k
 				draw_rect(Rect2(p.pos - Vector2(4, 4), Vector2(8, 8)), c)
 				draw_rect(Rect2(p.pos - Vector2(2, 2), Vector2(4, 4)), Color(1, 1, 1, c.a))
+			"ring":
+				var e := 1.0 - k
+				var half: float = s * (0.35 + 0.65 * e)
+				c.a *= k
+				draw_rect(Rect2((p.pos - Vector2(half, half)).round(), Vector2(half, half) * 2.0), c, false, 4.0)
+			"bit":
+				c.a *= minf(1.0, k * 2.5)
+				var bp: Vector2 = p.pos.snapped(Vector2(4, 4))
+				draw_rect(Rect2(bp - Vector2(s, s) / 2.0, Vector2(s, s)), c)
+			"ember":
+				var flick := 0.8 + 0.2 * sin(p.life * 40.0)
+				c.a *= minf(1.0, k * 1.6) * flick
+				var es: float = roundf(s * (0.5 + 0.5 * k) / 2.0) * 2.0
+				draw_rect(Rect2((p.pos - Vector2(es, es)).round(), Vector2(es, es) * 2.0), Color(c, c.a * 0.25))
+				draw_rect(Rect2((p.pos - Vector2(es, es) / 2.0).round(), Vector2(es, es)), c)
+			"mote":
+				c.a *= sin(k * PI) * 0.9
+				draw_rect(Rect2((p.pos - Vector2(s, s) / 2.0).round(), Vector2(s, s)), Color(c, c.a * 0.35))
+				draw_rect(Rect2((p.pos - Vector2(s, s) / 4.0).round(), Vector2(s, s) / 2.0), c)
+			"chip":
+				c.a *= minf(1.0, k * 3.0)
+				var cd := Vector2(cos(p.rot), sin(p.rot)) * s * 0.5
+				draw_line(p.pos - cd, p.pos + cd, c, 4.0)
+			"sprinkle":
+				c.a *= minf(1.0, k * 3.0)
+				var sd := Vector2(cos(p.rot), sin(p.rot)) * s * 0.5
+				draw_line(p.pos - sd, p.pos + sd, c, 4.0)
+			"snow":
+				c.a *= minf(1.0, k * 2.0)
+				var sp: Vector2 = p.pos.round()
+				draw_rect(Rect2(sp - Vector2(2, 6), Vector2(4, 12)), c)
+				draw_rect(Rect2(sp - Vector2(6, 2), Vector2(12, 4)), c)
+				draw_rect(Rect2(sp - Vector2(2, 2), Vector2(4, 4)), Color(1, 1, 1, c.a))
 			"shard":
 				c.a *= k
 				var dir := Vector2(cos(p.rot), sin(p.rot)) * s

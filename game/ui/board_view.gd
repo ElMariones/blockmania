@@ -17,7 +17,7 @@ var reduced_motion := false
 var block_skin := "classic"
 var clean_glow := false
 
-var _fx_clears: Array[Dictionary] = [] ## {cell, color, mat, t, delay}
+var _fx_clears: Array[Dictionary] = [] ## {cell, color, mat, finish, t, delay}
 var _pop_step := 0 ## position in the pop cascade of the current resolution
 var _fx_places: Array[Dictionary] = [] ## {cell, t, delay}
 var _fx_sweeps: Array[Dictionary] = [] ## {row|col, index, t}
@@ -95,6 +95,13 @@ func play_resolution(r: Dictionary) -> void:
 		for p: Vector2i in r.placed:
 			bottom = maxf(bottom, cell_global_center(p).y + cell_size() / 2.0)
 		fx.dust(Vector2(xs / maxf(1, r.placed.size()), bottom), cell_size() * 1.5, 6 + r.placed.size() * 2)
+		# Finish flourish on landing (material faces in the campaign, the block style in Endless).
+		var shape: Dictionary = r.get("shape", {})
+		var finish := BMBlockPainter.finish_for(String(shape.get("material", "")), block_skin)
+		if finish != "":
+			var style := String(BMFinishes.def(finish).place)
+			for p: Vector2i in r.placed:
+				BMFinishes.emit(style, cell_global_center(p), int(shape.get("color", 0)), cell_size(), 0.8)
 	for y in r.rows:
 		_fx_sweeps.append({"axis": "row", "index": y, "t": 0.0})
 	for x in r.cols:
@@ -107,7 +114,9 @@ func play_resolution(r: Dictionary) -> void:
 		var d := 99.0
 		for p: Vector2i in r.placed:
 			d = minf(d, Vector2(p - cell).length())
-		_fx_clears.append({"cell": cell, "color": e.color, "mat": BMPieces.MATERIALS[int(e.get("mat", 0))], "t": 0.0, "delay": 0.03 * d, "burst": false})
+		var mat: String = BMPieces.MATERIALS[int(e.get("mat", 0))]
+		_fx_clears.append({"cell": cell, "color": e.color, "mat": mat, "finish": BMBlockPainter.finish_for(mat, block_skin),
+			"t": 0.0, "delay": 0.03 * d, "burst": false})
 	queue_redraw()
 
 
@@ -124,20 +133,27 @@ func _process(delta: float) -> void:
 			fx.burst = true
 			BMAudio.sfx("pop", BMAudio.scale_pitch(_pop_step), -2.0)
 			_pop_step += 1
-			if BMFx.instance:
-				var col: Color = _block_color(int(fx.color))
-				BMFx.instance.burst(cell_global_center(fx.cell), [col, col.lightened(0.4), BMStyle.CREAM], 7, 320.0, 8.0)
-				if fx.mat == "glass" or block_skin in ["glass", "crystal", "ice"]:
-					BMFx.instance.shards(cell_global_center(fx.cell), 5)
+			var style := String(BMFinishes.def(fx.finish).clear) if fx.finish != "" else "pop"
+			BMFinishes.emit(style, cell_global_center(fx.cell), int(fx.color), cell_size())
 	_fx_places = _fx_places.filter(func(f: Dictionary) -> bool: return f.t < f.delay + PLACE_TIME)
 	_fx_sweeps = _fx_sweeps.filter(func(f: Dictionary) -> bool: return f.t < SWEEP_TIME)
 	_fx_clears = _fx_clears.filter(func(f: Dictionary) -> bool: return f.t < f.delay + CLEAR_TIME)
-	if busy or ghost_valid or not ghost_shape.is_empty() or clean_glow or (block_skin in BMBlockPainter.RARE_SKINS and not reduced_motion):
+	if busy or ghost_valid or not ghost_shape.is_empty() or clean_glow or _animated_blocks():
 		queue_redraw()
 
 
-static func _block_color(color_id: int) -> Color:
-	return [Color("#f6485c"), Color("#ff8e34"), Color("#ffce34"), Color("#3ace7c"), Color("#3c8eff"), Color("#a662ff"), Color("#78708a")][clampi(color_id, 0, 6)]
+## Whether any block on the board shows an animated finish (so the board redraws each frame).
+func _animated_blocks() -> bool:
+	if run == null or BMBlockPainter.reduced_motion:
+		return false
+	if BMBlockPainter.is_animated(block_skin) and run.board.occupied_count() > 0:
+		return true
+	for y in BMBoard.SIZE:
+		for x in BMBoard.SIZE:
+			var p := Vector2i(x, y)
+			if run.board.get_mat(p) != 0 and run.board.get_cell(p) != BMBoard.EMPTY:
+				return true
+	return false
 
 
 func _draw() -> void:
@@ -167,11 +183,25 @@ func _draw() -> void:
 
 	for y in BMBoard.SIZE:
 		for x in BMBoard.SIZE:
-			var p := Vector2i(x, y)
-			var r := cell_rect(p)
+			var r := cell_rect(Vector2i(x, y))
 			draw_texture_rect(cell_tex, r, false)
 			if clean_glow and (x + y * 3) % 7 == 0:
 				draw_rect(Rect2(r.get_center() - Vector2(2, 2), Vector2(4, 4)), Color(BMStyle.SUN_L, 0.42))
+	# Glow pass: halos spill into gaps and empty neighbours, under every block.
+	for y in BMBoard.SIZE:
+		for x in BMBoard.SIZE:
+			var p := Vector2i(x, y)
+			var v := run.board.get_cell(p)
+			if v != BMBoard.EMPTY:
+				BMBlockPainter.draw_glow(self, cell_rect(p), v, 1.0, BMPieces.MATERIALS[run.board.get_mat(p)], block_skin, p)
+	if ghost_valid:
+		for cell: Vector2i in ghost_shape.cells:
+			var gp: Vector2i = cell + ghost_anchor
+			BMBlockPainter.draw_glow(self, cell_rect(gp), int(ghost_shape.color), 0.5, String(ghost_shape.get("material", "")), block_skin, gp)
+	for y in BMBoard.SIZE:
+		for x in BMBoard.SIZE:
+			var p := Vector2i(x, y)
+			var r := cell_rect(p)
 			var v := run.board.get_cell(p)
 			if v == BMBoard.EMPTY:
 				continue
@@ -183,7 +213,7 @@ func _draw() -> void:
 				var drop := (1.0 - minf(1.0, k * 1.6)) * -c * 0.35
 				var squash := 1.0 + 0.12 * sin(clampf((k - 0.55) / 0.45, 0.0, 1.0) * PI)
 				rr = Rect2(r.position + Vector2((r.size.x - r.size.x * squash) / 2.0, drop + r.size.y * (1.0 - 1.0 / squash)), Vector2(r.size.x * squash, r.size.y / squash))
-			BMBlockPainter.draw_block(self, rr, v, 1.0, BMPieces.MATERIALS[run.board.get_mat(p)], Color.WHITE, block_skin, 0.0 if reduced_motion else _time)
+			BMBlockPainter.draw_block(self, rr, v, 1.0, BMPieces.MATERIALS[run.board.get_mat(p)], Color.WHITE, block_skin, p)
 			if pending.has(p):
 				draw_rect(r.grow(-4), Color(1, 1, 1, 0.12 + 0.18 * pulse))
 
@@ -195,7 +225,7 @@ func _draw() -> void:
 				continue
 			var r := cell_rect(p)
 			if ghost_valid:
-				BMBlockPainter.draw_block(self, r, int(ghost_shape.color), 0.55, String(ghost_shape.get("material", "")), Color.WHITE, block_skin, 0.0 if reduced_motion else _time)
+				BMBlockPainter.draw_block(self, r, int(ghost_shape.color), 0.55, String(ghost_shape.get("material", "")), Color.WHITE, block_skin, p)
 				draw_rect(r.grow(-3), Color(BMStyle.CREAM, 0.55 + 0.45 * pulse), false, 4.0)
 			else:
 				draw_rect(r.grow(-4), Color(BMStyle.PINK, 0.28))
@@ -236,13 +266,13 @@ func _draw() -> void:
 		var t: float = fx.t - fx.delay
 		var r := cell_rect(fx.cell)
 		if t < 0.0:
-			BMBlockPainter.draw_block(self, r, fx.color, 1.0, fx.mat, Color.WHITE, block_skin, 0.0 if reduced_motion else _time)
+			BMBlockPainter.draw_block(self, r, fx.color, 1.0, fx.mat, Color.WHITE, block_skin, fx.cell)
 			continue
 		var k := t / CLEAR_TIME
 		if k < 0.45:
 			var grow := 1.0 + 0.12 * (k / 0.45)
 			var rr := Rect2(r.get_center() - r.size * grow / 2.0, r.size * grow)
-			BMBlockPainter.draw_block(self, rr, fx.color, 1.0, fx.mat, Color.WHITE, block_skin, 0.0 if reduced_motion else _time)
+			BMBlockPainter.draw_block(self, rr, fx.color, 1.0, fx.mat, Color.WHITE, block_skin, fx.cell)
 			draw_rect(rr.grow(-3), Color(1, 1, 1, 0.85 * (k / 0.45)))
 		else:
 			var s := 1.0 - (k - 0.45) / 0.55

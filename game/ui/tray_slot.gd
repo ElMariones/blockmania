@@ -77,7 +77,7 @@ func _draw() -> void:
 	if not held:
 		for c: Vector2i in shape.cells:
 			draw_rect(Rect2(origin + Vector2(c) * cell + Vector2(4, 6 + 6 * _lift), Vector2(cell, cell)), Color(BMStyle.INK, 0.45))
-	BMBlockPainter.draw_shape(self, shape, origin, cell, alpha, Color.WHITE, block_skin, 0.0 if reduced_motion else _t)
+	BMBlockPainter.draw_shape(self, shape, origin, cell, alpha, Color.WHITE, block_skin)
 	if held:
 		_caption("HOLDING", BMStyle.SUN)
 	elif not fits:

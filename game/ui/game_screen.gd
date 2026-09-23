@@ -770,10 +770,22 @@ func _play_placement_sounds(r: Dictionary) -> void:
 			BMAudio.sfx_later("combo_%d" % clampi(r.combo_after - 1, 1, 3), 0.45)
 	if not r.get("shattered", []).is_empty():
 		BMAudio.sfx_later("glass", 0.2)
-	for e in r.get("events", []):
-		if String(e).contains("Stamp"):
-			BMAudio.sfx_later("stamp", 0.12)
-			break
+	# Material faces and stamps have their own voices (presentation of the record only).
+	var shape: Dictionary = r.get("shape", {})
+	BMAudio.finish_sfx(String(shape.get("material", "")), false, -5.0)
+	var cleared_mats := {}
+	for e in r.cleared:
+		var m := int(e.get("mat", 0))
+		if m != 0:
+			cleared_mats[BMPieces.MATERIALS[m]] = true
+	var voiced := 0
+	for m: String in cleared_mats:
+		if voiced < 2:
+			BMAudio.finish_sfx(m, true, -6.0, 0.1 + voiced * 0.08)
+			voiced += 1
+	var stamp := String(shape.get("stamp", ""))
+	if stamp != "" and (stamp != "encore" or r.lines > 0):
+		BMAudio.stamp_sfx(stamp, 0.14)
 	BMAudio.sfx_later("score", 0.35, 1.0 + minf(0.3, r.lines * 0.1))
 	for i in mini(4, int(r.credits_gained)):
 		BMAudio.sfx_later("coin", 0.4 + i * 0.09, 1.0 + i * 0.06)

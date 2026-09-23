@@ -1,0 +1,80 @@
+{
+ "cell": 96,
+ "face": 88,
+ "finishes": {
+  "aurora": {
+   "fps": 6,
+   "frames": 16,
+   "variants": 1
+  },
+  "candy": {
+   "fps": 6,
+   "frames": 12,
+   "variants": 1
+  },
+  "chrome": {
+   "fps": 10,
+   "frames": 16,
+   "variants": 1
+  },
+  "crystal": {
+   "fps": 9,
+   "frames": 16,
+   "variants": 1
+  },
+  "cyberpunk": {
+   "fps": 8,
+   "frames": 12,
+   "variants": 1
+  },
+  "glass": {
+   "fps": 9,
+   "frames": 16,
+   "variants": 1
+  },
+  "gold": {
+   "fps": 9,
+   "frames": 16,
+   "variants": 1
+  },
+  "ice": {
+   "fps": 8,
+   "frames": 16,
+   "variants": 1
+  },
+  "lava": {
+   "fps": 7,
+   "frames": 16,
+   "variants": 2
+  },
+  "marble": {
+   "fps": 8,
+   "frames": 20,
+   "variants": 3
+  },
+  "neon": {
+   "fps": 10,
+   "frames": 24,
+   "variants": 1
+  },
+  "prism": {
+   "fps": 7,
+   "frames": 12,
+   "variants": 1
+  },
+  "starfall": {
+   "fps": 8,
+   "frames": 24,
+   "variants": 2
+  },
+  "wood": {
+   "fps": 1,
+   "frames": 1,
+   "variants": 2
+  }
+ },
+ "glow_reach": 28,
+ "stamp_cell": 56,
+ "stamp_face": 48,
+ "stamp_frames": 8
+}

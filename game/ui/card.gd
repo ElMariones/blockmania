@@ -332,7 +332,7 @@ class Emblem extends Control:
 			var origin := ((size - dims * cell) / 2.0).round()
 			BMBlockPainter.draw_shape(self, piece, origin, cell)
 			if badge != "":
-				draw_texture_rect(BMStyle.tex("stamp_" + badge), Rect2(origin + Vector2(cell * 0.45, -cell * 0.25), Vector2(cell * 0.8, cell * 0.8)), false)
+				BMBlockPainter.draw_stamp_icon(self, Rect2(origin + Vector2(cell * 0.45, -cell * 0.25), Vector2(cell * 0.8, cell * 0.8)), badge)
 		if icon != "":
 			var t := BMStyle.tex(icon)
 			var s := t.get_size() * (1.0 if piece.is_empty() else 0.7)

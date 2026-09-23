@@ -20,7 +20,6 @@ var _detail: Label
 var _skin_button: Button
 var _skin_picker: Control
 var _skin := "classic"
-var _skin_time := 0.0
 var _hold_well: HoldWell
 var _hold_hint: Label
 var _overlay: Control
@@ -41,22 +40,21 @@ func is_style_picker_open() -> bool:
 
 class SkinPreview extends Control:
 	var skin := "classic"
-	var reduced_motion := false
-	var _time := 0.0
+	var cell := 44.0
 
 	func _ready() -> void:
 		mouse_filter = Control.MOUSE_FILTER_IGNORE
 
-	func _process(delta: float) -> void:
-		if skin in BMBlockPainter.RARE_SKINS and not reduced_motion:
-			_time += delta
+	func _process(_delta: float) -> void:
+		if BMBlockPainter.is_animated(skin):
 			queue_redraw()
 
 	func _draw() -> void:
-		var cell := 40.0
-		var at := (size - Vector2(3 * cell, cell)) / 2.0
+		var at := ((size - Vector2(3 * cell, cell)) / 2.0).round()
 		for i in 3:
-			BMBlockPainter.draw_block(self, Rect2(at + Vector2(i * cell, 0), Vector2(cell, cell)), i + 1, 1.0, "", Color.WHITE, skin, _time)
+			BMBlockPainter.draw_glow(self, Rect2(at + Vector2(i * cell, 0), Vector2(cell, cell)), [0, 2, 4][i], 1.0, "", skin, Vector2i(i, 0))
+		for i in 3:
+			BMBlockPainter.draw_block(self, Rect2(at + Vector2(i * cell, 0), Vector2(cell, cell)), [0, 2, 4][i], 1.0, "", Color.WHITE, skin, Vector2i(i, 0))
 
 
 class HoldWell extends Control:
@@ -64,15 +62,12 @@ class HoldWell extends Control:
 	var locked := false
 	var drop_highlight := false
 	var skin := "classic"
-	var reduced_motion := false
-	var _time := 0.0
 
 	func _ready() -> void:
 		mouse_filter = Control.MOUSE_FILTER_PASS
 
-	func _process(delta: float) -> void:
-		if skin in BMBlockPainter.RARE_SKINS and not reduced_motion:
-			_time += delta
+	func _process(_delta: float) -> void:
+		if not shape.is_empty() and BMBlockPainter.is_animated(skin):
 			queue_redraw()
 
 	func _draw() -> void:
@@ -85,9 +80,9 @@ class HoldWell extends Control:
 			draw_string(BMStyle.font, Vector2(0, size.y / 2.0 + 20), "EMPTY", HORIZONTAL_ALIGNMENT_CENTER, size.x, 30, BMStyle.TEXT_DIM)
 		else:
 			var dims := Vector2(BMShapes.shape_size(shape))
-			var cell := floorf(minf(54.0, minf((size.x - 80) / dims.x, (size.y - 110) / dims.y)))
+			var cell := 44.0 if dims.x <= 4 and dims.y <= 3 else 33.0
 			var at := ((size - dims * cell) / 2.0 + Vector2(0, 22)).round()
-			BMBlockPainter.draw_shape(self, shape, at, cell, 1.0, Color.WHITE, skin, _time)
+			BMBlockPainter.draw_shape(self, shape, at, cell, 1.0, Color.WHITE, skin)
 		if locked:
 			draw_string(BMStyle.font_bold, Vector2(0, size.y - 20), "USED THIS TURN", HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.PINK_L)
 
@@ -174,7 +169,7 @@ func _at(control: Control, pos: Vector2, dimensions: Vector2) -> void:
 func bind(new_game: BMEndless) -> void:
 	game = new_game
 	_skin = String(main.settings.get("endless_skin", "classic"))
-	if not BMBlockPainter.ENDLESS_SKINS.has(_skin):
+	if not BMFinishes.ENDLESS.has(_skin):
 		_skin = "classic"
 	BMUI.clear_children(_overlay)
 	var display := BMRun.new()
@@ -195,7 +190,6 @@ func apply_settings() -> void:
 	_marquee.reduced_motion = main.settings.reduced_motion
 	_score.reduced_motion = main.settings.reduced_motion
 	_hold_well.skin = _skin
-	_hold_well.reduced_motion = main.settings.reduced_motion
 	for slot in slots:
 		slot.reduced_motion = main.settings.reduced_motion
 		slot.block_skin = _skin
@@ -220,7 +214,7 @@ func refresh_all() -> void:
 	_hold_well.locked = game.hold_used
 	_hold_well.queue_redraw()
 	_hold_hint.text = "HOLD USED — place a piece to recharge" if game.hold_used else "Select a piece, then drop it here or press H"
-	_skin_button.text = "BLOCK STYLE:  %s" % _skin.to_upper()
+	_skin_button.text = "BLOCK STYLE:  %s" % BMFinishes.display_name(_skin)
 	for i in 3:
 		slots[i].setup(game.tray[i], i == _held, game.fits(i))
 		slots[i].tooltip_text = "No board fit. Select this piece to use Hold." if not game.tray[i].is_empty() and not game.fits(i) and not game.hold_used else ""
@@ -419,9 +413,9 @@ func _place(anchor: Vector2i) -> void:
 	if _skin == "classic":
 		BMAudio.sfx("place_m")
 	else:
-		BMAudio.skin_sfx(_skin)
+		BMAudio.finish_sfx(_skin)
 	if result.rows.size() + result.cols.size() > 0:
-		BMAudio.skin_sfx(_skin, true)
+		BMAudio.finish_sfx(_skin, true, -3.0, 0.08)
 		var line_count: int = result.rows.size() + result.cols.size()
 		BMAudio.sfx("clear_3" if line_count >= 3 else ("clear_2" if line_count == 2 else "clear_1"))
 		BMAudio.sfx("combo_3" if game.combo >= 8 else ("combo_2" if game.combo >= 5 else "combo_1"))
@@ -485,9 +479,9 @@ func _draw_drag() -> void:
 	if game.combo >= 5 and not main.settings.reduced_motion:
 		for n in _trail.size():
 			var trail_at := _trail[n] - Vector2(BMShapes.shape_size(shape)) * cell / 2.0
-			BMBlockPainter.draw_shape(_drag, shape, trail_at, cell, 0.05 + float(n) / maxf(1.0, _trail.size()) * 0.18, Color.WHITE, _skin, _skin_time)
+			BMBlockPainter.draw_shape(_drag, shape, trail_at, cell, 0.05 + float(n) / maxf(1.0, _trail.size()) * 0.18, Color.WHITE, _skin)
 	var pos := _mouse - Vector2(BMShapes.shape_size(shape)) * cell / 2.0
-	BMBlockPainter.draw_shape(_drag, shape, pos, cell, 0.85, Color.WHITE, _skin, _skin_time)
+	BMBlockPainter.draw_shape(_drag, shape, pos, cell, 0.85, Color.WHITE, _skin)
 
 
 func _pulse_board(amount: float) -> void:
@@ -502,9 +496,8 @@ func _pulse_board(amount: float) -> void:
 	_board_pulse.tween_property(board_view, "scale", Vector2.ONE, 0.22)
 
 
-func _process(delta: float) -> void:
-	if _skin in BMBlockPainter.RARE_SKINS and not main.settings.reduced_motion and _held >= 0:
-		_skin_time += delta
+func _process(_delta: float) -> void:
+	if _held >= 0 and _hold_mode != "key" and BMBlockPainter.is_animated(_skin):
 		_drag.queue_redraw()
 
 
@@ -525,29 +518,32 @@ func _open_style_picker() -> void:
 	shade.add_child(panel)
 	var body := Control.new()
 	panel.add_child(body)
-	var heading := BMStyle.label("BLOCK FINISHES", 40, BMStyle.SUN, true)
+	var heading := BMStyle.label("BLOCK STYLES", 40, BMStyle.SUN, true)
 	_at_in(body, heading, Vector2(26, 0), Vector2(800, 60))
-	var hint := BMStyle.label("Pick a look. Finishes change art and sound, never the rules.", 20, BMStyle.CREAM)
+	var hint := BMStyle.label("Pick a look. Styles change art, effects and sound, never the rules.", 20, BMStyle.CREAM)
 	_at_in(body, hint, Vector2(26, 52), Vector2(1130, 30))
 	var unlocked: Array = main.settings.get("endless_skins_unlocked", [])
-	for i in BMBlockPainter.ENDLESS_SKINS.size():
-		var id: String = BMBlockPainter.ENDLESS_SKINS[i]
-		var allowed := not BMBlockPainter.RARE_SKINS.has(id) or unlocked.has(id)
-		var label := "CLASSIC PLASTIC" if id == "classic" else id.to_upper()
+	for i in BMFinishes.ENDLESS.size():
+		var id: String = BMFinishes.ENDLESS[i]
+		var allowed := not BMFinishes.RARE.has(id) or unlocked.has(id)
+		var label := BMFinishes.display_name(id)
 		var tile := BMStyle.button("", func() -> void: _choose_skin(id), "mint" if id == _skin else "plum", 20)
 		tile.disabled = not allowed
-		tile.tooltip_text = "Unlock with a clean board" if id == "aurora" else ("Unlock at combo x10" if id == "starfall" else label)
-		_at_in(body, tile, Vector2(26 + (i % 4) * 290, 88 + (i / 4) * 160), Vector2(268, 140))
+		var tag := String(BMFinishes.def(id).tag)
+		tile.tooltip_text = "%s
+%s" % [label, tag] if allowed else ("%s
+Unlock with a clean board." % label if id == "aurora" else "%s
+Unlock at combo x10." % label)
+		_at_in(body, tile, Vector2(26 + (i % 4) * 290, 88 + (i / 4) * 156), Vector2(268, 142))
 		var preview := SkinPreview.new()
 		preview.skin = id
-		preview.reduced_motion = main.settings.reduced_motion
-		_at_in(tile, preview, Vector2(40, 6), Vector2(188, 74))
+		_at_in(tile, preview, Vector2(22, 10), Vector2(224, 72))
 		var caption := BMStyle.label(label if allowed else label + "  LOCKED", 20, BMStyle.CREAM if allowed else BMStyle.TEXT_DIM, true)
 		caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		_at_in(tile, caption, Vector2(4, 90), Vector2(260, 35))
 	var back := BMStyle.button("BACK TO GAME", _close_style_picker, "sky", 30)
-	_at_in(body, back, Vector2(26, 712), Vector2(1128, 56))
+	_at_in(body, back, Vector2(26, 722), Vector2(1128, 56))
 	BMStyle.focus_later(back)
 
 
@@ -564,7 +560,7 @@ func _choose_skin(id: String) -> void:
 	apply_settings()
 	refresh_all()
 	_close_style_picker()
-	BMAudio.skin_sfx(id)
+	BMAudio.finish_sfx(id)
 
 
 func _close_style_picker() -> void:
@@ -583,7 +579,7 @@ func _unlock_skin(id: String) -> void:
 	BMSaveStore.save_settings(main.settings)
 	if BMFx.instance:
 		BMFx.instance.pop_text(board_view.get_global_rect().get_center() + Vector2(0, 120),
-			"NEW FINISH: %s" % id.to_upper(), BMStyle.MINT_L, 30)
+			"NEW STYLE: %s" % BMFinishes.display_name(id), BMStyle.MINT_L, 30)
 
 
 func focus_default() -> void:
@@ -630,7 +626,7 @@ func _show_over() -> void:
 	_at_in(body, badge, Vector2(12, 302), Vector2(505, 58))
 	var motif := SkinPreview.new()
 	motif.skin = _skin
-	motif.reduced_motion = main.settings.reduced_motion
+	motif.cell = 88.0
 	_at_in(body, motif, Vector2(12, 382), Vector2(505, 96))
 	var detail := StatsPanel.new()
 	detail.set_entry(BMEndlessStore.entry_for_game(game))

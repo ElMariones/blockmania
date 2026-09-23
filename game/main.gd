@@ -118,6 +118,7 @@ func endless_act(action: Dictionary) -> Dictionary:
 
 
 func _process(delta: float) -> void:
+	BMBlockPainter.clock += delta
 	if endless_screen != null and endless_screen.visible and endless_screen.game != null \
 			and not endless_screen.game.over and not is_paused() and not endless_screen.is_style_picker_open() and _window_focused:
 		_endless_pending_ms += delta * 1000.0
@@ -432,6 +433,7 @@ func _input(event: InputEvent) -> void:
 func _apply_motion_setting() -> void:
 	backdrop.set_motion(not settings.reduced_motion)
 	fx.reduced_motion = settings.reduced_motion
+	BMBlockPainter.reduced_motion = settings.reduced_motion
 
 
 func _unhandled_input(event: InputEvent) -> void:

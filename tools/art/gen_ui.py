@@ -175,87 +175,6 @@ def block_stone():
     return im
 
 
-# ---------------------------------------------------------------- material overlays (22x22)
-def overlay_chrome():
-    im = img(22, 22)
-    silver = (235, 242, 255, 200)
-    for k in range(3):
-        for i in range(10):
-            x = 4 + k * 6 + i // 2
-            y = 16 - i
-            px(im, x, y, silver)
-    outline_shape(im, 1, 1, 20, 20, 3, (222, 232, 245, 255))
-    return im
-
-
-def overlay_neon():
-    im = img(22, 22)
-    outline_shape(im, 0, 0, 22, 22, 3, (255, 92, 214, 255))
-    outline_shape(im, 3, 3, 16, 16, 2, (120, 250, 255, 255))
-    return im
-
-
-def overlay_gold():
-    im = img(22, 22)
-    outline_shape(im, 1, 1, 20, 20, 3, SUN)
-    outline_shape(im, 2, 2, 18, 18, 3, SUN_D)
-    fill_shape(im, 7, 7, 8, 8, 2, SUN_DD)
-    fill_shape(im, 7, 7, 7, 7, 2, SUN)
-    rect(im, 9, 9, 2, 2, SUN_L)
-    return im
-
-
-def overlay_glass():
-    im = img(22, 22)
-    glare = (255, 255, 255, 230)
-    for i in range(11):
-        px(im, 5 + i, 16 - i, glare)
-        px(im, 6 + i, 16 - i, (255, 255, 255, 120))
-    for i in range(5):
-        px(im, 12 + i, 17 - i, (255, 255, 255, 160))
-    outline_shape(im, 1, 1, 20, 20, 3, (214, 246, 255, 255))
-    return im
-
-
-def overlay_prism():
-    im = img(22, 22)
-    bands = [BLOCKS[c][1] for c in ("red", "orange", "yellow", "green", "blue", "purple")]
-    for i, c in enumerate(bands):
-        for y in (15, 16):
-            for x in range(4 + i * 2 + (i // 1) * 0, 6 + i * 2):
-                px(im, x + 1, y, c)
-    outline_shape(im, 1, 1, 20, 20, 3, (255, 255, 255, 200))
-    return im
-
-
-def overlay_mask():
-    """Glass tint mask: marks the face area (used as alpha in-engine)."""
-    im = img(22, 22)
-    fill_shape(im, 1, 1, 20, 20, 3, WHITE)
-    return im
-
-
-LETTERS = {
-    "E": ["###", "#..", "##.", "#..", "###"],
-    "R": ["##.", "#.#", "##.", "#.#", "#.#"],
-    "T": ["###", ".#.", ".#.", ".#.", ".#."],
-    "M": ["#.#", "###", "###", "#.#", "#.#"],
-}
-
-
-def stamp_badge(letter, color, dark):
-    im = img(9, 9)
-    fill_shape(im, 0, 0, 9, 9, 2, INK)
-    fill_shape(im, 1, 1, 7, 7, 2, color)
-    hline(im, 2, 1, 4, WHITE)
-    hline(im, 2, 7, 5, dark)
-    for y, row in enumerate(LETTERS[letter]):
-        for x, ch in enumerate(row):
-            if ch == "#":
-                px(im, 3 + x, 2 + y, INK)
-    return im
-
-
 # ---------------------------------------------------------------- panels (9-slice)
 def plate(face, light, dark, rim_dark, rivets=True, size=24, cut=3):
     """Chunky enamel plate: ink outline, bevel, 2-px bottom lip, brass rivets."""
@@ -659,15 +578,7 @@ def main():
         if name != "stone":
             save("block_" + name, block(name))
     save("block_stone", block_stone())
-    save("mat_chrome", overlay_chrome())
-    save("mat_neon", overlay_neon())
-    save("mat_gold", overlay_gold())
-    save("mat_glass", overlay_glass())
-    save("mat_prism", overlay_prism())
-    save("stamp_encore", stamp_badge("E", PINK, PINK_D))
-    save("stamp_refund", stamp_badge("R", SKY, SKY_D))
-    save("stamp_tip", stamp_badge("T", SUN, SUN_D))
-    save("stamp_memory", stamp_badge("M", LILAC, PLUM_L))
+    # Material faces, Endless block styles and stamp badges: tools/art/gen_finishes.py
     save("cell_empty", cell_empty())
     save("panel_plate", plate(PLUM, PLUM_L, PLUM_D, PLUM_DD), [7, 7, 7, 9])
     save("panel_plate_plain", plate(PLUM, PLUM_L, PLUM_D, PLUM_DD, rivets=False), [5, 5, 5, 7])

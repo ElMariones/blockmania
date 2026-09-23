@@ -61,11 +61,11 @@ If documents conflict, resolve the discrepancy in favor of the owner's latest in
 | `game/content/` | Data catalogs with stable string IDs: `BMShapes`, `BMPieces` (starter bag, materials, stamps, Schematic values), `BMTools` (Workshop cards), `BMJokers` (+ effect functions), `BMConsumables`, `BMBosses`, `BMRunConfig` (targets, economy, Kits). |
 | `game/run/` | `BMRun` (complete run state + every player command, history, replay, `to_dict`/`from_dict`) and `BMSaveStore` (local saves/settings). |
 | `game/ui/` | Screens and widgets built in code on a fixed 1920×1080 `stage` centered for any aspect: `BMGameScreen`, `BMShopScreen` (with the Workshop picker), `BMTitleScreen`, `BMBoardView`, `BMTraySlot`, `BMBagView`, `BMPieceTile`, `BMCard` (Joker/item racks, shop offer cards, emblems), `BMHud` (marquee, tube, lamps, rolling counter, receipt), `BMStyle` (palette, fonts, 9-slice boxes, buttons, theme), `BMUI` (formatting). |
-| `game/presentation/` | Visual-only: `BMBlockPainter` (block/material/stamp textures), `BMSwirlBackground` + `shaders/bg_swirl.gdshader`, `BMCrtLayer` + `shaders/crt.gdshader` (also remaps mouse input through the warp), `BMFx` (capped particle layer, pop text, shake). |
+| `game/presentation/` | Visual-only: `BMFinishes` (finish catalog: names, animation phase, glow, particles), `BMBlockPainter` (plastic blocks, animated finish faces, glow pass, stamp badges), `BMSwirlBackground` + `shaders/bg_swirl.gdshader`, `BMCrtLayer` + `shaders/crt.gdshader` (also remaps mouse input through the warp), `BMFx` (capped particle layer, pop text, shake). |
 | `assets/ui/`, `assets/fonts/` | Generated pixel-art UI kit (`nine.json` holds 9-slice margins) and the original Blockhead fonts. Output of `tools/art/`; regenerate, never hand-edit. |
 | `game/main.gd` + `main.tscn` | App root `BMMain`: routes screens, the single `act()` entry point, autosave, pause, input-map registration. |
 | `tests/` | Headless test runner and `test_*.gd` suites (extend `BMTestCase`). |
-| `tools/art/` | `gen_ui.py` (UI kit PNGs at 4× nearest + `nine.json`), `gen_skins.py` (78 original pixel-art Endless finish faces at 4× nearest), and `gen_font.py` (Blockhead regular/bold TTF via fontTools). Python + Pillow + fontTools. |
+| `tools/art/` | `gen_ui.py` (UI kit PNGs at 4× nearest + `nine.json`), `gen_finishes.py` (animated block-finish sprite sheets shared by Endless styles and campaign materials, stamp badge strips, the glow halo and `finishes.json`), and `gen_font.py` (Blockhead regular/bold TTF via fontTools). Python + Pillow + fontTools. |
 | `tools/` | `shoot.py` (focus-safe screenshot runner, see below), `BMAutoplayer` (preview-guided bot with a configurable shop policy), `simulate.gd` (quick balance probe), `experiments.gd` (paired-seed content experiments: curve / jokers / upgrades). Dev-only. |
 | `docs/balance/` | Saved experiment reports that justify provisional numbers. |
 | `addons/godot_ai/` | Third-party editor plugin (MIT) for AI tooling; dev-only, see THIRD_PARTY.md. |
@@ -90,6 +90,7 @@ Future: `assets/export`. Godot resource paths and stable IDs (Joker/boss/item/sh
 - Fonts: Blockhead's em is 10 font pixels; use sizes 20 / 30 / 40 / 60 / 80 only, so glyphs stay on the pixel grid.
 - Lambdas that run later (timers, `call_deferred`) must not capture nodes that can be freed; capture a `weakref()` instead (a freed capture logs an engine error).
 - Presentation never changes results: particles, the CRT, the background and animations read resolution records only, and reduced motion keeps all information.
+- Block finishes (Endless styles and campaign material faces) are one catalog, `BMFinishes`, drawn from `tools/art/gen_finishes.py` sheets. A new finish needs art in that script, a `DEFS` entry, `fin_<id>_place/clear` cues in `tools/audio/gen_finish_sfx.py`, and must pass `tests/test_finishes.gd`. Frame 0 is the calm rest pose that Reduced Motion shows; glow is drawn in a pass before the blocks.
 - Keyboard focus outlines appear only after keyboard input; pointer input hides them without clearing focus. Owned Joker cards reorder by drag and drop, with Alt+Up/Down for keyboard access.
 
 ### Commands
@@ -111,7 +112,8 @@ Future: `assets/export`. Godot resource paths and stable IDs (Joker/boss/item/sh
 python tools/shoot.py fixture.gd out.png 1920x1080
 # Regenerate the UI kit / fonts, then reimport them in the open editor (see below)
 python tools/art/gen_ui.py
-python tools/art/gen_skins.py
+python tools/art/gen_finishes.py
+python tools/audio/gen_finish_sfx.py
 python tools/art/gen_font.py
 ```
 
