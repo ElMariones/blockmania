@@ -19,6 +19,9 @@ const LETTERS := {
 }
 const WORD := "BLOCKMANIA"
 const CELL := 22.0
+const DROP_TIME := 0.45 ## a logo letter's drop-in
+const POP_AWAY := 2.8 ## seconds a clicked (exploded) letter stays away before it drops back in
+const POP_GRAVITY := 2200.0
 
 var main: Node
 var stage: Control
@@ -33,6 +36,10 @@ var _score_rows: Array[Button] = []
 var _t := 0.0
 var _intro_t := 0.0
 var _landed := 0 ## logo letters that have played their landing sound
+## Easter egg: click a logo letter and it bursts into its blocks, then drops back in.
+var _letter_t0: Array[float] = [] ## _intro_t at which each letter starts its drop
+var _pops := {} ## letter index -> {"at": _intro_t of the pop, "pieces": [{pos, vel, rot, spin}]}
+var _lands: Array = [] ## [[_intro_t, letter index]] landing sounds still to play after a respawn
 var _drifters: Array = []
 
 
@@ -52,8 +59,9 @@ func _ready() -> void:
 	_logo = Control.new()
 	_logo.position = Vector2(0, 120)
 	_logo.size = Vector2(STAGE.x, 260)
-	_logo.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_logo.mouse_filter = Control.MOUSE_FILTER_PASS
 	_logo.draw.connect(_draw_logo)
+	_logo.gui_input.connect(_logo_input)
 	stage.add_child(_logo)
 
 	var tag := BMStyle.label("a toy-block roguelike of tricks, jokers and one very full board", 30, BMStyle.CREAM, true, 10)
@@ -62,26 +70,24 @@ func _ready() -> void:
 	tag.size = Vector2(STAGE.x, 40)
 	stage.add_child(tag)
 
-	var menu := BMStyle.vbox(16)
+	var menu := BMStyle.vbox(10) # fits all seven rows (both Continue buttons) above the footer
 	menu.position = Vector2((STAGE.x - 600) / 2.0, 414)
-	menu.size = Vector2(600, 560)
+	menu.size = Vector2(600, 592)
 	stage.add_child(menu)
-	_continue = BMStyle.button("CONTINUE RUN", func() -> void: main.continue_run(), "mint", 40)
+	_continue = _menu_button("CONTINUE RUN", func() -> void: main.continue_run(), "mint", 40, BMStyle.tex("icon_play"), 1.5)
 	_continue.custom_minimum_size.y = 92
 	menu.add_child(_continue)
-	_new = BMStyle.button("NEW RUN", _new_run, "sun", 40)
+	_new = _menu_button("NEW RUN", _new_run, "sun", 40, BMStyle.tex("icon_dice"), 1.5)
 	_new.custom_minimum_size.y = 92
 	menu.add_child(_new)
-	var endless := BMStyle.button("ENDLESS", func() -> void: main.start_endless(), "sky", 40)
-	endless.icon = BMStyle.infinity_icon()
-	endless.add_theme_constant_override("icon_max_width", 68)
+	var endless := _menu_button("ENDLESS", func() -> void: main.start_endless(), "sky", 40, BMStyle.infinity_icon())
 	endless.custom_minimum_size.y = 80
 	endless.tooltip_text = "Relaxed block placement. Clear rows and columns, build a combo, and chase your best score."
 	menu.add_child(endless)
-	_endless_continue = BMStyle.button("CONTINUE ENDLESS", func() -> void: main.continue_endless(), "mint", 30)
+	_endless_continue = _menu_button("CONTINUE ENDLESS", func() -> void: main.continue_endless(), "mint", 30, BMStyle.tex("icon_play"))
 	_endless_continue.custom_minimum_size.y = 64
 	menu.add_child(_endless_continue)
-	var scores := BMStyle.button("HIGH SCORES", _show_high_scores, "plum", 30)
+	var scores := _menu_button("HIGH SCORES", _show_high_scores, "plum", 30, BMStyle.tex("icon_trophy"))
 	scores.custom_minimum_size.y = 64
 	menu.add_child(scores)
 	var seed_row := BMStyle.hbox(10)
@@ -95,14 +101,11 @@ func _ready() -> void:
 	seed_row.add_child(_seed_edit)
 	var low := BMStyle.hbox(16)
 	menu.add_child(low)
-	var options := BMStyle.button("OPTIONS", func() -> void: main.show_options(), "sky", 30)
-	options.icon = BMStyle.tex("icon_gear")
-	options.alignment = HORIZONTAL_ALIGNMENT_CENTER
-	options.add_theme_constant_override("icon_max_width", 32)
+	var options := _menu_button("OPTIONS", func() -> void: main.show_options(), "sky", 30, BMStyle.tex("icon_gear"), 0.75, 18.0)
 	options.custom_minimum_size.y = 72
 	options.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	low.add_child(options)
-	var quit := BMStyle.button("QUIT", func() -> void: get_tree().quit(), "plum", 30)
+	var quit := _menu_button("QUIT", func() -> void: get_tree().quit(), "plum", 30, BMStyle.tex("icon_power"), 0.75, 18.0)
 	quit.custom_minimum_size.y = 72
 	quit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	low.add_child(quit)
@@ -113,6 +116,30 @@ func _ready() -> void:
 	foot.size = Vector2(STAGE.x, 30)
 	stage.add_child(foot)
 	_seed_drifters()
+	_reset_letters()
+
+
+## Menu button with its icon pinned to the left edge, so every label is centered on the button
+## itself (a Button's own icon would push the text off center). The icon follows the face down
+## when the button is pressed.
+func _menu_button(text: String, cb: Callable, kind: String, font_size: int, icon_tex: Texture2D, icon_scale := 1.0, margin := 28.0) -> Button:
+	var b := BMStyle.button(text, cb, kind, font_size)
+	var ic := TextureRect.new()
+	ic.texture = icon_tex
+	ic.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	ic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	ic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	ic.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	ic.size = icon_tex.get_size() * icon_scale
+	b.add_child(ic)
+	var place := func(down: bool) -> void:
+		# Vertically centered on the face (4 px above the button's center: the 9-slice has a
+		# bottom lip); the pressed face sits 4 px lower.
+		ic.position = Vector2(margin, (b.size.y - ic.size.y) / 2.0 - 4.0 + (4.0 if down else 0.0)).round()
+	b.button_down.connect(place.bind(true))
+	b.button_up.connect(place.bind(false))
+	b.resized.connect(place.bind(false))
+	return b
 
 
 func refresh() -> void:
@@ -121,6 +148,7 @@ func refresh() -> void:
 	_endless_continue.visible = BMEndlessStore.load_game() != null
 	_intro_t = 0.0
 	_landed = 0
+	_reset_letters()
 	focus_default()
 
 
@@ -357,6 +385,7 @@ func _process(delta: float) -> void:
 	while _landed < WORD.length() and _intro_t >= _landed * 0.07 + 0.45:
 		BMAudio.sfx("letter", BMAudio.scale_pitch(_landed), -3.0)
 		_landed += 1
+	_update_pops(delta, rm)
 	if not rm:
 		for d in _drifters:
 			d.pos.y += d.speed * delta
@@ -371,28 +400,41 @@ func _draw_drift() -> void:
 		BMBlockPainter.draw_shape(_drift, d.shape, d.pos.round(), d.cell, d.alpha)
 
 
-func _draw_logo() -> void:
-	var rm: bool = main != null and main.settings.reduced_motion
-	var widths: Array = []
+## Left x of each logo letter (stage coordinates) and the total width.
+func _letter_xs() -> Array:
+	var xs: Array = []
 	var total := 0.0
 	for ch in WORD:
-		var w: int = LETTERS[ch][0].length()
-		widths.append(w)
-		total += (w + 1) * CELL
+		total += (String(LETTERS[ch][0]).length() + 1) * CELL
 	total -= CELL
 	var x := (STAGE.x - total) / 2.0
+	for ch in WORD:
+		xs.append(x)
+		x += (String(LETTERS[ch][0]).length() + 1) * CELL
+	return xs
+
+
+func _letter_bob(li: int) -> float:
+	var rm: bool = main != null and main.settings.reduced_motion
+	return 0.0 if rm else sin(_t * 2.0 + li * 0.55) * 6.0
+
+
+func _draw_logo() -> void:
+	var rm: bool = main != null and main.settings.reduced_motion
+	var xs := _letter_xs()
 	var shine := fmod(_t * 0.35, 1.6) - 0.3
 	for li in WORD.length():
-		var ch := WORD[li]
-		var rows: Array = LETTERS[ch]
 		var color := li % BMShapes.OFFER_COLOR_COUNT
-		var appear := clampf((_intro_t - li * 0.07) / 0.45, 0.0, 1.0)
+		if _pops.has(li):
+			_draw_pop(li, color)
+			continue
+		var rows: Array = LETTERS[WORD[li]]
+		var appear := clampf((_intro_t - _letter_t0[li]) / DROP_TIME, 0.0, 1.0)
 		var bounce := 0.0
 		if appear < 1.0 and not rm:
 			bounce = -(1.0 - appear) * 220.0 + sin(appear * PI) * 30.0
-		var bob := 0.0 if rm else sin(_t * 2.0 + li * 0.55) * 6.0
-		var ox := x
-		var oy := 20.0 + bounce + bob
+		var ox: float = xs[li]
+		var oy := 20.0 + bounce + _letter_bob(li)
 		for ry in rows.size():
 			var row: String = rows[ry]
 			for rx in row.length():
@@ -405,4 +447,96 @@ func _draw_logo() -> void:
 				var k := (r.position.x / STAGE.x) - shine
 				if absf(k) < 0.05 and not rm:
 					_logo.draw_rect(r.grow(-4), Color(1, 1, 1, 0.55 * (1.0 - absf(k) / 0.05)))
-		x += (widths[li] + 1) * CELL
+
+
+# --- Easter egg: exploding logo letters ---------------------------------------------------
+
+func _reset_letters() -> void:
+	_letter_t0.clear()
+	for li in WORD.length():
+		_letter_t0.append(li * 0.07)
+	_pops.clear()
+	_lands.clear()
+
+
+## Index of the landed, unexploded letter under a point in logo coordinates, or -1.
+func _letter_at(p: Vector2) -> int:
+	var xs := _letter_xs()
+	for li in WORD.length():
+		if _pops.has(li) or _intro_t - _letter_t0[li] < DROP_TIME:
+			continue
+		var w := String(LETTERS[WORD[li]][0]).length() * CELL
+		if Rect2(xs[li] - 4.0, 20.0 + _letter_bob(li) - 4.0, w + 8.0, 7 * CELL + 8.0).has_point(p):
+			return li
+	return -1
+
+
+func _logo_input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion:
+		var over := _letter_at(event.position) >= 0
+		_logo.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND if over else Control.CURSOR_ARROW
+	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		var li := _letter_at(event.position)
+		if li >= 0:
+			_pop_letter(li)
+			_logo.accept_event()
+
+
+## The letter bursts into its blocks, each flying off with a spin and falling under gravity.
+## Purely cosmetic: it touches nothing but this screen's drawing.
+func _pop_letter(li: int) -> void:
+	var rows: Array = LETTERS[WORD[li]]
+	var ox: float = _letter_xs()[li]
+	var oy := 20.0 + _letter_bob(li)
+	var center := Vector2(ox + String(rows[0]).length() * CELL / 2.0, oy + rows.size() * CELL / 2.0)
+	var pieces: Array = []
+	for ry in rows.size():
+		var row: String = rows[ry]
+		for rx in row.length():
+			if row[rx] != "#":
+				continue
+			var at := Vector2(ox + (rx + 0.5) * CELL, oy + (ry + 0.5) * CELL)
+			var out := (at - center).normalized() if at != center else Vector2.UP
+			pieces.append({"pos": at, "rot": 0.0, "spin": randf_range(-9.0, 9.0),
+				"vel": out * randf_range(280.0, 620.0) + Vector2(randf_range(-90.0, 90.0), -randf_range(380.0, 720.0))})
+	_pops[li] = {"at": _intro_t, "pieces": pieces}
+	BMAudio.sfx("letter_pop", BMAudio.scale_pitch(li))
+	if BMFx.instance:
+		var g := _logo.get_global_transform() * center
+		var hue: Color = BMFinishes.HUES[li % BMShapes.OFFER_COLOR_COUNT]
+		BMFx.instance.burst(g, [hue, hue.lightened(0.35), BMStyle.CREAM], 22, 520.0)
+		BMFx.instance.ring(g, hue.lightened(0.3), 110.0)
+		BMFx.instance.shake(4.0)
+
+
+func _update_pops(delta: float, rm: bool) -> void:
+	for li in _pops.keys():
+		var pop: Dictionary = _pops[li]
+		if not rm:
+			for pc in pop.pieces:
+				pc.vel.y += POP_GRAVITY * delta
+				pc.pos += pc.vel * delta
+				pc.rot += pc.spin * delta
+		if _intro_t - float(pop.at) >= POP_AWAY:
+			# Drop the letter back in, with the usual landing click once it lands.
+			_pops.erase(li)
+			_letter_t0[li] = _intro_t
+			_lands.append([_intro_t + DROP_TIME, li])
+			BMAudio.sfx("letter_back", BMAudio.scale_pitch(li))
+	for i in range(_lands.size() - 1, -1, -1):
+		if _intro_t >= float(_lands[i][0]):
+			BMAudio.sfx("letter", BMAudio.scale_pitch(int(_lands[i][1])), -3.0)
+			_lands.remove_at(i)
+
+
+func _draw_pop(li: int, color: int) -> void:
+	var rm: bool = main != null and main.settings.reduced_motion
+	var age := _intro_t - float(_pops[li].at)
+	# Reduced motion: the blocks stay put and fade; otherwise they fly and fade late.
+	var alpha := clampf(1.0 - age / 0.4, 0.0, 1.0) if rm else clampf((1.4 - age) / 0.5, 0.0, 1.0)
+	if alpha <= 0.0:
+		return
+	for pc in _pops[li].pieces:
+		_logo.draw_set_transform(pc.pos, pc.rot, Vector2.ONE)
+		BMBlockPainter.draw_block(_logo, Rect2(Vector2(-CELL, -CELL) / 2.0, Vector2(CELL, CELL)), color, alpha)
+	_logo.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)

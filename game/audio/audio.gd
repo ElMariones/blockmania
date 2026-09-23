@@ -93,6 +93,8 @@ const SFX := {
 	"warden_unlock": [["warden_unlock"], 0.0, 200],
 	"tomb_rise": [["tomb_rise"], 0.04, 200],
 	"crate_open": [["crate_open"], 0.0, 300],
+	"letter_pop": [["letter_pop"], 0.08, 60],
+	"letter_back": [["letter_back"], 0.06, 60],
 }
 
 ## Soundtrack. Order inside a playlist is shuffled (never the same track twice in a row).

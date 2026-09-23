@@ -59,6 +59,7 @@ _Last updated: 2026-09-23 — Placements now refill on line clears (15, +1 per l
 - [x] Image-generator art (`assets/source/generated/`) reviewed by the owner: **not adopted**.
 - [x] Layout verified at 1920×1080, 1280×720, 1680×1050 and 2560×1080 with `tools/shoot.py`; stage children checked for minimum-size overflow.
 - [x] Title-screen Options (CRT, motion, block patterns, controls) before starting a run.
+- [x] Title menu polish (owner request, 2026-09-23): every menu button has an icon with its label centered; clicking a BLOCKMANIA logo letter makes it explode and drop back in (easter egg, cosmetic only).
 - [x] Focus outline appears for keyboard navigation and is hidden after pointer use.
 - [x] Owned Jokers reorder by drag and drop in the round and shop; Alt+Up/Down is the keyboard alternative.
 - [x] Endless arcade mode: separate seeded rules and save, fair three-piece deals, Hold, no-fit loss, x1/x2/x3/x5/x8/x10 combo with three-miss reset, clean-board bonus, top-ten local scores, pixel infinity icon, and calm/tension/celebration presentation with an added combo music layer.

@@ -163,6 +163,21 @@ def main() -> None:
     tr.add(chime_chord([74, 81, 86, 90, 93], 1.0, 0.04, 0.5), 0.3)
     tr.add(sparkle(0.6, 14, 93, 106, 453, 0.22), 0.35)
     write("crate_open", tr.buf, -5, room=0.25, t60=1.0)
+
+    # --- Title easter egg: a logo letter pops apart, then its blocks rattle back together ------
+    tr = Track(1.0)
+    tr.add(plastic(62, 0.12, seed=460, thud=0.7), 0.0)
+    tr.add(bandpass(noise(0.09, 461), 600, 6000, 1) * env_exp(0.09, 0.03) * 0.9, 0.0)  # the "pop"
+    tr.add(crunch(0.45, 462, 900, 7000) * 0.55, 0.03)
+    for i in range(6):  # blocks clattering away
+        tr.add(woody(79 + (i * 5) % 12, 0.06, 0.35 - i * 0.04, seed=463 + i), 0.08 + i * 0.07)
+    tr.add(sparkle(0.4, 6, 93, 103, 470, 0.14), 0.05)
+    write("letter_pop", tr.buf, -7, room=0.15, t60=0.6)
+    tr = Track(0.8)
+    tr.add(whoosh(0.35, 5000, 700, seed=480) * 0.35, 0.0)
+    for i in range(5):  # blocks snapping home, rising
+        tr.add(woody(74 + i * 3, 0.05, 0.3 + i * 0.06, seed=481 + i), 0.12 + i * 0.045)
+    write("letter_back", tr.buf, -10, room=0.12, t60=0.5)
     print("feature sfx written to", os.path.abspath(OUT))
 
 
