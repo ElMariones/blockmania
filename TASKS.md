@@ -103,7 +103,8 @@ Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/r
 ## M3 / M4 — Polish, balance, Steam
 
 - [ ] Production art/audio per ASSET_PLAN; original fonts with licenses.
-- [ ] Performance profiling on target hardware; export presets for Windows.
+- [ ] Performance profiling on target hardware.
+- [x] Windows export preset and a first demo executable (2026-09-23): single exe with embedded pck, original BLOCKMANIA icon (`tools/art/gen_icon.py`) and version info; dev folders excluded. Launch verified off-screen on the owner's machine.
 - [ ] Steamworks integration (achievements/cloud optional, never required for play).
 
 ## Balance watch (provisional numbers — do not tune silently)

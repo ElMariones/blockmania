@@ -174,6 +174,7 @@ Everything below is original, authored as code in this repository, and regenerat
 
 | Deliverable | Source | Output | Status |
 |---|---|---|---|
+| App icon: chamfered plum tile, brass rim, a "B" of toy blocks in the logo colors; 32-px master at whole-number scales plus a hand-simplified 16 px | `tools/art/gen_icon.py` | `icon.png` (256, window/project icon), `icon.ico` (16-256, Windows exe) | In game and in the exe; prototype-final |
 | Pixel UI kit: 7 block faces (6 colors + stone), empty cell, panels (plate, plain, sun, boss, inset, paper, tooltip), brass board frame, buttons in 5 colors × normal/hover/pressed + disabled, card and rack frames per rarity/type, pills, ~20 icons | `tools/art/gen_ui.py` (Pillow; drawn at 1× art pixels, exported 4× nearest) | `assets/ui/*.png`, `assets/ui/nine.json` (9-slice margins) | In game; prototype-final |
 | "Blockhead" pixel typeface, regular + bold (Latin, digits, punctuation) | `tools/art/gen_font.py` (fontTools) | `assets/fonts/blockhead*.ttf` | In game; em = 10 px, use sizes 20/30/40/60/80 |
 | Swirl background (domain-warped fbm, polar swirl, Bayer-dithered 5-band posterize, moods: title/round/boss/shop, pulse on big scores) | `game/presentation/shaders/bg_swirl.gdshader` | runtime | In game; motion off under reduced motion |
