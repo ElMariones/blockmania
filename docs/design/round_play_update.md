@@ -1,6 +1,6 @@
 # BLOCKMANIA: Round-play update
 
-**Date:** 2026-09-23. **Status:** Section 1 is implemented. Everything else is a proposal waiting for the owner's approval. All numbers are provisional until playtested.
+**Date:** 2026-09-23. **Status:** implemented (owner: "add the features in order"). Rules as built are in GAME_DESIGN_DOCUMENT.md §18; differences from this proposal are noted inline. All numbers are provisional until playtested.
 
 **Sources:**
 - An analysis of *Block Slot Machine* (Steam demo): its data files and the owner's screenshots.
@@ -71,7 +71,7 @@ The bot is a lower bound: it can't plan multi-line setups, which the refill now 
   - Copying both Singles went from neutral to harmful (Δ −0.8).
 - **Targets:** the targets are unchanged. If humans now find Act 1 trivial, raise rounds 3–8 by 10–15% and keep rounds 1–2 as teaching rounds.
 
-## 2. Tray Hands *(proposed, highest priority)*
+## 2. Tray Hands *(implemented; starter-bag Staircase odds are 17.9% because Monochrome outranks it)*
 
 The deal becomes an event. When a **full three-piece tray is dealt** (the legality swap already applied), the game checks it for a **Hand**, shows it as a badge on the tray, and grants the reward.
 
@@ -97,7 +97,7 @@ The deal becomes an event. When a **full three-piece tray is dealt** (the legali
 - **Receipt:** Hand rewards appear as their own receipt line at pipeline steps 3 (Chips), 5 (Mult) and 6 (xMult). Rewards that aren't score (placement, Refresh, Credits) go in the events line.
 - **Cost:** a new field on `RoundState`, one pure detector in `BMBag`, one badge widget, and one line per Hand in the resolver. Simulate with `experiments.gd` using a new `hands` mode.
 
-## 3. One targeting framework, then tools earned by play *(proposed)*
+## 3. One targeting framework, then tools earned by play *(implemented, plus the Emergency Brick)*
 
 The source game's tools (a plus-shaped cut, a 3×3 cut, "remove one color", "remove one cell") are the fun half of its loop, and each needs a **cell picker**.
 
@@ -122,7 +122,7 @@ Card data declares which one it needs, and one build unlocks all four withheld c
 
 There is **no whole-board wipe**. It deletes the tension that makes a round interesting.
 
-## 4. Smaller adaptations *(proposed)*
+## 4. Smaller adaptations *(implemented: Boss Crate, Kit bags + Chunky/Tetromino Kits, combo grace = 1)*
 
 - **Faster reward cadence.** After each boss, open a free **Boss Crate**: choose 1 of 3 offers (a Joker of the next act's rarity, a Workshop edit, or a tool). This answers GDD §16.10 Q3 in favor of choose-1-of-3 at boss beats only, which keeps shop time down.
 - **Kits with their own starter bags.** This answers §16.10 Q1 with yes. Examples:
@@ -167,7 +167,7 @@ Draw Forecast (better as a Joker than a base rule, see *Periscope* in §6), Rese
 - **Joker activation animation:** already built (sequenced pulses with pop text).
 - **Most other Jokers:** they duplicate existing cards. Variety Act ≈ Color Cycle, Hot Streak ≈ Chain Link, Family Business ≈ Specialist, Precision Engineering ≈ Lean Bag, Deep Pockets ≈ Hoarder, Postage Due ≈ Postmaster, Three-Beat ≈ Golden Ratio. Others are hard to read at a glance (Bridge Builder, Claustrophobia, Fault Line, Urban Planner, Pendulum). Some are economy filler (Coupon Clipper, Pawn Broker, Rainy Day Fund, Loyal Customer).
 
-## 6. New Jokers (proposed: 14)
+## 6. New Jokers (implemented: 14, catalog now 52)
 
 Phase names match `game/content/jokers.gd`. "Hook" means the resolver context needs one new deterministic field. Values are provisional and must go through `experiments.gd jokers` before shipping.
 

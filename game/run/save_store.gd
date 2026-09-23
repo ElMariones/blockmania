@@ -46,6 +46,8 @@ static func load_run() -> BMRun:
 	if int(data.get("schema", 0)) < 2:
 		push_warning("Run save predates the Bag (schema 1); it cannot be resumed.")
 		return null
+	# Schema 3 -> 4 (round-play update): new fields (tray `hand`/`brick` marks, patch, feats,
+	# Patience, Warden lock, tombs, combo misses, loan debt, shop crate) all load with defaults.
 	# Schema 2 -> 3: rounds gained `placement_cap` (line clears refill placements up to it).
 	# RoundState.from_dict defaults it to the placements left, so an in-progress round resumes
 	# with refills capped at its current count.

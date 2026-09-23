@@ -57,7 +57,8 @@ This document lists the art, animation, UI, audio, and Steam marketing assets ne
 | `consumable_art` | 8 | One icon/illustration per item; unused/selected/used states | P1/P2 | Visual grammar different from passive Jokers. |
 | `workshop_card_art` | 14 (13 tools + Schematic family variants) | Card frame and icon per Workshop card (plating, tubing, leaf, glassworks, prism, 4 stamps, copier, shredder, turntable, repaint, schematic) | P1/P2 | Distinct "tool" grammar from Jokers and items; target count shown in text. |
 | `joker_illustration` (bag era) | +14 | Hoarder, Architect, Straight Edge, Square Deal, Last Piece, Postmaster, Lean Bag, Foundry, Neon Sign, Specialist, Recycler, Glass Cannon, Collector, Mimic | P2 | Joker total is now 38. |
-| `kit_badge` | 3 | Standard, Compact, High Roller selection emblems | P2 | Clear starting tradeoff in adjacent live text. |
+| `kit_badge` | 5 | Standard, Compact, High Roller, Chunky, Tetromino (the picker currently draws each Kit's starter bag instead) | P2 | Clear starting tradeoff in adjacent live text. |
+| Round-play icons *(produced, code-authored in `tools/art/gen_ui.py`)* | 11 | brick, eraser, hammer, bucket, blueprint, crate, tomb, scope, medal, shield, magnet | P1 | Pixel icons at 4× nearest; used on item cards, Joker emblems, tool sprites, Feat banners. |
 | `collection_unknown` | 1 | Undiscovered silhouette/card treatment | P2 | No gameplay information leak beyond desired unlock presentation. |
 
 **Card brief:** cards should look like miniature arcade curios or strange physical tokens on a workbench. Favor bold silhouettes, playful mechanical motifs, and subtle animated foil over playing-card suits or joker faces associated with other games. Each card needs legible rarity, name, rules text area, counters, and disabled-reason overlay.
@@ -99,6 +100,9 @@ The layout exploration above was realized as code-authored pixel art; see §12. 
 | Combo and huge score | Numeral roll, brass flash, short chromatic fringe, optional camera nudge | P1/P2 | Static score update and badge. |
 | Joker trigger | Ordered card pulse, semantic icon beam, contribution badge | P1 | Card border highlight and receipt entry. |
 | Refresh | Tray wipe, new-shape reveal | P1 | Instant replacement with label. |
+| Tray deal / Tray Hand *(produced)* | Slot-reel spin with staggered stops; Hand ribbon, chase lights, callout, themed particles | P1 | Pieces appear at once; badge and message stay. |
+| Item tools *(produced)* | Board target overlay; eraser rub, hammer slam, bucket pour, paint splash, blueprint draft; thrown physics brick with trail, bounces, impact debris | P1 | Instant removal with text; the brick is placed by clicking a slot. |
+| Feats, bosses, crate *(produced)* | Medal banners; Warden bars and shatter; Undertaker tomb rise; Boss Crate rattle and burst | P1/P2 | Still banner/text; no shake. |
 | Boss reveal | Cabinet light sweep, badge sting, rule panel | P2 | Static boss panel. |
 | Shop purchase/sell | Card glide, slot snap, Credits particle trail | P1 | Simple slot change and price update. |
 | Win/defeat | Controlled screen treatment, confetti/glitch variant, transition | P1/P2 | Fade and clear result card. |

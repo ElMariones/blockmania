@@ -1,6 +1,6 @@
 # BLOCKMANIA — Game Design Document
 
-**Version:** 0.4 — placements refill on line clears (§5); round-play proposals in docs/design/round_play_update.md · **Date:** 2026-09-22 · **Platform:** Windows desktop at launch, Steam distribution · **Engine:** Godot 4.x stable at implementation start
+**Version:** 0.5 — round-play update implemented (§18): Tray Hands, targeted items and the Emergency Brick, Feats, 52 Jokers, Warden/Undertaker, Kit bags, Boss Crate, combo grace · **Date:** 2026-09-22 · **Platform:** Windows desktop at launch, Steam distribution · **Engine:** Godot 4.x stable at implementation start
 
 ## 1. Vision
 
@@ -114,7 +114,7 @@ For each placement:
 - **10 Chips per newly placed cell.**
 - **100 Chips per completed row or column.**
 - **40 extra Chips for each completed line beyond the first in the same wave.** This rewards multi-line setups without double-counting cells.
-- **25 Chips per combo level** when at least one line clears. Combo level starts at 0, increases by 1 after a clearing placement, and caps at 4. A placement without a clear scores its cells, then resets the combo to 0.
+- **25 Chips per combo level** when at least one line clears. Combo level starts at 0, increases by 1 after a clearing placement, and caps at 4. *Combo grace (2026-09-23):* the combo survives **one** placement without a clear (shown as "x3!" and "HANG ON!"); a second non-clearing placement in a row resets it to 0.
 - **Base Mult = 1.** Jokers and consumables modify Chips or Mult.
 
 Example: a 4-cell shape completes two lines with combo level 1. Chips = 40 + 200 + 40 + 25 = 305 before Joker effects. With final Mult 2, the placement scores 610 Points.
@@ -179,6 +179,8 @@ Each act has three ordinary rounds and one boss. The upcoming boss is revealed a
 | **The Color Blind** | Effects that name a block color are disabled for this round. Disabled cards stay equipped and are visibly dimmed. | Diversify beyond color-dependent scoring. |
 | **The Echo Chamber** | The first clear wave from each placement scores normally; extra waves score half Chips before Jokers. | Prefer immediate clears over chained board effects. |
 | **The Lockdown** | All tray-refresh actions, including the free Refresh and Second Tray, are unavailable this round. Eraser and Blueprint remain usable. | Plan tray order and preserve board space. |
+| **The Warden** | One tray slot starts barred: its piece can't be placed, refreshed, or bricked until the first line clear of the round. Deals and the legality guarantee skip the barred slot. | Open with a quick clear from the other two slots. |
+| **The Undertaker** | After every 4th placement (not the winning one), a stone tombstone rises on a seeded empty cell that would not complete a line. It clears with its line like any block. | Clear often; keep lanes open. |
 | **The Last Call** | Final boss: only 12 placements (refills capped at 12); each multi-line placement gains +50 Chips. *(was 10 of 12 before refills)* | Prepare efficient shapes and simultaneous clears. |
 
 The same boss modifier must never silently make a Joker text false. Disabled or altered effects receive an explicit badge in the HUD and a reason in the tooltip.
@@ -201,6 +203,10 @@ Kits are starting presets, not permanent power upgrades. Standard Kit is availab
 | **Standard Kit** | 5 Joker slots, 1 Refresh, 15 placements. | Default |
 | **Compact Kit** | Starts with 1 extra Refresh each round, but only 4 Joker slots. | Clear 100 total lines across runs. |
 | **High Roller Kit** | Starts with 4 Credits and 14 placements per round. | Win a standard run. |
+| **Chunky Kit** | A 20-piece bag of plump shapes (four Square 2×2, three T 4, two Plus 5, a Square 3×3, and a few small pieces). | Defeat 3 bosses across runs. |
+| **Tetromino Kit** | A 20-piece bag of four-block pieces only (so Twins and Triplets are common). | Form 25 Tray Hands across runs. |
+
+*Kits own their starter bags (2026-09-23): Standard and High Roller use the 24-piece bag; Compact uses an 18-piece bag without Singles. A Kit picker opens from New Run; lifetime counters (lines, standard wins, bosses, Tray Hands) live in `user://profile.cfg`, separate from runs and settings.*
 
 ### Meta progression
 
@@ -247,12 +253,17 @@ Consumables are one-time, player-triggered tools. They may be used between place
 |---|---:|---|
 | **Polish** | 3 | Add +100 Chips to the next placement this round. |
 | **Spark** | 3 | Add +1 Mult to the next placement this round. |
-| **Eraser** | 4 | Remove up to two occupied cells chosen by the player. |
+| **Eraser** | 4 | Remove up to two blocks chosen by the player. |
 | **Second Tray** | 3 | Refresh the current tray without spending the round's free Refresh. |
 | **Extra Turn** | 5 | Gain two placements this round, maximum 20 total. |
-| **Lucky Paint** | 3 | Recolor one tray shape to a chosen color. Shape geometry unchanged. |
-| **Blueprint** | 4 | Replace one tray shape with a chosen 1–3 cell shape from a limited preview list. |
+| **Lucky Paint** | 3 | Recolor one tray piece to a chosen color. Shape unchanged; the bag piece is not repainted. |
+| **Blueprint** | 4 | Swap one tray piece (it goes to the discard pile) for a temporary 1–3 cell piece chosen from nine. |
 | **Cash Out** | 3 | Gain 4 Credits after this round if won; otherwise no payout. |
+| **Punch** | 4 | Remove the blocks in a plus shape (up to 5) around a chosen cell. |
+| **Color Purge** | 5 | Remove every block of one chosen color. Stone is immune. |
+| **Emergency Brick** | 4 | Throw a brick into a tray slot: it becomes a temporary one-block piece; a piece it hits goes to the discard pile. Not into the Warden's barred slot. |
+
+*Board tools (Eraser, Punch, Color Purge, Patch Panel) never score, never count as a clear, and never trigger Jokers or placement refills. Any of them, Blueprint, or the Brick counts as a rescue when no offered piece fits. The throw is presentation: the rules only receive the chosen slot.*
 
 ## 8. Onboarding, modes, and UX
 
@@ -579,3 +590,52 @@ An unfinished Endless game autosaves after each successful action and is resumed
 The Endless cabinet uses the same CRT option, clear waves, particles, and reduced-motion behavior, with a code-drawn pixel infinity emblem. Its calm, tension, and celebration palettes/music are selected from board occupancy, score, and combo. Celebration starts at x5; tension starts at 68% board occupancy, or at 48% after 5,000 points. Celebration has priority while the chain lasts. A synthesized beat layer joins at x5 and grows at x8; high chains also add a gentle board pulse, drag trails, larger score text, scoreward particles, capped confetti, and small shakes. Clean-board clears receive a larger celebration and switch the empty board to a bright **Fresh Board** palette and rim until the next piece is placed. Reduced motion retains score and callout text.
 
 The player can choose a cosmetic Endless block style: Classic Plastic, Stained Glass, Crystal, Neon, Gold, Marble, Cyberpunk, Toy Wood, Candy, Lava, Ice, Chrome, or Prism. Each has an original code-generated animated pixel-art face (shine waves that roll diagonally across the board, twinkles, flowing magma, a turning candy swirl, data pulses, a neon flicker), an optional glow halo, its own placement and clear particles, and its own generated place/clear sound. Aurora unlocks on a clean board and Starfall at x10. Reduced Motion shows every style on its still rest frame and skips particles; no information depends on the animation. The selected finish and unlocks live in settings, separate from the run and gameplay RNG. These thresholds, shape weights, and score values are playtest values, not settled balance.
+
+
+## 18. Round-play update (implemented 2026-09-23)
+
+Adopted from [docs/design/round_play_update.md](docs/design/round_play_update.md); owner instruction: "add the features in order". All values are provisional.
+
+### 18.1 Tray Hands (`BMHands`)
+
+- A **natural** full deal of three pieces (round start, or a new tray after the old one is spent) is checked once and gets at most one Hand, highest rank first: **Grand Slam** (same family and same color) > **Triplets** (same family) > **Monochrome** (same color; Prism counts as any color) > **Staircase** (cell counts consecutive, e.g. 2-3-4) > **Twins** (exactly two of a family).
+- Rewards: Twins +30 Chips per placement from the tray (step 3); Triplets +2 Mult per placement (step 5) and +1 Refresh; Monochrome ×1.5 Mult per placement (step 6, after Glass, before Jokers); Staircase +1 placement (may exceed the refill cap); Grand Slam gets Triplets + Monochrome rewards and +3 Credits.
+- Trays refilled by Refresh, Second Tray, or Tiny Insurance never form a Hand (unless the **Card Sharp** Joker is owned). Temporary pieces break a Hand. Hand pieces carry a `hand` mark, so previews, saves, and replays agree.
+- Starter-bag odds (exact): Twins 21.5%, Staircase 17.9%, Monochrome 1.2%, Triplets 0.4%, any Hand 41%. The Bag view lists per-deal odds from the whole bag's composition (never the draw order).
+- Presentation: each deal spins the tray like slot reels that stop left to right; a Hand adds a ribbon, chasing marquee lights, a callout, and its own fanfare. Reduced motion shows the result at once.
+
+### 18.2 Targeted items
+
+One targeting flow covers board cells (Eraser, up to 2), one center cell (Punch), a color (Color Purge), and tray slots (Brick; Lucky Paint + color; Blueprint + shape). The board shows every cell an action would remove; the item card offers CANCEL (and ERASE for a partial Eraser); right-click and Esc cancel; the keyboard moves a board cursor. The Emergency Brick is a physics toy: grab and fling it or click a slot; it bounces off the screen edges and smashes into the slot it enters.
+
+### 18.3 Feats (`BMFeats`)
+
+Crossfire (row and column in one placement), Double Tap (clear on two placements in a row), Hat Trick (3+ lines), Clean Board (empty board after the clear), Needle Threader (fill a one-block hole closed on four sides and clear), Last Breath (clear with the last placement). Feats add no score; they appear as medal banners and receipt lines, and Showboat pays for new ones.
+
+### 18.4 New Jokers (52 total)
+
+| Rarity | Joker | Effect |
+|---|---|---|
+| Uncommon | **Patience** | Non-clearing placements store +40 Chips (max +200); the next clearing placement adds them. |
+| Uncommon | **Locksmith** | +1 Mult when the piece fills a closed one-block hole; +75 Chips if it also clears. |
+| Uncommon | **Countdown** | ×1.5 Mult on the third of three placements with strictly fewer blocks each time. |
+| Uncommon | **Breakage Bonus** | +2 Credits whenever a Glass piece shatters. |
+| Rare | **Insurance Policy** | Once: a lost round restarts from scratch without the free Refresh; the card is destroyed. |
+| Rare | **Showboat** | +2 Mult per Feat earned for the first time this round. |
+| Uncommon | **Full Tank** | +2 Mult when placing at the refill cap. |
+| Common | **Overflow** | Refills wasted by the cap pay +1 Credit each (max 3 per round). |
+| Rare | **Keystone** | ×2 Mult when a 1–2 block piece clears 2+ lines. |
+| Uncommon | **Draftsman** | Row + column in one placement grants an Eraser (if a slot is free). |
+| Uncommon | **Card Sharp** | Full trays dealt by Refresh or Second Tray can form Hands. |
+| Rare | **Hot Hand** | ×1.5 Mult on placements from a Hand tray. |
+| Common | **Periscope** | Shows the next three draw-pile pieces on its card. |
+| Common | **Loan Shark** | Costs 0; +6 Credits on purchase; 2 Credits per won round repay 8; cannot be sold while owing. |
+| Uncommon | **Patch Panel** | *Now live:* after the first clear each round, remove one block of your choice. |
+
+### 18.5 Boss Crate
+
+After a boss round the shop opens with a crate: one uncommon/rare Joker (40% rare), one item, or 6 Credits. The player takes one for free (slot limits apply); the rest disappears when the shop closes. Offers use the shop stream. Bosses: The Warden and The Undertaker join the pool (§6); The Echo Chamber stays withheld.
+
+### 18.6 Balance note
+
+With every addition the autoplayer's average round rose from 9.3 to about 10.3 and its win rate from 2% to about 13% (60 seeds). Targets are unchanged pending human playtests; `docs/balance/experiments_v3.md` has the full survey.
