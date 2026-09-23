@@ -30,7 +30,6 @@ var _drift: Control
 var _seed_edit: LineEdit
 var _continue: Button
 var _new: Button
-var _endless_continue: Button
 var _highscore_overlay: Control
 var _score_rows: Array[Button] = []
 var _t := 0.0
@@ -70,9 +69,9 @@ func _ready() -> void:
 	tag.size = Vector2(STAGE.x, 40)
 	stage.add_child(tag)
 
-	var menu := BMStyle.vbox(10) # fits all seven rows (both Continue buttons) above the footer
+	var menu := BMStyle.vbox(16)
 	menu.position = Vector2((STAGE.x - 600) / 2.0, 414)
-	menu.size = Vector2(600, 592)
+	menu.size = Vector2(600, 560)
 	stage.add_child(menu)
 	_continue = _menu_button("CONTINUE RUN", func() -> void: main.continue_run(), "mint", 40, BMStyle.tex("icon_play"))
 	_continue.custom_minimum_size.y = 92
@@ -80,13 +79,10 @@ func _ready() -> void:
 	_new = _menu_button("NEW RUN", _new_run, "sun", 40, BMStyle.tex("icon_piece"))
 	_new.custom_minimum_size.y = 92
 	menu.add_child(_new)
-	var endless := _menu_button("ENDLESS", func() -> void: main.start_endless(), "sky", 40, BMStyle.infinity_icon())
+	var endless := _menu_button("ENDLESS", _endless_pressed, "sky", 40, BMStyle.infinity_icon())
 	endless.custom_minimum_size.y = 80
 	endless.tooltip_text = "Relaxed block placement. Clear rows and columns, build a combo, and chase your best score."
 	menu.add_child(endless)
-	_endless_continue = _menu_button("CONTINUE ENDLESS", func() -> void: main.continue_endless(), "mint", 30, BMStyle.tex("icon_play"))
-	_endless_continue.custom_minimum_size.y = 64
-	menu.add_child(_endless_continue)
 	var scores := _menu_button("HIGH SCORES", _show_high_scores, "plum", 30, BMStyle.tex("icon_trophy"))
 	scores.custom_minimum_size.y = 64
 	menu.add_child(scores)
@@ -145,7 +141,6 @@ func _menu_button(text: String, cb: Callable, kind: String, font_size: int, icon
 func refresh() -> void:
 	stage.position = ((size - STAGE) / 2.0).round()
 	_continue.visible = BMSaveStore.has_run()
-	_endless_continue.visible = BMEndlessStore.load_game() != null
 	_intro_t = 0.0
 	_landed = 0
 	_reset_letters()
@@ -154,6 +149,70 @@ func refresh() -> void:
 
 func focus_default() -> void:
 	BMStyle.focus_later((_continue if _continue.visible else _new))
+
+
+## ENDLESS: with a game in progress, a small popup offers Continue or a New Game; otherwise the
+## game starts straight away. (A finished game still on disk goes to its game-over screen.)
+func _endless_pressed() -> void:
+	var saved := BMEndlessStore.load_game()
+	if saved == null:
+		main.start_endless()
+	elif saved.over:
+		main.continue_endless()
+	else:
+		_show_endless_choice(saved)
+
+
+func _show_endless_choice(saved: BMEndless) -> void:
+	if is_instance_valid(_highscore_overlay):
+		_highscore_overlay.queue_free()
+	var shade := ColorRect.new()
+	shade.color = Color(BMStyle.INK, 0.8)
+	shade.mouse_filter = Control.MOUSE_FILTER_STOP
+	stage.add_child(shade)
+	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_highscore_overlay = shade
+	# Clicking the dimmed area outside the popup closes it, like Esc.
+	shade.gui_input.connect(func(e: InputEvent) -> void:
+		if e is InputEventMouseButton and e.pressed:
+			_close_high_scores())
+	var panel := BMStyle.panel("panel_plate", Vector4(28, 20, 28, 26))
+	shade.add_child(panel)
+	var v := BMStyle.vbox(14)
+	panel.add_child(v)
+	var head := BMStyle.hbox(14)
+	head.alignment = BoxContainer.ALIGNMENT_CENTER
+	var inf := TextureRect.new()
+	inf.texture = BMStyle.infinity_icon()
+	inf.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
+	inf.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	head.add_child(inf)
+	head.add_child(BMStyle.label("ENDLESS", 40, BMStyle.SUN, true, 8))
+	v.add_child(head)
+	var info := BMStyle.label("You have a game in progress:  %s points." % BMUI.fmt_int(saved.score), 20, BMStyle.CREAM, true, 6)
+	info.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	v.add_child(info)
+	var cont := _menu_button("CONTINUE", func() -> void:
+		_close_high_scores()
+		main.continue_endless(), "mint", 30, BMStyle.tex("icon_play"))
+	cont.custom_minimum_size = Vector2(460, 72)
+	v.add_child(cont)
+	var fresh := _menu_button("NEW GAME", func() -> void:
+		_close_high_scores()
+		main.start_endless(), "sky", 30, BMStyle.tex("icon_piece"))
+	fresh.custom_minimum_size = Vector2(460, 72)
+	fresh.tooltip_text = "Start over. The game in progress is discarded (it was not finished, so it is not a high score)."
+	v.add_child(fresh)
+	var note := BMStyle.label("A new game replaces the one in progress.", 20, BMStyle.TEXT_DIM, false, 4)
+	note.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	v.add_child(note)
+	var back := BMStyle.button("BACK", func() -> void: _close_high_scores(), "plum", 20)
+	back.custom_minimum_size = Vector2(160, 52)
+	back.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	v.add_child(back)
+	panel.reset_size()
+	panel.position = ((STAGE - panel.size) / 2.0).round()
+	BMStyle.focus_later(cont)
 
 
 func _show_high_scores(featured: Dictionary = {}) -> void:
