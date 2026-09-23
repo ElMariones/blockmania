@@ -24,7 +24,7 @@ static func load_game() -> BMEndless:
 	if not FileAccess.file_exists(game_path):
 		return null
 	var d: Variant = JSON.parse_string(FileAccess.get_file_as_string(game_path))
-	if not d is Dictionary or d.get("schema", 0) != BMEndless.SCHEMA:
+	if not d is Dictionary or int(d.get("schema", 0)) < 1 or int(d.get("schema", 0)) > BMEndless.SCHEMA:
 		return null
 	var game := BMEndless.from_dict(d)
 	return null if game == null or game.over else game

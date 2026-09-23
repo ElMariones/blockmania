@@ -69,7 +69,9 @@ func _ready() -> void:
 	_new = BMStyle.button("NEW RUN", _new_run, "sun", 40)
 	_new.custom_minimum_size.y = 92
 	menu.add_child(_new)
-	var endless := BMStyle.button("∞  ENDLESS", func() -> void: main.start_endless(), "sky", 40)
+	var endless := BMStyle.button("ENDLESS", func() -> void: main.start_endless(), "sky", 40)
+	endless.icon = BMStyle.infinity_icon()
+	endless.add_theme_constant_override("icon_max_width", 68)
 	endless.custom_minimum_size.y = 80
 	endless.tooltip_text = "Relaxed block placement. Clear rows and columns, build a combo, and chase your best score."
 	menu.add_child(endless)
@@ -134,7 +136,14 @@ func _show_high_scores() -> void:
 	shade.add_child(panel)
 	var content := BMStyle.vbox(16)
 	panel.add_child(content)
-	var heading := BMStyle.label("∞  ENDLESS HIGH SCORES", 40, BMStyle.SUN, true, 10)
+	var icon := TextureRect.new()
+	icon.texture = BMStyle.infinity_icon()
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.position = Vector2(62, 46)
+	icon.size = Vector2(68, 36)
+	panel.add_child(icon)
+	var heading := BMStyle.label("ENDLESS HIGH SCORES", 40, BMStyle.SUN, true, 10)
 	heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	content.add_child(heading)
 	var entries := BMEndlessStore.high_scores()

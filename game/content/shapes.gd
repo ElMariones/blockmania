@@ -30,6 +30,8 @@ const FAMILIES := [
 	{"id": &"plus5", "name": "Plus 5", "weight": 5, "min_round": 1, "cells": [[1, 0], [0, 1], [1, 1], [2, 1], [1, 2]]},
 	{"id": &"bar5", "name": "Bar 5", "weight": 4, "min_round": 3, "cells": [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0]]},
 	{"id": &"square3", "name": "Square 3x3", "weight": 2, "min_round": 3, "cells": [[0, 0], [1, 0], [2, 0], [0, 1], [1, 1], [2, 1], [0, 2], [1, 2], [2, 2]]},
+	# Endless-only offer for now; campaign shop weight stays zero.
+	{"id": &"rect2x3", "name": "Rectangle 2x3", "weight": 0, "min_round": 99, "cells": [[0, 0], [1, 0], [0, 1], [1, 1], [0, 2], [1, 2]]},
 ]
 
 static var _rotation_cache := {}

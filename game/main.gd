@@ -75,6 +75,7 @@ func continue_run() -> void:
 
 func show_title() -> void:
 	close_pause()
+	BMAudio.set_endless_combo(0)
 	_show(title_screen)
 	title_screen.refresh()
 	backdrop.set_mood("title")
@@ -123,6 +124,7 @@ func act(a: Dictionary) -> Dictionary:
 
 
 func _route(rebind: bool) -> void:
+	BMAudio.set_endless_combo(0)
 	match run.phase:
 		BMRun.Phase.SHOP:
 			if not shop_screen.visible or rebind:
@@ -331,7 +333,8 @@ func _controls_table() -> Control:
 	if endless_screen.visible:
 		rows = [["MOUSE", "Drag a piece, or click it then a cell"],
 			["1  2  3", "Pick up a piece"], ["ARROWS", "Move the held piece"],
-			["ENTER", "Place it"], ["ESC", "Pause or return a piece"],
+			["ENTER", "Place it"], ["H", "Hold or swap selected piece"],
+			["ESC", "Pause or return a piece"],
 			["ALT+UP/DOWN", "Move a focused Joker (campaign only)"], ["M", "Sound on / off"]]
 	for row in rows:
 		var k := BMStyle.label(row[0], 20, BMStyle.SUN, true, 6)
@@ -429,6 +432,7 @@ func _register_input_actions() -> void:
 		"bm_refresh": [KEY_R],
 		"bm_cancel": [KEY_ESCAPE],
 		"bm_bag": [KEY_B],
+		"bm_hold": [KEY_H],
 		"bm_mute": [KEY_M],
 	}
 	for action in map:

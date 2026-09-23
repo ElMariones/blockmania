@@ -76,6 +76,7 @@ Future: `assets/export`. Godot resource paths and stable IDs (Joker/boss/item/sh
 
 - Every player action is a `BMRun` command returning a result Dictionary. UI calls only `BMMain.act(action_dict)`, which applies, autosaves, and routes. Never mutate `BMRun` from UI code.
 - Endless actions go through `BMMain.endless_act(action_dict)` into `BMEndless`, then `BMEndlessStore`; keep its score and RNG independent of campaign rules and saves.
+- Endless uses a seeded fair-trio replacement when all three new offers are illegal, one Hold action between placements, and a saved x1/x2/x3/x5/x8/x10 combo ladder that resets after three misses. Keep presentation cues derived from the action result.
 - The placement pipeline lives only in `BMResolver.resolve_placement`. Score previews run it on `run.clone()`, so preview equals result by construction.
 - New Joker: add a `CATALOG` entry in `game/content/jokers.gd`, implement its phase function (`chips` / `add_mult` / `x_mult`) or rule hook in `BMRun`/`BMResolver`, add a trigger and a no-trigger test in `tests/test_jokers.gd`, and make sure the card text matches the code. Set `implemented: false` to keep an unfinished card out of the shop.
 - The Bag: trays are dealt only through `BMBag`. Every bag piece has a unique `uid`, and each piece is in exactly one of the draw pile, the tray, or the discard pile (a test enforces this). Temporary pieces have `uid -1` and `temporary: true` and never enter a pile. Bag edits (`buy_tool`, `buy_piece`) happen only in the shop.

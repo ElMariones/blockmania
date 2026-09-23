@@ -3,7 +3,7 @@ extends BMTestCase
 
 func test_rotation_counts() -> void:
 	var expected := {"single": 1, "bar2": 2, "bar3": 2, "l3": 4, "square2": 1, "bar4": 2, "l4": 4,
-		"t4": 4, "zigzag4": 2, "plus5": 1, "bar5": 2, "square3": 1}
+		"t4": 4, "zigzag4": 2, "plus5": 1, "bar5": 2, "square3": 1, "rect2x3": 2}
 	for id in expected:
 		eq(BMShapes.rotations(StringName(id)).size(), expected[id], "rotations of %s" % id)
 

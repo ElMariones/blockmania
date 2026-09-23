@@ -3,7 +3,7 @@
 Living backlog. Update it in the same commit as the work. Milestones follow GDD §12.
 Legend: `[x]` done · `[~]` partial · `[ ]` open · **(owner)** needs a project-owner decision.
 
-_Last updated: 2026-09-23 — Endless arcade mode, Joker drag reordering, and keyboard-only focus outlines._
+_Last updated: 2026-09-23 — Endless Hold, fair offers, combo ladder, and arcade feedback._
 
 ## M0 — Rules prototype
 
@@ -18,7 +18,7 @@ _Last updated: 2026-09-23 — Endless arcade mode, Joker drag reordering, and ke
 - [x] Shop: 3 Joker + 2 item offers, rarity weights by act, reroll price escalation, buy/sell/reorder, slot capacity.
 - [x] 12 rounds / 3 acts / boss rounds 4-8-12, bosses chosen per run without repeats.
 - [x] Action history + `BMRun.replay()`; determinism, replay, and save/resume tests.
-- [x] Headless test runner with runtime-error capture (`tests/run_tests.gd`), now 92 tests.
+- [x] Headless test runner with runtime-error capture (`tests/run_tests.gd`), now 97 tests.
 - [x] Autoplayer (preview-guided, shop policy) + balance probe (`tools/simulate.gd`) + paired-seed experiments (`tools/experiments.gd`).
 - [x] Placeholder UI: title, round intro, board, tray, HUD, score preview, receipt, Jokers/items rail, round result, shop, run end, pause.
 - [x] Mouse drag-and-release, click-to-hold, right-click/Esc cancel; keyboard 1–3 / arrows+WASD / Enter+Space / R / Esc.
@@ -60,8 +60,10 @@ _Last updated: 2026-09-23 — Endless arcade mode, Joker drag reordering, and ke
 - [x] Title-screen Options (CRT, motion, block patterns, controls) before starting a run.
 - [x] Focus outline appears for keyboard navigation and is hidden after pointer use.
 - [x] Owned Jokers reorder by drag and drop in the round and shop; Alt+Up/Down is the keyboard alternative.
-- [x] Endless arcade mode: separate seeded rules and save, no-fit loss, uncapped combo with two-miss reset, top-ten local scores, main-menu entry, game-over screen, and calm/tension/celebration presentation.
+- [x] Endless arcade mode: separate seeded rules and save, fair three-piece deals, Hold, no-fit loss, x1/x2/x3/x5/x8/x10 combo with three-miss reset, clean-board bonus, top-ten local scores, pixel infinity icon, and calm/tension/celebration presentation with an added combo music layer.
+- [x] Endless includes 2×3 rectangle and 3×3 square offers, line-count callouts, scoreward particles, high-combo trails/pulse/shake, and a right-side Hold well in place of tutorial text.
 - [ ] Human playtest of Endless shape weights, scoring, combo pacing, and high-score replay value; balance numbers are provisional (GDD §17).
+- [ ] Human comfort and listening pass for the new combo percussion and high-combo effects at 720p and on target hardware.
 - [ ] Joker art: emblems are icon tiles for now; per-Joker illustrations drawn as code (pixel sprites) would add identity.
 - [ ] Hover and tooltip pass with real mouse playtesting (tooltips are styled; hover lifts are verified in fixtures only).
 - [ ] The Joker rack rebuilds on every refresh; keep the hover state across rebuilds.

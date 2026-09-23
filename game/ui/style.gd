@@ -38,6 +38,7 @@ static var _nine := {}
 static var font: FontFile
 static var font_bold: FontFile
 static var _theme: Theme
+static var _infinity_icon: Texture2D
 static var _focus_visible := false
 static var _focus_styles: Array[StyleBoxFlat] = []
 
@@ -63,6 +64,36 @@ static func tex(name: String) -> Texture2D:
 	if not _tex.has(name):
 		_tex[name] = load("res://assets/ui/%s.png" % name)
 	return _tex[name]
+
+
+## Original pixel-art infinity emblem drawn in code at art resolution.
+static func infinity_icon() -> Texture2D:
+	if _infinity_icon != null:
+		return _infinity_icon
+	var rows := [
+		"...####...####...",
+		"..##..##.##..##..",
+		".##....###....##.",
+		"##.....###.....##",
+		"##.....###.....##",
+		".##....###....##.",
+		"..##..##.##..##..",
+		"...####...####...",
+	]
+	var img := Image.create(17, rows.size() + 1, false, Image.FORMAT_RGBA8)
+	img.fill(Color.TRANSPARENT)
+	for y in rows.size():
+		for x in rows[y].length():
+			if rows[y][x] != "#":
+				continue
+			img.set_pixel(x, y + 1, INK)
+			var col := SUN_L if x < 8 else SKY_L
+			if x in [7, 8, 9]:
+				col = MINT_L
+			img.set_pixel(x, y, col if y < 4 else col.darkened(0.18))
+	img.resize(68, 36, Image.INTERPOLATE_NEAREST)
+	_infinity_icon = ImageTexture.create_from_image(img)
+	return _infinity_icon
 
 
 static func block_tex(color_id: int) -> Texture2D:

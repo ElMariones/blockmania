@@ -8,6 +8,7 @@ extends RefCounted
 class Marquee extends Control:
 	var text := ""
 	var sub := ""
+	var icon: Texture2D
 	var boss := false
 	var reduced_motion := false
 	var message := ""
@@ -61,9 +62,13 @@ class Marquee extends Control:
 		var size_px := 40
 		var tw := f.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, size_px).x
 		var sw := f.get_string_size(sub, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x if sub != "" else 0.0
-		var total := tw + (sw + 24 if sub != "" else 0.0)
+		var icon_width := 68.0 if icon != null else 0.0
+		var total := tw + (sw + 24 if sub != "" else 0.0) + (icon_width + 12 if icon != null else 0.0)
 		var x0 := (size.x - total) / 2.0
 		var base_y := inner.get_center().y + 14
+		if icon != null:
+			draw_texture_rect(icon, Rect2(Vector2(x0, base_y - 36), Vector2(68, 36)), false)
+			x0 += icon_width + 12
 		draw_string_outline(f, Vector2(x0, base_y), text, HORIZONTAL_ALIGNMENT_LEFT, -1, size_px, 10, BMStyle.INK)
 		draw_string(f, Vector2(x0, base_y), text, HORIZONTAL_ALIGNMENT_LEFT, -1, size_px, BMStyle.PINK_L if boss else BMStyle.SUN)
 		if sub != "":

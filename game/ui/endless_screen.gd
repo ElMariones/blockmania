@@ -9,11 +9,15 @@ var stage: Control
 var board_view: BMBoardView
 var slots: Array[BMTraySlot] = []
 var _score: BMHud.Counter
+var _marquee: BMHud.Marquee
 var _best: Label
 var _combo: Label
+var _ladder: Label
 var _status: Label
 var _mode: Label
 var _detail: Label
+var _hold_well: HoldWell
+var _hold_hint: Label
 var _overlay: Control
 var _drag: Control
 var _mouse := Vector2.ZERO
@@ -22,6 +26,33 @@ var _held := -1
 var _hold_mode := ""
 var _anchor := Vector2i(3, 3)
 var _mood := ""
+var _trail: Array[Vector2] = []
+var _board_pulse: Tween
+
+
+class HoldWell extends Control:
+	var shape: Dictionary = {}
+	var locked := false
+	var drop_highlight := false
+
+	func _ready() -> void:
+		mouse_filter = Control.MOUSE_FILTER_PASS
+
+	func _draw() -> void:
+		draw_style_box(BMStyle.box("panel_inset", Vector4.ZERO), Rect2(Vector2.ZERO, size))
+		if drop_highlight and not locked:
+			draw_rect(Rect2(Vector2(5, 5), size - Vector2(10, 10)), BMStyle.MINT_L, false, 5.0)
+		var title := "HOLD"
+		draw_string(BMStyle.font_bold, Vector2(24, 42), title, HORIZONTAL_ALIGNMENT_LEFT, -1, 30, BMStyle.MINT_L if drop_highlight else BMStyle.SUN)
+		if shape.is_empty():
+			draw_string(BMStyle.font, Vector2(0, size.y / 2.0 + 20), "EMPTY", HORIZONTAL_ALIGNMENT_CENTER, size.x, 30, BMStyle.TEXT_DIM)
+		else:
+			var dims := Vector2(BMShapes.shape_size(shape))
+			var cell := floorf(minf(54.0, minf((size.x - 80) / dims.x, (size.y - 110) / dims.y)))
+			var at := ((size - dims * cell) / 2.0 + Vector2(0, 22)).round()
+			BMBlockPainter.draw_shape(self, shape, at, cell, 1.0)
+		if locked:
+			draw_string(BMStyle.font_bold, Vector2(0, size.y - 20), "USED THIS TURN", HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.PINK_L)
 
 
 func _ready() -> void:
@@ -31,10 +62,11 @@ func _ready() -> void:
 	add_child(stage)
 	resized.connect(func() -> void: stage.position = ((size - STAGE) / 2.0).round())
 	stage.position = ((size - STAGE) / 2.0).round()
-	var marquee := BMHud.Marquee.new()
-	_at(marquee, Vector2(568, 6), Vector2(784, 72))
-	marquee.text = "∞  ENDLESS"
-	marquee.sub = "ONE MORE CLEAR"
+	_marquee = BMHud.Marquee.new()
+	_at(_marquee, Vector2(568, 6), Vector2(784, 72))
+	_marquee.icon = BMStyle.infinity_icon()
+	_marquee.text = "ENDLESS"
+	_marquee.sub = "ONE MORE CLEAR"
 	board_view = BMBoardView.new()
 	_at(board_view, Vector2(568, 82), Vector2(784, 784))
 	for i in 3:
@@ -58,6 +90,8 @@ func _ready() -> void:
 	stats.add_child(_best)
 	_combo = BMStyle.label("", 40, BMStyle.PINK_L, true)
 	stats.add_child(_combo)
+	_ladder = BMStyle.label("x1  x2  x3  x5  x8  x10", 20, BMStyle.SUN_L, true)
+	stats.add_child(_ladder)
 	_status = BMStyle.label("", 20, BMStyle.CREAM)
 	_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	stats.add_child(_status)
@@ -65,15 +99,19 @@ func _ready() -> void:
 	_at(right, Vector2(1380, 98), Vector2(485, 650))
 	var tips := BMStyle.vbox(16)
 	right.add_child(tips)
-	tips.add_child(BMStyle.pill("KEEP IT GOING", "mint", 20))
+	tips.add_child(BMStyle.pill("HOLD  •  ONCE PER PLACEMENT", "mint", 20))
+	_hold_well = HoldWell.new()
+	_hold_well.custom_minimum_size = Vector2(0, 278)
+	_hold_well.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	tips.add_child(_hold_well)
+	_hold_hint = BMStyle.label("Select a piece, then drop it here or press H.", 20, BMStyle.CREAM)
+	_hold_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	tips.add_child(_hold_hint)
 	_mode = BMStyle.label("", 30, BMStyle.MINT_L, true)
 	tips.add_child(_mode)
 	_detail = BMStyle.label("", 20, BMStyle.CREAM)
 	_detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	tips.add_child(_detail)
-	var help := BMStyle.label("Drag a piece to the board, or click it and then a cell.\n\nKeys: 1-3 select, arrows move, Enter places, Esc opens menu.\n\nPlace blocks for 10 points each. Every cleared line adds 100 x combo. Two placements without a clear reset the combo.", 20, BMStyle.TEXT_DIM)
-	help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	tips.add_child(help)
 	var menu := BMStyle.button("MENU", func() -> void: main.show_pause(), "plum", 30)
 	_at(menu, Vector2(1430, 878), Vector2(350, 80))
 	_drag = Control.new()
@@ -110,6 +148,7 @@ func bind(new_game: BMEndless) -> void:
 
 func apply_settings() -> void:
 	board_view.reduced_motion = main.settings.reduced_motion
+	_marquee.reduced_motion = main.settings.reduced_motion
 	_score.reduced_motion = main.settings.reduced_motion
 	for slot in slots:
 		slot.reduced_motion = main.settings.reduced_motion
@@ -119,16 +158,24 @@ func refresh_all() -> void:
 	if game == null:
 		return
 	_score.set_target(game.score)
+	var score_digits := BMUI.fmt_int(game.score).length()
+	_score.add_theme_font_size_override("font_size", 80 if score_digits <= 7 else (60 if score_digits <= 10 else 40))
 	var scores := BMEndlessStore.high_scores()
 	var best := game.score
 	if not scores.is_empty():
 		best = maxi(best, int(scores[0].score))
 	_best.text = "BEST  %s" % BMUI.fmt_int(best)
 	_combo.text = "COMBO x%d" % game.combo
+	_combo.add_theme_color_override("font_color", BMStyle.SUN if game.combo >= 8 else BMStyle.PINK_L)
 	_status.text = "Placements %d   •   Lines %d\n%s" % [game.placements, game.lines,
-		"ONE MISS: clear next to keep the chain" if game.misses == 1 else "Clear lines on consecutive placements to grow your combo"]
+		"%d more misses before combo resets" % (3 - game.misses) if game.misses > 0 else "Clear lines to climb the combo ladder"]
+	_hold_well.shape = game.held
+	_hold_well.locked = game.hold_used
+	_hold_well.queue_redraw()
+	_hold_hint.text = "HOLD USED — place a piece to recharge" if game.hold_used else "Select a piece, then drop it here or press H"
 	for i in 3:
 		slots[i].setup(game.tray[i], i == _held, game.fits(i))
+		slots[i].tooltip_text = "No board fit. Select this piece to use Hold." if not game.tray[i].is_empty() and not game.fits(i) and not game.hold_used else ""
 	board_view.queue_redraw()
 	update_mood()
 
@@ -143,6 +190,7 @@ func update_mood() -> void:
 		if BMSwirlBackground.instance:
 			BMSwirlBackground.instance.set_mood(wanted)
 		BMAudio.music(wanted)
+	BMAudio.set_endless_combo(game.combo)
 	match wanted:
 		"endless_party":
 			_mode.text = "COLOR PARADE"
@@ -159,7 +207,7 @@ func update_mood() -> void:
 
 
 func _on_slot(index: int) -> void:
-	if game == null or game.over or main.is_paused() or not game.fits(index):
+	if game == null or game.over or main.is_paused() or game.tray[index].is_empty():
 		return
 	if _held == index:
 		_cancel()
@@ -181,23 +229,36 @@ func _input(event: InputEvent) -> void:
 		if _hold_mode == "key":
 			_hold_mode = "sticky"
 		_update_ghost()
+		var highlight := _over_hold() and not game.hold_used
+		if _hold_well.drop_highlight != highlight:
+			_hold_well.drop_highlight = highlight
+			_hold_well.queue_redraw()
+		if game.combo >= 5 and not main.settings.reduced_motion:
+			_trail.append(_mouse)
+			if _trail.size() > 6:
+				_trail.pop_front()
 		_drag.queue_redraw()
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
 		_cancel()
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if not event.pressed and _hold_mode == "drag":
-			if _over_board() and board_view.ghost_valid:
+			if _over_hold():
+				_hold_selected()
+			elif _over_board() and board_view.ghost_valid:
 				_place(board_view.ghost_anchor)
 			elif _mouse.distance_to(_press_pos) > 12:
 				_cancel()
 			else:
 				_hold_mode = "sticky"
-		elif event.pressed and _hold_mode == "sticky" and _over_board():
-			if board_view.ghost_valid:
-				_place(board_view.ghost_anchor)
-			else:
-				BMAudio.sfx("deny")
-			get_viewport().set_input_as_handled()
+		elif event.pressed and _hold_mode == "sticky":
+			if _over_hold():
+				_hold_selected()
+			elif _over_board():
+				if board_view.ghost_valid:
+					_place(board_view.ghost_anchor)
+				else:
+					BMAudio.sfx("deny")
+				get_viewport().set_input_as_handled()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -211,7 +272,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		return
 	for i in 3:
-		if event.is_action("bm_slot_%d" % (i + 1)) and game.fits(i):
+		if event.is_action("bm_slot_%d" % (i + 1)) and not game.tray[i].is_empty():
 			_held = i
 			_hold_mode = "key"
 			board_view.keyboard_focus = true
@@ -220,6 +281,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 			return
 	if _held < 0:
+		return
+	if event.is_action("bm_hold"):
+		_hold_selected()
+		get_viewport().set_input_as_handled()
 		return
 	var delta := Vector2i.ZERO
 	if event.is_action("bm_left"):
@@ -251,6 +316,22 @@ func _over_board() -> bool:
 	return Rect2(board_view.grid_origin(), Vector2(side, side)).grow(board_view.cell_size() * 0.6).has_point(local)
 
 
+func _over_hold() -> bool:
+	return _hold_well.get_global_rect().has_point(_mouse)
+
+
+func _hold_selected() -> void:
+	var result := main.endless_act({"a": "hold", "i": _held})
+	if not result.ok:
+		BMAudio.sfx("deny")
+		_marquee.flash(String(result.error).to_upper(), BMStyle.PINK_L, 1.8)
+		return
+	BMAudio.sfx("putback")
+	_cancel()
+	refresh_all()
+	_marquee.flash("PIECE HELD  •  PLACE TO RECHARGE", BMStyle.MINT_L, 1.4)
+
+
 func _update_ghost() -> void:
 	if _held < 0:
 		return
@@ -277,13 +358,34 @@ func _place(anchor: Vector2i) -> void:
 	board_view.play_resolution(result)
 	BMAudio.sfx("place_m")
 	if result.rows.size() + result.cols.size() > 0:
-		BMAudio.sfx("clear_2" if result.rows.size() + result.cols.size() >= 2 else "clear_1")
+		var line_count: int = result.rows.size() + result.cols.size()
+		BMAudio.sfx("clear_3" if line_count >= 3 else ("clear_2" if line_count == 2 else "clear_1"))
+		BMAudio.sfx("combo_3" if game.combo >= 8 else ("combo_2" if game.combo >= 5 else "combo_1"))
 		if BMSwirlBackground.instance:
-			BMSwirlBackground.instance.pulse(0.7 if game.combo >= 4 else 0.35)
+			BMSwirlBackground.instance.pulse(0.85 if game.combo >= 8 else 0.45)
 		if BMFx.instance:
-			BMFx.instance.pop_text(board_view.global_position + board_view.size / 2, "+%d  x%d COMBO" % [result.points, game.combo], BMStyle.SUN, 40)
-			if game.combo >= 4:
-				BMFx.instance.confetti(board_view.get_global_rect(), 30 if game.combo < 8 else 55)
+			var center := board_view.get_global_rect().get_center()
+			BMFx.instance.pop_text(center, "+%d  x%d" % [result.points, game.combo], BMStyle.SUN, 80 if game.combo >= 8 else (60 if game.combo >= 5 else 40))
+			BMFx.instance.stream(center, _score.get_global_rect().get_center(), BMStyle.SUN, mini(24, 6 + game.combo * 2))
+			if game.combo >= 5:
+				BMFx.instance.confetti(board_view.get_global_rect(), 32 if game.combo < 8 else 64)
+			if game.combo >= 8:
+				BMFx.instance.shake(5.0)
+		if game.combo >= 5:
+			_pulse_board(1.025 if game.combo < 8 else 1.04)
+		if not result.callouts.is_empty():
+			var primary: String = "CLEAN BOARD" if result.clean_board else ("BLOCKSTORM" if result.callouts.has("BLOCKSTORM") else result.callouts[0])
+			_marquee.flash(primary, BMStyle.SUN_L, 2.2)
+			if BMFx.instance:
+				var index := 0
+				for callout: String in result.callouts:
+					BMFx.instance.pop_text(board_view.get_global_rect().get_center() + Vector2(0, -130 - 62 * index), callout, BMStyle.MINT_L if callout in ["CLEAN BOARD", "PERFECT"] else BMStyle.PINK_L, 60 if callout == primary else 40, 40.0, 1.35)
+					index += 1
+		if result.clean_board:
+			BMAudio.sfx("jingle_win")
+			if BMFx.instance:
+				BMFx.instance.confetti(board_view.get_global_rect(), 150)
+				BMFx.instance.shake(9.0)
 	refresh_all()
 	if result.over:
 		BMAudio.sfx("jingle_lose")
@@ -293,6 +395,9 @@ func _place(anchor: Vector2i) -> void:
 func _cancel() -> void:
 	_held = -1
 	_hold_mode = ""
+	_hold_well.drop_highlight = false
+	_hold_well.queue_redraw()
+	_trail.clear()
 	board_view.keyboard_focus = false
 	board_view.clear_ghost()
 	_drag.queue_redraw()
@@ -308,13 +413,33 @@ func _draw_drag() -> void:
 	if shape.is_empty():
 		return
 	var cell := board_view.cell_size()
+	if game.combo >= 5 and not main.settings.reduced_motion:
+		for n in _trail.size():
+			var trail_at := _trail[n] - Vector2(BMShapes.shape_size(shape)) * cell / 2.0
+			BMBlockPainter.draw_shape(_drag, shape, trail_at, cell, 0.05 + float(n) / maxf(1.0, _trail.size()) * 0.18)
 	var pos := _mouse - Vector2(BMShapes.shape_size(shape)) * cell / 2.0
 	BMBlockPainter.draw_shape(_drag, shape, pos, cell, 0.85)
+
+
+func _pulse_board(amount: float) -> void:
+	if main.settings.reduced_motion:
+		return
+	if _board_pulse != null and _board_pulse.is_running():
+		_board_pulse.kill()
+	board_view.pivot_offset = board_view.size / 2.0
+	board_view.scale = Vector2.ONE
+	_board_pulse = create_tween()
+	_board_pulse.tween_property(board_view, "scale", Vector2.ONE * amount, 0.12).set_trans(Tween.TRANS_BACK)
+	_board_pulse.tween_property(board_view, "scale", Vector2.ONE, 0.22)
 
 
 func focus_default() -> void:
 	for slot in slots:
 		if game.fits(slot.slot):
+			BMStyle.focus_later(slot)
+			return
+	for slot in slots:
+		if not game.tray[slot.slot].is_empty():
 			BMStyle.focus_later(slot)
 			return
 

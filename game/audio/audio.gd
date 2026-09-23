@@ -84,6 +84,9 @@ const PLAYLISTS := {
 	"endless_tense": ["night_shift", "last_call"],
 	"endless_party": ["the_toybox", "eight_by_eight"],
 }
+const TRACK_BPM := {"blockhead_lullaby": 64, "eight_by_eight": 76, "rainy_arcade": 70,
+	"clear_skies": 84, "night_shift": 80, "the_toybox": 92, "last_call": 68}
+const TRACK_BEATS := {"clear_skies": 3}
 ## A breath of silence between tracks, like an ambient soundtrack (seconds).
 const GAP := Vector2(2.5, 6.0)
 const CROSSFADE := 1.6
@@ -97,6 +100,11 @@ var _pool: Array[AudioStreamPlayer] = []
 var _next := 0
 var _last_ms := {}
 var _music: Array[AudioStreamPlayer] = []
+var _combo_layer: AudioStreamPlayer
+var _combo_level := 0
+var _combo_fade: Tween
+var _combo_loops := {}
+var _combo_track := ""
 var _active := 0
 var _fade: Tween
 var _context := ""
@@ -131,6 +139,10 @@ func _ready() -> void:
 		m.finished.connect(_on_track_finished.bind(m))
 		add_child(m)
 		_music.append(m)
+	_combo_layer = AudioStreamPlayer.new()
+	_combo_layer.bus = "Music"
+	_combo_layer.volume_db = -60.0
+	add_child(_combo_layer)
 
 
 func _exit_tree() -> void:
@@ -245,6 +257,87 @@ func _set_context(context: String) -> void:
 	_start_track(_pick(context), true)
 
 
+## A quiet beat layer joins the original Endless soundtrack at x5 and grows at x8.
+## Its rhythm is synthesized in code and aligned to the current track's BPM.
+static func set_endless_combo(level: int) -> void:
+	if instance != null:
+		instance._set_endless_combo(level)
+
+
+func _set_endless_combo(level: int) -> void:
+	if level == _combo_level:
+		return
+	_combo_level = level
+	if _combo_fade != null and _combo_fade.is_running():
+		_combo_fade.kill()
+	if level >= 5:
+		_sync_combo_layer()
+	_combo_fade = create_tween()
+	_combo_fade.tween_property(_combo_layer, "volume_db", -8.0 if level >= 8 else (-13.0 if level >= 5 else -60.0), 0.55)
+	if level < 5:
+		_combo_fade.tween_callback(func() -> void:
+			if _combo_level < 5:
+				_combo_layer.stop())
+
+
+func _sync_combo_layer(force := false) -> void:
+	if _combo_level < 5 or _track == "" or not _music[_active].playing:
+		return
+	if not force and _combo_layer.playing and _combo_track == _track:
+		return
+	var bpm: int = TRACK_BPM.get(_track, 76)
+	var beats: int = TRACK_BEATS.get(_track, 4)
+	var key := "%d/%d" % [bpm, beats]
+	if not _combo_loops.has(key):
+		_combo_loops[key] = _make_combo_loop(bpm, beats)
+	_combo_layer.stop()
+	_combo_layer.stream = _combo_loops[key]
+	_combo_track = _track
+	var bar_seconds := 60.0 * beats / float(bpm)
+	_combo_layer.play(fposmod(_music[_active].get_playback_position(), bar_seconds))
+
+
+func _make_combo_loop(bpm: int, beats: int) -> AudioStreamWAV:
+	const RATE := 22050
+	var count := roundi(RATE * 60.0 * beats / float(bpm))
+	var pcm := PackedByteArray()
+	pcm.resize(count * 2)
+	for i in count:
+		var beat := float(i) * float(bpm) / (60.0 * RATE)
+		var beat_index := int(floorf(beat))
+		var beat_time := fposmod(beat, 1.0) * 60.0 / float(bpm)
+		var half_time := fposmod(beat * 2.0, 1.0) * 30.0 / float(bpm)
+		var hash_value := (i * 1103515245 + 12345) & 0x7fffffff
+		var noise := float(hash_value) / 1073741823.5 - 1.0
+		var value := 0.0
+		if beat_index % 2 == 0 and beat_time < 0.24:
+			value += sin(TAU * (72.0 * beat_time - 30.0 * beat_time * beat_time)) * exp(-beat_time * 24.0) * 0.26
+		if beat_index % 2 == 1 and beat_time < 0.15:
+			value += noise * exp(-beat_time * 28.0) * 0.18
+		if half_time < 0.06:
+			value += noise * exp(-half_time * 55.0) * (0.10 if beat_index % 2 == 0 else 0.14)
+		var sample := clampi(roundi(value * 32767.0), -32768, 32767)
+		pcm[i * 2] = sample & 255
+		pcm[i * 2 + 1] = (sample >> 8) & 255
+	var wav := AudioStreamWAV.new()
+	wav.format = AudioStreamWAV.FORMAT_16_BITS
+	wav.mix_rate = RATE
+	wav.stereo = false
+	wav.data = pcm
+	wav.loop_mode = AudioStreamWAV.LOOP_FORWARD
+	wav.loop_begin = 0
+	wav.loop_end = count
+	return wav
+
+
+func _process(_delta: float) -> void:
+	if _combo_level >= 5:
+		if not _music[_active].playing:
+			_combo_layer.stop()
+		elif not _combo_layer.playing:
+			_sync_combo_layer()
+
+
 func skip_track() -> void:
 	if _context != "":
 		_start_track(_pick(_context), true)
@@ -309,6 +402,7 @@ func _start_track(id: String, crossfade: bool) -> void:
 		old.stop()
 		nxt.volume_db = 0.0
 		nxt.play()
+	_sync_combo_layer(true)
 
 
 func _on_track_finished(player: AudioStreamPlayer) -> void:

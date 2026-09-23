@@ -8,6 +8,7 @@
 - `tools/audio/gen_sfx.py`: 59 effects in 44.1 kHz, 16-bit PCM WAV. Run `python tools/audio/gen_sfx.py` with NumPy, SciPy, and SoundFile.
 - All seven music exports are 44.1 kHz stereo Ogg Vorbis, quality 4. The editable master is the deterministic source code and its song data. Music is rendered to WAV before encoding, then the intermediate WAV is removed.
 - Runtime mapping, playlists, rate limits and gain control: `game/audio/audio.gd`. Music and SFX use separate Godot buses routed to Master. There are no external audio licenses to track.
+- Endless x5/x8 combo percussion is synthesized at runtime by `game/audio/audio.gd` as a looping PCM layer on the Music bus, using each arrangement's BPM and beat count. It has no separate media file or third-party source.
 
 ## Music
 
