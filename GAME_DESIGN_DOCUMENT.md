@@ -300,7 +300,7 @@ An optional five-minute guided Standard Run opening teaches: select/place shape,
 
 ### Accessibility
 
-Options: reduced motion; screen shake off; CRT/VHS overlays off; bloom intensity; high-contrast grid; distinct patterns/shapes for colored blocks; UI and text scaling; colorblind-friendly palette presets; remappable keyboard input; independent music/SFX/UI volume; hold-to-confirm for destructive shop actions; optional slower tooltip dismissal. Every essential status has text or icon, never color alone. Important effect animation can be skipped or sped up without changing outcome. Aim for full keyboard operation and readable text at 720p; add controller remapping when controller support is production-ready.
+Display options in place (2026-09-23): fullscreen on/off and an FPS counter, saved with the other settings. Options: reduced motion; screen shake off; CRT/VHS overlays off; bloom intensity; high-contrast grid; distinct patterns/shapes for colored blocks; UI and text scaling; colorblind-friendly palette presets; remappable keyboard input; independent music/SFX/UI volume; hold-to-confirm for destructive shop actions; optional slower tooltip dismissal. Every essential status has text or icon, never color alone. Important effect animation can be skipped or sped up without changing outcome. Aim for full keyboard operation and readable text at 720p; add controller remapping when controller support is production-ready.
 
 ## 9. Visual, motion, and audio direction
 

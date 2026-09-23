@@ -17,6 +17,8 @@ var fx: BMFx
 var crt: BMCrtLayer
 var audio: BMAudio
 var _pause: Control
+var _fps_layer: CanvasLayer
+var _fps_label: Label
 var _endless_pending_ms := 0.0
 var _window_focused := true
 
@@ -55,8 +57,27 @@ func _ready() -> void:
 	crt = BMCrtLayer.new()
 	crt.mode = String(settings.get("crt", "soft"))
 	add_child(crt)
+	# FPS counter: its own layer above the CRT so the digits stay crisp.
+	_fps_layer = CanvasLayer.new()
+	_fps_layer.layer = 120
+	add_child(_fps_layer)
+	_fps_label = BMStyle.label("", 20, BMStyle.MINT_L, true, 6)
+	_fps_label.position = Vector2(12, 8)
+	_fps_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_fps_layer.add_child(_fps_label)
 	_apply_motion_setting()
+	_apply_display_settings()
 	show_title()
+	# Studio splash over the title; the title's logo intro replays once it is gone.
+	# `-- --no-splash` skips it (tools/shoot.py passes this for screenshot fixtures).
+	if "--no-splash" in OS.get_cmdline_user_args():
+		return
+	var splash := BMSplash.new()
+	splash.main = self
+	title_screen.hold_intro()
+	splash.revealing.connect(func() -> void: title_screen.refresh())
+	add_child(splash)
+	move_child(splash, crt.get_index())
 
 
 # --- Run lifecycle -------------------------------------------------------------------------
@@ -124,6 +145,8 @@ func _process(delta: float) -> void:
 	if endless_screen != null and endless_screen.visible and endless_screen.game != null \
 			and not endless_screen.game.over and not is_paused() and not endless_screen.is_style_picker_open() and _window_focused:
 		_endless_pending_ms += delta * 1000.0
+	if _fps_label != null and _fps_label.visible:
+		_fps_label.text = "%d FPS" % Engine.get_frames_per_second()
 
 
 func _flush_endless_time() -> void:
@@ -304,12 +327,15 @@ func _open_menu(in_run: bool) -> void:
 	np.add_child(skip)
 	right.add_child(BMStyle.pill("DISPLAY", "sky", 20))
 	right.add_child(_setting_button("CRT SCREEN", "crt", ["soft", "full", "off"]))
-	var disp := BMStyle.hbox(10)
-	right.add_child(disp)
-	for b in [_setting_button("MOTION", "reduced_motion", [false, true], {false: "FULL", true: "REDUCED"}),
-			_setting_button("PATTERNS", "block_patterns", [false, true], {false: "OFF", true: "ON"})]:
-		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		disp.add_child(b)
+	for pair in [[_setting_button("MOTION", "reduced_motion", [false, true], {false: "FULL", true: "REDUCED"}),
+			_setting_button("PATTERNS", "block_patterns", [false, true], {false: "OFF", true: "ON"})],
+			[_setting_button("FULLSCREEN", "fullscreen", [false, true], {false: "OFF", true: "ON"}),
+			_setting_button("SHOW FPS", "show_fps", [false, true], {false: "OFF", true: "ON"})]]:
+		var disp := BMStyle.hbox(10)
+		right.add_child(disp)
+		for b in pair:
+			b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			disp.add_child(b)
 	BMStyle.focus_later(resume)
 	_pop_in(p)
 
@@ -405,6 +431,7 @@ func _setting_button(caption: String, key: String, values: Array, names: Diction
 
 func _apply_settings() -> void:
 	audio.apply_settings(settings)
+	_apply_display_settings()
 	BMBlockPainter.show_patterns = settings.block_patterns
 	crt.set_mode(String(settings.crt))
 	_apply_motion_setting()
@@ -432,6 +459,23 @@ func _input(event: InputEvent) -> void:
 		BMStyle.set_keyboard_focus_visible(true)
 	elif event is InputEventMouseButton or event is InputEventMouseMotion:
 		BMStyle.set_keyboard_focus_visible(false)
+
+
+## Window mode and FPS counter. Leaving fullscreen restores a centered 1600x900 window.
+func _apply_display_settings() -> void:
+	var want_full := bool(settings.get("fullscreen", false))
+	var mode := DisplayServer.window_get_mode()
+	var is_full := mode == DisplayServer.WINDOW_MODE_FULLSCREEN or mode == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN
+	if want_full and not is_full:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	elif not want_full and is_full:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		var screen := DisplayServer.window_get_current_screen()
+		var area := DisplayServer.screen_get_usable_rect(screen)
+		var sz := Vector2i(mini(1600, area.size.x), mini(900, area.size.y))
+		DisplayServer.window_set_size(sz)
+		DisplayServer.window_set_position(area.position + (area.size - sz) / 2)
+	_fps_label.visible = bool(settings.get("show_fps", false))
 
 
 func _apply_motion_setting() -> void:

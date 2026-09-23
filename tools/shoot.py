@@ -14,6 +14,7 @@ after `res://game/main.tscn` loads, e.g.:
     print("INFO score=", m.run.round_state.score)   # lines starting with INFO are echoed
 
 Set BM_GODOT to the Godot 4.7.2 console executable if it is not at the default path.
+The launch splash is skipped (`-- --no-splash`); set BM_SPLASH=1 to keep it.
 """
 import os, subprocess, sys, tempfile, textwrap
 
@@ -52,6 +53,8 @@ func _go() -> void:
 ''' % (work, out))
     cmd = [GODOT, "--path", PROJECT, "--resolution", res, "--position", "%d,%d" % (-w - 400, -h - 400),
            "--windowed", "--audio-driver", "Dummy", "--script", work + "/runner.gd"]
+    if os.environ.get("BM_SPLASH") != "1":
+        cmd += ["--", "--no-splash"]
     flags = 0x08000000 if os.name == "nt" else 0  # CREATE_NO_WINDOW: no console flash
     p = subprocess.run(cmd, capture_output=True, text=True, timeout=180, creationflags=flags)
     txt = p.stdout + p.stderr

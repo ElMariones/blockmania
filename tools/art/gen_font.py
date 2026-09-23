@@ -160,6 +160,30 @@ def emboldened(rows):
     return out
 
 
+# --- Spanish accents: marks drawn from the base glyph. Lowercase marks sit in rows 0-1 (the
+# ascender zone above the x-height); capital marks use row 0, right above the cap height.
+def _with_mark(base, mark_rows, first_row):
+    rows = list(G[base]) + [E] * (10 - len(G[base]))
+    w = glyph_width(G[base])
+    for i, m in enumerate(mark_rows):
+        pad = max(0, (w - len(m) + 1) // 2)
+        rows[first_row + i] = ("." * pad + m).ljust(w, ".")[:max(w, len(m))]
+    return rows
+
+
+for _b, _a in (("a", "á"), ("e", "é"), ("o", "ó"), ("u", "ú")):
+    G[_a] = _with_mark(_b, ["..#", ".#."], 0)
+G["í"] = [".#", "#.", E, "#.", "#.", "#.", "#.", "#."]
+G["ñ"] = _with_mark("n", [".#.#", "#.#."], 0)
+G["ü"] = _with_mark("u", ["#.#"], 1)
+for _b, _a in (("A", "Á"), ("E", "É"), ("I", "Í"), ("O", "Ó"), ("U", "Ú")):
+    G[_a] = _with_mark(_b, [".##"], 0)
+G["Ñ"] = _with_mark("N", ["#.##"], 0)
+g("¡", E, "#", E, "#", "#", "#", "#", "#")
+g("¿", E, "..#..", E, "..#..", ".#...", "#....", "#...#", ".###.")
+
+
+
 def build(path, bold=False):
     names = [".notdef", "space"]
     cmap = {32: "space"}

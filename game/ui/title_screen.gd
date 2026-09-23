@@ -147,6 +147,11 @@ func refresh() -> void:
 	focus_default()
 
 
+## Keeps the logo hidden and silent (the launch splash is on top); refresh() starts the drop-in.
+func hold_intro() -> void:
+	_intro_t = -1.0e6
+
+
 func focus_default() -> void:
 	BMStyle.focus_later((_continue if _continue.visible else _new))
 

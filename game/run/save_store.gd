@@ -67,7 +67,9 @@ static func load_settings() -> Dictionary:
 		"endless_skin": "classic", "endless_skins_unlocked": [],
 		# Audio: volumes are 0..1; "muted" silences everything, "music_on" only the soundtrack.
 		"master_volume": 0.8, "music_volume": 0.6, "sfx_volume": 0.8,
-		"muted": false, "music_on": true, "mute_unfocused": false}
+		"muted": false, "music_on": true, "mute_unfocused": false,
+		# Display: window mode and the corner FPS counter.
+		"fullscreen": false, "show_fps": false}
 	var cfg := ConfigFile.new()
 	if cfg.load(SETTINGS_PATH) == OK:
 		for k in s:

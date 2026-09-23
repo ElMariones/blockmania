@@ -181,6 +181,7 @@ Everything below is original, authored as code in this repository, and regenerat
 | CRT post-process (warp, scanlines, aberration, glow, vignette, grain, roll bar, shock on big clears); Off / Soft (default) / Full | `game/presentation/shaders/crt.gdshader`, `BMCrtLayer` | runtime | In game; pointer input remapped through the warp |
 | Particle VFX: pixel bursts, sparks, stars, confetti, coins, glass shards, homing score streams, pop text, screen shake (cap 900 particles) | `game/presentation/fx_layer.gd` | runtime | In game; reduced motion suppresses motion, keeps text |
 | Chunky block logo with drop-in, bob and shine | `game/ui/title_screen.gd` | runtime | Placeholder logo until a final one is commissioned |
+| Launch splash: "by Mario Landáburu" pops in letter by letter in Blockhead and dances, "made with Godot" slides in, then the letters burst as the curtain fades to the title (about 2.3 s, skippable with any click/key; reduced motion fades only). Godot's boot image is off. Blockhead gained á é í ó ú ñ ü, their capitals, ¡ and ¿ | `game/ui/splash_screen.gd`, `tools/art/gen_font.py` | runtime | In game |
 | Logo easter egg: a clicked letter bursts into its spinning blocks and drops back in ~3 s later (`letter_pop` / `letter_back` sounds) | `game/ui/title_screen.gd`, `tools/audio/gen_sfx_features.py` | runtime | Cosmetic only; under reduced motion the blocks fade in place |
 | Title menu icons: play, T-piece (New Run), trophy, power (plus gear and infinity) | `tools/art/gen_ui.py` | produced | Icon pinned left, label centered on every menu button |
 

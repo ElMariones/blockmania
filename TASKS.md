@@ -59,6 +59,8 @@ _Last updated: 2026-09-23 — Placements now refill on line clears (15, +1 per l
 - [x] Image-generator art (`assets/source/generated/`) reviewed by the owner: **not adopted**.
 - [x] Layout verified at 1920×1080, 1280×720, 1680×1050 and 2560×1080 with `tools/shoot.py`; stage children checked for minimum-size overflow.
 - [x] Title-screen Options (CRT, motion, block patterns, controls) before starting a run.
+- [x] Fullscreen toggle and Show FPS in Options (DISPLAY), saved in settings (2026-09-23).
+- [x] Launch splash "by Mario Landáburu / made with Godot" replaces the Godot boot image: dancing letters, burst, fade to the title; skippable (2026-09-23).
 - [x] Title menu polish (owner request, 2026-09-23): every menu button has an icon with its label centered; clicking a BLOCKMANIA logo letter makes it explode and drop back in (easter egg, cosmetic only). The Continue Endless button is gone: Endless with a game in progress opens a Continue / New Game popup.
 - [x] Focus outline appears for keyboard navigation and is hidden after pointer use.
 - [x] Owned Jokers reorder by drag and drop in the round and shop; Alt+Up/Down is the keyboard alternative.
