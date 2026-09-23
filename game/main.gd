@@ -17,6 +17,8 @@ var fx: BMFx
 var crt: BMCrtLayer
 var audio: BMAudio
 var _pause: Control
+var _endless_pending_ms := 0.0
+var _window_focused := true
 
 
 func _ready() -> void:
@@ -74,6 +76,7 @@ func continue_run() -> void:
 
 
 func show_title() -> void:
+	_flush_endless_time()
 	close_pause()
 	BMAudio.set_endless_combo(0)
 	_show(title_screen)
@@ -83,6 +86,7 @@ func show_title() -> void:
 
 
 func start_endless() -> void:
+	_endless_pending_ms = 0.0
 	endless_screen.bind(BMEndless.new_game(BMRun.random_seed()))
 	BMEndlessStore.record(endless_screen.game)
 	_show(endless_screen)
@@ -95,16 +99,41 @@ func continue_endless() -> void:
 	if game == null:
 		show_title()
 		return
+	_endless_pending_ms = 0.0
 	endless_screen.bind(game)
 	_show(endless_screen)
 	endless_screen.update_mood()
 
 
 func endless_act(action: Dictionary) -> Dictionary:
-	var result := endless_screen.game.apply_action(action)
+	var command := action.duplicate()
+	command["ms"] = int(command.get("ms", 0)) + roundi(_endless_pending_ms)
+	var result := endless_screen.game.apply_action(command)
 	if result.ok:
+		_endless_pending_ms = 0.0
 		BMEndlessStore.record(endless_screen.game)
 	return result
+
+
+func _process(delta: float) -> void:
+	if endless_screen != null and endless_screen.visible and endless_screen.game != null \
+			and not endless_screen.game.over and not is_paused() and not endless_screen.is_style_picker_open() and _window_focused:
+		_endless_pending_ms += delta * 1000.0
+
+
+func _flush_endless_time() -> void:
+	if _endless_pending_ms > 0 and endless_screen != null and endless_screen.game != null and not endless_screen.game.over:
+		endless_act({"a": "clock"})
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
+		_flush_endless_time()
+		_window_focused = false
+	elif what == NOTIFICATION_APPLICATION_FOCUS_IN:
+		_window_focused = true
+	elif what == NOTIFICATION_WM_CLOSE_REQUEST:
+		_flush_endless_time()
 
 
 ## The single entry point for player actions. Returns the rules result.
@@ -160,6 +189,8 @@ func is_paused() -> bool:
 func show_pause() -> void:
 	if run == null and not endless_screen.visible:
 		return
+	if endless_screen.visible:
+		_flush_endless_time()
 	_open_menu(true)
 
 

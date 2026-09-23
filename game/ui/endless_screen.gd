@@ -3,6 +3,7 @@ extends Control
 ## A one-screen arcade cabinet. The rules and save are separate from campaign runs.
 
 const STAGE := Vector2(1920, 1080)
+const StatsPanel := preload("res://game/ui/endless_stats_panel.gd")
 var main: BMMain
 var game: BMEndless
 var stage: Control
@@ -16,6 +17,10 @@ var _ladder: Label
 var _status: Label
 var _mode: Label
 var _detail: Label
+var _skin_button: Button
+var _skin_picker: Control
+var _skin := "classic"
+var _skin_time := 0.0
 var _hold_well: HoldWell
 var _hold_hint: Label
 var _overlay: Control
@@ -30,13 +35,45 @@ var _trail: Array[Vector2] = []
 var _board_pulse: Tween
 
 
+func is_style_picker_open() -> bool:
+	return is_instance_valid(_skin_picker)
+
+
+class SkinPreview extends Control:
+	var skin := "classic"
+	var reduced_motion := false
+	var _time := 0.0
+
+	func _ready() -> void:
+		mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	func _process(delta: float) -> void:
+		if skin in BMBlockPainter.RARE_SKINS and not reduced_motion:
+			_time += delta
+			queue_redraw()
+
+	func _draw() -> void:
+		var cell := 40.0
+		var at := (size - Vector2(3 * cell, cell)) / 2.0
+		for i in 3:
+			BMBlockPainter.draw_block(self, Rect2(at + Vector2(i * cell, 0), Vector2(cell, cell)), i + 1, 1.0, "", Color.WHITE, skin, _time)
+
+
 class HoldWell extends Control:
 	var shape: Dictionary = {}
 	var locked := false
 	var drop_highlight := false
+	var skin := "classic"
+	var reduced_motion := false
+	var _time := 0.0
 
 	func _ready() -> void:
 		mouse_filter = Control.MOUSE_FILTER_PASS
+
+	func _process(delta: float) -> void:
+		if skin in BMBlockPainter.RARE_SKINS and not reduced_motion:
+			_time += delta
+			queue_redraw()
 
 	func _draw() -> void:
 		draw_style_box(BMStyle.box("panel_inset", Vector4.ZERO), Rect2(Vector2.ZERO, size))
@@ -50,7 +87,7 @@ class HoldWell extends Control:
 			var dims := Vector2(BMShapes.shape_size(shape))
 			var cell := floorf(minf(54.0, minf((size.x - 80) / dims.x, (size.y - 110) / dims.y)))
 			var at := ((size - dims * cell) / 2.0 + Vector2(0, 22)).round()
-			BMBlockPainter.draw_shape(self, shape, at, cell, 1.0)
+			BMBlockPainter.draw_shape(self, shape, at, cell, 1.0, Color.WHITE, skin, _time)
 		if locked:
 			draw_string(BMStyle.font_bold, Vector2(0, size.y - 20), "USED THIS TURN", HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.PINK_L)
 
@@ -112,6 +149,9 @@ func _ready() -> void:
 	_detail = BMStyle.label("", 20, BMStyle.CREAM)
 	_detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	tips.add_child(_detail)
+	_skin_button = BMStyle.button("BLOCK STYLE", _open_style_picker, "sky", 20)
+	_skin_button.custom_minimum_size.y = 64
+	tips.add_child(_skin_button)
 	var menu := BMStyle.button("MENU", func() -> void: main.show_pause(), "plum", 30)
 	_at(menu, Vector2(1430, 878), Vector2(350, 80))
 	_drag = Control.new()
@@ -133,6 +173,9 @@ func _at(control: Control, pos: Vector2, dimensions: Vector2) -> void:
 
 func bind(new_game: BMEndless) -> void:
 	game = new_game
+	_skin = String(main.settings.get("endless_skin", "classic"))
+	if not BMBlockPainter.ENDLESS_SKINS.has(_skin):
+		_skin = "classic"
 	BMUI.clear_children(_overlay)
 	var display := BMRun.new()
 	display.board = game.board
@@ -148,10 +191,14 @@ func bind(new_game: BMEndless) -> void:
 
 func apply_settings() -> void:
 	board_view.reduced_motion = main.settings.reduced_motion
+	board_view.block_skin = _skin
 	_marquee.reduced_motion = main.settings.reduced_motion
 	_score.reduced_motion = main.settings.reduced_motion
+	_hold_well.skin = _skin
+	_hold_well.reduced_motion = main.settings.reduced_motion
 	for slot in slots:
 		slot.reduced_motion = main.settings.reduced_motion
+		slot.block_skin = _skin
 
 
 func refresh_all() -> void:
@@ -173,6 +220,7 @@ func refresh_all() -> void:
 	_hold_well.locked = game.hold_used
 	_hold_well.queue_redraw()
 	_hold_hint.text = "HOLD USED — place a piece to recharge" if game.hold_used else "Select a piece, then drop it here or press H"
+	_skin_button.text = "BLOCK STYLE:  %s" % _skin.to_upper()
 	for i in 3:
 		slots[i].setup(game.tray[i], i == _held, game.fits(i))
 		slots[i].tooltip_text = "No board fit. Select this piece to use Hold." if not game.tray[i].is_empty() and not game.fits(i) and not game.hold_used else ""
@@ -184,7 +232,10 @@ func update_mood() -> void:
 	if game == null:
 		return
 	var fill := float(game.board.occupied_count()) / 64.0
-	var wanted := "endless_party" if game.combo >= 4 else ("endless_tense" if fill >= 0.68 or (game.score >= 5000 and fill >= 0.48) else "endless_calm")
+	var clean := game.perfect_clears > 0 and game.board.empty_count() == 64
+	var wanted := "endless_clean" if clean else ("endless_party" if game.combo >= 5 else ("endless_tense" if fill >= 0.68 or (game.score >= 5000 and fill >= 0.48) else "endless_calm"))
+	board_view.clean_glow = clean
+	board_view.queue_redraw()
 	if wanted != _mood:
 		_mood = wanted
 		if BMSwirlBackground.instance:
@@ -192,6 +243,10 @@ func update_mood() -> void:
 		BMAudio.music(wanted)
 	BMAudio.set_endless_combo(game.combo)
 	match wanted:
+		"endless_clean":
+			_mode.text = "FRESH BOARD"
+			_mode.add_theme_color_override("font_color", BMStyle.SUN_L)
+			_detail.text = "A perfect clear. Enjoy the open space!"
 		"endless_party":
 			_mode.text = "COLOR PARADE"
 			_mode.add_theme_color_override("font_color", BMStyle.PINK_L)
@@ -223,7 +278,7 @@ func _on_slot(index: int) -> void:
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouse:
 		_mouse = event.position
-	if game == null or game.over or main.is_paused() or _held < 0:
+	if game == null or game.over or main.is_paused() or is_style_picker_open() or _held < 0:
 		return
 	if event is InputEventMouseMotion:
 		if _hold_mode == "key":
@@ -262,6 +317,11 @@ func _input(event: InputEvent) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if is_style_picker_open():
+		if event.is_action_pressed("bm_cancel"):
+			_close_style_picker()
+			get_viewport().set_input_as_handled()
+		return
 	if game == null or game.over or main.is_paused() or not event is InputEventKey or not event.pressed:
 		return
 	if event.is_action("bm_cancel"):
@@ -356,8 +416,12 @@ func _place(anchor: Vector2i) -> void:
 		return
 	_cancel()
 	board_view.play_resolution(result)
-	BMAudio.sfx("place_m")
+	if _skin == "classic":
+		BMAudio.sfx("place_m")
+	else:
+		BMAudio.skin_sfx(_skin)
 	if result.rows.size() + result.cols.size() > 0:
+		BMAudio.skin_sfx(_skin, true)
 		var line_count: int = result.rows.size() + result.cols.size()
 		BMAudio.sfx("clear_3" if line_count >= 3 else ("clear_2" if line_count == 2 else "clear_1"))
 		BMAudio.sfx("combo_3" if game.combo >= 8 else ("combo_2" if game.combo >= 5 else "combo_1"))
@@ -382,10 +446,15 @@ func _place(anchor: Vector2i) -> void:
 					BMFx.instance.pop_text(board_view.get_global_rect().get_center() + Vector2(0, -130 - 62 * index), callout, BMStyle.MINT_L if callout in ["CLEAN BOARD", "PERFECT"] else BMStyle.PINK_L, 60 if callout == primary else 40, 40.0, 1.35)
 					index += 1
 		if result.clean_board:
+			_unlock_skin("aurora")
+			if BMSwirlBackground.instance:
+				BMSwirlBackground.instance.pulse(1.0)
 			BMAudio.sfx("jingle_win")
 			if BMFx.instance:
 				BMFx.instance.confetti(board_view.get_global_rect(), 150)
 				BMFx.instance.shake(9.0)
+		if game.combo >= 10:
+			_unlock_skin("starfall")
 	refresh_all()
 	if result.over:
 		BMAudio.sfx("jingle_lose")
@@ -416,9 +485,9 @@ func _draw_drag() -> void:
 	if game.combo >= 5 and not main.settings.reduced_motion:
 		for n in _trail.size():
 			var trail_at := _trail[n] - Vector2(BMShapes.shape_size(shape)) * cell / 2.0
-			BMBlockPainter.draw_shape(_drag, shape, trail_at, cell, 0.05 + float(n) / maxf(1.0, _trail.size()) * 0.18)
+			BMBlockPainter.draw_shape(_drag, shape, trail_at, cell, 0.05 + float(n) / maxf(1.0, _trail.size()) * 0.18, Color.WHITE, _skin, _skin_time)
 	var pos := _mouse - Vector2(BMShapes.shape_size(shape)) * cell / 2.0
-	BMBlockPainter.draw_shape(_drag, shape, pos, cell, 0.85)
+	BMBlockPainter.draw_shape(_drag, shape, pos, cell, 0.85, Color.WHITE, _skin, _skin_time)
 
 
 func _pulse_board(amount: float) -> void:
@@ -431,6 +500,90 @@ func _pulse_board(amount: float) -> void:
 	_board_pulse = create_tween()
 	_board_pulse.tween_property(board_view, "scale", Vector2.ONE * amount, 0.12).set_trans(Tween.TRANS_BACK)
 	_board_pulse.tween_property(board_view, "scale", Vector2.ONE, 0.22)
+
+
+func _process(delta: float) -> void:
+	if _skin in BMBlockPainter.RARE_SKINS and not main.settings.reduced_motion and _held >= 0:
+		_skin_time += delta
+		_drag.queue_redraw()
+
+
+func _open_style_picker() -> void:
+	if game == null or game.over or is_style_picker_open():
+		return
+	main._flush_endless_time()
+	_cancel()
+	var shade := ColorRect.new()
+	shade.color = Color(BMStyle.INK, 0.9)
+	shade.mouse_filter = Control.MOUSE_FILTER_STOP
+	stage.add_child(shade)
+	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_skin_picker = shade
+	var panel := BMStyle.panel("panel_plate", Vector4(20, 14, 20, 18))
+	panel.position = Vector2(300, 105)
+	panel.size = Vector2(1320, 870)
+	shade.add_child(panel)
+	var body := Control.new()
+	panel.add_child(body)
+	var heading := BMStyle.label("BLOCK FINISHES", 40, BMStyle.SUN, true)
+	_at_in(body, heading, Vector2(26, 0), Vector2(800, 60))
+	var hint := BMStyle.label("Pick a look. Finishes change art and sound, never the rules.", 20, BMStyle.CREAM)
+	_at_in(body, hint, Vector2(26, 52), Vector2(1130, 30))
+	var unlocked: Array = main.settings.get("endless_skins_unlocked", [])
+	for i in BMBlockPainter.ENDLESS_SKINS.size():
+		var id: String = BMBlockPainter.ENDLESS_SKINS[i]
+		var allowed := not BMBlockPainter.RARE_SKINS.has(id) or unlocked.has(id)
+		var label := "CLASSIC PLASTIC" if id == "classic" else id.to_upper()
+		var tile := BMStyle.button("", func() -> void: _choose_skin(id), "mint" if id == _skin else "plum", 20)
+		tile.disabled = not allowed
+		tile.tooltip_text = "Unlock with a clean board" if id == "aurora" else ("Unlock at combo x10" if id == "starfall" else label)
+		_at_in(body, tile, Vector2(26 + (i % 4) * 290, 88 + (i / 4) * 160), Vector2(268, 140))
+		var preview := SkinPreview.new()
+		preview.skin = id
+		preview.reduced_motion = main.settings.reduced_motion
+		_at_in(tile, preview, Vector2(40, 6), Vector2(188, 74))
+		var caption := BMStyle.label(label if allowed else label + "  LOCKED", 20, BMStyle.CREAM if allowed else BMStyle.TEXT_DIM, true)
+		caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_at_in(tile, caption, Vector2(4, 90), Vector2(260, 35))
+	var back := BMStyle.button("BACK TO GAME", _close_style_picker, "sky", 30)
+	_at_in(body, back, Vector2(26, 712), Vector2(1128, 56))
+	BMStyle.focus_later(back)
+
+
+func _at_in(parent: Control, child: Control, pos: Vector2, dimensions: Vector2) -> void:
+	child.position = pos
+	child.size = dimensions
+	parent.add_child(child)
+
+
+func _choose_skin(id: String) -> void:
+	_skin = id
+	main.settings["endless_skin"] = id
+	BMSaveStore.save_settings(main.settings)
+	apply_settings()
+	refresh_all()
+	_close_style_picker()
+	BMAudio.skin_sfx(id)
+
+
+func _close_style_picker() -> void:
+	if is_instance_valid(_skin_picker):
+		_skin_picker.queue_free()
+	_skin_picker = null
+	BMStyle.focus_later(_skin_button)
+
+
+func _unlock_skin(id: String) -> void:
+	var unlocked: Array = main.settings.get("endless_skins_unlocked", []).duplicate()
+	if unlocked.has(id):
+		return
+	unlocked.append(id)
+	main.settings["endless_skins_unlocked"] = unlocked
+	BMSaveStore.save_settings(main.settings)
+	if BMFx.instance:
+		BMFx.instance.pop_text(board_view.get_global_rect().get_center() + Vector2(0, 120),
+			"NEW FINISH: %s" % id.to_upper(), BMStyle.MINT_L, 30)
 
 
 func focus_default() -> void:
@@ -447,28 +600,50 @@ func focus_default() -> void:
 func _show_over() -> void:
 	BMUI.clear_children(_overlay)
 	var shade := ColorRect.new()
-	shade.color = Color(BMStyle.INK, 0.82)
-	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	shade.color = Color(BMStyle.INK, 0.88)
+	shade.mouse_filter = Control.MOUSE_FILTER_STOP
 	_overlay.add_child(shade)
-	var panel := BMStyle.panel("panel_plate", Vector4(24, 18, 24, 18))
-	panel.position = (size - Vector2(760, 520)) / 2.0
-	panel.size = Vector2(760, 520)
+	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	var panel := BMStyle.panel("panel_plate", Vector4(20, 14, 20, 20))
+	panel.position = (size - Vector2(1540, 880)) / 2.0
+	panel.size = Vector2(1540, 880)
 	shade.add_child(panel)
-	var content := BMStyle.vbox(20)
-	panel.add_child(content)
-	for words in ["NO ROOM LEFT", "SCORE  %s" % BMUI.fmt_int(game.score), "%d lines  •  Best combo x%d" % [game.lines, game.best_combo], "Your score has been saved to the local high scores."]:
-		var label := BMStyle.label(words, 40 if words.begins_with("NO ROOM") else 30, BMStyle.SUN if words.begins_with("SCORE") else BMStyle.CREAM, true)
-		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		content.add_child(label)
+	var body := Control.new()
+	panel.add_child(body)
+	var emblem := TextureRect.new()
+	emblem.texture = BMStyle.infinity_icon()
+	emblem.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	emblem.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	emblem.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_at_in(body, emblem, Vector2(12, 12), Vector2(68, 36))
+	var heading := BMStyle.label("ENDLESS RUN", 40, BMStyle.SUN, true, 8)
+	_at_in(body, heading, Vector2(92, 4), Vector2(450, 56))
+	var loss := BMStyle.label("NO ROOM\nLEFT", 60, BMStyle.CREAM, true, 10)
+	_at_in(body, loss, Vector2(12, 115), Vector2(505, 180))
+	var rank := 0
+	var scores := BMEndlessStore.high_scores()
+	for i in scores.size():
+		if int(scores[i].score) == game.score and int(scores[i].seed) == game.seed:
+			rank = i + 1
+			break
+	var badge := BMStyle.pill("HIGH SCORE  #%02d" % rank if rank > 0 else "RUN COMPLETE", "mint" if rank > 0 else "plum", 30)
+	_at_in(body, badge, Vector2(12, 302), Vector2(505, 58))
+	var motif := SkinPreview.new()
+	motif.skin = _skin
+	motif.reduced_motion = main.settings.reduced_motion
+	_at_in(body, motif, Vector2(12, 382), Vector2(505, 96))
+	var detail := StatsPanel.new()
+	detail.set_entry(BMEndlessStore.entry_for_game(game))
+	_at_in(body, detail, Vector2(550, 86), Vector2(875, 690))
 	var again := BMStyle.button("PLAY AGAIN", func() -> void:
 		BMUI.clear_children(_overlay)
 		main.start_endless(), "sun", 30)
-	again.custom_minimum_size.y = 70
-	content.add_child(again)
-	var scores := BMStyle.button("HIGH SCORES", func() -> void: main.show_title(); main.title_screen._show_high_scores(), "sky", 30)
-	scores.custom_minimum_size.y = 70
-	content.add_child(scores)
+	_at_in(body, again, Vector2(12, 504), Vector2(505, 70))
+	var scores_button := BMStyle.button("HIGH SCORES", func() -> void:
+		var completed := BMEndlessStore.entry_for_game(game)
+		main.show_title()
+		main.title_screen._show_high_scores(completed), "sky", 30)
+	_at_in(body, scores_button, Vector2(12, 588), Vector2(505, 70))
 	var title := BMStyle.button("TITLE", func() -> void: main.show_title(), "plum", 30)
-	title.custom_minimum_size.y = 70
-	content.add_child(title)
+	_at_in(body, title, Vector2(12, 672), Vector2(505, 70))
 	BMStyle.focus_later(again)

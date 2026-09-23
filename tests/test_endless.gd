@@ -138,10 +138,48 @@ func test_schema_one_endless_save_migrates() -> void:
 	var g := BMEndless.new_game(42)
 	var old := g.to_dict()
 	old.schema = 1
-	old.erase("held")
-	old.erase("hold_used")
+	for key in ["held", "hold_used", "perfect_clears", "largest_clear", "coverage_peak", "best_streak",
+		"consecutive_clears", "duration_ms", "time_since_placement_ms", "placement_time_total_ms",
+		"score_samples", "stats_complete"]:
+		old.erase(key)
 	var migrated := BMEndless.from_dict(old)
 	check(migrated != null and migrated.held.is_empty(), "old save loads with empty Hold")
+	check(not migrated.stats_complete and migrated.score_samples.is_empty(), "old run does not invent statistics")
+
+
+func test_endless_statistics_record_real_actions_and_survive_save() -> void:
+	var g := BMEndless.new_game(306)
+	for x in 7:
+		g.board.set_cell(Vector2i(x, 0), 0)
+	g.tray[0] = BMShapes.make_shape(&"single", 0, 0)
+	check(g.apply_action({"a": "clock", "ms": 1200}).ok, "clock records active play")
+	var clear := g.apply_action({"a": "place", "i": 0, "x": 7, "y": 0, "ms": 800})
+	check(clear.ok and clear.clean_board, "first placement clears the board")
+	var stats := g.summary()
+	eq(stats.perfect_clears, 1, "clean board counted")
+	eq(stats.largest_clear, 1, "largest clear counted")
+	eq(stats.coverage_peak, 13, "coverage records pre-clear filled board")
+	eq(stats.duration_ms, 2000, "active duration includes the clock and placement")
+	eq(stats.average_placement_ms, 2000, "placement timing includes time before placement")
+	eq(stats.best_streak, 1, "clearing streak counted")
+	eq(stats.score_samples.back().score, g.score, "graph ends at actual score")
+	var resumed := BMEndless.from_dict(JSON.parse_string(JSON.stringify(g.to_dict())))
+	eq(resumed.duration_ms, g.duration_ms, "duration survives save")
+	eq(resumed.perfect_clears, g.perfect_clears, "perfect count survives save")
+	eq(int(resumed.score_samples.back().score), g.score, "graph endpoint survives save")
+
+
+func test_legacy_schema_two_endless_save_keeps_available_stats() -> void:
+	var g := BMEndless.new_game(307)
+	var old := g.to_dict()
+	old.schema = 2
+	for key in ["perfect_clears", "largest_clear", "coverage_peak", "best_streak",
+		"consecutive_clears", "duration_ms", "time_since_placement_ms", "placement_time_total_ms",
+		"score_samples", "stats_complete"]:
+		old.erase(key)
+	var migrated := BMEndless.from_dict(old)
+	check(migrated != null and not migrated.stats_complete, "schema two run loads with missing stats marked")
+	eq(migrated.score, g.score, "score remains intact")
 
 
 func test_high_scores_are_sorted_and_separate_from_progress() -> void:
@@ -161,7 +199,22 @@ func test_high_scores_are_sorted_and_separate_from_progress() -> void:
 	var scores := BMEndlessStore.high_scores()
 	eq(scores.size(), 2, "both scores kept")
 	eq(int(scores[0].score), 900, "best score first")
+	check(scores[0].has("score_samples") and scores[0].has("duration_ms"), "high score stores detailed statistics")
 	DirAccess.remove_absolute(BMEndlessStore.game_path)
 	DirAccess.remove_absolute(BMEndlessStore.scores_path)
 	BMEndlessStore.game_path = BMEndlessStore.PATH
+	BMEndlessStore.scores_path = BMEndlessStore.SCORES_PATH
+
+
+func test_legacy_high_score_rows_remain_readable() -> void:
+	BMEndlessStore.scores_path = "user://test_endless_legacy_scores.json"
+	var file := FileAccess.open(BMEndlessStore.scores_path, FileAccess.WRITE)
+	file.store_string(JSON.stringify({"schema": 1, "scores": [{"score": 750, "seed": 13,
+		"lines": 4, "combo": 2, "date": "2026-09-22"}]}))
+	file.close()
+	var scores := BMEndlessStore.high_scores()
+	eq(scores.size(), 1, "old leaderboard loads")
+	eq(int(scores[0].score), 750, "old score preserved")
+	check(not scores[0].has("score_samples"), "missing old graph is distinguishable")
+	DirAccess.remove_absolute(BMEndlessStore.scores_path)
 	BMEndlessStore.scores_path = BMEndlessStore.SCORES_PATH

@@ -35,8 +35,7 @@ static func record(game: BMEndless) -> void:
 		if FileAccess.file_exists(game_path):
 			DirAccess.remove_absolute(game_path)
 		var scores := high_scores()
-		scores.append({"score": game.score, "seed": game.seed, "lines": game.lines,
-			"combo": game.best_combo, "date": Time.get_date_string_from_system()})
+		scores.append(entry_for_game(game))
 		scores.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return int(a.score) > int(b.score))
 		scores.resize(mini(scores.size(), 10))
 		_write(scores_path, {"schema": 1, "scores": scores})
@@ -49,3 +48,9 @@ static func high_scores() -> Array:
 		return []
 	var d: Variant = JSON.parse_string(FileAccess.get_file_as_string(scores_path))
 	return d.get("scores", []) if d is Dictionary and int(d.get("schema", 0)) == 1 else []
+
+
+static func entry_for_game(game: BMEndless) -> Dictionary:
+	var entry := game.summary()
+	entry["date"] = Time.get_date_string_from_system()
+	return entry

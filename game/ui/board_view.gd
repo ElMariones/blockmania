@@ -14,6 +14,8 @@ var ghost_rows: Array[int] = []
 var ghost_cols: Array[int] = []
 var keyboard_focus := false
 var reduced_motion := false
+var block_skin := "classic"
+var clean_glow := false
 
 var _fx_clears: Array[Dictionary] = [] ## {cell, color, mat, t, delay}
 var _pop_step := 0 ## position in the pop cascade of the current resolution
@@ -125,12 +127,12 @@ func _process(delta: float) -> void:
 			if BMFx.instance:
 				var col: Color = _block_color(int(fx.color))
 				BMFx.instance.burst(cell_global_center(fx.cell), [col, col.lightened(0.4), BMStyle.CREAM], 7, 320.0, 8.0)
-				if fx.mat == "glass":
+				if fx.mat == "glass" or block_skin in ["glass", "crystal", "ice"]:
 					BMFx.instance.shards(cell_global_center(fx.cell), 5)
 	_fx_places = _fx_places.filter(func(f: Dictionary) -> bool: return f.t < f.delay + PLACE_TIME)
 	_fx_sweeps = _fx_sweeps.filter(func(f: Dictionary) -> bool: return f.t < SWEEP_TIME)
 	_fx_clears = _fx_clears.filter(func(f: Dictionary) -> bool: return f.t < f.delay + CLEAR_TIME)
-	if busy or ghost_valid or not ghost_shape.is_empty():
+	if busy or ghost_valid or not ghost_shape.is_empty() or clean_glow or (block_skin in BMBlockPainter.RARE_SKINS and not reduced_motion):
 		queue_redraw()
 
 
@@ -146,6 +148,8 @@ func _draw() -> void:
 	var side := c * BMBoard.SIZE
 	var frame_rect := Rect2(origin - Vector2(FRAME, FRAME), Vector2(side, side) + Vector2(FRAME, FRAME) * 2.0 + Vector2(0, 8))
 	draw_style_box(BMStyle.box("board_frame", Vector4.ZERO), frame_rect)
+	if clean_glow:
+		draw_rect(frame_rect.grow(-8), Color(BMStyle.MINT_L, 0.7 + 0.2 * sin(_time * 4.0)), false, 5.0)
 
 	# Coordinates stamped into the brass rim (ink on sun), for keyboard play and callouts.
 	var font := BMStyle.font_bold
@@ -166,6 +170,8 @@ func _draw() -> void:
 			var p := Vector2i(x, y)
 			var r := cell_rect(p)
 			draw_texture_rect(cell_tex, r, false)
+			if clean_glow and (x + y * 3) % 7 == 0:
+				draw_rect(Rect2(r.get_center() - Vector2(2, 2), Vector2(4, 4)), Color(BMStyle.SUN_L, 0.42))
 			var v := run.board.get_cell(p)
 			if v == BMBoard.EMPTY:
 				continue
@@ -177,7 +183,7 @@ func _draw() -> void:
 				var drop := (1.0 - minf(1.0, k * 1.6)) * -c * 0.35
 				var squash := 1.0 + 0.12 * sin(clampf((k - 0.55) / 0.45, 0.0, 1.0) * PI)
 				rr = Rect2(r.position + Vector2((r.size.x - r.size.x * squash) / 2.0, drop + r.size.y * (1.0 - 1.0 / squash)), Vector2(r.size.x * squash, r.size.y / squash))
-			BMBlockPainter.draw_block(self, rr, v, 1.0, BMPieces.MATERIALS[run.board.get_mat(p)])
+			BMBlockPainter.draw_block(self, rr, v, 1.0, BMPieces.MATERIALS[run.board.get_mat(p)], Color.WHITE, block_skin, 0.0 if reduced_motion else _time)
 			if pending.has(p):
 				draw_rect(r.grow(-4), Color(1, 1, 1, 0.12 + 0.18 * pulse))
 
@@ -189,7 +195,7 @@ func _draw() -> void:
 				continue
 			var r := cell_rect(p)
 			if ghost_valid:
-				BMBlockPainter.draw_block(self, r, int(ghost_shape.color), 0.55, String(ghost_shape.get("material", "")))
+				BMBlockPainter.draw_block(self, r, int(ghost_shape.color), 0.55, String(ghost_shape.get("material", "")), Color.WHITE, block_skin, 0.0 if reduced_motion else _time)
 				draw_rect(r.grow(-3), Color(BMStyle.CREAM, 0.55 + 0.45 * pulse), false, 4.0)
 			else:
 				draw_rect(r.grow(-4), Color(BMStyle.PINK, 0.28))
@@ -230,13 +236,13 @@ func _draw() -> void:
 		var t: float = fx.t - fx.delay
 		var r := cell_rect(fx.cell)
 		if t < 0.0:
-			BMBlockPainter.draw_block(self, r, fx.color, 1.0, fx.mat)
+			BMBlockPainter.draw_block(self, r, fx.color, 1.0, fx.mat, Color.WHITE, block_skin, 0.0 if reduced_motion else _time)
 			continue
 		var k := t / CLEAR_TIME
 		if k < 0.45:
 			var grow := 1.0 + 0.12 * (k / 0.45)
 			var rr := Rect2(r.get_center() - r.size * grow / 2.0, r.size * grow)
-			BMBlockPainter.draw_block(self, rr, fx.color, 1.0, fx.mat)
+			BMBlockPainter.draw_block(self, rr, fx.color, 1.0, fx.mat, Color.WHITE, block_skin, 0.0 if reduced_motion else _time)
 			draw_rect(rr.grow(-3), Color(1, 1, 1, 0.85 * (k / 0.45)))
 		else:
 			var s := 1.0 - (k - 0.45) / 0.55

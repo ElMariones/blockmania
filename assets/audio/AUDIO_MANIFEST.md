@@ -1,6 +1,6 @@
 # BLOCKMANIA audio manifest
 
-**Status:** original, code-authored first pass (2026-09-23). All notes, timbres, noise, drums, and effects are synthesized by `tools/audio/`; no third-party recording, sample, melody, or game audio was used. The composition scripts and exported files are project-owned. The owner's reference to a lo-fi game composer describes mood only; these are independent compositions.
+**Status:** original, code-authored first pass (2026-09-23). Notes, timbres, noise, drums, and effects are synthesized by `tools/audio/` and the runtime cues in `game/audio/audio.gd`; no third-party recording, sample, melody, or game audio was used. The composition scripts and exported files are project-owned. The owner's reference to a lo-fi game composer describes mood only; these are independent compositions.
 
 ## Source and export
 
@@ -9,6 +9,7 @@
 - All seven music exports are 44.1 kHz stereo Ogg Vorbis, quality 4. The editable master is the deterministic source code and its song data. Music is rendered to WAV before encoding, then the intermediate WAV is removed.
 - Runtime mapping, playlists, rate limits and gain control: `game/audio/audio.gd`. Music and SFX use separate Godot buses routed to Master. There are no external audio licenses to track.
 - Endless x5/x8 combo percussion is synthesized at runtime by `game/audio/audio.gd` as a looping PCM layer on the Music bus, using each arrangement's BPM and beat count. It has no separate media file or third-party source.
+- Endless finish cues: `game/audio/audio.gd` synthesizes a short 22.05 kHz, 16-bit PCM placement and clear cue for each non-classic block finish on first use. These are code-authored, cached at runtime, and played through the SFX bus; there are no new external samples or files. Fresh Board also uses the existing win jingle and switches to its own music playlist.
 
 ## Music
 

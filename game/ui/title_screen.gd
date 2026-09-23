@@ -4,6 +4,7 @@ extends Control
 ## drifting pieces behind the menu, and arcade buttons (Continue, New Run with seed, Quit).
 
 const STAGE := Vector2(1920, 1080)
+const StatsPanel := preload("res://game/ui/endless_stats_panel.gd")
 ## Chunky block letters for the logo (original, two-block strokes).
 const LETTERS := {
 	"B": ["#####.", "##..##", "##..##", "#####.", "##..##", "##..##", "#####."],
@@ -27,6 +28,8 @@ var _seed_edit: LineEdit
 var _continue: Button
 var _new: Button
 var _endless_continue: Button
+var _highscore_overlay: Control
+var _score_rows: Array[Button] = []
 var _t := 0.0
 var _intro_t := 0.0
 var _landed := 0 ## logo letters that have played their landing sound
@@ -125,42 +128,79 @@ func focus_default() -> void:
 	BMStyle.focus_later((_continue if _continue.visible else _new))
 
 
-func _show_high_scores() -> void:
+func _show_high_scores(featured: Dictionary = {}) -> void:
+	if is_instance_valid(_highscore_overlay):
+		_highscore_overlay.queue_free()
+	_score_rows.clear()
 	var shade := ColorRect.new()
-	shade.color = Color(BMStyle.INK, 0.86)
-	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	shade.color = Color(BMStyle.INK, 0.88)
+	shade.mouse_filter = Control.MOUSE_FILTER_STOP
 	stage.add_child(shade)
-	var panel := BMStyle.panel("panel_plate", Vector4(20, 16, 20, 20))
-	panel.position = Vector2(530, 145)
-	panel.size = Vector2(860, 790)
+	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_highscore_overlay = shade
+	var panel := BMStyle.panel("panel_plate", Vector4(20, 14, 20, 20))
+	panel.position = Vector2(190, 100)
+	panel.size = Vector2(1540, 880)
 	shade.add_child(panel)
-	var content := BMStyle.vbox(16)
-	panel.add_child(content)
-	var icon := TextureRect.new()
-	icon.texture = BMStyle.infinity_icon()
-	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	icon.position = Vector2(62, 46)
-	icon.size = Vector2(68, 36)
-	panel.add_child(icon)
-	var heading := BMStyle.label("ENDLESS HIGH SCORES", 40, BMStyle.SUN, true, 10)
-	heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	content.add_child(heading)
+	# PanelContainer owns exactly one layout child. All visible widgets live inside it,
+	# so the pixel emblem cannot expand across the panel and steal button clicks.
+	var body := Control.new()
+	panel.add_child(body)
+	var emblem := TextureRect.new()
+	emblem.texture = BMStyle.infinity_icon()
+	emblem.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	emblem.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	emblem.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_place_score_widget(body, emblem, Vector2(12, 12), Vector2(68, 36))
+	var heading := BMStyle.label("ENDLESS HIGH SCORES", 40, BMStyle.SUN, true, 8)
+	_place_score_widget(body, heading, Vector2(92, 4), Vector2(900, 56))
 	var entries := BMEndlessStore.high_scores()
+	var detail := StatsPanel.new()
+	_place_score_widget(body, detail, Vector2(550, 86), Vector2(875, 690))
 	if entries.is_empty():
-		content.add_child(BMStyle.label("No games finished yet. Your first score is waiting.", 30, BMStyle.CREAM))
+		var empty := BMStyle.label("NO SAVED SCORES YET" if not featured.is_empty() else "NO SCORES YET\nFINISH A GAME TO START", 20, BMStyle.CREAM, true)
+		_place_score_widget(body, empty, Vector2(20, 160), Vector2(500, 90))
 	else:
 		for i in entries.size():
 			var item: Dictionary = entries[i]
-			var row := BMStyle.label("%02d    %s    %d lines    x%d combo    %s" % [i + 1, BMUI.fmt_int(int(item.score)), int(item.lines), int(item.combo), String(item.date)], 20, BMStyle.CREAM, true)
-			content.add_child(row)
-	var spacer := Control.new()
-	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	content.add_child(spacer)
-	var back := BMStyle.button("BACK", func() -> void: shade.queue_free(), "sky", 30)
-	back.custom_minimum_size.y = 72
-	content.add_child(back)
+			var row := BMStyle.button("%02d   %s" % [i + 1, BMUI.fmt_int(int(item.score))],
+				func() -> void: _select_score_row(detail, item, i), "plum", 20)
+			row.tooltip_text = "%d lines  •  x%d combo  •  %s" % [int(item.get("lines", 0)), int(item.get("combo", 1)), String(item.get("date", ""))]
+			_place_score_widget(body, row, Vector2(12, 108 + i * 57), Vector2(505, 52))
+			_score_rows.append(row)
+	if not featured.is_empty():
+		detail.set_entry(featured)
+	elif not entries.is_empty():
+		_select_score_row(detail, entries[0], 0)
+	var back := BMStyle.button("BACK", func() -> void: _close_high_scores(), "sky", 30)
+	_place_score_widget(body, back, Vector2(12, 714), Vector2(505, 72))
 	BMStyle.focus_later(back)
+
+
+func _place_score_widget(parent: Control, child: Control, at: Vector2, dimensions: Vector2) -> void:
+	child.position = at
+	child.size = dimensions
+	parent.add_child(child)
+
+
+func _close_high_scores() -> void:
+	if is_instance_valid(_highscore_overlay):
+		_highscore_overlay.queue_free()
+	_highscore_overlay = null
+	_score_rows.clear()
+	focus_default()
+
+
+func _select_score_row(detail: Control, entry: Dictionary, selected: int) -> void:
+	for i in _score_rows.size():
+		BMStyle.button_boxes(_score_rows[i], "mint" if i == selected else "plum")
+	detail.call("set_entry", entry)
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if is_instance_valid(_highscore_overlay) and event.is_action_pressed("bm_cancel"):
+		_close_high_scores()
+		get_viewport().set_input_as_handled()
 
 
 func _new_run() -> void:

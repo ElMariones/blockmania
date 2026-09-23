@@ -83,6 +83,7 @@ const PLAYLISTS := {
 	"endless_calm": ["blockhead_lullaby", "rainy_arcade", "clear_skies"],
 	"endless_tense": ["night_shift", "last_call"],
 	"endless_party": ["the_toybox", "eight_by_eight"],
+	"endless_clean": ["clear_skies", "the_toybox"],
 }
 const TRACK_BPM := {"blockhead_lullaby": 64, "eight_by_eight": 76, "rainy_arcade": 70,
 	"clear_skies": 84, "night_shift": 80, "the_toybox": 92, "last_call": 68}
@@ -105,6 +106,7 @@ var _combo_level := 0
 var _combo_fade: Tween
 var _combo_loops := {}
 var _combo_track := ""
+var _skin_streams := {}
 var _active := 0
 var _fade: Tween
 var _context := ""
@@ -237,6 +239,55 @@ func _play(id: String, pitch: float, volume_db: float) -> void:
 	p.pitch_scale = maxf(0.05, pitch * (1.0 + randf_range(-def[1], def[1])))
 	p.volume_db = volume_db
 	p.play()
+
+
+## Short original per-finish cues, generated as PCM when a finish is first used.
+static func skin_sfx(skin: String, clear: bool = false) -> void:
+	if instance != null and skin != "classic":
+		instance._play_skin(skin, clear)
+
+
+func _play_skin(skin: String, clear: bool) -> void:
+	var idx := BMBlockPainter.ENDLESS_SKINS.find(skin)
+	if idx < 0:
+		return
+	var key := skin + ("_clear" if clear else "_place")
+	if not _skin_streams.has(key):
+		_skin_streams[key] = _make_skin_cue(idx, clear)
+	var player := _pool[_next]
+	_next = (_next + 1) % _pool.size()
+	player.stream = _skin_streams[key]
+	player.pitch_scale = 1.0
+	player.volume_db = -7.0
+	player.play()
+
+
+func _make_skin_cue(index: int, clear: bool) -> AudioStreamWAV:
+	const RATE := 22050
+	var duration := 0.37 if clear else 0.16
+	var count := roundi(RATE * duration)
+	var pcm := PackedByteArray()
+	pcm.resize(count * 2)
+	var pitches := [290.0, 700.0, 880.0, 600.0, 420.0, 370.0, 540.0,
+		250.0, 640.0, 190.0, 760.0, 500.0, 810.0, 960.0]
+	var base: float = pitches[index]
+	for i in count:
+		var t := float(i) / RATE
+		var sweep := base * (1.0 + (0.22 if clear else -0.16) * t / duration)
+		var wave := sin(TAU * sweep * t) + 0.35 * sin(TAU * sweep * t * (2.0 + float(index % 3)))
+		var hash_value := (i * 1103515245 + index * 9176 + 12345) & 0x7fffffff
+		var noise := float(hash_value) / 1073741823.5 - 1.0
+		var gritty := 0.18 if index in [6, 7, 9] else 0.06
+		var envelope := (1.0 - exp(-t * 90.0)) * exp(-t * (8.0 if clear else 19.0))
+		var sample := clampi(roundi((wave * 0.23 + noise * gritty) * envelope * 32767.0), -32768, 32767)
+		pcm[i * 2] = sample & 255
+		pcm[i * 2 + 1] = (sample >> 8) & 255
+	var wav := AudioStreamWAV.new()
+	wav.format = AudioStreamWAV.FORMAT_16_BITS
+	wav.mix_rate = RATE
+	wav.stereo = false
+	wav.data = pcm
+	return wav
 
 
 # --- Music -----------------------------------------------------------------------------------

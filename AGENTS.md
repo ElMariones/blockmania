@@ -65,7 +65,7 @@ If documents conflict, resolve the discrepancy in favor of the owner's latest in
 | `assets/ui/`, `assets/fonts/` | Generated pixel-art UI kit (`nine.json` holds 9-slice margins) and the original Blockhead fonts. Output of `tools/art/`; regenerate, never hand-edit. |
 | `game/main.gd` + `main.tscn` | App root `BMMain`: routes screens, the single `act()` entry point, autosave, pause, input-map registration. |
 | `tests/` | Headless test runner and `test_*.gd` suites (extend `BMTestCase`). |
-| `tools/art/` | `gen_ui.py` (UI kit PNGs at 4× nearest + `nine.json`) and `gen_font.py` (Blockhead regular/bold TTF via fontTools). Python + Pillow + fontTools. |
+| `tools/art/` | `gen_ui.py` (UI kit PNGs at 4× nearest + `nine.json`), `gen_skins.py` (78 original pixel-art Endless finish faces at 4× nearest), and `gen_font.py` (Blockhead regular/bold TTF via fontTools). Python + Pillow + fontTools. |
 | `tools/` | `shoot.py` (focus-safe screenshot runner, see below), `BMAutoplayer` (preview-guided bot with a configurable shop policy), `simulate.gd` (quick balance probe), `experiments.gd` (paired-seed content experiments: curve / jokers / upgrades). Dev-only. |
 | `docs/balance/` | Saved experiment reports that justify provisional numbers. |
 | `addons/godot_ai/` | Third-party editor plugin (MIT) for AI tooling; dev-only, see THIRD_PARTY.md. |
@@ -77,6 +77,7 @@ Future: `assets/export`. Godot resource paths and stable IDs (Joker/boss/item/sh
 - Every player action is a `BMRun` command returning a result Dictionary. UI calls only `BMMain.act(action_dict)`, which applies, autosaves, and routes. Never mutate `BMRun` from UI code.
 - Endless actions go through `BMMain.endless_act(action_dict)` into `BMEndless`, then `BMEndlessStore`; keep its score and RNG independent of campaign rules and saves.
 - Endless uses a seeded fair-trio replacement when all three new offers are illegal, one Hold action between placements, and a saved x1/x2/x3/x5/x8/x10 combo ladder that resets after three misses. Keep presentation cues derived from the action result.
+- Endless schema 3 saves bounded score samples, run statistics, and active milliseconds carried in action commands; pause, finish selection, and app focus loss do not count toward active time. Classic and procedural finish art/audio are cosmetic settings and must not change the board, score, or seeded draws. Older Endless saves remain loadable with missing statistics marked unavailable.
 - The placement pipeline lives only in `BMResolver.resolve_placement`. Score previews run it on `run.clone()`, so preview equals result by construction.
 - New Joker: add a `CATALOG` entry in `game/content/jokers.gd`, implement its phase function (`chips` / `add_mult` / `x_mult`) or rule hook in `BMRun`/`BMResolver`, add a trigger and a no-trigger test in `tests/test_jokers.gd`, and make sure the card text matches the code. Set `implemented: false` to keep an unfinished card out of the shop.
 - The Bag: trays are dealt only through `BMBag`. Every bag piece has a unique `uid`, and each piece is in exactly one of the draw pile, the tray, or the discard pile (a test enforces this). Temporary pieces have `uid -1` and `temporary: true` and never enter a pile. Bag edits (`buy_tool`, `buy_piece`) happen only in the shop.
@@ -110,6 +111,7 @@ Future: `assets/export`. Godot resource paths and stable IDs (Joker/boss/item/sh
 python tools/shoot.py fixture.gd out.png 1920x1080
 # Regenerate the UI kit / fonts, then reimport them in the open editor (see below)
 python tools/art/gen_ui.py
+python tools/art/gen_skins.py
 python tools/art/gen_font.py
 ```
 
