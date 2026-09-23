@@ -6,6 +6,9 @@ extends Control
 ## charged until the choice is confirmed.
 
 const STAGE := Vector2(1920, 1080)
+const TICKER_BOTTOM := 870.0 ## the round ticker spans 578..870 on the stage
+const CRATE_BUTTON_Y := 766.0 ## while the BOSS CRATE button shows, it takes the ticker's bottom
+const TICKER_RULE_LINES := 5
 
 var main: Node
 var run: BMRun
@@ -111,22 +114,23 @@ func _ready() -> void:
 	tv.add_child(brow)
 	_boss_label = BMStyle.label("", 20, BMStyle.CREAM)
 	_boss_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_boss_label.max_lines_visible = 5
+	_boss_label.max_lines_visible = TICKER_RULE_LINES
 	_boss_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	tv.add_child(_boss_label)
 	_ticker = ticker
-	_put(ticker, Vector2(1156, 578), Vector2(284, 292))
+	_put(ticker, Vector2(1156, 578), Vector2(284, TICKER_BOTTOM - 578))
 	_message = BMStyle.label("", 20, BMStyle.PINK_L, true, 6)
 	_message.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	_put(_message, Vector2(40, 1030), Vector2(1096, 36))
 	var leave := BMStyle.button("NEXT ROUND  >", func() -> void: _act({"a": "leave_shop"}), "sun", 40)
 	leave.name = "LeaveButton"
 	_put(leave, Vector2(1156, 882), Vector2(284, 170))
-	_crate_button = BMStyle.button("BOSS CRATE", func() -> void: _show_crate(), "mint", 30)
+	# Two lines of text beside the full-size icon keep the button inside the ticker's width.
+	_crate_button = BMStyle.button("BOSS\nCRATE", func() -> void: _show_crate(), "mint", 30)
 	_crate_button.icon = BMStyle.tex("icon_crate")
 	_crate_button.tooltip_text = "Your free Boss Crate is still closed. Open it before you leave."
 	_crate_button.visible = false
-	_put(_crate_button, Vector2(1156, 770), Vector2(284, 100))
+	_put(_crate_button, Vector2(1156, CRATE_BUTTON_Y), Vector2(284, TICKER_BOTTOM - CRATE_BUTTON_Y))
 	leave.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 
 	# Right column: your build.
@@ -248,6 +252,8 @@ func _crate_offers(dim: Control) -> void:
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
 	dim.add_child(row)
 	var cards: Array = []
+	var first_take: Button = null
+	var locked: Array[String] = []
 	for i in run.shop.crate.size():
 		var o: Dictionary = run.shop.crate[i]
 		var take := BMStyle.button("TAKE IT", func() -> void:
@@ -266,6 +272,12 @@ func _crate_offers(dim: Control) -> void:
 			_:
 				card = BMCard.offer(run, "item", "cash_out", take)
 				_retitle_credits(card, int(o.value))
+		var why := _crate_block_reason(o)
+		if why != "":
+			_lock_offer(card, take, why)
+			locked.append("sell a Joker" if String(o.kind) == "joker" else "use an item")
+		elif first_take == null:
+			first_take = take
 		row.add_child(card)
 		cards.append(card)
 	row.reset_size()
@@ -280,10 +292,61 @@ func _crate_offers(dim: Control) -> void:
 	var skip := BMStyle.button("LATER", func() -> void: BMUI.clear_children(_overlay), "plum", 20)
 	skip.tooltip_text = "Close the crate for now: the BOSS CRATE button reopens it until you leave the shop."
 	skip.size = Vector2(200, 56)
-	skip.position = Vector2((size.x - 200) / 2.0, row.position.y + row.size.y + 24)
+	var below := row.position.y + row.size.y + 24
+	if not locked.is_empty():
+		var note := BMStyle.label("Slots full? Press LATER, %s, then reopen the crate." % " or ".join(locked),
+			20, BMStyle.PINK_L, true, 6)
+		note.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		note.size = Vector2(size.x, 32)
+		note.position = Vector2(0, below)
+		dim.add_child(note)
+		below += 44
+	skip.position = Vector2((size.x - 200) / 2.0, below)
 	dim.add_child(skip)
-	if not cards.is_empty():
-		BMStyle.focus_later(cards[0])
+	BMStyle.focus_later(first_take if first_take != null else skip)
+
+
+## Why a crate offer cannot be taken right now ("" when it can). Mirrors BMRun.open_crate.
+func _crate_block_reason(o: Dictionary) -> String:
+	match String(o.kind):
+		"joker":
+			if run.jokers.size() >= run.joker_slots():
+				return "Joker slots are full"
+		"item":
+			if run.consumables.size() >= BMRunConfig.CONSUMABLE_SLOTS:
+				return "Item slots are full"
+	return ""
+
+
+## Locked crate offer: the button is disabled and says LOCKED; a padlock and the reason sit over
+## the dimmed card (text and icon, not color alone). The tooltip says how to unlock it.
+func _lock_offer(card: BMCard, take: Button, why: String) -> void:
+	var what := "a Joker" if why.begins_with("Joker") else "an item"
+	var fix := "sell a Joker" if what == "a Joker" else "use an item"
+	take.disabled = true
+	take.text = "LOCKED"
+	take.icon = BMStyle.tex("icon_lock")
+	take.tooltip_text = "%s. Press LATER, %s, then reopen the crate with the BOSS CRATE button." % [why, fix]
+	card.tooltip_body += "\n\nLOCKED: %s. Press LATER, %s, then reopen the crate." % [why.to_lower(), fix]
+	# A light veil keeps the card readable; the padlock covers the emblem and SLOTS FULL
+	# covers the rarity tag (same vertical rhythm as BMCard.offer: 80-px emblem, 6-px gap).
+	var veil := ColorRect.new()
+	veil.color = Color(BMStyle.INK, 0.35)
+	veil.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	card.add_child(veil)
+	var v := BMStyle.vbox(6)
+	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	veil.add_child(v)
+	v.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
+	var lock_row := CenterContainer.new()
+	lock_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	lock_row.custom_minimum_size.y = 80
+	lock_row.add_child(BMStyle.icon_rect("icon_lock", 1.5))
+	v.add_child(lock_row)
+	var pill_row := CenterContainer.new()
+	pill_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	pill_row.add_child(BMStyle.pill("SLOTS FULL", "pink", 20))
+	v.add_child(pill_row)
 
 
 func _crate_name(o: Dictionary) -> String:
@@ -413,6 +476,7 @@ func refresh_all() -> void:
 	_boss_name.text = String(bd.name).to_upper() if boss_next else "%s  (ROUND %d)" % [String(bd.name).to_upper(), boss_round]
 	_boss_label.text = bd.rule
 	_ticker.tooltip_text = "Round %d boss: %s\n%s" % [boss_round, bd.name, bd.rule]
+	_fit_ticker(_crate_button.visible)
 
 	BMUI.clear_children(_jokers_row)
 	for i in run.shop.jokers.size():
@@ -521,6 +585,17 @@ func refresh_all() -> void:
 func _card(c: BMCard) -> BMCard:
 	c.reduced_motion = main.settings.reduced_motion
 	return c
+
+
+## While the BOSS CRATE button shows, the round ticker ends above it and the boss rule keeps
+## as many lines as fit (ellipsis); the ticker tooltip always has the full rule.
+func _fit_ticker(crate_showing: bool) -> void:
+	var h := (CRATE_BUTTON_Y - 8.0 if crate_showing else TICKER_BOTTOM) - _ticker.position.y
+	for n in range(TICKER_RULE_LINES, 0, -1):
+		_boss_label.max_lines_visible = n
+		if _ticker.get_combined_minimum_size().y <= h:
+			break
+	_ticker.size = Vector2(_ticker.size.x, h)
 
 
 func _price_button(cost: int, cb: Callable) -> Button:
