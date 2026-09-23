@@ -32,7 +32,7 @@ const CATALOG := [
 	{"id": "pressure_cooker", "name": "Pressure Cooker", "rarity": UNCOMMON, "phase": "add_mult", "text": "+0.5 Mult for every eight occupied cells before placement (max +2)."},
 	{"id": "golden_ratio", "name": "Golden Ratio", "rarity": UNCOMMON, "phase": "x_mult", "text": "Every third placed shape in a round gets x1.5 Mult."},
 	{"id": "color_cycle", "name": "Color Cycle", "rarity": UNCOMMON, "phase": "x_mult", "color": true, "text": "When the last three placed shapes this round all have different colors, the third gains x1.75 Mult."},
-	{"id": "patch_panel", "name": "Patch Panel", "rarity": UNCOMMON, "phase": "rule", "implemented": false, "text": "After the first clear each round, remove one extra occupied cell of your choice. This removal cannot clear a line."},
+	{"id": "patch_panel", "name": "Patch Panel", "rarity": UNCOMMON, "phase": "rule", "text": "After the first clear each round, remove one block of your choice (use it from the Items row). The removal scores nothing."},
 	{"id": "long_game", "name": "Long Game", "rarity": UNCOMMON, "phase": "rule", "text": "+1 placement per round. The first placement of each round gains no cell Chips."},
 	{"id": "fire_sale", "name": "Fire Sale", "rarity": UNCOMMON, "phase": "add_mult", "text": "+0.25 Mult for each Joker sold this run (max +2). Selling this card ends its bonus."},
 	{"id": "jackpot_window", "name": "Jackpot Window", "rarity": RARE, "phase": "x_mult", "text": "If three or more lines clear in one placement, x4 Mult."},
@@ -219,6 +219,10 @@ static func counter_text(id: String, run: BMRun) -> String:
 			return "Used this round" if run.round_state.tiny_insurance_used else "Ready"
 		"mirror_maze":
 			return "Used this round" if run.round_state.mirror_used else "Ready"
+		"patch_panel":
+			if run.round_state.patch_ready:
+				return "Ready: remove a block"
+			return "Used this round" if run.round_state.patch_used else "Waiting for the first clear"
 		"hoarder":
 			return "%d pieces: +%d Chips" % [run.bag.size(), run.bag.size()]
 		"lean_bag":

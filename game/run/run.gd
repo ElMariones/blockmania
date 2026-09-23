@@ -32,6 +32,8 @@ class RoundState:
 	var first_refresh_done := false
 	var tiny_insurance_used := false
 	var mirror_used := false
+	var patch_ready := false ## Patch Panel: a removal is available (after the first clear).
+	var patch_used := false
 	var pending_chips := 0
 	var pending_mult := 0.0
 	var cash_out := 0
@@ -51,6 +53,7 @@ class RoundState:
 			"clearing_placements": clearing_placements, "color_history": color_history.duplicate(),
 			"first_refresh_done": first_refresh_done, "tiny_insurance_used": tiny_insurance_used,
 			"mirror_used": mirror_used, "pending_chips": pending_chips, "pending_mult": pending_mult,
+			"patch_ready": patch_ready, "patch_used": patch_used,
 			"cash_out": cash_out, "status": status, "fixed_cells": fixed,
 			"reshuffles": reshuffles, "rescued_deals": rescued_deals, "hands_formed": hands_formed,
 		}
@@ -71,6 +74,8 @@ class RoundState:
 		r.first_refresh_done = bool(d.first_refresh_done)
 		r.tiny_insurance_used = bool(d.tiny_insurance_used)
 		r.mirror_used = bool(d.mirror_used)
+		r.patch_ready = bool(d.get("patch_ready", false))
+		r.patch_used = bool(d.get("patch_used", false))
 		r.pending_chips = int(d.pending_chips)
 		r.pending_mult = float(d.pending_mult)
 		r.cash_out = int(d.cash_out)
@@ -252,7 +257,13 @@ func consumable_usable(index: int) -> String:
 		"extra_turn":
 			if round_state.placements_left >= BMConsumables.MAX_PLACEMENTS:
 				return "Already at %d placements." % BMConsumables.MAX_PLACEMENTS
-		"polish", "spark", "cash_out":
+		"eraser", "punch", "color_purge":
+			if board.occupied_count() == 0:
+				return "The board is empty."
+		"lucky_paint", "blueprint":
+			if tray_is_empty():
+				return "The tray is empty."
+		"polish", "spark", "cash_out", "emergency_brick":
 			pass
 		_:
 			if not BMConsumables.is_implemented(id):
@@ -279,7 +290,9 @@ func apply_action(a: Dictionary) -> Dictionary:
 		"refresh":
 			return refresh()
 		"use":
-			return use_consumable(int(a.i))
+			return use_consumable(int(a.i), a)
+		"patch":
+			return patch_cell(Vector2i(int(a.x), int(a.y)))
 		"concede":
 			return concede_round()
 		"continue":
@@ -334,14 +347,46 @@ func refresh() -> Dictionary:
 	return result
 
 
-func use_consumable(index: int) -> Dictionary:
+## `t` carries the player's target for items that need one (see BMConsumables): "cells" as
+## [[x, y], ...], "slot", "color", "choice". Nothing changes if the target is invalid.
+func use_consumable(index: int, t: Dictionary = {}) -> Dictionary:
 	var reason := consumable_usable(index)
 	if reason != "":
 		return _fail(reason)
 	var id := consumables[index]
+	var target := _validate_target(id, t)
+	if target.has("error"):
+		return _fail(target.error)
 	consumables.remove_at(index)
 	var result := {"ok": true, "type": "use", "item": id, "events": []}
 	match id:
+		"eraser", "punch", "color_purge":
+			var cells: Array[Vector2i] = []
+			cells.assign(target.cells)
+			result.removed = board.clear_cells(cells)
+			result.events.append("%s removed %d block%s" % [BMConsumables.get_def(id).name, result.removed.size(), "" if result.removed.size() == 1 else "s"])
+		"lucky_paint":
+			tray[target.slot].color = int(target.color)
+			result.slot = target.slot
+			result.color = target.color
+		"blueprint":
+			var old: Dictionary = tray[target.slot]
+			BMBag.discard(self, old)
+			var pick: Array = BMConsumables.BLUEPRINT_CHOICES[target.choice]
+			var p := BMPieces.temporary_single(int(old.color))
+			var sh := BMShapes.make_shape(StringName(pick[0]), int(pick[1]), int(old.color))
+			p.family = sh.family
+			p.rot = sh.rot
+			p.cells = sh.cells
+			tray[target.slot] = p
+			result.slot = target.slot
+		"emergency_brick":
+			var hit: Dictionary = tray[target.slot]
+			if not hit.is_empty():
+				BMBag.discard(self, hit)
+				result.smashed = hit
+			tray[target.slot] = BMPieces.brick()
+			result.slot = target.slot
 		"polish":
 			round_state.pending_chips += 100
 		"spark":
@@ -356,7 +401,89 @@ func use_consumable(index: int) -> Dictionary:
 				round_state.status = PLAYING
 		"cash_out":
 			round_state.cash_out += 1
-	history.append({"a": "use", "i": index})
+	var h := {"a": "use", "i": index}
+	for k in ["cells", "slot", "color", "choice"]:
+		if t.has(k):
+			h[k] = t[k]
+	history.append(h)
+	result.merge(_after_round_action(), true)
+	return result
+
+
+## Checks an item's target. Returns {"error": ...} or the normalized target.
+func _validate_target(id: String, t: Dictionary) -> Dictionary:
+	match BMConsumables.target_kind(id):
+		"cells":
+			var cells: Array[Vector2i] = []
+			for c in t.get("cells", []):
+				var p := Vector2i(int(c[0]), int(c[1]))
+				if not BMBoard.in_bounds(p) or board.is_empty(p):
+					return {"error": "Choose blocks on the board."}
+				if not cells.has(p):
+					cells.append(p)
+			if cells.is_empty() or cells.size() > BMConsumables.ERASER_CELLS:
+				return {"error": "Choose 1 or 2 blocks."}
+			return {"cells": cells}
+		"cell":
+			var c: Array = t.get("cells", [])
+			if c.size() != 1:
+				return {"error": "Choose where to hit."}
+			var hits: Array[Vector2i] = []
+			for p: Vector2i in BMConsumables.punch_cells(Vector2i(int(c[0][0]), int(c[0][1]))):
+				if not board.is_empty(p):
+					hits.append(p)
+			if hits.is_empty():
+				return {"error": "Nothing to hit there."}
+			return {"cells": hits}
+		"color":
+			var color := int(t.get("color", -1))
+			if color < 0 or color >= BMShapes.OFFER_COLOR_COUNT:
+				return {"error": "Choose a color."}
+			var hits: Array[Vector2i] = []
+			for y in BMBoard.SIZE:
+				for x in BMBoard.SIZE:
+					if board.get_cell(Vector2i(x, y)) == color:
+						hits.append(Vector2i(x, y))
+			if hits.is_empty():
+				return {"error": "No %s blocks on the board." % BMShapes.COLOR_NAMES[color]}
+			return {"cells": hits}
+		"slot", "slot_color", "slot_shape":
+			var slot := int(t.get("slot", -1))
+			if slot < 0 or slot >= tray.size():
+				return {"error": "Choose a tray slot."}
+			var kind := BMConsumables.target_kind(id)
+			if kind != "slot" and tray[slot].is_empty():
+				return {"error": "That tray slot is empty."}
+			if kind == "slot_color":
+				var color := int(t.get("color", -1))
+				if color < 0 or color >= BMShapes.OFFER_COLOR_COUNT:
+					return {"error": "Choose a color."}
+				if color == int(tray[slot].color):
+					return {"error": "That piece is already %s." % BMShapes.COLOR_NAMES[color]}
+				return {"slot": slot, "color": color}
+			if kind == "slot_shape":
+				var choice := int(t.get("choice", -1))
+				if choice < 0 or choice >= BMConsumables.BLUEPRINT_CHOICES.size():
+					return {"error": "Choose a shape."}
+				return {"slot": slot, "choice": choice}
+			return {"slot": slot}
+	return {}
+
+
+## Patch Panel: after the first clear each round, remove one block of your choice (no score).
+func patch_cell(p: Vector2i) -> Dictionary:
+	if not can_act_in_round() or round_state.status == OUT_OF_PLACEMENTS:
+		return _fail("Cannot patch right now.")
+	if not round_state.patch_ready:
+		return _fail("Patch Panel is not ready.")
+	if not BMBoard.in_bounds(p) or board.is_empty(p):
+		return _fail("Choose a block on the board.")
+	var cells: Array[Vector2i] = [p]
+	var removed := board.clear_cells(cells)
+	round_state.patch_ready = false
+	round_state.patch_used = true
+	history.append({"a": "patch", "x": p.x, "y": p.y})
+	var result := {"ok": true, "type": "patch", "removed": removed, "events": ["Patch Panel removed a block"]}
 	result.merge(_after_round_action(), true)
 	return result
 
@@ -705,10 +832,12 @@ func _after_round_action() -> Dictionary:
 
 
 func _has_rescue_consumable() -> bool:
+	if round_state.patch_ready:
+		return true
 	for id in consumables:
 		if id == "second_tray" and current_boss() != "lockdown":
 			return true
-		if id in ["eraser", "blueprint"] and BMConsumables.is_implemented(id):
+		if id in ["eraser", "punch", "color_purge", "blueprint", "emergency_brick"] and BMConsumables.is_implemented(id):
 			return true
 	return false
 

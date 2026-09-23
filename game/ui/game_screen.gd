@@ -52,6 +52,11 @@ var _press_pos := Vector2.ZERO
 var _mouse := Vector2.ZERO
 var _preview_cache_key := ""
 var _intro_shown_for := -1
+## Item targeting (Eraser, Punch, Color Purge, Lucky Paint, Blueprint, Emergency Brick, Patch
+## Panel). Empty when idle; otherwise {id, i (item index or -1 for Patch), kind, cells}.
+var _tool := {}
+var _brick: BMBrickThrow
+var _tool_layer: Control
 
 
 func _ready() -> void:
@@ -223,6 +228,11 @@ func _build() -> void:
 	drag_layer.draw.connect(_draw_drag_layer)
 	add_child(drag_layer)
 
+	_tool_layer = Control.new()
+	_tool_layer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_tool_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_tool_layer)
+
 	overlay = Control.new()
 	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -388,12 +398,24 @@ func _refresh_items() -> void:
 		body.max_lines_visible = 2
 		body.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 		box.add_child(body)
-		var use := BMStyle.button("USE", func() -> void: _do_action({"a": "use", "i": i}), "mint", 20)
-		use.disabled = reason != ""
-		use.tooltip_text = reason if reason != "" else "Use this item now."
-		box.add_child(use)
+		var id := run.consumables[i]
+		if not _tool.is_empty() and int(_tool.i) == i:
+			box.add_child(_tool_buttons())
+		else:
+			var targeted := BMConsumables.target_kind(id) != ""
+			var use := BMStyle.button("USE", func() -> void:
+				if targeted:
+					_begin_tool(id, i)
+				else:
+					_do_action({"a": "use", "i": i}), "mint", 20)
+			use.disabled = reason != "" or not _tool.is_empty()
+			use.tooltip_text = reason if reason != "" else ("Use this item now: you choose where next." if targeted else "Use this item now.")
+			box.add_child(use)
 		_items_box.add_child(card)
-	for i in range(run.consumables.size(), BMRunConfig.CONSUMABLE_SLOTS):
+	var patch_shown := run.phase == BMRun.Phase.ROUND and run.round_state.patch_ready and run.consumables.size() < BMRunConfig.CONSUMABLE_SLOTS
+	if patch_shown:
+		_items_box.add_child(_patch_card())
+	for i in range(run.consumables.size() + (1 if patch_shown else 0), BMRunConfig.CONSUMABLE_SLOTS):
 		var empty := BMStyle.panel("panel_inset", Vector4.ZERO)
 		empty.custom_minimum_size = Vector2(248, 180)
 		var l := BMStyle.label("empty", 20, Color(BMStyle.TEXT_DIM, 0.5))
@@ -458,12 +480,15 @@ func _on_slot_pressed(slot: int) -> void:
 
 
 func _input_enabled() -> bool:
-	return run != null and run.can_place() and overlay.get_child_count() == 0 and not main.is_paused()
+	return run != null and run.can_place() and overlay.get_child_count() == 0 and not main.is_paused() and _tool.is_empty()
 
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouse:
 		_mouse = event.position
+	if not _tool.is_empty() and run != null and overlay.get_child_count() == 0:
+		_tool_input(event)
+		return
 	if run == null or held_slot < 0:
 		return
 	if event is InputEventMouseMotion:
@@ -512,6 +537,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.is_action("bm_cancel") and _bag_open():
 			close_overlay()
 			get_viewport().set_input_as_handled()
+		return
+	if not _tool.is_empty():
+		_tool_key(event)
+		get_viewport().set_input_as_handled()
 		return
 	if event.is_action("bm_cancel"):
 		if held_slot >= 0:
@@ -704,15 +733,21 @@ func _do_action(a: Dictionary) -> void:
 			if not r.events.is_empty():
 				_set_message("  ".join(PackedStringArray(r.events)), BMStyle.SUN)
 		"refresh":
+			_end_tool(false)
 			_set_message(", ".join(PackedStringArray(r.get("events", []))), BMStyle.MINT_L)
 			BMAudio.sfx("refresh")
 			_spin_tray(0.1, String(r.get("hand", "")))
 			if BMFx.instance:
 				for s in slots:
 					BMFx.instance.stars(s.get_global_rect().get_center(), 3, 60.0)
+		"patch":
+			_present_tool(r)
 		"use":
-			_set_message("Used %s." % BMConsumables.get_def(r.item).name, BMStyle.MINT_L)
-			BMAudio.sfx("item")
+			if BMConsumables.target_kind(r.item) != "":
+				_present_tool(r)
+			else:
+				_set_message("Used %s." % BMConsumables.get_def(r.item).name, BMStyle.MINT_L)
+				BMAudio.sfx("item")
 			if r.item == "second_tray":
 				_spin_tray(0.1, String(r.get("hand", "")))
 		"sell":
@@ -1241,3 +1276,490 @@ func _show_run_end() -> void:
 	BMStyle.focus_later(again)
 	if won and BMFx.instance:
 		BMFx.instance.confetti(Rect2(Vector2.ZERO, size), 260)
+
+
+# --- Item targeting --------------------------------------------------------------------------
+
+const TOOL_PROMPTS := {
+	"eraser": "ERASER: click up to 2 blocks to rub out",
+	"punch": "PUNCH: click where to smash (plus shape)",
+	"color_purge": "COLOR PURGE: click a block to remove its whole color",
+	"lucky_paint": "LUCKY PAINT: click a tray piece to repaint",
+	"blueprint": "BLUEPRINT: click a tray piece to swap",
+	"emergency_brick": "BRICK: throw it at a tray slot, or click one",
+	"patch_panel": "PATCH PANEL: click one block to remove",
+}
+
+
+func _begin_tool(id: String, index: int) -> void:
+	if not _input_enabled() and not (run.can_act_in_round() and _tool.is_empty()):
+		return
+	_cancel_hold("", false)
+	var kind := "patch" if id == "patch_panel" else BMConsumables.target_kind(id)
+	_tool = {"id": id, "i": index, "kind": kind, "cells": []}
+	board_view.tool_kind = kind if kind in ["cells", "cell", "color", "patch"] else ""
+	board_view.tool_marked.clear()
+	BMAudio.sfx("tool_arm")
+	_set_message(TOOL_PROMPTS.get(id, "CHOOSE A TARGET"), BMStyle.SUN_L, 0.0)
+	_preview_hint.text = "Right-click or Esc to cancel"
+	if id == "emergency_brick" and not main.settings.reduced_motion:
+		_brick = BMBrickThrow.new()
+		_tool_layer.add_child(_brick)
+		var rects: Array[Rect2] = []
+		for s in slots:
+			rects.append(s.get_global_rect())
+		_brick.slot_rects = rects
+		var from := _items_box.get_global_rect().get_center()
+		if index < _items_box.get_child_count():
+			from = (_items_box.get_child(index) as Control).get_global_rect().get_center()
+		_brick.start(from)
+		_brick.hit.connect(func(slot: int) -> void:
+			_brick = null
+			_commit_tool({"slot": slot}))
+		_brick.cancelled.connect(func() -> void:
+			_brick = null
+			_end_tool())
+	refresh_all()
+
+
+## Leaves targeting. `sound` plays the cancel whoosh.
+func _end_tool(sound: bool = true) -> void:
+	if _tool.is_empty():
+		return
+	_tool = {}
+	board_view.tool_kind = ""
+	board_view.tool_marked.clear()
+	board_view.tool_hover = Vector2i(-1, -1)
+	if _brick != null and is_instance_valid(_brick):
+		_brick.queue_free()
+	_brick = null
+	if sound:
+		BMAudio.sfx("tool_cancel")
+	_marquee.message = ""
+	_show_preview({})
+	refresh_all()
+
+
+func _tool_buttons() -> HBoxContainer:
+	var row := BMStyle.hbox(6)
+	if _tool.kind == "cells" and not _tool.cells.is_empty():
+		var ok := BMStyle.button("ERASE %d" % _tool.cells.size(), func() -> void: _commit_tool({"cells": _cells_arg(_tool.cells)}), "mint", 20)
+		ok.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(ok)
+	var cancel := BMStyle.button("CANCEL", func() -> void: _end_tool(), "pink", 20)
+	cancel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	cancel.tooltip_text = "Put the item away (right-click or Esc)."
+	row.add_child(cancel)
+	return row
+
+
+func _patch_card() -> BMCard:
+	var card := BMCard.item_rack("eraser")
+	card.custom_minimum_size = Vector2(248, 180)
+	card.tooltip_body = "Patch Panel (Joker)\n" + BMJokers.get_def("patch_panel").text
+	var box := card.get_child(0) as VBoxContainer
+	((box.get_child(0) as HBoxContainer).get_child(1) as Label).text = "Patch Panel"
+	var body := BMStyle.label("Remove one block of your choice.", 20, Color(BMStyle.INK, 0.75))
+	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	box.add_child(body)
+	if not _tool.is_empty() and _tool.id == "patch_panel":
+		box.add_child(_tool_buttons())
+	else:
+		var use := BMStyle.button("PATCH", func() -> void: _begin_tool("patch_panel", -1), "mint", 20)
+		use.disabled = not _tool.is_empty() or not run.can_act_in_round()
+		box.add_child(use)
+	return card
+
+
+func _tool_input(event: InputEvent) -> void:
+	if _brick != null:
+		return # the brick handles its own pointer input
+	if event is InputEventMouseMotion:
+		var cell := board_view.cell_at_global(_mouse)
+		if cell != board_view.tool_hover:
+			board_view.tool_hover = cell
+			if cell.x >= 0 and board_view.tool_kind != "":
+				BMAudio.sfx("key_move", 1.1, -6.0)
+	elif event is InputEventMouseButton and event.pressed:
+		if event.button_index == MOUSE_BUTTON_RIGHT:
+			_end_tool()
+			get_viewport().set_input_as_handled()
+		elif event.button_index == MOUSE_BUTTON_LEFT:
+			if board_view.tool_kind != "":
+				var cell := board_view.cell_at_global(_mouse)
+				if cell.x >= 0:
+					_tool_pick_cell(cell)
+					get_viewport().set_input_as_handled()
+			else:
+				for k in slots.size():
+					if slots[k].get_global_rect().has_point(_mouse):
+						_tool_pick_slot(k)
+						get_viewport().set_input_as_handled()
+						return
+
+
+func _tool_key(event: InputEvent) -> void:
+	if event.is_action("bm_cancel"):
+		if _brick != null:
+			_brick.cancel()
+		else:
+			_end_tool()
+		return
+	for k in 3:
+		if event.is_action("bm_slot_%d" % (k + 1)) and board_view.tool_kind == "":
+			if _brick != null:
+				_brick.throw_to(k)
+			else:
+				_tool_pick_slot(k)
+			return
+	if board_view.tool_kind == "":
+		return
+	var move := Vector2i.ZERO
+	if event.is_action("bm_left"):
+		move = Vector2i.LEFT
+	elif event.is_action("bm_right"):
+		move = Vector2i.RIGHT
+	elif event.is_action("bm_up"):
+		move = Vector2i.UP
+	elif event.is_action("bm_down"):
+		move = Vector2i.DOWN
+	if move != Vector2i.ZERO:
+		var h := board_view.tool_hover if board_view.tool_hover.x >= 0 else Vector2i(3, 3)
+		board_view.tool_hover = (h + move).clamp(Vector2i.ZERO, Vector2i(BMBoard.SIZE - 1, BMBoard.SIZE - 1))
+		BMAudio.sfx("key_move")
+	elif event.is_action("bm_place"):
+		if _tool.kind == "cells" and not _tool.cells.is_empty() and board_view.tool_hover.x >= 0 and _tool.cells.has(board_view.tool_hover):
+			_commit_tool({"cells": _cells_arg(_tool.cells)})
+		elif board_view.tool_hover.x >= 0:
+			_tool_pick_cell(board_view.tool_hover)
+
+
+func _tool_pick_cell(cell: Vector2i) -> void:
+	var empty := run.board.is_empty(cell)
+	match String(_tool.kind):
+		"cells":
+			if empty:
+				_deny("Pick a block, not an empty cell.")
+				return
+			var cells: Array = _tool.cells
+			if cells.has(cell):
+				cells.erase(cell)
+			else:
+				cells.append(cell)
+			board_view.tool_marked.assign(cells)
+			BMAudio.sfx("tool_mark", 1.0 + 0.1 * cells.size())
+			if cells.size() >= BMConsumables.ERASER_CELLS:
+				_commit_tool({"cells": _cells_arg(cells)})
+			else:
+				_set_message("%d OF 2 CHOSEN: PICK ANOTHER, OR PRESS ERASE" % cells.size(), BMStyle.SUN_L, 0.0)
+				_refresh_items()
+		"cell":
+			var any := false
+			for p: Vector2i in BMConsumables.punch_cells(cell):
+				if not run.board.is_empty(p):
+					any = true
+			if not any:
+				_deny("Nothing to hit there.")
+				return
+			_commit_tool({"cells": [[cell.x, cell.y]]})
+		"color":
+			if empty or run.board.get_cell(cell) == BMShapes.COLOR_STONE:
+				_deny("Pick a colored block (stone is immune).")
+				return
+			_tool["center"] = cell
+			_commit_tool({"color": run.board.get_cell(cell)})
+		"patch":
+			if empty:
+				_deny("Pick a block, not an empty cell.")
+				return
+			_commit_tool({"x": cell.x, "y": cell.y})
+
+
+func _tool_pick_slot(k: int) -> void:
+	match String(_tool.kind):
+		"slot":
+			_commit_tool({"slot": k})
+		"slot_color":
+			if run.tray[k].is_empty():
+				_deny("That slot is empty.")
+				return
+			_show_color_picker(k)
+		"slot_shape":
+			if run.tray[k].is_empty():
+				_deny("That slot is empty.")
+				return
+			_show_shape_picker(k)
+
+
+func _deny(text: String) -> void:
+	BMAudio.sfx("deny")
+	_set_message(text, BMStyle.PINK_L, 1.6)
+
+
+static func _cells_arg(cells: Array) -> Array:
+	var out: Array = []
+	for c: Vector2i in cells:
+		out.append([c.x, c.y])
+	return out
+
+
+func _commit_tool(target: Dictionary) -> void:
+	if _tool.is_empty():
+		return
+	var tool := _tool.duplicate()
+	var a := {"a": "patch"} if tool.id == "patch_panel" else {"a": "use", "i": int(tool.i)}
+	a.merge(target, true)
+	var hover := board_view.tool_hover
+	_tool = {}
+	board_view.tool_kind = ""
+	board_view.tool_marked.clear()
+	board_view.tool_hover = Vector2i(-1, -1)
+	_marquee.message = ""
+	_last_tool = tool
+	_last_tool["hover"] = hover
+	_do_action(a)
+	if not _tool.is_empty():
+		return
+	refresh_all()
+
+
+var _last_tool := {}
+
+
+## Presentation for a committed item: the tool arrives, then the cells go (state has already
+## changed; the board keeps drawing removed cells until their delay passes).
+func _present_tool(r: Dictionary) -> void:
+	var fx := BMFx.instance
+	var id: String = "patch_panel" if r.type == "patch" else String(r.item)
+	var removed: Array = r.get("removed", [])
+	match id:
+		"eraser", "patch_panel":
+			BMAudio.sfx("tool_erase")
+			var d := 0.0
+			for e in removed:
+				_eraser_rub(board_view.cell_global_center(e.cell), d)
+				board_view.play_removal([e], "erase", d + 0.22)
+				d += 0.3
+			_set_message("RUBBED OUT %d BLOCK%s" % [removed.size(), "" if removed.size() == 1 else "S"], BMStyle.PINK_L)
+		"punch":
+			var center: Vector2i = _last_tool.get("hover", Vector2i(-1, -1))
+			if center.x < 0 and not removed.is_empty():
+				center = removed[0].cell
+			var at := board_view.cell_global_center(center)
+			_hammer(at)
+			board_view.play_removal(removed, "punch", 0.17, center)
+			get_tree().create_timer(0.17).timeout.connect(func() -> void:
+				BMAudio.sfx("tool_punch")
+				if fx:
+					fx.shake(16.0)
+					fx.ring(at, BMStyle.SUN, 200.0)
+					fx.pop_text(at + Vector2(0, -40), "SMASH!", BMStyle.SUN, 60, 60.0, 0.9)
+				if BMCrtLayer.instance:
+					BMCrtLayer.instance.shock(0.6))
+			_set_message("PUNCHED OUT %d BLOCKS" % removed.size(), BMStyle.SUN)
+		"color_purge":
+			BMAudio.sfx("tool_purge")
+			var col := int(r.get("color", _last_tool.get("color", 0)))
+			if not removed.is_empty():
+				col = int(removed[0].color)
+			var origin: Vector2 = board_view.get_global_rect().get_center() + Vector2(0, -board_view.size.y * 0.45)
+			_bucket_pour(origin, BMFinishes.hue(col))
+			var center := board_view.cell_at_global(board_view.get_global_rect().get_center())
+			board_view.play_removal(removed, "purge", 0.3, center)
+			if fx:
+				for e in removed:
+					fx.stream(origin, board_view.cell_global_center(e.cell), BMFinishes.hue(col), 2)
+			if BMSwirlBackground.instance:
+				BMSwirlBackground.instance.pulse(0.8)
+			_set_message("PURGED %d %s BLOCKS" % [removed.size(), BMShapes.COLOR_NAMES[col].to_upper()], BMStyle.MINT_L)
+		"lucky_paint":
+			BMAudio.sfx("tool_paint")
+			var sl: BMTraySlot = slots[int(r.slot)]
+			sl.flare()
+			sl.land()
+			var c := BMFinishes.hue(int(r.color))
+			if fx:
+				fx.burst(sl.get_global_rect().get_center(), [c, c.lightened(0.3), BMStyle.CREAM], 30, 520.0, 10.0)
+				fx.pop_text(sl.get_global_rect().get_center() + Vector2(0, -80), "SPLASH!", c, 40, 50.0, 0.9)
+			_set_message("REPAINTED %s" % BMShapes.COLOR_NAMES[int(r.color)].to_upper(), c)
+		"blueprint":
+			BMAudio.sfx("tool_blueprint")
+			var sl: BMTraySlot = slots[int(r.slot)]
+			sl.land()
+			sl.flare()
+			if fx:
+				fx.bits(sl.get_global_rect().get_center(), [BMStyle.SKY, BMStyle.SKY_L, BMStyle.CREAM], 16)
+				fx.ring(sl.get_global_rect().get_center(), BMStyle.SKY_L, 130.0)
+			_set_message("BLUEPRINT: A FRESH PIECE, DRAFTED", BMStyle.SKY_L)
+		"emergency_brick":
+			_brick_impact(r)
+
+
+func _brick_impact(r: Dictionary) -> void:
+	var sl: BMTraySlot = slots[int(r.slot)]
+	var at := sl.get_global_rect().get_center()
+	sl.land()
+	sl.flare()
+	BMAudio.sfx("brick_impact")
+	var smashed: Dictionary = r.get("smashed", {})
+	var fx := BMFx.instance
+	if fx:
+		fx.shake(22.0)
+		fx.dust(at + Vector2(0, 50), 180.0, 22)
+		fx.chips(at, [Color("#b5472f"), Color("#7d2a1c"), Color("#d9c7a8"), Color("#e0704f")], 18)
+		fx.ring(at, BMStyle.CREAM, 180.0)
+		if not smashed.is_empty():
+			var c := BMFinishes.hue(int(smashed.color))
+			fx.shards(at, 26, c)
+			fx.burst(at, [c, c.lightened(0.3)], 20, 560.0, 10.0)
+			fx.pop_text(at + Vector2(0, -90), "SMASH!", BMStyle.PINK_L, 80, 70.0, 1.1)
+		else:
+			fx.pop_text(at + Vector2(0, -90), "BRICK!", BMStyle.SUN, 60, 60.0, 1.0)
+	if BMCrtLayer.instance:
+		BMCrtLayer.instance.shock(0.9)
+	if BMSwirlBackground.instance:
+		BMSwirlBackground.instance.pulse(0.6)
+	_set_message("SMASHED %s!" % BMPieces.describe(smashed).get_slice("\n", 0).to_upper() if not smashed.is_empty() else "BRICK IN THE TRAY", BMStyle.SUN)
+
+
+## A sprite from the UI kit that lives on the effects layer for a short tween.
+func _tool_sprite(icon: String, at: Vector2, px_scale: float) -> TextureRect:
+	var fx := BMFx.instance
+	if fx == null or main.settings.reduced_motion:
+		return null
+	var t := TextureRect.new()
+	t.texture = BMStyle.tex(icon)
+	t.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	t.stretch_mode = TextureRect.STRETCH_SCALE
+	t.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var sz: Vector2 = t.texture.get_size() * px_scale
+	t.size = sz
+	t.pivot_offset = sz / 2.0
+	t.position = at - sz / 2.0
+	fx.add_child(t)
+	return t
+
+
+func _eraser_rub(at: Vector2, delay: float) -> void:
+	var t := _tool_sprite("icon_eraser", at + Vector2(0, -10), 2.0)
+	if t == null:
+		return
+	t.modulate.a = 0.0
+	var base := t.position
+	var tw := t.create_tween()
+	tw.tween_interval(delay)
+	tw.tween_property(t, "modulate:a", 1.0, 0.05)
+	for i in 3:
+		tw.tween_property(t, "position", base + Vector2(-18, 4), 0.05)
+		tw.tween_property(t, "position", base + Vector2(18, -4), 0.05)
+	tw.tween_property(t, "modulate:a", 0.0, 0.15)
+	tw.tween_callback(t.queue_free)
+
+
+func _hammer(at: Vector2) -> void:
+	var t := _tool_sprite("icon_hammer", at + Vector2(70, -150), 3.0)
+	if t == null:
+		return
+	t.rotation = -1.1
+	var tw := t.create_tween()
+	tw.tween_property(t, "position", at - t.size / 2.0 + Vector2(26, -36), 0.17).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+	tw.parallel().tween_property(t, "rotation", 0.45, 0.17).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+	tw.tween_property(t, "rotation", 0.2, 0.08)
+	tw.tween_property(t, "position", t.position + Vector2(40, -60), 0.25).set_ease(Tween.EASE_OUT)
+	tw.parallel().tween_property(t, "modulate:a", 0.0, 0.25)
+	tw.tween_callback(t.queue_free)
+
+
+func _bucket_pour(at: Vector2, color: Color) -> void:
+	var t := _tool_sprite("icon_bucket", at, 3.0)
+	if t == null:
+		return
+	t.modulate = Color(1, 1, 1, 0)
+	var tw := t.create_tween()
+	tw.tween_property(t, "modulate:a", 1.0, 0.1)
+	tw.tween_property(t, "rotation", 2.2, 0.22).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_interval(0.4)
+	tw.tween_property(t, "modulate:a", 0.0, 0.2)
+	tw.tween_callback(t.queue_free)
+	if BMFx.instance:
+		BMFx.instance.burst(at + Vector2(0, 30), [color, color.lightened(0.4)], 24, 300.0, 8.0)
+
+
+## Lucky Paint: pick one of the six colors (named swatches).
+func _show_color_picker(k: int) -> void:
+	var v := _modal("panel_plate", 760)
+	BMAudio.sfx("modal")
+	var t := BMStyle.label("PAINT IT WHICH COLOR?", 30, BMStyle.SUN, true, 8)
+	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	v.add_child(t)
+	var grid := GridContainer.new()
+	grid.columns = 3
+	grid.add_theme_constant_override("h_separation", 10)
+	grid.add_theme_constant_override("v_separation", 10)
+	v.add_child(grid)
+	var first: Button
+	for c in BMShapes.OFFER_COLOR_COUNT:
+		var name: String = BMShapes.COLOR_NAMES[c]
+		var b := BMStyle.button(name.to_upper(), func() -> void:
+			close_overlay()
+			_commit_tool({"slot": k, "color": c}), "plum", 20)
+		b.icon = BMStyle.block_tex(c)
+		b.expand_icon = false
+		b.custom_minimum_size = Vector2(220, 72)
+		b.disabled = c == int(run.tray[k].color)
+		if b.disabled:
+			b.tooltip_text = "Already this color."
+		grid.add_child(b)
+		if first == null and not b.disabled:
+			first = b
+	var back := BMStyle.button("BACK", func() -> void:
+		close_overlay()
+		_end_tool(), "pink", 20)
+	back.custom_minimum_size = Vector2(0, 60)
+	v.add_child(back)
+	BMStyle.focus_later(first)
+
+
+## Blueprint: pick one of the small shapes.
+func _show_shape_picker(k: int) -> void:
+	var v := _modal("panel_plate", 860)
+	BMAudio.sfx("modal")
+	var t := BMStyle.label("DRAFT A NEW PIECE", 30, BMStyle.SKY_L, true, 8)
+	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	v.add_child(t)
+	var grid := GridContainer.new()
+	grid.columns = 5
+	grid.add_theme_constant_override("h_separation", 10)
+	grid.add_theme_constant_override("v_separation", 10)
+	v.add_child(grid)
+	var color := int(run.tray[k].color)
+	var first: Button
+	for c in BMConsumables.BLUEPRINT_CHOICES.size():
+		var pick: Array = BMConsumables.BLUEPRINT_CHOICES[c]
+		var sh := BMShapes.make_shape(StringName(pick[0]), int(pick[1]), color)
+		var b := Button.new()
+		b.custom_minimum_size = Vector2(150, 120)
+		b.focus_mode = Control.FOCUS_ALL
+		for st in ["normal", "hover", "pressed", "focus"]:
+			b.add_theme_stylebox_override(st, BMStyle.box("panel_inset" if st == "normal" else "panel_sun", Vector4.ZERO))
+		b.tooltip_text = BMShapes.family(sh.family).name
+		var draw := Control.new()
+		draw.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		draw.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		draw.draw.connect(func() -> void:
+			var dims := Vector2(BMShapes.shape_size(sh))
+			var cell := 28.0
+			BMBlockPainter.draw_shape(draw, sh, ((draw.size - dims * cell) / 2.0).round(), cell))
+		b.add_child(draw)
+		b.pressed.connect(func() -> void:
+			close_overlay()
+			_commit_tool({"slot": k, "choice": c}))
+		grid.add_child(b)
+		if first == null:
+			first = b
+	var back := BMStyle.button("BACK", func() -> void:
+		close_overlay()
+		_end_tool(), "pink", 20)
+	back.custom_minimum_size = Vector2(0, 60)
+	v.add_child(back)
+	BMStyle.focus_later(first)

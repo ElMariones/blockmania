@@ -78,6 +78,12 @@ func is_spinning() -> bool:
 	return _spin > 0.0
 
 
+## Drops the current piece in with a bounce (tools that change a tray piece).
+func land() -> void:
+	if not reduced_motion:
+		_land = 0.0
+
+
 ## A bright flash on the well when its Hand is revealed.
 func flare() -> void:
 	_flare = 1.0
@@ -134,7 +140,15 @@ func _draw() -> void:
 	if not held:
 		for c: Vector2i in shape.cells:
 			draw_rect(Rect2(origin + Vector2(c) * cell + Vector2(4, 6 + 6 * _lift), Vector2(cell, cell)), Color(BMStyle.INK, 0.45))
-	BMBlockPainter.draw_shape(self, shape, origin, cell, alpha, Color.WHITE, block_skin)
+	if bool(shape.get("brick", false)):
+		var c := origin + Vector2(cell, cell) / 2.0
+		draw_set_transform(c + Vector2(4, 8), 0.0, Vector2.ONE)
+		draw_rect(Rect2(Vector2(-40, -20), Vector2(80, 40)), Color(BMStyle.INK, 0.45))
+		draw_set_transform(c, -0.08, Vector2.ONE)
+		BMBrickThrow.draw_brick(self, Vector2(40, 20), alpha)
+		draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+	else:
+		BMBlockPainter.draw_shape(self, shape, origin, cell, alpha, Color.WHITE, block_skin)
 	if hand != "":
 		_ribbon(BMHands.get_def(hand).badge, HAND_COLORS.get(hand, BMStyle.SUN))
 	if locked:
@@ -144,6 +158,8 @@ func _draw() -> void:
 		_caption("HOLDING", BMStyle.SUN)
 	elif not fits:
 		_caption("NO ROOM", BMStyle.PINK)
+	elif bool(shape.get("brick", false)):
+		_caption("BRICK: 1 BLOCK", BMStyle.SUN_L)
 	elif bool(shape.get("temporary", false)):
 		_caption("TEMPORARY", BMStyle.SKY)
 

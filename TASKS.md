@@ -46,8 +46,7 @@ _Last updated: 2026-09-23 — Placements now refill on line clears (15, +1 per l
 - [x] 37 of 38 Jokers implemented with per-card tests (all except Patch Panel).
 - [x] 5 of 8 consumables usable: Polish, Spark, Second Tray, Extra Turn, Cash Out.
 - [x] 5 of 6 bosses active: Cramped Cabinet, Taxman, Color Blind, Lockdown, Last Call.
-- [ ] **Patch Panel** Joker — needs a board cell-picking interaction (withheld from shop).
-- [ ] **Eraser**, **Lucky Paint**, **Blueprint** — need cell / color / shape pickers (withheld from shop).
+- [x] **Patch Panel**, **Eraser**, **Lucky Paint**, **Blueprint** now usable (round-play update targeting).
 - [x] Joker trigger presentation in resolution order: sequenced card pulses with Chips/Mult pop text (capped at 6 per placement).
 - [x] Score count-up (rolling counter, liquid tube) and clear VFX (sweep, wave-delayed bursts, shards, streams, CRT shock).
 - [x] **Placement budget rework** (owner: "12 is too short"): Kits start with 15 / 15 / 14 placements, every cleared line gives one back up to the starting count, a clear on the last placement keeps the round alive. Last Call 10 → 12, Extra Turn cap 16 → 20. HUD bulbs show left/cap with a mint refill flash, a +N pop, a receipt/message line, and intro and tooltip text. Save schema 3 (`placement_cap`). Tests added (GDD §5 "Placements and refills").
@@ -81,7 +80,7 @@ _Last updated: 2026-09-23 — Placements now refill on line clears (15, +1 per l
 Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/round_play_update.md). This includes the review of `ideas.md` (keep / later / discard).
 
 - [x] Tray Hands: Twins / Staircase / Monochrome / Triplets / Grand Slam on natural deals (`BMHands`, `tests/test_hands.gd`), Hot Hand and Card Sharp Jokers. Presentation: every deal spins the tray like slot reels; Hands get a ribbon, chase lights, a callout, particles, and their own fanfare (`tools/audio/gen_sfx_features.py`).
-- [ ] Reusable targeting framework (cell / tray slot / choose-1-of-N) → Eraser, Blueprint, Lucky Paint, Patch Panel, plus new Punch and Color Purge tools.
+- [x] Item targeting (cells / one cell / color / tray slot / slot + color / slot + shape) with board overlays, keyboard control, and CANCEL/ERASE buttons on the item card. Eraser, Blueprint, Lucky Paint, and Patch Panel are live; new Punch, Color Purge, and **Emergency Brick** (a throwable physics brick: grab and fling it, or click a slot; it bounces off the screen edges and smashes into the slot it hits). Board tools remove cells without scoring (`tests/test_tools.gd`).
 - [ ] Feats in the resolution record (Crossfire, Double Tap, Hat Trick, Clean Board, Needle Threader, Last Breath).
 - [ ] **(owner)** 14 new Jokers: Patience, Locksmith, Countdown, Breakage Bonus, Insurance Policy, Showboat (from ideas.md); Full Tank, Overflow, Keystone, Draftsman, Card Sharp, Hot Hand, Periscope, Loan Shark.
 - [ ] **(owner)** Bosses: The Warden (replaces Echo Chamber) and The Undertaker. Consumable: Emergency Brick.

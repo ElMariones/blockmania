@@ -280,7 +280,9 @@ class Emblem extends Control:
 		var e := Emblem.new()
 		e.bg = "pill_pink"
 		e.icon = {"polish": "icon_star", "spark": "icon_flame", "second_tray": "icon_refresh", "extra_turn": "icon_hand",
-			"cash_out": "icon_coin", "eraser": "icon_target", "lucky_paint": "icon_star", "blueprint": "icon_gear"}.get(id, "icon_star")
+			"cash_out": "icon_coin", "eraser": "icon_eraser", "lucky_paint": "icon_bucket", "blueprint": "icon_blueprint",
+			"punch": "icon_hammer", "color_purge": "icon_bucket", "emergency_brick": "icon_brick",
+			"patch_panel": "icon_eraser"}.get(id, "icon_star")
 		e.custom_minimum_size = sz
 		return e
 

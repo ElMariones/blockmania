@@ -16,6 +16,11 @@ var keyboard_focus := false
 var reduced_motion := false
 var block_skin := "classic"
 var clean_glow := false
+## Item targeting overlay (presentation of the picker state in BMGameScreen):
+## tool_kind "cells" / "cell" / "color" / "patch"; tool_hover is the cell under the cursor.
+var tool_kind := ""
+var tool_hover := Vector2i(-1, -1)
+var tool_marked: Array[Vector2i] = []
 
 var _fx_clears: Array[Dictionary] = [] ## {cell, color, mat, finish, t, delay}
 var _pop_step := 0 ## position in the pop cascade of the current resolution
@@ -48,6 +53,28 @@ func cell_rect(p: Vector2i) -> Rect2:
 
 func cell_global_center(p: Vector2i) -> Vector2:
 	return get_global_transform() * cell_rect(p).get_center()
+
+
+## Board cell under a global (canvas) point, or (-1, -1) outside the grid.
+func cell_at_global(g: Vector2) -> Vector2i:
+	var local := get_global_transform().affine_inverse() * g
+	var rel := (local - grid_origin()) / cell_size()
+	var p := Vector2i(floori(rel.x), floori(rel.y))
+	return p if BMBoard.in_bounds(p) else Vector2i(-1, -1)
+
+
+## Cells removed by an item (no score): they flash and burst in the item's style after
+## `delay` seconds (so a hammer or an eraser can arrive first).
+func play_removal(entries: Array, style: String, delay: float = 0.0, center := Vector2i(-1, -1)) -> void:
+	for e in entries:
+		var cell: Vector2i = e.cell
+		var d := 0.0
+		if center.x >= 0:
+			d = Vector2(cell - center).length() * 0.05
+		var mat: String = BMPieces.MATERIALS[int(e.get("mat", 0))]
+		_fx_clears.append({"cell": cell, "color": e.color, "mat": mat, "finish": BMBlockPainter.finish_for(mat, block_skin),
+			"t": 0.0, "delay": delay + d, "burst": false, "style": style})
+	queue_redraw()
 
 
 ## Anchor for a shape whose top-left corner is at `local_top_left` (board-local pixels).
@@ -134,11 +161,14 @@ func _process(delta: float) -> void:
 			BMAudio.sfx("pop", BMAudio.scale_pitch(_pop_step), -2.0)
 			_pop_step += 1
 			var style := String(BMFinishes.def(fx.finish).clear) if fx.finish != "" else "pop"
-			BMFinishes.emit(style, cell_global_center(fx.cell), int(fx.color), cell_size())
+			if fx.has("style"):
+				_tool_burst(String(fx.style), cell_global_center(fx.cell), int(fx.color))
+			else:
+				BMFinishes.emit(style, cell_global_center(fx.cell), int(fx.color), cell_size())
 	_fx_places = _fx_places.filter(func(f: Dictionary) -> bool: return f.t < f.delay + PLACE_TIME)
 	_fx_sweeps = _fx_sweeps.filter(func(f: Dictionary) -> bool: return f.t < SWEEP_TIME)
 	_fx_clears = _fx_clears.filter(func(f: Dictionary) -> bool: return f.t < f.delay + CLEAR_TIME)
-	if busy or ghost_valid or not ghost_shape.is_empty() or clean_glow or _animated_blocks():
+	if busy or ghost_valid or not ghost_shape.is_empty() or clean_glow or tool_kind != "" or _animated_blocks():
 		queue_redraw()
 
 
@@ -282,7 +312,66 @@ func _draw() -> void:
 	if keyboard_focus and not ghost_shape.is_empty():
 		var r0 := cell_rect(ghost_anchor)
 		draw_rect(r0.grow(4), BMStyle.SKY, false, 4.0)
+	if tool_kind != "":
+		_draw_tool_overlay(pulse)
 
+
+## Item targeting: every cell the action would remove is marked with a pulsing X; the cell under
+## the cursor gets a bright frame. Text prompts carry the same information (never color only).
+func _draw_tool_overlay(pulse: float) -> void:
+	var hits: Array[Vector2i] = []
+	var col := BMStyle.PINK
+	match tool_kind:
+		"cells", "patch":
+			hits.assign(tool_marked)
+			if BMBoard.in_bounds(tool_hover) and not run.board.is_empty(tool_hover) and not hits.has(tool_hover):
+				hits.append(tool_hover)
+		"cell":
+			col = BMStyle.SUN
+			if BMBoard.in_bounds(tool_hover):
+				for p: Vector2i in BMConsumables.punch_cells(tool_hover):
+					var r := cell_rect(p)
+					draw_rect(r.grow(-2), Color(BMStyle.SUN, 0.18 + 0.12 * pulse))
+					if not run.board.is_empty(p):
+						hits.append(p)
+				var c := cell_rect(tool_hover).get_center()
+				draw_rect(Rect2(c - Vector2(2, 44), Vector2(4, 88)), Color(BMStyle.SUN, 0.8))
+				draw_rect(Rect2(c - Vector2(44, 2), Vector2(88, 4)), Color(BMStyle.SUN, 0.8))
+		"color":
+			col = BMStyle.MINT_L
+			if BMBoard.in_bounds(tool_hover) and not run.board.is_empty(tool_hover):
+				var target := run.board.get_cell(tool_hover)
+				if target != BMShapes.COLOR_STONE:
+					for y in BMBoard.SIZE:
+						for x in BMBoard.SIZE:
+							if run.board.get_cell(Vector2i(x, y)) == target:
+								hits.append(Vector2i(x, y))
+	for p in hits:
+		var r := cell_rect(p)
+		draw_rect(r.grow(-3), Color(col, 0.22 + 0.2 * pulse))
+		draw_rect(r.grow(-3), col, false, 4.0)
+		_pixel_x(r.grow(-26), Color(BMStyle.INK, 0.8))
+	if BMBoard.in_bounds(tool_hover):
+		draw_rect(cell_rect(tool_hover).grow(3), Color(BMStyle.CREAM, 0.6 + 0.4 * pulse), false, 4.0)
+
+
+func _tool_burst(style: String, at: Vector2, color_id: int) -> void:
+	var fx := BMFx.instance
+	if fx == null:
+		return
+	var c := BMFinishes.hue(color_id)
+	match style:
+		"erase":
+			fx.burst(at, [BMStyle.PINK_L, BMStyle.CREAM, c], 10, 220.0, 6.0)
+			fx.dust(at + Vector2(0, cell_size() * 0.4), cell_size(), 6)
+		"punch":
+			fx.chips(at, [c, c.darkened(0.3), BMStyle.CREAM], 8)
+			fx.burst(at, [c, c.lightened(0.3)], 12, 520.0, 10.0)
+		"purge":
+			fx.motes(at, [c, c.lightened(0.4), BMStyle.CREAM], 5, cell_size())
+			fx.sparks(at, c.lightened(0.3), 8, 360.0)
+		_:
+			fx.burst(at, [c, BMStyle.CREAM], 12, 360.0, 8.0)
 
 func _place_fx(p: Vector2i) -> float:
 	for fx in _fx_places:

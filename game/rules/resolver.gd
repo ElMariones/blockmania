@@ -238,6 +238,9 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 		rs.placements_left += refilled
 		if refilled > 0:
 			events.append("Lines cleared: +%d placement%s" % [refilled, "" if refilled == 1 else "s"])
+	if is_clearing and not rs.patch_used and not rs.patch_ready and run.has_active_joker("patch_panel"):
+		rs.patch_ready = true
+		events.append("Patch Panel ready: remove one block")
 	if stamp == "memory":
 		if run.consumables.size() < BMRunConfig.CONSUMABLE_SLOTS:
 			run.consumables.append("spark")

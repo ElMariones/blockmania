@@ -13,6 +13,8 @@ extends RefCounted
 ##   "full"   Jokers, then Workshop tools (with sensible targets), pieces, and items
 
 var shop_policy := "full"
+## Items the bot knows how to use (it cannot aim board tools, paint, or Blueprints).
+const BOT_ITEMS := ["polish", "spark", "second_tray", "extra_turn", "cash_out", "emergency_brick"]
 var top_k := 6
 ## Weight of the best follow-up clear (lines^2) available to the remaining tray pieces.
 ## Weight for "potential": rows/columns that are nearly full after the placement (sets up
@@ -72,6 +74,9 @@ func _round_step(run: BMRun) -> Dictionary:
 		var st := run.consumables.find("second_tray")
 		if st >= 0 and run.consumable_usable(st) == "":
 			return run.use_consumable(st)
+		var bk := run.consumables.find("emergency_brick")
+		if bk >= 0 and run.board.empty_count() > 0:
+			return run.use_consumable(bk, {"slot": 0})
 		return run.concede_round()
 	var ci := run.consumables.find("cash_out")
 	if ci >= 0:
@@ -277,7 +282,7 @@ func _shop_step(run: BMRun) -> Dictionary:
 			return run.buy_piece(i)
 	for i in run.shop.consumables.size():
 		var id: String = run.shop.consumables[i]
-		if id != "" and run.credits - reserve >= BMConsumables.cost(id) + 2 and run.consumables.size() < BMRunConfig.CONSUMABLE_SLOTS:
+		if id != "" and id in BOT_ITEMS and run.credits - reserve >= BMConsumables.cost(id) + 2 and run.consumables.size() < BMRunConfig.CONSUMABLE_SLOTS:
 			return run.buy_consumable(i)
 	return run.leave_shop()
 

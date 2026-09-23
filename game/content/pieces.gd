@@ -79,6 +79,8 @@ static func to_dict(p: Dictionary) -> Dictionary:
 		d.temporary = true
 	if String(p.get("hand", "")) != "":
 		d.hand = String(p.hand)
+	if bool(p.get("brick", false)):
+		d.brick = true
 	return d
 
 
@@ -90,6 +92,15 @@ static func from_dict(d: Dictionary) -> Dictionary:
 		p.temporary = true
 	if String(d.get("hand", "")) != "":
 		p.hand = String(d.hand)
+	if bool(d.get("brick", false)):
+		p.brick = true
+	return p
+
+
+## The Emergency Brick: a temporary stone Single.
+static func brick() -> Dictionary:
+	var p := temporary_single(BMShapes.COLOR_STONE)
+	p.brick = true
 	return p
 
 
@@ -115,15 +126,17 @@ static func family_name(family: StringName) -> String:
 ## One-line description for tooltips and the bag view.
 static func describe(p: Dictionary) -> String:
 	var parts := PackedStringArray()
-	parts.append("%s %s" % [BMShapes.COLOR_NAMES[int(p.color)], family_name(p.family)])
+	parts.append("Brick" if bool(p.get("brick", false)) else "%s %s" % [BMShapes.COLOR_NAMES[int(p.color)], family_name(p.family)])
 	var m := String(p.get("material", ""))
 	if m != "":
 		parts.append("%s: %s" % [MATERIAL_DEFS[m].name, MATERIAL_DEFS[m].text])
 	var s := String(p.get("stamp", ""))
 	if s != "":
 		parts.append("%s: %s" % [STAMP_DEFS[s].name, STAMP_DEFS[s].text])
-	if bool(p.get("temporary", false)):
-		parts.append("Temporary: dealt because no piece in your bag fit the board. It does not stay in your bag.")
+	if bool(p.get("brick", false)):
+		parts.append("Emergency Brick: a temporary block. It does not stay in your bag.")
+	elif bool(p.get("temporary", false)):
+		parts.append("Temporary: it does not stay in your bag.")
 	return "\n".join(parts)
 
 
