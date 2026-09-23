@@ -74,10 +74,10 @@ func _ready() -> void:
 	menu.position = Vector2((STAGE.x - 600) / 2.0, 414)
 	menu.size = Vector2(600, 592)
 	stage.add_child(menu)
-	_continue = _menu_button("CONTINUE RUN", func() -> void: main.continue_run(), "mint", 40, BMStyle.tex("icon_play"), 1.5)
+	_continue = _menu_button("CONTINUE RUN", func() -> void: main.continue_run(), "mint", 40, BMStyle.tex("icon_play"))
 	_continue.custom_minimum_size.y = 92
 	menu.add_child(_continue)
-	_new = _menu_button("NEW RUN", _new_run, "sun", 40, BMStyle.tex("icon_dice"), 1.5)
+	_new = _menu_button("NEW RUN", _new_run, "sun", 40, BMStyle.tex("icon_piece"))
 	_new.custom_minimum_size.y = 92
 	menu.add_child(_new)
 	var endless := _menu_button("ENDLESS", func() -> void: main.start_endless(), "sky", 40, BMStyle.infinity_icon())

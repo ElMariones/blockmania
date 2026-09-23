@@ -181,7 +181,7 @@ Everything below is original, authored as code in this repository, and regenerat
 | Particle VFX: pixel bursts, sparks, stars, confetti, coins, glass shards, homing score streams, pop text, screen shake (cap 900 particles) | `game/presentation/fx_layer.gd` | runtime | In game; reduced motion suppresses motion, keeps text |
 | Chunky block logo with drop-in, bob and shine | `game/ui/title_screen.gd` | runtime | Placeholder logo until a final one is commissioned |
 | Logo easter egg: a clicked letter bursts into its spinning blocks and drops back in ~3 s later (`letter_pop` / `letter_back` sounds) | `game/ui/title_screen.gd`, `tools/audio/gen_sfx_features.py` | runtime | Cosmetic only; under reduced motion the blocks fade in place |
-| Title menu icons: play, dice, trophy, power (plus gear and infinity) | `tools/art/gen_ui.py` | produced | Icon pinned left, label centered on every menu button |
+| Title menu icons: play, T-piece (New Run), trophy, power (plus gear and infinity) | `tools/art/gen_ui.py` | produced | Icon pinned left, label centered on every menu button |
 
 Screens covered: title (+ Options), round HUD (score machine, marquee, receipt, Joker rack, items, tray, Refresh/Concede), round intro, round result, run end, pause, bag view, shop ("The Toybox") and Workshop picker. Checked at 1920×1080, 1280×720, 1680×1050 (16:10) and 2560×1080 (ultrawide).
 
