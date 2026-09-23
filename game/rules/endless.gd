@@ -87,7 +87,9 @@ func _any_tray_fits() -> bool:
 
 
 func _check_game_over() -> void:
-	var hold_can_rescue := not hold_used and board.empty_count() > 0 and (held.is_empty() or board.fits_anywhere(held.cells))
+	# An empty Hold is storage, not an extra offered shape. Only a shape already
+	# stored there can rescue a tray with no legal placement.
+	var hold_can_rescue := not hold_used and not held.is_empty() and board.fits_anywhere(held.cells)
 	over = not _any_tray_fits() and not hold_can_rescue
 
 
@@ -274,6 +276,9 @@ static func from_dict(d: Dictionary) -> BMEndless:
 	g.stats_complete = bool(d.get("stats_complete", int(d.get("schema", 0)) >= 3))
 	g.over = bool(d.over)
 	g.history = d.get("history", []).duplicate(true)
+	if not g.over:
+		# Repair older saves made while an empty Hold incorrectly prevented loss.
+		g._check_game_over()
 	return g
 
 

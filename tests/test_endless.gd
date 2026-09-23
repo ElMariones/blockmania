@@ -81,7 +81,7 @@ func test_no_legal_offer_ends_game_and_save_round_trips() -> void:
 	check(copy.over, "loss restored")
 
 
-func test_unused_hold_can_rescue_a_stuck_tray() -> void:
+func test_empty_hold_does_not_rescue_a_stuck_tray() -> void:
 	var g := BMEndless.new_game(211)
 	for y in 8:
 		for x in 8:
@@ -89,9 +89,61 @@ func test_unused_hold_can_rescue_a_stuck_tray() -> void:
 				g.board.set_cell(Vector2i(x, y), 0)
 	g.tray = [BMShapes.make_shape(&"square2", 0, 0), BMShapes.make_shape(&"bar2", 0, 1), BMShapes.make_shape(&"l3", 0, 2)]
 	g._check_game_over()
-	check(not g.over, "unused Hold prevents premature loss")
+	check(g.over, "empty Hold cannot create a rescue after the tray is stuck")
+	check(not g.apply_action({"a": "hold", "i": 0}).ok, "cannot draw a new shape after loss")
+
+
+func test_stored_fitting_hold_can_rescue_a_stuck_tray() -> void:
+	var g := BMEndless.new_game(211)
+	for y in 8:
+		for x in 8:
+			if x != 7 or y != 7:
+				g.board.set_cell(Vector2i(x, y), 0)
+	g.tray = [BMShapes.make_shape(&"square2", 0, 0), BMShapes.make_shape(&"bar2", 0, 1), BMShapes.make_shape(&"l3", 0, 2)]
+	g.held = BMShapes.make_shape(&"single", 0, 3)
+	g._check_game_over()
+	check(not g.over, "stored fitting shape remains available")
 	var swap := g.apply_action({"a": "hold", "i": 0})
-	check(swap.ok and g.fits(0), "Hold draws a legal replacement")
+	check(swap.ok and g.fits(0), "Hold swaps in the fitting shape")
+
+
+func test_final_placement_with_no_fit_ends_even_when_hold_is_empty() -> void:
+	var g := BMEndless.new_game(212)
+	for y in 8:
+		for x in 8:
+			if x != y and Vector2i(x, y) != Vector2i(0, 1):
+				g.board.set_cell(Vector2i(x, y), 0)
+	g.tray = [BMShapes.make_shape(&"single", 0, 0), BMShapes.make_shape(&"square3", 0, 1), BMShapes.make_shape(&"bar4", 0, 2)]
+	var result := g.apply_action({"a": "place", "i": 0, "x": 0, "y": 1})
+	check(result.ok and result.rows.is_empty() and result.cols.is_empty(), "last legal placement makes no clear")
+	check(result.over and g.over, "last legal placement reports game over immediately")
+	check(g.held.is_empty() and not g.fits(1) and not g.fits(2), "tray and Hold match blocked state")
+
+
+func test_saved_stuck_run_is_reclassified_for_results() -> void:
+	BMEndlessStore.game_path = "user://test_endless_stuck_progress.json"
+	BMEndlessStore.scores_path = "user://test_endless_stuck_scores.json"
+	var g := BMEndless.new_game(213)
+	for y in 8:
+		for x in 8:
+			if x != y:
+				g.board.set_cell(Vector2i(x, y), 0)
+	g.tray = [BMShapes.make_shape(&"square3", 0, 1), {}, BMShapes.make_shape(&"bar4", 0, 2)]
+	var old := g.to_dict()
+	old.over = false
+	var file := FileAccess.open(BMEndlessStore.game_path, FileAccess.WRITE)
+	file.store_string(JSON.stringify(old))
+	file.close()
+	var loaded := BMEndlessStore.load_game()
+	check(loaded != null and loaded.over, "old stuck save opens as completed result")
+	if loaded != null:
+		BMEndlessStore.record(loaded)
+	check(not FileAccess.file_exists(BMEndlessStore.game_path), "converted run is removed from progress")
+	eq(BMEndlessStore.high_scores().size(), 1, "converted score is recorded once")
+	DirAccess.remove_absolute(BMEndlessStore.game_path)
+	DirAccess.remove_absolute(BMEndlessStore.scores_path)
+	BMEndlessStore.game_path = BMEndlessStore.PATH
+	BMEndlessStore.scores_path = BMEndlessStore.SCORES_PATH
 
 
 func test_same_seed_produces_same_offers() -> void:

@@ -99,6 +99,8 @@ func continue_endless() -> void:
 	if game == null:
 		show_title()
 		return
+	if game.over:
+		BMEndlessStore.record(game)
 	_endless_pending_ms = 0.0
 	endless_screen.bind(game)
 	_show(endless_screen)

@@ -27,7 +27,9 @@ static func load_game() -> BMEndless:
 	if not d is Dictionary or int(d.get("schema", 0)) < 1 or int(d.get("schema", 0)) > BMEndless.SCHEMA:
 		return null
 	var game := BMEndless.from_dict(d)
-	return null if game == null or game.over else game
+	# A previously saved stuck game may become terminal under corrected loss
+	# rules. Return it once so Continue can show its result and record the score.
+	return null if game == null or bool(d.get("over", false)) else game
 
 
 static func record(game: BMEndless) -> void:
