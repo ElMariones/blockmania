@@ -1,6 +1,6 @@
 # BLOCKMANIA — Game Design Document
 
-**Version:** 0.3 — the Bag (customizable pieces) added; M0 prototype · **Date:** 2026-09-22 · **Platform:** Windows desktop at launch, Steam distribution · **Engine:** Godot 4.x stable at implementation start
+**Version:** 0.4 — placements refill on line clears (§5); round-play proposals in docs/design/round_play_update.md · **Date:** 2026-09-22 · **Platform:** Windows desktop at launch, Steam distribution · **Engine:** Godot 4.x stable at implementation start
 
 ## 1. Vision
 
@@ -43,12 +43,12 @@ Online multiplayer, leaderboards that require a backend, mobile ports, procedura
 
 ## 3. Core play at a glance
 
-1. Enter a round with an empty 8×8 board, a target score, 12 placements, a three-piece tray dealt from **your bag of pieces** (§16), one free tray Refresh, and the current Jokers.
+1. Enter a round with an empty 8×8 board, a target score, 15 placements (every cleared line gives one back, up to that starting count; §5), a three-piece tray dealt from **your bag of pieces** (§16), one free tray Refresh, and the current Jokers.
 2. Select a tray shape and place it in any position where all its cells fit inside empty board cells. Shapes do not rotate in the standard rules.
 3. Score the placement, clear every completed row and column simultaneously, apply Joker effects in the published order, and update the round total.
 4. Keep placing until the target is reached. The round ends immediately after the complete scoring sequence that crosses the target. Remaining placements improve the payout.
 5. Earn Credits, visit the shop, improve the build (Jokers, items, and bag edits: upgrade, copy, remove, or add pieces), then start the next round with a clean board.
-6. Win after round 12. Lose when placements are spent below target, or when no legal placement or usable rescue action remains.
+6. Win after round 12. Lose when placements are spent below target (a clear on the last placement refills it, so the round continues), or when no legal placement or usable rescue action remains.
 
 There is no falling gravity, timer, color matching, or manual board reset during a round. Colors mark shapes and effects, but occupied cells behave identically unless an effect explicitly changes them.
 
@@ -135,6 +135,16 @@ All scoring modifiers resolve in this order so that previews, replays, and expla
 
 Effects describe their trigger in plain language and show their contribution in an expandable score receipt. Duplicate Jokers can stack unless a card says **Unique**. Effects do not recursively retrigger themselves within the same placement. Reordering equipped Jokers is allowed outside a placement and can change outcomes.
 
+### Placements and refills
+
+*Revised 2026-09-23 (owner: "12 placements is too short and leaves no room to maneuver"). Evidence and alternatives: [docs/design/round_play_update.md](docs/design/round_play_update.md) §1.*
+
+- A round starts with the Kit's placements (Standard 15), plus Long Game. That number is the round's **refill cap**.
+- Each placement spends one. **Each line cleared gives one back** (a double clear gives two), never above the refill cap. The refill happens at pipeline step 9, before the round checks for running out, so a clearing last placement keeps the round alive.
+- Other gains can exceed the cap: Extra Turn (up to 20), Second Look, and the Refund stamp.
+- The score preview shows the refill because it runs the same resolver. The HUD shows placements left out of the cap, and refilled bulbs flash.
+- Why it replaces the fixed 12: with 12, every simulated loss was "out of placements" and the bot needed 9–11 placements just to pass early rounds, so setting up multi-line clears was never affordable. A refill rewards clearing and pays back setup turns without removing the budget's tension.
+
 ### Round targets and budget
 
 | Round | Act | Target Points | Special rule |
@@ -169,7 +179,7 @@ Each act has three ordinary rounds and one boss. The upcoming boss is revealed a
 | **The Color Blind** | Effects that name a block color are disabled for this round. Disabled cards stay equipped and are visibly dimmed. | Diversify beyond color-dependent scoring. |
 | **The Echo Chamber** | The first clear wave from each placement scores normally; extra waves score half Chips before Jokers. | Prefer immediate clears over chained board effects. |
 | **The Lockdown** | All tray-refresh actions, including the free Refresh and Second Tray, are unavailable this round. Eraser and Blueprint remain usable. | Plan tray order and preserve board space. |
-| **The Last Call** | Final boss: only 10 placements; each multi-line placement gains +50 Chips. | Prepare efficient shapes and simultaneous clears. |
+| **The Last Call** | Final boss: only 12 placements (refills capped at 12); each multi-line placement gains +50 Chips. *(was 10 of 12 before refills)* | Prepare efficient shapes and simultaneous clears. |
 
 The same boss modifier must never silently make a Joker text false. Disabled or altered effects receive an explicit badge in the HUD and a reason in the tooltip.
 
@@ -188,9 +198,9 @@ Kits are starting presets, not permanent power upgrades. Standard Kit is availab
 
 | Kit | Start effect | Unlock target |
 |---|---|---|
-| **Standard Kit** | 5 Joker slots, 1 Refresh, 12 placements. | Default |
+| **Standard Kit** | 5 Joker slots, 1 Refresh, 15 placements. | Default |
 | **Compact Kit** | Starts with 1 extra Refresh each round, but only 4 Joker slots. | Clear 100 total lines across runs. |
-| **High Roller Kit** | Starts with 4 Credits and 11 placements per round. | Win a standard run. |
+| **High Roller Kit** | Starts with 4 Credits and 14 placements per round. | Win a standard run. |
 
 ### Meta progression
 
@@ -239,7 +249,7 @@ Consumables are one-time, player-triggered tools. They may be used between place
 | **Spark** | 3 | Add +1 Mult to the next placement this round. |
 | **Eraser** | 4 | Remove up to two occupied cells chosen by the player. |
 | **Second Tray** | 3 | Refresh the current tray without spending the round's free Refresh. |
-| **Extra Turn** | 5 | Gain two placements this round, maximum 16 total. |
+| **Extra Turn** | 5 | Gain two placements this round, maximum 20 total. |
 | **Lucky Paint** | 3 | Recolor one tray shape to a chosen color. Shape geometry unchanged. |
 | **Blueprint** | 4 | Replace one tray shape with a chosen 1–3 cell shape from a limited preview list. |
 | **Cash Out** | 3 | Gain 4 Credits after this round if won; otherwise no payout. |

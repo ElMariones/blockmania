@@ -14,6 +14,10 @@ const CHIPS_PER_COMBO := 25
 const COMBO_CAP := 4
 const MAX_CLEAR_WAVES := 5
 
+# Placement budget (GDD §5 "Placements and refills"): every completed line gives back this many
+# placements, never above the round's starting count (Kit + Long Game, or a boss limit).
+const REFILL_PER_LINE := 1
+
 # Economy (GDD §6 "Credits and shop").
 const WIN_CREDITS := 3
 const UNUSED_PLACEMENT_BONUS_CAP := 3
@@ -32,12 +36,12 @@ const CASH_OUT_CREDITS := 4
 const RARITY_WEIGHTS := [[65, 30, 5], [53, 35, 12], [40, 40, 20]]
 
 const KITS := [
-	{"id": "standard", "name": "Standard Kit", "joker_slots": 5, "refreshes": 1, "placements": 12, "credits": 0,
-		"text": "5 Joker slots, 1 Refresh, 12 placements per round.", "unlock": ""},
-	{"id": "compact", "name": "Compact Kit", "joker_slots": 4, "refreshes": 2, "placements": 12, "credits": 0,
+	{"id": "standard", "name": "Standard Kit", "joker_slots": 5, "refreshes": 1, "placements": 15, "credits": 0,
+		"text": "5 Joker slots, 1 Refresh, 15 placements per round.", "unlock": ""},
+	{"id": "compact", "name": "Compact Kit", "joker_slots": 4, "refreshes": 2, "placements": 15, "credits": 0,
 		"text": "1 extra Refresh each round, but only 4 Joker slots.", "unlock": "Clear 100 total lines across runs."},
-	{"id": "high_roller", "name": "High Roller Kit", "joker_slots": 5, "refreshes": 1, "placements": 11, "credits": 4,
-		"text": "Start with 4 Credits, but 11 placements per round.", "unlock": "Win a standard run."},
+	{"id": "high_roller", "name": "High Roller Kit", "joker_slots": 5, "refreshes": 1, "placements": 14, "credits": 4,
+		"text": "Start with 4 Credits, but 14 placements per round.", "unlock": "Win a standard run."},
 ]
 
 

@@ -7,7 +7,8 @@ Reports produced by `tools/experiments.gd`, a greedy, preview-guided autoplayer 
 | `experiments_v1.md` | Pass 0 (2026-09-22) | First Joker and upgrade survey after retuning the targets. **Caveat:** in this run, variants with a setup re-dealt round 1 but the baseline did not, so small Δ values are unreliable. It still exposed the always-on outliers. |
 | `exp_jokers.md`, `exp_upgrades.md` | Pass 2 | Paired survey after the first nerfs and stamp buffs, with the lookahead bot. |
 | `exp_jokers_retune.md` | Pass 3 | Targeted check of Hollow Point, Pressure Cooker, Hoarder, and Recycler after the last trims. It supersedes those four rows in `exp_jokers.md`. |
-| `exp_curve.md` | Final | Difficulty curve with the final numbers (100 seeds). |
+| `exp_curve.md` | Pass 3 | Difficulty curve with the pass-3 numbers (12 fixed placements) (100 seeds). |
+| `experiments_v2.md` | 2026-09-23 | Curve, Joker and upgrade survey (60 seeds) after the **placement refill** rework (15 placements, +1 per line up to the cap). Earlier reports used 12 fixed placements, so compare their Δ values only with each other. The curve now also reports loss reasons. |
 
 Rerun everything after any balance change:
 

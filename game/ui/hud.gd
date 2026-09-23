@@ -129,11 +129,13 @@ class Tube extends Control:
 			draw_rect(Rect2(Vector2(x - 2, inner.end.y - 10), Vector2(4, 10)), Color(BMStyle.INK, 0.6))
 
 
-## A row of bulbs: lit = placements left. Beyond `max_bulbs`, the count is shown as text.
+## A row of bulbs: lit = placements left, out of the round's refill cap (up to 16 bulbs; the
+## moves label beside it always shows the exact count). Spent bulbs flash white, refilled mint.
 class Lamps extends Control:
 	var lit := 0
-	var total := 12
+	var total := 15
 	var _flash := {}
+	var _refill := {}
 
 	func _ready() -> void:
 		mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -142,17 +144,21 @@ class Lamps extends Control:
 		if new_lit < lit:
 			for i in range(new_lit, lit):
 				_flash[i] = 0.35
+		elif new_lit > lit and lit > 0:
+			for i in range(lit, new_lit):
+				_refill[i] = 0.6
 		lit = new_lit
 		total = maxi(new_total, new_lit)
 		queue_redraw()
 
 	func _process(delta: float) -> void:
-		if _flash.is_empty():
+		if _flash.is_empty() and _refill.is_empty():
 			return
-		for k in _flash.keys():
-			_flash[k] -= delta
-			if _flash[k] <= 0.0:
-				_flash.erase(k)
+		for d in [_flash, _refill]:
+			for k in d.keys():
+				d[k] -= delta
+				if d[k] <= 0.0:
+					d.erase(k)
 		queue_redraw()
 
 	func _draw() -> void:
@@ -166,6 +172,8 @@ class Lamps extends Control:
 			var pos := Vector2(i * gap, (size.y - 36) / 2.0)
 			if _flash.has(i):
 				draw_rect(Rect2(pos - Vector2(2, 2), Vector2(bw + 4, 40)), Color(1, 1, 1, _flash[i] * 1.5))
+			elif _refill.has(i):
+				draw_rect(Rect2(pos - Vector2(2, 2), Vector2(bw + 4, 40)), Color(BMStyle.MINT_L, _refill[i]))
 			draw_texture_rect(t, Rect2(pos, Vector2(bw, 36)), false)
 
 

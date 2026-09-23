@@ -44,6 +44,9 @@ static func load_run() -> BMRun:
 	if int(data.get("schema", 0)) < 2:
 		push_warning("Run save predates the Bag (schema 1); it cannot be resumed.")
 		return null
+	# Schema 2 -> 3: rounds gained `placement_cap` (line clears refill placements up to it).
+	# RoundState.from_dict defaults it to the placements left, so an in-progress round resumes
+	# with refills capped at its current count.
 	var run := BMRun.from_dict(data.run)
 	if run.phase in [BMRun.Phase.RUN_WON, BMRun.Phase.RUN_LOST, BMRun.Phase.ABANDONED]:
 		return null

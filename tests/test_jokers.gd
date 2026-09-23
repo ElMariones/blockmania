@@ -133,7 +133,8 @@ func test_long_game() -> void:
 	var run := BMRun.new_run(5)
 	run.jokers.assign(["long_game"])
 	run._start_round()
-	eq(run.round_state.placements_left, 13, "+1 placement")
+	eq(run.round_state.placements_left, int(run.kit().placements) + 1, "+1 placement")
+	eq(run.round_state.placement_cap, int(run.kit().placements) + 1, "refill cap includes it")
 	run.tray = [shape(&"bar3"), {}, {}]
 	var r := run.place(0, Vector2i(0, 0))
 	eq(r.chips, 0, "no cell chips for the first placement")

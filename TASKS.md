@@ -3,7 +3,7 @@
 Living backlog. Update it in the same commit as the work. Milestones follow GDD §12.
 Legend: `[x]` done · `[~]` partial · `[ ]` open · **(owner)** needs a project-owner decision.
 
-_Last updated: 2026-09-23 — Endless last-piece Hold now deals a full trio._
+_Last updated: 2026-09-23 — Placements now refill on line clears (15, +1 per line); round-play proposals written._
 
 ## M0 — Rules prototype
 
@@ -50,6 +50,8 @@ _Last updated: 2026-09-23 — Endless last-piece Hold now deals a full trio._
 - [ ] **Eraser**, **Lucky Paint**, **Blueprint** — need cell / color / shape pickers (withheld from shop).
 - [x] Joker trigger presentation in resolution order: sequenced card pulses with Chips/Mult pop text (capped at 6 per placement).
 - [x] Score count-up (rolling counter, liquid tube) and clear VFX (sweep, wave-delayed bursts, shards, streams, CRT shock).
+- [x] **Placement budget rework** (owner: "12 is too short"): Kits start with 15 / 15 / 14 placements, every cleared line gives one back up to the starting count, a clear on the last placement keeps the round alive. Last Call 10 → 12, Extra Turn cap 16 → 20. HUD bulbs show left/cap with a mint refill flash, a +N pop, a receipt/message line, and intro and tooltip text. Save schema 3 (`placement_cap`). Tests added (GDD §5 "Placements and refills").
+- [ ] Human playtest of the refill budget: does Act 1 feel too easy now (targets unchanged)? Does the unused-placement Credit bonus and Spare Parts inflate the economy?
 - [ ] Fast Animations toggle; skip input for sequences.
 - [x] Audio: 59 synthesized effect files for UI, pieces, clears, combos, economy, Jokers, bag, and results; seven original lo-fi tracks for title, round, shop and boss contexts.
 - [x] Audio options: master/music/effects levels, sound and music switches, background mute, Next Song, and `M` shortcut; settings persist separately from runs.
@@ -74,6 +76,18 @@ _Last updated: 2026-09-23 — Endless last-piece Hold now deals a full trio._
 - [ ] Hover and tooltip pass with real mouse playtesting (tooltips are styled; hover lifts are verified in fixtures only).
 - [ ] The Joker rack rebuilds on every refresh; keep the hover state across rebuilds.
 
+## Round-play proposals (awaiting owner approval)
+
+Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/round_play_update.md). This includes the review of `ideas.md` (keep / later / discard).
+
+- [ ] **(owner)** Tray Hands: Twins / Staircase / Monochrome / Triplets / Grand Slam, decided on natural deals only; Bag view shows the odds.
+- [ ] Reusable targeting framework (cell / tray slot / choose-1-of-N) → Eraser, Blueprint, Lucky Paint, Patch Panel, plus new Punch and Color Purge tools.
+- [ ] Feats in the resolution record (Crossfire, Double Tap, Hat Trick, Clean Board, Needle Threader, Last Breath).
+- [ ] **(owner)** 14 new Jokers: Patience, Locksmith, Countdown, Breakage Bonus, Insurance Policy, Showboat (from ideas.md); Full Tank, Overflow, Keystone, Draftsman, Card Sharp, Hot Hand, Periscope, Loan Shark.
+- [ ] **(owner)** Bosses: The Warden (replaces Echo Chamber) and The Undertaker. Consumable: Emergency Brick.
+- [ ] Fit indicators on tray pieces; bag statistics panel.
+- [ ] **(owner)** Kit starter bags, Boss Crate (choose 1 of 3 after bosses), campaign combo grace (simulate first).
+
 ## M2 — Content complete
 
 - [ ] Kit selection screen (Standard / Compact / High Roller) + unlock tracking (100 lines, win a run).
@@ -94,10 +108,11 @@ _Last updated: 2026-09-23 — Endless last-piece Hold now deals a full trio._
 
 - 2026-09-22: greedy bot with the original targets failed round 1 in 30% of runs and round 2 in 62%; survivors cleared later rounds easily.
 - 2026-09-23: **targets retuned** to 450 / 650 / 850 / 1,150 / 1,600 / 2,100 / 2,800 / 3,700 / 4,700 / 6,000 / 7,500 / 10,000 (GDD §5, §16.9). The bot now reaches round ~4.5 on average with gradual attrition. Human playtests must confirm.
+- 2026-09-23: **placement budget** 12 flat → 15 with a +1-per-line refill up to the cap. Bot average round 4.3 → 9.3, round 3 clear 71% → 100%, round 8 boss 81%, final boss 11%. Every baseline loss had been "out of placements". Variants compared in docs/design/round_play_update.md §1; the full report is `docs/balance/experiments_v2.md`. New outlier: **Foundry + 6 Chrome 65% wins** (was 13%). Trim Foundry if human play confirms it.
 - Per-Joker and per-upgrade impact tables: `docs/balance/experiments_v1.md`. Tuning actions taken from them are listed in GDD §16.9.
 
 ## Open owner decisions
 
-- **(owner)** **The Echo Chamber** has no effect with current content (no card creates extra clear waves). It is withheld from the boss pool. Options: rework its rule, add After Clear Jokers that create waves, or replace it.
+- **(owner)** **The Echo Chamber** has no effect with current content (no card creates extra clear waves). It is withheld from the boss pool. Options: rework its rule, add After Clear Jokers that create waves, or replace it. *Proposal: replace it with The Warden (round_play_update.md §5).*
 - ~~Joker order never changes a result~~: resolved by **Mimic** (copies the Joker below it). Add more order-sensitive cards? (owner)
 - **(owner)** Interpretations made where the GDD was ambiguous are listed in GDD §15 — confirm or adjust.

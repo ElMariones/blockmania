@@ -50,7 +50,7 @@ func _out(s: String) -> void:
 func _batch(setup: Callable = Callable(), policy: String = "full") -> Dictionary:
 	var bot := BMAutoplayer.new()
 	bot.shop_policy = policy
-	var res := {"rounds": 0.0, "wins": 0, "points": 0, "placements": 0, "per_round": {}, "bot": bot, "credits_spent": 0}
+	var res := {"rounds": 0.0, "wins": 0, "points": 0, "placements": 0, "per_round": {}, "bot": bot, "credits_spent": 0, "losses": {}}
 	for i in runs:
 		var run := BMRun.new_run(first_seed + i)
 		# Every variant (baseline included) re-deals round 1 after setup, so all variants see
@@ -76,6 +76,9 @@ func _batch(setup: Callable = Callable(), policy: String = "full") -> Dictionary
 					pr.used += run.round_state.placements_made
 				res.per_round[before_round] = pr
 		res.rounds += run.round_number
+		if run.phase == BMRun.Phase.RUN_LOST:
+			var why := "no fit" if run.end_reason.begins_with("No offered") else ("out of placements" if run.end_reason.begins_with("Out of") else "other")
+			res.losses[why] = int(res.losses.get(why, 0)) + 1
 		if run.phase == BMRun.Phase.RUN_WON:
 			res.wins += 1
 		res.points += int(run.stats.total_points)
@@ -92,7 +95,7 @@ func _curve() -> void:
 	_out("## Difficulty curve (baseline)")
 	_out("")
 	var base := _batch()
-	_out("Win rate %.0f%%, average round reached %.2f, points per placement %.1f." % [100.0 * base.wins / runs, base.rounds, _ppp(base)])
+	_out("Win rate %.0f%%, average round reached %.2f, points per placement %.1f. Losses: %s. Standard Kit: %d placements, %d refilled per line." % [100.0 * base.wins / runs, base.rounds, _ppp(base), str(base.losses), int(BMRunConfig.kit("standard").placements), BMRunConfig.REFILL_PER_LINE])
 	_out("")
 	_out("| Round | Target | Reached | Cleared | Clear % | Avg placements to clear | Avg final score |")
 	_out("|---:|---:|---:|---:|---:|---:|---:|")

@@ -10,7 +10,7 @@ extends RefCounted
 ##   step 5 additive Mult: 1 + Schematic level + Neon cells cleared + Spark + Jokers; floor 1
 ##   step 6 xMult: Encore stamp (on clear), Glass (once per placement), then Jokers
 ##   step 7 Points = floor(Chips x Mult); step 8 remove cells; step 9 counters, stamps, Gold,
-##   Glass shatter rolls (shapes stream), combo.
+##   Glass shatter rolls (shapes stream), combo, line refills (placements back up to the cap).
 ##
 ## Clear waves: removing cells can never complete a new line, and no current card adds cells
 ## after a clear, so every placement resolves in exactly one wave (record keeps `waves`).
@@ -219,6 +219,12 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 	if stamp == "refund":
 		rs.placements_left += 1
 		events.append("Refund Stamp: this placement was free")
+	var refilled := 0
+	if lines > 0:
+		refilled = clampi(lines * BMRunConfig.REFILL_PER_LINE, 0, maxi(0, rs.placement_cap - rs.placements_left))
+		rs.placements_left += refilled
+		if refilled > 0:
+			events.append("Lines cleared: +%d placement%s" % [refilled, "" if refilled == 1 else "s"])
 	if stamp == "memory":
 		if run.consumables.size() < BMRunConfig.CONSUMABLE_SLOTS:
 			run.consumables.append("spark")
@@ -273,6 +279,7 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 		"credits_gained": run.credits - credits_before,
 		"events": events,
 		"shattered": shattered,
+		"placements_refilled": refilled,
 	}
 
 

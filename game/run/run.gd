@@ -5,7 +5,7 @@ extends RefCounted
 ## a result Dictionary ({ok: bool, error: String, ...}). Seed + history replays a run exactly.
 ## to_dict()/from_dict() capture a complete state between actions (saves, previews, tests).
 
-const SCHEMA_VERSION := 2
+const SCHEMA_VERSION := 3
 
 enum Phase { ROUND, ROUND_RESULT, SHOP, RUN_WON, RUN_LOST, ABANDONED }
 
@@ -23,6 +23,7 @@ class RoundState:
 	var target := 0
 	var score := 0
 	var placements_left := 0
+	var placement_cap := 0 ## Line clears refill placements up to this starting count.
 	var refreshes_left := 0
 	var combo := 0
 	var placements_made := 0
@@ -44,7 +45,7 @@ class RoundState:
 		for p in fixed_cells:
 			fixed.append([p.x, p.y])
 		return {
-			"target": target, "score": score, "placements_left": placements_left,
+			"target": target, "score": score, "placements_left": placements_left, "placement_cap": placement_cap,
 			"refreshes_left": refreshes_left, "combo": combo, "placements_made": placements_made,
 			"clearing_placements": clearing_placements, "color_history": color_history.duplicate(),
 			"first_refresh_done": first_refresh_done, "tiny_insurance_used": tiny_insurance_used,
@@ -58,6 +59,7 @@ class RoundState:
 		r.target = int(d.target)
 		r.score = int(d.score)
 		r.placements_left = int(d.placements_left)
+		r.placement_cap = int(d.get("placement_cap", r.placements_left))
 		r.refreshes_left = int(d.refreshes_left)
 		r.combo = int(d.combo)
 		r.placements_made = int(d.placements_made)
@@ -583,6 +585,7 @@ func _start_round() -> void:
 	if boss == "last_call":
 		rs.placements_left = BMBosses.LAST_CALL_PLACEMENTS
 	rs.placements_left += jokers.count("long_game")
+	rs.placement_cap = rs.placements_left
 	if boss == "cramped_cabinet":
 		rs.fixed_cells = BMBosses.cramped_cells(rng_boss)
 		for p in rs.fixed_cells:

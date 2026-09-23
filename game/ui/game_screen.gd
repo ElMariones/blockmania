@@ -271,7 +271,8 @@ func refresh_all() -> void:
 	_tube.set_fraction(float(rs.score) / maxf(1.0, rs.target))
 	_moves_label.text = str(rs.placements_left)
 	_moves_label.add_theme_color_override("font_color", BMStyle.PINK_L if rs.placements_left <= 3 else BMStyle.CREAM)
-	_lamps.set_counts(rs.placements_left, maxi(rs.placements_left + rs.placements_made, int(run.kit().placements)))
+	_lamps.set_counts(rs.placements_left, maxi(rs.placement_cap, rs.placements_left))
+	_moves_label.get_parent().tooltip_text = "Placements left this round.\nEach line you clear gives one back, up to %d." % rs.placement_cap
 	if boss == "lockdown":
 		_refresh_count.text = "LOCKED"
 	else:
@@ -757,6 +758,11 @@ func _present_placement(r: Dictionary) -> void:
 	for uid in r.get("shattered", []):
 		if fx:
 			fx.shards(center, 18)
+	var refilled := int(r.get("placements_refilled", 0))
+	if refilled > 0 and fx:
+		var moves_at := _moves_label.get_global_rect().get_center()
+		fx.pop_text(moves_at + Vector2(0, -36), "+%d" % refilled, BMStyle.MINT_L, 30, 40.0, 0.9)
+		fx.stars(moves_at, 2 + refilled, 50.0)
 
 
 ## Sound for one placement. Timings follow BMBoardView (sweep starts at once; cells pop in a
@@ -990,7 +996,8 @@ func _show_round_intro() -> void:
 	var f1 := BMStyle.hbox(6)
 	f1.add_child(BMStyle.icon_rect("icon_hand", 0.75))
 	var pl: int = run.round_state.placements_left
-	f1.add_child(BMStyle.label("%d placement%s" % [pl, "" if pl == 1 else "s"], 20, BMStyle.CREAM, true))
+	f1.add_child(BMStyle.label("%d placement%s, +1 per line" % [pl, "" if pl == 1 else "s"], 20, BMStyle.CREAM, true))
+	f1.tooltip_text = "Each line you clear gives one placement back, up to %d." % run.round_state.placement_cap
 	var f2 := BMStyle.hbox(6)
 	f2.add_child(BMStyle.icon_rect("icon_refresh", 0.75))
 	var rf := run.refreshes_available()

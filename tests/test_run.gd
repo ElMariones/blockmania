@@ -6,7 +6,7 @@ func test_new_run_initial_state() -> void:
 	var run := BMRun.new_run(1234)
 	eq(run.round_number, 1, "round")
 	eq(run.round_state.target, BMRunConfig.TARGETS[0], "target")
-	eq(run.round_state.placements_left, 12, "placements")
+	eq(run.round_state.placements_left, 15, "placements")
 	eq(run.refreshes_available(), 1, "one refresh")
 	eq(run.credits, 0, "credits")
 	eq(run.bosses.size(), 3, "three bosses")
@@ -18,7 +18,49 @@ func test_new_run_initial_state() -> void:
 func test_high_roller_kit() -> void:
 	var run := BMRun.new_run(1, "high_roller")
 	eq(run.credits, 4, "starting credits")
-	eq(run.round_state.placements_left, 11, "placements")
+	eq(run.round_state.placements_left, 14, "placements")
+
+
+func test_line_clear_refills_one_placement_per_line() -> void:
+	var run := run_with(["1111111.", "........", "........", "........", "........", "........", "........", "........"], [shape(&"single")])
+	run.round_state.placement_cap = 15
+	run.round_state.placements_left = 10
+	var r := run.place(0, Vector2i(7, 0))
+	eq(r.lines, 1, "one line")
+	eq(r.placements_refilled, 1, "one placement back")
+	eq(run.round_state.placements_left, 10, "spent one, got one back")
+
+
+func test_double_clear_refills_two_but_never_above_cap() -> void:
+	var rows := [".......1", ".......1", ".......1", ".......1", ".......1", ".......1", "........", "111111.."]
+	var run := run_with(rows, [shape(&"square2"), shape(&"single")])
+	run.round_state.placement_cap = 15
+	run.round_state.placements_left = 10
+	var r := run.place(0, Vector2i(6, 6))
+	eq(r.lines, 2, "row and column")
+	eq(r.placements_refilled, 2, "two lines refill two")
+	eq(run.round_state.placements_left, 11, "10 - 1 + 2")
+	run.board = board_from(["1111111.", "........", "........", "........", "........", "........", "........", "........"])
+	run.round_state.placements_left = 15
+	r = run.place(1, Vector2i(7, 0))
+	eq(r.placements_refilled, 1, "refills only up to the cap")
+	eq(run.round_state.placements_left, 15, "capped at the starting count")
+
+
+func test_clear_on_last_placement_keeps_round_alive() -> void:
+	var run := run_with(["1111111.", "........", "........", "........", "........", "........", "........", "........"], [shape(&"single"), shape(&"single")])
+	run.round_state.placement_cap = 15
+	run.round_state.placements_left = 1
+	run.place(0, Vector2i(7, 0))
+	eq(run.phase, BMRun.Phase.ROUND, "still playing")
+	eq(run.round_state.placements_left, 1, "the clear refilled the last placement")
+
+
+func test_round_start_sets_refill_cap_and_saves_it() -> void:
+	var run := BMRun.new_run(5)
+	eq(run.round_state.placement_cap, 15, "cap is the starting count")
+	var copy := BMRun.from_dict(JSON.parse_string(JSON.stringify(run.to_dict())))
+	eq(copy.round_state.placement_cap, 15, "cap survives save/load")
 
 
 func test_out_of_placements_loses() -> void:
@@ -98,7 +140,7 @@ func test_last_call_and_cramped_cabinet_setup() -> void:
 	var run := BMRun.new_run(31)
 	run.round_number = 12
 	run._start_round()
-	eq(run.round_state.placements_left, 10, "last call placements")
+	eq(run.round_state.placements_left, BMBosses.LAST_CALL_PLACEMENTS, "last call placements")
 	eq(run.round_state.target, 10000, "final target")
 	var run2 := BMRun.new_run(31)
 	run2.round_number = 4

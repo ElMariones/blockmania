@@ -22,13 +22,13 @@ const CATALOG := [
 		"rule": "The free Refresh and Second Tray are unavailable this round.",
 		"counter": "Plan tray order and preserve board space."},
 	{"id": "last_call", "name": "The Last Call", "final": true,
-		"rule": "Only 10 placements. Each multi-line placement gains +50 Chips.",
+		"rule": "Only 12 placements. Each multi-line placement gains +50 Chips.",
 		"counter": "Prepare efficient shapes and simultaneous clears."},
 ]
 
 const FIXED_CELL_COUNT := 4
 const TAXMAN_FIRST_LINE_CHIPS := 60
-const LAST_CALL_PLACEMENTS := 10
+const LAST_CALL_PLACEMENTS := 12
 const LAST_CALL_MULTI_LINE_CHIPS := 50
 
 static var _by_id := {}
