@@ -96,7 +96,7 @@ func _draw() -> void:
 			draw_texture_rect(empty, r, false)
 		if i == _hover:
 			draw_rect(r.grow(2), BMStyle.SKY_L, false, 3.0)
-	if has_focus():
+	if has_focus() and BMStyle.is_keyboard_focus_visible():
 		var w := STEPS * (BLOCK + GAP) - GAP + 4.0
 		draw_rect(Rect2(Vector2(0, y - 3), Vector2(w, BLOCK + 6)), BMStyle.CREAM, false, 3.0)
 	var txt := "%d%%" % int(roundf(value * 100)) if lit > 0 else "OFF"

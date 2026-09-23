@@ -15,7 +15,11 @@ BLOCKMANIA is a single-player, turn-based block placement roguelike. Place piece
 
 Open the folder in **Godot 4.7.2** and press Play (main scene `res://game/main.tscn`). A full 12-round run is playable: title, round intros, board and tray, score receipt, Jokers, items, bosses, shop, and run end. The run autosaves after every action; **Continue Run** on the title resumes it.
 
+**Endless** is a separate arcade game from the main menu: place from a three-piece tray, clear rows and columns, build an uncapped combo, and play until no offered piece fits. It saves independently, with **Continue Endless** and a local top-ten high-score view.
+
 Controls: drag a shape onto the board, or click a shape and then click a cell. Right-click or Esc cancels. Keyboard: `1`–`3` select a shape, arrows/WASD move it, Enter/Space place, `R` refresh, `B` shows your bag, `M` toggles sound, Esc pauses. Options (title or pause) has separate master, music and effects levels, sound/music switches, background mute, and Next Song.
+
+Drag an owned Joker onto another Joker to reorder it in the campaign or shop. For keyboard use, focus a Joker and press Alt+Up or Alt+Down. Focus outlines appear during keyboard navigation and stay hidden during mouse use.
 
 ## Tests and tools
 

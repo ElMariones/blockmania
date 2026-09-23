@@ -13,6 +13,9 @@ var hover_controls: Control
 var reduced_motion := false
 var _hover := false
 var _base_scale := Vector2.ONE
+var drag_index := -1
+var drag_enabled := false
+var drag_receiver: Callable
 
 const PHASE_STYLE := {
 	"chips": ["pill_sky", "icon_chip"],
@@ -34,6 +37,47 @@ const JOKER_ICON := {
 func _ready() -> void:
 	mouse_entered.connect(_on_hover.bind(true))
 	mouse_exited.connect(_on_hover.bind(false))
+	if drag_index >= 0:
+		focus_mode = Control.FOCUS_ALL
+		mouse_default_cursor_shape = Control.CURSOR_MOVE
+		focus_entered.connect(queue_redraw)
+		focus_exited.connect(queue_redraw)
+
+
+func _draw() -> void:
+	if drag_index >= 0 and has_focus() and BMStyle.is_keyboard_focus_visible():
+		draw_rect(Rect2(Vector2.ZERO, size).grow(-4), BMStyle.CREAM, false, 4.0)
+
+
+func _get_drag_data(_at_position: Vector2) -> Variant:
+	if not drag_enabled or drag_index < 0:
+		return null
+	var preview := BMStyle.panel("panel_plate", Vector4(12, 8, 12, 8))
+	preview.custom_minimum_size = Vector2(260, 72)
+	preview.add_child(BMStyle.label(BMJokers.get_def(String(data)).name, 20, BMStyle.SUN, true))
+	set_drag_preview(preview)
+	return {"kind": "bm_joker", "index": drag_index}
+
+
+func _can_drop_data(_at_position: Vector2, payload: Variant) -> bool:
+	return drag_enabled and payload is Dictionary and payload.get("kind", "") == "bm_joker" and int(payload.get("index", -1)) != drag_index
+
+
+func _drop_data(_at_position: Vector2, payload: Variant) -> void:
+	if _can_drop_data(_at_position, payload) and drag_receiver.is_valid():
+		drag_receiver.call(int(payload.index), drag_index)
+
+
+func _gui_input(event: InputEvent) -> void:
+	if drag_enabled and event is InputEventKey and event.pressed and event.alt_pressed:
+		var target := drag_index
+		if event.keycode == KEY_UP:
+			target -= 1
+		elif event.keycode == KEY_DOWN:
+			target += 1
+		if target != drag_index and drag_receiver.is_valid():
+			drag_receiver.call(drag_index, target)
+			accept_event()
 
 
 func _on_hover(on: bool) -> void:

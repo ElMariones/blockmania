@@ -80,6 +80,9 @@ const PLAYLISTS := {
 	"round": ["eight_by_eight", "rainy_arcade", "clear_skies", "night_shift"],
 	"shop": ["the_toybox"],
 	"boss": ["last_call"],
+	"endless_calm": ["blockhead_lullaby", "rainy_arcade", "clear_skies"],
+	"endless_tense": ["night_shift", "last_call"],
+	"endless_party": ["the_toybox", "eight_by_eight"],
 }
 ## A breath of silence between tracks, like an ambient soundtrack (seconds).
 const GAP := Vector2(2.5, 6.0)

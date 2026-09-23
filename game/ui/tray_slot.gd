@@ -20,10 +20,13 @@ const MINI_CELL := 44.0
 
 
 func _ready() -> void:
+	focus_mode = Control.FOCUS_ALL
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	mouse_entered.connect(func() -> void: hovered = true)
 	mouse_exited.connect(func() -> void: hovered = false)
+	focus_entered.connect(func() -> void: focused_by_key = BMStyle.is_keyboard_focus_visible())
+	focus_exited.connect(func() -> void: focused_by_key = false)
 
 
 func setup(new_shape: Dictionary, is_held: bool, shape_fits: bool) -> void:
@@ -38,11 +41,15 @@ func _gui_input(event: InputEvent) -> void:
 		if not shape.is_empty():
 			pressed.emit(slot)
 			accept_event()
+	elif event is InputEventKey and event.pressed and event.is_action("ui_accept"):
+		if not shape.is_empty():
+			pressed.emit(slot)
+			accept_event()
 
 
 func _process(delta: float) -> void:
 	_t += delta
-	var target := 1.0 if (hovered or focused_by_key) and not held and not shape.is_empty() else 0.0
+	var target := 1.0 if (hovered or (focused_by_key and BMStyle.is_keyboard_focus_visible())) and not held and not shape.is_empty() else 0.0
 	_lift = move_toward(_lift, target, delta * 8.0)
 	queue_redraw()
 
@@ -50,7 +57,7 @@ func _process(delta: float) -> void:
 func _draw() -> void:
 	var r := Rect2(Vector2.ZERO, size)
 	draw_style_box(BMStyle.box("panel_inset", Vector4.ZERO), r)
-	if (hovered or focused_by_key) and not shape.is_empty() and not held:
+	if (hovered or (focused_by_key and BMStyle.is_keyboard_focus_visible())) and not shape.is_empty() and not held:
 		draw_rect(r.grow(-6), Color(BMStyle.SUN, 0.10))
 	# Key tag.
 	var tag := Rect2(Vector2(10, 10), Vector2(28, 28))

@@ -26,6 +26,7 @@ var _drift: Control
 var _seed_edit: LineEdit
 var _continue: Button
 var _new: Button
+var _endless_continue: Button
 var _t := 0.0
 var _intro_t := 0.0
 var _landed := 0 ## logo letters that have played their landing sound
@@ -59,8 +60,8 @@ func _ready() -> void:
 	stage.add_child(tag)
 
 	var menu := BMStyle.vbox(16)
-	menu.position = Vector2((STAGE.x - 520) / 2.0, 464)
-	menu.size = Vector2(520, 420)
+	menu.position = Vector2((STAGE.x - 600) / 2.0, 414)
+	menu.size = Vector2(600, 560)
 	stage.add_child(menu)
 	_continue = BMStyle.button("CONTINUE RUN", func() -> void: main.continue_run(), "mint", 40)
 	_continue.custom_minimum_size.y = 92
@@ -68,6 +69,16 @@ func _ready() -> void:
 	_new = BMStyle.button("NEW RUN", _new_run, "sun", 40)
 	_new.custom_minimum_size.y = 92
 	menu.add_child(_new)
+	var endless := BMStyle.button("∞  ENDLESS", func() -> void: main.start_endless(), "sky", 40)
+	endless.custom_minimum_size.y = 80
+	endless.tooltip_text = "Relaxed block placement. Clear rows and columns, build a combo, and chase your best score."
+	menu.add_child(endless)
+	_endless_continue = BMStyle.button("CONTINUE ENDLESS", func() -> void: main.continue_endless(), "mint", 30)
+	_endless_continue.custom_minimum_size.y = 64
+	menu.add_child(_endless_continue)
+	var scores := BMStyle.button("HIGH SCORES", _show_high_scores, "plum", 30)
+	scores.custom_minimum_size.y = 64
+	menu.add_child(scores)
 	var seed_row := BMStyle.hbox(10)
 	menu.add_child(seed_row)
 	seed_row.add_child(BMStyle.label("SEED", 30, BMStyle.TEXT_DIM, true, 8))
@@ -102,6 +113,7 @@ func _ready() -> void:
 func refresh() -> void:
 	stage.position = ((size - STAGE) / 2.0).round()
 	_continue.visible = BMSaveStore.has_run()
+	_endless_continue.visible = BMEndlessStore.load_game() != null
 	_intro_t = 0.0
 	_landed = 0
 	focus_default()
@@ -109,6 +121,37 @@ func refresh() -> void:
 
 func focus_default() -> void:
 	BMStyle.focus_later((_continue if _continue.visible else _new))
+
+
+func _show_high_scores() -> void:
+	var shade := ColorRect.new()
+	shade.color = Color(BMStyle.INK, 0.86)
+	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	stage.add_child(shade)
+	var panel := BMStyle.panel("panel_plate", Vector4(20, 16, 20, 20))
+	panel.position = Vector2(530, 145)
+	panel.size = Vector2(860, 790)
+	shade.add_child(panel)
+	var content := BMStyle.vbox(16)
+	panel.add_child(content)
+	var heading := BMStyle.label("∞  ENDLESS HIGH SCORES", 40, BMStyle.SUN, true, 10)
+	heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	content.add_child(heading)
+	var entries := BMEndlessStore.high_scores()
+	if entries.is_empty():
+		content.add_child(BMStyle.label("No games finished yet. Your first score is waiting.", 30, BMStyle.CREAM))
+	else:
+		for i in entries.size():
+			var item: Dictionary = entries[i]
+			var row := BMStyle.label("%02d    %s    %d lines    x%d combo    %s" % [i + 1, BMUI.fmt_int(int(item.score)), int(item.lines), int(item.combo), String(item.date)], 20, BMStyle.CREAM, true)
+			content.add_child(row)
+	var spacer := Control.new()
+	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	content.add_child(spacer)
+	var back := BMStyle.button("BACK", func() -> void: shade.queue_free(), "sky", 30)
+	back.custom_minimum_size.y = 72
+	content.add_child(back)
+	BMStyle.focus_later(back)
 
 
 func _new_run() -> void:

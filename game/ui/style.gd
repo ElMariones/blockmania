@@ -38,6 +38,8 @@ static var _nine := {}
 static var font: FontFile
 static var font_bold: FontFile
 static var _theme: Theme
+static var _focus_visible := false
+static var _focus_styles: Array[StyleBoxFlat] = []
 
 
 static func load_fonts() -> void:
@@ -119,7 +121,7 @@ static func focus_box() -> StyleBoxFlat:
 	var sb := StyleBoxFlat.new()
 	sb.draw_center = false
 	# Hugs the button face (the kit's buttons have a 3-art-px depth lip at the bottom).
-	sb.border_color = CREAM
+	sb.border_color = CREAM if _focus_visible else Color.TRANSPARENT
 	sb.set_border_width_all(4)
 	sb.set_corner_radius_all(8)
 	sb.corner_detail = 2
@@ -128,7 +130,27 @@ static func focus_box() -> StyleBoxFlat:
 	sb.expand_margin_top = 4
 	sb.expand_margin_bottom = -8
 	sb.anti_aliasing = false
+	_focus_styles.append(sb)
 	return sb
+
+
+## A pointer can leave a control focused in Godot. Keep that focus for accessibility,
+## but draw its outline only after a keyboard action.
+static func set_keyboard_focus_visible(visible: bool) -> void:
+	if _focus_visible == visible:
+		return
+	_focus_visible = visible
+	for sb in _focus_styles:
+		sb.border_color = CREAM if visible else Color.TRANSPARENT
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree != null:
+		var focused := tree.root.gui_get_focus_owner()
+		if focused != null:
+			focused.queue_redraw()
+
+
+static func is_keyboard_focus_visible() -> bool:
+	return _focus_visible
 
 
 static func make_theme() -> Theme:

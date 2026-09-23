@@ -329,20 +329,21 @@ func refresh_all() -> void:
 		var id := run.jokers[i]
 		var card := BMCard.joker_rack(run, id)
 		card.reduced_motion = main.settings.reduced_motion
+		card.drag_index = i
+		card.drag_enabled = true
+		card.drag_receiver = func(from: int, to: int) -> void:
+			if to >= 0 and to < run.jokers.size():
+				_act({"a": "move", "from": from, "to": to})
+				if to < _owned_box.get_child_count():
+					BMStyle.focus_later(_owned_box.get_child(to) as Control)
+		card.tooltip_body += "\nDrag onto another Joker to reorder. Alt+Up/Down while focused also moves it."
 		var wrap := Control.new()
 		wrap.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		wrap.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		var bar := BMStyle.hbox(4)
 		wrap.add_child(bar)
-		var up := BMStyle.button("", func() -> void: _act({"a": "move", "from": i, "to": i - 1}), "plum", 20)
-		up.icon = BMStyle.tex("icon_arrow_up")
-		up.disabled = i == 0
-		var down := BMStyle.button("", func() -> void: _act({"a": "move", "from": i, "to": i + 1}), "plum", 20)
-		down.icon = BMStyle.tex("icon_arrow_down")
-		down.disabled = i == run.jokers.size() - 1
 		var sell := BMStyle.button("SELL +%d" % BMJokers.sell_value(id), func() -> void: _act({"a": "sell", "i": i}), "pink", 20)
-		for b in [up, down, sell]:
-			bar.add_child(b)
+		bar.add_child(sell)
 		wrap.resized.connect(func() -> void:
 			bar.reset_size()
 			bar.position = Vector2(wrap.size.x - bar.size.x - 10, wrap.size.y - bar.size.y - 8))

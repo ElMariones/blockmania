@@ -57,6 +57,7 @@ If documents conflict, resolve the discrepancy in favor of the owner's latest in
 | Path | Responsibility |
 |---|---|
 | `game/rules/` | Pure rules: `BMBoard` (cells + owner/material layers), `BMRngStream`, `BMBag` (draw/discard piles, dealing, legality guarantee), `BMResolver` (placement pipeline). No nodes. |
+| `game/rules/endless.gd`, `game/run/endless_store.gd`, `game/ui/endless_screen.gd` | Separate Endless arcade rules, independent progress/top-ten saves, and cabinet UI. Endless does not mutate or serialize the campaign `BMRun`. |
 | `game/content/` | Data catalogs with stable string IDs: `BMShapes`, `BMPieces` (starter bag, materials, stamps, Schematic values), `BMTools` (Workshop cards), `BMJokers` (+ effect functions), `BMConsumables`, `BMBosses`, `BMRunConfig` (targets, economy, Kits). |
 | `game/run/` | `BMRun` (complete run state + every player command, history, replay, `to_dict`/`from_dict`) and `BMSaveStore` (local saves/settings). |
 | `game/ui/` | Screens and widgets built in code on a fixed 1920×1080 `stage` centered for any aspect: `BMGameScreen`, `BMShopScreen` (with the Workshop picker), `BMTitleScreen`, `BMBoardView`, `BMTraySlot`, `BMBagView`, `BMPieceTile`, `BMCard` (Joker/item racks, shop offer cards, emblems), `BMHud` (marquee, tube, lamps, rolling counter, receipt), `BMStyle` (palette, fonts, 9-slice boxes, buttons, theme), `BMUI` (formatting). |
@@ -74,6 +75,7 @@ Future: `assets/export`. Godot resource paths and stable IDs (Joker/boss/item/sh
 ### Architecture rules in force
 
 - Every player action is a `BMRun` command returning a result Dictionary. UI calls only `BMMain.act(action_dict)`, which applies, autosaves, and routes. Never mutate `BMRun` from UI code.
+- Endless actions go through `BMMain.endless_act(action_dict)` into `BMEndless`, then `BMEndlessStore`; keep its score and RNG independent of campaign rules and saves.
 - The placement pipeline lives only in `BMResolver.resolve_placement`. Score previews run it on `run.clone()`, so preview equals result by construction.
 - New Joker: add a `CATALOG` entry in `game/content/jokers.gd`, implement its phase function (`chips` / `add_mult` / `x_mult`) or rule hook in `BMRun`/`BMResolver`, add a trigger and a no-trigger test in `tests/test_jokers.gd`, and make sure the card text matches the code. Set `implemented: false` to keep an unfinished card out of the shop.
 - The Bag: trays are dealt only through `BMBag`. Every bag piece has a unique `uid`, and each piece is in exactly one of the draw pile, the tray, or the discard pile (a test enforces this). Temporary pieces have `uid -1` and `temporary: true` and never enter a pile. Bag edits (`buy_tool`, `buy_piece`) happen only in the shop.
@@ -86,6 +88,7 @@ Future: `assets/export`. Godot resource paths and stable IDs (Joker/boss/item/sh
 - Fonts: Blockhead's em is 10 font pixels; use sizes 20 / 30 / 40 / 60 / 80 only, so glyphs stay on the pixel grid.
 - Lambdas that run later (timers, `call_deferred`) must not capture nodes that can be freed; capture a `weakref()` instead (a freed capture logs an engine error).
 - Presentation never changes results: particles, the CRT, the background and animations read resolution records only, and reduced motion keeps all information.
+- Keyboard focus outlines appear only after keyboard input; pointer input hides them without clearing focus. Owned Joker cards reorder by drag and drop, with Alt+Up/Down for keyboard access.
 
 ### Commands
 

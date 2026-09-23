@@ -12,6 +12,7 @@ var backdrop: BMSwirlBackground
 var title_screen: BMTitleScreen
 var game_screen: BMGameScreen
 var shop_screen: BMShopScreen
+var endless_screen: BMEndlessScreen
 var fx: BMFx
 var crt: BMCrtLayer
 var audio: BMAudio
@@ -40,6 +41,9 @@ func _ready() -> void:
 	shop_screen = BMShopScreen.new()
 	shop_screen.main = self
 	add_child(shop_screen)
+	endless_screen = BMEndlessScreen.new()
+	endless_screen.main = self
+	add_child(endless_screen)
 	fx = BMFx.new()
 	add_child(fx)
 	_pause = Control.new()
@@ -77,6 +81,31 @@ func show_title() -> void:
 	BMAudio.music("title")
 
 
+func start_endless() -> void:
+	endless_screen.bind(BMEndless.new_game(BMRun.random_seed()))
+	BMEndlessStore.record(endless_screen.game)
+	_show(endless_screen)
+	backdrop.set_mood("endless_calm")
+	BMAudio.music("endless_calm")
+
+
+func continue_endless() -> void:
+	var game := BMEndlessStore.load_game()
+	if game == null:
+		show_title()
+		return
+	endless_screen.bind(game)
+	_show(endless_screen)
+	endless_screen.update_mood()
+
+
+func endless_act(action: Dictionary) -> Dictionary:
+	var result := endless_screen.game.apply_action(action)
+	if result.ok:
+		BMEndlessStore.record(endless_screen.game)
+	return result
+
+
 ## The single entry point for player actions. Returns the rules result.
 func act(a: Dictionary) -> Dictionary:
 	if run == null:
@@ -110,7 +139,7 @@ func _route(rebind: bool) -> void:
 
 
 func _show(screen: Control) -> void:
-	for s in [title_screen, game_screen, shop_screen]:
+	for s in [title_screen, game_screen, shop_screen, endless_screen]:
 		s.visible = s == screen
 		s.process_mode = Node.PROCESS_MODE_INHERIT if s == screen else Node.PROCESS_MODE_DISABLED
 	var st: Variant = screen.get("stage")
@@ -127,7 +156,7 @@ func is_paused() -> bool:
 
 
 func show_pause() -> void:
-	if run == null:
+	if run == null and not endless_screen.visible:
 		return
 	_open_menu(true)
 
@@ -159,7 +188,8 @@ func _open_menu(in_run: bool) -> void:
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(title)
 	if in_run:
-		var info := BMStyle.label("Round %d  -  Seed %d" % [run.round_number, run.run_seed], 20, BMStyle.TEXT_DIM, false, 6)
+		var info_text := "ENDLESS  -  Seed %d" % endless_screen.game.seed if endless_screen.visible else "Round %d  -  Seed %d" % [run.round_number, run.run_seed]
+		var info := BMStyle.label(info_text, 20, BMStyle.TEXT_DIM, false, 6)
 		info.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		v.add_child(info)
 	var cols := BMStyle.hbox(28)
@@ -180,12 +210,16 @@ func _open_menu(in_run: bool) -> void:
 		var row := BMStyle.hbox(10)
 		left.add_child(row)
 		var save := BMStyle.button("SAVE & QUIT", func() -> void:
-			BMSaveStore.save_run(run)
+			if endless_screen.visible:
+				BMEndlessStore.record(endless_screen.game)
+			else:
+				BMSaveStore.save_run(run)
 			show_title(), "plum", 20)
 		save.custom_minimum_size.y = 60
 		save.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(save)
 		var abandon := BMStyle.button("ABANDON RUN...", func() -> void: pass, "pink", 20)
+		abandon.visible = not endless_screen.visible
 		abandon.custom_minimum_size.y = 60
 		abandon.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		abandon.pressed.connect(func() -> void:
@@ -294,6 +328,11 @@ func _controls_table() -> Control:
 		["M", "Sound on / off"],
 		["ESC", "Pause"],
 	]
+	if endless_screen.visible:
+		rows = [["MOUSE", "Drag a piece, or click it then a cell"],
+			["1  2  3", "Pick up a piece"], ["ARROWS", "Move the held piece"],
+			["ENTER", "Place it"], ["ESC", "Pause or return a piece"],
+			["ALT+UP/DOWN", "Move a focused Joker (campaign only)"], ["M", "Sound on / off"]]
 	for row in rows:
 		var k := BMStyle.label(row[0], 20, BMStyle.SUN, true, 6)
 		k.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
@@ -331,6 +370,8 @@ func _apply_settings() -> void:
 	if game_screen.run != null:
 		game_screen._apply_motion()
 		game_screen.refresh_all()
+	if endless_screen.game != null:
+		endless_screen.apply_settings()
 
 
 func close_pause() -> void:
@@ -341,6 +382,15 @@ func close_pause() -> void:
 		audio.set_muffled(false)
 	if was_open and title_screen.visible:
 		title_screen.focus_default()
+	elif was_open and endless_screen.visible:
+		endless_screen.focus_default()
+
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed:
+		BMStyle.set_keyboard_focus_visible(true)
+	elif event is InputEventMouseButton or event is InputEventMouseMotion:
+		BMStyle.set_keyboard_focus_visible(false)
 
 
 func _apply_motion_setting() -> void:

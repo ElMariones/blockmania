@@ -30,6 +30,18 @@ func set_motion(enabled: bool) -> void:
 ## Palette shift for context (e.g. boss rounds glow hotter).
 func set_mood(mood: String) -> void:
 	match mood:
+		"endless_calm":
+			_mat.set_shader_parameter("col_mid", Color("#243d57"))
+			_mat.set_shader_parameter("col_hot", Color("#397e89"))
+			_mat.set_shader_parameter("col_teal", Color("#193944"))
+		"endless_tense":
+			_mat.set_shader_parameter("col_mid", Color("#4d173e"))
+			_mat.set_shader_parameter("col_hot", Color("#d94b58"))
+			_mat.set_shader_parameter("col_teal", Color("#302043"))
+		"endless_party":
+			_mat.set_shader_parameter("col_mid", Color("#65368a"))
+			_mat.set_shader_parameter("col_hot", Color("#f26a9f"))
+			_mat.set_shader_parameter("col_teal", Color("#278e95"))
 		"boss":
 			_mat.set_shader_parameter("col_mid", Color("#4a1330"))
 			_mat.set_shader_parameter("col_hot", Color("#b3263f"))

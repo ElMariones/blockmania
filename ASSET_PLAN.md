@@ -177,3 +177,7 @@ Everything below is original, authored as code in this repository, and regenerat
 | Chunky block logo with drop-in, bob and shine | `game/ui/title_screen.gd` | runtime | Placeholder logo until a final one is commissioned |
 
 Screens covered: title (+ Options), round HUD (score machine, marquee, receipt, Joker rack, items, tray, Refresh/Concede), round intro, round result, run end, pause, bag view, shop ("The Toybox") and Workshop picker. Checked at 1920×1080, 1280×720, 1680×1050 (16:10) and 2560×1080 (ultrawide).
+
+## 13. Endless arcade mode (2026-09-23)
+
+The main menu has an infinity-marked Endless entry, Continue Endless, and a local high-score view. Its cabinet reuses the original board, tray, block textures, clear waves, CRT option, particles, and existing SFX. The swirl shader has calm teal, tense rose, and celebratory multicolor moods; existing original tracks are grouped into matching playlists. Large combos add capped confetti, while reduced motion retains score and mood text. The Endless screen and game-over card are code-built UI; no new external media or generated-image art is used. Visual checks: 1920×1080 and 1280×720 screenshots; human comfort/listening review remains open.

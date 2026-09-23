@@ -555,3 +555,13 @@ Findings that changed provisional numbers:
 2. Should Workshop cards also be usable during a round (targeting only draw-pile pieces), like Balatro's tarots? The prototype keeps bag edits in the shop for clarity.
 3. Should materials and stamps be sold in packs with a choose-1-of-3 reveal? It adds excitement but also UI time.
 4. Glass shatter currently removes the piece even if it has a stamp. Should stamped Glass be protected?
+
+## 17. Endless arcade mode (owner request, 2026-09-23)
+
+Endless is a separate, low-pressure game on the same 8×8 board. There are no rounds, targets, Credits, Jokers, shops, bag edits, Refresh, or bosses. A new game offers three weighted, randomly colored and oriented shapes. The player may place any offered shape without a timer. Used slots stay empty until all three are placed, then a new tray is dealt. There is no legality rescue: the game ends when none of the currently offered shapes fits anywhere. Completed rows and columns clear together without gravity, as in the campaign.
+
+**Score (provisional):** each placed cell earns 10 points; each completed row or column earns `100 × current combo`. Multiple lines on one placement each earn this amount; crossing cells clear only once. The first clearing placement scores at x1. Each further clearing placement increases the combo by one, including when one non-clearing placement intervenes. Two consecutive placements without any line clear reset the combo to x1; the next clear starts a new chain at x1. The combo has no cap in Endless. The score is applied once by the rules layer before visual effects play.
+
+An unfinished Endless game autosaves after each placement and is resumed from **Continue Endless**. Finished scores enter a local, offline top-ten board with score, seed, lines, best combo, and date. Endless uses a separate save from the campaign, so each can be resumed independently. The shape RNG state is saved as a string-valued 64-bit state for deterministic resume.
+
+The Endless cabinet uses the same block art, CRT option, clear waves, particles, SFX, and reduced-motion behavior. Its calm, tension, and celebration palettes/music are selected from board occupancy, score, and combo. Celebration starts at x4; tension starts at 68% board occupancy, or at 48% after 5,000 points. Celebration has priority while the chain lasts. These thresholds and shape weights are playtest values, not settled balance. Music uses the existing original tracks in separate playlists.

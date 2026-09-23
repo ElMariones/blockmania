@@ -198,7 +198,7 @@ func _build() -> void:
 	_at(jh, Vector2(1376, 16), Vector2(508, 40))
 	_jokers_header = BMStyle.header("JOKERS", 30)
 	jh.add_child(_jokers_header)
-	var hint := BMStyle.label("top resolves first", 20, BMStyle.TEXT_DIM, false, 6)
+	var hint := BMStyle.label("drag to reorder  |  top first", 20, BMStyle.TEXT_DIM, false, 6)
 	hint.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	jh.add_child(hint)
@@ -334,6 +334,14 @@ func _refresh_jokers() -> void:
 		var id := run.jokers[i]
 		var card := BMCard.joker_rack(run, id)
 		card.reduced_motion = main.settings.reduced_motion
+		card.drag_index = i
+		card.drag_enabled = can_edit
+		card.drag_receiver = func(from: int, to: int) -> void:
+			if to >= 0 and to < run.jokers.size():
+				_do_action({"a": "move", "from": from, "to": to})
+				if to < _joker_cards.size():
+					BMStyle.focus_later(_joker_cards[to])
+		card.tooltip_body += "\nDrag onto another Joker to reorder. Alt+Up/Down while focused also moves it."
 		var ctrl := _joker_controls(i, id, can_edit)
 		card.hover_controls = ctrl
 		ctrl.visible = false
@@ -350,25 +358,16 @@ func _refresh_jokers() -> void:
 		_jokers_box.add_child(empty)
 
 
-## Floating toolbar shown while hovering a Joker: move up/down and sell.
+## Floating toolbar shown while hovering a Joker: selling stays a button; drag to reorder.
 func _joker_controls(i: int, id: String, can_edit: bool) -> Control:
 	var wrap := Control.new()
 	wrap.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	wrap.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var bar := BMStyle.hbox(4)
 	wrap.add_child(bar)
-	var up := BMStyle.button("", func() -> void: _do_action({"a": "move", "from": i, "to": i - 1}), "plum", 20)
-	up.icon = BMStyle.tex("icon_arrow_up")
-	up.tooltip_text = "Move up (resolves earlier)"
-	up.disabled = i == 0 or not can_edit
-	var down := BMStyle.button("", func() -> void: _do_action({"a": "move", "from": i, "to": i + 1}), "plum", 20)
-	down.icon = BMStyle.tex("icon_arrow_down")
-	down.tooltip_text = "Move down (resolves later)"
-	down.disabled = i == run.jokers.size() - 1 or not can_edit
 	var sell := BMStyle.button("SELL +%d" % BMJokers.sell_value(id), func() -> void: _confirm_sell(i), "pink", 20)
 	sell.disabled = not can_edit
-	for b in [up, down, sell]:
-		bar.add_child(b)
+	bar.add_child(sell)
 	wrap.resized.connect(func() -> void:
 		bar.reset_size()
 		bar.position = Vector2(wrap.size.x - bar.size.x - 10, wrap.size.y - bar.size.y - 8))
