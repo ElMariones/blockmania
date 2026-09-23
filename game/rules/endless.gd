@@ -206,22 +206,33 @@ func _hold_piece(index: int) -> Dictionary:
 		return {"ok": false, "error": "Select a piece to hold."}
 	var outgoing: Dictionary = tray[index]
 	var incoming: Dictionary = held
+	var new_trio := false
 	if incoming.is_empty():
-		# Store this shape and replace its slot. Guarantee a playable replacement
-		# if the other offered pieces do not fit.
-		tray[index] = _draw_shape()
-		if not _any_tray_fits() and board.empty_count() > 0:
-			tray[index] = _draw_legal_shape()
+		tray[index] = {}
+		held = outgoing
+		hold_used = true
+		if tray.all(func(s: Dictionary) -> bool: return s.is_empty()):
+			# Holding the last offer starts a fresh, fair three-piece tray.
+			_deal()
+			new_trio = true
+		else:
+			# Other offers remain: replace only the held slot, keeping at least
+			# one legal option if the board still has space.
+			tray[index] = _draw_shape()
+			if not _any_tray_fits() and board.empty_count() > 0:
+				tray[index] = _draw_legal_shape()
+			_check_game_over()
 	else:
 		tray[index] = incoming
 		if not _any_tray_fits():
 			tray[index] = outgoing
 			return {"ok": false, "error": "That swap leaves no playable piece."}
-	held = outgoing
-	hold_used = true
-	_check_game_over()
+		held = outgoing
+		hold_used = true
+		_check_game_over()
 	history.append({"a": "hold", "i": index})
-	return {"ok": true, "type": "hold", "stored": outgoing, "drawn": tray[index], "over": over}
+	return {"ok": true, "type": "hold", "stored": outgoing, "drawn": tray[index],
+		"new_trio": new_trio, "over": over}
 
 
 func to_dict() -> Dictionary:

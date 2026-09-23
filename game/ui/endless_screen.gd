@@ -386,10 +386,10 @@ func _hold_selected() -> void:
 		BMAudio.sfx("deny")
 		_marquee.flash(String(result.error).to_upper(), BMStyle.PINK_L, 1.8)
 		return
-	BMAudio.sfx("putback")
+	BMAudio.sfx("deal" if result.new_trio else "putback")
 	_cancel()
 	refresh_all()
-	_marquee.flash("PIECE HELD  •  PLACE TO RECHARGE", BMStyle.MINT_L, 1.4)
+	_marquee.flash("NEW TRIO  •  PIECE HELD" if result.new_trio else "PIECE HELD  •  PLACE TO RECHARGE", BMStyle.MINT_L, 1.4)
 
 
 func _update_ghost() -> void:

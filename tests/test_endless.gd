@@ -172,8 +172,10 @@ func test_hold_swaps_once_per_placement_and_survives_save() -> void:
 	g.tray = [BMShapes.make_shape(&"single", 0, 0), BMShapes.make_shape(&"bar2", 0, 1), BMShapes.make_shape(&"square2", 0, 2)]
 	var stored := g.apply_action({"a": "hold", "i": 0})
 	check(stored.ok, "first hold")
+	check(not stored.new_trio, "holding before the last offer replaces one slot")
 	eq(g.held.family, &"single", "stored Single")
 	check(not g.tray[0].is_empty(), "replacement drawn")
+	eq(g.tray[1].family, &"bar2", "other offered pieces stay in the tray")
 	check(not g.apply_action({"a": "hold", "i": 1}).ok, "one hold before placement")
 	var resumed := BMEndless.from_dict(JSON.parse_string(JSON.stringify(g.to_dict())))
 	eq(resumed.held.family, &"single", "hold saved")
@@ -184,6 +186,31 @@ func test_hold_swaps_once_per_placement_and_survives_save() -> void:
 	check(swapped.ok, "swap held piece")
 	eq(resumed.tray[1].family, &"single", "stored Single returned")
 	eq(resumed.held.family, &"bar2", "new shape stored")
+
+
+func test_holding_last_offer_deals_fair_full_trio_and_saves_deterministically() -> void:
+	var g := BMEndless.new_game(814)
+	for y in 8:
+		for x in 8:
+			if x != y:
+				g.board.set_cell(Vector2i(x, y), 0)
+	g.tray = [{}, BMShapes.make_shape(&"single", 0, 2), {}]
+	var twin := BMEndless.from_dict(JSON.parse_string(JSON.stringify(g.to_dict())))
+	var held_result := g.apply_action({"a": "hold", "i": 1})
+	var twin_result := twin.apply_action({"a": "hold", "i": 1})
+	check(held_result.ok and held_result.new_trio, "last piece in empty Hold starts a new trio")
+	check(twin_result.ok and twin_result.new_trio, "saved copy makes the same transition")
+	eq(g.tray.filter(func(s: Dictionary) -> bool: return not s.is_empty()).size(), 3, "all three slots refill")
+	check(g._any_tray_fits() and not g.over, "new trio has a legal placement")
+	eq(g.to_dict().tray, twin.to_dict().tray, "seeded new trio matches after save")
+	eq(g.rng.get_state(), twin.rng.get_state(), "deal consumes the same RNG")
+	eq(g.held.family, &"single", "last piece is stored")
+	check(g.hold_used and not g.apply_action({"a": "hold", "i": 0}).ok, "Hold stays used until a placement")
+	eq(g.placements, 0, "new trio does not count as a placement")
+	eq(g.score, 0, "new trio gives no score")
+	var resumed := BMEndless.from_dict(JSON.parse_string(JSON.stringify(g.to_dict())))
+	eq(resumed.to_dict().tray, g.to_dict().tray, "refilled tray survives a second save")
+	check(resumed.hold_used and not resumed.held.is_empty(), "Hold state survives a second save")
 
 
 func test_schema_one_endless_save_migrates() -> void:
