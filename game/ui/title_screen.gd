@@ -28,6 +28,7 @@ var _continue: Button
 var _new: Button
 var _t := 0.0
 var _intro_t := 0.0
+var _landed := 0 ## logo letters that have played their landing sound
 var _drifters: Array = []
 
 
@@ -102,6 +103,7 @@ func refresh() -> void:
 	stage.position = ((size - STAGE) / 2.0).round()
 	_continue.visible = BMSaveStore.has_run()
 	_intro_t = 0.0
+	_landed = 0
 	focus_default()
 
 
@@ -129,6 +131,10 @@ func _process(delta: float) -> void:
 	var rm: bool = main != null and main.settings.reduced_motion
 	_t += delta if not rm else 0.0
 	_intro_t += delta
+	# Letters land at the end of their drop (see _draw_logo): li * 0.07 + 0.45 s.
+	while _landed < WORD.length() and _intro_t >= _landed * 0.07 + 0.45:
+		BMAudio.sfx("letter", BMAudio.scale_pitch(_landed), -3.0)
+		_landed += 1
 	if not rm:
 		for d in _drifters:
 			d.pos.y += d.speed * delta

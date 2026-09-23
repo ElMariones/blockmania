@@ -122,6 +122,8 @@ The layout exploration above was realized as code-authored pixel art; see §12. 
 
 Deliver editable audio masters plus engine-ready exports, with a naming/version ledger, loop points, and license/source notes. Mix for repeated short events and test with music both on and off.
 
+**2026-09-23 production status:** seven original, code-composed lo-fi tracks and 59 synthesized SFX are exported in `assets/audio/`. Editable source is in `tools/audio/`; IDs, formats, durations, and provenance are in `assets/audio/AUDIO_MANIFEST.md`. Playback and settings are implemented in `game/audio/audio.gd` and the Options/pause screen. Tracks play once with a short pause and are selected by screen context; they are not seamless loops. Human listening, speaker/headphone mix review, and any mastering changes remain open before calling the audio final.
+
 ## 9. Steam and external deliverables
 
 Steamworks currently lists the following dimensions. **Recheck the live templates and rules immediately before upload** because platform requirements can change. Source: [Steamworks graphical assets overview](https://partner.steamgames.com/doc/store/assets), [store art details](https://partner.steamgames.com/doc/store/assets/standard), and [graphical asset rules](https://partner.steamgames.com/doc/store/assets/rules).

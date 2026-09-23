@@ -56,7 +56,10 @@ static func clear_run() -> void:
 
 
 static func load_settings() -> Dictionary:
-	var s := {"reduced_motion": false, "block_patterns": false, "fast_animations": false, "crt": "soft"}
+	var s := {"reduced_motion": false, "block_patterns": false, "fast_animations": false, "crt": "soft",
+		# Audio: volumes are 0..1; "muted" silences everything, "music_on" only the soundtrack.
+		"master_volume": 0.8, "music_volume": 0.6, "sfx_volume": 0.8,
+		"muted": false, "music_on": true, "mute_unfocused": false}
 	var cfg := ConfigFile.new()
 	if cfg.load(SETTINGS_PATH) == OK:
 		for k in s:

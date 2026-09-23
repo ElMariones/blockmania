@@ -1,6 +1,6 @@
 """Dev-only screenshot runner. Launches the game as a separate background process (never through
-the editor, never taking focus, window placed off-screen), runs a GDScript fixture, saves a PNG
-of the final frame and quits.
+the editor, never taking focus, window placed off-screen, audio muted via the Dummy driver),
+runs a GDScript fixture, saves a PNG of the final frame and quits.
 
 Usage:
     python tools/shoot.py fixture.gd [out.png] [WIDTHxHEIGHT]
@@ -51,7 +51,7 @@ func _go() -> void:
 	quit()
 ''' % (work, out))
     cmd = [GODOT, "--path", PROJECT, "--resolution", res, "--position", "%d,%d" % (-w - 400, -h - 400),
-           "--windowed", "--script", work + "/runner.gd"]
+           "--windowed", "--audio-driver", "Dummy", "--script", work + "/runner.gd"]
     flags = 0x08000000 if os.name == "nt" else 0  # CREATE_NO_WINDOW: no console flash
     p = subprocess.run(cmd, capture_output=True, text=True, timeout=180, creationflags=flags)
     txt = p.stdout + p.stderr

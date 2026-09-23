@@ -3,7 +3,7 @@
 Living backlog. Update it in the same commit as the work. Milestones follow GDD §12.
 Legend: `[x]` done · `[~]` partial · `[ ]` open · **(owner)** needs a project-owner decision.
 
-_Last updated: 2026-09-23 — the Bag (customizable pieces), 14 new Jokers, Workshop, simulation harness, target retune._
+_Last updated: 2026-09-23 — original synthesized music/SFX and audio options added._
 
 ## M0 — Rules prototype
 
@@ -38,7 +38,7 @@ _Last updated: 2026-09-23 — the Bag (customizable pieces), 14 new Jokers, Work
 - [x] Save schema 2 (schema-1 prototype saves ignored); replays include bag edits.
 - [x] Tests: dealing, pile accounting invariant, guarantee, every material/stamp/tool, new Jokers, save/replay of bag edits.
 - [ ] Workshop usable during rounds? Packs with choose-1-of-3? Kit-specific starter bags? (owner, GDD §16.10)
-- [ ] Bag-edit feedback animation (piece glides into the bag, shatter effect) and audio cues.
+- [ ] Bag-edit feedback animation (piece glides into the bag, shatter effect); basic bag/workshop audio cues are in.
 - [ ] Autoplayer: smarter Workshop targeting (it favors large pieces, which are drawn no more often than small ones).
 
 ## M1 — Vertical slice (in progress)
@@ -51,7 +51,9 @@ _Last updated: 2026-09-23 — the Bag (customizable pieces), 14 new Jokers, Work
 - [x] Joker trigger presentation in resolution order: sequenced card pulses with Chips/Mult pop text (capped at 6 per placement).
 - [x] Score count-up (rolling counter, liquid tube) and clear VFX (sweep, wave-delayed bursts, shards, streams, CRT shock).
 - [ ] Fast Animations toggle; skip input for sequences.
-- [ ] Audio: placeholder SFX families (pickup, place by size, clears 1/2/3+, invalid, purchase) — no audio yet.
+- [x] Audio: 59 synthesized effect files for UI, pieces, clears, combos, economy, Jokers, bag, and results; seven original lo-fi tracks for title, round, shop and boss contexts.
+- [x] Audio options: master/music/effects levels, sound and music switches, background mute, Next Song, and `M` shortcut; settings persist separately from runs.
+- [ ] Human listening pass on target speakers/headphones: balance repetitive effects, confirm music pacing and cue comfort; adjust mixes after feedback.
 - [x] **UI overhaul** (2026-09-23): original pixel-art kit and Blockhead fonts generated as code, swirl shader background, CRT filter (Off/Soft/Full), particle VFX, new title/round/shop/pause/bag/modals. See ASSET_PLAN §12.
 - [x] Image-generator art (`assets/source/generated/`) reviewed by the owner: **not adopted**.
 - [x] Layout verified at 1920×1080, 1280×720, 1680×1050 and 2560×1080 with `tools/shoot.py`; stage children checked for minimum-size overflow.
@@ -65,7 +67,7 @@ _Last updated: 2026-09-23 — the Bag (customizable pieces), 14 new Jokers, Work
 - [ ] Kit selection screen (Standard / Compact / High Roller) + unlock tracking (100 lines, win a run).
 - [ ] Practice mode (choose seed, Kit, bosses, Jokers; Undo; no records).
 - [ ] Collection / run history / discovery.
-- [ ] Settings screen: audio buses, display mode, UI scale 75–150%, input remapping, colorblind presets, high-contrast grid.
+- [~] Settings screen: audio controls are present; display mode, UI scale 75–150%, input remapping, colorblind presets, high-contrast grid remain.
 - [ ] Save schema migrations (`BMSaveStore.load_run` has the hook) + corruption recovery UI.
 - [ ] Daily Challenge (optional for launch).
 - [ ] Remove or gate the `_mcp_game_helper` autoload in release exports (dev-only tooling).

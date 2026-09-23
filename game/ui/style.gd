@@ -209,6 +209,11 @@ static func button(text: String, callback: Callable, kind: String = "sun", size:
 	b.add_theme_font_size_override("font_size", size)
 	button_boxes(b, kind)
 	b.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	# Sound first, so a callback that plays its own sound (buy, sell...) layers on top.
+	b.pressed.connect(func() -> void: BMAudio.sfx("click"))
+	b.mouse_entered.connect(func() -> void:
+		if not b.disabled:
+			BMAudio.sfx("hover"))
 	b.pressed.connect(callback)
 	return b
 

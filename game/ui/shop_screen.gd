@@ -194,6 +194,7 @@ func bind(new_run: BMRun) -> void:
 func _act(a: Dictionary) -> Dictionary:
 	var before := run.credits
 	var r: Dictionary = main.act(a)
+	_play_result_sound(a, r)
 	if r.ok and a.a in ["buy_tool", "buy_piece", "buy_joker", "buy_consumable"]:
 		_message.add_theme_color_override("font_color", BMStyle.MINT_L)
 		_message.text = _purchase_text(r)
@@ -213,6 +214,23 @@ func _act(a: Dictionary) -> Dictionary:
 	if run.phase == BMRun.Phase.SHOP:
 		refresh_all()
 	return r
+
+
+func _play_result_sound(a: Dictionary, r: Dictionary) -> void:
+	if not r.ok:
+		BMAudio.sfx("deny")
+		return
+	match String(a.a):
+		"buy_tool":
+			BMAudio.sfx("workshop")
+		"buy_joker", "buy_consumable", "buy_piece":
+			BMAudio.sfx("buy")
+		"sell":
+			BMAudio.sfx("sell")
+		"reroll":
+			BMAudio.sfx("reroll")
+		"move":
+			BMAudio.sfx("tick")
 
 
 func _purchase_text(r: Dictionary) -> String:
@@ -412,6 +430,7 @@ func _overlay_panel(min_width: float, frame: String = "panel_plate") -> VBoxCont
 
 func _show_bag() -> void:
 	var v := _overlay_panel(1240)
+	BMAudio.sfx("bag_open")
 	var scroll := ScrollContainer.new()
 	scroll.custom_minimum_size = Vector2(BMBagView.WIDTH + 24, 720)
 	scroll.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
@@ -434,6 +453,7 @@ func _begin_tool(index: int) -> void:
 		_act({"a": "buy_tool", "i": index, "targets": [], "color": -1})
 		return
 	var v := _overlay_panel(1240)
+	BMAudio.sfx("modal")
 	var head := BMStyle.hbox(16)
 	v.add_child(head)
 	head.add_child(BMCard.Emblem.for_tool(o, Vector2(88, 88)))

@@ -234,6 +234,8 @@ class Receipt extends PanelContainer:
 			_timer = 0.045
 
 	func _emit(row: Dictionary) -> void:
+		if not reduced_motion:
+			BMAudio.sfx("print")
 		if row.get("dashes", false):
 			_lines.add_child(Dashes.new())
 			return

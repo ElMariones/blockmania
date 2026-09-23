@@ -16,6 +16,7 @@ var keyboard_focus := false
 var reduced_motion := false
 
 var _fx_clears: Array[Dictionary] = [] ## {cell, color, mat, t, delay}
+var _pop_step := 0 ## position in the pop cascade of the current resolution
 var _fx_places: Array[Dictionary] = [] ## {cell, t, delay}
 var _fx_sweeps: Array[Dictionary] = [] ## {row|col, index, t}
 var _time := 0.0
@@ -76,6 +77,7 @@ func clear_ghost() -> void:
 ## Starts presentation effects for a resolution record (already applied to state).
 func play_resolution(r: Dictionary) -> void:
 	var fx := BMFx.instance
+	_pop_step = 0
 	var i := 0
 	for p: Vector2i in r.placed:
 		_fx_places.append({"cell": p, "t": 0.0, "delay": i * 0.018})
@@ -118,6 +120,8 @@ func _process(delta: float) -> void:
 		fx.t += delta
 		if not fx.burst and fx.t >= fx.delay + CLEAR_TIME * 0.5:
 			fx.burst = true
+			BMAudio.sfx("pop", BMAudio.scale_pitch(_pop_step), -2.0)
+			_pop_step += 1
 			if BMFx.instance:
 				var col: Color = _block_color(int(fx.color))
 				BMFx.instance.burst(cell_global_center(fx.cell), [col, col.lightened(0.4), BMStyle.CREAM], 7, 320.0, 8.0)

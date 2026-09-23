@@ -34,6 +34,7 @@ var _boss_box: VBoxContainer
 var _receipt: BMHud.Receipt
 ## Stuck with no Refresh: the Refresh button becomes Concede.
 var _concede_mode := false
+var _last_status := ""
 var _jokers_header: Label
 var _jokers_box: VBoxContainer
 var _items_header: Label
@@ -405,7 +406,11 @@ func _refresh_items() -> void:
 func _refresh_status_banner() -> void:
 	var rs := run.round_state
 	if run.phase != BMRun.Phase.ROUND:
+		_last_status = ""
 		return
+	if rs.status != _last_status and rs.status in [BMRun.STUCK, BMRun.OUT_OF_PLACEMENTS]:
+		BMAudio.sfx("alert")
+	_last_status = rs.status
 	match rs.status:
 		BMRun.STUCK:
 			if run.refreshes_available() > 0:
@@ -446,6 +451,7 @@ func _on_slot_pressed(slot: int) -> void:
 		return
 	held_slot = slot
 	held_mode = "drag"
+	BMAudio.sfx("pickup")
 	_press_pos = _mouse
 	_update_ghost_from_mouse()
 	refresh_all()
@@ -487,6 +493,7 @@ func _input(event: InputEvent) -> void:
 			_place_held(board_view.ghost_anchor)
 		else:
 			_set_message("That piece doesn't fit there.", BMStyle.PINK_L)
+			BMAudio.sfx("deny")
 		get_viewport().set_input_as_handled()
 
 
@@ -543,12 +550,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		var dims := BMShapes.shape_size(run.tray[held_slot])
 		key_anchor = (key_anchor + move).clamp(Vector2i.ZERO, Vector2i(BMBoard.SIZE, BMBoard.SIZE) - dims)
 		_show_ghost(key_anchor)
+		BMAudio.sfx("key_move", 1.0 if board_view.ghost_valid else 0.8)
 		get_viewport().set_input_as_handled()
 	elif event.is_action("bm_place"):
 		if board_view.ghost_valid:
 			_place_held(board_view.ghost_anchor)
 		else:
 			_set_message("That piece doesn't fit there.", BMStyle.PINK_L)
+			BMAudio.sfx("deny")
 		get_viewport().set_input_as_handled()
 
 
@@ -557,6 +566,7 @@ func _select_by_key(slot: int) -> void:
 		return
 	held_slot = slot
 	held_mode = "key"
+	BMAudio.sfx("pickup")
 	var dims := BMShapes.shape_size(run.tray[slot])
 	key_anchor = key_anchor.clamp(Vector2i.ZERO, Vector2i(BMBoard.SIZE, BMBoard.SIZE) - dims)
 	board_view.keyboard_focus = true
@@ -631,7 +641,10 @@ func _show_preview(p: Dictionary) -> void:
 		_preview_box.add_child(BMStyle.pill("%d LINE%s" % [p.lines, "S" if p.lines > 1 else ""], "mint", 20))
 
 
-func _cancel_hold(message: String = "") -> void:
+## Drops the held piece back into the tray. `sound` is false when the piece is being placed.
+func _cancel_hold(message: String = "", sound: bool = true) -> void:
+	if held_slot >= 0 and sound:
+		BMAudio.sfx("deny" if message != "" else "putback")
 	held_slot = -1
 	held_mode = ""
 	_preview_cache_key = ""
@@ -673,7 +686,7 @@ func _draw_drag_layer() -> void:
 
 func _place_held(anchor: Vector2i) -> void:
 	var slot := held_slot
-	_cancel_hold()
+	_cancel_hold("", false)
 	_do_action({"a": "place", "slot": slot, "x": anchor.x, "y": anchor.y})
 
 
@@ -683,6 +696,7 @@ func _do_action(a: Dictionary) -> void:
 	var r: Dictionary = main.act(a)
 	if not r.ok:
 		_set_message(r.error, BMStyle.PINK_L)
+		BMAudio.sfx("deny")
 		return
 	match r.get("type", ""):
 		"place":
@@ -691,14 +705,20 @@ func _do_action(a: Dictionary) -> void:
 				_set_message("  ".join(PackedStringArray(r.events)), BMStyle.SUN)
 		"refresh":
 			_set_message(", ".join(PackedStringArray(r.get("events", []))), BMStyle.MINT_L)
+			BMAudio.sfx("refresh")
+			_play_deal(0.2)
 			if BMFx.instance:
 				for s in slots:
 					BMFx.instance.stars(s.get_global_rect().get_center(), 3, 60.0)
 		"use":
 			_set_message("Used %s." % BMConsumables.get_def(r.item).name, BMStyle.MINT_L)
+			BMAudio.sfx("item")
 		"sell":
 			_set_message("Sold %s for %d Credits." % [BMJokers.get_def(r.item).name, r.value], BMStyle.SUN)
+			BMAudio.sfx("sell")
 	var tray_events: Array = r.get("tray_events", [])
+	if tray_events.has("New tray"):
+		_play_deal(0.45)
 	for e in tray_events:
 		if String(e).begins_with("Tiny Insurance") or String(e).begins_with("No piece"):
 			_set_message(e, BMStyle.SUN)
@@ -711,6 +731,7 @@ func _do_action(a: Dictionary) -> void:
 func _present_placement(r: Dictionary) -> void:
 	board_view.play_resolution(r)
 	_write_receipt(r)
+	_play_placement_sounds(r)
 	var fx := BMFx.instance
 	var center := Vector2.ZERO
 	for p: Vector2i in r.placed:
@@ -739,6 +760,32 @@ func _present_placement(r: Dictionary) -> void:
 			fx.shards(center, 18)
 
 
+## Sound for one placement. Timings follow BMBoardView (sweep starts at once; cells pop in a
+## wave that BMBoardView voices itself) and the FX streams (coins and score arrive ~0.4 s).
+func _play_placement_sounds(r: Dictionary) -> void:
+	var n: int = r.placed.size()
+	BMAudio.sfx("place_s" if n <= 2 else ("place_m" if n <= 4 else "place_l"))
+	if r.lines > 0:
+		BMAudio.sfx_later("clear_%d" % mini(r.lines, 3), 0.05)
+		if r.combo_after >= 2:
+			BMAudio.sfx_later("combo_%d" % clampi(r.combo_after - 1, 1, 3), 0.45)
+	if not r.get("shattered", []).is_empty():
+		BMAudio.sfx_later("glass", 0.2)
+	for e in r.get("events", []):
+		if String(e).contains("Stamp"):
+			BMAudio.sfx_later("stamp", 0.12)
+			break
+	BMAudio.sfx_later("score", 0.35, 1.0 + minf(0.3, r.lines * 0.1))
+	for i in mini(4, int(r.credits_gained)):
+		BMAudio.sfx_later("coin", 0.4 + i * 0.09, 1.0 + i * 0.06)
+
+
+## Three soft card flicks as a new tray slides in.
+func _play_deal(delay: float) -> void:
+	for i in 3:
+		BMAudio.sfx_later("deal", delay + i * 0.08, 1.0 + i * 0.05)
+
+
 ## Joker cards bounce in resolution order, each showing its contribution.
 func _animate_jokers(r: Dictionary) -> void:
 	var delay := 0.15
@@ -762,6 +809,8 @@ func _animate_jokers(r: Dictionary) -> void:
 			"xmult":
 				txt = "x%s MULT" % BMUI.fmt_mult(it.value)
 				col = BMStyle.SUN
+		# Each trigger rings a little higher than the one before.
+		BMAudio.sfx_later("joker_" + String(it.kind), delay, 1.0 + 0.07 * shown)
 		# Weak reference: a refresh may free the card before the timer fires.
 		var card_ref: WeakRef = weakref(card)
 		get_tree().create_timer(delay).timeout.connect(func() -> void:
@@ -854,6 +903,8 @@ func _modal(frame: String = "panel_plate", width: float = 680.0) -> VBoxContaine
 
 
 func close_overlay() -> void:
+	if _bag_open():
+		BMAudio.sfx("bag_close")
 	BMUI.clear_children(overlay)
 
 
@@ -865,6 +916,7 @@ func _centered(c: Control) -> CenterContainer:
 
 func _show_dialog(text: String, buttons: Array) -> void:
 	var v := _modal("panel_plate", 620)
+	BMAudio.sfx("modal")
 	var l := BMStyle.label(text, 30, BMStyle.CREAM, true, 8)
 	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -889,6 +941,7 @@ func _show_bag() -> void:
 	if run == null or overlay.get_child_count() > 0:
 		return
 	var v := _modal("panel_plate", 1240)
+	BMAudio.sfx("bag_open")
 	var scroll := ScrollContainer.new()
 	scroll.custom_minimum_size = Vector2(BMBagView.WIDTH + 24, 700)
 	scroll.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
@@ -910,6 +963,7 @@ func _bag_open() -> bool:
 func _show_round_intro() -> void:
 	var boss := run.current_boss()
 	var v := _modal("panel_boss" if boss != "" else "panel_plate", 680)
+	BMAudio.sfx("sting_boss" if boss != "" else "sting_round")
 	v.add_child(_centered(BMStyle.pill("ROUND %d  -  ACT %d" % [run.round_number, run.act()], "pink" if boss != "" else "sun", 30)))
 	var tl := BMStyle.label("TARGET", 30, BMStyle.TEXT_DIM, true, 8)
 	tl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -981,6 +1035,9 @@ func _show_round_intro() -> void:
 func _show_round_result() -> void:
 	var res := run.last_round_result
 	var v := _modal("panel_plate", 660)
+	BMAudio.sfx("jingle_win")
+	for i in mini(5, int(res.get("credits_gained", 0))):
+		BMAudio.sfx_later("coin", 0.9 + i * 0.1, 1.0 + i * 0.05)
 	var t := BMStyle.label("ROUND %d CLEARED!" % res.round, 60, BMStyle.SUN, true, 14)
 	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	t.add_theme_color_override("font_shadow_color", Color(BMStyle.PINK, 0.7))
@@ -1032,6 +1089,7 @@ func _show_round_result() -> void:
 func _show_run_end() -> void:
 	var won := run.phase == BMRun.Phase.RUN_WON
 	var v := _modal("panel_plate" if won else "panel_boss", 720)
+	BMAudio.sfx("jingle_run_win" if won else "jingle_lose")
 	var title := "YOU WIN!" if won else ("RUN ABANDONED" if run.phase == BMRun.Phase.ABANDONED else "GAME OVER")
 	var t := BMStyle.label(title, 80, BMStyle.SUN if won else BMStyle.PINK_L, true, 16)
 	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER

@@ -98,10 +98,15 @@ func _section(title: String, note: String, kind: String, pieces: Array) -> void:
 func _on_toggle(uid: int) -> void:
 	if selected.has(uid):
 		selected.erase(uid)
+		BMAudio.sfx("deselect")
 	elif selected.size() < select_max:
 		selected.append(uid)
+		BMAudio.sfx("select")
 	elif select_max == 1:
 		selected = [uid]
+		BMAudio.sfx("select")
+	else:
+		BMAudio.sfx("deny")
 	for t in _tiles:
 		t.selected = selected.has(int(t.piece.uid))
 		t.queue_redraw()

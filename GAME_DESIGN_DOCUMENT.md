@@ -307,7 +307,7 @@ Hover effects should be responsive at 60 fps. Score processing may be visually s
 
 ### Audio direction
 
-An original upbeat electronic soundtrack with a playful arcade pulse, evolving harmonically across acts. Adaptive layers rise with combo and target proximity; music never masks placement/clear cues. SFX families: pickup, legal/invalid hover, placement by block size, single/double/triple line clear, combo, Joker rarity/trigger, Credits, shop purchase/reroll/sell, boss warning, round win, defeat, menus. Audio cues should communicate outcomes even when effects are reduced. Target consistent loudness and no sudden full-scale spikes.
+The owner chose a cool lo-fi direction on 2026-09-23: original, spacious piano/electronic pieces with gentle texture and room for short arcade cues. Seven procedural compositions currently cover title, four round variations, shop, and boss contexts. Tracks crossfade on context changes, leave a short breath between repeats, and can be skipped from Options. Adaptive stems remain a future exploration. SFX families: pickup, legal/invalid hover, placement by block size, single/double/triple line clear, combo, Joker trigger, Credits, shop purchase/reroll/sell, boss warning, round win, defeat, menus. Audio cues should communicate outcomes even when effects are reduced. Master, music, and effects levels, separate mute switches, and background mute are saved outside the run. Target consistent loudness and no sudden full-scale spikes; human listening and mix review remain open.
 
 ## 10. Godot implementation guidance (design-level)
 

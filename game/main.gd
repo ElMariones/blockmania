@@ -3,7 +3,7 @@ extends Control
 ## App root: owns the current BMRun, routes between title / round / shop screens, persists
 ## after every successful action, and hosts the pause menu. Screens call `act()`; nothing
 ## else mutates the run. Presentation layers: swirl backdrop (bottom), screens, FX particles,
-## pause menu, and the CRT post-process (a CanvasLayer on top).
+## pause menu, and the CRT post-process (a CanvasLayer on top). BMAudio plays effects and music.
 
 var run: BMRun
 var settings := {}
@@ -14,12 +14,16 @@ var game_screen: BMGameScreen
 var shop_screen: BMShopScreen
 var fx: BMFx
 var crt: BMCrtLayer
+var audio: BMAudio
 var _pause: Control
 
 
 func _ready() -> void:
 	_register_input_actions()
 	settings = BMSaveStore.load_settings()
+	audio = BMAudio.new()
+	add_child(audio)
+	audio.apply_settings(settings)
 	BMBlockPainter.show_patterns = settings.block_patterns
 	BMStyle.load_fonts()
 	theme = BMStyle.make_theme()
@@ -70,6 +74,7 @@ func show_title() -> void:
 	_show(title_screen)
 	title_screen.refresh()
 	backdrop.set_mood("title")
+	BMAudio.music("title")
 
 
 ## The single entry point for player actions. Returns the rules result.
@@ -95,10 +100,13 @@ func _route(rebind: bool) -> void:
 				_show(shop_screen)
 				shop_screen.bind(run)
 				backdrop.set_mood("shop")
+			BMAudio.music("shop")
 		_:
 			if not game_screen.visible or rebind:
 				_show(game_screen)
 				game_screen.bind(run)
+			if run.phase == BMRun.Phase.ROUND:
+				BMAudio.music("boss" if run.current_boss() != "" else "round")
 
 
 func _show(screen: Control) -> void:
@@ -132,6 +140,8 @@ func show_options() -> void:
 func _open_menu(in_run: bool) -> void:
 	if is_paused():
 		return
+	BMAudio.sfx("pause_in")
+	audio.set_muffled(true)
 	var dim := ColorRect.new()
 	dim.color = Color(BMStyle.INK, 0.7)
 	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -140,10 +150,10 @@ func _open_menu(in_run: bool) -> void:
 	var center := CenterContainer.new()
 	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	dim.add_child(center)
-	var p := BMStyle.panel("panel_plate", Vector4(28, 18, 28, 22))
-	p.custom_minimum_size.x = 680
+	var p := BMStyle.panel("panel_plate", Vector4(24, 12, 24, 16))
+	p.custom_minimum_size.x = 1260
 	center.add_child(p)
-	var v := BMStyle.vbox(12)
+	var v := BMStyle.vbox(10)
 	p.add_child(v)
 	var title := BMStyle.label("PAUSED" if in_run else "OPTIONS", 60, BMStyle.SUN, true, 14)
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -152,35 +162,110 @@ func _open_menu(in_run: bool) -> void:
 		var info := BMStyle.label("Round %d  -  Seed %d" % [run.round_number, run.run_seed], 20, BMStyle.TEXT_DIM, false, 6)
 		info.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		v.add_child(info)
-	v.add_child(_controls_table())
+	var cols := BMStyle.hbox(28)
+	v.add_child(cols)
+	# Left: controls and the run buttons.
+	var left := BMStyle.vbox(10)
+	left.custom_minimum_size.x = 560
+	cols.add_child(left)
+	left.add_child(BMStyle.pill("CONTROLS", "plum", 20))
+	left.add_child(_controls_table())
+	var spacer := Control.new()
+	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	left.add_child(spacer)
 	var resume := BMStyle.button("RESUME" if in_run else "BACK", close_pause, "sun", 30)
 	resume.custom_minimum_size.y = 72
-	v.add_child(resume)
-	v.add_child(_setting_button("CRT SCREEN", "crt", ["soft", "full", "off"]))
-	v.add_child(_setting_button("MOTION", "reduced_motion", [false, true], {false: "FULL", true: "REDUCED"}))
-	v.add_child(_setting_button("BLOCK PATTERNS", "block_patterns", [false, true], {false: "OFF", true: "ON"}))
-	if not in_run:
-		BMStyle.focus_later(resume)
-		_pop_in(p)
-		return
-	var save := BMStyle.button("SAVE & QUIT TO TITLE", func() -> void:
-		BMSaveStore.save_run(run)
-		show_title(), "plum", 20)
-	save.custom_minimum_size.y = 60
-	v.add_child(save)
-	var abandon := BMStyle.button("ABANDON RUN...", func() -> void: pass, "pink", 20)
-	abandon.custom_minimum_size.y = 60
-	abandon.pressed.connect(func() -> void:
-		if abandon.text == "ABANDON RUN...":
-			abandon.text = "CLICK AGAIN TO ABANDON"
-		else:
-			close_pause()
-			act({"a": "abandon"})
-			game_screen.close_overlay()
-			game_screen.bind(run))
-	v.add_child(abandon)
+	left.add_child(resume)
+	if in_run:
+		var row := BMStyle.hbox(10)
+		left.add_child(row)
+		var save := BMStyle.button("SAVE & QUIT", func() -> void:
+			BMSaveStore.save_run(run)
+			show_title(), "plum", 20)
+		save.custom_minimum_size.y = 60
+		save.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(save)
+		var abandon := BMStyle.button("ABANDON RUN...", func() -> void: pass, "pink", 20)
+		abandon.custom_minimum_size.y = 60
+		abandon.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		abandon.pressed.connect(func() -> void:
+			if abandon.text == "ABANDON RUN...":
+				abandon.text = "CLICK AGAIN"
+			else:
+				close_pause()
+				act({"a": "abandon"})
+				game_screen.close_overlay()
+				game_screen.bind(run))
+		row.add_child(abandon)
+	# Right: sound and display settings.
+	var right := BMStyle.vbox(8)
+	right.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	cols.add_child(right)
+	right.add_child(BMStyle.pill("SOUND", "mint", 20))
+	var grid := GridContainer.new()
+	grid.columns = 2
+	grid.add_theme_constant_override("h_separation", 14)
+	grid.add_theme_constant_override("v_separation", 6)
+	right.add_child(grid)
+	for row in [["MASTER", "master_volume"], ["MUSIC", "music_volume"], ["EFFECTS", "sfx_volume"]]:
+		var l := BMStyle.label(row[0], 20, BMStyle.CREAM, true, 6)
+		l.custom_minimum_size.x = 120
+		grid.add_child(l)
+		grid.add_child(_volume_row(row[1]))
+	var toggles := BMStyle.hbox(10)
+	right.add_child(toggles)
+	for b in [_setting_button("SOUND", "muted", [false, true], {false: "ON", true: "OFF"}),
+			_setting_button("MUSIC", "music_on", [true, false], {true: "ON", false: "OFF"})]:
+		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		toggles.add_child(b)
+	right.add_child(_setting_button("MUTE IN BACKGROUND", "mute_unfocused", [false, true], {false: "OFF", true: "ON"}))
+	var np := BMStyle.hbox(10)
+	right.add_child(np)
+	var now := NowPlaying.new()
+	now.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	np.add_child(now)
+	var skip := BMStyle.button("NEXT SONG  >", func() -> void: audio.skip_track(), "plum", 20)
+	skip.custom_minimum_size = Vector2(210, 52)
+	skip.tooltip_text = "Play another song from this part of the game."
+	np.add_child(skip)
+	right.add_child(BMStyle.pill("DISPLAY", "sky", 20))
+	right.add_child(_setting_button("CRT SCREEN", "crt", ["soft", "full", "off"]))
+	var disp := BMStyle.hbox(10)
+	right.add_child(disp)
+	for b in [_setting_button("MOTION", "reduced_motion", [false, true], {false: "FULL", true: "REDUCED"}),
+			_setting_button("PATTERNS", "block_patterns", [false, true], {false: "OFF", true: "ON"})]:
+		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		disp.add_child(b)
 	BMStyle.focus_later(resume)
 	_pop_in(p)
+
+
+## "NOW PLAYING  <title>" line; polls the audio node so it never holds a stale signal.
+class NowPlaying extends Label:
+	func _ready() -> void:
+		add_theme_font_override("font", BMStyle.font)
+		add_theme_font_size_override("font_size", 20)
+		add_theme_color_override("font_color", BMStyle.TEXT_DIM)
+		text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		clip_text = true
+
+	func _process(_delta: float) -> void:
+		var t := BMAudio.instance.now_playing() if BMAudio.instance else ""
+		text = "NOW PLAYING  %s" % t if t != "" else "NOW PLAYING  (silence between songs)"
+
+
+## One volume row: toy-block meter bound to a 0..1 setting, saved on change.
+func _volume_row(key: String) -> BMVolumeBlocks:
+	var vb := BMVolumeBlocks.new()
+	vb.set_value_silently(float(settings.get(key, 0.8)))
+	vb.changed.connect(func(value: float) -> void:
+		settings[key] = value
+		BMSaveStore.save_settings(settings)
+		audio.apply_settings(settings)
+		# Audible preview of the new level (effects and master only; music is already playing).
+		if key != "music_volume":
+			BMAudio.sfx("tick", 0.8 + value * 0.6))
+	return vb
 
 
 func _pop_in(p: Control) -> void:
@@ -206,6 +291,7 @@ func _controls_table() -> Control:
 		["ENTER", "Place it"],
 		["R", "Refresh the tray"],
 		["B", "Open your bag"],
+		["M", "Sound on / off"],
 		["ESC", "Pause"],
 	]
 	for row in rows:
@@ -222,6 +308,7 @@ func _controls_table() -> Control:
 ## A button that cycles a setting through `values`, labelled "NAME: VALUE".
 func _setting_button(caption: String, key: String, values: Array, names: Dictionary = {}) -> Button:
 	var b := BMStyle.button("", func() -> void: pass, "sky", 20)
+	b.name = "Setting_%s" % key
 	b.custom_minimum_size.y = 60
 	var show_value := func() -> void:
 		var v: Variant = settings[key]
@@ -237,6 +324,7 @@ func _setting_button(caption: String, key: String, values: Array, names: Diction
 
 
 func _apply_settings() -> void:
+	audio.apply_settings(settings)
 	BMBlockPainter.show_patterns = settings.block_patterns
 	crt.set_mode(String(settings.crt))
 	_apply_motion_setting()
@@ -248,6 +336,9 @@ func _apply_settings() -> void:
 func close_pause() -> void:
 	var was_open := is_paused()
 	BMUI.clear_children(_pause)
+	if was_open:
+		BMAudio.sfx("pause_out")
+		audio.set_muffled(false)
 	if was_open and title_screen.visible:
 		title_screen.focus_default()
 
@@ -260,6 +351,15 @@ func _apply_motion_setting() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if is_paused() and event.is_action_pressed("bm_cancel"):
 		close_pause()
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("bm_mute"):
+		settings.muted = not bool(settings.muted)
+		BMSaveStore.save_settings(settings)
+		audio.apply_settings(settings)
+		var sound_button := _pause.find_child("Setting_muted", true, false) as Button
+		if sound_button:
+			sound_button.text = "SOUND:  OFF" if settings.muted else "SOUND:  ON"
+		fx.pop_text(Vector2(size.x / 2.0, 90), "SOUND OFF  (M)" if settings.muted else "SOUND ON  (M)", BMStyle.CREAM, 30, 30.0, 1.2)
 		get_viewport().set_input_as_handled()
 
 
@@ -279,6 +379,7 @@ func _register_input_actions() -> void:
 		"bm_refresh": [KEY_R],
 		"bm_cancel": [KEY_ESCAPE],
 		"bm_bag": [KEY_B],
+		"bm_mute": [KEY_M],
 	}
 	for action in map:
 		if InputMap.has_action(action):

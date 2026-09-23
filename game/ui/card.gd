@@ -40,6 +40,8 @@ func _on_hover(on: bool) -> void:
 	# Keep hover while the pointer is over child controls.
 	if not on and get_global_rect().has_point(get_global_mouse_position()):
 		return
+	if on and not _hover:
+		BMAudio.sfx("card_hover")
 	_hover = on
 	if hover_controls:
 		hover_controls.visible = on
