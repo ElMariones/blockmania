@@ -62,10 +62,40 @@ static func make(uid: int, family: StringName, rot: int, color: int, material: S
 	return p
 
 
-static func starter_bag() -> Array:
+## Kit starter bags: [family, rotation, color]. "standard" is STARTER_BAG.
+const STARTER_BAGS := {
+	"compact": [
+		["bar2", 0, 1], ["bar2", 1, 4],
+		["bar3", 0, 2], ["bar3", 1, 5], ["bar3", 0, 0],
+		["l3", 0, 1], ["l3", 1, 2], ["l3", 2, 4], ["l3", 3, 0],
+		["square2", 0, 5], ["square2", 0, 3],
+		["bar4", 0, 3], ["l4", 0, 4], ["l4", 2, 5], ["t4", 0, 0], ["t4", 2, 1], ["zigzag4", 0, 2], ["plus5", 0, 4],
+	],
+	"chunky": [
+		["square2", 0, 0], ["square2", 0, 1], ["square2", 0, 2], ["square2", 0, 3],
+		["t4", 0, 4], ["t4", 1, 5], ["t4", 2, 0],
+		["plus5", 0, 1], ["plus5", 0, 2],
+		["l4", 0, 3], ["l4", 3, 4],
+		["bar3", 0, 5], ["bar3", 1, 0], ["bar3", 0, 1],
+		["l3", 0, 2], ["l3", 2, 3], ["l3", 1, 4],
+		["bar2", 0, 5], ["bar2", 1, 0],
+		["square3", 0, 1],
+	],
+	"tetromino": [
+		["square2", 0, 0], ["square2", 0, 1], ["square2", 0, 2], ["square2", 0, 3],
+		["bar4", 0, 4], ["bar4", 1, 5], ["bar4", 0, 0], ["bar4", 1, 1],
+		["l4", 0, 2], ["l4", 1, 3], ["l4", 2, 4], ["l4", 3, 5],
+		["t4", 0, 0], ["t4", 1, 1], ["t4", 2, 2], ["t4", 3, 3],
+		["zigzag4", 0, 4], ["zigzag4", 1, 5], ["zigzag4", 0, 0], ["zigzag4", 1, 1],
+	],
+}
+
+
+static func starter_bag(bag_id: String = "standard") -> Array:
+	var list: Array = STARTER_BAGS.get(bag_id, STARTER_BAG)
 	var out: Array = []
-	for i in STARTER_BAG.size():
-		var e: Array = STARTER_BAG[i]
+	for i in list.size():
+		var e: Array = list[i]
 		out.append(make(i, StringName(e[0]), int(e[1]), int(e[2])))
 	return out
 

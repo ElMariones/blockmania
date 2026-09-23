@@ -244,6 +244,11 @@ func _record_jokers(run: BMRun, r: Dictionary) -> void:
 # --- Shop ------------------------------------------------------------------------------------
 
 func _shop_step(run: BMRun) -> Dictionary:
+	if run.has_crate():
+		var take := 2
+		if run.jokers.size() < run.joker_slots() and String(run.shop.crate[0].id) != "":
+			take = 0
+		return run.open_crate(take)
 	if shop_policy == "none":
 		return run.leave_shop()
 	# Jokers: best rarity first.

@@ -234,7 +234,13 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 
 	# Step 9: combo, target progress, piece effects, counters, statistics.
 	var events: Array[String] = []
-	rs.combo = mini(BMRunConfig.COMBO_CAP, combo_before + 1) if is_clearing else 0
+	if is_clearing:
+		rs.combo = mini(BMRunConfig.COMBO_CAP, combo_before + 1)
+		rs.combo_misses = 0
+	else:
+		rs.combo_misses += 1
+		if rs.combo_misses > BMRunConfig.COMBO_GRACE:
+			rs.combo = 0
 	rs.score += points
 	rs.pending_chips = 0
 	rs.pending_mult = 0.0

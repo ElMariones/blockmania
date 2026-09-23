@@ -85,11 +85,13 @@ Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/r
 - [x] 14 new Jokers (52 total): Patience, Locksmith, Countdown, Breakage Bonus, Insurance Policy, Showboat, Full Tank, Overflow, Keystone, Draftsman, Card Sharp, Hot Hand, Periscope, Loan Shark, each with trigger and no-trigger tests. Periscope draws the next pieces on its card; Insurance gets a stamp and a replay dialog; Loan Shark has its own coin sound.
 - [x] Bosses: **The Warden** (a barred tray slot until the first clear; deals and Refresh skip it) and **The Undertaker** (a tombstone rises every 4th placement, never completing a line). Both have their own art, animation and sound; Echo Chamber stays out of the pool. Emergency Brick is in the shop. (`tests/test_bosses.gd`)
 - [x] Fit indicators (tray "NO ROOM" caption already existed); Bag view statistics (families, colors, upgraded) and exact Tray Hand odds per deal.
-- [ ] **(owner)** Kit starter bags, Boss Crate (choose 1 of 3 after bosses), campaign combo grace (simulate first).
+- [x] Kit starter bags (Standard 24, Compact 18 without Singles, new Chunky 20 and Tetromino 20). Kit picker on New Run, with bag drawings and unlock progress. Lifetime unlock counters are in `user://profile.cfg`, and the run-end screen announces new Kits.
+- [x] Boss Crate: after each boss, pick 1 free from a Joker (uncommon/rare), an item, or 6 Credits. The crate rattles and bursts open; a BOSS CRATE button reopens it until you leave the shop.
+- [x] Combo grace: the campaign combo survives one placement without a clear (`COMBO_GRACE = 1`). Simulated: win rate 10% → 13%, average round 9.98 → 10.28. The HUD shows "x3!" and "HANG ON!".
 
 ## M2 — Content complete
 
-- [ ] Kit selection screen (Standard / Compact / High Roller) + unlock tracking (100 lines, win a run).
+- [x] Kit selection screen + unlock tracking (see Round-play proposals).
 - [ ] Practice mode (choose seed, Kit, bosses, Jokers; Undo; no records).
 - [ ] Collection / run history / discovery.
 - [~] Settings screen: audio controls are present; display mode, UI scale 75–150%, input remapping, colorblind presets, high-contrast grid remain.

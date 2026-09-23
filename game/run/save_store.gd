@@ -8,6 +8,8 @@ const RUN_PATH := "user://run.json"
 const SETTINGS_PATH := "user://settings.cfg"
 
 static var run_path := RUN_PATH ## Tests redirect this.
+## Lifetime Kit-unlock counters live in their own file (tests redirect this too).
+static var profile_path := "user://profile.cfg"
 
 
 static func has_run() -> bool:
@@ -76,3 +78,36 @@ static func save_settings(s: Dictionary) -> void:
 	for k in s:
 		cfg.set_value("settings", k, s[k])
 	cfg.save(SETTINGS_PATH)
+
+
+
+## Lifetime counters for Kit unlocks (meta progression; separate from runs and settings).
+## Keys: lines, wins, bosses, hands, runs.
+static func load_profile() -> Dictionary:
+	var p := {"lines": 0, "wins": 0, "bosses": 0, "hands": 0, "runs": 0}
+	var cfg := ConfigFile.new()
+	if cfg.load(profile_path) == OK:
+		for k in p:
+			p[k] = int(cfg.get_value("profile", k, p[k]))
+	return p
+
+
+## Adds a finished run's statistics to the profile. Returns the Kit ids it unlocked.
+static func record_run(run: BMRun) -> Array[String]:
+	var before := load_profile()
+	var after := before.duplicate()
+	after.lines += int(run.stats.get("lines_cleared", 0))
+	after.bosses += int(run.stats.get("bosses_beaten", 0))
+	after.hands += int(run.stats.get("hands", 0))
+	after.runs += 1
+	if run.phase == BMRun.Phase.RUN_WON and run.kit_id == "standard":
+		after.wins += 1
+	var cfg := ConfigFile.new()
+	for k in after:
+		cfg.set_value("profile", k, after[k])
+	cfg.save(profile_path)
+	var unlocked: Array[String] = []
+	for k in BMRunConfig.KITS:
+		if not BMRunConfig.kit_unlocked(k.id, before) and BMRunConfig.kit_unlocked(k.id, after):
+			unlocked.append(String(k.id))
+	return unlocked

@@ -12,6 +12,8 @@ const CHIPS_PER_LINE := 100
 const CHIPS_PER_EXTRA_LINE := 40
 const CHIPS_PER_COMBO := 25
 const COMBO_CAP := 4
+## Non-clearing placements the combo survives before it resets (0 = resets on any miss).
+const COMBO_GRACE := 1
 const MAX_CLEAR_WAVES := 5
 
 # Placement budget (GDD §5 "Placements and refills"): every completed line gives back this many
@@ -31,17 +33,26 @@ const PIECE_OFFERS := 2
 const REROLL_BASE := 2
 const SPARE_PARTS_CREDITS := 2
 const CASH_OUT_CREDITS := 4
+## Boss Crate (docs/design/round_play_update.md §4): after a boss, pick 1 of 3 for free.
+const CRATE_CREDITS := 6
 
 ## Rarity weights [common, uncommon, rare] per act: 65/30/5 shifting to 40/40/20 by act 3.
 const RARITY_WEIGHTS := [[65, 30, 5], [53, 35, 12], [40, 40, 20]]
 
+## Kits (GDD §6 "Starting Kits"; docs/design/round_play_update.md §4). `bag` names the starter
+## bag in BMPieces.STARTER_BAGS. `unlock` is the player-facing requirement and `need` the
+## lifetime profile counter that satisfies it (BMSaveStore profile); "" = always available.
 const KITS := [
-	{"id": "standard", "name": "Standard Kit", "joker_slots": 5, "refreshes": 1, "placements": 15, "credits": 0,
-		"text": "5 Joker slots, 1 Refresh, 15 placements per round.", "unlock": ""},
-	{"id": "compact", "name": "Compact Kit", "joker_slots": 4, "refreshes": 2, "placements": 15, "credits": 0,
-		"text": "1 extra Refresh each round, but only 4 Joker slots.", "unlock": "Clear 100 total lines across runs."},
-	{"id": "high_roller", "name": "High Roller Kit", "joker_slots": 5, "refreshes": 1, "placements": 14, "credits": 4,
-		"text": "Start with 4 Credits, but 14 placements per round.", "unlock": "Win a standard run."},
+	{"id": "standard", "name": "Standard Kit", "joker_slots": 5, "refreshes": 1, "placements": 15, "credits": 0, "bag": "standard",
+		"text": "5 Joker slots, 1 Refresh, 15 placements per round. The 24-piece starter bag.", "unlock": "", "need": {}},
+	{"id": "compact", "name": "Compact Kit", "joker_slots": 4, "refreshes": 2, "placements": 15, "credits": 0, "bag": "compact",
+		"text": "1 extra Refresh each round, but only 4 Joker slots. An 18-piece bag with no Singles.", "unlock": "Clear 100 lines across runs.", "need": {"lines": 100}},
+	{"id": "high_roller", "name": "High Roller Kit", "joker_slots": 5, "refreshes": 1, "placements": 14, "credits": 4, "bag": "standard",
+		"text": "Start with 4 Credits, but 14 placements per round.", "unlock": "Win a standard run.", "need": {"wins": 1}},
+	{"id": "chunky", "name": "Chunky Kit", "joker_slots": 5, "refreshes": 1, "placements": 15, "credits": 0, "bag": "chunky",
+		"text": "A 20-piece bag of big, plump shapes: squares, Ts, pluses, even a 3x3.", "unlock": "Defeat 3 bosses across runs.", "need": {"bosses": 3}},
+	{"id": "tetromino", "name": "Tetromino Kit", "joker_slots": 5, "refreshes": 1, "placements": 15, "credits": 0, "bag": "tetromino",
+		"text": "Only four-block pieces: 20 of them, so Twins and Triplets come often.", "unlock": "Form 25 Tray Hands across runs.", "need": {"hands": 25}},
 ]
 
 
@@ -62,3 +73,12 @@ static func kit(id: String) -> Dictionary:
 		if k.id == id:
 			return k
 	return KITS[0]
+
+
+## Whether a Kit is available with the given lifetime profile counters.
+static func kit_unlocked(id: String, profile: Dictionary) -> bool:
+	var need: Dictionary = kit(id).get("need", {})
+	for k in need:
+		if int(profile.get(k, 0)) < int(need[k]):
+			return false
+	return true

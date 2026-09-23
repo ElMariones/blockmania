@@ -30,6 +30,7 @@ var _boss_pill: Control
 var _message: Label
 var _overlay: Control
 var _awning: Control
+var _crate_button: Button
 var _t := 0.0
 
 
@@ -121,6 +122,11 @@ func _ready() -> void:
 	var leave := BMStyle.button("NEXT ROUND  >", func() -> void: _act({"a": "leave_shop"}), "sun", 40)
 	leave.name = "LeaveButton"
 	_put(leave, Vector2(1156, 882), Vector2(284, 170))
+	_crate_button = BMStyle.button("BOSS CRATE", func() -> void: _show_crate(), "mint", 30)
+	_crate_button.icon = BMStyle.tex("icon_crate")
+	_crate_button.tooltip_text = "Your free Boss Crate is still closed. Open it before you leave."
+	_crate_button.visible = false
+	_put(_crate_button, Vector2(1156, 770), Vector2(284, 100))
 	leave.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 
 	# Right column: your build.
@@ -179,6 +185,127 @@ func _draw_awning() -> void:
 	_awning.draw_rect(Rect2(0, 72, w, 4), Color(BMStyle.INK, 0.5))
 
 
+## Boss Crate: a wooden crate rattles on screen; opening it bursts it apart and fans out three
+## free offers. The rules only see which offer was taken.
+func _show_crate() -> void:
+	BMUI.clear_children(_overlay)
+	var dim := ColorRect.new()
+	dim.color = Color(BMStyle.INK, 0.8)
+	dim.mouse_filter = Control.MOUSE_FILTER_STOP
+	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_overlay.add_child(dim)
+	var center := size / 2.0
+	var title := BMStyle.label("BOSS CRATE!", 80, BMStyle.SUN, true, 16)
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.size = Vector2(size.x, 110)
+	title.position = Vector2(0, center.y - 400)
+	dim.add_child(title)
+	var sub := BMStyle.label("You beat the boss. Open it and take one thing for free.", 30, BMStyle.CREAM, true, 8)
+	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	sub.size = Vector2(size.x, 44)
+	sub.position = Vector2(0, center.y - 290)
+	dim.add_child(sub)
+	var crate := TextureButton.new()
+	crate.texture_normal = BMStyle.tex("icon_crate")
+	crate.ignore_texture_size = true
+	crate.stretch_mode = TextureButton.STRETCH_SCALE
+	crate.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	crate.size = Vector2(264, 264)
+	crate.pivot_offset = crate.size / 2.0
+	crate.position = center - crate.size / 2.0 + Vector2(0, 40)
+	crate.tooltip_text = "Open the crate"
+	crate.focus_mode = Control.FOCUS_ALL
+	dim.add_child(crate)
+	var hint := BMStyle.label("CLICK TO OPEN", 30, BMStyle.SUN_L, true, 8)
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hint.size = Vector2(size.x, 44)
+	hint.position = Vector2(0, center.y + 210)
+	dim.add_child(hint)
+	if not main.settings.reduced_motion:
+		var tw := crate.create_tween().set_loops()
+		tw.tween_property(crate, "rotation", 0.08, 0.08)
+		tw.tween_property(crate, "rotation", -0.08, 0.08)
+		tw.tween_property(crate, "rotation", 0.0, 0.08)
+		tw.tween_interval(0.5)
+	crate.pressed.connect(func() -> void:
+		BMAudio.sfx("crate_open")
+		if BMFx.instance:
+			var at := crate.get_global_rect().get_center()
+			BMFx.instance.chips(at, [BMStyle.SUN, BMStyle.SUN_D, Color("#9e6016")], 24)
+			BMFx.instance.confetti(Rect2(Vector2(0, 0), size), 120)
+			BMFx.instance.shake(10.0)
+			BMFx.instance.ring(at, BMStyle.SUN_L, 260.0)
+		crate.queue_free()
+		hint.queue_free()
+		_crate_offers(dim))
+	BMStyle.focus_later(crate)
+
+
+func _crate_offers(dim: Control) -> void:
+	var row := BMStyle.hbox(30)
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	dim.add_child(row)
+	var cards: Array = []
+	for i in run.shop.crate.size():
+		var o: Dictionary = run.shop.crate[i]
+		var take := BMStyle.button("TAKE IT", func() -> void:
+			var r := _act({"a": "crate", "i": i})
+			if r.ok:
+				BMUI.clear_children(_overlay)
+				BMAudio.sfx("buy")
+				_message.add_theme_color_override("font_color", BMStyle.MINT_L)
+				_message.text = "From the crate: %s." % _crate_name(o), "mint", 30)
+		var card: BMCard
+		match String(o.kind):
+			"joker":
+				card = BMCard.offer(run, "joker", String(o.id), take)
+			"item":
+				card = BMCard.offer(run, "item", String(o.id), take)
+			_:
+				card = BMCard.offer(run, "item", "cash_out", take)
+				_retitle_credits(card, int(o.value))
+		row.add_child(card)
+		cards.append(card)
+	row.reset_size()
+	row.position = (size - row.size) / 2.0 + Vector2(0, 60)
+	if not main.settings.reduced_motion:
+		for i in cards.size():
+			var c: Control = cards[i]
+			c.modulate.a = 0.0
+			var tw := c.create_tween()
+			tw.tween_interval(0.08 * i)
+			tw.tween_property(c, "modulate:a", 1.0, 0.18)
+	var skip := BMStyle.button("LATER", func() -> void: BMUI.clear_children(_overlay), "plum", 20)
+	skip.tooltip_text = "Close the crate for now: the BOSS CRATE button reopens it until you leave the shop."
+	skip.size = Vector2(200, 56)
+	skip.position = Vector2((size.x - 200) / 2.0, row.position.y + row.size.y + 24)
+	dim.add_child(skip)
+	if not cards.is_empty():
+		BMStyle.focus_later(cards[0])
+
+
+func _crate_name(o: Dictionary) -> String:
+	match String(o.kind):
+		"joker":
+			return BMJokers.get_def(o.id).name
+		"item":
+			return BMConsumables.get_def(o.id).name
+	return "%d Credits" % int(o.value)
+
+
+## The Credits offer reuses an item card; its words and emblem are replaced.
+func _retitle_credits(card: BMCard, value: int) -> void:
+	card.tooltip_body = "%d Credits, straight into your wallet." % value
+	for l in card.find_children("*", "Label", true, false):
+		var lab := l as Label
+		if lab.text == BMConsumables.get_def("cash_out").name:
+			lab.text = "%d CREDITS" % value
+		elif lab.text == BMConsumables.get_def("cash_out").text:
+			lab.text = "Straight into your wallet."
+		elif lab.text == "ITEM":
+			lab.text = "CREDITS"
+
+
 func bind(new_run: BMRun) -> void:
 	run = new_run
 	_center_stage()
@@ -189,6 +316,8 @@ func bind(new_run: BMRun) -> void:
 	var leave := find_child("LeaveButton", true, false) as Button
 	if leave:
 		BMStyle.focus_later(leave)
+	if run.has_crate():
+		_show_crate()
 
 
 func _act(a: Dictionary) -> Dictionary:
@@ -262,6 +391,8 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func refresh_all() -> void:
+	if _crate_button:
+		_crate_button.visible = run != null and run.has_crate()
 	if run == null or run.phase != BMRun.Phase.SHOP:
 		return
 	_credits.set_target(run.credits)

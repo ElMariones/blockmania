@@ -48,6 +48,7 @@ class RoundState:
 	var overflow_paid := 0
 	var insured := false ## This round is an Insurance Policy replay.
 	var locked_slot := -1 ## The Warden: barred tray slot until the first clear.
+	var combo_misses := 0 ## Non-clearing placements since the last clear (combo grace).
 	var tombs: Array = [] ## The Undertaker: cells where tombstones rose ([x, y]).
 
 	func to_dict() -> Dictionary:
@@ -65,7 +66,7 @@ class RoundState:
 			"reshuffles": reshuffles, "rescued_deals": rescued_deals, "hands_formed": hands_formed,
 			"size_history": size_history.duplicate(), "feats_seen": feats_seen.duplicate(),
 			"patience_store": patience_store, "overflow_paid": overflow_paid, "insured": insured,
-			"locked_slot": locked_slot, "tombs": tombs.duplicate(true),
+			"locked_slot": locked_slot, "tombs": tombs.duplicate(true), "combo_misses": combo_misses,
 		}
 
 	static func from_dict(d: Dictionary) -> RoundState:
@@ -103,6 +104,7 @@ class RoundState:
 		r.overflow_paid = int(d.get("overflow_paid", 0))
 		r.insured = bool(d.get("insured", false))
 		r.locked_slot = int(d.get("locked_slot", -1))
+		r.combo_misses = int(d.get("combo_misses", 0))
 		for t in d.get("tombs", []):
 			r.tombs.append([int(t[0]), int(t[1])])
 		return r
@@ -152,11 +154,11 @@ static func new_run(seed_value: int, kit: String = "standard") -> BMRun:
 	run.rng_boss = BMRngStream.new(seed_value, "boss")
 	run.credits = int(BMRunConfig.kit(run.kit_id).credits)
 	run.bosses = BMBosses.choose_run_bosses(run.rng_boss)
-	run.bag = BMPieces.starter_bag()
+	run.bag = BMPieces.starter_bag(String(BMRunConfig.kit(run.kit_id).get("bag", "standard")))
 	run.next_uid = run.bag.size()
 	run.stats = {"lines_cleared": 0, "placements": 0, "total_points": 0, "best_placement": 0,
 		"highest_combo": 0, "triple_clears": 0, "rounds_won": 0, "jokers_bought": 0, "refreshes": 0,
-		"tools_bought": 0, "pieces_bought": 0}
+		"tools_bought": 0, "pieces_bought": 0, "bosses_beaten": 0, "hands": 0}
 	run._start_round()
 	return run
 
@@ -350,6 +352,8 @@ func apply_action(a: Dictionary) -> Dictionary:
 			return buy_tool(int(a.i), a.get("targets", []), int(a.get("color", -1)))
 		"buy_piece":
 			return buy_piece(int(a.i))
+		"crate":
+			return open_crate(int(a.i))
 		"abandon":
 			return abandon()
 	return _fail("Unknown action %s" % a)
@@ -703,6 +707,10 @@ func buy_piece(offer: int) -> Dictionary:
 	return {"ok": true, "type": "buy_piece", "piece": p, "price": int(d.cost)}
 
 
+func has_crate() -> bool:
+	return phase == Phase.SHOP and not Array(shop.get("crate", [])).is_empty()
+
+
 func reroll_shop() -> Dictionary:
 	if phase != Phase.SHOP:
 		return _fail("The shop is closed.")
@@ -936,6 +944,7 @@ func _win_round() -> void:
 		lines.append({"label": "Unused placements (%d)" % unused, "value": bonus})
 	if BMRunConfig.is_boss_round(round_number):
 		lines.append({"label": "Boss defeated", "value": BMRunConfig.BOSS_CREDITS})
+		stats["bosses_beaten"] = int(stats.get("bosses_beaten", 0)) + 1
 	if unused >= 2:
 		for i in jokers.count("spare_parts"):
 			lines.append({"label": "Spare Parts", "value": BMRunConfig.SPARE_PARTS_CREDITS})
@@ -974,8 +983,48 @@ func _lose(reason: String) -> void:
 
 func _open_shop() -> void:
 	phase = Phase.SHOP
-	shop = {"jokers": [], "consumables": [], "tools": [], "pieces": [], "reroll_cost": BMRunConfig.REROLL_BASE}
+	shop = {"jokers": [], "consumables": [], "tools": [], "pieces": [], "reroll_cost": BMRunConfig.REROLL_BASE, "crate": []}
+	if BMRunConfig.is_boss_round(round_number):
+		shop.crate = _roll_crate()
 	_fill_shop_offers()
+
+
+## Boss Crate: a Joker (uncommon or rare), an item, and a stack of Credits.
+func _roll_crate() -> Array:
+	var rarity := BMJokers.RARE if rng_shop.randi_range(1, 100) <= 40 else BMJokers.UNCOMMON
+	var joker := _pick_joker(rarity, [])
+	var pool := BMConsumables.shop_pool()
+	var item: String = pool[rng_shop.randi_range(0, pool.size() - 1)]
+	return [{"kind": "joker", "id": joker}, {"kind": "item", "id": item}, {"kind": "credits", "value": BMRunConfig.CRATE_CREDITS}]
+
+
+## Takes one Boss Crate offer for free; the rest of the crate is gone.
+func open_crate(i: int) -> Dictionary:
+	if phase != Phase.SHOP:
+		return _fail("The shop is closed.")
+	var crate: Array = shop.get("crate", [])
+	if i < 0 or i >= crate.size():
+		return _fail("Nothing in the crate there.")
+	var o: Dictionary = crate[i]
+	match String(o.kind):
+		"joker":
+			if String(o.id) == "":
+				return _fail("That offer is empty.")
+			if jokers.size() >= joker_slots():
+				return _fail("Joker slots are full. Sell a Joker first.")
+			jokers.append(String(o.id))
+			if o.id == "loan_shark":
+				add_credits(BMJokers.LOAN_CREDITS)
+				loan_debt += BMJokers.LOAN_TOTAL
+		"item":
+			if consumables.size() >= BMRunConfig.CONSUMABLE_SLOTS:
+				return _fail("Item slots are full. Use an item first.")
+			consumables.append(String(o.id))
+		"credits":
+			add_credits(int(o.value))
+	shop.crate = []
+	history.append({"a": "crate", "i": i})
+	return {"ok": true, "type": "crate", "offer": o}
 
 
 func _fill_shop_offers() -> void:

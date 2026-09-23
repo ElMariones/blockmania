@@ -287,7 +287,10 @@ func refresh_all() -> void:
 		_refresh_count.text = "LOCKED"
 	else:
 		_refresh_count.text = "x%d" % rs.refreshes_left
-	_combo_label.text = "x%d" % rs.combo
+	var hanging := rs.combo > 0 and rs.combo_misses > 0
+	_combo_label.text = ("x%d!" if hanging else "x%d") % rs.combo
+	_combo_label.get_parent().tooltip_text = "Combo: each clearing placement adds 1 (max %d). It survives %d placement without a clear, then resets.%s" % [BMRunConfig.COMBO_CAP, BMRunConfig.COMBO_GRACE, "
+HANGING ON: clear on your next placement to keep it." if hanging else ""]
 	_combo_icon.modulate = Color.WHITE if rs.combo > 0 else Color(1, 1, 1, 0.35)
 	_combo_label.modulate = Color.WHITE if rs.combo > 0 else Color(1, 1, 1, 0.5)
 	_credits.set_target(run.credits)
@@ -728,6 +731,7 @@ func _do_action(a: Dictionary) -> void:
 		_set_message(r.error, BMStyle.PINK_L)
 		BMAudio.sfx("deny")
 		return
+	_new_kits = r.get("kits_unlocked", [])
 	match r.get("type", ""):
 		"place":
 			_present_placement(r)
@@ -822,6 +826,8 @@ func _present_placement(r: Dictionary) -> void:
 			BMAudio.sfx("tomb_rise")
 			if BMFx.instance:
 				BMFx.instance.shake(6.0))
+	if r.lines == 0 and run.round_state.combo > 0 and run.round_state.combo_misses > 0 and fx:
+		fx.pop_text(_combo_label.get_global_rect().get_center() + Vector2(0, -36), "HANG ON!", BMStyle.PINK_L, 20, 36.0, 1.0)
 	var refilled := int(r.get("placements_refilled", 0))
 	if refilled > 0 and fx:
 		var moves_at := _moves_label.get_global_rect().get_center()
@@ -1287,9 +1293,17 @@ func _show_run_end() -> void:
 	var build := BMStyle.label("Jokers: " + (", ".join(names) if names.size() > 0 else "none"), 20, BMStyle.SUN_L)
 	build.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	sv.add_child(build)
-	var seed_l := BMStyle.label("Seed %d" % run.run_seed, 20, BMStyle.TEXT_DIM)
+	var seed_l := BMStyle.label("Seed %d  -  %s" % [run.run_seed, BMRunConfig.kit(run.kit_id).name], 20, BMStyle.TEXT_DIM)
 	sv.add_child(seed_l)
 	v.add_child(sp)
+	for k in _new_kits:
+		var kp := BMStyle.panel("panel_sun", Vector4(14, 6, 14, 8))
+		var kl := BMStyle.label("NEW KIT UNLOCKED: %s!" % String(BMRunConfig.kit(k).name).to_upper(), 30, BMStyle.INK, true)
+		kl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		kp.add_child(kl)
+		v.add_child(kp)
+		BMAudio.sfx_later("hand_triplets", 0.8)
+	_new_kits = []
 	var row := BMStyle.hbox(12)
 	v.add_child(row)
 	var again := BMStyle.button("NEW RUN", func() -> void:
@@ -1556,6 +1570,8 @@ func _commit_tool(target: Dictionary) -> void:
 
 
 var _last_tool := {}
+## Kits unlocked by the run that just ended (shown on the run-end screen).
+var _new_kits: Array = []
 
 
 ## Presentation for a committed item: the tool arrives, then the cells go (state has already

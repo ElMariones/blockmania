@@ -61,8 +61,10 @@ func _ready() -> void:
 
 # --- Run lifecycle -------------------------------------------------------------------------
 
-func start_new_run(seed_value: int) -> void:
-	run = BMRun.new_run(seed_value)
+func start_new_run(seed_value: int, kit_id: String = "") -> void:
+	if kit_id == "":
+		kit_id = run.kit_id if run != null else "standard"
+	run = BMRun.new_run(seed_value, kit_id)
 	BMSaveStore.save_run(run)
 	_route(true)
 
@@ -149,6 +151,8 @@ func act(a: Dictionary) -> Dictionary:
 		return r
 	if run.phase in [BMRun.Phase.RUN_WON, BMRun.Phase.RUN_LOST, BMRun.Phase.ABANDONED]:
 		BMSaveStore.clear_run()
+		if before != run.phase:
+			r.kits_unlocked = BMSaveStore.record_run(run)
 	else:
 		BMSaveStore.save_run(run)
 	_route(before != run.phase and run.phase in [BMRun.Phase.SHOP, BMRun.Phase.RUN_WON])

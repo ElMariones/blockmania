@@ -33,6 +33,7 @@ func test_gdd_example_305_chips_and_610_points() -> void:
 func test_single_placement_without_clear_scores_cells_and_resets_combo() -> void:
 	var run := run_with(EMPTY_ROWS, [shape(&"l4")])
 	run.round_state.combo = 3
+	run.round_state.combo_misses = BMRunConfig.COMBO_GRACE # grace already spent
 	var r := run.place(0, Vector2i(0, 0))
 	eq(r.points, 40, "4 cells x 10")
 	eq(run.round_state.combo, 0, "combo reset")
