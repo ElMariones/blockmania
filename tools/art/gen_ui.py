@@ -352,6 +352,7 @@ ICON_PALETTE = {
     "s": SKY_L, "S": SKY, "b": SKY_D, "B": SKY_DD,
     "m": MINT_L, "M": MINT, "g": MINT_D, "G": MINT_DD,
     "l": PLUM_LL, "L": PLUM_L, "u": PLUM, "U": PLUM_D, "v": LILAC,
+    "e": (238, 166, 92, 255), "E": (206, 124, 64, 255), "d": (160, 86, 46, 255), "D": (108, 52, 40, 255),
 }
 
 ICONS = {
@@ -605,17 +606,18 @@ ICONS = {
         "kkkkkkkkkkk",
     ],
     "crate": [
-        "kkkkkkkkkkk",
-        "kyYYYYYYYok",
-        "kYkkkkkkkok",
-        "kYkOYYYOkok",
-        "kYkYOYOYkok",
-        "kYkYYOYYkok",
-        "kYkYOYOYkok",
-        "kYkOYYYOkok",
-        "kYkkkkkkkok",
-        "koooooooooOk",
-        "kkkkkkkkkkk",
+        "..kkkkkkkkkkkk..",
+        ".keeeeeeeeeeeek.",
+        "kkkkkkkkkkkkkkkk",
+        "kleeeeekyYkeeeuk",
+        "kLEEEEEkyokEEEUk",
+        "kkkkkyYYYYYokkkk",
+        "keEkEyPPPPPoEdDk",
+        "keEkEyPcPcPoEdDk",
+        "keEkdyrPcProdddk",
+        "keEkEkoooookEdDk",
+        "klEkEEEEEEEEEduk",
+        "kkkkkkkkkkkkkkkk",
     ],
     "tomb": [
         "...kkkkk...",
@@ -704,6 +706,258 @@ def icon(name):
     return im
 
 
+# ---------------------------------------------------------------- Boss Crate (64x60)
+WOOD_HI = (255, 218, 160, 255)
+WOOD_L = (238, 166, 92, 255)
+WOOD = (206, 124, 64, 255)
+WOOD_M = (184, 104, 54, 255)
+WOOD_D = (160, 86, 46, 255)
+WOOD_DD = (108, 52, 40, 255)
+
+CRATE_SKULL = [
+    ".ccccc.",
+    "ccccccc",
+    "ckkckkc",
+    "ckkckkc",
+    "cccKccc",
+    ".ccccc.",
+    ".cKcKc.",
+]
+
+
+def _rivet(im, x, y):
+    px(im, x, y, SUN_L)
+    px(im, x + 1, y, SUN)
+    px(im, x, y + 1, SUN)
+    px(im, x + 1, y + 1, SUN_DD)
+
+
+def _bracket(im, x, y, flip_x, flip_y, arm=8, t=3):
+    """L-shaped iron corner cap with a brass rivet. (x, y) is the outer corner."""
+    sx = -1 if flip_x else 1
+    sy = -1 if flip_y else 1
+    cells = set()
+    for i in range(arm):
+        for j in range(t):
+            cells.add((x + sx * i, y + sy * j))
+            cells.add((x + sx * j, y + sy * i))
+    for cx, cy in cells:
+        # Ink rim on the cap's inner edges, light on the face that catches the top-left light.
+        ix, iy = (cx - x) * sx, (cy - y) * sy
+        inner = (ix == arm - 1 and iy < t) or (iy == arm - 1 and ix < t) \
+            or (ix == t - 1 and iy >= t) or (iy == t - 1 and ix >= t)
+        if inner:
+            px(im, cx, cy, INK)
+        elif (not flip_y and iy == 0) or (not flip_x and ix == 0):
+            px(im, cx, cy, PLUM_LL)
+        elif (flip_y and iy == 0) or (flip_x and ix == 0):
+            px(im, cx, cy, PLUM)
+        else:
+            px(im, cx, cy, PLUM_L)
+    _rivet(im, x + sx * 1 - (1 if flip_x else 0), y + sy * 1 - (1 if flip_y else 0))
+
+
+def _plank(im, x0, x1, y0, h, rng, face=WOOD, light=WOOD_L, dark=WOOD_D):
+    """Horizontal plank with a lit top edge, a shaded bottom edge, grain streaks and maybe a knot."""
+    for y in range(y0, y0 + h):
+        c = light if y == y0 else dark if y == y0 + h - 1 else face
+        hline(im, x0, y, x1 - x0 + 1, c)
+    for _ in range((x1 - x0) // 7):
+        gy = rng.randint(y0 + 1, y0 + h - 2)
+        gx = rng.randint(x0 + 1, x1 - 5)
+        hline(im, gx, gy, rng.randint(2, 5), dark if rng.random() < 0.7 else light)
+    if h >= 6 and rng.random() < 0.55:
+        kx = rng.randint(x0 + 4, x1 - 6)
+        ky = y0 + h // 2 - 1
+        rect(im, kx, ky, 3, 2, dark)
+        px(im, kx + 1, ky, WOOD_DD)
+        px(im, kx - 1, ky + 1, dark)
+        px(im, kx + 3, ky, dark)
+
+
+def crate_big(crack=False):
+    """The Boss Crate: a front-facing wooden crate with a hinged lid, iron corner caps, a
+    diagonal brace and a brass hasp holding a pink skull seal. `crack` lifts the lid 2 px with
+    light spilling out of the seam (the hover frame)."""
+    import random
+    rng = random.Random(11)
+    W, H = 64, 60
+    im = img(W, H)
+    lift = 2 if crack else 0
+    bx0, bx1, by0, by1 = 4, 59, 24, 55          # body, inclusive
+    lx0, lx1 = 3, 60                             # lid overhangs the body by 1 px
+    ly0, ly1 = 16 - lift, 23 - lift              # lid front band
+    ty0 = 6 - lift                               # lid top face (trapezoid)
+
+    # Ground shadow.
+    for y in range(55, 60):
+        half = int(30 * (1 - ((y - 57) / 3.2) ** 2) ** 0.5) if abs(y - 57) < 3.2 else 0
+        hline(im, 32 - half, y, half * 2, INK_SOFT)
+
+    # ---- body
+    rect(im, bx0, by0, bx1 - bx0 + 1, by1 - by0 + 1, INK)
+    ix0, ix1 = bx0 + 1, bx1 - 1
+    y = by0 + 1
+    while y < by1:
+        h = min(7, by1 - y)
+        _plank(im, ix0, ix1, y, h, rng, WOOD_M, WOOD, WOOD_D)
+        y += h
+        if y < by1:
+            hline(im, ix0, y, ix1 - ix0 + 1, WOOD_DD)
+            y += 1
+    # Side stiles and the bottom rail (the crate frame).
+    for sx0 in (ix0, ix1 - 5):
+        rect(im, sx0, by0 + 1, 6, by1 - by0 - 1, WOOD)
+        vline(im, sx0, by0 + 1, by1 - by0 - 1, WOOD_L)
+        vline(im, sx0 + 5, by0 + 1, by1 - by0 - 1, WOOD_D)
+        for _ in range(4):
+            gx = rng.randint(sx0 + 1, sx0 + 4)
+            gy = rng.randint(by0 + 3, by1 - 8)
+            vline(im, gx, gy, rng.randint(2, 4), WOOD_D)
+    vline(im, ix0 + 6, by0 + 1, by1 - by0 - 1, INK)
+    vline(im, ix1 - 6, by0 + 1, by1 - by0 - 1, INK)
+    rect(im, ix0 + 7, by1 - 6, ix1 - ix0 - 13, 6, WOOD)
+    hline(im, ix0 + 7, by1 - 7, ix1 - ix0 - 13, INK)
+    hline(im, ix0 + 7, by1 - 6, ix1 - ix0 - 13, WOOD_L)
+    hline(im, ix0 + 7, by1 - 1, ix1 - ix0 - 13, WOOD_D)
+    for _ in range(5):
+        hline(im, rng.randint(ix0 + 8, ix1 - 12), rng.randint(by1 - 5, by1 - 3), rng.randint(2, 4), WOOD_D)
+    # Diagonal brace from bottom-left to top-right between the stiles.
+    x_a, x_b = ix0 + 7, ix1 - 7
+    y_a, y_b = by1 - 8, by0 + 2
+    for x in range(x_a, x_b + 1):
+        t = (x - x_a) / (x_b - x_a)
+        yc = round(y_a + (y_b - y_a) * t)
+        top, bot = yc - 3, yc + 3
+        for yy in range(max(top, by0 + 1), min(bot, by1 - 7) + 1):
+            c = WOOD
+            if yy == top or yy == bot:
+                c = INK
+            elif yy == top + 1:
+                c = WOOD_HI
+            elif yy == top + 2:
+                c = WOOD_L
+            elif yy == bot - 1:
+                c = WOOD_D
+            px(im, x, yy, c)
+    for _ in range(6):
+        gx = rng.randint(x_a + 3, x_b - 6)
+        gy = round(y_a + (y_b - y_a) * (gx - x_a) / (x_b - x_a))
+        for k in range(rng.randint(2, 4)):
+            yy = round(y_a + (y_b - y_a) * (gx + k - x_a) / (x_b - x_a))
+            px(im, gx + k, yy + (gy - gy), WOOD_D)
+    # Nail heads where the brace meets the frame.
+    for nx, ny in ((x_a + 2, y_a), (x_b - 3, y_b + 2)):
+        px(im, nx, ny, PLUM_LL)
+        px(im, nx + 1, ny, PLUM)
+        px(im, nx + 1, ny + 1, INK)
+    # Soft ambient shade under the lid lip.
+    for x in range(ix0, ix1 + 1):
+        c = im.getpixel((x, by0 + 1))
+        if c != INK:
+            px(im, x, by0 + 1, WOOD_DD if c in (WOOD, WOOD_M, WOOD_L, WOOD_HI) else c)
+
+    # ---- light spilling from the gap (hover frame)
+    if crack:
+        rect(im, bx0 + 1, ly1 + 1, bx1 - bx0 - 1, lift, SUN_L)
+        hline(im, bx0 + 4, ly1 + 1, bx1 - bx0 - 7, WHITE)
+        # Warm light washing over the first plank row.
+        for x in range(bx0 + 1, bx1):
+            c = im.getpixel((x, by0 + 1))
+            if c != INK:
+                px(im, x, by0 + 1, SUN)
+
+    # ---- lid top face: trapezoid seen from slightly above, planks running left to right
+    depth = ly0 - ty0
+    for r in range(depth):
+        inset = round(5 * (1 - r / max(1, depth - 1)))
+        x0, x1 = lx0 + inset, lx1 - inset
+        yy = ty0 + r
+        hline(im, x0, yy, x1 - x0 + 1, INK)
+        if r == 0:
+            continue
+        seam = r in (depth // 2,)
+        c = WOOD_DD if seam else WOOD_HI if r in (1, depth // 2 + 1) else WOOD_L
+        hline(im, x0 + 1, yy, x1 - x0 - 1, c)
+    for _ in range(9):
+        r = rng.randint(2, depth - 2)
+        if r == depth // 2:
+            continue
+        inset = round(5 * (1 - r / max(1, depth - 1)))
+        gx = rng.randint(lx0 + inset + 2, lx1 - inset - 6)
+        hline(im, gx, ty0 + r, rng.randint(2, 5), WOOD)
+
+    # ---- lid front band
+    rect(im, lx0, ly0, lx1 - lx0 + 1, ly1 - ly0 + 1, INK)
+    _plank(im, lx0 + 1, lx1 - 1, ly0 + 1, ly1 - ly0 - 1, rng, WOOD_L, WOOD_HI, WOOD)
+    hline(im, lx0 + 1, ly1 - 1, lx1 - lx0 - 1, WOOD_D)
+
+    # ---- iron corner caps
+    _bracket(im, lx0, ly0, False, False, arm=6, t=3)
+    _bracket(im, lx1, ly0, True, False, arm=6, t=3)
+    _bracket(im, bx0, by1, False, True)
+    _bracket(im, bx1, by1, True, True)
+
+    # ---- brass hasp on the lid, lock plate on the body
+    cx = W // 2
+    hx0, hx1 = cx - 4, cx + 3
+    rect(im, hx0, ly0 - 1, hx1 - hx0 + 1, (ly1 - ly0) + 5, INK)
+    rect(im, hx0 + 1, ly0, hx1 - hx0 - 1, (ly1 - ly0) + 3, SUN)
+    vline(im, hx0 + 1, ly0, (ly1 - ly0) + 3, SUN_L)
+    vline(im, hx1 - 1, ly0, (ly1 - ly0) + 3, SUN_D)
+    _rivet(im, cx - 1, ly0 + 1)
+    # Lock plate: a chamfered brass plate with a round pink wax seal and an original skull.
+    pw, ph = 20, 19
+    px0, py0 = cx - pw // 2, by0 + 2
+    fill_shape(im, px0, py0, pw, ph, 3, INK)
+    fill_shape(im, px0 + 1, py0 + 1, pw - 2, ph - 2, 3, SUN)
+    hline(im, px0 + 3, py0 + 1, pw - 6, SUN_L)
+    vline(im, px0 + 1, py0 + 3, ph - 6, SUN_L)
+    hline(im, px0 + 3, py0 + ph - 2, pw - 6, SUN_DD)
+    vline(im, px0 + pw - 2, py0 + 3, ph - 6, SUN_D)
+    for rx, ry in ((px0 + 2, py0 + 2), (px0 + pw - 4, py0 + 2), (px0 + 2, py0 + ph - 4), (px0 + pw - 4, py0 + ph - 4)):
+        px(im, rx + 1, ry + 1, SUN_DD)
+        px(im, rx, ry, SUN_L)
+    # Seal: a stepped disc, darker on the lower right, with drips of wax.
+    scx, scy, rad = cx - 0.5, py0 + ph / 2 - 0.5, 6.6
+    for yy in range(int(scy - rad) - 1, int(scy + rad) + 2):
+        for xx in range(int(scx - rad) - 1, int(scx + rad) + 2):
+            d = ((xx - scx) ** 2 + (yy - scy) ** 2) ** 0.5
+            if d <= rad + 0.5:
+                if d > rad - 0.6:
+                    c = INK
+                elif (xx - scx) + (yy - scy) > 4.2:
+                    c = PINK_D
+                elif (xx - scx) + (yy - scy) < -5.2:
+                    c = PINK_L
+                else:
+                    c = PINK
+                px(im, xx, yy, c)
+    px(im, int(scx + rad) - 1, int(scy + rad), INK)
+    px(im, int(scx + rad) - 1, int(scy + rad) + 1, PINK_DD)
+    for sy, row in enumerate(CRATE_SKULL):
+        for sx, ch in enumerate(row):
+            if ch == "c":
+                px(im, cx - 4 + sx, int(scy) - 3 + sy, CREAM)
+            elif ch == "k":
+                px(im, cx - 4 + sx, int(scy) - 3 + sy, INK)
+            elif ch == "K":
+                px(im, cx - 4 + sx, int(scy) - 3 + sy, PINK_DD)
+    # Glints on the brass and the lid.
+    px(im, px0 + 4, py0 + 3, WHITE)
+    px(im, lx0 + 8, ly0 + 1, WHITE)
+    px(im, lx0 + 9, ly0 + 1, WOOD_HI)
+
+    if crack:
+        # Sparkles escaping the lid.
+        # Sparkles escaping past the lid: little 4-point stars.
+        for sx, sy, c in ((1, ly1 - 3, SUN_L), (62, ly1 - 5, WHITE), (60, ty0 - 1, SUN_L), (4, ty0 + 1, WHITE)):
+            px(im, sx, sy, c)
+            for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                px(im, sx + dx, sy + dy, SUN)
+    return im
+
+
 def main():
     for name in BLOCKS:
         if name != "stone":
@@ -747,6 +1001,8 @@ def main():
     save("pill_plum", pill(PLUM_L, PLUM_LL, PLUM), [3, 3, 3, 3])
     for name in ICONS:
         save("icon_" + name, icon(name))
+    save("crate_big", crate_big())
+    save("crate_big_open", crate_big(crack=True))
     with open(os.path.join(OUT, "nine.json"), "w") as f:
         json.dump(NINE, f, indent=1)
     print("wrote", len(os.listdir(OUT)), "files to", OUT)

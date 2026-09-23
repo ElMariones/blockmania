@@ -206,11 +206,13 @@ func _show_crate() -> void:
 	sub.position = Vector2(0, center.y - 290)
 	dim.add_child(sub)
 	var crate := TextureButton.new()
-	crate.texture_normal = BMStyle.tex("icon_crate")
-	crate.ignore_texture_size = true
-	crate.stretch_mode = TextureButton.STRETCH_SCALE
+	# Hover lifts the lid a crack, with light spilling out. Not on focus: the crate is focused
+	# as soon as it appears, which would spoil the reveal.
+	crate.texture_normal = BMStyle.tex("crate_big")
+	crate.texture_hover = BMStyle.tex("crate_big_open")
 	crate.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	crate.size = Vector2(264, 264)
+	crate.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	crate.size = crate.texture_normal.get_size()
 	crate.pivot_offset = crate.size / 2.0
 	crate.position = center - crate.size / 2.0 + Vector2(0, 40)
 	crate.tooltip_text = "Open the crate"
@@ -231,7 +233,7 @@ func _show_crate() -> void:
 		BMAudio.sfx("crate_open")
 		if BMFx.instance:
 			var at := crate.get_global_rect().get_center()
-			BMFx.instance.chips(at, [BMStyle.SUN, BMStyle.SUN_D, Color("#9e6016")], 24)
+			BMFx.instance.chips(at, [Color("#eea65c"), Color("#ce7c40"), Color("#6c3428"), BMStyle.SUN], 28)
 			BMFx.instance.confetti(Rect2(Vector2(0, 0), size), 120)
 			BMFx.instance.shake(10.0)
 			BMFx.instance.ring(at, BMStyle.SUN_L, 260.0)
