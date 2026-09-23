@@ -26,6 +26,8 @@ var _fx_clears: Array[Dictionary] = [] ## {cell, color, mat, finish, t, delay}
 var _pop_step := 0 ## position in the pop cascade of the current resolution
 var _fx_places: Array[Dictionary] = [] ## {cell, t, delay}
 var _fx_sweeps: Array[Dictionary] = [] ## {row|col, index, t}
+var _fx_tombs: Array[Dictionary] = [] ## {cell, t}: The Undertaker's tombstones rising
+const TOMB_TIME := 0.7
 var _time := 0.0
 
 const CLEAR_TIME := 0.34
@@ -75,6 +77,13 @@ func play_removal(entries: Array, style: String, delay: float = 0.0, center := V
 		_fx_clears.append({"cell": cell, "color": e.color, "mat": mat, "finish": BMBlockPainter.finish_for(mat, block_skin),
 			"t": 0.0, "delay": delay + d, "burst": false, "style": style})
 	queue_redraw()
+
+
+## The Undertaker: a tombstone rises out of the board at `cell` (state already has it).
+func play_tomb(cell: Vector2i) -> void:
+	_fx_tombs.append({"cell": cell, "t": 0.0})
+	if BMFx.instance:
+		BMFx.instance.dust(cell_global_center(cell) + Vector2(0, cell_size() * 0.4), cell_size() * 1.4, 14)
 
 
 ## Anchor for a shape whose top-left corner is at `local_top_left` (board-local pixels).
@@ -154,6 +163,10 @@ func _process(delta: float) -> void:
 		fx.t += delta
 	for fx in _fx_sweeps:
 		fx.t += delta
+	for fx in _fx_tombs:
+		fx.t += delta
+	_fx_tombs = _fx_tombs.filter(func(f: Dictionary) -> bool: return f.t < TOMB_TIME)
+	busy = busy or not _fx_tombs.is_empty()
 	for fx in _fx_clears:
 		fx.t += delta
 		if not fx.burst and fx.t >= fx.delay + CLEAR_TIME * 0.5:
@@ -243,7 +256,18 @@ func _draw() -> void:
 				var drop := (1.0 - minf(1.0, k * 1.6)) * -c * 0.35
 				var squash := 1.0 + 0.12 * sin(clampf((k - 0.55) / 0.45, 0.0, 1.0) * PI)
 				rr = Rect2(r.position + Vector2((r.size.x - r.size.x * squash) / 2.0, drop + r.size.y * (1.0 - 1.0 / squash)), Vector2(r.size.x * squash, r.size.y / squash))
+			var rise := _tomb_rise(p)
+			if rise >= 0.0:
+				# Rises from below the cell with a shudder, then settles.
+				var k := rise
+				var up := (1.0 - minf(1.0, k * 1.4)) * r.size.y
+				var shake := sin(k * 60.0) * 3.0 * (1.0 - k)
+				rr = Rect2(r.position + Vector2(shake, up), Vector2(r.size.x, r.size.y - up))
 			BMBlockPainter.draw_block(self, rr, v, 1.0, BMPieces.MATERIALS[run.board.get_mat(p)], Color.WHITE, block_skin, p)
+			if v == BMShapes.COLOR_STONE and _is_tomb(p):
+				var tomb := BMStyle.tex("icon_tomb")
+				var ts := tomb.get_size() * 1.25
+				draw_texture_rect(tomb, Rect2((rr.get_center() - ts / 2.0).round(), ts), false)
 			if pending.has(p):
 				draw_rect(r.grow(-4), Color(1, 1, 1, 0.12 + 0.18 * pulse))
 
@@ -372,6 +396,20 @@ func _tool_burst(style: String, at: Vector2, color_id: int) -> void:
 			fx.sparks(at, c.lightened(0.3), 8, 360.0)
 		_:
 			fx.burst(at, [c, BMStyle.CREAM], 12, 360.0, 8.0)
+
+func _tomb_rise(p: Vector2i) -> float:
+	for fx in _fx_tombs:
+		if fx.cell == p:
+			return clampf(fx.t / TOMB_TIME, 0.0, 1.0)
+	return -1.0
+
+
+func _is_tomb(p: Vector2i) -> bool:
+	for t in run.round_state.tombs:
+		if int(t[0]) == p.x and int(t[1]) == p.y:
+			return true
+	return false
+
 
 func _place_fx(p: Vector2i) -> float:
 	for fx in _fx_places:

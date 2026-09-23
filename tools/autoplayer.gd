@@ -103,7 +103,7 @@ func choose_placement(run: BMRun) -> Dictionary:
 	var candidates: Array = []
 	for slot in run.tray.size():
 		var piece: Dictionary = run.tray[slot]
-		if piece.is_empty():
+		if piece.is_empty() or run.slot_locked(slot):
 			continue
 		for anchor in run.board.legal_anchors(piece.cells):
 			candidates.append(_heuristic(run, slot, anchor))

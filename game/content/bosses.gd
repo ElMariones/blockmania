@@ -21,12 +21,19 @@ const CATALOG := [
 	{"id": "lockdown", "name": "The Lockdown", "final": false,
 		"rule": "The free Refresh and Second Tray are unavailable this round.",
 		"counter": "Plan tray order and preserve board space."},
+	{"id": "warden", "name": "The Warden", "final": false,
+		"rule": "One tray slot starts barred: its piece can't be played until you clear a line. Deals skip the barred slot.",
+		"counter": "Open with a quick clear using the other two slots."},
+	{"id": "undertaker", "name": "The Undertaker", "final": false,
+		"rule": "After every 4th placement, a tombstone rises on an empty cell. It clears with its line like any block.",
+		"counter": "Clear often and keep lanes open."},
 	{"id": "last_call", "name": "The Last Call", "final": true,
 		"rule": "Only 12 placements. Each multi-line placement gains +50 Chips.",
 		"counter": "Prepare efficient shapes and simultaneous clears."},
 ]
 
 const FIXED_CELL_COUNT := 4
+const UNDERTAKER_EVERY := 4
 const TAXMAN_FIRST_LINE_CHIPS := 60
 const LAST_CALL_PLACEMENTS := 12
 const LAST_CALL_MULTI_LINE_CHIPS := 50
@@ -70,3 +77,26 @@ static func cramped_cells(rng: BMRngStream) -> Array[Vector2i]:
 		if not out.has(p):
 			out.append(p)
 	return out
+
+
+## A seeded empty cell for The Undertaker's tombstone. Never one that would complete a row or
+## column (a full line would sit uncleared until the next placement). Returns (-1, -1) if none.
+static func tomb_cell(rng: BMRngStream, board: BMBoard) -> Vector2i:
+	var options: Array[Vector2i] = []
+	for y in BMBoard.SIZE:
+		for x in BMBoard.SIZE:
+			var p := Vector2i(x, y)
+			if not board.is_empty(p):
+				continue
+			var row_gaps := 0
+			var col_gaps := 0
+			for i in BMBoard.SIZE:
+				if board.is_empty(Vector2i(i, y)):
+					row_gaps += 1
+				if board.is_empty(Vector2i(x, i)):
+					col_gaps += 1
+			if row_gaps > 1 and col_gaps > 1:
+				options.append(p)
+	if options.is_empty():
+		return Vector2i(-1, -1)
+	return options[rng.randi_range(0, options.size() - 1)]

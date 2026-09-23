@@ -64,8 +64,9 @@ static func deal(run: BMRun, slots: Array) -> Dictionary:
 
 static func ensure_legal(run: BMRun, slots: Array) -> Dictionary:
 	var result := {"rescued": false, "temporary": false}
-	for p in run.tray:
-		if not p.is_empty() and run.board.fits_anywhere(p.cells):
+	for i in run.tray.size():
+		var p: Dictionary = run.tray[i]
+		if not p.is_empty() and not run.slot_locked(i) and run.board.fits_anywhere(p.cells):
 			return result
 	if slots.is_empty():
 		return result

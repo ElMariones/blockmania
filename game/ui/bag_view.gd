@@ -41,6 +41,7 @@ func _build() -> void:
 	var lim := BMStyle.label("min %d  -  max %d" % [BMPieces.MIN_BAG, BMPieces.MAX_BAG], 20, BMStyle.TEXT_DIM, false, 6)
 	lim.size_flags_vertical = Control.SIZE_SHRINK_END
 	head.add_child(lim)
+	_stats_strip()
 	var keys := run.family_levels.keys()
 	keys.sort()
 	if not keys.is_empty():
@@ -111,3 +112,54 @@ func _on_toggle(uid: int) -> void:
 		t.selected = selected.has(int(t.piece.uid))
 		t.queue_redraw()
 	selection_changed.emit(selected.duplicate())
+
+
+
+## Bag statistics and Tray Hand odds (from the whole bag's composition, so draw order stays
+## hidden). Odds enumerate every three-piece deal: exact, and cached per bag signature.
+func _stats_strip() -> void:
+	var upgraded := BMBag.upgraded_count(run)
+	var colors := {}
+	for p in run.bag:
+		colors[int(p.color)] = true
+	var st := HFlowContainer.new()
+	st.add_theme_constant_override("h_separation", 8)
+	st.add_theme_constant_override("v_separation", 6)
+	st.add_child(BMStyle.label("BAG", 20, BMStyle.TEXT_DIM, true, 6))
+	st.add_child(BMStyle.pill("%d FAMILIES" % BMBag.distinct_families(run), "plum", 20))
+	st.add_child(BMStyle.pill("%d COLORS" % colors.size(), "plum", 20))
+	st.add_child(BMStyle.pill("%d UPGRADED" % upgraded, "plum", 20))
+	add_child(st)
+	var odds := _odds()
+	var ho := HFlowContainer.new()
+	ho.add_theme_constant_override("h_separation", 8)
+	ho.add_theme_constant_override("v_separation", 6)
+	var hl := BMStyle.label("HAND ODDS PER DEAL", 20, BMStyle.TEXT_DIM, true, 6)
+	hl.tooltip_text = "Chance that a fresh three-piece deal forms each Tray Hand, from your whole bag."
+	hl.mouse_filter = Control.MOUSE_FILTER_PASS
+	ho.add_child(hl)
+	var kinds := {BMHands.TWINS: "sky", BMHands.STAIRCASE: "mint", BMHands.MONOCHROME: "pink", BMHands.TRIPLETS: "sun", BMHands.GRAND_SLAM: "plum"}
+	for id in [BMHands.TWINS, BMHands.STAIRCASE, BMHands.MONOCHROME, BMHands.TRIPLETS, BMHands.GRAND_SLAM]:
+		var pct := 100.0 * float(odds.get(id, 0.0))
+		var txt := "%s %s" % [BMHands.get_def(id).badge, ("%.0f%%" % pct) if pct >= 1.0 or pct == 0.0 else "<1%"]
+		var pill := BMStyle.pill(txt, kinds[id], 20)
+		pill.tooltip_text = BMHands.get_def(id).text
+		pill.mouse_filter = Control.MOUSE_FILTER_PASS
+		ho.add_child(pill)
+	add_child(ho)
+
+
+static var _odds_cache := {}
+
+
+func _odds() -> Dictionary:
+	var sig := PackedStringArray()
+	for p in run.bag:
+		sig.append("%s%d%s" % [p.family, int(p.color), p.get("material", "")])
+	sig.sort()
+	var key := ",".join(sig)
+	if not _odds_cache.has(key):
+		if _odds_cache.size() > 16:
+			_odds_cache.clear()
+		_odds_cache[key] = BMHands.odds(run.bag)
+	return _odds_cache[key]

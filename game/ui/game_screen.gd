@@ -311,6 +311,7 @@ func refresh_all() -> void:
 		_boss_box.add_child(rule)
 
 	for i in 3:
+		slots[i].locked = run.slot_locked(i)
 		slots[i].setup(run.tray[i], held_slot == i, run.slot_fits(i))
 		slots[i].focused_by_key = held_mode == "key" and held_slot == i
 		slots[i].tooltip_text = BMPieces.describe(run.tray[i]) if not run.tray[i].is_empty() else ""
@@ -812,6 +813,15 @@ func _present_placement(r: Dictionary) -> void:
 				var c := ref.get_ref() as BMCard
 				if c != null:
 					c.pulse("+%d STORED" % BMJokers.PATIENCE_STEP, BMStyle.SKY_L))
+	if int(r.get("unlocked", -1)) >= 0:
+		_warden_unlock(int(r.unlocked))
+	if r.has("tomb"):
+		var tomb: Vector2i = r.tomb
+		get_tree().create_timer(0.35).timeout.connect(func() -> void:
+			board_view.play_tomb(tomb)
+			BMAudio.sfx("tomb_rise")
+			if BMFx.instance:
+				BMFx.instance.shake(6.0))
 	var refilled := int(r.get("placements_refilled", 0))
 	if refilled > 0 and fx:
 		var moves_at := _moves_label.get_global_rect().get_center()
@@ -1177,7 +1187,10 @@ func _show_round_intro() -> void:
 	v.add_child(gap)
 	var b := BMStyle.button("START ROUND", func() -> void:
 		close_overlay()
-		_spin_tray(0.05, _tray_hand()), "sun", 40)
+		_spin_tray(0.05, _tray_hand())
+		if run.round_state.locked_slot >= 0:
+			BMAudio.sfx_later("warden_lock", 0.75)
+			_set_message("THE WARDEN BARRED SLOT %d: CLEAR A LINE TO FREE IT" % (run.round_state.locked_slot + 1), BMStyle.PINK_L, 3.5), "sun", 40)
 	b.custom_minimum_size = Vector2(0, 88)
 	v.add_child(b)
 	BMStyle.focus_later(b)
@@ -1876,3 +1889,16 @@ func _show_insurance_claim() -> void:
 		b.custom_minimum_size = Vector2(0, 88)
 		v.add_child(b)
 		BMStyle.focus_later(b))
+
+
+
+## The Warden's bars shatter off a tray well.
+func _warden_unlock(slot: int) -> void:
+	var at := slots[slot].get_global_rect().get_center()
+	BMAudio.sfx_later("warden_unlock", 0.1)
+	var fx := BMFx.instance
+	if fx:
+		fx.shards(at, 24, BMStyle.PLUM_LL)
+		fx.sparks(at, BMStyle.SUN_L, 14)
+		fx.pop_text(at + Vector2(0, -90), "FREE!", BMStyle.MINT_L, 60, 60.0, 1.0)
+	slots[slot].flare()

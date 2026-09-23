@@ -43,7 +43,7 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 	rs.placements_made += 1
 	rs.color_history.append(-1 if prism else int(piece.color))
 	rs.size_history.append(placed.size())
-	var empties_tray := run.tray_is_empty()
+	var empties_tray := run.tray_spent()
 
 	# Step 2: Before Clear effects — none in current content. Detect lines on the placed board.
 	var rows := board.full_rows()
@@ -272,6 +272,11 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 		if not rs.feats_seen.has(f):
 			rs.feats_seen.append(f)
 		run.stats["feats"] = int(run.stats.get("feats", 0)) + 1
+	var unlocked := -1
+	if is_clearing and rs.locked_slot >= 0:
+		unlocked = rs.locked_slot
+		rs.locked_slot = -1
+		events.append("The Warden's bars break: slot %d is free" % (unlocked + 1))
 	if is_clearing and not rs.patch_used and not rs.patch_ready and run.has_active_joker("patch_panel"):
 		rs.patch_ready = true
 		events.append("Patch Panel ready: remove one block")
@@ -338,6 +343,7 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 		"placements_refilled": refilled,
 		"feats": feats,
 		"new_feats": new_feats,
+		"unlocked": unlocked,
 	}
 
 

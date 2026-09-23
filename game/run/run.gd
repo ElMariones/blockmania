@@ -47,6 +47,8 @@ class RoundState:
 	var patience_store := 0
 	var overflow_paid := 0
 	var insured := false ## This round is an Insurance Policy replay.
+	var locked_slot := -1 ## The Warden: barred tray slot until the first clear.
+	var tombs: Array = [] ## The Undertaker: cells where tombstones rose ([x, y]).
 
 	func to_dict() -> Dictionary:
 		var fixed: Array = []
@@ -63,6 +65,7 @@ class RoundState:
 			"reshuffles": reshuffles, "rescued_deals": rescued_deals, "hands_formed": hands_formed,
 			"size_history": size_history.duplicate(), "feats_seen": feats_seen.duplicate(),
 			"patience_store": patience_store, "overflow_paid": overflow_paid, "insured": insured,
+			"locked_slot": locked_slot, "tombs": tombs.duplicate(true),
 		}
 
 	static func from_dict(d: Dictionary) -> RoundState:
@@ -99,6 +102,9 @@ class RoundState:
 		r.patience_store = int(d.get("patience_store", 0))
 		r.overflow_paid = int(d.get("overflow_paid", 0))
 		r.insured = bool(d.get("insured", false))
+		r.locked_slot = int(d.get("locked_slot", -1))
+		for t in d.get("tombs", []):
+			r.tombs.append([int(t[0]), int(t[1])])
 		return r
 
 
@@ -243,13 +249,26 @@ func can_place() -> bool:
 
 
 func is_legal(slot: int, anchor: Vector2i) -> bool:
-	if slot < 0 or slot >= tray.size() or tray[slot].is_empty():
+	if slot < 0 or slot >= tray.size() or tray[slot].is_empty() or slot_locked(slot):
 		return false
 	return board.can_place(tray[slot].cells, anchor)
 
 
 func slot_fits(slot: int) -> bool:
-	return slot >= 0 and slot < tray.size() and not tray[slot].is_empty() and board.fits_anywhere(tray[slot].cells)
+	return slot >= 0 and slot < tray.size() and not tray[slot].is_empty() and not slot_locked(slot) and board.fits_anywhere(tray[slot].cells)
+
+
+## The Warden's barred slot (its piece can't be placed, refreshed, or bricked).
+func slot_locked(slot: int) -> bool:
+	return phase == Phase.ROUND and round_state.locked_slot == slot
+
+
+## True when every slot that can still be used is empty (a new tray is due).
+func tray_spent() -> bool:
+	for i in tray.size():
+		if not tray[i].is_empty() and not slot_locked(i):
+			return false
+	return true
 
 
 func tray_is_empty() -> bool:
@@ -341,10 +360,21 @@ func place(slot: int, anchor: Vector2i) -> Dictionary:
 		return _fail("Cannot place right now.")
 	if slot < 0 or slot >= tray.size() or tray[slot].is_empty():
 		return _fail("That tray slot is empty.")
+	if slot_locked(slot):
+		return _fail("The Warden barred this slot. Clear a line to free it.")
 	if not board.can_place(tray[slot].cells, anchor):
 		return _fail("The shape does not fit there.")
 	var result := BMResolver.resolve_placement(self, slot, anchor)
 	history.append({"a": "place", "slot": slot, "x": anchor.x, "y": anchor.y})
+	# The Undertaker: a tombstone rises after every 4th placement (not after the winning one).
+	if current_boss() == "undertaker" and round_state.score < round_state.target \
+			and round_state.placements_made % BMBosses.UNDERTAKER_EVERY == 0:
+		var t := BMBosses.tomb_cell(rng_boss, board)
+		if t.x >= 0:
+			board.set_cell(t, BMShapes.COLOR_STONE)
+			round_state.tombs.append([t.x, t.y])
+			result.tomb = t
+			result.events.append("The Undertaker raised a tombstone")
 	result.merge(_after_round_action(), true)
 	return result
 
@@ -470,6 +500,8 @@ func _validate_target(id: String, t: Dictionary) -> Dictionary:
 			if slot < 0 or slot >= tray.size():
 				return {"error": "Choose a tray slot."}
 			var kind := BMConsumables.target_kind(id)
+			if slot_locked(slot):
+				return {"error": "The Warden barred that slot."}
 			if kind != "slot" and tray[slot].is_empty():
 				return {"error": "That tray slot is empty."}
 			if kind == "slot_color":
@@ -750,13 +782,25 @@ func _start_round() -> void:
 	tray = [{}, {}, {}]
 	BMBag.start_round(self)
 	_deal_fresh_tray()
+	if boss == "warden":
+		rs.locked_slot = rng_boss.randi_range(0, 2)
+		# The guarantee must hold for the playable slots: re-check without the barred one.
+		var open_slots: Array = []
+		for i in 3:
+			if i != rs.locked_slot:
+				open_slots.append(i)
+		BMBag.ensure_legal(self, open_slots)
 
 
 ## Deals a whole new tray and checks it for a Hand. Returns the Hand id or "".
 func _deal_fresh_tray() -> String:
-	tray = [{}, {}, {}]
-	BMBag.deal(self, [0, 1, 2])
-	return _apply_hand()
+	var slots: Array = []
+	for i in 3:
+		if not slot_locked(i):
+			tray[i] = {}
+			slots.append(i)
+	BMBag.deal(self, slots)
+	return _apply_hand() if slots.size() == 3 else ""
 
 
 ## Marks the three tray pieces with their Hand and grants the one-time rewards
@@ -784,7 +828,7 @@ func _apply_hand() -> String:
 func _do_tray_refresh(label: String) -> Dictionary:
 	var slots: Array = []
 	for i in tray.size():
-		if not tray[i].is_empty():
+		if not tray[i].is_empty() and not slot_locked(i):
 			slots.append(i)
 			BMBag.discard(self, tray[i])
 			tray[i] = {}
@@ -832,7 +876,7 @@ func _evaluate_round() -> Dictionary:
 		_win_round()
 		return {"round_won": true, "phase": phase}
 	var hand := ""
-	if tray_is_empty():
+	if tray_spent():
 		hand = _deal_fresh_tray()
 		events.append("New tray")
 		for p in tray:
