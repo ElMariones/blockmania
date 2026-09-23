@@ -9,6 +9,8 @@ Reports produced by `tools/experiments.gd`, a greedy, preview-guided autoplayer 
 | `exp_jokers_retune.md` | Pass 3 | Targeted check of Hollow Point, Pressure Cooker, Hoarder, and Recycler after the last trims. It supersedes those four rows in `exp_jokers.md`. |
 | `exp_curve.md` | Pass 3 | Difficulty curve with the pass-3 numbers (12 fixed placements) (100 seeds). |
 | `experiments_v2.md` | 2026-09-23 | Curve, Joker and upgrade survey (60 seeds) after the **placement refill** rework (15 placements, +1 per line up to the cap). Earlier reports used 12 fixed placements, so compare their Δ values only with each other. The curve now also reports loss reasons. |
+| `experiments_v3.md` | 2026-09-23 | Survey after the full round-play update (Tray Hands, tools, Feats, 52 Jokers, new bosses, Boss Crate, combo grace). Baseline 13% wins, average round 10.3. |
+| `exp_foundry_v3.md` | 2026-09-23 | Foundry after the trim to +5 (27% wins alone, down from 53%). |
 
 Rerun everything after any balance change:
 

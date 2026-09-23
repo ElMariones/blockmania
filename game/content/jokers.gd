@@ -47,7 +47,7 @@ const CATALOG := [
 	{"id": "last_piece", "name": "Last Piece", "rarity": COMMON, "phase": "chips", "text": "+80 Chips when this placement empties the tray."},
 	{"id": "postmaster", "name": "Postmaster", "rarity": COMMON, "phase": "chips", "text": "+40 Chips when placing a stamped piece."},
 	{"id": "lean_bag", "name": "Lean Bag", "rarity": UNCOMMON, "phase": "add_mult", "text": "+0.25 Mult for each piece your bag has below 24 (max +3)."},
-	{"id": "foundry", "name": "Foundry", "rarity": UNCOMMON, "phase": "chips", "text": "+8 Chips for each upgraded piece (material or stamp) in your bag."},
+	{"id": "foundry", "name": "Foundry", "rarity": UNCOMMON, "phase": "chips", "text": "+5 Chips for each upgraded piece (material or stamp) in your bag."},
 	{"id": "neon_sign", "name": "Neon Sign", "rarity": UNCOMMON, "phase": "add_mult", "text": "Neon cells cleared give an extra +0.5 Mult each."},
 	{"id": "specialist", "name": "Specialist", "rarity": UNCOMMON, "phase": "add_mult", "text": "+0.5 Mult per Schematic level of the placed piece's family."},
 	{"id": "recycler", "name": "Recycler", "rarity": UNCOMMON, "phase": "add_mult", "text": "+0.1 Mult for each piece in the discard pile before placement (max +1)."},
@@ -153,7 +153,7 @@ static func chips(id: String, ctx: Dictionary) -> int:
 		"postmaster":
 			return 40 if ctx.stamp != "" else 0
 		"foundry":
-			return 8 * ctx.upgraded_count
+			return 5 * ctx.upgraded_count
 		"patience":
 			return ctx.patience_store if ctx.is_clearing else 0
 		"locksmith":
@@ -293,7 +293,7 @@ static func counter_text(id: String, run: BMRun) -> String:
 		"lean_bag":
 			return "%d pieces: +%s Mult" % [run.bag.size(), str(minf(3.0, 0.25 * maxi(0, 24 - run.bag.size())))]
 		"foundry":
-			return "%d upgraded: +%d Chips" % [BMBag.upgraded_count(run), 8 * BMBag.upgraded_count(run)]
+			return "%d upgraded: +%d Chips" % [BMBag.upgraded_count(run), 5 * BMBag.upgraded_count(run)]
 		"collector":
 			var fams := BMBag.distinct_families(run)
 			return "%d families: x%s Mult" % [fams, str(1.0 + 0.1 * maxi(0, fams - 6))]

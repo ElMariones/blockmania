@@ -110,6 +110,7 @@ Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/r
 - 2026-09-22: greedy bot with the original targets failed round 1 in 30% of runs and round 2 in 62%; survivors cleared later rounds easily.
 - 2026-09-23: **targets retuned** to 450 / 650 / 850 / 1,150 / 1,600 / 2,100 / 2,800 / 3,700 / 4,700 / 6,000 / 7,500 / 10,000 (GDD §5, §16.9). The bot now reaches round ~4.5 on average with gradual attrition. Human playtests must confirm.
 - 2026-09-23: **placement budget** 12 flat → 15 with a +1-per-line refill up to the cap. Bot average round 4.3 → 9.3, round 3 clear 71% → 100%, round 8 boss 81%, final boss 11%. Every baseline loss had been "out of placements". Variants compared in docs/design/round_play_update.md §1; the full report is `docs/balance/experiments_v2.md`. New outlier: **Foundry + 6 Chrome 65% wins** (was 13%). Trim Foundry if human play confirms it.
+- 2026-09-23: after the round-play update the bot reaches round 10.3 on average and wins 13% (was 9.3 / 2%). **Foundry trimmed +8 → +5** (53% → 27% wins alone). Targets unchanged: human playtest needed. Tool and setup Jokers (Keystone, Locksmith, Draftsman, Overflow…) cannot be judged by the bot. Report: `docs/balance/experiments_v3.md`.
 - Per-Joker and per-upgrade impact tables: `docs/balance/experiments_v1.md`. Tuning actions taken from them are listed in GDD §16.9.
 
 ## Open owner decisions

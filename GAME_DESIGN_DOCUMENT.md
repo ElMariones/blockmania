@@ -509,7 +509,7 @@ Each shop offers **2 pieces**. The family is drawn from the §4 weights +4 (so l
 | Common | **Last Piece** | +80 Chips when this placement empties the tray. |
 | Common | **Postmaster** | +40 Chips when placing a stamped piece. |
 | Uncommon | **Lean Bag** | +0.25 Mult for each piece your bag has below 24 (max +3). |
-| Uncommon | **Foundry** | +8 Chips for each upgraded piece (material or stamp) in your bag. |
+| Uncommon | **Foundry** | +5 Chips for each upgraded piece (material or stamp) in your bag. *(was +12, then +8; see §18.6)* |
 | Uncommon | **Neon Sign** | Neon cells cleared give an extra +0.5 Mult each. |
 | Uncommon | **Specialist** | +0.5 Mult per Schematic level of the placed piece's family. |
 | Uncommon | **Recycler** | +0.1 Mult for each piece in the discard pile before placement (max +1). |
@@ -639,3 +639,6 @@ After a boss round the shop opens with a crate: one uncommon/rare Joker (40% rar
 ### 18.6 Balance note
 
 With every addition the autoplayer's average round rose from 9.3 to about 10.3 and its win rate from 2% to about 13% (60 seeds). Targets are unchanged pending human playtests; `docs/balance/experiments_v3.md` has the full survey.
+
+- **Foundry +8 → +5 Chips per upgraded piece.** With 15 refilling placements it won 53% of runs alone (baseline 13%); at +5 it wins 27% (+1.1 rounds), level with Recycler (`docs/balance/exp_foundry_v3.md`).
+- New cards alone: Patience +0.9 rounds, Hot Hand +0.5, Showboat +0.5, Insurance Policy +0.4, Countdown and Full Tank about neutral. Keystone, Locksmith, Draftsman, Overflow, Card Sharp, Periscope, Loan Shark, Patch Panel and Breakage Bonus never trigger or matter for the bot (it keeps the board open and cannot aim tools), so their −0.35 is the cost of a used Joker slot. Human playtests must judge them.

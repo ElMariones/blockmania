@@ -229,7 +229,7 @@ func test_last_piece_postmaster_foundry() -> void:
 	var foundry := _place(EMPTY_ROWS, shape(&"single"), Vector2i(0, 0), ["foundry"], func(r: BMRun) -> void:
 		r.bag[0].material = "chrome"
 		r.bag[1].stamp = "tip")
-	eq(_joker_value(foundry, "foundry"), 16, "2 upgraded x 8")
+	eq(_joker_value(foundry, "foundry"), 10, "2 upgraded x 5")
 
 
 func test_neon_sign_glass_cannon_specialist_recycler() -> void:
