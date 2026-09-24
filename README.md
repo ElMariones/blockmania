@@ -6,7 +6,7 @@
   <img alt="Godot 4.7.2" src="https://img.shields.io/badge/Godot-4.7.2-478cbf?logo=godotengine&logoColor=white">
   <img alt="GDScript" src="https://img.shields.io/badge/GDScript-100%25-3d2b5e">
   <img alt="Tests" src="https://img.shields.io/badge/tests-E2E%20%2B%20195%20rule%20tests-3dd691">
-  <img alt="Platform" src="https://img.shields.io/badge/platform-Windows%20%C2%B7%20Steam%20(planned)-ffcc3d">
+  <img alt="Platform" src="https://img.shields.io/badge/platform-Windows%20%C2%B7%20macOS%20%C2%B7%20Linux-ffcc3d">
   <img alt="Status" src="https://img.shields.io/badge/status-in%20development-ff4d6d">
 </p>
 
@@ -14,6 +14,22 @@
   <b>Place blocks. Clear lines. Break the machine.</b><br>
   A single-player roguelike where an 8×8 block puzzle meets a deck of rule-bending Jokers,<br>
   escalating bosses and a scoring engine that can reach a quadrillion points.
+</p>
+
+<h2 align="center">⬇ Download and play</h2>
+
+<p align="center">
+  <a href="https://github.com/ElMariones/blockmania/releases/latest/download/BLOCKMANIA-Windows.zip"><img alt="Download for Windows" src="https://img.shields.io/badge/Download-Windows-4daaff?style=for-the-badge&logo=windows&logoColor=white"></a>
+  <a href="https://github.com/ElMariones/blockmania/releases/latest/download/BLOCKMANIA-macOS.zip"><img alt="Download for Mac" src="https://img.shields.io/badge/Download-Mac-ffcc3d?style=for-the-badge&logo=apple&logoColor=black"></a>
+  <a href="https://github.com/ElMariones/blockmania/releases/latest/download/BLOCKMANIA-Linux.zip"><img alt="Download for Linux" src="https://img.shields.io/badge/Download-Linux-3dd691?style=for-the-badge&logo=linux&logoColor=black"></a>
+</p>
+
+<p align="center">
+  Free, no install, no account. Unzip and play.<br>
+  <b>Windows:</b> double-click <code>BLOCKMANIA.exe</code> (if SmartScreen appears: <i>More info → Run anyway</i>).<br>
+  <b>Mac:</b> drag <code>BLOCKMANIA.app</code> to Applications, then <i>right-click → Open</i> the first time.<br>
+  <b>Linux:</b> run <code>BLOCKMANIA.x86_64</code>.<br>
+  <sub>In-development build · not code-signed yet · all versions on the <a href="https://github.com/ElMariones/blockmania/releases">Releases page</a></sub>
 </p>
 
 <p align="center">
@@ -160,6 +176,10 @@ game/
 
 Numbers are tuned with evidence, not guesswork. [`tools/autoplayer.gd`](tools/autoplayer.gd) plays full runs from the score preview; [`tools/experiments.gd`](tools/experiments.gd) compares content on paired seeds; [`tools/playtest.gd`](tools/playtest.gd) simulates 15 personas, from a random clicker to a whole-tray planner and seven build archetypes. Reports live in [`docs/balance/`](docs/balance) and [`docs/playtests/`](docs/playtests), and every provisional number in the design doc points to one.
 
+### Release builds
+
+`tools/release/build_release.sh` exports the three downloadable zips (Windows x86_64, macOS universal with ad-hoc signing, Linux x86_64) into `build/release/`; `tools/release/install_templates.sh` fetches the Godot 4.7.2 export templates first. Pushing a tag such as `v0.1.1` runs `.github/workflows/release.yml`, which does the same on GitHub Actions and publishes a Release with fixed asset names, so the download buttons above always point at the newest build.
+
 ### Run it
 
 Open the folder in **Godot 4.7.2** and press Play, or use the command line (`godot` is your Godot 4.7.2 executable):
@@ -174,7 +194,7 @@ godot --headless --path . --script res://tools/simulate.gd -- 200 1   # bot bala
 godot --headless --path . --script res://tools/playtest.gd -- planner 60 1001 /tmp/planner.json
 python tools/shoot.py fixture.gd out.png 1920x1080                    # screenshot without the editor
 python tools/readme/shoot_all.py && python tools/readme/build_media.py  # rebuild these README images
-godot --headless --path . --export-release "Windows Desktop" build/BLOCKMANIA_Demo/BLOCKMANIA.exe
+tools/release/build_release.sh                                          # Windows, macOS and Linux zips in build/release/
 ```
 
 Regenerating art or audio: `python tools/art/gen_ui.py`, `gen_cards.py`, `gen_finishes.py`, `gen_font.py`, and `python tools/audio/gen_sfx.py`, `gen_music.py` (see [AGENTS.md](AGENTS.md) for the full list). Windows exports need the official Godot 4.7.2 export templates.

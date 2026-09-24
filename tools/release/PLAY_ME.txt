@@ -1,0 +1,19 @@
+BLOCKMANIA - a toy-block roguelike of tricks, jokers and one very full board
+https://github.com/ElMariones/blockmania
+
+WINDOWS
+  Double-click BLOCKMANIA.exe.
+  If Windows SmartScreen says "Windows protected your PC", click "More info",
+  then "Run anyway" (the game is not code-signed yet).
+
+LINUX
+  Double-click BLOCKMANIA.x86_64, or run ./BLOCKMANIA.x86_64 in a terminal.
+  If it does not start: chmod +x BLOCKMANIA.x86_64
+
+MAC (separate download: BLOCKMANIA-macOS.zip)
+  Unzip, drag BLOCKMANIA.app to Applications, then right-click it and choose Open
+  the first time (the app is not notarized yet).
+
+Controls: drag pieces with the mouse, or 1-3 / arrows / Enter. Esc pauses.
+Your saves live in your user folder, so you can delete this folder any time.
+This is an in-development build: balance numbers are provisional.

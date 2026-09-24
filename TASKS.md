@@ -146,6 +146,12 @@ Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/r
 - [ ] The E2E seeds never win the campaign, so Overtime is only covered by isolated tests; find a winning seed or script a win.
 - [ ] docs/design/round_play_update.md §2 still says Twins gives +30 Chips (the code gives +1 Mult since the Hands rebalance, GDD §22.4).
 
+## Owner requests, 2026-09-24 (downloadable builds)
+
+- [x] **Downloadable builds**: Windows (x86_64), macOS (universal, ad-hoc signed) and Linux (x86_64) presets; `tools/release/build_release.sh` + `install_templates.sh`; `.github/workflows/release.yml` publishes a GitHub Release on a `v*` tag with fixed asset names; README download buttons point at `releases/latest/download/...`. ETC2/ASTC import enabled (required for Apple Silicon). Linux export smoke-tested (900 frames, no script errors); Windows and macOS builds exported but not launched here.
+- [ ] Launch-test the Windows and macOS downloads on real machines (the Mac build is unsigned and not notarized: right-click → Open).
+- [ ] Code signing / notarization before a wider release (Windows SmartScreen, macOS Gatekeeper).
+
 ## M2 — Content complete
 
 - [x] Kit selection screen + unlock tracking (see Round-play proposals).

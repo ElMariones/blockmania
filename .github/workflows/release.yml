@@ -1,0 +1,59 @@
+# Builds BLOCKMANIA for Windows, macOS and Linux and publishes them as a GitHub Release.
+# Trigger: push a tag like v0.1.0 (git tag v0.1.0 && git push origin v0.1.0),
+# or run it by hand from the Actions tab with a tag name.
+# The asset names never change, so the README links to
+# https://github.com/ElMariones/blockmania/releases/latest/download/<asset> always work.
+name: Release builds
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag (e.g. v0.1.1). Created on the chosen branch if missing."
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      GODOT_VERSION: "4.7.2"
+      GODOT: ${{ github.workspace }}/godot
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Godot ${{ env.GODOT_VERSION }}
+        run: |
+          curl -sSL -o godot.zip "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"
+          unzip -q godot.zip
+          mv "Godot_v${GODOT_VERSION}-stable_linux.x86_64" godot
+          chmod +x godot
+          ./godot --version
+
+      - name: Cache export templates
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/share/godot/export_templates
+          key: godot-templates-${{ env.GODOT_VERSION }}-desktop
+
+      - name: Install export templates
+        run: tools/release/install_templates.sh
+
+      - name: Build Windows, macOS and Linux
+        run: tools/release/build_release.sh
+
+      - name: Publish the release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.tag || github.ref_name }}
+          name: BLOCKMANIA ${{ github.event.inputs.tag || github.ref_name }}
+          body_path: tools/release/RELEASE_NOTES.md
+          make_latest: true
+          files: |
+            build/release/BLOCKMANIA-Windows.zip
+            build/release/BLOCKMANIA-macOS.zip
+            build/release/BLOCKMANIA-Linux.zip
