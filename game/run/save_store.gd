@@ -6,6 +6,7 @@ extends RefCounted
 
 const RUN_PATH := "user://run.json"
 const SETTINGS_PATH := "user://settings.cfg"
+static var settings_path := SETTINGS_PATH ## The E2E suite redirects this.
 
 static var run_path := RUN_PATH ## Tests redirect this.
 ## Lifetime Kit-unlock counters live in their own file (tests redirect this too).
@@ -89,7 +90,7 @@ static func default_settings() -> Dictionary:
 static func load_settings() -> Dictionary:
 	var s := default_settings()
 	var cfg := ConfigFile.new()
-	if cfg.load(SETTINGS_PATH) == OK:
+	if cfg.load(settings_path) == OK:
 		for k in s:
 			s[k] = cfg.get_value("settings", k, s[k])
 	return s
@@ -99,7 +100,7 @@ static func save_settings(s: Dictionary) -> void:
 	var cfg := ConfigFile.new()
 	for k in s:
 		cfg.set_value("settings", k, s[k])
-	cfg.save(SETTINGS_PATH)
+	cfg.save(settings_path)
 
 
 
