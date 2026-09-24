@@ -2,24 +2,6 @@ extends BMTestCase
 ## GDD §22.9-22.10: settings defaults, contextual tips, run history and Heat availability.
 
 
-func test_every_menu_setting_has_a_default() -> void:
-	var d := BMSaveStore.default_settings()
-	for k in ["game_speed", "tips", "tips_seen", "boss_intro", "heartbeat", "vsync", "screen_fx", "shake", "flashes",
-			"master_volume", "music_volume", "sfx_volume", "muted", "music_on", "mute_unfocused",
-			"fullscreen", "crt", "show_fps", "reduced_motion", "block_patterns", "last_heat"]:
-		check(d.has(k), "default for %s" % k)
-	eq(d.game_speed, "normal", "normal speed by default")
-	eq(d.tips, true, "tips on by default")
-
-
-func test_tip_ids_are_unique_and_written() -> void:
-	var seen := {}
-	for d in BMTips.CATALOG:
-		check(not seen.has(d.id), "unique %s" % d.id)
-		seen[d.id] = true
-		check(String(d.title) != "" and String(d.text) != "", "text for %s" % d.id)
-
-
 func test_round_tips_follow_the_run() -> void:
 	var run := BMRun.new_run(301)
 	eq(BMTips.for_round(run, []), "welcome", "first round, nothing placed: welcome")

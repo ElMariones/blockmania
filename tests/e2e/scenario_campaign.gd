@@ -4,11 +4,12 @@ extends BME2ECase
 ## deciding each move on a copy of the run. Three seeds cover three Kits and Heat 0 / 2 / 4
 ## (Mk II bosses). A won run plays on into Overtime.
 ##
-## Checked after every action: the action succeeded, every bag piece is in exactly one place
-## during rounds,
-## score and Credits stay within their caps, the screen matches the run phase. Checked per
-## run: save & quit + continue restores the identical run; replaying the seed and the action
-## history reproduces it; the run ends in a terminal phase and lands in the run history.
+## Checked after every action: the action succeeded; during rounds every bag piece is in
+## exactly one place; score and Credits stay within their caps; the screen matches the run
+## phase; a placement scores exactly what its preview promised and the preview leaves the run
+## untouched. Checked per run: save & quit + continue restores the identical run; replaying
+## the seed and the action history reproduces it; the run ends in a terminal phase and lands
+## in the run history.
 
 const RUNS := [[17, "standard", 0], [2024, "chunky", 2], [4242, "tetromino", 4]]
 const MAX_ACTIONS := 2500
@@ -94,7 +95,16 @@ func _play(seed_value: int, kit: String, heat: int) -> void:
 		else:
 			if r.phase == BMRun.Phase.ROUND and main.game_screen.overlay.get_child_count() > 0 and a.a != "continue":
 				main.game_screen.close_overlay()
+			# The score preview shown while carrying a piece must equal the real result and
+			# must not touch the run.
+			var preview := {}
+			if a.a == "place":
+				var before_preview := run_digest(r)
+				preview = r.preview_place(int(a.slot), Vector2i(int(a.x), int(a.y)))
+				eq(run_digest(r), before_preview, tag + ": the preview leaves the run untouched")
 			res = main.game_screen._do_action(a)
+			if a.a == "place" and res.get("ok", false):
+				eq(int(res.get("points", -1)), int(preview.get("points", -2)), tag + ": preview equals the placed result")
 		actions += 1
 		if not check(res.get("ok", false), "%s: action %s failed: %s" % [tag, str(a), str(res.get("error", ""))]):
 			break

@@ -30,15 +30,6 @@ func test_gdd_example_305_chips_and_915_points() -> void:
 	eq(run.round_state.combo, 2, "combo advanced")
 
 
-func test_single_placement_without_clear_scores_cells_and_resets_combo() -> void:
-	var run := run_with(EMPTY_ROWS, [shape(&"l4")])
-	run.round_state.combo = 3
-	run.round_state.combo_misses = BMRunConfig.COMBO_GRACE # grace already spent
-	var r := run.place(0, Vector2i(0, 0))
-	eq(r.points, 40, "4 cells x 10")
-	eq(run.round_state.combo, 0, "combo reset")
-
-
 func test_combo_caps_at_4() -> void:
 	var run := run_with(EMPTY_ROWS, [shape(&"single")])
 	run.round_state.combo = 4
@@ -74,15 +65,6 @@ func test_joker_chips_add_mult_then_x_mult_order() -> void:
 	for it in r.items:
 		kinds.append(it.kind)
 	check(kinds.find("mult") < kinds.find("xmult"), "additive Mult listed before xMult")
-
-
-func test_preview_matches_real_placement_and_does_not_mutate() -> void:
-	var run := run_with(_double_clear_board(), [shape(&"square2"), shape(&"single")], ["wide_awake", "crossbar"])
-	var before := run.to_dict()
-	var preview := run.preview_place(0, Vector2i(6, 6))
-	eq(run.to_dict(), before, "preview leaves state untouched")
-	var real := run.place(0, Vector2i(6, 6))
-	eq(preview.points, real.points, "preview equals real result")
 
 
 func test_taxman_first_line_60() -> void:

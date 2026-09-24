@@ -2,30 +2,6 @@ extends BMTestCase
 ## Kit starter bags and unlocks, the Boss Crate, and combo grace (round_play_update.md §4).
 
 
-func test_each_kit_starts_with_its_own_bag() -> void:
-	eq(BMRun.new_run(1, "standard").bag.size(), 24, "standard 24")
-	var compact := BMRun.new_run(1, "compact")
-	eq(compact.bag.size(), 18, "compact 18")
-	for p in compact.bag:
-		check(p.family != &"single", "compact has no Singles")
-	var tetro := BMRun.new_run(1, "tetromino")
-	for p in tetro.bag:
-		eq(p.cells.size(), 4, "tetromino: four blocks each")
-	var chunky := BMRun.new_run(1, "chunky")
-	eq(chunky.bag.size(), 19, "chunky 19")
-	var uids := {}
-	for p in chunky.bag:
-		uids[int(p.uid)] = true
-	eq(uids.size(), chunky.bag.size(), "unique uids")
-
-
-func test_kit_unlocks_follow_the_profile() -> void:
-	check(BMRunConfig.kit_unlocked("standard", {}), "standard always")
-	check(not BMRunConfig.kit_unlocked("compact", {"lines": 99}), "compact needs 100 lines")
-	check(BMRunConfig.kit_unlocked("compact", {"lines": 100}), "unlocked at 100")
-	check(BMRunConfig.kit_unlocked("tetromino", {"hands": 25}), "tetromino at 25 hands")
-
-
 func test_record_run_accumulates_and_reports_unlocks() -> void:
 	BMSaveStore.has_run() # static init first (see test_achievements._store)
 	BMSaveStore.profile_path = "user://test_profile.cfg"

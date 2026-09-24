@@ -15,17 +15,6 @@ func _value(r: Dictionary, id: String) -> Variant:
 	return null
 
 
-func test_catalog_has_four_unique_legendaries() -> void:
-	var legends: Array = []
-	for d in BMJokers.CATALOG:
-		if int(d.rarity) == BMJokers.LEGENDARY:
-			legends.append(d.id)
-			check(BMJokers.is_unique(d.id), "%s is unique" % d.id)
-			eq(BMJokers.cost(d.id), 12, "%s costs 12" % d.id)
-	eq(legends.size(), 4, "four legendaries")
-	eq(legends, BMJokers.LEGENDARY_IDS, "listed")
-
-
 func test_avalanche_chains_a_second_wave_at_double_mult() -> void:
 	var run := run_with(AVALANCHE, [shape(&"single")], ["avalanche"])
 	run.round_state.target = 999999
@@ -47,14 +36,6 @@ func test_no_avalanche_without_the_card() -> void:
 	var r := run.place(0, Vector2i(7, 7))
 	eq(r.waves.size(), 1, "one wave")
 	eq(run.board.occupied_count(), 8, "blocks stay where they are")
-
-
-func test_avalanche_preview_matches() -> void:
-	var run := run_with(AVALANCHE, [shape(&"single")], ["avalanche"])
-	run.round_state.target = 999999
-	var p := run.preview_place(0, Vector2i(7, 7))
-	var r := run.place(0, Vector2i(7, 7))
-	eq(p.points, r.points, "preview equals result")
 
 
 func test_hall_of_mirrors_triggers_jokers_twice() -> void:
@@ -139,9 +120,3 @@ func test_legendaries_never_repeat_and_crates_can_hold_one() -> void:
 		var r := BMRun.new_run(2000 + s)
 		r.round_number = 4
 		check(not BMJokers.is_legendary(String(r._roll_crate()[0].id)), "never from the first boss")
-
-
-func test_first_acts_never_offer_legendaries_in_the_shop() -> void:
-	for a in [1, 2]:
-		eq(int(BMRunConfig.rarity_weights(a)[BMJokers.LEGENDARY]), 0, "act %d" % a)
-	check(int(BMRunConfig.rarity_weights(3)[BMJokers.LEGENDARY]) > 0, "act 3 can")

@@ -64,7 +64,8 @@ If documents conflict, resolve the discrepancy in favor of the owner's latest in
 | `game/presentation/` | Visual-only: `BMCardArt` (card portraits and badge sheets from `tools/art/gen_cards.py`), `BMFinishes` (finish catalog: names, animation phase, glow, particles), `BMBlockPainter` (plastic blocks, animated finish faces, glow pass, stamp badges), `BMSwirlBackground` + `shaders/bg_swirl.gdshader`, `BMCrtLayer` + `shaders/crt.gdshader` (also remaps mouse input through the warp), `BMFx` (capped particle layer, pop text, shake), `BMMoodLayer` + `shaders/mood.gdshader` (boss hazard frame, danger vignette, heat haze, flashes; edges only). |
 | `assets/ui/`, `assets/fonts/` | Generated pixel-art UI kit (`nine.json` holds 9-slice margins) and the original Blockhead fonts. Output of `tools/art/`; regenerate, never hand-edit. |
 | `game/main.gd` + `main.tscn` | App root `BMMain`: routes screens, the single `act()` entry point, autosave, pause, input-map registration. |
-| `tests/` | Headless test runner and `test_*.gd` suites (extend `BMTestCase`). |
+| `tests/e2e/` | **The main test suite.** `run_e2e.gd` boots `main.tscn` per scenario with a sandboxed profile; `scenario_*.gd` (extend `BME2ECase`) drive the real app through its UI entry points and write artifacts to `build/e2e/`. |
+| `tests/` | The remaining isolated rule tests (`test_*.gd`, extend `BMTestCase`) and their runner `run_tests.gd`: only tests that catch bugs the E2E suite would miss. |
 | `tools/art/` | `gen_ui.py` (UI kit PNGs at 4× nearest + `nine.json`), `gen_cards.py` (16×16 portraits for Jokers/items/tools, achievement icons and medal frames at 1×, drawn at whole-number scales), `gen_finishes.py` (animated block-finish sprite sheets shared by Endless styles and campaign materials, stamp badge strips, the glow halo and `finishes.json`), and `gen_font.py` (Blockhead regular/bold TTF via fontTools). Python + Pillow + fontTools. |
 | `tools/` | `shoot.py` (focus-safe screenshot runner, see below), `BMAutoplayer` (preview-guided bot with a configurable shop policy), `simulate.gd` (quick balance probe), `experiments.gd` (paired-seed content experiments: curve / jokers / upgrades), `playtest.gd` + `playtest_report.py` (persona playtests: random / newcomer / steady / planner skill ladder, build archetypes, Kits, ceiling probes; report in `docs/playtests/`). Dev-only. |
 | `tools/readme/`, `docs/media/` | README media: `shoot_all.py` captures shots and GIFs from the real game (fixtures in `shots.py`), `build_media.py` composes the banner, headers and galleries from the game's own art and fonts. Rebuild instead of hand-editing; `docs/media/raw/` is git-ignored. |
@@ -81,11 +82,11 @@ Future: `assets/export`. Godot resource paths and stable IDs (Joker/boss/item/sh
 - Endless uses a seeded fair-trio replacement when all three new offers are illegal, one Hold action between placements, and a saved x1/x2/x3/x5/x8/x10 combo ladder that resets after three misses. Holding the last tray piece in an empty Hold deals a fresh fair trio without resetting Hold cooldown. A stuck tray ends the run unless an already stored fitting Hold piece can be swapped in; an empty Hold never prevents loss. Keep presentation cues derived from the action result.
 - Endless schema 3 saves bounded score samples, run statistics, and active milliseconds carried in action commands; pause, finish selection, and app focus loss do not count toward active time. Classic and procedural finish art/audio are cosmetic settings and must not change the board, score, or seeded draws. Older Endless saves remain loadable with missing statistics marked unavailable.
 - The placement pipeline lives only in `BMResolver.resolve_placement`. Score previews run it on `run.clone()`, so preview equals result by construction.
-- New Joker: add a `CATALOG` entry in `game/content/jokers.gd`, implement its phase function (`chips` / `add_mult` / `x_mult`) or rule hook in `BMRun`/`BMResolver`, add a trigger and a no-trigger test in `tests/test_jokers.gd`, and make sure the card text matches the code. Set `implemented: false` to keep an unfinished card out of the shop.
+- New Joker: add a `CATALOG` entry in `game/content/jokers.gd`, implement its phase function (`chips` / `add_mult` / `x_mult`) or rule hook in `BMRun`/`BMResolver`, and make sure the card text matches the code. Testing follows **Testing policy** below (an isolated test, if any, is written before the code, from a written list of failure modes). Set `implemented: false` to keep an unfinished card out of the shop.
 - The Bag: trays are dealt only through `BMBag`. Every bag piece has a unique `uid`, and each piece is in exactly one of the draw pile, the tray, or the discard pile (a test enforces this). Temporary pieces have `uid -1` and `temporary: true` and never enter a pile. Bag edits (`buy_tool`, `buy_piece`) happen only in the shop.
 - Targeted items: declare `target` in `BMConsumables` ("cells", "cell", "color", "slot", "slot_color", "slot_shape"), validate in `BMRun._validate_target`, and pass the target in the `use` action. Board tools remove cells without scoring and never count as clears. Physics or animation (the thrown brick) only chooses the target; the rules never see it.
 - Tray Hands are decided once per natural deal in `BMRun._apply_hand` and marked on the pieces; never recompute them from presentation.
-- New material or stamp: add it to `BMPieces`, hook it into `BMResolver` at the documented pipeline step, draw a non-color cue in `BMBlockPainter`, add a Workshop card if needed, and add tests in `tests/test_bag.gd`.
+- New material or stamp: add it to `BMPieces`, hook it into `BMResolver` at the documented pipeline step, draw a non-color cue in `BMBlockPainter`, and add a Workshop card if needed. Testing follows **Testing policy** below.
 - Content changes that affect balance: run `tools/experiments.gd` (jokers / upgrades) and save the report to `docs/balance/` when numbers change.
 - Randomness only through the run's `BMRngStream`s. UI must never consume gameplay RNG; cosmetic randomness (screen shake) uses the global RNG.
 - Bump `BMRun.SCHEMA_VERSION` and add a migration in `BMSaveStore.load_run` whenever `to_dict()` changes shape.
@@ -94,10 +95,10 @@ Future: `assets/export`. Godot resource paths and stable IDs (Joker/boss/item/sh
 - Fonts: Blockhead's em is 10 font pixels; use sizes 20 / 30 / 40 / 60 / 80 only, so glyphs stay on the pixel grid.
 - Lambdas that run later (timers, `call_deferred`) must not capture nodes that can be freed; capture a `weakref()` instead (a freed capture logs an engine error).
 - Presentation never changes results: particles, the CRT, the background and animations read resolution records only, and reduced motion keeps all information.
-- Block finishes (Endless styles and campaign material faces) are one catalog, `BMFinishes`, drawn from `tools/art/gen_finishes.py` sheets. A new finish needs art in that script, a `DEFS` entry, `fin_<id>_place/clear` cues in `tools/audio/gen_finish_sfx.py`, and must pass `tests/test_finishes.gd`. Frame 0 is the calm rest pose that Reduced Motion shows; glow is drawn in a pass before the blocks.
+- Block finishes (Endless styles and campaign material faces) are one catalog, `BMFinishes`, drawn from `tools/art/gen_finishes.py` sheets. A new finish needs art in that script, a `DEFS` entry, and `fin_<id>_place/clear` cues in `tools/audio/gen_finish_sfx.py`. Frame 0 is the calm rest pose that Reduced Motion shows; glow is drawn in a pass before the blocks.
 - Overtime (GDD §19) is a run command (`overtime`); targets beyond round 12 come from `BMRunConfig.target`, bosses for later acts from `BMRun._ensure_bosses` (boss stream). A placement at `SCORE_CAP` breaks the machine and ends the run; keep every score path clamped to the cap. `BMRun.recorded` stops the Kit profile from counting a run twice.
-- Achievements (GDD §20): conditions live in `BMAchievements.check_*` and only read state; `BMMain.act`/`endless_act` call them after the command and `BMMain.grant` unlocks and announces. New achievement: add a `CATALOG` entry (12 per page), a 14×14 icon in `tools/art/gen_cards.py` (or `cards_engine.py`), its condition, and trigger/no-trigger tests in `tests/test_achievements.gd`. Secret ones need a `hint`.
-- New Joker, item or Workshop card also needs its portrait in `tools/art/gen_cards.py` or `tools/art/cards_engine.py` (an emblem without one falls back to a UI icon; `tests/test_engine.gd` checks every Joker has one).
+- Achievements (GDD §20): conditions live in `BMAchievements.check_*` and only read state; `BMMain.act`/`endless_act` call them after the command and `BMMain.grant` unlocks and announces. New achievement: add a `CATALOG` entry (12 per page), a 14×14 icon in `tools/art/gen_cards.py` (or `cards_engine.py`), and its condition. Secret ones need a `hint`. Testing follows **Testing policy** below.
+- New Joker, item or Workshop card also needs its portrait in `tools/art/gen_cards.py` or `tools/art/cards_engine.py` (an emblem without one falls back to a UI icon).
 - Engine update (GDD §21): run-long Joker values live in `BMRun.joker_state` (mark the card `scaling` in `BMJokers`, grow it with `BMRun._grow_joker`, forget it when the last copy is sold); extra Joker slots in `BMRun.extra_slots` (max `BMRunConfig.MAX_JOKER_SLOTS`, rack cards shrink via `BMCard.rack_height`). Interest and Overkill are credit lines in `BMRun._win_round`.
 - Legendary Jokers (rarity 3, `unique`, cost 12) come from Boss Crates (`BMRun._roll_crate`, act 2+) and the last rows of `BMRunConfig.RARITY_WEIGHTS`. The Avalanche's chain waves are resolved inside `BMResolver.resolve_placement` after step 8 (`BMBoard.settle`), each wave in the record's `waves`; presentation pops them one beat apart. Hall of Mirrors duplicates entries in `BMResolver._joker_effects`.
 - Balance changes: re-run the persona playtest for at least `steady` and `planner` (`tools/playtest.gd`) and note the win rates in `TASKS.md` balance watch.
@@ -111,7 +112,10 @@ Future: `assets/export`. Godot resource paths and stable IDs (Joker/boss/item/sh
 ```bash
 # Import / refresh the class cache after adding class_name scripts (ONLY while the editor is closed)
 "<godot>" --headless --path . --import
-# Rule tests (exit code 0 = pass); optional name filter after --
+# E2E suite (exit code 0 = pass); artifacts in build/e2e/, optional scenario filter after --
+"<godot>" --headless --path . --script res://tests/e2e/run_e2e.gd
+DISPLAY=:99 "<godot>" --path . --script res://tests/e2e/run_e2e.gd -- campaign   # with screenshots
+# Isolated rule tests (exit code 0 = pass); optional name filter after --
 "<godot>" --headless --path . --script res://tests/run_tests.gd
 "<godot>" --headless --path . --script res://tests/run_tests.gd -- jokers
 # Balance probe: number of runs, first seed
@@ -150,15 +154,23 @@ Rules learned the hard way:
 - **Never run a headless `--import` while the editor is open.** It desyncs the editor's class cache ("Could not find type BM..."). Use MCP `filesystem_manage` reimport of the changed scripts/assets, then `scan`. Regenerated PNG/TTF files need a reimport as well.
 - `editor_screenshot(source="game")` may fail with a transport error; `tools/shoot.py` does not depend on it.
 
+### Testing policy (owner, 2026-09-24)
+
+These rules override any older instruction in this file or in the docs that asks for per-feature unit tests.
+
+- **Never write unit tests after you write code.** A test written to match finished code only restates it.
+- **Highly prefer E2E tests as the sole testing mechanism.** Use them to verify that complex features work: add or extend a scenario in `tests/e2e/` that drives the real app (`BMMain.act`, `endless_act`, the screens' own action functions, menu buttons) the way a player would and asserts what the player would see or rely on. **At the end of an E2E test, produce a verifiable and repeatable artifact**: the runner writes `build/e2e/<scenario>.json` (verdict, failures, runtime errors, checkpoints, and a `fingerprint` of the seeded facts) and, with a display, screenshots in `build/e2e/<scenario>/`. Put only deterministic facts in `facts` (no timings, dates or active-time counters), pin seeds, and start from the sandboxed profile, so the same build always yields the same fingerprint. Check that by running the scenario twice.
+- **If you must test a system in isolation, first write down all the ways it could fail, then write the code.** Put the failure list at the top of the test file (or the scenario) before touching the implementation; each isolated test must target one of those failure modes with independently known expected values. Keep an isolated test only if it would catch a real bug the E2E suite misses (a specific number, a trigger condition, an edge case the bot never reaches, a save migration). Do not add tests that restate catalog data, constants or trivial getters, or that recompute the expected value with the code under test.
+
 ### Verification expectations
 
-- Rule tests: legal placement and overlap, edge bounds, crossing row/column clears, no-gravity behavior, scoring formula/order, duplicate/unique Jokers, combo reset, target/failure timing, Refresh guarantee, boss modifications, effect-wave cap.
-- Determinism tests: identical seed/actions yield identical trays, shops, bosses, score, and run outcome across fresh launch and save/resume.
+- E2E (every change): the suite passes and the touched scenario's fingerprint is stable across two runs; determinism, save/resume and replay are asserted there for every campaign run.
+- Isolated rule tests (only where the policy above allows): scoring order and specific values, trigger conditions, edge cases the bot never reaches, save migrations.
 - UI checks: valid/invalid ghosts, preview lines, score receipt, pointer cancellation, shop affordability and capacity, tooltip text, keyboard focus, 720p legibility, reduced motion, colorblind presets.
 - Playtests: tutorial comprehension, loss fairness, run length, shop value, multiple viable builds, comfort of repeated audiovisual feedback.
 - Release checks: offline launch/quit, clean Windows export, actual Steam screenshot accuracy, store art rules, crash recovery, no loss of a valid save during update.
 
-Add tests where they reduce risk in the rules and persistence. Avoid tests that merely repeat implementation details. Report exactly what was tested, what passed, and what remains uncertain.
+Report exactly what was tested (which scenarios, which artifact fingerprints), what passed, and what remains uncertain.
 
 ## Workflow for any future task
 
@@ -167,7 +179,7 @@ Add tests where they reduce risk in the rules and persistence. Avoid tests that 
 3. Make the smallest coherent change that completes the requested outcome. For feature work, update rules/data, UI feedback, documentation, and verification together.
 4. Review consequences for scoring order, save compatibility, accessibility, and asset inventory.
 5. Verify the changed behavior at the relevant level. Do not claim a feature is complete because it compiles or a screen looks correct in isolation.
-6. Update `TASKS.md` (check off work, add discovered work, record owner decisions) and any affected docs in the same commit. Run the test suite before committing.
+6. Update `TASKS.md` (check off work, add discovered work, record owner decisions) and any affected docs in the same commit. Run the E2E suite and the remaining isolated tests before committing.
 7. End with a concise handoff: what changed, how it was checked, and any concrete remaining decision or risk.
 
 Commits: small, descriptive messages. Pushing to `origin main` is a standing request from the owner (2026-09-22).

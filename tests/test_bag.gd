@@ -26,28 +26,6 @@ func _item(r: Dictionary, label_prefix: String) -> Variant:
 	return null
 
 
-func test_starter_bag() -> void:
-	var bag := BMPieces.starter_bag()
-	eq(bag.size(), 24, "24 pieces")
-	var fams := {}
-	var uids := {}
-	for p in bag:
-		fams[p.family] = true
-		uids[p.uid] = true
-	eq(fams.size(), 10, "10 families")
-	eq(uids.size(), 24, "unique uids")
-	check(not fams.has(&"bar5") and not fams.has(&"square3"), "no large shapes at start")
-
-
-func test_round_start_deals_from_bag() -> void:
-	var run := BMRun.new_run(5)
-	eq(run.draw_pile.size() + 3, run.bag.size(), "three drawn, rest in draw pile")
-	eq(run.discard_pile.size(), 0, "empty discard")
-	for p in run.tray:
-		check(not BMBag.piece_by_uid(run, int(p.uid)).is_empty(), "tray piece comes from the bag")
-		check(not run.draw_pile.has(int(p.uid)), "drawn piece left the draw pile")
-
-
 func test_placement_discards_and_refresh_discards() -> void:
 	var run := BMRun.new_run(6)
 	var uid := int(run.tray[0].uid)
@@ -62,25 +40,6 @@ func test_placement_discards_and_refresh_discards() -> void:
 	for u in unplaced:
 		check(run.discard_pile.has(u), "refreshed piece discarded")
 	eq(run.draw_pile.size() + run.discard_pile.size() + 2, run.bag.size(), "every piece accounted for")
-
-
-func test_every_piece_accounted_for_through_a_round() -> void:
-	var run := BMRun.new_run(77)
-	for i in 30:
-		if run.phase != BMRun.Phase.ROUND:
-			break
-		BMAutoplayer.step(run)
-		if run.phase != BMRun.Phase.ROUND:
-			break
-		var seen := {}
-		for u in run.draw_pile + run.discard_pile:
-			check(not seen.has(u), "uid %d appears once" % u)
-			seen[u] = true
-		for p in run.tray:
-			if not p.is_empty() and int(p.uid) >= 0:
-				check(not seen.has(int(p.uid)), "tray uid not also in a pile")
-				seen[int(p.uid)] = true
-		eq(seen.size(), run.bag.size(), "draw + discard + tray == bag at step %d" % i)
 
 
 func test_reshuffle_when_draw_pile_empty() -> void:
@@ -314,27 +273,3 @@ func test_buy_piece_offer() -> void:
 	eq(run.bag.size(), size + 1, "added to bag")
 	eq(r.piece.family, StringName(offer.family), "same family")
 	check(run.shop.pieces[0].is_empty(), "offer gone")
-
-
-func test_shop_rolls_tools_and_pieces_deterministically() -> void:
-	var a := _shop_run(4242)
-	var b := _shop_run(4242)
-	eq(a.shop.tools.size(), 2, "two Workshop offers")
-	eq(a.shop.pieces.size(), 2, "two piece offers")
-	eq(a.shop, b.shop, "same seed, same shop")
-
-
-func test_bag_edits_replay_and_survive_save() -> void:
-	var run := _shop_run(31)
-	var uid := int(run.bag[5].uid)
-	run.credits = 60
-	run.history.clear()
-	var start := run.to_dict()
-	run.buy_tool(_offer(run, "glassworks"), [uid])
-	run.buy_piece(1)
-	var resumed := BMRun.from_dict(JSON.parse_string(JSON.stringify(run.to_dict())))
-	eq(resumed.to_dict(), run.to_dict(), "bag edits survive a JSON round-trip")
-	BMAutoplayer.play(run)
-	BMAutoplayer.play(resumed)
-	eq(resumed.to_dict(), run.to_dict(), "same future after resume")
-	check(start.bag.size() < run.to_dict().bag.size() + 5, "sanity")

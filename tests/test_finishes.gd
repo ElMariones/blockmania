@@ -34,16 +34,3 @@ func test_regions_stay_inside_sheets() -> void:
 				for cell in [Vector2i.ZERO, Vector2i(7, 7), Vector2i(3, 5)]:
 					var r := BMFinishes.region(id, color, cell, t)
 					check(bounds.encloses(r), "%s region %s inside %s" % [id, r, bounds])
-
-
-func test_rest_frame_without_motion() -> void:
-	for id: String in BMFinishes.meta().finishes:
-		eq(BMFinishes.frame(id, Vector2i(4, 2), 0.0), 0, "%s rests on frame 0" % id)
-	eq(BMFinishes.stamp_region(0.0).position.x, BMFinishes.stamp_region(0.0, 5).position.x, "stamps rest on frame 0")
-
-
-func test_material_wins_over_style() -> void:
-	eq(BMBlockPainter.finish_for("gold", "neon"), "gold", "material face")
-	eq(BMBlockPainter.finish_for("", "neon"), "neon", "block style")
-	eq(BMBlockPainter.finish_for("", "classic"), "", "plain plastic")
-	eq(BMBlockPainter.finish_for("", "unknown"), "", "unknown style falls back")

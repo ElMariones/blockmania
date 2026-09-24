@@ -12,12 +12,6 @@ func _boss_round(boss: String, seed_value: int = 21) -> BMRun:
 	return run
 
 
-func test_new_bosses_are_in_the_pool() -> void:
-	var pool := BMBosses.pool(false)
-	check(pool.has("warden") and pool.has("undertaker"), "in pool")
-	check(not pool.has("echo_chamber"), "Echo Chamber stays out")
-
-
 func test_warden_bars_a_slot_until_the_first_clear() -> void:
 	var run := _boss_round("warden")
 	var locked := run.round_state.locked_slot

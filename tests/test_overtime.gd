@@ -102,13 +102,6 @@ func test_a_placement_past_the_limit_breaks_the_machine() -> void:
 	check(copy.machine_broken, "saved")
 
 
-func test_a_normal_placement_does_not_break() -> void:
-	var run := run_with(EMPTY, [shape(&"single")])
-	var r := run.apply_action({"a": "place", "slot": 0, "x": 0, "y": 0})
-	check(not r.broken, "not broken")
-	check(not run.machine_broken, "machine fine")
-
-
 func test_score_never_exceeds_the_limit() -> void:
 	var run := run_with(EMPTY, [shape(&"single"), shape(&"single")])
 	run.round_state.score = BMRunConfig.SCORE_CAP - 5

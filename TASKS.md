@@ -135,6 +135,15 @@ Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/r
 - [x] README rebuilt as a store-style page: banner, badges, gameplay and boss GIFs, feature rows with screenshots, Joker/finish/achievement galleries, screenshot grid, "how it is made", tech stack, architecture and commands for developers. Media in `docs/media/`, reproducible with `tools/readme/shoot_all.py` (real game, off-screen, seeded run + staged board) and `tools/readme/build_media.py` (Pillow, game fonts and art only). Raw captures are git-ignored.
 - [ ] Refresh README media and the test badge count when the UI or content changes noticeably.
 
+## Owner requests, 2026-09-24 (testing policy, tutorial)
+
+- [x] **E2E suite** (`tests/e2e/`): the real app with a sandboxed profile; campaign (3 seeds, 3 Kits, Heat 0/2/4, save/resume, replay, preview = result on every placement), Endless (Hold rescue, resume, high score) and menus (every popup, every setting persisted, game speed scope). Artifacts in `build/e2e/` with a gameplay fingerprint that repeats run to run.
+- [x] **Unit test triage** (six parallel reviews): 39 of 234 isolated tests deleted (catalog restatements, trivial wrappers, duplicates, and checks the E2E now asserts: full-run determinism, save/resume, bag accounting in normal play, run completion). 195 remain, each pinning a number, trigger or edge case the E2E cannot see.
+- [x] **Testing policy** in AGENTS.md: no unit tests after code, E2E first with repeatable artifacts, failure modes written before any isolated test.
+- [ ] `test_achievements.gd::test_store_unlocks_once_and_grants_the_meta_badge` failed once in a full run and then passed 9 times; cause not found.
+- [ ] The E2E seeds never win the campaign, so Overtime is only covered by isolated tests; find a winning seed or script a win.
+- [ ] docs/design/round_play_update.md §2 still says Twins gives +30 Chips (the code gives +1 Mult since the Hands rebalance, GDD §22.4).
+
 ## M2 — Content complete
 
 - [x] Kit selection screen + unlock tracking (see Round-play proposals).

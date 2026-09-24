@@ -29,19 +29,6 @@ func test_combo_survives_two_misses_and_resets_after_three() -> void:
 	eq(restart.points, 110, "first clear after reset scores at x1")
 
 
-func test_consecutive_clears_grow_multiplier() -> void:
-	var g := BMEndless.new_game(18)
-	for y in 2:
-		for x in 7:
-			g.board.set_cell(Vector2i(x, y), 0)
-	g.board.set_cell(Vector2i(7, 7), 0)
-	g.tray = [BMShapes.make_shape(&"single", 0, 0), BMShapes.make_shape(&"single", 0, 1), BMShapes.make_shape(&"bar2", 0, 2)]
-	check(g.apply_action({"a": "place", "i": 0, "x": 7, "y": 0}).ok, "first clear")
-	var second := g.apply_action({"a": "place", "i": 1, "x": 7, "y": 1})
-	eq(g.combo, 2, "second clear grows chain")
-	eq(second.points, 210, "x2 line score")
-
-
 func test_combo_ladder_and_clean_board_bonus() -> void:
 	var g := BMEndless.new_game(91)
 	var expected := [1, 2, 3, 5, 8, 10, 10]
@@ -62,23 +49,6 @@ func test_combo_ladder_and_clean_board_bonus() -> void:
 	var r := perfect.apply_action({"a": "place", "i": 0, "x": 7, "y": 0})
 	eq(r.points, 610, "clean board adds 500 x combo")
 	check(r.callouts.has("PERFECT") and r.callouts.has("CLEAN BOARD"), "perfect feedback recorded")
-
-
-func test_no_legal_offer_ends_game_and_save_round_trips() -> void:
-	var g := BMEndless.new_game(19)
-	for y in 8:
-		for x in 8:
-			if x != 7 or y != 7:
-				g.board.set_cell(Vector2i(x, y), 0)
-	g.tray = [BMShapes.make_shape(&"square2", 0, 0), BMShapes.make_shape(&"bar2", 0, 1), BMShapes.make_shape(&"l3", 0, 2)]
-	g.hold_used = true
-	g._check_game_over()
-	check(g.over, "no offered piece fits")
-	check(not g.apply_action({"a": "place", "i": 0, "x": 0, "y": 0}).ok, "cannot play after loss")
-	var copy := BMEndless.from_dict(JSON.parse_string(JSON.stringify(g.to_dict())))
-	eq(copy.board.debug_string(), g.board.debug_string(), "board restored")
-	eq(copy.score, g.score, "score restored")
-	check(copy.over, "loss restored")
 
 
 func test_empty_hold_does_not_rescue_a_stuck_tray() -> void:
@@ -144,14 +114,6 @@ func test_saved_stuck_run_is_reclassified_for_results() -> void:
 	DirAccess.remove_absolute(BMEndlessStore.scores_path)
 	BMEndlessStore.game_path = BMEndlessStore.PATH
 	BMEndlessStore.scores_path = BMEndlessStore.SCORES_PATH
-
-
-func test_same_seed_produces_same_offers() -> void:
-	var a := BMEndless.new_game(12345)
-	var b := BMEndless.new_game(12345)
-	eq(a.to_dict().tray, b.to_dict().tray, "three starting offers match")
-	var resumed := BMEndless.from_dict(JSON.parse_string(JSON.stringify(a.to_dict())))
-	eq(resumed._draw_shape().family, b._draw_shape().family, "next draw after resume")
 
 
 func test_new_trio_always_contains_a_legal_shape_if_board_has_space() -> void:

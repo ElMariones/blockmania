@@ -2,35 +2,6 @@ extends BMTestCase
 ## Run flow, economy, shop, bosses, determinism, and save round-trips.
 
 
-func test_new_run_initial_state() -> void:
-	var run := BMRun.new_run(1234)
-	eq(run.round_number, 1, "round")
-	eq(run.round_state.target, BMRunConfig.TARGETS[0], "target")
-	eq(run.round_state.placement_cap, 15, "placements")
-	eq(run.refreshes_available(), 1, "one refresh")
-	eq(run.credits, 0, "credits")
-	eq(run.bosses.size(), 3, "three bosses")
-	eq(run.bosses[2], "last_call", "final boss")
-	check(run.bosses[0] != run.bosses[1], "bosses do not repeat")
-	check(BMBag.any_fits(run.board, run.tray), "opening tray is legal")
-
-
-func test_high_roller_kit() -> void:
-	var run := BMRun.new_run(1, "high_roller")
-	eq(run.credits, 4, "starting credits")
-	eq(run.round_state.placement_cap, 14, "placements")
-
-
-func test_line_clear_refills_one_placement_per_line() -> void:
-	var run := run_with(["1111111.", "........", "........", "........", "........", "........", "........", "........"], [shape(&"single")])
-	run.round_state.placement_cap = 15
-	run.round_state.placements_left = 10
-	var r := run.place(0, Vector2i(7, 0))
-	eq(r.lines, 1, "one line")
-	eq(r.placements_refilled, 1, "one placement back")
-	eq(run.round_state.placements_left, 10, "spent one, got one back")
-
-
 func test_double_clear_refills_two_but_never_above_cap() -> void:
 	var rows := [".......1", ".......1", ".......1", ".......1", ".......1", ".......1", "........", "111111.."]
 	var run := run_with(rows, [shape(&"square2"), shape(&"single")])
@@ -55,13 +26,6 @@ func test_clear_on_last_placement_keeps_round_alive() -> void:
 	run.place(0, Vector2i(7, 0))
 	eq(run.phase, BMRun.Phase.ROUND, "still playing")
 	eq(run.round_state.placements_left, 1, "the clear refilled the last placement")
-
-
-func test_round_start_sets_refill_cap_and_saves_it() -> void:
-	var run := BMRun.new_run(5)
-	eq(run.round_state.placement_cap, 15, "cap is the starting count")
-	var copy := BMRun.from_dict(JSON.parse_string(JSON.stringify(run.to_dict())))
-	eq(copy.round_state.placement_cap, 15, "cap survives save/load")
 
 
 func test_out_of_placements_loses() -> void:
@@ -137,20 +101,6 @@ func test_lockdown_disables_refresh_and_second_tray() -> void:
 	check(run.consumable_usable(0) != "", "second tray blocked")
 
 
-func test_last_call_and_cramped_cabinet_setup() -> void:
-	var run := BMRun.new_run(31)
-	run.round_number = 12
-	run._start_round()
-	eq(run.round_state.placements_left, BMBosses.LAST_CALL_PLACEMENTS, "last call placements")
-	eq(run.round_state.target, BMRunConfig.TARGETS[11], "final target")
-	var run2 := BMRun.new_run(31)
-	run2.round_number = 4
-	run2.bosses[0] = "cramped_cabinet"
-	run2._start_round()
-	eq(run2.board.occupied_count(), 4, "four fixed cells")
-	eq(run2.round_state.fixed_cells.size(), 4, "recorded")
-
-
 func test_shop_flow_buy_sell_reroll_capacity() -> void:
 	var run := BMRun.new_run(55)
 	run.round_state.score = run.round_state.target
@@ -181,25 +131,6 @@ func test_shop_flow_buy_sell_reroll_capacity() -> void:
 	eq(run.round_state.target, BMRunConfig.TARGETS[1], "next target")
 
 
-func test_shop_offers_deterministic() -> void:
-	var a := BMRun.new_run(9001)
-	var b := BMRun.new_run(9001)
-	for run in [a, b]:
-		run.round_state.score = run.round_state.target
-		run._after_round_action()
-		run.continue_after_round()
-	eq(a.shop, b.shop, "same shop from same seed")
-
-
-func test_full_run_is_deterministic_and_replayable() -> void:
-	var a := BMAutoplayer.play(BMRun.new_run(424242))
-	var b := BMAutoplayer.play(BMRun.new_run(424242))
-	check(a.phase in [BMRun.Phase.RUN_WON, BMRun.Phase.RUN_LOST], "run finished")
-	eq(a.to_dict(), b.to_dict(), "identical seeds and actions give identical runs")
-	var c := BMRun.replay(a.run_seed, a.kit_id, a.history)
-	eq(c.to_dict(), a.to_dict(), "replay from history matches")
-
-
 func test_save_resume_mid_round_matches_uninterrupted() -> void:
 	var a := BMRun.new_run(2024)
 	for i in 5:
@@ -211,27 +142,6 @@ func test_save_resume_mid_round_matches_uninterrupted() -> void:
 	BMAutoplayer.play(a)
 	BMAutoplayer.play(resumed)
 	eq(resumed.to_dict(), a.to_dict(), "continuing after resume gives the same run")
-
-
-func test_save_resume_from_shop() -> void:
-	var a := BMRun.new_run(777)
-	a.round_state.score = a.round_state.target
-	a._after_round_action()
-	a.continue_after_round()
-	var resumed := BMRun.from_dict(JSON.parse_string(JSON.stringify(a.to_dict())))
-	eq(resumed.phase, BMRun.Phase.SHOP, "still in shop")
-	BMAutoplayer.play(a)
-	BMAutoplayer.play(resumed)
-	eq(resumed.to_dict(), a.to_dict(), "same outcome")
-
-
-func test_many_seeds_finish_without_errors() -> void:
-	var rounds_reached := 0
-	for s in 10:
-		var run := BMAutoplayer.play(BMRun.new_run(1000 + s))
-		check(run.phase in [BMRun.Phase.RUN_WON, BMRun.Phase.RUN_LOST], "seed %d finished" % s)
-		rounds_reached += run.round_number
-	check(rounds_reached >= 10, "bot reaches at least round 1 each run")
 
 
 func test_save_store_round_trip_and_end_clears() -> void:

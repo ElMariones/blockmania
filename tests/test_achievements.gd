@@ -22,24 +22,6 @@ func _restore() -> void:
 	BMAchievementStore.reload()
 
 
-func test_catalog_has_four_full_pages_and_art() -> void:
-	eq(BMAchievements.page_count(), 5, "five pages")
-	for page in BMAchievements.page_count():
-		eq(BMAchievements.page_ids(page).size(), BMAchievements.PER_PAGE, "page %d holds twelve" % page)
-	var seen := {}
-	var secrets := 0
-	for d in BMAchievements.CATALOG:
-		check(not seen.has(d.id), "unique id %s" % d.id)
-		seen[d.id] = true
-		check(BMAchievements.TIERS.has(d.tier), "%s tier" % d.id)
-		check(String(d.name) != "" and String(d.text) != "" and String(d.flavor) != "", "%s words" % d.id)
-		check(BMCardArt.has("achievements", d.id), "%s has a pixel icon" % d.id)
-		if bool(d.get("secret", false)):
-			secrets += 1
-			check(String(d.get("hint", "")) != "", "%s secret has a hint" % d.id)
-	check(secrets >= 6, "several secret achievements")
-
-
 func test_bag_achievements_count_the_bag() -> void:
 	var run := BMRun.new_run(3)
 	var got := BMAchievements.check_campaign(run, {"a": "reroll"}, {"ok": true, "type": "reroll"}, {})
@@ -101,13 +83,6 @@ func test_endless_achievements() -> void:
 	for id in ["arcade_rookie", "arcade_regular", "blockstorm", "fresh_start", "night_shift"]:
 		check(got.has(id), id)
 	check(not got.has("arcade_legend"), "not 100k")
-
-
-func test_checks_do_not_change_the_run() -> void:
-	var run := BMRun.new_run(21)
-	var before := JSON.stringify(run.to_dict())
-	BMAchievements.check_campaign(run, {"a": "place"}, {"ok": true, "type": "place", "points": 5}, {}, 2)
-	eq(JSON.stringify(run.to_dict()), before, "state untouched")
 
 
 func test_store_unlocks_once_and_grants_the_meta_badge() -> void:

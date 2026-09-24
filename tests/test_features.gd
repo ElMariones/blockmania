@@ -156,17 +156,6 @@ func test_mult_fever_adds_mult() -> void:
 	eq(r.mult, 2.0, "+1 Mult")
 
 
-func test_round_card_survives_save_and_replays() -> void:
-	var run := _shop(115)
-	run.apply_action({"a": "pick_round", "i": 1})
-	var copy := BMRun.from_dict(JSON.parse_string(JSON.stringify(run.to_dict())))
-	eq(int(copy.shop.round_pick), 1, "pick saved")
-	copy.leave_shop()
-	run.leave_shop()
-	eq(copy.round_card, run.round_card, "same card")
-	eq(copy.round_state.target, run.round_state.target, "same target")
-
-
 # --- Heat ------------------------------------------------------------------------------------
 
 func test_heat_levels_stack() -> void:
@@ -235,11 +224,6 @@ func test_locked_jokers_are_never_offered() -> void:
 		check(not locked.has(run._pick_joker(i % 3, [])), "offer %d" % i)
 	var copy := BMRun.from_dict(JSON.parse_string(JSON.stringify(run.to_dict())))
 	eq(copy.locked_jokers.size(), locked.size(), "saved")
-
-
-func test_daily_seed_is_stable() -> void:
-	eq(BMRunConfig.daily_seed("2026-09-24"), BMRunConfig.daily_seed("2026-09-24"), "same day, same seed")
-	check(BMRunConfig.daily_seed("2026-09-24") != BMRunConfig.daily_seed("2026-09-25"), "next day differs")
 
 
 func test_milestones_fire_once_per_tier() -> void:

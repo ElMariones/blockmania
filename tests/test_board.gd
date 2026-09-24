@@ -1,12 +1,6 @@
 extends BMTestCase
 
 
-func test_empty_board_accepts_any_shape_at_origin() -> void:
-	var b := BMBoard.new()
-	check(b.can_place(shape(&"square3").cells, Vector2i(0, 0)), "3x3 fits at origin")
-	eq(b.empty_count(), 64, "empty count")
-
-
 func test_edge_bounds() -> void:
 	var b := BMBoard.new()
 	var bar4: Array[Vector2i] = shape(&"bar4", 0).cells # horizontal

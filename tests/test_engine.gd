@@ -255,11 +255,3 @@ func test_coffee_break_and_coin_roll() -> void:
 	locked._start_round()
 	locked.consumables.assign(["coffee_break"])
 	check(locked.consumable_usable(0) != "", "The Lockdown refuses it")
-
-
-func test_new_items_and_cards_have_art() -> void:
-	for id in ["overclock", "tune_up", "coffee_break", "coin_roll"]:
-		check(BMCardArt.has("items", id), "%s portrait" % id)
-	check(BMCardArt.has("tools", "rack_extender"), "Rack Extender portrait")
-	for d in BMJokers.CATALOG:
-		check(BMCardArt.has("jokers", d.id), "%s portrait" % d.id)

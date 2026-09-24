@@ -108,16 +108,6 @@ func test_hot_hand() -> void:
 	eq(r.mult, 1.0, "no hand: no trigger")
 
 
-func test_hand_mark_survives_save_and_preview() -> void:
-	var run := _run_dealing([_p(&"bar3", 0), _p(&"bar3", 1), _p(&"l3", 2)])
-	run._deal_fresh_tray()
-	var copy := BMRun.from_dict(JSON.parse_string(JSON.stringify(run.to_dict())))
-	eq(copy.tray[0].hand, BMHands.TWINS, "saved")
-	var preview := run.preview_place(0, Vector2i(0, 0))
-	var real := run.place(0, Vector2i(0, 0))
-	eq(preview.points, real.points, "preview equals result")
-
-
 func test_starter_bag_odds() -> void:
 	var o := BMHands.odds(BMPieces.starter_bag())
 	check(absf(o[BMHands.TWINS] - 0.215) < 0.002, "twins %.3f" % o[BMHands.TWINS])
