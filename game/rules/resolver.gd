@@ -272,6 +272,13 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 			var moves := board.settle()
 			if moves.is_empty():
 				break
+			# Tombstones fall with their blocks.
+			for t in rs.tombs:
+				for mv in moves:
+					if int(t[0]) == mv[0].x and int(t[1]) == mv[0].y:
+						t[0] = mv[1].x
+						t[1] = mv[1].y
+						break
 			var wr := board.full_rows()
 			var wc := board.full_cols()
 			var wl := wr.size() + wc.size()

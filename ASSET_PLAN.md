@@ -202,6 +202,19 @@ All code-authored; no external media or generated-image art.
 | Overtime and machine-broken presentation: OVERTIME tags, compact M/B/T/Q numbers, KEEP PLAYING panel, MACHINE BROKEN! screen (crash sound, shake, burst, ring, title jitter) | `game/ui/game_screen.gd`, `shop_screen.gd` | In game |
 | 12 sounds: `ach_bronze/silver/gold/legend/secret`, `trophy_open`, `page_flip`, `badge_hover`, `badge_locked`, `overtime`, `record_new`, `machine_break` | `tools/audio/gen_sfx_achievements.py` | In game; human listening pass open |
 
+## 12c. Engine update and Legendary Jokers (2026-09-24)
+
+All code-authored; no external media or generated-image art.
+
+| Deliverable | Source | Status |
+|---|---|---|
+| 17 Joker portraits (13 new Jokers, 4 Legendaries), 4 item portraits (Turbo, Tune-Up, Coffee Break, Coin Roll), Rack Extender, 12 achievement icons for page 5 "Legends" | `tools/art/cards_engine.py` (merged by `gen_cards.py`) → `assets/ui/cards/` | In game |
+| Legendary frames: `card_legendary`, `rack_legendary` (lilac rim, sun gem), `pill_lilac`; faster glint with twinkles on Legendary portraits | `tools/art/gen_ui.py`, `game/ui/card.gd` | In game; verified at 1920×1080 |
+| Legendary callouts: LEGENDARY! pop text, lilac confetti, CRT shock on purchase or crate pick; reveal sting once per shop visit | `game/ui/shop_screen.gd` | In game |
+| Avalanche chain waves (cells pop one beat per wave, AVALANCHE xN! callout, confetti, shake, wave lines in the receipt); TRANSMUTED label; Joker growth lines on the round result | `game/ui/board_view.gd`, `game/ui/game_screen.gd` | In game; falling blocks are not animated yet (they settle between beats) |
+| Compact Joker rack for 6–7 slots (64/48-px portraits) | `game/ui/card.gd` | In game; verified with 7 slots in round and shop |
+| 2 sounds: `legendary_reveal`, `legendary_get` | `tools/audio/gen_sfx_achievements.py` | In game; human listening pass open |
+
 ## 13. Endless arcade mode (2026-09-23)
 
 The main menu has a code-drawn pixel infinity emblem on the Endless entry (with a game in progress it opens a Continue / New Game popup) and a local high-score view. Its cabinet reuses the original board, tray, block textures, clear waves, CRT option, particles, and existing SFX. The right rail now has a large Hold well with an occupied-shape drawing, recharge state, and drop highlight. The swirl shader has calm teal, tense rose, and celebratory multicolor moods; original tracks are grouped into matching playlists. At x5, a code-synthesized percussion layer joins the current track, with a stronger level at x8. High combos add capped drag trails, board pulse, larger score text, scoreward particles, confetti, and subtle shake. DOUBLE CLEAR, TRIPLE CLEAR, MEGA CLEAR, PERFECT, BLOCKSTORM, and CLEAN BOARD have prominent text feedback; an empty-board clear gets the largest celebration. Reduced motion retains score, Hold state, and callout text. The Endless screen and game-over card are code-built UI; no external media or generated-image art is used. Human comfort/listening review remains open.

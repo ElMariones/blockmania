@@ -17,8 +17,8 @@ func _won_run(seed_value: int = 99) -> BMRun:
 
 
 func test_overtime_targets_escalate_past_the_final_round() -> void:
-	eq(BMRunConfig.target(12), 10000, "round 12 unchanged")
-	eq(BMRunConfig.target(13), 17000, "round 13 = 10,000 x 1.6 x 1.08, two digits")
+	eq(BMRunConfig.target(12), BMRunConfig.TARGETS[11], "round 12 unchanged")
+	eq(BMRunConfig.target(13), 22000, "round 13 = 12,500 x 1.6 x 1.08, two digits")
 	var last := BMRunConfig.target(12)
 	for r in range(13, 60):
 		var t := BMRunConfig.target(r)

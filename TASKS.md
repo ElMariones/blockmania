@@ -3,7 +3,7 @@
 Living backlog. Update it in the same commit as the work. Milestones follow GDD §12.
 Legend: `[x]` done · `[~]` partial · `[ ]` open · **(owner)** needs a project-owner decision.
 
-_Last updated: 2026-09-24 — Shop menu access, pixel portraits for every Joker/item/Workshop card, Overtime after the win (records, machine limit), and 48 achievements with a Trophy Case._
+_Last updated: 2026-09-24 — Persona playtest review (docs/playtests), engine update (interest, overkill, multi-line Mult, scaling Jokers, Rack Extender, 13 Jokers, 4 items, 4 Legendary Jokers, Legends achievement page, targets raised). Earlier today: shop menu, card portraits, Overtime, 48 achievements._
 
 ## M0 — Rules prototype
 
@@ -101,6 +101,17 @@ Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/r
 - [ ] Human playtest: Overtime curve (bot: 12 of 16 winners fell in round 13), toast frequency early in a first run (many bronze badges come fast), listening pass for the new fanfares and the machine-break crash.
 - [ ] Steam achievements mirror of the local ids (later, optional).
 
+## Owner requests, 2026-09-24 (review and engine update)
+
+- [x] **Persona playtests and design report:** `tools/playtest.gd` (15 personas: random, newcomer, steady, a whole-tray search planner, seven build archetypes, four Kits, ceiling and opportunity probes) + `tools/playtest_report.py`; 770+ baseline runs. Report with verdict, diagnosis, changes and plan: `docs/playtests/2026-09-24_persona_playtest.md` (tables beside it).
+- [x] **Engine update** (GDD §21): multi-line base Mult, interest, overkill, Rack Extender (7 slots), run-long scaling Jokers (`BMRun.joker_state`), 13 new Jokers, 4 new items (Turbo, Tune-Up, Coffee Break, Coin Roll), 6 retuned cards, targets for rounds 3–12 raised ~25%. Save schema 6.
+- [x] **Legendary Jokers** (rarity 4, unique, cost 12): The Avalanche (gravity chain waves), Hall of Mirrors (Jokers trigger twice), Philosopher's Stone (doubled materials, transmutation), Supernova (per-round line Mult). Boss Crates from act 2 (12% / 20% / 30% Overtime) and late shops (1% / 3%). Lilac frames, reveal/get stings, callouts, receipt lines per wave.
+- [x] **Achievements page 5 "Legends"** (12 badges, 2 secret, icons): Legendary finds, Pantheon (lifetime), Chain Reaction, Mirror World, Going Nova, Billionaire, and more. 60 achievements in total.
+- [x] Tests: `tests/test_engine.gd`, `tests/test_legendary.gd`, new cases in `test_achievements.gd`; retuned card tests updated.
+- [ ] Human playtest of the engine update: do Legendaries feel special or mandatory? Is the Avalanche readable (blocks do not animate their fall yet)? Does interest make players hoard?
+- [ ] Animate the Avalanche fall (per-wave board snapshots in the record), not just the wave pops.
+- [ ] Plan items from the report (§7): campaign Hold slot (multi-line availability is ~2% of placements), boss escalation in later acts, Tray Hand rebalance, round choice before non-boss rounds, tutorial, daily seed and run history, stakes after a win, achievement-gated Joker unlocks, Overtime milestones.
+
 ## M2 — Content complete
 
 - [x] Kit selection screen + unlock tracking (see Round-play proposals).
@@ -119,6 +130,8 @@ Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/r
 - [ ] Steamworks integration (achievements/cloud optional, never required for play).
 
 ## Balance watch (provisional numbers — do not tune silently)
+
+- 2026-09-24: **Engine update + targets 450 / 650 / 900 / 1,200 / 1,800 / 2,400 / 3,300 / 4,400 / 5,700 / 7,300 / 9,300 / 12,500.** Persona playtest (seeds 1001+): steady 10% → 37% wins with the engine and old targets → **18%** with the new targets; newcomer avg round 6.0 → 6.6; planner PLANNER_AFTER. Legendary probe: DREAM_AFTER. Report: `docs/playtests/2026-09-24_persona_playtest.md` §6.
 
 - 2026-09-24: **Overtime** targets `10,000 × 1.6^k × (1 + 0.08k²)`. Autoplayer, 100 seeds: 16 wins; Overtime ended in round 13 for 12 and round 14 for 4. Human playtests with strong builds decide the curve.
 

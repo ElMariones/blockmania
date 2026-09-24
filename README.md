@@ -19,7 +19,9 @@ Open the folder in **Godot 4.7.2** and press Play (main scene `res://game/main.t
 
 **Overtime:** beat round 12 and the win screen offers KEEP PLAYING. Rounds go on with targets that climb faster and faster and a boss every fourth round, until a round is lost. One placement worth 1,000,000,000,000,000 points breaks the machine and ends the run as a legendary win. Personal records (furthest round, best placement, best round, when the machine broke) are kept.
 
-**Trophies:** 48 achievements across four pages (eight of them secret) with their own pixel badges, unlock fanfares and effects. TROPHIES on the title opens the Trophy Case with your records.
+**Trophies:** 60 achievements across five pages (ten of them secret) with their own pixel badges, unlock fanfares and effects. TROPHIES on the title opens the Trophy Case with your records.
+
+**Engine update (2026-09-24):** interest (+1 Credit per 5 held, max +5) and overkill payouts, multi-line clears add base Mult, Rack Extender (up to 7 Joker slots), 13 new Jokers (some grow for the whole run), 4 new items, and four unique **Legendary Jokers** (The Avalanche, Hall of Mirrors, Philosopher's Stone, Supernova) from Boss Crates and late shops. The design review that motivated it: `docs/playtests/2026-09-24_persona_playtest.md`.
 
 Controls: drag a shape onto the board, or click a shape and then click a cell. Right-click or Esc cancels. Keyboard: `1`–`3` select a shape, arrows/WASD move it, Enter/Space place, `R` refresh, `B` shows your bag, `M` toggles sound, Esc pauses (in the shop too: SAVE & MAIN MENU returns to the title). In the Trophy Case, Q/E or PageUp/PageDown turn pages. Options (title or pause) has separate master, music and effects levels, sound/music switches, background mute, and Next Song.
 
@@ -32,6 +34,8 @@ godot --headless --path . --import                                   # first tim
 godot --headless --path . --script res://tests/run_tests.gd          # rule, determinism, save tests
 godot --headless --path . --script res://tools/simulate.gd -- 200 1  # bot balance probe
 godot --headless --path . --script res://tools/experiments.gd -- all 40 1 res://docs/balance/report.md  # paired-seed content experiments
+godot --headless --path . --script res://tools/playtest.gd -- planner 60 1001 /tmp/planner.json  # persona playtest (see docs/playtests)
+python tools/playtest_report.py out_dir /tmp/*.json  # persona tables
 ```
 
 **Windows demo build.** The "Windows Desktop" preset in `export_presets.cfg` makes one self-contained `build/BLOCKMANIA_Demo/BLOCKMANIA.exe` (pck embedded, BLOCKMANIA icon and version info, no console) and leaves `tests/`, `tools/`, `docs/` and `assets/source/` out. It needs the official Godot 4.7.2 export templates (Editor > Manage Export Templates). Export from the editor (Project > Export), or headless with the editor closed:

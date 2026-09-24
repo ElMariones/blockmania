@@ -6,7 +6,7 @@ const EMPTY := ["........", "........", "........", "........", "........", "...
 
 
 func _store() -> void:
-	BMAchievementStore.path = "user://test_achievements.cfg"
+	BMAchievementStore.path = "user://test_achievements_%d.cfg" % OS.get_process_id()
 	if FileAccess.file_exists(BMAchievementStore.path):
 		DirAccess.remove_absolute(BMAchievementStore.path)
 	BMAchievementStore.reload()

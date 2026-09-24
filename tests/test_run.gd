@@ -142,7 +142,7 @@ func test_last_call_and_cramped_cabinet_setup() -> void:
 	run.round_number = 12
 	run._start_round()
 	eq(run.round_state.placements_left, BMBosses.LAST_CALL_PLACEMENTS, "last call placements")
-	eq(run.round_state.target, 10000, "final target")
+	eq(run.round_state.target, BMRunConfig.TARGETS[11], "final target")
 	var run2 := BMRun.new_run(31)
 	run2.round_number = 4
 	run2.bosses[0] = "cramped_cabinet"

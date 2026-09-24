@@ -4,7 +4,7 @@ extends RefCounted
 
 const ROUND_COUNT := 12
 const ROUNDS_PER_ACT := 4
-const TARGETS := [450, 650, 850, 1150, 1600, 2100, 2800, 3700, 4700, 6000, 7500, 10000]
+const TARGETS := [450, 650, 900, 1200, 1800, 2400, 3300, 4400, 5700, 7300, 9300, 12500]
 
 # Overtime (GDD §19): after the round-12 win the player may keep going. Rounds continue in acts
 # of four with a boss every fourth round; the target of overtime round 12+k is

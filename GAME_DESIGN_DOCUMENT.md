@@ -151,18 +151,18 @@ Effects describe their trigger in plain language and show their contribution in 
 |---:|---|---:|---|
 | 1 | 1 | 450 | Standard |
 | 2 | 1 | 650 | Standard |
-| 3 | 1 | 850 | Standard |
-| 4 | 1 | 1,150 | Boss |
-| 5 | 2 | 1,600 | Standard |
-| 6 | 2 | 2,100 | Standard |
-| 7 | 2 | 2,800 | Standard |
-| 8 | 2 | 3,700 | Boss |
-| 9 | 3 | 4,700 | Standard |
-| 10 | 3 | 6,000 | Standard |
-| 11 | 3 | 7,500 | Standard |
-| 12 | 3 | 10,000 | Final boss |
+| 3 | 1 | 900 | Standard |
+| 4 | 1 | 1,200 | Boss |
+| 5 | 2 | 1,800 | Standard |
+| 6 | 2 | 2,400 | Standard |
+| 7 | 2 | 3,300 | Standard |
+| 8 | 2 | 4,400 | Boss |
+| 9 | 3 | 5,700 | Standard |
+| 10 | 3 | 7,300 | Standard |
+| 11 | 3 | 9,300 | Standard |
+| 12 | 3 | 12,500 | Final boss |
 
-*Revised 2026-09-23 from simulation (§16.9). The original draft was 600 / 850 / 1,100 / 1,450 / 1,850 / 2,400 / 3,100 / 4,000 / 5,000 / 6,300 / 7,800 / 10,000; its first rounds were steeper than its later ones.*
+*Revised 2026-09-24 with the engine update (§21): rounds 3-12 raised about 25% because interest, scaling Jokers and multi-line Mult make builds grow; the greedy balance bot went 10% → 37% wins before the raise and 18% after, the planner persona 82% → see docs/playtests/2026-09-24_persona_playtest.md §6. Previous values: 450 / 650 / 850 / 1,150 / 1,600 / 2,100 / 2,800 / 3,700 / 4,700 / 6,000 / 7,500 / 10,000.* *Revised 2026-09-23 from simulation (§16.9). The original draft was 600 / 850 / 1,100 / 1,450 / 1,850 / 2,400 / 3,100 / 4,000 / 5,000 / 6,300 / 7,800 / 10,000; its first rounds were steeper than its later ones.*
 
 Targets are tuning placeholders. Telemetry from local playtests should track median placements to win, loss reasons, shop purchases, and scores by build. The first three rounds should teach line clears before demanding large multipliers. Mid-run targets should make a directionally coherent build valuable; final rounds should demand synergies without relying on one overpowered Joker.
 
@@ -649,7 +649,7 @@ Owner request: "allow games to continue after beating the game like in Balatro, 
 
 - **Entry.** Winning round 12 still ends the run as a win: the win, Kit unlocks, records and achievements are saved at that moment. The win screen then offers **KEEP PLAYING: OVERTIME**. Choosing it is a run command (`{"a": "overtime"}`, `BMRun.start_overtime`), so it replays and saves like any other action. Leaving the win screen any other way ends the run as before. Overtime cannot start after a loss, twice, or after the machine breaks.
 - **Structure.** The shop opens and rounds continue (13, 14, ...) with the same Jokers, bag, items and Credits. Acts keep their four-round rhythm: round 16, 20, 24 ... are boss rounds. Each Overtime act draws its boss from the boss stream when first needed (any boss in the pool, finals included, never the previous act's). The shop uses the act 3 rarity weights. The round intro, marquee ("OVERTIME - ACT 5") and shop ("OVERTIME" tag) say where you are.
-- **Targets.** Round 12+k needs `10,000 × 1.6^k × (1 + 0.08·k²)`, rounded to two significant digits: 17,000 · 34,000 · 70,000 · 150,000 (round 16, boss) · 1,300,000 at round 19 · 2,600,000 at round 20 · 35,000,000 at round 24 · 1,300,000,000 at round 30 · 4,000,000,000 at round 32. Targets never exceed the machine's limit.
+- **Targets.** Round 12+k needs `T12 × 1.6^k × (1 + 0.08·k²)` where T12 is the round-12 target (12,500 since the engine update), rounded to two significant digits: 22,000 · 42,000 · 88,000 · 190,000 (round 16, boss) · 1,700,000 at round 19 · 3,300,000 at round 20 · 44,000,000 at round 24 · 1,600,000,000 at round 30 · 5,000,000,000 at round 32. Targets never exceed the machine's limit.
 - **The end.** Overtime ends when a round is lost. The run-end screen reads **OVERTIME OVER**, reminds the player the run was already a win, and shows the round reached (e.g. "17 (OVERTIME +5)"). The Kit profile counts the run and its win once (`BMRun.recorded` holds what was already added), and only new lines, bosses and Hands are added the second time.
 - **Breaking the machine.** Scores are 64-bit integers. The machine's limit is `SCORE_CAP` = 1,000,000,000,000,000 (exact in JSON saves). A placement whose Chips × Mult reaches the limit (or overflows) scores exactly the limit (`broken: true` in the resolution record, step 7), and the run ends at once as a legendary win: **MACHINE BROKEN!**, with the machine-crash sound, heavy shake and particles, the "Broke the Machine" achievement, and a personal record of the round it happened in (sooner is better). Round scores and run totals are clamped to the limit.
 - **Records.** When a run ends (win, loss, Overtime over, broken machine), personal records update: furthest round, best single placement, best round score, and the round the machine broke. Beaten records are listed on the run-end screen as NEW RECORD lines with a sting; all of them live on the Trophy Case records plaque. They sit in `user://achievements.cfg`, separate from runs and settings.
@@ -660,7 +660,7 @@ Owner request: "allow games to continue after beating the game like in Balatro, 
 
 Owner request: "an achievements system with a dedicated achievements page with a cool design, locked and occult achievements; unlocked ones show what they are in the tooltip; at least 2 pages; art, animations, effects, audio; effects when unlocking."
 
-- **Catalog.** 48 achievements (`BMAchievements`, stable ids) on four pages of twelve: **The Campaign** (progress, bosses, the win, Overtime, the machine), **The Bag & the Shop** (bag makeup such as 10+ blue pieces or 10+ Squares, every color, 40+ pieces, 14 or fewer, all materials, all stamps, full Joker rack, three Rares, Schematic level 3, 50 and 99 Credits), **The Scoreboard** (1K / 10K / 1M placements, 3 and 4+ lines, row + column, max combo, triple target, winning on the last placement, a clean board, Grand Slam, all five Hands), **Arcade & Secrets** (Endless 5K / 25K / 100K, x10, Fresh Board, secrets, and the meta badge). Tiers: Bronze 14, Silver 17, Gold 14, Legendary 3.
+- **Catalog.** 48 achievements (`BMAchievements`, stable ids) on four pages of twelve (60 on five pages since the engine update, §21.6): **The Campaign** (progress, bosses, the win, Overtime, the machine), **The Bag & the Shop** (bag makeup such as 10+ blue pieces or 10+ Squares, every color, 40+ pieces, 14 or fewer, all materials, all stamps, full Joker rack, three Rares, Schematic level 3, 50 and 99 Credits), **The Scoreboard** (1K / 10K / 1M placements, 3 and 4+ lines, row + column, max combo, triple target, winning on the last placement, a clean board, Grand Slam, all five Hands), **Arcade & Secrets** (Endless 5K / 25K / 100K, x10, Fresh Board, secrets, and the meta badge). Tiers: Bronze 14, Silver 17, Gold 14, Legendary 3.
 - **Secret ("occult") achievements.** Eight badges hide their name and rule until earned: the Trophy Case shows "? ? ?", a "?" medal and a one-line hint (for example "The title looks awfully fragile."). Once unlocked they show everything like the others.
 - **Conditions.** Checked after every successful campaign command and Endless action, and on two presentation events (every logo letter blown up at once; the local hour for the midnight-to-5 AM badge). Checks read the run, the action result and lifetime data only; they never change scores, runs, saves or random streams (a test enforces this). Lifetime data: Tray Hands seen, best Endless score. Unlocks, "seen" flags, lifetime data and records are stored in `user://achievements.cfg` (`BMAchievementStore`). The meta badge unlocks with the last of the others.
 - **Unlock feedback.** A plate slides in at the top right (clear of centered dialogs): the medal flips in like a coin, a pill says ACHIEVEMENT UNLOCKED / SECRET UNLOCKED! / LEGENDARY!, then the name and rule. Fanfares rise with the tier (bronze ding, silver triad, gold arpeggio with coins, legendary swell), secrets have their own reveal; particles grow with the tier (ring and stars; sparks; confetti; a full burst, swirl pulse and a small shake for Legendary). Several unlocks queue. Reduced Motion fades the plate and skips particles.
