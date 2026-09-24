@@ -74,7 +74,8 @@ const CRATE_RARE := 40
 ## Each unlockable Kit has its own bag and one signature rule (`perk`, owner request 2026-09-24):
 ##   thrift_credits   Credits per Refresh left unused when a round is won (BMRun._win_round)
 ##   interest_bonus   added to the interest cap (BMRun._win_round)
-##   refill_per_line  placements a cleared line gives back (BMResolver, default REFILL_PER_LINE)
+##   big_piece_chips  Chips per cell for a placed piece of 5+ cells (BMResolver step 3). Not a
+##                    refill perk: extra placements per line would let a round run forever.
 ##   hand_credits     Credits each time a Tray Hand forms (BMRun._apply_hand)
 ## All numbers provisional.
 const KITS := [
@@ -87,9 +88,9 @@ const KITS := [
 	{"id": "high_roller", "name": "High Roller Kit", "joker_slots": 5, "refreshes": 1, "placements": 14, "credits": 4, "bag": "standard",
 		"perk": "COMPOUND INTEREST", "perk_text": "Interest can pay up to +3 more Credits each round.", "interest_bonus": 3,
 		"text": "Start with 4 Credits. The standard bag, 14 placements per round.", "unlock": "Win a standard run.", "need": {"wins": 1}},
-	{"id": "chunky", "name": "Chunky Kit", "joker_slots": 5, "refreshes": 1, "placements": 12, "credits": 0, "bag": "chunky",
-		"perk": "HEAVY LIFTING", "perk_text": "Every cleared line gives back 2 placements (up to your cap).", "refill_per_line": 2,
-		"text": "A 19-piece bag of big, plump shapes: squares, Ts, pluses, a Bar 5 and a 3x3. Only 12 placements.", "unlock": "Defeat 3 bosses across runs.", "need": {"bosses": 3}},
+	{"id": "chunky", "name": "Chunky Kit", "joker_slots": 5, "refreshes": 1, "placements": 13, "credits": 0, "bag": "chunky",
+		"perk": "HEAVY LIFTING", "perk_text": "Pieces of 5 or more blocks score +10 Chips per block.", "big_piece_chips": 10,
+		"text": "A 19-piece bag of big, plump shapes: squares, Ts, pluses, a Bar 5 and a 3x3. Only 13 placements.", "unlock": "Defeat 3 bosses across runs.", "need": {"bosses": 3}},
 	{"id": "tetromino", "name": "Tetromino Kit", "joker_slots": 5, "refreshes": 1, "placements": 14, "credits": 0, "bag": "tetromino",
 		"perk": "FULL HOUSE", "perk_text": "+1 Credit every time a Tray Hand forms.", "hand_credits": 1,
 		"text": "Only four-block pieces: 20 of them, so Twins and Triplets come often.", "unlock": "Form 25 Tray Hands across runs.", "need": {"hands": 25}},

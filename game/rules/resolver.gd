@@ -5,7 +5,7 @@ extends RefCounted
 ## never changes the outcome; it only reads the record.
 ##
 ## Order inside the pipeline:
-##   step 3 base Chips: cells, Chrome, Veteran training, Schematic level, lines, multi-line, combo, boss, Twins hand
+##   step 3 base Chips: cells, Chrome, Veteran training, Chunky's Heavy Lifting, Schematic level, lines, multi-line, combo, boss, Twins hand
 ##   step 4 additive Chips: Polish, then Jokers top to bottom (Mimic copies the Joker below it)
 ##   step 5 additive Mult: 1 + Schematic level + Neon cells cleared + Spark + Triplets/Grand Slam
 ##         hand + Jokers; floor 1
@@ -177,6 +177,11 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 	if veteran_chips > 0:
 		items.append({"label": "Veteran training", "kind": "chips", "value": veteran_chips, "source": "piece"})
 		chips += veteran_chips
+	# Chunky Kit, Heavy Lifting: big pieces pay per block.
+	var big_chips := int(run.kit().get("big_piece_chips", 0))
+	if big_chips > 0 and placed.size() >= 5:
+		items.append({"label": "Heavy Lifting x%d" % placed.size(), "kind": "chips", "value": big_chips * placed.size(), "source": "kit"})
+		chips += big_chips * placed.size()
 	if family_level > 0:
 		var lvl_chips := BMPieces.LEVEL_CHIPS * family_level
 		items.append({"label": "%s Lv %d" % [BMShapes.family(piece.family).name, family_level], "kind": "chips", "value": lvl_chips, "source": "piece"})
@@ -366,13 +371,12 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 		rs.placements_left += stamp_times
 		events.append("Refund Stamp: this placement was free" + (" (+1 more)" if stamp_times > 1 else ""))
 	var refilled := 0
-	var per_line := int(run.kit().get("refill_per_line", BMRunConfig.REFILL_PER_LINE))
 	if all_lines > 0:
-		refilled = clampi(all_lines * per_line, 0, maxi(0, rs.placement_cap - rs.placements_left))
+		refilled = clampi(all_lines * BMRunConfig.REFILL_PER_LINE, 0, maxi(0, rs.placement_cap - rs.placements_left))
 		rs.placements_left += refilled
 		if refilled > 0:
 			events.append("Lines cleared: +%d placement%s" % [refilled, "" if refilled == 1 else "s"])
-		var wasted := all_lines * per_line - refilled
+		var wasted := all_lines * BMRunConfig.REFILL_PER_LINE - refilled
 		if wasted > 0 and run.has_active_joker("overflow"):
 			var pay := mini(wasted, BMJokers.OVERFLOW_MAX - rs.overflow_paid)
 			if pay > 0:

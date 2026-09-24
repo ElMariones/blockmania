@@ -13,7 +13,8 @@ extends BME2ECase
 ##  V4  Selling Veteran wipes the trained Chips or stops them scoring.
 ##  V5  A shop-bought piece of the same shape starts trained.
 ##  V6  Trained Chips are lost on save and load.
-##  K1  Chunky's Heavy Lifting does not give 2 placements back per cleared line.
+##  K1  Chunky's Heavy Lifting does not pay +10 Chips per block for pieces of 5+ blocks, or
+##      pays for smaller pieces.
 ##  K2  Compact's Thrift does not pay for Refreshes left unused at a round win.
 ##  K3  Tetromino's Full House does not pay a Credit when a Tray Hand forms.
 ## Setup that the shop's seeded offers would not reliably give (Veteran in the rack, a Copier
@@ -194,29 +195,36 @@ func _veteran() -> void:
 
 
 func _kits() -> void:
-	# K1: Chunky gives 2 placements back per cleared line (up to its cap).
+	# K1: Chunky pays +10 Chips per block for pieces of 5+ blocks, nothing for smaller ones.
 	main.start_new_run(SEED, "chunky", 0)
 	await frames(3)
 	main.game_screen.close_overlay()
 	var r: BMRun = main.run
-	var refill_seen := 0
+	var big_seen := 0
+	var small_seen := 0
 	var guard := 0
-	while r.phase == BMRun.Phase.ROUND and guard < 60 and refill_seen == 0:
+	while r.phase == BMRun.Phase.ROUND and guard < 60 and (big_seen == 0 or small_seen == 0):
 		guard += 1
-		var before_left := r.round_state.placements_left
-		var cap := r.round_state.placement_cap
 		var a := bot_action(r)
 		if a.is_empty():
 			break
 		var res: Dictionary = main.game_screen._do_action(a)
 		await frames(1)
-		if String(a.get("a", "")) == "place" and int(res.get("lines", 0)) > 0 and not res.has("stamp_refund"):
-			var room := cap - (before_left - 1)
-			var expect := mini(int(res.lines) * 2, room)
-			if expect > 0 and String(res.get("stamp", "")) != "refund":
-				eq(int(res.get("placements_refilled", -1)), expect, "K1: Chunky refills 2 per line up to the cap")
-				refill_seen = expect
-	check(refill_seen > 0, "K1: saw a Chunky refill")
+		if String(a.get("a", "")) != "place" or not res.get("ok", false):
+			continue
+		var cells: int = res.placed.size()
+		var paid := 0
+		for it in res.get("items", []):
+			if String(it.get("label", "")).begins_with("Heavy Lifting"):
+				paid = int(it.value)
+		if cells >= 5:
+			eq(paid, 10 * cells, "K1: Heavy Lifting pays 10 per block for a %d-block piece" % cells)
+			big_seen += 1
+		else:
+			eq(paid, 0, "K1: no Heavy Lifting for a %d-block piece" % cells)
+			small_seen += 1
+	check(big_seen > 0 and small_seen > 0, "K1: saw big and small Chunky placements")
+	facts["chunky"] = {"big": big_seen, "small": small_seen}
 	main.abandon_run()
 	await frames(2)
 	# K2 + K3 through a played round: Thrift on the win line, Full House on every Hand.
