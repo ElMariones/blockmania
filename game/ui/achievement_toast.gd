@@ -53,17 +53,17 @@ func _show(id: String) -> void:
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	row.add_child(v)
-	var pill_text := "LEGENDARY!" if tier == "legend" else ("SECRET UNLOCKED!" if secret else "ACHIEVEMENT UNLOCKED")
+	var pill_text := BMLoc.t("LEGENDARY!") if tier == "legend" else (BMLoc.t("SECRET UNLOCKED!") if secret else BMLoc.t("ACHIEVEMENT UNLOCKED"))
 	var pill_kind := "pink" if tier == "legend" else ("plum" if secret else ("sky" if tier in ["gold"] else "mint"))
 	var pill_row := BMStyle.hbox(10)
 	pill_row.add_child(BMStyle.pill(pill_text, pill_kind, 20))
-	var tl := BMStyle.label(String(BMAchievements.TIER_NAMES[tier]).to_upper(), 20, BMTrophyCase.TIER_COLORS[tier] if tier not in ["gold", "legend"] else BMStyle.INK, true, 0 if tier in ["gold", "legend"] else 6)
+	var tl := BMStyle.label(BMAchievements.tier_name(tier).to_upper(), 20, BMTrophyCase.TIER_COLORS[tier] if tier not in ["gold", "legend"] else BMStyle.INK, true, 0 if tier in ["gold", "legend"] else 6)
 	pill_row.add_child(tl)
 	v.add_child(pill_row)
 	var dark := tier in ["gold", "legend"]
-	var name_l := BMStyle.label(String(d.name), 30, BMStyle.INK if dark else BMStyle.SUN, true, 0 if dark else 8)
+	var name_l := BMStyle.label(BMLoc.t(d.name), 30, BMStyle.INK if dark else BMStyle.SUN, true, 0 if dark else 8)
 	v.add_child(name_l)
-	var text := BMStyle.label(String(d.text), 20, Color(BMStyle.INK, 0.8) if dark else BMStyle.CREAM)
+	var text := BMStyle.label(BMLoc.t(d.text), 20, Color(BMStyle.INK, 0.8) if dark else BMStyle.CREAM)
 	text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	text.max_lines_visible = 2
 	text.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
@@ -109,10 +109,10 @@ func _show_joker(joker_id: String) -> void:
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(v)
 	var pill_row := BMStyle.hbox(10)
-	pill_row.add_child(BMStyle.pill("NEW JOKER UNLOCKED", "lilac" if legendary else "sun", 20))
+	pill_row.add_child(BMStyle.pill(BMLoc.t("NEW JOKER UNLOCKED"), "lilac" if legendary else "sun", 20))
 	v.add_child(pill_row)
-	v.add_child(BMStyle.label(String(d.name), 30, BMStyle.LILAC if legendary else BMStyle.SUN, true, 8))
-	var text := BMStyle.label("Now in the shop pool. %s" % String(d.text), 20, BMStyle.CREAM)
+	v.add_child(BMStyle.label(BMLoc.t(d.name), 30, BMStyle.LILAC if legendary else BMStyle.SUN, true, 8))
+	var text := BMStyle.label(BMLoc.t("Now in the shop pool. %s") % BMLoc.t(d.text), 20, BMStyle.CREAM)
 	text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	text.max_lines_visible = 2
 	text.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS

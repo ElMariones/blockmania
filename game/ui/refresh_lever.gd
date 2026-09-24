@@ -163,14 +163,14 @@ func _draw() -> void:
 		Color(1, 1, 1, 1.0) if look != Look.EMPTY else Color(0.7, 0.7, 0.8, 1.0))
 	var f := BMStyle.font_bold
 	# Title strip.
-	var title := "REFRESH"
+	var title := BMLoc.t("REFRESH")
 	var title_col := BMStyle.CREAM
 	match look:
 		Look.CONCEDE:
-			title = "CONCEDE"
+			title = BMLoc.t("CONCEDE")
 			title_col = BMStyle.PINK_L
 		Look.LOCKED:
-			title = "LOCKED"
+			title = BMLoc.t("LOCKED")
 			title_col = BMStyle.PINK_L
 		Look.EMPTY:
 			title_col = BMStyle.TEXT_DIM

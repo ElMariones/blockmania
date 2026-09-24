@@ -78,20 +78,20 @@ const CRATE_RARE := 40
 ##                    refill perk: extra placements per line would let a round run forever.
 ##   hand_credits     Credits each time a Tray Hand forms (BMRun._apply_hand)
 ## All numbers provisional.
-const KITS := [
-	{"id": "standard", "name": "Standard Kit", "joker_slots": 5, "refreshes": 1, "placements": 15, "credits": 0, "bag": "standard",
+const KITS := [ # i18n: name, short, perk, perk_text, text, unlock
+	{"id": "standard", "short": "Standard", "name": "Standard Kit", "joker_slots": 5, "refreshes": 1, "placements": 15, "credits": 0, "bag": "standard",
 		"perk": "CLASSIC", "perk_text": "No twist: the rules as designed. The best Kit to learn with.",
 		"text": "The 24-piece starter bag: a bit of every shape.", "unlock": "", "need": {}},
-	{"id": "compact", "name": "Compact Kit", "joker_slots": 4, "refreshes": 2, "placements": 16, "credits": 0, "bag": "compact",
+	{"id": "compact", "short": "Compact", "name": "Compact Kit", "joker_slots": 4, "refreshes": 2, "placements": 16, "credits": 0, "bag": "compact",
 		"perk": "THRIFT", "perk_text": "+1 Credit for every Refresh you did not use when you win a round.", "thrift_credits": 1,
 		"text": "An 18-piece bag of small pieces: Singles, Bars, little Ls and Squares. Only 4 Joker slots.", "unlock": "Clear 100 lines across runs.", "need": {"lines": 100}},
-	{"id": "high_roller", "name": "High Roller Kit", "joker_slots": 5, "refreshes": 1, "placements": 14, "credits": 4, "bag": "standard",
+	{"id": "high_roller", "short": "High Roller", "name": "High Roller Kit", "joker_slots": 5, "refreshes": 1, "placements": 14, "credits": 4, "bag": "standard",
 		"perk": "COMPOUND INTEREST", "perk_text": "Interest can pay up to +3 more Credits each round.", "interest_bonus": 3,
 		"text": "Start with 4 Credits. The standard bag, 14 placements per round.", "unlock": "Win a standard run.", "need": {"wins": 1}},
-	{"id": "chunky", "name": "Chunky Kit", "joker_slots": 5, "refreshes": 1, "placements": 13, "credits": 0, "bag": "chunky",
+	{"id": "chunky", "short": "Chunky", "name": "Chunky Kit", "joker_slots": 5, "refreshes": 1, "placements": 13, "credits": 0, "bag": "chunky",
 		"perk": "HEAVY LIFTING", "perk_text": "Pieces of 5 or more blocks score +10 Chips per block.", "big_piece_chips": 10,
 		"text": "A 19-piece bag of big, plump shapes: squares, Ts, pluses, a Bar 5 and a 3x3. Only 13 placements.", "unlock": "Defeat 3 bosses across runs.", "need": {"bosses": 3}},
-	{"id": "tetromino", "name": "Tetromino Kit", "joker_slots": 5, "refreshes": 1, "placements": 14, "credits": 0, "bag": "tetromino",
+	{"id": "tetromino", "short": "Tetromino", "name": "Tetromino Kit", "joker_slots": 5, "refreshes": 1, "placements": 14, "credits": 0, "bag": "tetromino",
 		"perk": "FULL HOUSE", "perk_text": "+1 Credit every time a Tray Hand forms.", "hand_credits": 1,
 		"text": "Only four-block pieces: 20 of them, so Twins and Triplets come often.", "unlock": "Form 25 Tray Hands across runs.", "need": {"hands": 25}},
 ]
@@ -99,7 +99,7 @@ const KITS := [
 
 ## Heat (stakes after a win, GDD §22): each level keeps the ones below it. Heat N unlocks when
 ## a run at heat N-1 is won. `target` multiplies round targets (never Overtime's formula input).
-const HEATS := [
+const HEATS := [ # i18n: name, short
 	{"name": "Heat 0", "short": "Standard rules.", "target": 1.0},
 	{"name": "Heat 1", "short": "Targets +15%.", "target": 1.15},
 	{"name": "Heat 2", "short": "One fewer placement every round.", "target": 1.15},
@@ -120,7 +120,7 @@ static func heat_def(heat: int) -> Dictionary:
 static func heat_rules(heat: int) -> PackedStringArray:
 	var out := PackedStringArray()
 	for h in range(1, clampi(heat, 0, MAX_HEAT) + 1):
-		out.append(String(HEATS[h].short))
+		out.append(BMLoc.t(HEATS[h].short))
 	return out
 
 

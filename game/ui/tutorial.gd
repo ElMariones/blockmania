@@ -113,7 +113,7 @@ func _build_dialog() -> void:
 	v.add_child(_text)
 	var row := BMStyle.hbox(10)
 	v.add_child(row)
-	_skip = BMStyle.button("SKIP TUTORIAL", skip, "plum", 20)
+	_skip = BMStyle.button(BMLoc.t("SKIP TUTORIAL"), skip, "plum", 20)
 	_skip.name = "SkipTutorial"
 	_skip.custom_minimum_size = Vector2(210, 52)
 	_skip.focus_mode = Control.FOCUS_NONE
@@ -122,7 +122,7 @@ func _build_dialog() -> void:
 	_wait_hint.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_wait_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	row.add_child(_wait_hint)
-	_next = BMStyle.button("NEXT  >", press_next, "sun", 30)
+	_next = BMStyle.button(BMLoc.t("NEXT  >"), press_next, "sun", 30)
 	_next.name = "NextTutorial"
 	_next.custom_minimum_size = Vector2(190, 60)
 	_next.focus_mode = Control.FOCUS_NONE
@@ -345,7 +345,7 @@ func _go(i: int) -> void:
 	step_id = String(st.id)
 	var run: BMRun = main.run
 	_base = {"placements": run.round_state.placements_made if run else 0, "lines": int(run.stats.get("lines_cleared", 0)) if run else 0}
-	_text.text = String(st.text)
+	_text.text = BMLoc.t(String(st.text))
 	_typed_for = 0.0
 	_mini = false
 	_chars = 0.0
@@ -353,13 +353,31 @@ func _go(i: int) -> void:
 	_talking = true
 	var adv := String(st.advance)
 	_next.visible = adv == "next"
-	_next.text = "SHOW ME!" if step_id == "hello" else ("BYE!" if step_id == "bye" else "NEXT  >")
-	_wait_hint.text = {"placed": "Place a piece", "cleared": "Clear a line", "shop": "Win the round",
-		"left_shop": "Press NEXT ROUND"}.get(adv, "")
-	_peek_label.text = String(_wait_hint.text).to_upper() + "!" if _wait_hint.text != "" else ""
+	_step_labels(st)
 	var shown_steps := BMTutorialSteps.shown_count()
 	_dots.text = "%d / %d" % [BMTutorialSteps.shown_index(i) + 1, shown_steps]
 	_dialog.reset_size()
+
+
+## The buttons and hints of a step, in the current language.
+func _step_labels(st: Dictionary) -> void:
+	var adv := String(st.advance)
+	_next.text = BMLoc.t("SHOW ME!") if step_id == "hello" else (BMLoc.t("BYE!") if step_id == "bye" else BMLoc.t("NEXT  >"))
+	_wait_hint.text = {"placed": BMLoc.t("Place a piece"), "cleared": BMLoc.t("Clear a line"), "shop": BMLoc.t("Win the round"),
+		"left_shop": BMLoc.t("Press NEXT ROUND")}.get(adv, "")
+	_peek_label.text = String(_wait_hint.text).to_upper() + "!" if _wait_hint.text != "" else ""
+
+
+## The language changed: re-read the visible lines; the tour keeps its place.
+func relocalize() -> void:
+	if _skip == null:
+		return
+	_skip.text = BMLoc.t("SKIP TUTORIAL")
+	if _index >= 0 and _index < BMTutorialSteps.STEPS.size():
+		var st := _step()
+		_text.text = BMLoc.t(String(st.text))
+		_step_labels(st)
+		_dialog.reset_size()
 
 
 func _finish(completed: bool) -> void:

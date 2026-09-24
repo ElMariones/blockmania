@@ -2,7 +2,7 @@ class_name BMPieceTile
 extends Control
 ## One bag piece as a small selectable tile: the piece with its material and stamp, a short
 ## text line (never color-only), and a full-description tooltip. Selected tiles get a sun rim,
-## a lift, and a "PICKED" tag.
+## a lift, and a BMLoc.t("PICKED") tag.
 
 signal toggled_piece(uid: int)
 
@@ -63,20 +63,20 @@ func _draw() -> void:
 	draw_string(f, Vector2((size.x - minf(w, size.x - 8)) / 2.0, r.end.y - 12), text, HORIZONTAL_ALIGNMENT_LEFT, size.x - 8, 20, col)
 	if selected:
 		# Tag sized to its text, centered on the top edge and inside the tile (scroll areas clip).
-		var tw := BMStyle.font_bold.get_string_size("PICKED", HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x
+		var tw := BMStyle.font_bold.get_string_size(BMLoc.t("PICKED"), HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x
 		var tag := Rect2(Vector2((size.x - tw - 20) / 2.0, r.position.y - 2), Vector2(tw + 20, 30))
 		draw_style_box(BMStyle.box("pill_sun", Vector4.ZERO), tag)
-		draw_string(BMStyle.font_bold, tag.position + Vector2(10, 22), "PICKED", HORIZONTAL_ALIGNMENT_LEFT, -1, 20, BMStyle.INK)
+		draw_string(BMStyle.font_bold, tag.position + Vector2(10, 22), BMLoc.t("PICKED"), HORIZONTAL_ALIGNMENT_LEFT, -1, 20, BMStyle.INK)
 
 
 static func short_label(p: Dictionary) -> String:
 	var parts := PackedStringArray()
 	var m := String(p.get("material", ""))
 	if m != "":
-		parts.append(BMPieces.MATERIAL_DEFS[m].name)
+		parts.append(BMLoc.t(BMPieces.MATERIAL_DEFS[m].name))
 	var s := String(p.get("stamp", ""))
 	if s != "":
-		parts.append(BMPieces.STAMP_DEFS[s].name.replace(" Stamp", ""))
+		parts.append(BMLoc.t(BMPieces.STAMP_DEFS[s].short_name))
 	if parts.is_empty():
-		return BMShapes.family(p.family).name
+		return BMShapes.family_name(p.family)
 	return "+".join(parts)

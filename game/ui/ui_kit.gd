@@ -22,8 +22,9 @@ static func fmt_mult(m: float) -> String:
 static func fmt_int(n: int) -> String:
 	var s := str(absi(n))
 	var out := ""
+	var sep := BMLoc.thousands_sep()
 	while s.length() > 3:
-		out = "," + s.substr(s.length() - 3) + out
+		out = sep + s.substr(s.length() - 3) + out
 		s = s.substr(0, s.length() - 3)
 	return ("-" if n < 0 else "") + s + out
 
@@ -38,3 +39,21 @@ static func fmt_score(n: int) -> String:
 			var fmt := "%.2f" if absf(v) < 10.0 else ("%.1f" if absf(v) < 100.0 else "%.0f")
 			return (fmt % v) + String(u[1])
 	return fmt_int(n)
+
+
+## Lines of `text` that fit `width` px at `font_size`, broken by the TextServer's line rules, so
+## languages without spaces (Japanese, Chinese) wrap between characters. For text drawn in code.
+static func wrap_lines(text: String, font: Font, font_size: int, width: float) -> PackedStringArray:
+	var out := PackedStringArray()
+	for para in text.split("\n"):
+		if para == "":
+			out.append("")
+			continue
+		var tp := TextParagraph.new()
+		tp.add_string(para, font, font_size)
+		tp.width = width
+		tp.break_flags = TextServer.BREAK_MANDATORY | TextServer.BREAK_WORD_BOUND | TextServer.BREAK_ADAPTIVE
+		for i in tp.get_line_count():
+			var r := tp.get_line_range(i)
+			out.append(para.substr(r.x, r.y - r.x).strip_edges())
+	return out

@@ -18,7 +18,7 @@ extends RefCounted
 ## auto     seconds after the line finishes typing before the step moves on by itself
 ## hidden   true: POPS is off stage while the step waits (for the shop, or the next round)
 
-const STEPS := [
+const STEPS := [ # i18n: text
 	{"id": "hello", "screen": "round", "target": "", "advance": "next", "pose": "happy",
 		"text": "Well hello there! I'm POPS. I've kept this arcade running since blocks were square. Want the grand tour?"},
 	{"id": "tray", "screen": "round", "target": "tray", "advance": "next",

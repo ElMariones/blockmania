@@ -14,12 +14,12 @@ const RARE := 2
 ## Legendary (2026-09-24): four unique, rule-bending Jokers. They come mostly from Boss Crates
 ## (act 2 onward) and rarely from late shops; never more than one copy each.
 const LEGENDARY := 3
-const RARITY_NAMES := ["Common", "Uncommon", "Rare", "Legendary"]
+const RARITY_NAMES := ["Common", "Uncommon", "Rare", "Legendary"] # i18n
 ## Veteran: Chips an exact bag piece gains each time it completes a line (per Veteran copy).
 const VETERAN_STEP := 5
 const RARITY_COST := [3, 5, 8, 12]
 
-const CATALOG := [
+const CATALOG := [ # i18n: name, text
 	{"id": "clean_sweep", "name": "Clean Sweep", "rarity": COMMON, "phase": "chips", "text": "+50 Chips when exactly one line clears."},
 	{"id": "crossbar", "name": "Crossbar", "rarity": COMMON, "phase": "chips", "text": "+100 Chips when two or more lines clear together; +100 more if they cross (a row and a column)."},
 	{"id": "small_change", "name": "Small Change", "rarity": COMMON, "phase": "chips", "text": "+15 Chips per placed cell when placing a shape of 1-3 cells."},
@@ -144,6 +144,19 @@ static func get_def(id: String) -> Dictionary:
 		for d in CATALOG:
 			_by_id[d.id] = d
 	return _by_id.get(id, {})
+
+
+## Translated card name and rule text (display only; the catalog keeps the English source).
+static func display_name(id: String) -> String:
+	return BMLoc.t(String(get_def(id).get("name", id)))
+
+
+static func display_text(id: String) -> String:
+	return BMLoc.t(String(get_def(id).get("text", "")))
+
+
+static func rarity_name(rarity: int) -> String:
+	return BMLoc.t(RARITY_NAMES[clampi(rarity, 0, RARITY_NAMES.size() - 1)])
 
 
 static func cost(id: String) -> int:
@@ -355,95 +368,97 @@ static func counter_text(id: String, run: BMRun) -> String:
 	match id:
 		"golden_ratio":
 			var next := 3 - (run.round_state.placements_made % 3)
-			return "Triggers in %d placement%s" % [next, "" if next == 1 else "s"]
+			return BMLoc.tn("Triggers in %d placement", "Triggers in %d placements", next) % next
 		"compound_interest":
-			return "Clears this round: %d" % run.round_state.clearing_placements
+			return BMLoc.t("Clears this round: %d") % run.round_state.clearing_placements
 		"color_cycle":
 			var names := PackedStringArray()
 			var h: Array = run.round_state.color_history
 			for i in range(maxi(0, h.size() - 2), h.size()):
-				names.append(BMShapes.COLOR_NAMES[h[i]])
-			return "Recent: %s" % (", ".join(names) if names.size() > 0 else "none")
+				names.append(BMShapes.color_name(h[i]))
+			return BMLoc.t("Recent: %s") % (BMLoc.list_sep().join(names) if names.size() > 0 else BMLoc.t("none"))
 		"fire_sale":
-			return "Jokers sold: %d" % run.jokers_sold
+			return BMLoc.t("Jokers sold: %d") % run.jokers_sold
 		"first_strike":
-			return "Used this round" if run.round_state.clearing_placements > 0 else "Ready"
+			return BMLoc.t("Used this round") if run.round_state.clearing_placements > 0 else BMLoc.t("Ready")
 		"tiny_insurance":
-			return "Used this round" if run.round_state.tiny_insurance_used else "Ready"
+			return BMLoc.t("Used this round") if run.round_state.tiny_insurance_used else BMLoc.t("Ready")
 		"mirror_maze":
-			return "Used this round" if run.round_state.mirror_used else "Ready"
+			return BMLoc.t("Used this round") if run.round_state.mirror_used else BMLoc.t("Ready")
 		"patience":
-			return "Stored: +%d Chips" % run.round_state.patience_store
+			return BMLoc.t("Stored: +%d Chips") % run.round_state.patience_store
 		"countdown":
 			var sh: Array = run.round_state.size_history
 			var last := PackedStringArray()
 			for i in range(maxi(0, sh.size() - 2), sh.size()):
 				last.append(str(sh[i]))
-			return "Recent sizes: %s" % (", ".join(last) if last.size() > 0 else "none")
+			return BMLoc.t("Recent sizes: %s") % (BMLoc.list_sep().join(last) if last.size() > 0 else BMLoc.t("none"))
 		"showboat":
-			return "Feats this round: %d" % run.round_state.feats_seen.size()
+			return BMLoc.t("Feats this round: %d") % run.round_state.feats_seen.size()
 		"full_tank":
-			return "Placements %d / %d" % [run.round_state.placements_left, run.round_state.placement_cap]
+			return BMLoc.t("Placements %d / %d") % [run.round_state.placements_left, run.round_state.placement_cap]
 		"overflow":
-			return "Paid this round: %d / %d" % [run.round_state.overflow_paid, OVERFLOW_MAX]
+			return BMLoc.t("Paid this round: %d / %d") % [run.round_state.overflow_paid, OVERFLOW_MAX]
 		"loan_shark":
-			return "Owed: %d Credits" % run.loan_debt if run.loan_debt > 0 else "Repaid"
+			return BMLoc.t("Owed: %d Credits") % run.loan_debt if run.loan_debt > 0 else BMLoc.t("Repaid")
 		"insurance_policy":
-			return "Unused: saves one lost round"
+			return BMLoc.t("Unused: saves one lost round")
 		"periscope":
 			var names := PackedStringArray()
 			for i in mini(3, run.draw_pile.size()):
 				var p := BMBag.piece_by_uid(run, int(run.draw_pile[i]))
 				names.append(BMPieces.describe(p).get_slice("\n", 0))
 			if run.draw_pile.size() < 3:
-				names.append("reshuffle")
-			return "Next: " + ", ".join(names)
+				names.append(BMLoc.t("reshuffle"))
+			return BMLoc.t("Next: %s") % BMLoc.list_sep().join(names)
 		"patch_panel":
 			if run.round_state.patch_ready:
-				return "Ready: remove a block"
-			return "Used this round" if run.round_state.patch_used else "Waiting for the first clear"
+				return BMLoc.t("Ready: remove a block")
+			return BMLoc.t("Used this round") if run.round_state.patch_used else BMLoc.t("Waiting for the first clear")
 		"hoarder":
-			return "%d pieces: +%d Chips" % [run.bag.size(), run.bag.size()]
+			return BMLoc.t("%d pieces: +%d Chips") % [run.bag.size(), run.bag.size()]
 		"lean_bag":
-			return "%d pieces: +%s Mult" % [run.bag.size(), str(minf(3.0, 0.25 * maxi(0, 24 - run.bag.size())))]
+			return BMLoc.t("%d pieces: +%s Mult") % [run.bag.size(), str(minf(3.0, 0.25 * maxi(0, 24 - run.bag.size())))]
 		"foundry":
-			return "%d upgraded: +%d Chips" % [BMBag.upgraded_count(run), 5 * BMBag.upgraded_count(run)]
+			return BMLoc.t("%d upgraded: +%d Chips") % [BMBag.upgraded_count(run), 5 * BMBag.upgraded_count(run)]
 		"collector":
 			var fams := BMBag.distinct_families(run)
-			return "%d families: x%s Mult" % [fams, str(1.0 + 0.1 * maxi(0, fams - 6))]
+			return BMLoc.t("%d families: x%s Mult") % [fams, str(1.0 + 0.1 * maxi(0, fams - 6))]
 		"recycler":
-			return "Discard pile: %d" % run.discard_pile.size()
+			return BMLoc.t("Discard pile: %d") % run.discard_pile.size()
 		"snowball":
-			return "Now x%s Mult" % _num(run.joker_value("snowball"))
+			return BMLoc.t("Now x%s Mult") % _num(run.joker_value("snowball"))
 		"hot_streak":
-			return "Now x%s Mult" % _num(run.joker_value("hot_streak"))
+			return BMLoc.t("Now x%s Mult") % _num(run.joker_value("hot_streak"))
 		"overachiever":
-			return "Now +%s Mult" % _num(run.joker_value("overachiever"))
+			return BMLoc.t("Now +%s Mult") % _num(run.joker_value("overachiever"))
 		"tally_counter":
-			return "%d lines: +%d Chips" % [int(run.stats.get("lines_cleared", 0)), 4 * int(run.stats.get("lines_cleared", 0))]
+			return BMLoc.t("%d lines: +%d Chips") % [int(run.stats.get("lines_cleared", 0)), 4 * int(run.stats.get("lines_cleared", 0))]
 		"bonsai":
-			return "%d rounds won: +%s Mult" % [int(run.stats.get("rounds_won", 0)), _num(0.35 * int(run.stats.get("rounds_won", 0)))]
+			return BMLoc.t("%d rounds won: +%s Mult") % [int(run.stats.get("rounds_won", 0)), _num(0.35 * int(run.stats.get("rounds_won", 0)))]
 		"coin_pusher":
-			return "%d Credits: +%s Mult" % [run.credits, _num(minf(5.0, 0.1 * run.credits))]
+			return BMLoc.t("%d Credits: +%s Mult") % [run.credits, _num(minf(5.0, 0.1 * run.credits))]
 		"solo_act":
 			var empty := maxi(0, run.joker_slots() - run.jokers.size())
-			return "%d empty slot%s: x%s Mult" % [empty, "" if empty == 1 else "s", _num(1.0 + 0.75 * empty)]
+			return BMLoc.tn("%d empty slot: x%s Mult", "%d empty slots: x%s Mult", empty) % [empty, _num(1.0 + 0.75 * empty)]
 		"full_pockets":
-			return "%d item%s: +%s Mult" % [run.consumables.size(), "" if run.consumables.size() == 1 else "s", _num(1.5 * run.consumables.size())]
+			var held := run.consumables.size()
+			return BMLoc.tn("%d item: +%s Mult", "%d items: +%s Mult", held) % [held, _num(1.5 * held)]
 		"glass_cannon":
 			var g := BMBag.material_count(run, "glass")
-			return "%d Glass piece%s: x%s Mult" % [g, "" if g == 1 else "s", _num(minf(4.0, 1.0 + 0.3 * g))]
+			return BMLoc.tn("%d Glass piece: x%s Mult", "%d Glass pieces: x%s Mult", g) % [g, _num(minf(4.0, 1.0 + 0.3 * g))]
 		"supernova":
-			return "Lines this round: %d (x%s)" % [run.round_state.lines_cleared, _num(1.0 + SUPERNOVA_STEP * run.round_state.lines_cleared)]
+			return BMLoc.t("Lines this round: %d (x%s)") % [run.round_state.lines_cleared, _num(1.0 + SUPERNOVA_STEP * run.round_state.lines_cleared)]
 		"philosophers_stone":
-			return "Transmuted this run: %d" % int(run.stats.get("transmuted", 0))
+			return BMLoc.t("Transmuted this run: %d") % int(run.stats.get("transmuted", 0))
 		"avalanche":
-			return "Best chain: %d wave%s" % [int(run.stats.get("best_waves", 1)), "" if int(run.stats.get("best_waves", 1)) == 1 else "s"]
+			var waves := int(run.stats.get("best_waves", 1))
+			return BMLoc.tn("Best chain: %d wave", "Best chain: %d waves", waves) % waves
 		"mimic":
 			var i := run.jokers.find("mimic")
 			if i >= 0 and i + 1 < run.jokers.size():
-				return "Copying: %s" % get_def(run.jokers[i + 1]).name
-			return "Copying: nothing below"
+				return BMLoc.t("Copying: %s") % display_name(run.jokers[i + 1])
+			return BMLoc.t("Copying: nothing below")
 	return ""
 
 

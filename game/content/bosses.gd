@@ -3,37 +3,37 @@ extends RefCounted
 ## Boss rules (GDD §6 "Acts and bosses"). One boss per act at rounds 4, 8, 12.
 ## Bosses never repeat within a run; the final boss comes from the `final` subset.
 
-const CATALOG := [
-	{"id": "cramped_cabinet", "name": "The Cramped Cabinet", "final": false,
+const CATALOG := [ # i18n: name, short, rule, rule2, counter
+	{"id": "cramped_cabinet", "short": "Cramped Cabinet", "name": "The Cramped Cabinet", "final": false,
 		"rule": "The round begins with four fixed occupied cells. They clear normally and score no placement Chips.",
 		"rule2": "The round begins with seven fixed occupied cells. They clear normally and score no placement Chips.",
 		"counter": "Favor small shapes or board-clearing tools."},
-	{"id": "taxman", "name": "The Taxman", "final": false,
+	{"id": "taxman", "short": "Taxman", "name": "The Taxman", "final": false,
 		"rule": "The first line cleared by each placement grants 60 instead of 100 base Chips.",
 		"rule2": "The first line cleared by each placement grants 30 instead of 100 base Chips, and multi-line Mult is halved.",
 		"counter": "Pursue double clears and flat Chip Jokers."},
-	{"id": "color_blind", "name": "The Color Blind", "final": false,
+	{"id": "color_blind", "short": "Color Blind", "name": "The Color Blind", "final": false,
 		"rule": "Effects that name a block color are disabled this round.",
 		"rule2": "Effects that name a block color are disabled, and you have two fewer placements.",
 		"counter": "Diversify beyond color-dependent scoring."},
 	# Withheld from the pool: only extra clear waves are affected, and no current card can
 	# create one, so this boss would have no effect. Owner decision pending (GDD §13).
-	{"id": "echo_chamber", "name": "The Echo Chamber", "final": false, "in_pool": false,
+	{"id": "echo_chamber", "short": "Echo Chamber", "name": "The Echo Chamber", "final": false, "in_pool": false,
 		"rule": "Extra clear waves after the first score half Chips before Jokers.",
 		"counter": "Prefer immediate clears over chained board effects."},
-	{"id": "lockdown", "name": "The Lockdown", "final": false,
+	{"id": "lockdown", "short": "Lockdown", "name": "The Lockdown", "final": false,
 		"rule": "The free Refresh and Second Tray are unavailable this round.",
 		"rule2": "Refresh, Second Tray, Coffee Break and Hold are all unavailable this round.",
 		"counter": "Plan tray order and preserve board space."},
-	{"id": "warden", "name": "The Warden", "final": false,
+	{"id": "warden", "short": "Warden", "name": "The Warden", "final": false,
 		"rule": "One tray slot starts barred: its piece can't be played until you clear a line. Deals skip the barred slot.",
 		"rule2": "Two tray slots start barred until you clear a line. Deals skip barred slots.",
 		"counter": "Open with a quick clear using the other two slots."},
-	{"id": "undertaker", "name": "The Undertaker", "final": false,
+	{"id": "undertaker", "short": "Undertaker", "name": "The Undertaker", "final": false,
 		"rule": "After every 4th placement, a tombstone rises on an empty cell. It clears with its line like any block.",
 		"rule2": "After every 3rd placement, a tombstone rises on an empty cell. It clears with its line like any block.",
 		"counter": "Clear often and keep lanes open."},
-	{"id": "last_call", "name": "The Last Call", "final": true,
+	{"id": "last_call", "short": "Last Call", "name": "The Last Call", "final": true,
 		"rule": "Only 12 placements. Each multi-line placement gains +50 Chips.",
 		"rule2": "Only 10 placements. Each multi-line placement gains +50 Chips.",
 		"counter": "Prepare efficient shapes and simultaneous clears."},
@@ -62,14 +62,24 @@ static func get_def(id: String) -> Dictionary:
 	return _by_id.get(id, {})
 
 
-## Display name and rule text for a boss, Mk II or not.
+## Display name and rule text for a boss, Mk II or not (translated).
 static func title(id: String, mk2: bool) -> String:
-	return String(get_def(id).get("name", "")) + (" Mk II" if mk2 else "")
+	return BMLoc.t(String(get_def(id).get("name", ""))) + (" Mk II" if mk2 else "")
 
 
 static func rule_text(id: String, mk2: bool) -> String:
 	var d := get_def(id)
-	return String(d.get("rule2", d.get("rule", ""))) if mk2 else String(d.get("rule", ""))
+	return BMLoc.t(String(d.get("rule2", d.get("rule", ""))) if mk2 else String(d.get("rule", "")))
+
+
+## The name without its article ("Taxman"), for tight spaces.
+static func short_title(id: String, mk2: bool) -> String:
+	var d := get_def(id)
+	return BMLoc.t(String(d.get("short", d.get("name", "")))) + (" Mk II" if mk2 else "")
+
+
+static func counter_text(id: String) -> String:
+	return BMLoc.t(String(get_def(id).get("counter", "")))
 
 
 static func pool(final: bool) -> Array[String]:

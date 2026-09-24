@@ -62,7 +62,7 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 		return null
 	var preview := BMStyle.panel("panel_plate", Vector4(12, 8, 12, 8))
 	preview.custom_minimum_size = Vector2(260, 72)
-	preview.add_child(BMStyle.label(BMJokers.get_def(String(data)).name, 20, BMStyle.SUN, true))
+	preview.add_child(BMStyle.label(BMJokers.display_name(String(data)), 20, BMStyle.SUN, true))
 	set_drag_preview(preview)
 	return {"kind": "bm_joker", "index": drag_index}
 
@@ -141,7 +141,8 @@ static func joker_rack(run: BMRun, id: String, height: int = RACK_HEIGHT, width:
 	c.kind = "joker"
 	c.data = id
 	var rarity := int(def.rarity)
-	var disabled := run.joker_disabled_reason(id) if run != null else ""
+	var disabled := BMLoc.tf(run.joker_disabled_reason(id)) if run != null else ""
+	var jname := BMJokers.display_name(id)
 	# A crowded rack (Rack Extender, 6-7 slots) trims the card's inner padding so its content
 	# fits the slot height; otherwise the column would spill past the rack into the header below.
 	var pad := Vector4(-2, 2, 0, -4) if height >= 90 else Vector4(-2, -4, 0, -9)
@@ -159,18 +160,18 @@ static func joker_rack(run: BMRun, id: String, height: int = RACK_HEIGHT, width:
 	h.add_child(v)
 	var top := BMStyle.hbox(8)
 	v.add_child(top)
-	var name_l := BMStyle.label(def.name, 20, BMStyle.INK, true)
+	var name_l := BMStyle.label(jname, 20, BMStyle.INK, true)
 	name_l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	name_l.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	top.add_child(name_l)
 	# A long name keeps its full width: the rarity tag shortens instead (full words in the tooltip).
-	var tag: String = BMJokers.RARITY_NAMES[rarity].to_upper()
+	var tag: String = BMJokers.rarity_name(rarity).to_upper()
 	var fb := BMStyle.font_bold
-	if fb.get_string_size(String(def.name), HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x + fb.get_string_size(tag, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x > width - 130.0:
-		tag = ["COMMON", "UNCOM.", "RARE", "LEGEND"][rarity]
+	if fb.get_string_size(jname, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x + fb.get_string_size(tag, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x > width - 130.0:
+		tag = [BMLoc.t("COMMON"), BMLoc.t("UNCOM."), BMLoc.t("RARE"), BMLoc.t("LEGEND")][rarity]
 	var rl := BMStyle.label(tag, 20, [Color("#5c4282"), Color("#1f63b8"), Color("#a86a00"), Color("#7a3fd0")][rarity], true)
 	top.add_child(rl)
-	var body := String(def.text)
+	var body := BMJokers.display_text(id)
 	var counter := BMJokers.counter_text(id, run) if run != null else ""
 	var text := BMStyle.label(body, 20, Color(BMStyle.INK, 0.8))
 	text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -189,10 +190,10 @@ static func joker_rack(run: BMRun, id: String, height: int = RACK_HEIGHT, width:
 		v.add_child(cl)
 	if disabled != "":
 		c.modulate = Color(0.65, 0.6, 0.7)
-		name_l.text = def.name + "  (DISABLED)"
-	c.tooltip_text = def.name
-	c.tooltip_body = "%s  (%s)\n%s%s%s" % [def.name, BMJokers.RARITY_NAMES[rarity], body,
-		("\n" + counter) if counter != "" else "", ("\nDISABLED: " + disabled) if disabled != "" else ""]
+		name_l.text = jname + "  " + BMLoc.t("(DISABLED)")
+	c.tooltip_text = jname
+	c.tooltip_body = "%s  (%s)\n%s%s%s" % [jname, BMJokers.rarity_name(rarity), body,
+		("\n" + counter) if counter != "" else "", ("\n" + BMLoc.t("DISABLED: %s") % disabled) if disabled != "" else ""]
 	return c
 
 
@@ -214,12 +215,12 @@ static func item_rack(id: String) -> BMCard:
 	v.add_child(top)
 	c.emblem = Emblem.for_item(id, Vector2(40, 40))
 	top.add_child(c.emblem)
-	var n := BMStyle.label(def.name, 20, BMStyle.INK, true)
+	var n := BMStyle.label(BMConsumables.display_name(id), 20, BMStyle.INK, true)
 	n.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	n.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	top.add_child(n)
-	c.tooltip_text = def.name
-	c.tooltip_body = "%s  (Item)\n%s" % [def.name, def.text]
+	c.tooltip_text = BMConsumables.display_name(id)
+	c.tooltip_body = BMLoc.t("%s  (Item)") % BMConsumables.display_name(id) + "\n" + BMConsumables.display_text(id)
 	return c
 
 
@@ -239,31 +240,31 @@ static func offer(run: BMRun, offer_kind: String, value: Variant, price_button: 
 			var def := BMJokers.get_def(value)
 			var rarity := int(def.rarity)
 			frame = ["card_common", "card_uncommon", "card_rare", "card_legendary"][rarity]
-			title = def.name
-			body = def.text
-			tag = BMJokers.RARITY_NAMES[rarity].to_upper()
+			title = BMJokers.display_name(value)
+			body = BMJokers.display_text(value)
+			tag = BMJokers.rarity_name(rarity).to_upper()
 			tag_kind = ["plum", "sky", "sun", "lilac"][rarity]
 			emblem = Emblem.for_joker(value, Vector2(80, 80))
 		"item":
 			var def := BMConsumables.get_def(value)
 			frame = "card_item"
-			title = def.name
-			body = def.text
-			tag = "ITEM"
+			title = BMConsumables.display_name(value)
+			body = BMConsumables.display_text(value)
+			tag = BMLoc.t("ITEM")
 			tag_kind = "pink"
 			emblem = Emblem.for_item(value, Vector2(80, 80))
 		"tool":
 			frame = "card_tool"
 			title = BMTools.offer_name(value)
 			body = BMTools.offer_text(value, run)
-			tag = "WORKSHOP"
+			tag = BMLoc.t("WORKSHOP")
 			tag_kind = "mint"
 			emblem = Emblem.for_tool(value, Vector2(80, 80))
 		"piece":
 			frame = "card_uncommon"
-			title = "%s %s" % [BMShapes.COLOR_NAMES[int(value.color)], BMShapes.family(value.family).name]
+			title = BMPieces.piece_name(value)
 			body = BMPieces.brief(value)
-			tag = "PIECE"
+			tag = BMLoc.t("PIECE")
 			tag_kind = "sky"
 			emblem = Emblem.for_piece(value, Vector2(80, 80))
 	c.add_theme_stylebox_override("panel", BMStyle.box(frame, Vector4(-6, -4, -6, -8)))
@@ -371,7 +372,7 @@ class Emblem extends Control:
 				e.badge = def.value
 			"schematic":
 				e.piece = BMPieces.make(-1, StringName(o.family), 0, 2)
-				e.level_text = "+1 LV"
+				e.level_text = BMLoc.t("+1 LV")
 		if e.piece.is_empty() and BMCardArt.has("tools", String(o.id)):
 			e.art_set = "tools"
 			e.art_id = String(o.id)

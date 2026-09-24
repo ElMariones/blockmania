@@ -74,17 +74,17 @@ class HoldWell extends Control:
 		draw_style_box(BMStyle.box("panel_inset", Vector4.ZERO), Rect2(Vector2.ZERO, size))
 		if drop_highlight and not locked:
 			draw_rect(Rect2(Vector2(5, 5), size - Vector2(10, 10)), BMStyle.MINT_L, false, 5.0)
-		var title := "HOLD"
+		var title := BMLoc.t("HOLD")
 		draw_string(BMStyle.font_bold, Vector2(24, 42), title, HORIZONTAL_ALIGNMENT_LEFT, -1, 30, BMStyle.MINT_L if drop_highlight else BMStyle.SUN)
 		if shape.is_empty():
-			draw_string(BMStyle.font, Vector2(0, size.y / 2.0 + 20), "EMPTY", HORIZONTAL_ALIGNMENT_CENTER, size.x, 30, BMStyle.TEXT_DIM)
+			draw_string(BMStyle.font, Vector2(0, size.y / 2.0 + 20), BMLoc.t("EMPTY"), HORIZONTAL_ALIGNMENT_CENTER, size.x, 30, BMStyle.TEXT_DIM)
 		else:
 			var dims := Vector2(BMShapes.shape_size(shape))
 			var cell := 44.0 if dims.x <= 4 and dims.y <= 3 else 33.0
 			var at := ((size - dims * cell) / 2.0 + Vector2(0, 22)).round()
 			BMBlockPainter.draw_shape(self, shape, at, cell, 1.0, Color.WHITE, skin)
 		if locked:
-			draw_string(BMStyle.font_bold, Vector2(0, size.y - 20), "USED THIS TURN", HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.PINK_L)
+			draw_string(BMStyle.font_bold, Vector2(0, size.y - 20), BMLoc.t("USED THIS TURN"), HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.PINK_L)
 
 
 func _ready() -> void:
@@ -97,8 +97,8 @@ func _ready() -> void:
 	_marquee = BMHud.Marquee.new()
 	_at(_marquee, Vector2(568, 6), Vector2(784, 72))
 	_marquee.icon = BMStyle.infinity_icon()
-	_marquee.text = "ENDLESS"
-	_marquee.sub = "ONE MORE CLEAR"
+	_marquee.text = BMLoc.t("ENDLESS")
+	_marquee.sub = BMLoc.t("ONE MORE CLEAR")
 	board_view = BMBoardView.new()
 	_at(board_view, Vector2(568, 82), Vector2(784, 784))
 	for i in 3:
@@ -111,7 +111,7 @@ func _ready() -> void:
 	_at(left, Vector2(48, 98), Vector2(485, 650))
 	var stats := BMStyle.vbox(20)
 	left.add_child(stats)
-	stats.add_child(BMStyle.pill("ARCADE SCORE", "sun", 20))
+	stats.add_child(BMStyle.pill(BMLoc.t("ARCADE SCORE"), "sun", 20))
 	_score = BMHud.Counter.new()
 	_score.add_theme_font_override("font", BMStyle.font_bold)
 	_score.add_theme_font_size_override("font_size", 80)
@@ -131,12 +131,12 @@ func _ready() -> void:
 	_at(right, Vector2(1380, 98), Vector2(485, 650))
 	var tips := BMStyle.vbox(16)
 	right.add_child(tips)
-	tips.add_child(BMStyle.pill("HOLD  •  ONCE PER PLACEMENT", "mint", 20))
+	tips.add_child(BMStyle.pill(BMLoc.t("HOLD  •  ONCE PER PLACEMENT"), "mint", 20))
 	_hold_well = HoldWell.new()
 	_hold_well.custom_minimum_size = Vector2(0, 278)
 	_hold_well.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	tips.add_child(_hold_well)
-	_hold_hint = BMStyle.label("Select a piece, then drop it here or press H.", 20, BMStyle.CREAM)
+	_hold_hint = BMStyle.label(BMLoc.t("Select a piece, then drop it here or press H."), 20, BMStyle.CREAM)
 	_hold_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	tips.add_child(_hold_hint)
 	_mode = BMStyle.label("", 30, BMStyle.MINT_L, true)
@@ -144,10 +144,10 @@ func _ready() -> void:
 	_detail = BMStyle.label("", 20, BMStyle.CREAM)
 	_detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	tips.add_child(_detail)
-	_skin_button = BMStyle.button("BLOCK STYLE", _open_style_picker, "sky", 20)
+	_skin_button = BMStyle.button(BMLoc.t("BLOCK STYLE"), _open_style_picker, "sky", 20)
 	_skin_button.custom_minimum_size.y = 64
 	tips.add_child(_skin_button)
-	var menu := BMStyle.button("MENU", func() -> void: main.show_pause(), "plum", 30)
+	var menu := BMStyle.button(BMLoc.t("MENU"), func() -> void: main.show_pause(), "plum", 30)
 	_at(menu, Vector2(1430, 878), Vector2(350, 80))
 	_drag = Control.new()
 	_drag.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -205,19 +205,20 @@ func refresh_all() -> void:
 	var best := game.score
 	if not scores.is_empty():
 		best = maxi(best, int(scores[0].score))
-	_best.text = "BEST  %s" % BMUI.fmt_int(best)
-	_combo.text = "COMBO x%d" % game.combo
+	_best.text = BMLoc.t("BEST  %s") % BMUI.fmt_int(best)
+	_combo.text = BMLoc.t("COMBO x%d") % game.combo
 	_combo.add_theme_color_override("font_color", BMStyle.SUN if game.combo >= 8 else BMStyle.PINK_L)
-	_status.text = "Placements %d   •   Lines %d\n%s" % [game.placements, game.lines,
-		"%d more misses before combo resets" % (3 - game.misses) if game.misses > 0 else "Clear lines to climb the combo ladder"]
+	_status.text = BMLoc.t("Placements %d   •   Lines %d") % [game.placements, game.lines] + "\n" \
+		+ (BMLoc.tn("%d more miss before combo resets", "%d more misses before combo resets", 3 - game.misses) % (3 - game.misses) \
+			if game.misses > 0 else BMLoc.t("Clear lines to climb the combo ladder"))
 	_hold_well.shape = game.held
 	_hold_well.locked = game.hold_used
 	_hold_well.queue_redraw()
-	_hold_hint.text = "HOLD USED — place a piece to recharge" if game.hold_used else "Select a piece, then drop it here or press H"
-	_skin_button.text = "BLOCK STYLE:  %s" % BMFinishes.display_name(_skin)
+	_hold_hint.text = BMLoc.t("HOLD USED — place a piece to recharge") if game.hold_used else BMLoc.t("Select a piece, then drop it here or press H")
+	_skin_button.text = BMLoc.t("BLOCK STYLE:  %s") % BMFinishes.display_name(_skin)
 	for i in 3:
 		slots[i].setup(game.tray[i], i == _held, game.fits(i))
-		slots[i].tooltip_text = "No board fit. Select this piece to use Hold." if not game.tray[i].is_empty() and not game.fits(i) and not game.hold_used else ""
+		slots[i].tooltip_text = BMLoc.t("No board fit. Select this piece to use Hold.") if not game.tray[i].is_empty() and not game.fits(i) and not game.hold_used else ""
 	board_view.queue_redraw()
 	update_mood()
 
@@ -238,21 +239,21 @@ func update_mood() -> void:
 	BMAudio.set_endless_combo(game.combo)
 	match wanted:
 		"endless_clean":
-			_mode.text = "FRESH BOARD"
+			_mode.text = BMLoc.t("FRESH BOARD")
 			_mode.add_theme_color_override("font_color", BMStyle.SUN_L)
-			_detail.text = "A perfect clear. Enjoy the open space!"
+			_detail.text = BMLoc.t("A perfect clear. Enjoy the open space!")
 		"endless_party":
-			_mode.text = "COLOR PARADE"
+			_mode.text = BMLoc.t("COLOR PARADE")
 			_mode.add_theme_color_override("font_color", BMStyle.PINK_L)
-			_detail.text = "Your x%d chain is alive. Keep clearing!" % game.combo
+			_detail.text = BMLoc.t("Your x%d chain is alive. Keep clearing!") % game.combo
 		"endless_tense":
-			_mode.text = "THE BOARD IS HEATING UP"
+			_mode.text = BMLoc.t("THE BOARD IS HEATING UP")
 			_mode.add_theme_color_override("font_color", BMStyle.PINK_L)
-			_detail.text = "The spaces are shrinking. Find the next opening."
+			_detail.text = BMLoc.t("The spaces are shrinking. Find the next opening.")
 		_:
-			_mode.text = "EASY DOES IT"
+			_mode.text = BMLoc.t("EASY DOES IT")
 			_mode.add_theme_color_override("font_color", BMStyle.MINT_L)
-			_detail.text = "Find a rhythm. There is no timer and no target."
+			_detail.text = BMLoc.t("Find a rhythm. There is no timer and no target.")
 
 
 func _on_slot(index: int) -> void:
@@ -378,12 +379,12 @@ func _hold_selected() -> void:
 	var result := main.endless_act({"a": "hold", "i": _held})
 	if not result.ok:
 		BMAudio.sfx("deny")
-		_marquee.flash(String(result.error).to_upper(), BMStyle.PINK_L, 1.8)
+		_marquee.flash(BMLoc.tf(String(result.error)).to_upper(), BMStyle.PINK_L, 1.8)
 		return
 	BMAudio.sfx("deal" if result.new_trio else "putback")
 	_cancel()
 	refresh_all()
-	_marquee.flash("NEW TRIO  •  PIECE HELD" if result.new_trio else "PIECE HELD  •  PLACE TO RECHARGE", BMStyle.MINT_L, 1.4)
+	_marquee.flash(BMLoc.t("NEW TRIO  •  PIECE HELD") if result.new_trio else BMLoc.t("PIECE HELD  •  PLACE TO RECHARGE"), BMStyle.MINT_L, 1.4)
 
 
 func _update_ghost() -> void:
@@ -433,11 +434,11 @@ func _place(anchor: Vector2i) -> void:
 			_pulse_board(1.025 if game.combo < 8 else 1.04)
 		if not result.callouts.is_empty():
 			var primary: String = "CLEAN BOARD" if result.clean_board else ("BLOCKSTORM" if result.callouts.has("BLOCKSTORM") else result.callouts[0])
-			_marquee.flash(primary, BMStyle.SUN_L, 2.2)
+			_marquee.flash(BMLoc.tf(primary), BMStyle.SUN_L, 2.2)
 			if BMFx.instance:
 				var index := 0
 				for callout: String in result.callouts:
-					BMFx.instance.pop_text(board_view.get_global_rect().get_center() + Vector2(0, -130 - 62 * index), callout, BMStyle.MINT_L if callout in ["CLEAN BOARD", "PERFECT"] else BMStyle.PINK_L, 60 if callout == primary else 40, 40.0, 1.35)
+					BMFx.instance.pop_text(board_view.get_global_rect().get_center() + Vector2(0, -130 - 62 * index), BMLoc.tf(callout), BMStyle.MINT_L if callout in ["CLEAN BOARD", "PERFECT"] else BMStyle.PINK_L, 60 if callout == primary else 40, 40.0, 1.35)
 					index += 1
 		if result.clean_board:
 			_unlock_skin("aurora")
@@ -518,9 +519,9 @@ func _open_style_picker() -> void:
 	shade.add_child(panel)
 	var body := Control.new()
 	panel.add_child(body)
-	var heading := BMStyle.label("BLOCK STYLES", 40, BMStyle.SUN, true)
+	var heading := BMStyle.label(BMLoc.t("BLOCK STYLES"), 40, BMStyle.SUN, true)
 	_at_in(body, heading, Vector2(26, 0), Vector2(800, 60))
-	var hint := BMStyle.label("Pick a look. Styles change art, effects and sound, never the rules.", 20, BMStyle.CREAM)
+	var hint := BMStyle.label(BMLoc.t("Pick a look. Styles change art, effects and sound, never the rules."), 20, BMStyle.CREAM)
 	_at_in(body, hint, Vector2(26, 52), Vector2(1130, 30))
 	var unlocked: Array = main.settings.get("endless_skins_unlocked", [])
 	for i in BMFinishes.ENDLESS.size():
@@ -529,20 +530,17 @@ func _open_style_picker() -> void:
 		var label := BMFinishes.display_name(id)
 		var tile := BMStyle.button("", func() -> void: _choose_skin(id), "mint" if id == _skin else "plum", 20)
 		tile.disabled = not allowed
-		var tag := String(BMFinishes.def(id).tag)
-		tile.tooltip_text = "%s
-%s" % [label, tag] if allowed else ("%s
-Unlock with a clean board." % label if id == "aurora" else "%s
-Unlock at combo x10." % label)
+		var tag := BMFinishes.display_tag(id)
+		tile.tooltip_text = label + "\n" + (tag if allowed else (BMLoc.t("Unlock with a clean board.") if id == "aurora" else BMLoc.t("Unlock at combo x10.")))
 		_at_in(body, tile, Vector2(26 + (i % 4) * 290, 88 + (i / 4) * 156), Vector2(268, 142))
 		var preview := SkinPreview.new()
 		preview.skin = id
 		_at_in(tile, preview, Vector2(22, 10), Vector2(224, 72))
-		var caption := BMStyle.label(label if allowed else label + "  LOCKED", 20, BMStyle.CREAM if allowed else BMStyle.TEXT_DIM, true)
+		var caption := BMStyle.label(label if allowed else label + "  " + BMLoc.t("LOCKED"), 20, BMStyle.CREAM if allowed else BMStyle.TEXT_DIM, true)
 		caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		_at_in(tile, caption, Vector2(4, 90), Vector2(260, 35))
-	var back := BMStyle.button("BACK TO GAME", _close_style_picker, "sky", 30)
+	var back := BMStyle.button(BMLoc.t("BACK TO GAME"), _close_style_picker, "sky", 30)
 	_at_in(body, back, Vector2(26, 722), Vector2(1128, 56))
 	BMStyle.focus_later(back)
 
@@ -579,7 +577,7 @@ func _unlock_skin(id: String) -> void:
 	BMSaveStore.save_settings(main.settings)
 	if BMFx.instance:
 		BMFx.instance.pop_text(board_view.get_global_rect().get_center() + Vector2(0, 120),
-			"NEW STYLE: %s" % BMFinishes.display_name(id), BMStyle.MINT_L, 30)
+			BMLoc.t("NEW STYLE: %s") % BMFinishes.display_name(id), BMStyle.MINT_L, 30)
 
 
 func focus_default() -> void:
@@ -612,9 +610,9 @@ func _show_over() -> void:
 	emblem.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	emblem.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_at_in(body, emblem, Vector2(12, 12), Vector2(68, 36))
-	var heading := BMStyle.label("ENDLESS RUN", 40, BMStyle.SUN, true, 8)
+	var heading := BMStyle.label(BMLoc.t("ENDLESS RUN"), 40, BMStyle.SUN, true, 8)
 	_at_in(body, heading, Vector2(92, 4), Vector2(450, 56))
-	var loss := BMStyle.label("NO ROOM\nLEFT", 60, BMStyle.CREAM, true, 10)
+	var loss := BMStyle.label(BMLoc.t("NO ROOM\nLEFT"), 60, BMStyle.CREAM, true, 10)
 	_at_in(body, loss, Vector2(12, 115), Vector2(505, 180))
 	var rank := 0
 	var scores := BMEndlessStore.high_scores()
@@ -622,7 +620,7 @@ func _show_over() -> void:
 		if int(scores[i].score) == game.score and int(scores[i].seed) == game.seed:
 			rank = i + 1
 			break
-	var badge := BMStyle.pill("HIGH SCORE  #%02d" % rank if rank > 0 else "RUN COMPLETE", "mint" if rank > 0 else "plum", 30)
+	var badge := BMStyle.pill(BMLoc.t("HIGH SCORE  #%02d") % rank if rank > 0 else BMLoc.t("RUN COMPLETE"), "mint" if rank > 0 else "plum", 30)
 	_at_in(body, badge, Vector2(12, 302), Vector2(505, 58))
 	var motif := SkinPreview.new()
 	motif.skin = _skin
@@ -631,15 +629,15 @@ func _show_over() -> void:
 	var detail := StatsPanel.new()
 	detail.set_entry(BMEndlessStore.entry_for_game(game))
 	_at_in(body, detail, Vector2(550, 86), Vector2(875, 690))
-	var again := BMStyle.button("PLAY AGAIN", func() -> void:
+	var again := BMStyle.button(BMLoc.t("PLAY AGAIN"), func() -> void:
 		BMUI.clear_children(_overlay)
 		main.start_endless(), "sun", 30)
 	_at_in(body, again, Vector2(12, 504), Vector2(505, 70))
-	var scores_button := BMStyle.button("HIGH SCORES", func() -> void:
+	var scores_button := BMStyle.button(BMLoc.t("HIGH SCORES"), func() -> void:
 		var completed := BMEndlessStore.entry_for_game(game)
 		main.show_title()
 		main.title_screen._show_high_scores(completed), "sky", 30)
 	_at_in(body, scores_button, Vector2(12, 588), Vector2(505, 70))
-	var title := BMStyle.button("TITLE", func() -> void: main.show_title(), "plum", 30)
+	var title := BMStyle.button(BMLoc.t("TITLE"), func() -> void: main.show_title(), "plum", 30)
 	_at_in(body, title, Vector2(12, 672), Vector2(505, 70))
 	BMStyle.focus_later(again)

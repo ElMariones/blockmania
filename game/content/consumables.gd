@@ -7,7 +7,7 @@ extends RefCounted
 ## choice). Board tools remove cells without scoring: they never count as a clear, never trigger
 ## Jokers or refills (docs/design/round_play_update.md §3).
 
-const CATALOG := [
+const CATALOG := [ # i18n: name, text
 	{"id": "polish", "name": "Polish", "cost": 3, "target": "", "text": "Add +100 Chips to the next placement this round."},
 	{"id": "spark", "name": "Spark", "cost": 3, "target": "", "text": "Add +1 Mult to the next placement this round."},
 	{"id": "eraser", "name": "Eraser", "cost": 4, "target": "cells", "text": "Remove up to two blocks of your choice from the board."},
@@ -45,6 +45,14 @@ static func get_def(id: String) -> Dictionary:
 		for d in CATALOG:
 			_by_id[d.id] = d
 	return _by_id.get(id, {})
+
+
+static func display_name(id: String) -> String:
+	return BMLoc.t(String(get_def(id).get("name", id)))
+
+
+static func display_text(id: String) -> String:
+	return BMLoc.t(String(get_def(id).get("text", "")))
 
 
 static func cost(id: String) -> int:

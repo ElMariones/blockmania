@@ -223,7 +223,7 @@ class Receipt extends PanelContainer:
 		add_theme_stylebox_override("panel", BMStyle.box("panel_paper", Vector4(10, 6, 10, 10)))
 		var v := BMStyle.vbox(2)
 		add_child(v)
-		var head := BMStyle.label("RECEIPT", 20, Color(BMStyle.INK, 0.55), true)
+		var head := BMStyle.label(BMLoc.t("RECEIPT"), 20, Color(BMStyle.INK, 0.55), true)
 		head.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		v.add_child(head)
 		_lines = BMStyle.vbox(2)

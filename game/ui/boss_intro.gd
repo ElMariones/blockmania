@@ -104,7 +104,9 @@ func _draw() -> void:
 			x += 72.0
 	# WARNING text marching across both bars.
 	if bar > 90.0:
-		var words := "WARNING   BOSS ROUND   WARNING   BOSS ROUND   " if not mk2 else "WARNING   MK II   WARNING   MK II   "
+		var warn := BMLoc.t("WARNING")
+		var what := BMLoc.t("BOSS ROUND") if not mk2 else "MK II"
+		var words := "%s   %s   %s   %s   " % [warn, what, warn, what]
 		var tile := BMStyle.font_bold.get_string_size(words, HORIZONTAL_ALIGNMENT_LEFT, -1, 40).x
 		var off := 0.0 if reduced_motion else fmod(_t * 160.0, tile)
 		for row in [[46.0, 1.0], [h - 88.0, -1.0]]:
@@ -148,4 +150,4 @@ func _draw() -> void:
 			draw_rect(Rect2(p - Vector2(5, 5), Vector2(10, 10)), BMStyle.SUN_DD)
 		draw_string(BMStyle.font_bold, Vector2(-90, 22), "MK II", HORIZONTAL_ALIGNMENT_CENTER, 180, 60, BMStyle.INK)
 		draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
-	draw_string(BMStyle.font_bold, Vector2(0, h - 20), "CLICK OR PRESS ANY KEY", HORIZONTAL_ALIGNMENT_CENTER, w, 20, Color(BMStyle.TEXT_DIM, 0.7 * (1.0 - out)))
+	draw_string(BMStyle.font_bold, Vector2(0, h - 20), BMLoc.t("CLICK OR PRESS ANY KEY"), HORIZONTAL_ALIGNMENT_CENTER, w, 20, Color(BMStyle.TEXT_DIM, 0.7 * (1.0 - out)))

@@ -44,17 +44,17 @@ func _ready() -> void:
 	_slots_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_slots_root)
 	var prev := BMStyle.button("<", func() -> void: turn(-1), "plum", 40)
-	prev.tooltip_text = "Previous page (Q)"
+	prev.tooltip_text = BMLoc.t("Previous page (Q)")
 	prev.position = Vector2(40, CAB.position.y + CAB.size.y / 2.0 - 70)
 	prev.size = Vector2(100, 140)
 	add_child(prev)
 	var next := BMStyle.button(">", func() -> void: turn(1), "plum", 40)
-	next.tooltip_text = "Next page (E)"
+	next.tooltip_text = BMLoc.t("Next page (E)")
 	next.position = Vector2(STAGE.x - 140, CAB.position.y + CAB.size.y / 2.0 - 70)
 	next.size = Vector2(100, 140)
 	add_child(next)
 	_build_records()
-	var back := BMStyle.button("BACK", close, "sky", 30)
+	var back := BMStyle.button(BMLoc.t("BACK"), close, "sky", 30)
 	back.name = "BackButton"
 	back.position = Vector2(1470, 930)
 	back.size = Vector2(280, 90)
@@ -77,7 +77,7 @@ func close() -> void:
 
 
 func _build_header() -> void:
-	var title := BMStyle.label("TROPHY CASE", 80, BMStyle.SUN, true, 16)
+	var title := BMStyle.label(BMLoc.t("TROPHY CASE"), 80, BMStyle.SUN, true, 16)
 	title.add_theme_color_override("font_shadow_color", Color(BMStyle.PINK, 0.7))
 	title.add_theme_constant_override("shadow_offset_y", 8)
 	title.add_theme_constant_override("shadow_offset_x", 0)
@@ -98,7 +98,7 @@ func _build_header() -> void:
 			per_tier[t][0] += 1
 	var meter := Meter.new()
 	meter.fraction = float(have) / float(total)
-	meter.text = "%d / %d UNLOCKED  -  %d%%" % [have, total, roundi(100.0 * have / total)]
+	meter.text = BMLoc.t("%d / %d UNLOCKED  -  %d%%") % [have, total, roundi(100.0 * have / total)]
 	meter.reduced_motion = _rm()
 	meter.position = Vector2(470, 118)
 	meter.size = Vector2(620, 40)
@@ -109,8 +109,8 @@ func _build_header() -> void:
 	add_child(tiers)
 	for t in BMAchievements.TIERS:
 		var n: Array = per_tier.get(t, [0, 0])
-		var l := BMStyle.label("%s %d/%d" % [String(BMAchievements.TIER_NAMES[t]).to_upper(), n[0], n[1]], 20, TIER_COLORS[t], true, 6)
-		l.tooltip_text = "%s badges unlocked" % BMAchievements.TIER_NAMES[t]
+		var l := BMStyle.label("%s %d/%d" % [BMAchievements.tier_name(t).to_upper(), n[0], n[1]], 20, TIER_COLORS[t], true, 6)
+		l.tooltip_text = BMLoc.t("%s badges unlocked") % BMAchievements.tier_name(t)
 		l.mouse_filter = Control.MOUSE_FILTER_PASS
 		tiers.add_child(l)
 	var tabs := BMStyle.hbox(12)
@@ -122,7 +122,7 @@ func _build_header() -> void:
 		for id in BMAchievements.page_ids(i):
 			if BMAchievementStore.is_unlocked(id):
 				got += 1
-		var b := BMStyle.button("%s  %d/%d" % [BMAchievements.PAGE_TITLES[i], got, BMAchievements.PER_PAGE], func() -> void:
+		var b := BMStyle.button("%s  %d/%d" % [BMAchievements.page_title(i), got, BMAchievements.PER_PAGE], func() -> void:
 			if i != page:
 				turn(i - page), "plum", 20)
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -138,21 +138,21 @@ func _build_records() -> void:
 	add_child(plaque)
 	var v := BMStyle.vbox(4)
 	plaque.add_child(v)
-	var head := BMStyle.label("PERSONAL RECORDS", 20, Color(BMStyle.INK, 0.6), true)
+	var head := BMStyle.label(BMLoc.t("PERSONAL RECORDS"), 20, Color(BMStyle.INK, 0.6), true)
 	v.add_child(head)
 	var row := BMStyle.hbox(26)
 	v.add_child(row)
 	var rec := BMAchievementStore.records()
 	var broken := int(rec.get("machine_broken", 0))
 	var entries := [
-		["FURTHEST ROUND", str(int(rec.get("furthest_round", 0))) if int(rec.get("furthest_round", 0)) > 0 else "-"],
-		["BEST PLACEMENT", BMUI.fmt_score(int(rec.get("best_placement", 0))) if int(rec.get("best_placement", 0)) > 0 else "-"],
-		["BEST ROUND", BMUI.fmt_score(int(rec.get("best_round_score", 0))) if int(rec.get("best_round_score", 0)) > 0 else "-"],
-		["THE MACHINE", "BROKEN IN ROUND %d" % broken if broken > 0 else "STILL IN ONE PIECE"],
+		[BMLoc.m("FURTHEST ROUND"), str(int(rec.get("furthest_round", 0))) if int(rec.get("furthest_round", 0)) > 0 else "-"],
+		[BMLoc.m("BEST PLACEMENT"), BMUI.fmt_score(int(rec.get("best_placement", 0))) if int(rec.get("best_placement", 0)) > 0 else "-"],
+		[BMLoc.m("BEST ROUND"), BMUI.fmt_score(int(rec.get("best_round_score", 0))) if int(rec.get("best_round_score", 0)) > 0 else "-"],
+		[BMLoc.m("THE MACHINE"), BMLoc.t("BROKEN IN ROUND %d") % broken if broken > 0 else BMLoc.t("STILL IN ONE PIECE")],
 	]
 	for e in entries:
 		var col := BMStyle.vbox(0)
-		col.add_child(BMStyle.label(e[0], 20, Color(BMStyle.INK, 0.55)))
+		col.add_child(BMStyle.label(BMLoc.t(e[0]), 20, Color(BMStyle.INK, 0.55)))
 		var val := BMStyle.label(e[1], 30, Color("#c42848") if e[0] == "THE MACHINE" and broken > 0 else BMStyle.INK, true)
 		col.add_child(val)
 		row.add_child(col)
@@ -296,7 +296,7 @@ class Slot extends Control:
 		_badge.position = Vector2((size.x - 96) / 2.0, 4).round()
 		_badge.size = Vector2(96, 108)
 		add_child(_badge)
-		var name_l := BMStyle.label("? ? ?" if secret else String(d.name), 20,
+		var name_l := BMStyle.label("? ? ?" if secret else BMLoc.t(d.name), 20,
 			BMStyle.CREAM if unlocked else BMStyle.TEXT_DIM, true, 6)
 		name_l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		name_l.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
@@ -308,15 +308,15 @@ class Slot extends Control:
 		var sub_color: Color = BMTrophyCase.TIER_COLORS.get(String(d.tier), BMStyle.CREAM)
 		var prog := BMAchievements.progress(id, BMAchievementStore.life(), BMAchievementStore.records(), BMAchievementStore.unlocked_count())
 		if unlocked:
-			sub = String(BMAchievements.TIER_NAMES[d.tier]).to_upper()
+			sub = BMAchievements.tier_name(d.tier).to_upper()
 		elif secret:
-			sub = "SECRET"
+			sub = BMLoc.t("SECRET")
 			sub_color = BMStyle.LILAC
 		elif not prog.is_empty():
 			sub = "%s / %s" % [BMUI.fmt_int(prog[0]), BMUI.fmt_int(prog[1])]
 			sub_color = BMStyle.MINT_L
 		else:
-			sub = "LOCKED  -  %s" % String(BMAchievements.TIER_NAMES[d.tier]).to_upper()
+			sub = BMLoc.t("LOCKED  -  %s") % BMAchievements.tier_name(d.tier).to_upper()
 			sub_color = Color(BMStyle.TEXT_DIM, 0.8)
 		var sub_l := BMStyle.label(sub, 20, sub_color, true, 6)
 		sub_l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -380,7 +380,7 @@ class Slot extends Control:
 				draw_rect(r, BMStyle.CREAM, false, 4.0)
 		if _new:
 			var blink := reduced_motion or fmod(_t, 1.0) < 0.7
-			var tag := "NEW!"
+			var tag := BMLoc.t("NEW!")
 			var f := BMStyle.font_bold
 			var w := f.get_string_size(tag, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x + 16
 			var r := Rect2(Vector2(size.x / 2.0 + 30, 2), Vector2(w, 30))
@@ -399,11 +399,11 @@ static func hover_card(achievement_id: String) -> Control:
 	var secret := bool(d.get("secret", false)) and not unlocked
 	var v := BMStyle.vbox(6)
 	v.custom_minimum_size = Vector2(460, 0)
-	var head := BMStyle.label("? ? ?" if secret else String(d.name), 30, BMStyle.SUN, true, 8)
+	var head := BMStyle.label("? ? ?" if secret else BMLoc.t(d.name), 30, BMStyle.SUN, true, 8)
 	v.add_child(head)
-	var tier_text := "%s%s" % [String(BMAchievements.TIER_NAMES[d.tier]).to_upper(), "  -  SECRET" if bool(d.get("secret", false)) else ""]
+	var tier_text := BMAchievements.tier_name(d.tier).to_upper() + (BMLoc.t("  -  SECRET") if bool(d.get("secret", false)) else "")
 	v.add_child(BMStyle.label(tier_text, 20, TIER_COLORS[d.tier], true, 6))
-	var rule := BMStyle.label(("Hint: " + String(d.hint)) if secret else String(d.text), 20, BMStyle.CREAM)
+	var rule := BMStyle.label((BMLoc.t("Hint: %s") % BMLoc.t(d.hint)) if secret else BMLoc.t(d.text), 20, BMStyle.CREAM)
 	rule.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	rule.custom_minimum_size.x = 460
 	v.add_child(rule)
@@ -412,23 +412,25 @@ static func hover_card(achievement_id: String) -> Control:
 	if not jokers.is_empty() and not secret:
 		var names := PackedStringArray()
 		for j in jokers:
-			names.append(String(BMJokers.get_def(j).name))
-		var ul := BMStyle.label("%s Joker%s: %s" % ["Unlocked" if unlocked else "Unlocks", "s" if names.size() > 1 else "", ", ".join(names)], 20, BMStyle.LILAC, true, 4)
+			names.append(BMJokers.display_name(j))
+		var joined := BMLoc.list_sep().join(names)
+		var ul := BMStyle.label((BMLoc.tn("Unlocked Joker: %s", "Unlocked Jokers: %s", names.size()) if unlocked \
+			else BMLoc.tn("Unlocks Joker: %s", "Unlocks Jokers: %s", names.size())) % joined, 20, BMStyle.LILAC, true, 4)
 		ul.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		ul.custom_minimum_size.x = 460
 		v.add_child(ul)
 	if unlocked:
-		var flavor := BMStyle.label("\"%s\"" % d.flavor, 20, BMStyle.TEXT_DIM)
+		var flavor := BMStyle.label(BMLoc.t("\"%s\"") % BMLoc.t(d.flavor), 20, BMStyle.TEXT_DIM)
 		flavor.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		flavor.custom_minimum_size.x = 460
 		v.add_child(flavor)
 		var when := Time.get_datetime_string_from_unix_time(BMAchievementStore.unlock_time(achievement_id), true)
-		v.add_child(BMStyle.label("Unlocked %s" % when.substr(0, 16), 20, BMStyle.MINT_L))
+		v.add_child(BMStyle.label(BMLoc.t("Unlocked %s") % when.substr(0, 16), 20, BMStyle.MINT_L))
 	else:
 		var prog := BMAchievements.progress(achievement_id, BMAchievementStore.life(), BMAchievementStore.records(), BMAchievementStore.unlocked_count())
 		if not prog.is_empty() and not secret:
-			v.add_child(BMStyle.label("Progress: %s / %s" % [BMUI.fmt_int(prog[0]), BMUI.fmt_int(prog[1])], 20, BMStyle.MINT_L))
-		v.add_child(BMStyle.label("Locked", 20, BMStyle.PINK_L, true))
+			v.add_child(BMStyle.label(BMLoc.t("Progress: %s / %s") % [BMUI.fmt_int(prog[0]), BMUI.fmt_int(prog[1])], 20, BMStyle.MINT_L))
+		v.add_child(BMStyle.label(BMLoc.t("Locked"), 20, BMStyle.PINK_L, true))
 	return v
 
 

@@ -4,7 +4,7 @@ extends RefCounted
 ## from the placement record. They add no score by themselves; Jokers (Showboat) and presentation
 ## read them. Stable ids: save- and replay-facing.
 
-const CATALOG := {
+const CATALOG := { # i18n: name, text
 	"crossfire": {"name": "Crossfire", "text": "Clear a row and a column in the same placement."},
 	"double_tap": {"name": "Double Tap", "text": "Clear lines on two placements in a row."},
 	"hat_trick": {"name": "Hat Trick", "text": "Clear three or more lines in one placement."},

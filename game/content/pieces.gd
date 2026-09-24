@@ -15,7 +15,7 @@ const MAX_BAG := 60
 
 ## Index 0 is "no material"; board cells store the index (BMBoard.mats).
 const MATERIALS := ["", "chrome", "neon", "gold", "glass", "prism"]
-const MATERIAL_DEFS := {
+const MATERIAL_DEFS := { # i18n: name, brief, text
 	"chrome": {"name": "Chrome", "short": "CHR", "brief": "+20 Chips per cell", "text": "Each cell scores +20 Chips when placed."},
 	"neon": {"name": "Neon", "short": "NEO", "brief": "+0.5 Mult per cell cleared", "text": "Each Neon cell cleared gives +0.5 Mult to that placement."},
 	"gold": {"name": "Gold", "short": "GLD", "brief": "+1 Credit per cell cleared", "text": "Each Gold cell cleared gives +1 Credit."},
@@ -28,11 +28,11 @@ const GOLD_CREDITS_PER_CELL := 1
 const GLASS_X_MULT := 1.5
 const GLASS_SHATTER_ONE_IN := 4
 
-const STAMP_DEFS := {
-	"encore": {"name": "Encore Stamp", "short": "E", "brief": "x2 Mult on clear", "text": "If this piece clears a line, x2 Mult."},
-	"refund": {"name": "Refund Stamp", "short": "R", "brief": "placing it is free", "text": "Placing this piece does not use up a placement."},
-	"tip": {"name": "Tip Stamp", "short": "T", "brief": "+2 Credits when placed", "text": "+2 Credits whenever this piece is placed."},
-	"memory": {"name": "Memory Stamp", "short": "M", "brief": "Spark when placed", "text": "Whenever this piece is placed, gain a Spark item (needs a free item slot)."},
+const STAMP_DEFS := { # i18n: name, short_name, brief, text
+	"encore": {"short_name": "Encore", "name": "Encore Stamp", "short": "E", "brief": "x2 Mult on clear", "text": "If this piece clears a line, x2 Mult."},
+	"refund": {"short_name": "Refund", "name": "Refund Stamp", "short": "R", "brief": "placing it is free", "text": "Placing this piece does not use up a placement."},
+	"tip": {"short_name": "Tip", "name": "Tip Stamp", "short": "T", "brief": "+2 Credits when placed", "text": "+2 Credits whenever this piece is placed."},
+	"memory": {"short_name": "Memory", "name": "Memory Stamp", "short": "M", "brief": "Spark when placed", "text": "Whenever this piece is placed, gain a Spark item (needs a free item slot)."},
 }
 const TIP_CREDITS := 2
 const ENCORE_X_MULT := 2.0
@@ -159,25 +159,37 @@ static func is_upgraded(p: Dictionary) -> bool:
 
 
 static func family_name(family: StringName) -> String:
-	return BMShapes.family(family).name
+	return BMShapes.family_name(family)
+
+
+## "Red Bar 3": color and shape in the language's own order ({color} and {shape} placeholders).
+static func piece_name(p: Dictionary) -> String:
+	return BMLoc.t("{color} {shape}").format({"color": BMShapes.color_name(int(p.color)), "shape": family_name(p.family)})
+
+
+## English piece name for rules text ("Held Red Bar 3"); the UI shows it through BMLoc.tf.
+static func english_name(p: Dictionary) -> String:
+	if bool(p.get("brick", false)):
+		return "Brick"
+	return "%s %s" % [BMShapes.COLOR_NAMES[int(p.color)], String(BMShapes.family(p.family).name)]
 
 
 ## One-line description for tooltips and the bag view.
 static func describe(p: Dictionary) -> String:
 	var parts := PackedStringArray()
-	parts.append("Brick" if bool(p.get("brick", false)) else "%s %s" % [BMShapes.COLOR_NAMES[int(p.color)], family_name(p.family)])
+	parts.append(BMLoc.t("Brick") if bool(p.get("brick", false)) else piece_name(p))
 	var m := String(p.get("material", ""))
 	if m != "":
-		parts.append("%s: %s" % [MATERIAL_DEFS[m].name, MATERIAL_DEFS[m].text])
+		parts.append("%s: %s" % [BMLoc.t(MATERIAL_DEFS[m].name), BMLoc.t(MATERIAL_DEFS[m].text)])
 	var s := String(p.get("stamp", ""))
 	if s != "":
-		parts.append("%s: %s" % [STAMP_DEFS[s].name, STAMP_DEFS[s].text])
+		parts.append("%s: %s" % [BMLoc.t(STAMP_DEFS[s].name), BMLoc.t(STAMP_DEFS[s].text)])
 	if int(p.get("veteran", 0)) > 0:
-		parts.append("Veteran: +%d Chips whenever this piece is placed." % int(p.veteran))
+		parts.append(BMLoc.t("Veteran: +%d Chips whenever this piece is placed.") % int(p.veteran))
 	if bool(p.get("brick", false)):
-		parts.append("Emergency Brick: a temporary block. It does not stay in your bag.")
+		parts.append(BMLoc.t("Emergency Brick: a temporary block. It does not stay in your bag."))
 	elif bool(p.get("temporary", false)):
-		parts.append("Temporary: it does not stay in your bag.")
+		parts.append(BMLoc.t("Temporary: it does not stay in your bag."))
 	return "\n".join(parts)
 
 
@@ -186,13 +198,13 @@ static func brief(p: Dictionary) -> String:
 	var parts := PackedStringArray()
 	var m := String(p.get("material", ""))
 	if m != "":
-		parts.append("%s: %s" % [MATERIAL_DEFS[m].name, MATERIAL_DEFS[m].brief])
+		parts.append("%s: %s" % [BMLoc.t(MATERIAL_DEFS[m].name), BMLoc.t(MATERIAL_DEFS[m].brief)])
 	var s := String(p.get("stamp", ""))
 	if s != "":
-		parts.append("%s: %s" % [STAMP_DEFS[s].name.replace(" Stamp", ""), STAMP_DEFS[s].brief])
+		parts.append("%s: %s" % [BMLoc.t(STAMP_DEFS[s].name), BMLoc.t(STAMP_DEFS[s].brief)])
 	if int(p.get("veteran", 0)) > 0:
-		parts.append("Veteran: +%d Chips" % int(p.veteran))
-	return "\n".join(parts) if not parts.is_empty() else "No upgrades."
+		parts.append(BMLoc.t("Veteran: +%d Chips") % int(p.veteran))
+	return "\n".join(parts) if not parts.is_empty() else BMLoc.t("No upgrades.")
 
 
 static func sort_key(p: Dictionary) -> String:

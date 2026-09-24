@@ -53,13 +53,13 @@ func _ready() -> void:
 	_awning.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_awning.draw.connect(_draw_awning)
 	_put(_awning, Vector2(28, 8), Vector2(1412, 104))
-	var sign := BMStyle.label("THE TOYBOX", 60, BMStyle.SUN, true, 14)
+	var sign := BMStyle.label(BMLoc.t("THE TOYBOX"), 60, BMStyle.SUN, true, 14)
 	sign.add_theme_color_override("font_shadow_color", Color(BMStyle.PINK, 0.8))
 	sign.add_theme_constant_override("shadow_offset_y", 6)
 	sign.add_theme_constant_override("shadow_offset_x", 0)
 	_put(sign, Vector2(60, 18), Vector2(600, 70))
-	_overtime_pill = BMStyle.pill("OVERTIME", "pink", 20)
-	_overtime_pill.tooltip_text = "You beat the game and kept playing. Targets climb faster every round."
+	_overtime_pill = BMStyle.pill(BMLoc.t("OVERTIME"), "pink", 20)
+	_overtime_pill.tooltip_text = BMLoc.t("You beat the game and kept playing. Targets climb faster every round.")
 	_put(_overtime_pill, Vector2(652, 34), Vector2(0, 0))
 	var cred := BMStyle.panel("panel_inset", Vector4(10, 0, 12, 0))
 	var ch := BMStyle.hbox(8)
@@ -76,22 +76,22 @@ func _ready() -> void:
 	_put(cred, Vector2(820, 22), Vector2(250, 68))
 	_reroll_button = BMStyle.button("REROLL", func() -> void: _act({"a": "reroll"}), "sky", 30)
 	_reroll_button.icon = BMStyle.tex("icon_refresh")
-	_reroll_button.tooltip_text = "Replace every offer in the shop. The price rises by 1 each reroll."
+	_reroll_button.tooltip_text = BMLoc.t("Replace every offer in the shop. The price rises by 1 each reroll.")
 	_put(_reroll_button, Vector2(1090, 20), Vector2(330, 72))
 
 	# Shelves.
 	# Shelf labels sit above each row with a clear gap (cards grow on hover).
 	var card_h := BMCard.OFFER_SIZE.y
-	_put(BMStyle.pill("JOKERS", "sun", 20), Vector2(40, 118), Vector2(0, 0))
+	_put(BMStyle.pill(BMLoc.t("JOKERS"), "sun", 20), Vector2(40, 118), Vector2(0, 0))
 	_jokers_row = BMStyle.hbox(16)
 	_put(_jokers_row, Vector2(40, 166), Vector2(812, card_h))
-	_put(BMStyle.pill("ITEMS", "pink", 20), Vector2(892, 118), Vector2(0, 0))
+	_put(BMStyle.pill(BMLoc.t("ITEMS"), "pink", 20), Vector2(892, 118), Vector2(0, 0))
 	_items_row = BMStyle.hbox(16)
 	_put(_items_row, Vector2(892, 166), Vector2(536, card_h))
-	_put(BMStyle.pill("WORKSHOP  -  edit your bag", "mint", 20), Vector2(40, 578), Vector2(0, 0))
+	_put(BMStyle.pill(BMLoc.t("WORKSHOP  -  edit your bag"), "mint", 20), Vector2(40, 578), Vector2(0, 0))
 	_tools_row = BMStyle.hbox(16)
 	_put(_tools_row, Vector2(40, 626), Vector2(536, card_h))
-	_put(BMStyle.pill("PIECES FOR YOUR BAG", "sky", 20), Vector2(600, 578), Vector2(0, 0))
+	_put(BMStyle.pill(BMLoc.t("PIECES FOR YOUR BAG"), "sky", 20), Vector2(600, 578), Vector2(0, 0))
 	_pieces_row = BMStyle.hbox(16)
 	_put(_pieces_row, Vector2(600, 626), Vector2(536, card_h))
 
@@ -104,7 +104,7 @@ func _ready() -> void:
 	_next_label = BMStyle.label("", 30, BMStyle.SUN, true, 8)
 	_next_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	nrow.add_child(_next_label)
-	_boss_pill = BMStyle.pill("BOSS", "pink", 20)
+	_boss_pill = BMStyle.pill(BMLoc.t("BOSS"), "pink", 20)
 	nrow.add_child(_boss_pill)
 	var trow := BMStyle.hbox(6)
 	trow.add_child(BMStyle.icon_rect("icon_target", 0.75))
@@ -128,34 +128,34 @@ func _ready() -> void:
 	_message = BMStyle.label("", 20, BMStyle.PINK_L, true, 6)
 	_message.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	_put(_message, Vector2(40, 1030), Vector2(1096, 36))
-	var leave := BMStyle.button("NEXT ROUND  >", _on_leave, "sun", 40)
+	var leave := BMStyle.button(BMLoc.t("NEXT ROUND  >"), _on_leave, "sun", 40)
 	leave.name = "LeaveButton"
 	_put(leave, Vector2(1156, 882), Vector2(284, 170))
 	# Two lines of text beside the full-size icon keep the button inside the ticker's width.
-	_crate_button = BMStyle.button("BOSS\nCRATE", func() -> void: _show_crate(), "mint", 30)
+	_crate_button = BMStyle.button(BMLoc.t("BOSS\nCRATE"), func() -> void: _show_crate(), "mint", 30)
 	_crate_button.icon = BMStyle.tex("icon_crate")
-	_crate_button.tooltip_text = "Your free Boss Crate is still closed. Open it before you leave."
+	_crate_button.tooltip_text = BMLoc.t("Your free Boss Crate is still closed. Open it before you leave.")
 	_crate_button.visible = false
 	_put(_crate_button, Vector2(1156, CRATE_BUTTON_Y), Vector2(284, TICKER_BOTTOM - CRATE_BUTTON_Y))
 	leave.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 
 	# Right column: your build.
-	_owned_header = BMStyle.header("YOUR JOKERS", 30)
+	_owned_header = BMStyle.header(BMLoc.t("YOUR JOKERS"), 30)
 	_put(_owned_header, Vector2(1464, 16), Vector2(420, 40))
 	_owned_box = BMStyle.vbox(8)
 	_put(_owned_box, Vector2(1464, 64), Vector2(420, 652))
-	_put(BMStyle.header("YOUR ITEMS", 30), Vector2(1464, 728), Vector2(420, 40))
+	_put(BMStyle.header(BMLoc.t("YOUR ITEMS"), 30), Vector2(1464, 728), Vector2(420, 40))
 	_owned_items = BMStyle.hbox(12)
 	_put(_owned_items, Vector2(1464, 772), Vector2(420, 160))
-	_bag_button = BMStyle.button("BAG", _show_bag, "sky", 30)
+	_bag_button = BMStyle.button(BMLoc.t("BAG"), _show_bag, "sky", 30)
 	_bag_button.icon = BMStyle.tex("icon_bag")
-	_bag_button.tooltip_text = "Every piece in your bag (B)"
+	_bag_button.tooltip_text = BMLoc.t("Every piece in your bag (B)")
 	_put(_bag_button, Vector2(1464, 966), Vector2(236, 80))
 	# Pause menu from the shop (Esc): settings, Save & Quit to the title, or abandon the run.
-	var menu := BMStyle.button("MENU", func() -> void: main.show_pause(), "plum", 20)
+	var menu := BMStyle.button(BMLoc.t("MENU"), func() -> void: main.show_pause(), "plum", 20)
 	menu.name = "MenuButton"
 	menu.icon = BMStyle.tex("icon_gear")
-	menu.tooltip_text = "Pause, settings, Save & Quit to the main menu (Esc)"
+	menu.tooltip_text = BMLoc.t("Pause, settings, Save & Quit to the main menu (Esc)")
 	_put(menu, Vector2(1712, 966), Vector2(172, 80))
 
 	_overlay = Control.new()
@@ -211,12 +211,12 @@ func _show_crate() -> void:
 	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_overlay.add_child(dim)
 	var center := size / 2.0
-	var title := BMStyle.label("BOSS CRATE!", 80, BMStyle.SUN, true, 16)
+	var title := BMStyle.label(BMLoc.t("BOSS CRATE!"), 80, BMStyle.SUN, true, 16)
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.size = Vector2(size.x, 110)
 	title.position = Vector2(0, center.y - 400)
 	dim.add_child(title)
-	var sub := BMStyle.label("You beat the boss. Open it and take one thing for free.", 30, BMStyle.CREAM, true, 8)
+	var sub := BMStyle.label(BMLoc.t("You beat the boss. Open it and take one thing for free."), 30, BMStyle.CREAM, true, 8)
 	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	sub.size = Vector2(size.x, 44)
 	sub.position = Vector2(0, center.y - 290)
@@ -231,10 +231,10 @@ func _show_crate() -> void:
 	crate.size = crate.texture_normal.get_size()
 	crate.pivot_offset = crate.size / 2.0
 	crate.position = center - crate.size / 2.0 + Vector2(0, 40)
-	crate.tooltip_text = "Open the crate"
+	crate.tooltip_text = BMLoc.t("Open the crate")
 	crate.focus_mode = Control.FOCUS_ALL
 	dim.add_child(crate)
-	var hint := BMStyle.label("CLICK TO OPEN", 30, BMStyle.SUN_L, true, 8)
+	var hint := BMStyle.label(BMLoc.t("CLICK TO OPEN"), 30, BMStyle.SUN_L, true, 8)
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	hint.size = Vector2(size.x, 44)
 	hint.position = Vector2(0, center.y + 210)
@@ -268,7 +268,7 @@ func _crate_offers(dim: Control) -> void:
 	var locked: Array[String] = []
 	for i in run.shop.crate.size():
 		var o: Dictionary = run.shop.crate[i]
-		var take := BMStyle.button("TAKE IT", func() -> void:
+		var take := BMStyle.button(BMLoc.t("TAKE IT"), func() -> void:
 			var r := _act({"a": "crate", "i": i})
 			if r.ok:
 				BMUI.clear_children(_overlay)
@@ -276,7 +276,7 @@ func _crate_offers(dim: Control) -> void:
 				if String(o.kind) == "joker" and BMJokers.is_legendary(String(o.id)):
 					_legendary_fanfare(String(o.id))
 				_message.add_theme_color_override("font_color", BMStyle.MINT_L)
-				_message.text = "From the crate: %s." % _crate_name(o), "mint", 30)
+				_message.text = BMLoc.t("From the crate: %s.") % _crate_name(o), "mint", 30)
 		var card: BMCard
 		match String(o.kind):
 			"joker":
@@ -288,8 +288,8 @@ func _crate_offers(dim: Control) -> void:
 				_retitle_credits(card, int(o.value))
 		var why := _crate_block_reason(o)
 		if why != "":
-			_lock_offer(card, take, why)
-			locked.append("sell a Joker" if String(o.kind) == "joker" else "use an item")
+			_lock_offer(card, take, why, String(o.kind) == "joker")
+			locked.append(BMLoc.t("sell a Joker") if String(o.kind) == "joker" else BMLoc.t("use an item"))
 		elif first_take == null:
 			first_take = take
 		row.add_child(card)
@@ -303,12 +303,12 @@ func _crate_offers(dim: Control) -> void:
 			var tw := c.create_tween()
 			tw.tween_interval(0.08 * i)
 			tw.tween_property(c, "modulate:a", 1.0, 0.18)
-	var skip := BMStyle.button("LATER", func() -> void: BMUI.clear_children(_overlay), "plum", 20)
-	skip.tooltip_text = "Close the crate for now: the BOSS CRATE button reopens it until you leave the shop."
+	var skip := BMStyle.button(BMLoc.t("LATER"), func() -> void: BMUI.clear_children(_overlay), "plum", 20)
+	skip.tooltip_text = BMLoc.t("Close the crate for now: the BOSS CRATE button reopens it until you leave the shop.")
 	skip.size = Vector2(200, 56)
 	var below := row.position.y + row.size.y + 24
 	if not locked.is_empty():
-		var note := BMStyle.label("Slots full? Press LATER, %s, then reopen the crate." % " or ".join(locked),
+		var note := BMStyle.label(BMLoc.t("Slots full? Press LATER, %s, then reopen the crate.") % BMLoc.t(" or ").join(locked),
 			20, BMStyle.PINK_L, true, 6)
 		note.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		note.size = Vector2(size.x, 32)
@@ -325,23 +325,22 @@ func _crate_block_reason(o: Dictionary) -> String:
 	match String(o.kind):
 		"joker":
 			if run.jokers.size() >= run.joker_slots():
-				return "Joker slots are full"
+				return BMLoc.t("Joker slots are full")
 		"item":
 			if run.consumables.size() >= BMRunConfig.CONSUMABLE_SLOTS:
-				return "Item slots are full"
+				return BMLoc.t("Item slots are full")
 	return ""
 
 
 ## Locked crate offer: the button is disabled and says LOCKED; a padlock and the reason sit over
 ## the dimmed card (text and icon, not color alone). The tooltip says how to unlock it.
-func _lock_offer(card: BMCard, take: Button, why: String) -> void:
-	var what := "a Joker" if why.begins_with("Joker") else "an item"
-	var fix := "sell a Joker" if what == "a Joker" else "use an item"
+func _lock_offer(card: BMCard, take: Button, why: String, joker: bool) -> void:
+	var fix := BMLoc.t("sell a Joker") if joker else BMLoc.t("use an item")
 	take.disabled = true
-	take.text = "LOCKED"
+	take.text = BMLoc.t("LOCKED")
 	take.icon = BMStyle.tex("icon_lock")
-	take.tooltip_text = "%s. Press LATER, %s, then reopen the crate with the BOSS CRATE button." % [why, fix]
-	card.tooltip_body += "\n\nLOCKED: %s. Press LATER, %s, then reopen the crate." % [why.to_lower(), fix]
+	take.tooltip_text = BMLoc.t("%s. Press LATER, %s, then reopen the crate with the BOSS CRATE button.") % [why, fix]
+	card.tooltip_body += "\n\n" + BMLoc.t("LOCKED: %s. Press LATER, %s, then reopen the crate.") % [why, fix]
 	# A light veil keeps the card readable; the padlock covers the emblem and SLOTS FULL
 	# covers the rarity tag (same vertical rhythm as BMCard.offer: 80-px emblem, 6-px gap).
 	var veil := ColorRect.new()
@@ -359,30 +358,30 @@ func _lock_offer(card: BMCard, take: Button, why: String) -> void:
 	v.add_child(lock_row)
 	var pill_row := CenterContainer.new()
 	pill_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	pill_row.add_child(BMStyle.pill("SLOTS FULL", "pink", 20))
+	pill_row.add_child(BMStyle.pill(BMLoc.t("SLOTS FULL"), "pink", 20))
 	v.add_child(pill_row)
 
 
 func _crate_name(o: Dictionary) -> String:
 	match String(o.kind):
 		"joker":
-			return BMJokers.get_def(o.id).name
+			return BMJokers.display_name(o.id)
 		"item":
-			return BMConsumables.get_def(o.id).name
-	return "%d Credits" % int(o.value)
+			return BMConsumables.display_name(o.id)
+	return BMLoc.tn("%d Credit", "%d Credits", int(o.value)) % int(o.value)
 
 
 ## The Credits offer reuses an item card; its words and emblem are replaced.
 func _retitle_credits(card: BMCard, value: int) -> void:
-	card.tooltip_body = "%d Credits, straight into your wallet." % value
+	card.tooltip_body = BMLoc.tn("%d Credit, straight into your wallet.", "%d Credits, straight into your wallet.", value) % value
 	for l in card.find_children("*", "Label", true, false):
 		var lab := l as Label
-		if lab.text == BMConsumables.get_def("cash_out").name:
-			lab.text = "%d CREDITS" % value
-		elif lab.text == BMConsumables.get_def("cash_out").text:
-			lab.text = "Straight into your wallet."
-		elif lab.text == "ITEM":
-			lab.text = "CREDITS"
+		if lab.text == BMConsumables.display_name("cash_out"):
+			lab.text = BMLoc.tn("%d CREDIT", "%d CREDITS", value) % value
+		elif lab.text == BMConsumables.display_text("cash_out"):
+			lab.text = BMLoc.t("Straight into your wallet.")
+		elif lab.text == BMLoc.t("ITEM"):
+			lab.text = BMLoc.t("CREDITS")
 
 
 func bind(new_run: BMRun) -> void:
@@ -411,12 +410,12 @@ func _act(a: Dictionary) -> Dictionary:
 			BMFx.instance.pop_text(_credits.get_global_rect().get_center() + Vector2(0, 50), "-%d" % (before - run.credits), BMStyle.PINK_L, 30)
 	elif r.ok and a.a == "sell":
 		_message.add_theme_color_override("font_color", BMStyle.SUN)
-		_message.text = "Sold for %d Credits." % r.value
+		_message.text = BMLoc.t("Sold for %d Credits.") % r.value
 		if BMFx.instance:
 			BMFx.instance.pop_text(_credits.get_global_rect().get_center() + Vector2(0, 50), "+%d" % r.value, BMStyle.SUN, 30)
 	elif not r.ok:
 		_message.add_theme_color_override("font_color", BMStyle.PINK_L)
-		_message.text = r.error
+		_message.text = BMLoc.tf(r.error)
 	else:
 		_message.text = ""
 	if run.phase == BMRun.Phase.SHOP:
@@ -455,7 +454,7 @@ func _legendary_fanfare(id: String) -> void:
 		return
 	var c := get_global_rect().get_center()
 	fx.confetti(Rect2(Vector2.ZERO, size), 200)
-	fx.pop_text(c + Vector2(0, -120), "LEGENDARY!", BMStyle.LILAC, 80, 70.0, 1.6)
+	fx.pop_text(c + Vector2(0, -120), BMLoc.t("LEGENDARY!"), BMStyle.LILAC, 80, 70.0, 1.6)
 	fx.pop_text(c + Vector2(0, -40), String(BMJokers.get_def(id).name).to_upper(), BMStyle.SUN_L, 40, 60.0, 1.6)
 	fx.shake(10.0)
 	if BMCrtLayer.instance:
@@ -465,15 +464,15 @@ func _legendary_fanfare(id: String) -> void:
 func _purchase_text(r: Dictionary) -> String:
 	match r.type:
 		"buy_piece":
-			return "Added %s to your bag (%d pieces)." % [BMPieces.describe(r.piece).get_slice("\n", 0), run.bag.size()]
+			return BMLoc.t("Added %s to your bag (%d pieces).") % [BMPieces.piece_name(r.piece), run.bag.size()]
 		"buy_tool":
-			return "Used %s." % BMTools.get_def(r.item).name
+			return BMLoc.t("Used %s.") % BMLoc.t(BMTools.get_def(r.item).name)
 		"buy_joker":
 			if r.item == "loan_shark":
-				return "Loan Shark lent you %d Credits. It takes %d back after each won round." % [BMJokers.LOAN_CREDITS, BMJokers.LOAN_INSTALLMENT]
-			return "%s joined your rack!" % BMJokers.get_def(r.item).name
+				return BMLoc.t("Loan Shark lent you %d Credits. It takes %d back after each won round.") % [BMJokers.LOAN_CREDITS, BMJokers.LOAN_INSTALLMENT]
+			return BMLoc.t("%s joined your rack!") % BMJokers.display_name(r.item)
 		"buy_consumable":
-			return "Bought %s." % BMConsumables.get_def(r.item).name
+			return BMLoc.t("Bought %s.") % BMConsumables.display_name(r.item)
 	return ""
 
 
@@ -504,28 +503,28 @@ func refresh_all() -> void:
 		return
 	_credits.set_target(run.credits)
 	_overtime_pill.visible = run.overtime
-	_reroll_button.text = "REROLL  %d" % int(run.shop.reroll_cost)
+	_reroll_button.text = BMLoc.t("REROLL  %d") % int(run.shop.reroll_cost)
 	_reroll_button.disabled = run.credits < int(run.shop.reroll_cost)
-	_bag_button.text = "BAG  %d" % run.bag.size()
+	_bag_button.text = BMLoc.t("BAG  %d") % run.bag.size()
 	var next := run.round_number + 1
 	var boss_next := BMRunConfig.is_boss_round(next)
-	_next_label.text = "ROUND %d" % next
+	_next_label.text = BMLoc.t("ROUND %d") % next
 	_boss_pill.visible = boss_next
 	var cards: Array = run.shop.get("round_cards", [])
 	var pick_card := String(cards[int(run.shop.get("round_pick", 0))]) if not cards.is_empty() else "standard"
 	var next_target := run.round_target(next, pick_card)
 	_target_label.text = BMUI.fmt_score(next_target)
-	_target_label.tooltip_text = "Score target for round %d: %s points%s" % [next, BMUI.fmt_int(next_target),
-		"\nOvertime: targets climb faster every round." if run.overtime else ""]
+	_target_label.tooltip_text = BMLoc.t("Score target for round %d: %s points") % [next, BMUI.fmt_int(next_target)] \
+		+ ("\n" + BMLoc.t("Overtime: targets climb faster every round.") if run.overtime else "")
 	var next_act := BMRunConfig.act_of(next)
 	var boss_id: String = run.bosses[next_act - 1]
 	var mk2 := run.boss_is_mk2(next_act)
 	var boss_round := next_act * 4
 	var bname := BMBosses.title(boss_id, mk2)
 	var brule := BMBosses.rule_text(boss_id, mk2)
-	_boss_name.text = bname.to_upper() if boss_next else "%s  (ROUND %d)" % [bname.to_upper(), boss_round]
+	_boss_name.text = bname.to_upper() if boss_next else BMLoc.t("%s  (ROUND %d)") % [bname.to_upper(), boss_round]
 	_boss_label.text = brule
-	_ticker.tooltip_text = "Round %d boss: %s\n%s" % [boss_round, bname, brule]
+	_ticker.tooltip_text = BMLoc.t("Round %d boss: %s") % [boss_round, bname] + "\n" + brule
 	_fit_ticker(_crate_button.visible)
 
 	BMUI.clear_children(_jokers_row)
@@ -540,7 +539,7 @@ func refresh_all() -> void:
 			BMAudio.sfx_later("legendary_reveal", 0.3)
 		if run.jokers.size() >= run.joker_slots():
 			buy.disabled = true
-			buy.tooltip_text = "Joker slots are full. Sell one first."
+			buy.tooltip_text = BMLoc.t("Joker slots are full. Sell one first.")
 		_jokers_row.add_child(_card(BMCard.offer(run, "joker", id, buy)))
 
 	BMUI.clear_children(_items_row)
@@ -552,7 +551,7 @@ func refresh_all() -> void:
 		var buy := _price_button(BMConsumables.cost(id), func() -> void: _act({"a": "buy_consumable", "i": i}))
 		if run.consumables.size() >= BMRunConfig.CONSUMABLE_SLOTS:
 			buy.disabled = true
-			buy.tooltip_text = "Item slots are full. Use an item first."
+			buy.tooltip_text = BMLoc.t("Item slots are full. Use an item first.")
 		_items_row.add_child(_card(BMCard.offer(run, "item", id, buy)))
 
 	BMUI.clear_children(_tools_row)
@@ -564,7 +563,7 @@ func refresh_all() -> void:
 		var def := BMTools.get_def(o.id)
 		var buy := _price_button(int(def.cost), func() -> void: _begin_tool(i))
 		if int(def.max_targets) > 0:
-			buy.text = "PICK %d" % int(def.cost)
+			buy.text = BMLoc.t("PICK %d") % int(def.cost)
 		_tools_row.add_child(_card(BMCard.offer(run, "tool", o, buy)))
 
 	BMUI.clear_children(_pieces_row)
@@ -576,11 +575,11 @@ func refresh_all() -> void:
 		var buy := _price_button(int(d.cost), func() -> void: _act({"a": "buy_piece", "i": i}))
 		if run.bag.size() >= BMPieces.MAX_BAG:
 			buy.disabled = true
-			buy.tooltip_text = "Your bag is full."
+			buy.tooltip_text = BMLoc.t("Your bag is full.")
 		_pieces_row.add_child(_card(BMCard.offer(run, "piece", BMPieces.from_dict(d), buy)))
 
 	BMUI.clear_children(_owned_box)
-	_owned_header.text = "YOUR JOKERS %d/%d" % [run.jokers.size(), run.joker_slots()]
+	_owned_header.text = BMLoc.t("YOUR JOKERS %d/%d") % [run.jokers.size(), run.joker_slots()]
 	for i in run.jokers.size():
 		var id := run.jokers[i]
 		var card := BMCard.joker_rack(run, id, BMCard.rack_height(run.joker_slots()), 420.0)
@@ -592,7 +591,7 @@ func refresh_all() -> void:
 				_act({"a": "move", "from": from, "to": to})
 				if to < _owned_box.get_child_count():
 					BMStyle.focus_later(_owned_box.get_child(to) as Control)
-		card.tooltip_body += "\nDrag onto another Joker to reorder. Alt+Up/Down while focused also moves it."
+		card.tooltip_body += BMLoc.t("\nDrag onto another Joker to reorder. Alt+Up/Down while focused also moves it.")
 		var wrap := Control.new()
 		wrap.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		wrap.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -610,7 +609,7 @@ func refresh_all() -> void:
 	for i in range(run.jokers.size(), run.joker_slots()):
 		var empty := BMStyle.panel("panel_inset", Vector4.ZERO)
 		empty.custom_minimum_size = Vector2(0, BMCard.rack_height(run.joker_slots()))
-		var l := BMStyle.label("empty slot", 20, Color(BMStyle.TEXT_DIM, 0.5))
+		var l := BMStyle.label(BMLoc.t("empty slot"), 20, Color(BMStyle.TEXT_DIM, 0.5))
 		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		empty.add_child(l)
@@ -628,7 +627,7 @@ func refresh_all() -> void:
 	for i in range(run.consumables.size(), BMRunConfig.CONSUMABLE_SLOTS):
 		var empty := BMStyle.panel("panel_inset", Vector4.ZERO)
 		empty.custom_minimum_size = Vector2(204, 132)
-		var el := BMStyle.label("empty", 20, Color(BMStyle.TEXT_DIM, 0.5))
+		var el := BMStyle.label(BMLoc.t("empty"), 20, Color(BMStyle.TEXT_DIM, 0.5))
 		el.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		el.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		empty.add_child(el)
@@ -658,20 +657,20 @@ func _fit_ticker(crate_showing: bool) -> void:
 
 
 func _price_button(cost: int, cb: Callable) -> Button:
-	var b := BMStyle.button("BUY %d" % cost, cb, "sun", 30)
+	var b := BMStyle.button(BMLoc.t("BUY %d") % cost, cb, "sun", 30)
 	b.icon = BMStyle.tex("icon_coin")
 	b.add_theme_constant_override("icon_max_width", 32)
 	b.custom_minimum_size.y = 64
 	if run.credits < cost:
 		b.disabled = true
-		b.tooltip_text = "Not enough Credits."
+		b.tooltip_text = BMLoc.t("Not enough Credits.")
 	return b
 
 
 func _sold_out() -> Control:
 	var p := BMStyle.panel("panel_inset", Vector4.ZERO)
 	p.custom_minimum_size = BMCard.OFFER_SIZE
-	var l := BMStyle.label("SOLD OUT", 30, Color(BMStyle.TEXT_DIM, 0.6), true)
+	var l := BMStyle.label(BMLoc.t("SOLD OUT"), 30, Color(BMStyle.TEXT_DIM, 0.6), true)
 	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	p.add_child(l)
@@ -710,12 +709,13 @@ func _show_round_picker() -> void:
 	var v := _overlay_panel(1300)
 	BMAudio.sfx("modal")
 	var next := run.round_number + 1
-	var t := BMStyle.label("CHOOSE ROUND %d" % next, 60, BMStyle.SUN, true, 14)
+	var t := BMStyle.label(BMLoc.t("CHOOSE ROUND %d") % next, 60, BMStyle.SUN, true, 14)
+	t.name = "RoundPickerTitle"
 	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	t.add_theme_color_override("font_shadow_color", Color(BMStyle.PINK, 0.7))
 	t.add_theme_constant_override("shadow_offset_y", 6)
 	v.add_child(t)
-	var sub := BMStyle.label("Play it straight, or take a twist for a reward. Keys 1-3 choose, Esc goes back.", 20, BMStyle.CREAM)
+	var sub := BMStyle.label(BMLoc.t("Play it straight, or take a twist for a reward. Keys 1-3 choose, Esc goes back."), 20, BMStyle.CREAM)
 	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(sub)
 	var row := BMStyle.hbox(24)
@@ -732,9 +732,9 @@ func _show_round_picker() -> void:
 		var cv := BMStyle.vbox(10)
 		card.add_child(cv)
 		var pill_row := CenterContainer.new()
-		pill_row.add_child(BMStyle.pill("STANDARD" if id == "standard" else "TWIST", color, 20))
+		pill_row.add_child(BMStyle.pill(BMLoc.t("STANDARD") if id == "standard" else BMLoc.t("TWIST"), color, 20))
 		cv.add_child(pill_row)
-		var name := BMStyle.label(String(d.name).to_upper(), 40, BMStyle.INK, true)
+		var name := BMStyle.label(BMLoc.t(d.name).to_upper(), 40, BMStyle.INK, true)
 		name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		name.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		cv.add_child(name)
@@ -745,7 +745,7 @@ func _show_round_picker() -> void:
 		var tl := BMStyle.label(BMUI.fmt_score(target), 30, Color("#c42848"), true)
 		tgt.add_child(tl)
 		cv.add_child(tgt)
-		var body := BMStyle.label(String(d.text), 20, Color(BMStyle.INK, 0.8))
+		var body := BMStyle.label(BMLoc.t(d.text), 20, Color(BMStyle.INK, 0.8))
 		body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		body.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		body.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -754,10 +754,10 @@ func _show_round_picker() -> void:
 			var rw := BMStyle.hbox(6)
 			rw.alignment = BoxContainer.ALIGNMENT_CENTER
 			rw.add_child(BMStyle.icon_rect("icon_coin", 0.75))
-			rw.add_child(BMStyle.label("+%d IF YOU WIN" % int(d.reward), 20, Color("#8a5a00"), true))
+			rw.add_child(BMStyle.label(BMLoc.t("+%d IF YOU WIN") % int(d.reward), 20, Color("#8a5a00"), true))
 			cv.add_child(rw)
 		var idx := i
-		var b := BMStyle.button("PLAY  %d" % (i + 1), func() -> void: _pick_round_and_go(idx), "sun" if i == 0 else color, 30)
+		var b := BMStyle.button(BMLoc.t("PLAY  %d") % (i + 1), func() -> void: _pick_round_and_go(idx), "sun" if i == 0 else color, 30)
 		b.custom_minimum_size = Vector2(0, 72)
 		cv.add_child(b)
 		row.add_child(card)
@@ -769,7 +769,7 @@ func _show_round_picker() -> void:
 			var tw := card.create_tween()
 			tw.tween_interval(0.08 * i)
 			tw.tween_property(card, "modulate", Color.WHITE, 0.2)
-	var back := BMStyle.button("BACK TO THE SHOP", func() -> void: BMUI.clear_children(_overlay), "plum", 20)
+	var back := BMStyle.button(BMLoc.t("BACK TO THE SHOP"), func() -> void: BMUI.clear_children(_overlay), "plum", 20)
 	var bc := CenterContainer.new()
 	bc.add_child(back)
 	v.add_child(bc)
@@ -777,10 +777,7 @@ func _show_round_picker() -> void:
 
 
 func _picker_open() -> bool:
-	for n in _overlay.find_children("*", "Label", true, false):
-		if (n as Label).text.begins_with("CHOOSE ROUND"):
-			return true
-	return false
+	return _overlay.find_child("RoundPickerTitle", true, false) != null
 
 
 func _pick_round_and_go(i: int) -> void:
@@ -825,7 +822,7 @@ func _show_bag() -> void:
 	var bv := BMBagView.new()
 	scroll.add_child(bv)
 	bv.setup(run)
-	var close := BMStyle.button("CLOSE  (ESC)", func() -> void: BMUI.clear_children(_overlay), "sun", 30)
+	var close := BMStyle.button(BMLoc.t("CLOSE  (ESC)"), func() -> void: BMUI.clear_children(_overlay), "sun", 30)
 	close.custom_minimum_size.y = 72
 	v.add_child(close)
 	BMStyle.focus_later(close)
@@ -846,26 +843,26 @@ func _begin_tool(index: int) -> void:
 	var hv := BMStyle.vbox(2)
 	hv.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	head.add_child(hv)
-	hv.add_child(BMStyle.label("%s  -  %d CREDITS" % [BMTools.offer_name(o).to_upper(), int(def.cost)], 40, BMStyle.SUN, true, 10))
+	hv.add_child(BMStyle.label(BMLoc.t("%s  -  %d CREDITS") % [BMTools.offer_name(o).to_upper(), int(def.cost)], 40, BMStyle.SUN, true, 10))
 	var t := BMStyle.label(BMTools.offer_text(o, run), 20, BMStyle.CREAM)
 	t.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	hv.add_child(t)
-	var status := BMStyle.label("Choose up to %d piece%s." % [max_t, "s" if max_t > 1 else ""], 30, BMStyle.MINT_L, true, 8)
+	var status := BMStyle.label(BMLoc.tn("Choose up to %d piece.", "Choose up to %d pieces.", max_t) % max_t, 30, BMStyle.MINT_L, true, 8)
 	v.add_child(status)
 	var state := {"targets": [], "color": -1}
-	var confirm := BMStyle.button("CONFIRM PURCHASE", func() -> void: pass, "sun", 30)
+	var confirm := BMStyle.button(BMLoc.t("CONFIRM PURCHASE"), func() -> void: pass, "sun", 30)
 	confirm.custom_minimum_size = Vector2(420, 72)
 	var color_buttons: Array = []
 	var update := func() -> void:
 		var ok: bool = not state.targets.is_empty() and (def.kind != "repaint" or state.color >= 0)
 		confirm.disabled = not ok
-		var picked := "%d of %d chosen" % [state.targets.size(), max_t]
+		var picked := BMLoc.t("%d of %d chosen") % [state.targets.size(), max_t]
 		if def.kind == "repaint":
-			picked += "   -   color: %s" % (BMShapes.COLOR_NAMES[state.color].to_upper() if state.color >= 0 else "pick one")
+			picked += BMLoc.t("   -   color: %s") % (BMShapes.color_name(state.color).to_upper() if state.color >= 0 else BMLoc.t("pick one"))
 		status.text = picked
 		for i in color_buttons.size():
 			var cb: Button = color_buttons[i]
-			cb.text = ("> %s <" if i == state.color else "%s") % BMShapes.COLOR_NAMES[i].to_upper()
+			cb.text = ("> %s <" if i == state.color else "%s") % BMShapes.color_name(i).to_upper()
 	if def.kind == "repaint":
 		var colors := BMStyle.hbox(8)
 		v.add_child(colors)
@@ -899,10 +896,10 @@ func _begin_tool(index: int) -> void:
 			if BMFx.instance:
 				BMFx.instance.confetti(Rect2(Vector2(size.x * 0.3, 0), Vector2(size.x * 0.4, 10)), 40)
 		else:
-			status.text = r.error
+			status.text = BMLoc.tf(r.error)
 			status.add_theme_color_override("font_color", BMStyle.PINK_L))
 	row.add_child(confirm)
-	var cancel := BMStyle.button("CANCEL  (ESC)", func() -> void: BMUI.clear_children(_overlay), "plum", 30)
+	var cancel := BMStyle.button(BMLoc.t("CANCEL  (ESC)"), func() -> void: BMUI.clear_children(_overlay), "plum", 30)
 	cancel.custom_minimum_size = Vector2(300, 72)
 	row.add_child(cancel)
 	update.call()

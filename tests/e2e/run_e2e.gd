@@ -101,3 +101,7 @@ func _sandbox() -> void:
 	BMAchievementStore.forget_cache()
 	BMEndlessStore.game_path = SANDBOX + "/endless.json"
 	BMEndlessStore.scores_path = SANDBOX + "/endless_scores.json"
+	# Scenarios read English text; the OS language must not leak in ("auto" is the default).
+	var cfg := ConfigFile.new()
+	cfg.set_value("settings", "language", "en")
+	cfg.save(BMSaveStore.settings_path)

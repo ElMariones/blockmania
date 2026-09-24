@@ -1,7 +1,7 @@
 class_name BMTraySlot
 extends Control
 ## One of the three tray offers: a recessed well with a key tag. The piece floats gently,
-## lifts with a shadow on hover, and shows text states ("HOLDING", "NO ROOM") so nothing
+## lifts with a shadow on hover, and shows text states (BMLoc.t("HOLDING"), BMLoc.t("NO ROOM")) so nothing
 ## depends on color alone. A new deal spins the well like a slot reel (cosmetic shapes, then
 ## the real piece drops in with a bounce). Pieces that belong to a Tray Hand wear a ribbon
 ## with the Hand's name and chasing marquee lights around the well.
@@ -123,7 +123,7 @@ func _draw() -> void:
 	if _flare > 0.0:
 		draw_rect(r.grow(-4), Color(1, 1, 1, 0.5 * _flare))
 	if shape.is_empty():
-		draw_string(BMStyle.font, Vector2(0, size.y / 2.0 + 8), "placed", HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, Color(BMStyle.TEXT_DIM, 0.5))
+		draw_string(BMStyle.font, Vector2(0, size.y / 2.0 + 8), BMLoc.t("placed"), HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, Color(BMStyle.TEXT_DIM, 0.5))
 		return
 	var dims := Vector2(BMShapes.shape_size(shape))
 	var cell := floorf(minf(MINI_CELL, minf((size.x - 36) / dims.x, (size.y - 56) / dims.y)))
@@ -150,18 +150,18 @@ func _draw() -> void:
 	else:
 		BMBlockPainter.draw_shape(self, shape, origin, cell, alpha, Color.WHITE, block_skin)
 	if hand != "":
-		_ribbon(BMHands.get_def(hand).badge, HAND_COLORS.get(hand, BMStyle.SUN))
+		_ribbon(BMLoc.t(BMHands.get_def(hand).badge), HAND_COLORS.get(hand, BMStyle.SUN))
 	if locked:
 		_draw_bars()
-		_caption("LOCKED", BMStyle.PINK_L)
+		_caption(BMLoc.t("LOCKED"), BMStyle.PINK_L)
 	elif held:
-		_caption("HOLDING", BMStyle.SUN)
+		_caption(BMLoc.t("HOLDING"), BMStyle.SUN)
 	elif not fits:
-		_caption("NO ROOM", BMStyle.PINK)
+		_caption(BMLoc.t("NO ROOM"), BMStyle.PINK)
 	elif bool(shape.get("brick", false)):
-		_caption("BRICK: 1 BLOCK", BMStyle.SUN_L)
+		_caption(BMLoc.t("BRICK: 1 BLOCK"), BMStyle.SUN_L)
 	elif bool(shape.get("temporary", false)):
-		_caption("TEMPORARY", BMStyle.SKY)
+		_caption(BMLoc.t("TEMPORARY"), BMStyle.SKY)
 
 
 func _caption(text: String, color: Color) -> void:
