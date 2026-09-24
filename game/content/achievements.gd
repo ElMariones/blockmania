@@ -6,11 +6,11 @@ extends RefCounted
 ##
 ## `tier`: bronze | silver | gold | legend (fanfare, frame and particles scale with it).
 ## `secret`: the name and rule stay hidden ("???" and a cryptic `hint`) until unlocked.
-## `page`: Trophy Case page (0-3), twelve badges each, in catalog order.
+## `page`: Trophy Case page (0-4), twelve badges each, in catalog order.
 
 const TIERS := ["bronze", "silver", "gold", "legend"]
 const TIER_NAMES := {"bronze": "Bronze", "silver": "Silver", "gold": "Gold", "legend": "Legendary"}
-const PAGE_TITLES := ["THE CAMPAIGN", "THE BAG & THE SHOP", "THE SCOREBOARD", "ARCADE & SECRETS"]
+const PAGE_TITLES := ["THE CAMPAIGN", "THE BAG & THE SHOP", "THE SCOREBOARD", "ARCADE & SECRETS", "LEGENDS"]
 const PER_PAGE := 12
 
 const BLUE := 4 ## BMShapes color index
@@ -69,6 +69,19 @@ const CATALOG := [
 	{"id": "through_the_window", "page": 3, "tier": "bronze", "secret": true, "name": "Through the Window", "text": "Throw an Emergency Brick.", "hint": "In case of emergency, break something.", "flavor": "Who's paying for that?"},
 	{"id": "fine_print", "page": 3, "tier": "silver", "secret": true, "name": "The Fine Print", "text": "Get a lost round replayed by Insurance Policy.", "hint": "Always read the small text.", "flavor": "Terms and conditions apply. Luckily, they applied to you."},
 	{"id": "block_maniac", "page": 3, "tier": "legend", "name": "Block Maniac", "text": "Unlock every other achievement.", "flavor": "The whole trophy case. Every last shelf. Take a bow."},
+	# --- Page 5: legends and engines (2026-09-24) ---
+	{"id": "legend_found", "page": 4, "tier": "silver", "name": "Once Upon a Legend", "text": "Own a Legendary Joker.", "flavor": "It hums a little when you hold it."},
+	{"id": "legend_pair", "page": 4, "tier": "gold", "secret": true, "name": "Double Legend", "text": "Own two Legendary Jokers at the same time.", "hint": "One legend is a story. Two is a problem.", "flavor": "The rack has never looked so smug."},
+	{"id": "pantheon", "page": 4, "tier": "legend", "name": "Pantheon", "text": "Own each of the four Legendary Jokers (across any runs).", "flavor": "The Avalanche, the Mirrors, the Stone and the Star. All accounted for."},
+	{"id": "avalanche_chain", "page": 4, "tier": "gold", "name": "Chain Reaction", "text": "Chain three clear waves in one placement with The Avalanche.", "flavor": "Nobody touch anything. Let it fall."},
+	{"id": "mirror_world", "page": 4, "tier": "gold", "name": "Mirror World", "text": "Score a placement where Hall of Mirrors doubles four other Jokers.", "flavor": "How many of you are in there?"},
+	{"id": "heavy_metal", "page": 4, "tier": "silver", "name": "Heavy Metal", "text": "Have 15 or more pieces with a material in your bag.", "flavor": "Chrome, neon, gold and glass. Very little plastic left."},
+	{"id": "supernova_x10", "page": 4, "tier": "gold", "name": "Going Nova", "text": "Score with Supernova at x10 Mult or more.", "flavor": "Eighteen lines and one very bright star."},
+	{"id": "snowed_in", "page": 4, "tier": "silver", "name": "Snowed In", "text": "Grow Snowball to x2 Mult or more.", "flavor": "It started as a pebble of snow."},
+	{"id": "interest_rate", "page": 4, "tier": "bronze", "name": "Compound Growth", "text": "Earn the maximum interest (+5 Credits) after a round.", "flavor": "Your Credits have been working harder than you."},
+	{"id": "wide_rack", "page": 4, "tier": "silver", "name": "Wide Rack", "text": "Have seven Joker slots.", "flavor": "Two Rack Extenders and a lot of shelf brackets."},
+	{"id": "billionaire", "page": 4, "tier": "legend", "name": "Billionaire", "text": "Score 1,000,000,000 points with one placement.", "flavor": "Nine zeros. The counter had to borrow some."},
+	{"id": "fallen_hero", "page": 4, "tier": "bronze", "secret": true, "name": "Fallen Hero", "text": "Lose a run while owning a Legendary Joker.", "hint": "Even legends have bad days.", "flavor": "They'll write songs about it. Sad ones."},
 ]
 
 static var _by_id := {}
@@ -199,6 +212,59 @@ static func check_campaign(run: BMRun, action: Dictionary, r: Dictionary, life: 
 		out.append("through_the_window")
 	if bool(r.get("insurance", false)):
 		out.append("fine_print")
+	out.append_array(_legend_checks(run, kind, r, life))
+	return out
+
+
+## Page 5: Legendary Jokers and the engine cards.
+static func _legend_checks(run: BMRun, kind: String, r: Dictionary, life: Dictionary) -> Array[String]:
+	var out: Array[String] = []
+	var legends := 0
+	for id in run.jokers:
+		if BMJokers.is_legendary(id):
+			legends += 1
+	if legends >= 1:
+		out.append("legend_found")
+	if legends >= 2:
+		out.append("legend_pair")
+	if Array(life.get("legends_seen", [])).size() >= BMJokers.LEGENDARY_IDS.size():
+		out.append("pantheon")
+	if legends >= 1 and run.phase == BMRun.Phase.RUN_LOST:
+		out.append("fallen_hero")
+	if run.joker_slots() >= BMRunConfig.MAX_JOKER_SLOTS:
+		out.append("wide_rack")
+	if run.jokers.has("snowball") and run.joker_value("snowball") >= 2.0:
+		out.append("snowed_in")
+	if bool(r.get("round_won", false)) and int(run.last_round_result.get("interest", 0)) >= BMRunConfig.INTEREST_CAP:
+		out.append("interest_rate")
+	var metal := 0
+	for p in run.bag:
+		if String(p.get("material", "")) != "":
+			metal += 1
+	if metal >= 15:
+		out.append("heavy_metal")
+	if kind == "place":
+		if Array(r.get("waves", [])).size() >= 3:
+			out.append("avalanche_chain")
+		if int(r.get("points", 0)) >= 1000000000:
+			out.append("billionaire")
+		var mirrored := {}
+		var nova := 1.0
+		for it in r.get("items", []):
+			if String(it.get("source", "")) == "joker":
+				var j := String(it.get("joker", ""))
+				if j != "hall_of_mirrors":
+					mirrored[j] = int(mirrored.get(j, 0)) + 1
+				if j == "supernova":
+					nova = maxf(nova, float(it.value))
+		var doubled := 0
+		for j in mirrored:
+			if int(mirrored[j]) >= 2:
+				doubled += 1
+		if run.jokers.has("hall_of_mirrors") and doubled >= 4:
+			out.append("mirror_world")
+		if nova >= 10.0:
+			out.append("supernova_x10")
 	return out
 
 
@@ -292,4 +358,6 @@ static func progress(id: String, life: Dictionary, records: Dictionary, unlocked
 			return [mini(100000, int(life.get("endless_best", 0))), 100000]
 		"block_maniac":
 			return [mini(unlocked_count, CATALOG.size() - 1), CATALOG.size() - 1]
+		"pantheon":
+			return [Array(life.get("legends_seen", [])).size(), BMJokers.LEGENDARY_IDS.size()]
 	return []

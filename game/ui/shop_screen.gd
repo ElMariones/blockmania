@@ -10,6 +10,8 @@ const TICKER_BOTTOM := 870.0 ## the round ticker spans 578..870 on the stage
 const CRATE_BUTTON_Y := 766.0 ## while the BOSS CRATE button shows, it takes the ticker's bottom
 const TICKER_RULE_LINES := 5
 
+## Shop visit and id of the last Legendary offer announced (its reveal sting plays once).
+var _legend_seen := ""
 var main: Node
 var run: BMRun
 var stage: Control
@@ -271,6 +273,8 @@ func _crate_offers(dim: Control) -> void:
 			if r.ok:
 				BMUI.clear_children(_overlay)
 				BMAudio.sfx("buy")
+				if String(o.kind) == "joker" and BMJokers.is_legendary(String(o.id)):
+					_legendary_fanfare(String(o.id))
 				_message.add_theme_color_override("font_color", BMStyle.MINT_L)
 				_message.text = "From the crate: %s." % _crate_name(o), "mint", 30)
 		var card: BMCard
@@ -429,6 +433,8 @@ func _play_result_sound(a: Dictionary, r: Dictionary) -> void:
 			BMAudio.sfx("workshop")
 		"buy_joker", "buy_consumable", "buy_piece":
 			BMAudio.sfx("buy")
+			if String(a.a) == "buy_joker" and BMJokers.is_legendary(String(r.get("item", ""))):
+				_legendary_fanfare(String(r.item))
 			if r.get("item", "") == "loan_shark":
 				BMAudio.sfx_later("loan_cash", 0.15)
 				if BMFx.instance:
@@ -439,6 +445,21 @@ func _play_result_sound(a: Dictionary, r: Dictionary) -> void:
 			BMAudio.sfx("reroll")
 		"move":
 			BMAudio.sfx("tick")
+
+
+## A Legendary joins the rack: its own sting, lilac confetti and a callout.
+func _legendary_fanfare(id: String) -> void:
+	BMAudio.sfx_later("legendary_get", 0.1)
+	var fx := BMFx.instance
+	if fx == null:
+		return
+	var c := get_global_rect().get_center()
+	fx.confetti(Rect2(Vector2.ZERO, size), 200)
+	fx.pop_text(c + Vector2(0, -120), "LEGENDARY!", BMStyle.LILAC, 80, 70.0, 1.6)
+	fx.pop_text(c + Vector2(0, -40), String(BMJokers.get_def(id).name).to_upper(), BMStyle.SUN_L, 40, 60.0, 1.6)
+	fx.shake(10.0)
+	if BMCrtLayer.instance:
+		BMCrtLayer.instance.shock(0.6)
 
 
 func _purchase_text(r: Dictionary) -> String:
@@ -502,6 +523,9 @@ func refresh_all() -> void:
 			_jokers_row.add_child(_sold_out())
 			continue
 		var buy := _price_button(BMJokers.cost(id), func() -> void: _act({"a": "buy_joker", "i": i}))
+		if BMJokers.is_legendary(id) and _legend_seen != "%d:%s" % [run.round_number, id]:
+			_legend_seen = "%d:%s" % [run.round_number, id]
+			BMAudio.sfx_later("legendary_reveal", 0.3)
 		if run.jokers.size() >= run.joker_slots():
 			buy.disabled = true
 			buy.tooltip_text = "Joker slots are full. Sell one first."
@@ -547,7 +571,7 @@ func refresh_all() -> void:
 	_owned_header.text = "YOUR JOKERS %d/%d" % [run.jokers.size(), run.joker_slots()]
 	for i in run.jokers.size():
 		var id := run.jokers[i]
-		var card := BMCard.joker_rack(run, id)
+		var card := BMCard.joker_rack(run, id, BMCard.rack_height(run.joker_slots()))
 		card.reduced_motion = main.settings.reduced_motion
 		card.drag_index = i
 		card.drag_enabled = true
@@ -573,7 +597,7 @@ func refresh_all() -> void:
 		_owned_box.add_child(card)
 	for i in range(run.jokers.size(), run.joker_slots()):
 		var empty := BMStyle.panel("panel_inset", Vector4.ZERO)
-		empty.custom_minimum_size = Vector2(0, 124)
+		empty.custom_minimum_size = Vector2(0, BMCard.rack_height(run.joker_slots()))
 		var l := BMStyle.label("empty slot", 20, Color(BMStyle.TEXT_DIM, 0.5))
 		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER

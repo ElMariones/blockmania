@@ -2053,6 +2053,14 @@ def contact(sheets, path, scale=4):
     out.save(path)
 
 
+# Engine update sprites (new Jokers, Legendaries, items, Rack Extender, achievement page 5).
+import cards_engine  # noqa: E402
+JOKERS.update(cards_engine.JOKERS)
+ITEMS.update(cards_engine.ITEMS)
+TOOLS.update(cards_engine.TOOLS)
+ACHIEVEMENTS.update(cards_engine.ACHIEVEMENTS)
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     sets = {"jokers": JOKERS, "items": ITEMS, "tools": TOOLS, "achievements": ACHIEVEMENTS}

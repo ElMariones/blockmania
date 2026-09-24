@@ -115,9 +115,9 @@ For each placement:
 - **100 Chips per completed row or column.**
 - **40 extra Chips for each completed line beyond the first in the same wave.** This rewards multi-line setups without double-counting cells.
 - **25 Chips per combo level** when at least one line clears. Combo level starts at 0, increases by 1 after a clearing placement, and caps at 4. *Combo grace (2026-09-23):* the combo survives **one** placement without a clear (shown as "x3!" and "HANG ON!"); a second non-clearing placement in a row resets it to 0.
-- **Base Mult = 1.** Jokers and consumables modify Chips or Mult.
+- **Base Mult = 1, +1 for each line beyond the first** in the same placement (engine update, 2026-09-24: a double clear scores at x2 base Mult, a triple at x3). Jokers and consumables modify Chips or Mult.
 
-Example: a 4-cell shape completes two lines with combo level 1. Chips = 40 + 200 + 40 + 25 = 305 before Joker effects. With final Mult 2, the placement scores 610 Points.
+Example: a 4-cell shape completes two lines with combo level 1. Chips = 40 + 200 + 40 + 25 = 305 before Joker effects. Mult = 1 + 1 (second line) = 2; with a Spark (+1) it is 3 and the placement scores 915 Points.
 
 ### Modifier pipeline
 
@@ -666,3 +666,81 @@ Owner request: "an achievements system with a dedicated achievements page with a
 - **Unlock feedback.** A plate slides in at the top right (clear of centered dialogs): the medal flips in like a coin, a pill says ACHIEVEMENT UNLOCKED / SECRET UNLOCKED! / LEGENDARY!, then the name and rule. Fanfares rise with the tier (bronze ding, silver triad, gold arpeggio with coins, legendary swell), secrets have their own reveal; particles grow with the tier (ring and stars; sparks; confetti; a full burst, swirl pulse and a small shake for Legendary). Several unlocks queue. Reduced Motion fades the plate and skips particles.
 - **Trophy Case.** TROPHIES on the title menu (it turns mint while new badges wait). A glass cabinet with three wooden shelves and a spotlight behind each earned badge; a completion meter and per-tier counts; page tabs with per-page counts; arrow buttons and Q/E / PageUp/PageDown to turn pages (a slide with a page-flip sound); a personal records plaque; BACK / Esc. Badges: tiered medal frames (bronze, silver, gold, prism-rimmed Legendary that shimmers and twinkles), a glint sweeps across earned icons, hover lifts the medal, clicking an earned one spins it with sparkles, clicking a locked one rattles it. Locked badges are dark silhouettes with a padlock and the rule (counting ones show progress, e.g. "0 / 25,000"); earned ones show tier, flavor text and the unlock date in the hover card. A blinking NEW! tag marks badges earned since the last visit.
 - **Steam.** Local only for now. The ids and conditions are ready to mirror into Steam achievements later (never required for play).
+
+## 21. Engine update: scaling, economy and Legendary Jokers (owner request, 2026-09-24)
+
+Owner request: "after your review, improve what you see the game lacking, modify features, stats, strategies, items... add more Jokers and items that benefit the game loop, add four Legendary Jokers with very special, overpowered characteristics, and achievements around them." The review is `docs/playtests/2026-09-24_persona_playtest.md`: 15 simulated personas, 770+ runs. Its main findings, and what this section changes:
+
+| Finding (baseline) | Change |
+|---|---|
+| Points per placement grow ~6x over 12 rounds while targets grow 22x, so late rounds are 20+ small placements and runs die by attrition ("out of placements" in ~90% of losses). | Run-long **scaling Jokers** and a base Mult bonus for multi-line clears, so the build (not placement count) closes the gap. |
+| The Joker rack is full by round 4-5; after that the build barely grows. | **Scaling Jokers** keep growing; **Rack Extender** adds up to two slots. |
+| Nothing scales exponentially: the best "dream" builds end Overtime by round 14-16, far from the machine's limit. | Four **Legendary Jokers** that bend the rules (chain waves, doubled Jokers, transmutation, per-round explosive Mult). |
+| A 2+ line clear is even *possible* on only ~2% of placements (3+ lines: 0.03%), so multi-line cards were dead draws. | Multi-line base Mult; Jackpot Window, Keystone, Crossbar, Wide Awake re-keyed to reachable conditions. Availability itself is a board/tray property: see the plan (Hold slot) in the report. |
+| Credits pile up late with nothing to decide (no saving decision). | **Interest** and **Overkill** payouts; late sinks (Rack Extender, Legendaries at 12). |
+
+### 21.1 Scoring and economy (provisional)
+
+- **Multi-line Mult:** +1 base Mult for every line beyond the first in one placement (step 5, receipt line "Multi-line Mult"). A double is x2, a triple x3 before Jokers.
+- **Interest:** after a won round, +1 Credit for every 5 Credits held at the end of the round (before the payout), at most +5 (`INTEREST_STEP`, `INTEREST_CAP`).
+- **Overkill:** after a won round, +1 Credit for every full half-target scored beyond the target, at most +3 (`OVERKILL_STEP`, `OVERKILL_CAP`). The round ends on the crossing placement, so only that placement's overshoot counts: a big finishing placement pays.
+- **Rack Extender** (Workshop, 9 Credits, weight 3): +1 Joker slot for the rest of the run, up to 7. Not offered once the rack has 7. The rack cards shrink to fit (`BMCard.rack_height`).
+- **Run-long Joker state:** `BMRun.joker_state` holds the value of scaling cards (Snowball, Hot Streak, Overachiever), shared by copies and forgotten when the last copy is sold. Save schema 6 (`joker_state`, `extra_slots`, round `pending_xmult`, `lines_cleared`, `refresh_used`); older saves load with defaults.
+
+### 21.2 Retuned Jokers
+
+| Joker | Before | After |
+|---|---|---|
+| Jackpot Window (Rare) | x4 on 3+ lines | x2.5 on 2 lines, x5 on 3+ |
+| Keystone (Rare) | x2 when a 1-2 block piece clears 2+ lines | x2 when a 1-3 block piece clears a line, x4 on 2+ |
+| Crossbar (Common) | +150 on row + column | +100 on any multi-line clear, +200 if it crosses |
+| Wide Awake (Uncommon) | +3 Mult on 2+ lines | +2 Mult on any clear, +5 on 2+ lines |
+| Last Stand (Rare) | x2 with no Refresh and ≤3 left | x2.5 with ≤4 placements left |
+| Glass Cannon (Rare) | x1.5 when Glass clears | x1 + 0.3 per Glass piece in the bag (max x4) |
+
+### 21.3 New Jokers (13)
+
+| Joker | Rarity | Phase | Rule |
+|---|---|---|---|
+| Snowball | Uncommon | xMult, scaling | Gains x0.15 each time 2+ lines clear at once. Never resets. |
+| Tally Counter | Common | Chips | +4 Chips per line cleared this run. |
+| Bonsai | Uncommon | +Mult | +0.35 Mult per round won this run. |
+| Coin Pusher | Common | +Mult | +0.1 Mult per Credit held (max +5). Pairs with interest. |
+| Hot Streak | Rare | xMult, scaling | Gains x0.3 per round won without a Refresh or Second Tray; using one resets it to x1. |
+| Big Game Hunter | Uncommon | +Mult | +1 Mult per block over 4 in the placed piece. |
+| Rainbow Road | Uncommon | xMult, color | x1.75 when the board holds all six colors before the placement. |
+| Solo Act | Rare | xMult | x1 + 0.75 per empty Joker slot. |
+| Double Stamp | Rare | rule | Stamps trigger twice: Encore x4, Tip +4, Refund +2, Memory two Sparks. |
+| Vending Machine | Common | rule | After each round won, a random item drops into a free item slot (shop stream). |
+| Demolition Crew | Uncommon | Chips | +15 Chips per block cleared by the placement. |
+| Overachiever | Uncommon | +Mult, scaling | Gains +1 Mult whenever a round ends at 1.5x its target or more. |
+| Full Pockets | Common | +Mult | +1.5 Mult per item held. |
+
+### 21.4 New items (4)
+
+| Item | Cost | Target | Effect |
+|---|---:|---|---|
+| Turbo (`overclock`) | 5 | none | The next placement this round gets x2 Mult (step 6, "Turbo"). |
+| Tune-Up | 4 | tray slot | Level up the shape family of that tray piece, like a Schematic. |
+| Coffee Break | 3 | none | +1 Refresh this round (refused during The Lockdown; counts as a rescue). |
+| Coin Roll | 3 | none | Gain Credits equal to the round number (max 12). |
+
+### 21.5 Legendary Jokers (4)
+
+A fourth rarity, **Legendary** (lilac frame, gem and pill; faster glint with twinkles; its own reveal and "get" stings; a LEGENDARY! callout with confetti when bought or taken from a crate). Cost 12, sell 6, **unique** (one copy each). Where they come from:
+
+- **Boss Crates:** the crate's Joker is Legendary 12% of the time after the act 2 boss, 20% after the final boss, 30% in Overtime (never after the first boss). Otherwise Rare 40%, Uncommon the rest. If every Legendary is owned, the crate falls back to a Rare.
+- **Shops:** act 3 rarity weights 40/40/19/**1**, Overtime 34/40/23/**3**. Acts 1-2 never offer one.
+
+| Legendary | Rule | Why it is special |
+|---|---|---|
+| **The Avalanche** | After a clear, every block falls straight down its column (`BMBoard.settle`). New full lines clear as **chain waves** (up to 5 per placement); wave *n* scores its lines (100 per line, +40 per extra line, +10 per cell) at the placement's Mult **x2^(n-1)**. Wave lines refill placements and count as lines cleared. | It turns the puzzle into a cascade game and is the first card that makes the pipeline's clear waves real (The Echo Chamber would halve wave Chips). |
+| **Hall of Mirrors** | Every other Joker's scoring effect triggers twice: Chips and Mult add twice, xMult applies twice (squared). Mimic's copy is mirrored too. | Every build becomes its own square. |
+| **Philosopher's Stone** | Material effects are doubled (Chrome +40/cell, Neon +1 Mult/cell, Gold +2 Credits/cell, Glass x2.25). Every placed bag piece without a material permanently gains a random one (shapes stream). | The bag transforms into metal over a run. |
+| **Supernova** | x1 Mult plus x0.5 for every line cleared earlier in the round (resets each round). | Each round builds to a crescendo: long Overtime rounds end in huge finishers. |
+
+All four respect the machine's limit (a wave that reaches it breaks the machine) and presentation only reads the record: the board pops each wave half a second apart with an "AVALANCHE xN!" callout, the receipt lists every wave and the total, and transmutations pop a "TRANSMUTED" label.
+
+### 21.6 Achievements: page 5, "Legends" (12)
+
+Once Upon a Legend (own one, Silver) · Double Legend (two at once, Gold, secret) · Pantheon (own all four across runs, Legendary; lifetime `legends_seen`) · Chain Reaction (three Avalanche waves in one placement, Gold) · Mirror World (Hall of Mirrors doubles four other Jokers in one placement, Gold) · Heavy Metal (15 pieces with a material, Silver) · Going Nova (Supernova at x10+, Gold) · Snowed In (Snowball x2+, Silver) · Compound Growth (+5 interest, Bronze) · Wide Rack (7 Joker slots, Silver) · Billionaire (1,000,000,000 in one placement, Legendary) · Fallen Hero (lose a run with a Legendary, Bronze, secret). The catalog is now 60 achievements on five pages; Block Maniac needs all of them.

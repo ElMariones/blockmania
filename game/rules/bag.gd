@@ -136,3 +136,11 @@ static func upgraded_count(run: BMRun) -> int:
 		if BMPieces.is_upgraded(p):
 			n += 1
 	return n
+
+
+static func material_count(run: BMRun, material: String) -> int:
+	var n := 0
+	for p in run.bag:
+		if String(p.get("material", "")) == material:
+			n += 1
+	return n

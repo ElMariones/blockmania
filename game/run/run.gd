@@ -5,7 +5,7 @@ extends RefCounted
 ## a result Dictionary ({ok: bool, error: String, ...}). Seed + history replays a run exactly.
 ## to_dict()/from_dict() capture a complete state between actions (saves, previews, tests).
 
-const SCHEMA_VERSION := 5
+const SCHEMA_VERSION := 6
 
 enum Phase { ROUND, ROUND_RESULT, SHOP, RUN_WON, RUN_LOST, ABANDONED }
 
@@ -50,6 +50,9 @@ class RoundState:
 	var locked_slot := -1 ## The Warden: barred tray slot until the first clear.
 	var combo_misses := 0 ## Non-clearing placements since the last clear (combo grace).
 	var tombs: Array = [] ## The Undertaker: cells where tombstones rose ([x, y]).
+	var pending_xmult := 1.0 ## Turbo item: xMult for the next placement.
+	var lines_cleared := 0 ## Lines cleared this round (Supernova).
+	var refresh_used := false ## A Refresh or Second Tray was used this round (Hot Streak).
 
 	func to_dict() -> Dictionary:
 		var fixed: Array = []
@@ -67,6 +70,7 @@ class RoundState:
 			"size_history": size_history.duplicate(), "feats_seen": feats_seen.duplicate(),
 			"patience_store": patience_store, "overflow_paid": overflow_paid, "insured": insured,
 			"locked_slot": locked_slot, "tombs": tombs.duplicate(true), "combo_misses": combo_misses,
+			"pending_xmult": pending_xmult, "lines_cleared": lines_cleared, "refresh_used": refresh_used,
 		}
 
 	static func from_dict(d: Dictionary) -> RoundState:
@@ -107,6 +111,9 @@ class RoundState:
 		r.combo_misses = int(d.get("combo_misses", 0))
 		for t in d.get("tombs", []):
 			r.tombs.append([int(t[0]), int(t[1])])
+		r.pending_xmult = float(d.get("pending_xmult", 1.0))
+		r.lines_cleared = int(d.get("lines_cleared", 0))
+		r.refresh_used = bool(d.get("refresh_used", false))
 		return r
 
 
@@ -148,6 +155,11 @@ var machine_broken := false
 ## Lifetime profile counters this run has already added (BMSaveStore.record_run), so a run that
 ## is won and then continues into Overtime is never counted twice.
 var recorded := {}
+## Run-long values of scaling Jokers (BMJokers `scaling`: Snowball, Hot Streak, Overachiever),
+## shared by copies of the same card and dropped when the last copy leaves.
+var joker_state := {}
+## Joker slots added by Rack Extender.
+var extra_slots := 0
 
 
 # --- Construction ------------------------------------------------------------------------
@@ -199,7 +211,24 @@ func kit() -> Dictionary:
 
 
 func joker_slots() -> int:
-	return int(kit().joker_slots)
+	return int(kit().joker_slots) + extra_slots
+
+
+## Current run-long value of a scaling Joker (its starting value when it has none yet).
+func joker_value(id: String) -> float:
+	return float(joker_state.get(id, BMJokers.scaling_start(id)))
+
+
+func _grow_joker(id: String, amount: float) -> void:
+	if jokers.has(id):
+		joker_state[id] = joker_value(id) + amount
+
+
+## A Refresh or Second Tray was used: Hot Streak cools down.
+func _used_refresh() -> void:
+	round_state.refresh_used = true
+	if joker_state.has("hot_streak"):
+		joker_state["hot_streak"] = 1.0
 
 
 func family_level(family: StringName) -> int:
@@ -309,8 +338,14 @@ func consumable_usable(index: int) -> String:
 		"lucky_paint", "blueprint":
 			if tray_is_empty():
 				return "The tray is empty."
-		"polish", "spark", "cash_out", "emergency_brick":
+		"polish", "spark", "cash_out", "emergency_brick", "overclock", "coin_roll":
 			pass
+		"coffee_break":
+			if current_boss() == "lockdown":
+				return "The Lockdown disables Refresh this round."
+		"tune_up":
+			if tray_is_empty():
+				return "The tray is empty."
 		_:
 			if not BMConsumables.is_implemented(id):
 				return "Not usable yet in this build."
@@ -406,6 +441,7 @@ func refresh() -> Dictionary:
 	if tray_is_empty():
 		return _fail("The tray is empty.")
 	round_state.refreshes_left -= 1
+	_used_refresh()
 	var result := _do_tray_refresh("Refresh")
 	history.append({"a": "refresh"})
 	result.merge(_after_round_action(), true)
@@ -457,9 +493,24 @@ func use_consumable(index: int, t: Dictionary = {}) -> Dictionary:
 		"spark":
 			round_state.pending_mult += 1.0
 		"second_tray":
+			_used_refresh()
 			result.merge(_do_tray_refresh("Second Tray"), true)
 			result.type = "use"
 			result.item = id
+		"overclock":
+			round_state.pending_xmult *= BMConsumables.OVERCLOCK_X_MULT
+		"tune_up":
+			var fam := String(tray[target.slot].family)
+			family_levels[fam] = int(family_levels.get(fam, 0)) + 1
+			result.slot = target.slot
+			result.family = fam
+			result.level = family_levels[fam]
+		"coffee_break":
+			round_state.refreshes_left += 1
+		"coin_roll":
+			var gain := mini(BMConsumables.COIN_ROLL_MAX, round_number)
+			add_credits(gain)
+			result.credits = gain
 		"extra_turn":
 			round_state.placements_left = mini(BMConsumables.MAX_PLACEMENTS, round_state.placements_left + 2)
 			if round_state.status == OUT_OF_PLACEMENTS:
@@ -519,7 +570,7 @@ func _validate_target(id: String, t: Dictionary) -> Dictionary:
 			var kind := BMConsumables.target_kind(id)
 			if slot_locked(slot):
 				return {"error": "The Warden barred that slot."}
-			if kind != "slot" and tray[slot].is_empty():
+			if (kind != "slot" or id == "tune_up") and tray[slot].is_empty():
 				return {"error": "That tray slot is empty."}
 			if kind == "slot_color":
 				var color := int(t.get("color", -1))
@@ -715,6 +766,10 @@ func buy_tool(offer: int, targets: Array = [], color: int = -1) -> Dictionary:
 		"schematic":
 			var key := String(o.family)
 			family_levels[key] = int(family_levels.get(key, 0)) + 1
+		"slot":
+			if joker_slots() >= BMRunConfig.MAX_JOKER_SLOTS:
+				return _fail("Your Joker rack is already at %d slots." % BMRunConfig.MAX_JOKER_SLOTS)
+			extra_slots += 1
 	credits -= int(def.cost)
 	shop.tools[offer] = {}
 	stats.tools_bought += 1
@@ -767,6 +822,8 @@ func sell_joker(index: int) -> Dictionary:
 		return _fail("Repay the loan first (%d Credits owed)." % loan_debt)
 	var value := BMJokers.sell_value(id)
 	jokers.remove_at(index)
+	if not jokers.has(id):
+		joker_state.erase(id)
 	credits = mini(BMRunConfig.CREDIT_CAP, credits + value)
 	jokers_sold += 1
 	history.append({"a": "sell", "i": index})
@@ -960,7 +1017,7 @@ func _has_rescue_consumable() -> bool:
 	if round_state.patch_ready:
 		return true
 	for id in consumables:
-		if id == "second_tray" and current_boss() != "lockdown":
+		if id in ["second_tray", "coffee_break"] and current_boss() != "lockdown":
 			return true
 		if id in ["eraser", "punch", "color_purge", "blueprint", "emergency_brick"] and BMConsumables.is_implemented(id):
 			return true
@@ -971,6 +1028,7 @@ func _win_round() -> void:
 	var rs := round_state
 	rs.status = WON
 	var unused := maxi(0, rs.placements_left)
+	var held := credits
 	var lines: Array = []
 	lines.append({"label": "Round won", "value": BMRunConfig.WIN_CREDITS})
 	var bonus := mini(BMRunConfig.UNUSED_PLACEMENT_BONUS_CAP, unused / 2)
@@ -984,6 +1042,32 @@ func _win_round() -> void:
 			lines.append({"label": "Spare Parts", "value": BMRunConfig.SPARE_PARTS_CREDITS})
 	for i in rs.cash_out:
 		lines.append({"label": "Cash Out", "value": BMRunConfig.CASH_OUT_CREDITS})
+	# Overkill: every full half-target scored beyond the target pays a Credit.
+	var overkill := 0
+	if rs.target > 0:
+		overkill = mini(BMRunConfig.OVERKILL_CAP, floori(float(rs.score - rs.target) / (rs.target * BMRunConfig.OVERKILL_STEP)))
+	if overkill > 0:
+		lines.append({"label": "Overkill (%s of target)" % ("%.1fx" % (float(rs.score) / rs.target)), "value": overkill})
+	# Interest on the Credits held when the round ended.
+	var interest := mini(BMRunConfig.INTEREST_CAP, held / BMRunConfig.INTEREST_STEP)
+	if interest > 0:
+		lines.append({"label": "Interest (%d held)" % held, "value": interest})
+	# Scaling Jokers that grow when a round is won.
+	var growth: Array = []
+	if jokers.has("overachiever") and rs.score >= rs.target * BMJokers.OVERACHIEVER_RATIO:
+		_grow_joker("overachiever", 1.0)
+		growth.append("Overachiever grew to +%s Mult" % BMJokers._num(joker_value("overachiever")))
+	if jokers.has("hot_streak") and not rs.refresh_used:
+		_grow_joker("hot_streak", BMJokers.HOT_STREAK_STEP)
+		growth.append("Hot Streak heated up to x%s Mult" % BMJokers._num(joker_value("hot_streak")))
+	var drops: Array = []
+	for i in jokers.count("vending_machine"):
+		if consumables.size() < BMRunConfig.CONSUMABLE_SLOTS:
+			var pool := BMConsumables.shop_pool()
+			var item: String = pool[rng_shop.randi_range(0, pool.size() - 1)]
+			consumables.append(item)
+			drops.append(item)
+			growth.append("Vending Machine dropped %s" % BMConsumables.get_def(item).name)
 	if loan_debt > 0:
 		var pay := mini(BMJokers.LOAN_INSTALLMENT, loan_debt)
 		loan_debt -= pay
@@ -996,7 +1080,7 @@ func _win_round() -> void:
 	stats.rounds_won += 1
 	last_round_result = {"round": round_number, "score": rs.score, "target": rs.target,
 		"unused": unused, "credit_lines": lines, "credits_gained": credits - before,
-		"boss": current_boss()}
+		"boss": current_boss(), "interest": interest, "overkill": overkill, "events": growth, "drops": drops}
 	phase = Phase.ROUND_RESULT
 
 
@@ -1032,8 +1116,22 @@ func _open_shop() -> void:
 
 ## Boss Crate: a Joker (uncommon or rare), an item, and a stack of Credits.
 func _roll_crate() -> Array:
-	var rarity := BMJokers.RARE if rng_shop.randi_range(1, 100) <= 40 else BMJokers.UNCOMMON
+	var legendary_pct := 0
+	if BMRunConfig.is_overtime(round_number):
+		legendary_pct = BMRunConfig.CRATE_LEGENDARY_OVERTIME
+	elif BMRunConfig.act_of(round_number) == 2:
+		legendary_pct = BMRunConfig.CRATE_LEGENDARY_ACT2
+	elif BMRunConfig.act_of(round_number) >= 3:
+		legendary_pct = BMRunConfig.CRATE_LEGENDARY_ACT3
+	var roll := rng_shop.randi_range(1, 100)
+	var rarity := BMJokers.UNCOMMON
+	if roll <= legendary_pct:
+		rarity = BMJokers.LEGENDARY
+	elif roll <= legendary_pct + BMRunConfig.CRATE_RARE:
+		rarity = BMJokers.RARE
 	var joker := _pick_joker(rarity, [])
+	if joker == "":
+		joker = _pick_joker(BMJokers.RARE, [])
 	var pool := BMConsumables.shop_pool()
 	var item: String = pool[rng_shop.randi_range(0, pool.size() - 1)]
 	return [{"kind": "joker", "id": joker}, {"kind": "item", "id": item}, {"kind": "credits", "value": BMRunConfig.CRATE_CREDITS}]
@@ -1076,7 +1174,7 @@ func _fill_shop_offers() -> void:
 		var rarity := rng_shop.weighted_index(weights)
 		var pick := _pick_joker(rarity, offered)
 		if pick == "":
-			for r in [BMJokers.COMMON, BMJokers.UNCOMMON, BMJokers.RARE]:
+			for r in [BMJokers.RARE, BMJokers.UNCOMMON, BMJokers.COMMON]:
 				pick = _pick_joker(r, offered)
 				if pick != "":
 					break
@@ -1101,6 +1199,8 @@ func _fill_shop_offers() -> void:
 			for o in tool_offers:
 				if o.id == tid and tid != "schematic":
 					taken = true
+			if tid == "rack_extender" and joker_slots() >= BMRunConfig.MAX_JOKER_SLOTS:
+				taken = true
 			tool_weights.append(0 if taken else int(BMTools.WEIGHTS[tid]))
 		var id: String = tool_ids[rng_shop.weighted_index(tool_weights)]
 		var offer := {"id": id, "family": ""}
@@ -1175,6 +1275,7 @@ func to_dict(include_history: bool = true) -> Dictionary:
 		"history": history.duplicate(true) if include_history else [], "stats": stats.duplicate(),
 		"last_round_result": last_round_result.duplicate(true), "end_reason": end_reason,
 		"overtime": overtime, "machine_broken": machine_broken, "recorded": recorded.duplicate(),
+		"joker_state": joker_state.duplicate(), "extra_slots": extra_slots,
 	}
 
 
@@ -1218,6 +1319,11 @@ static func from_dict(d: Dictionary) -> BMRun:
 	run.overtime = bool(d.get("overtime", false))
 	run.machine_broken = bool(d.get("machine_broken", false))
 	run.recorded = _integral(d.get("recorded", {}).duplicate())
+	run.joker_state = {}
+	var js: Dictionary = d.get("joker_state", {})
+	for k in js:
+		run.joker_state[String(k)] = float(js[k])
+	run.extra_slots = int(d.get("extra_slots", 0))
 	return run
 
 

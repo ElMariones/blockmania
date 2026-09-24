@@ -350,7 +350,7 @@ func _refresh_jokers() -> void:
 	var can_edit := run.can_act_in_round()
 	for i in run.jokers.size():
 		var id := run.jokers[i]
-		var card := BMCard.joker_rack(run, id)
+		var card := BMCard.joker_rack(run, id, BMCard.rack_height(run.joker_slots()))
 		card.reduced_motion = main.settings.reduced_motion
 		card.drag_index = i
 		card.drag_enabled = can_edit
@@ -368,7 +368,7 @@ func _refresh_jokers() -> void:
 		_joker_cards.append(card)
 	for i in range(run.jokers.size(), run.joker_slots()):
 		var empty := BMStyle.panel("panel_inset", Vector4.ZERO)
-		empty.custom_minimum_size = Vector2(0, 124)
+		empty.custom_minimum_size = Vector2(0, BMCard.rack_height(run.joker_slots()))
 		var l := BMStyle.label("empty slot", 20, Color(BMStyle.TEXT_DIM, 0.5))
 		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
@@ -754,7 +754,17 @@ func _do_action(a: Dictionary) -> void:
 			if BMConsumables.target_kind(r.item) != "":
 				_present_tool(r)
 			else:
-				_set_message("Used %s." % BMConsumables.get_def(r.item).name, BMStyle.MINT_L)
+				var msg := "Used %s." % BMConsumables.get_def(r.item).name
+				match String(r.item):
+					"overclock":
+						msg = "TURBO: NEXT PLACEMENT x2 MULT"
+					"coffee_break":
+						msg = "COFFEE BREAK: +1 REFRESH"
+					"coin_roll":
+						msg = "COIN ROLL: +%d CREDITS" % int(r.get("credits", 0))
+						if BMFx.instance:
+							BMFx.instance.coins(_items_box.get_global_rect().get_center(), _credits.get_global_rect().get_center(), mini(10, int(r.get("credits", 0))))
+				_set_message(msg, BMStyle.MINT_L)
 				BMAudio.sfx("item")
 			if r.item == "second_tray":
 				_spin_tray(0.1, String(r.get("hand", "")))
@@ -820,6 +830,25 @@ func _present_placement(r: Dictionary) -> void:
 				var c := ref.get_ref() as BMCard
 				if c != null:
 					c.pulse("+%d STORED" % BMJokers.PATIENCE_STEP, BMStyle.SKY_L))
+	var waves: Array = r.get("waves", [])
+	for w in range(1, waves.size()):
+		var at := board_view.get_global_rect().get_center()
+		var wave: Dictionary = waves[w]
+		var label := "AVALANCHE x%d!" % int(pow(2.0, w))
+		var pts := "+" + BMUI.fmt_score(int(wave.points))
+		BMAudio.sfx_later("clear_%d" % mini(3, w + 1), 0.55 * w, 1.0 + 0.1 * w)
+		get_tree().create_timer(0.55 * w).timeout.connect(func() -> void:
+			var f := BMFx.instance
+			if f == null:
+				return
+			f.pop_text(at + Vector2(0, -60), label, BMStyle.LILAC, 80, 60.0, 1.2)
+			f.pop_text(at + Vector2(0, 30), pts, BMStyle.SUN, 60, 70.0, 1.0)
+			f.shake(6.0 + 4.0 * w)
+			f.confetti(board_view.get_global_rect(), 30 + 20 * w))
+	if String(r.get("transmuted", "")) != "" and fx:
+		var m := String(r.transmuted)
+		fx.pop_text(center + Vector2(0, 50), "TRANSMUTED: " + String(BMPieces.MATERIAL_DEFS[m].name).to_upper(), BMStyle.SUN_L, 30, 50.0, 1.2)
+		fx.sparks(center, BMStyle.SUN_L, 18)
 	if int(r.get("unlocked", -1)) >= 0:
 		_warden_unlock(int(r.unlocked))
 	if r.has("tomb"):
@@ -1005,7 +1034,16 @@ func _write_receipt(r: Dictionary) -> void:
 	for e in r.get("events", []):
 		rows.append({"text": e, "color": Color("#8a5a00")})
 	rows.append({"dashes": true})
-	rows.append({"text": "%s x %s" % [BMUI.fmt_int(r.chips), BMUI.fmt_mult(r.mult)], "value": "= %s" % BMUI.fmt_score(r.points), "bold": true, "value_color": Color("#c42848")})
+	var waves: Array = r.get("waves", [])
+	if waves.size() > 1:
+		var first: Dictionary = waves[0]
+		rows.append({"text": "%s x %s" % [BMUI.fmt_int(first.chips), BMUI.fmt_mult(first.mult)], "value": "= %s" % BMUI.fmt_score(int(first.points)), "value_color": Color("#c42848")})
+		for w in range(1, waves.size()):
+			var wave: Dictionary = waves[w]
+			rows.append({"text": "Avalanche wave %d  (x%d chain)" % [w + 1, int(pow(2.0, w))], "value": "+%s" % BMUI.fmt_score(int(wave.points)), "value_color": Color("#7a3fd0")})
+		rows.append({"text": "Total", "value": "= %s" % BMUI.fmt_score(r.points), "bold": true, "value_color": Color("#c42848")})
+	else:
+		rows.append({"text": "%s x %s" % [BMUI.fmt_int(r.chips), BMUI.fmt_mult(r.mult)], "value": "= %s" % BMUI.fmt_score(r.points), "bold": true, "value_color": Color("#c42848")})
 	if r.combo_after > 0:
 		rows.append({"text": "Combo now x%d" % r.combo_after, "color": Color(BMStyle.INK, 0.6)})
 	for f in r.get("feats", []):
@@ -1250,6 +1288,10 @@ func _show_round_result() -> void:
 	trow.add_child(BMStyle.icon_rect("icon_coin", 0.5))
 	pv.add_child(trow)
 	v.add_child(paper)
+	for e in res.get("events", []):
+		var el := BMStyle.label(String(e), 20, BMStyle.MINT_L, true)
+		el.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		v.add_child(el)
 	var total := BMStyle.hbox(8)
 	total.alignment = BoxContainer.ALIGNMENT_CENTER
 	total.add_child(BMStyle.label("YOU HAVE", 30, BMStyle.CREAM, true, 8))
@@ -1420,6 +1462,7 @@ const TOOL_PROMPTS := {
 	"blueprint": "BLUEPRINT: click a tray piece to swap",
 	"emergency_brick": "BRICK: throw it at a tray slot, or click one",
 	"patch_panel": "PATCH PANEL: click one block to remove",
+	"tune_up": "TUNE-UP: click a tray piece to level up its family",
 }
 
 
@@ -1727,6 +1770,15 @@ func _present_tool(r: Dictionary) -> void:
 			_set_message("BLUEPRINT: A FRESH PIECE, DRAFTED", BMStyle.SKY_L)
 		"emergency_brick":
 			_brick_impact(r)
+		"tune_up":
+			BMAudio.sfx("tool_blueprint")
+			var sl: BMTraySlot = slots[int(r.slot)]
+			sl.land()
+			sl.flare()
+			if fx:
+				fx.stars(sl.get_global_rect().get_center(), 8, 90.0, BMStyle.SUN_L)
+				fx.pop_text(sl.get_global_rect().get_center() + Vector2(0, -80), "LV %d!" % int(r.level), BMStyle.SUN_L, 40, 50.0, 1.0)
+			_set_message("TUNE-UP: %s IS NOW LEVEL %d" % [BMShapes.family(StringName(r.family)).name.to_upper(), int(r.level)], BMStyle.SUN_L)
 
 
 func _brick_impact(r: Dictionary) -> void:

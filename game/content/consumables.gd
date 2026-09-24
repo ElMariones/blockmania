@@ -19,6 +19,11 @@ const CATALOG := [
 	{"id": "punch", "name": "Punch", "cost": 4, "target": "cell", "text": "Smash a plus-shaped area: remove up to 5 blocks around the cell you hit."},
 	{"id": "color_purge", "name": "Color Purge", "cost": 5, "target": "color", "text": "Remove every block of one color from the board. Stone is immune."},
 	{"id": "emergency_brick", "name": "Emergency Brick", "cost": 4, "target": "slot", "text": "Throw a brick at a tray slot: it becomes a temporary one-block piece. A piece it hits goes to the discard pile."},
+	# --- Engine update (2026-09-24) ---
+	{"id": "overclock", "name": "Turbo", "cost": 5, "target": "", "text": "The next placement this round gets x2 Mult."},
+	{"id": "tune_up", "name": "Tune-Up", "cost": 4, "target": "slot", "text": "Level up the shape family of a tray piece, like a Schematic (+25 Chips, +0.25 Mult per level)."},
+	{"id": "coffee_break", "name": "Coffee Break", "cost": 3, "target": "", "text": "+1 Refresh this round."},
+	{"id": "coin_roll", "name": "Coin Roll", "cost": 3, "target": "", "text": "Gain Credits equal to the round number (max 12)."},
 ]
 
 ## Blueprint choices: [family, rotation]. Order is the picker order.
@@ -29,6 +34,8 @@ const ERASER_CELLS := 2
 const PUNCH_OFFSETS := [Vector2i(0, 0), Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]
 
 const MAX_PLACEMENTS := 20
+const OVERCLOCK_X_MULT := 2.0
+const COIN_ROLL_MAX := 12
 
 static var _by_id := {}
 

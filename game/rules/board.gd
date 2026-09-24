@@ -166,6 +166,29 @@ func clear_cells(targets: Array[Vector2i]) -> Array[Dictionary]:
 	return removed
 
 
+## Gravity (The Avalanche): every block falls straight down its column until it rests on a
+## block or the bottom edge. Returns [[from, to], ...] for presentation.
+func settle() -> Array:
+	var moves: Array = []
+	for x in SIZE:
+		var write := SIZE - 1
+		for y in range(SIZE - 1, -1, -1):
+			var i := y * SIZE + x
+			if cells[i] == EMPTY:
+				continue
+			if y != write:
+				var j := write * SIZE + x
+				cells[j] = cells[i]
+				owners[j] = owners[i]
+				mats[j] = mats[i]
+				cells[i] = EMPTY
+				owners[i] = -1
+				mats[i] = 0
+				moves.append([Vector2i(x, y), Vector2i(x, write)])
+			write -= 1
+	return moves
+
+
 func to_dict() -> Dictionary:
 	return {"cells": Array(cells), "owners": Array(owners), "mats": Array(mats)}
 

@@ -153,6 +153,15 @@ func play_resolution(r: Dictionary) -> void:
 		var mat: String = BMPieces.MATERIALS[int(e.get("mat", 0))]
 		_fx_clears.append({"cell": cell, "color": e.color, "mat": mat, "finish": BMBlockPainter.finish_for(mat, block_skin),
 			"t": 0.0, "delay": 0.03 * d, "burst": false})
+	# Avalanche chain waves pop after the first clear, one beat per wave.
+	var waves: Array = r.get("waves", [])
+	for w in range(1, waves.size()):
+		var k := 0
+		for e in waves[w].get("cleared", []):
+			var mat: String = BMPieces.MATERIALS[int(e.get("mat", 0))]
+			_fx_clears.append({"cell": e.cell, "color": e.color, "mat": mat, "finish": BMBlockPainter.finish_for(mat, block_skin),
+				"t": 0.0, "delay": 0.55 * w + 0.012 * k, "burst": false})
+			k += 1
 	queue_redraw()
 
 

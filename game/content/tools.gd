@@ -2,7 +2,7 @@ class_name BMTools
 extends RefCounted
 ## Workshop cards (GDD §16.4): one-time bag edits bought in the shop and applied immediately
 ## to pieces chosen from the bag. `max_targets` 0 = no piece target (Schematic).
-## `kind`: material | stamp | copy | remove | rotate | repaint | schematic. Values provisional.
+## `kind`: material | stamp | copy | remove | rotate | repaint | schematic | slot. Values provisional.
 
 const CATALOG := [
 	{"id": "chrome_plating", "name": "Chrome Plating", "cost": 3, "kind": "material", "value": "chrome", "max_targets": 2, "text": "Give up to 2 pieces the Chrome material."},
@@ -19,13 +19,14 @@ const CATALOG := [
 	{"id": "turntable", "name": "Turntable", "cost": 2, "kind": "rotate", "max_targets": 2, "text": "Rotate up to 2 pieces 90 degrees clockwise."},
 	{"id": "repaint", "name": "Repaint", "cost": 2, "kind": "repaint", "max_targets": 3, "text": "Repaint up to 3 pieces to a color of your choice."},
 	{"id": "schematic", "name": "Schematic", "cost": 3, "kind": "schematic", "max_targets": 0, "text": "Level up a shape family: its pieces gain +25 Chips and +0.25 Mult per level when placed."},
+	{"id": "rack_extender", "name": "Rack Extender", "cost": 9, "kind": "slot", "max_targets": 0, "text": "+1 Joker slot for the rest of the run (up to 7)."},
 ]
 
 ## Shop draw weights (schematic appears often enough to matter; bag surgery is common).
 const WEIGHTS := {
 	"chrome_plating": 8, "neon_tubing": 7, "gold_leaf": 4, "glassworks": 5, "prism_coat": 4,
 	"encore_stamp": 4, "refund_stamp": 4, "tip_stamp": 5, "memory_stamp": 4,
-	"copier": 6, "shredder": 7, "turntable": 5, "repaint": 5, "schematic": 12,
+	"copier": 6, "shredder": 7, "turntable": 5, "repaint": 5, "schematic": 12, "rack_extender": 3,
 }
 
 static var _by_id := {}

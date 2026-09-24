@@ -26,7 +26,9 @@ func test_clean_sweep() -> void:
 
 func test_crossbar_needs_row_and_column() -> void:
 	var cross := [".......1", ".......1", ".......1", ".......1", ".......1", ".......1", ".......1", "1111111."]
-	eq(_joker_value(_place(cross, shape(&"single"), Vector2i(7, 7), ["crossbar"]), "crossbar"), 150, "row+col")
+	eq(_joker_value(_place(cross, shape(&"single"), Vector2i(7, 7), ["crossbar"]), "crossbar"), 200, "row+col")
+	var two_rows := ["........", "........", "........", "........", "........", "........", "1111111.", "1111111."]
+	eq(_joker_value(_place(two_rows, shape(&"bar2", 1), Vector2i(7, 6), ["crossbar"]), "crossbar"), 100, "two rows")
 	eq(_joker_value(_place(ONE_ROW, shape(&"single"), Vector2i(7, 0), ["crossbar"]), "crossbar"), null, "row only")
 
 
@@ -70,7 +72,9 @@ func test_chain_link_uses_combo() -> void:
 
 func test_wide_awake_hollow_point_pressure_cooker() -> void:
 	var two := [".......1", ".......1", ".......1", ".......1", ".......1", ".......1", ".......1", "1111111."]
-	eq(_joker_value(_place(two, shape(&"single"), Vector2i(7, 7), ["wide_awake"]), "wide_awake"), 3.0, "2 lines")
+	eq(_joker_value(_place(two, shape(&"single"), Vector2i(7, 7), ["wide_awake"]), "wide_awake"), 5.0, "2 lines")
+	eq(_joker_value(_place(ONE_ROW, shape(&"single"), Vector2i(7, 0), ["wide_awake"]), "wide_awake"), 2.0, "1 line")
+	eq(_joker_value(_place(EMPTY_ROWS, shape(&"single"), Vector2i(0, 0), ["wide_awake"]), "wide_awake"), null, "no clear")
 	eq(_joker_value(_place(EMPTY_ROWS, shape(&"single"), Vector2i(0, 0), ["hollow_point"]), "hollow_point"), 0.5, "empty board")
 	var busy := ["1111111.", "1111111.", "1111111.", "1111111.", "1111111.", "........", "........", "........"]
 	# 35 occupied -> 29 empty: no Hollow Point; Pressure Cooker floor(35/6)=5 -> +2.5
@@ -111,7 +115,9 @@ func test_jackpot_window_exactly_three() -> void:
 	]
 	var r := _place(three, shape(&"bar2", 1), Vector2i(3, 3), ["jackpot_window"])
 	eq(r.lines, 3, "two rows + one column")
-	eq(_joker_value(r, "jackpot_window"), 4.0, "x4")
+	eq(_joker_value(r, "jackpot_window"), 5.0, "x5")
+	eq(_joker_value(_place(CROSS, shape(&"single"), Vector2i(7, 7), ["jackpot_window"]), "jackpot_window"), 2.5, "two lines x2.5")
+	eq(_joker_value(_place(ONE_ROW, shape(&"single"), Vector2i(7, 0), ["jackpot_window"]), "jackpot_window"), null, "one line")
 
 
 func test_compound_interest_every_second_clear() -> void:
@@ -122,11 +128,10 @@ func test_compound_interest_every_second_clear() -> void:
 
 func test_last_stand() -> void:
 	var r := _place(EMPTY_ROWS, shape(&"single"), Vector2i(0, 0), ["last_stand"], func(run: BMRun) -> void:
-		run.round_state.refreshes_left = 0
-		run.round_state.placements_left = 3)
-	eq(_joker_value(r, "last_stand"), 2.0, "no refresh, 3 left")
-	var r2 := _place(EMPTY_ROWS, shape(&"single"), Vector2i(0, 0), ["last_stand"], func(run: BMRun) -> void: run.round_state.placements_left = 3)
-	eq(_joker_value(r2, "last_stand"), null, "refresh still available")
+		run.round_state.placements_left = 4)
+	eq(_joker_value(r, "last_stand"), 2.5, "4 left")
+	var r2 := _place(EMPTY_ROWS, shape(&"single"), Vector2i(0, 0), ["last_stand"], func(run: BMRun) -> void: run.round_state.placements_left = 5)
+	eq(_joker_value(r2, "last_stand"), null, "5 left")
 
 
 func test_long_game() -> void:
@@ -237,8 +242,14 @@ func test_neon_sign_glass_cannon_specialist_recycler() -> void:
 		for x in 7:
 			r.board.mats[x] = BMPieces.material_index("neon"))
 	eq(_joker_value(neon_row, "neon_sign"), 3.5, "7 Neon cells x 0.5")
-	var glass := _place(ONE_ROW, shape(&"single"), Vector2i(7, 0), ["glass_cannon"], func(r: BMRun) -> void: r.board.mats[0] = BMPieces.material_index("glass"))
-	eq(_joker_value(glass, "glass_cannon"), 1.5, "Glass cleared")
+	var glass := _place(EMPTY_ROWS, shape(&"single"), Vector2i(0, 0), ["glass_cannon"], func(r: BMRun) -> void:
+		for i in 3:
+			r.bag[i].material = "glass")
+	eq(_joker_value(glass, "glass_cannon"), 1.9, "3 Glass pieces: x1.9")
+	var lots := _place(EMPTY_ROWS, shape(&"single"), Vector2i(0, 0), ["glass_cannon"], func(r: BMRun) -> void:
+		for i in 20:
+			r.bag[i].material = "glass")
+	eq(_joker_value(lots, "glass_cannon"), 4.0, "capped at x4")
 	eq(_joker_value(_place(ONE_ROW, shape(&"single"), Vector2i(7, 0), ["glass_cannon"]), "glass_cannon"), null, "no Glass")
 	var spec := _place(EMPTY_ROWS, shape(&"bar3"), Vector2i(0, 0), ["specialist"], func(r: BMRun) -> void: r.family_levels["bar3"] = 3)
 	eq(_joker_value(spec, "specialist"), 1.5, "Lv 3 x 0.5")
@@ -342,12 +353,16 @@ func test_full_tank() -> void:
 
 
 func test_keystone() -> void:
-	eq(_joker_value(_place(CROSS, shape(&"single"), Vector2i(7, 7), ["keystone"]), "keystone"), 2.0, "a single clears two lines")
-	eq(_joker_value(_place(ONE_ROW, shape(&"single"), Vector2i(7, 0), ["keystone"]), "keystone"), null, "one line: no")
+	eq(_joker_value(_place(CROSS, shape(&"single"), Vector2i(7, 7), ["keystone"]), "keystone"), 4.0, "a single clears two lines")
+	eq(_joker_value(_place(ONE_ROW, shape(&"single"), Vector2i(7, 0), ["keystone"]), "keystone"), 2.0, "one line")
+	eq(_joker_value(_place(EMPTY_ROWS, shape(&"single"), Vector2i(0, 0), ["keystone"]), "keystone"), null, "no clear")
+	var four := ["........", "........", "........", "........", "........", "........", "........", "....1111"]
+	eq(_joker_value(_place(four, shape(&"bar4"), Vector2i(0, 7), ["keystone"]), "keystone"), null, "4 blocks: too big")
 
 
 func test_overflow_pays_for_wasted_refills() -> void:
 	var run := run_with(CROSS, [shape(&"single")], ["overflow"])
+	run.round_state.target = 99999
 	run.round_state.placement_cap = 15
 	run.round_state.placements_left = 15
 	var before := run.credits

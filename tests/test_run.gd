@@ -34,6 +34,7 @@ func test_line_clear_refills_one_placement_per_line() -> void:
 func test_double_clear_refills_two_but_never_above_cap() -> void:
 	var rows := [".......1", ".......1", ".......1", ".......1", ".......1", ".......1", "........", "111111.."]
 	var run := run_with(rows, [shape(&"square2"), shape(&"single")])
+	run.round_state.target = 99999
 	run.round_state.placement_cap = 15
 	run.round_state.placements_left = 10
 	var r := run.place(0, Vector2i(6, 6))

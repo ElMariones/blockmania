@@ -112,6 +112,23 @@ def main() -> None:
     for i in range(10):
         tr.add(bell(90 + r.integers(0, 14), 0.25, 0.25), 0.7 + r.uniform(0, 1.2))
     write("machine_break", lowpass(tr.buf, 9000, 2), -3, room=0.2, t60=1.2)
+    # --- Legendary Jokers (2026-09-24) -----------------------------------------------------------
+    # Reveal: a Legendary sits in the shop or a crate. A breathy rising shimmer and a low bell.
+    tr = Track(2.2)
+    tr.add(pad([62, 69, 74, 78], 1.6, bright=3000, seed=1100, attack=0.6) * 0.35, 0.0)
+    tr.add(whoosh(0.9, 300, 6000, seed=1101) * 0.25, 0.1)
+    tr.add(bell(86, 1.2, 0.35), 0.75)
+    tr.add(sparkle(1.0, 14, 96, 110, 1102, 0.14), 0.6)
+    write("legendary_reveal", tr.buf, -8, room=0.35, t60=1.6)
+    # Get: a Legendary joins the rack. A kick, a huge bright chord, a descending bell cascade.
+    tr = Track(3.0)
+    tr.add(kick(1.0, 0.8), 0.0)
+    tr.add(whoosh(0.4, 6000, 400, seed=1110) * 0.3, 0.0)
+    tr.add(chime_chord([74, 81, 86, 90, 93], 2.0, 0.04, 0.6), 0.05)
+    tr.add(pad([50, 57, 62, 66], 2.2, bright=2000, seed=1111, attack=0.05) * 0.35, 0.05)
+    tr.add(arp([105, 102, 98, 93, 90, 86, 81], 0.06, "bell", 0.35, 0.6), 0.3)
+    tr.add(sparkle(1.6, 30, 96, 112, 1112, 0.18), 0.2)
+    write("legendary_get", tr.buf, -4, room=0.34, t60=2.0)
     print("wrote achievement and overtime cues to", OUT)
 
 

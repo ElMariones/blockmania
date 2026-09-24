@@ -14,7 +14,7 @@ extends RefCounted
 
 var shop_policy := "full"
 ## Items the bot knows how to use (it cannot aim board tools, paint, or Blueprints).
-const BOT_ITEMS := ["polish", "spark", "second_tray", "extra_turn", "cash_out", "emergency_brick"]
+const BOT_ITEMS := ["polish", "spark", "second_tray", "extra_turn", "cash_out", "emergency_brick", "overclock", "coffee_break", "coin_roll"]
 var top_k := 6
 ## Weight of the best follow-up clear (lines^2) available to the remaining tray pieces.
 ## Weight for "potential": rows/columns that are nearly full after the placement (sets up
@@ -71,6 +71,9 @@ func _round_step(run: BMRun) -> Dictionary:
 	if rs.status == BMRun.STUCK:
 		if run.refreshes_available() > 0:
 			return run.refresh()
+		var cb := run.consumables.find("coffee_break")
+		if cb >= 0 and run.consumable_usable(cb) == "":
+			return run.use_consumable(cb)
 		var st := run.consumables.find("second_tray")
 		if st >= 0 and run.consumable_usable(st) == "":
 			return run.use_consumable(st)
@@ -78,9 +81,10 @@ func _round_step(run: BMRun) -> Dictionary:
 		if bk >= 0 and run.board.empty_count() > 0:
 			return run.use_consumable(bk, {"slot": 0})
 		return run.concede_round()
-	var ci := run.consumables.find("cash_out")
-	if ci >= 0:
-		return run.use_consumable(ci)
+	for instant in ["cash_out", "coin_roll"]:
+		var ci := run.consumables.find(instant)
+		if ci >= 0:
+			return run.use_consumable(ci)
 	var best := choose_placement(run)
 	if best.is_empty():
 		return run.refresh() if run.refreshes_available() > 0 else run.concede_round()
@@ -90,7 +94,7 @@ func _round_step(run: BMRun) -> Dictionary:
 	# Save Polish/Spark for a clearing placement.
 	if best.lines > 0:
 		for i in run.consumables.size():
-			if run.consumables[i] in ["polish", "spark"] and run.consumable_usable(i) == "":
+			if run.consumables[i] in ["polish", "spark", "overclock"] and run.consumable_usable(i) == "":
 				return run.use_consumable(i)
 	var r := run.place(best.slot, best.anchor)
 	if r.ok:
@@ -332,6 +336,8 @@ static func tool_plan(run: BMRun, offer: Dictionary) -> Dictionary:
 					if int(p.color) != BMShapes.COLOR_BLUE and t.size() < 3:
 						t.append(int(p.uid))
 				return {"ok": not t.is_empty(), "targets": t, "color": BMShapes.COLOR_BLUE}
+		"slot":
+			return {"ok": run.joker_slots() < BMRunConfig.MAX_JOKER_SLOTS, "targets": []}
 		"schematic":
 			var count := 0
 			for p in run.bag:

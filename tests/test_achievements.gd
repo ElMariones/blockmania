@@ -20,7 +20,7 @@ func _restore() -> void:
 
 
 func test_catalog_has_four_full_pages_and_art() -> void:
-	eq(BMAchievements.page_count(), 4, "four pages")
+	eq(BMAchievements.page_count(), 5, "five pages")
 	for page in BMAchievements.page_count():
 		eq(BMAchievements.page_ids(page).size(), BMAchievements.PER_PAGE, "page %d holds twelve" % page)
 	var seen := {}
@@ -159,3 +159,65 @@ func test_hands_seen_accumulate() -> void:
 	var got := BMAchievements.check_campaign(run, {}, {"ok": true}, {"hands_seen": BMHands.ORDER})
 	check(got.has("full_deck"), "all five")
 	_restore()
+
+
+func test_legend_page_achievements() -> void:
+	_store()
+	var run := BMRun.new_run(14)
+	var none := BMAchievements.check_campaign(run, {"a": "x"}, {"ok": true, "type": "x"}, BMAchievementStore.life())
+	for id in ["legend_found", "legend_pair", "pantheon", "wide_rack", "snowed_in", "heavy_metal", "fallen_hero"]:
+		check(not none.has(id), "fresh run: no %s" % id)
+	run.jokers.assign(["avalanche", "supernova", "snowball"])
+	run.joker_state["snowball"] = 2.05
+	run.extra_slots = 2
+	for i in 15:
+		run.bag[i].material = "chrome"
+	BMAchievementStore.note_campaign(run)
+	var got := BMAchievements.check_campaign(run, {"a": "x"}, {"ok": true, "type": "x"}, BMAchievementStore.life())
+	for id in ["legend_found", "legend_pair", "wide_rack", "snowed_in", "heavy_metal"]:
+		check(got.has(id), id)
+	check(not got.has("pantheon"), "two of four seen")
+	run.jokers.assign(["hall_of_mirrors", "philosophers_stone"])
+	BMAchievementStore.note_campaign(run)
+	got = BMAchievements.check_campaign(run, {"a": "x"}, {"ok": true, "type": "x"}, BMAchievementStore.life())
+	check(got.has("pantheon"), "all four seen across runs")
+	run.phase = BMRun.Phase.RUN_LOST
+	got = BMAchievements.check_campaign(run, {"a": "x"}, {"ok": true, "type": "x"}, BMAchievementStore.life())
+	check(got.has("fallen_hero"), "lost with a legend")
+	_restore()
+
+
+func test_legend_placement_achievements() -> void:
+	var run := BMRun.new_run(15)
+	run.jokers.assign(["hall_of_mirrors", "clean_sweep", "chain_link", "golden_ratio", "corner_office"])
+	var items: Array = []
+	for j in ["clean_sweep", "chain_link", "golden_ratio", "corner_office"]:
+		items.append({"source": "joker", "joker": j, "kind": "chips", "value": 1})
+		items.append({"source": "joker", "joker": j, "kind": "chips", "value": 1, "mirrored": true})
+	var r := {"ok": true, "type": "place", "points": 2000000000, "lines": 1, "items": items, "waves": [{}, {}, {}]}
+	var got := BMAchievements.check_campaign(run, {"a": "place"}, r, {})
+	for id in ["mirror_world", "billionaire", "avalanche_chain"]:
+		check(got.has(id), id)
+	items.resize(6)
+	var small := {"ok": true, "type": "place", "points": 900, "lines": 1, "items": items, "waves": [{}, {}]}
+	got = BMAchievements.check_campaign(run, {"a": "place"}, small, {})
+	for id in ["mirror_world", "billionaire", "avalanche_chain", "supernova_x10"]:
+		check(not got.has(id), "no %s" % id)
+	var nova := {"ok": true, "type": "place", "points": 5, "lines": 1,
+		"items": [{"source": "joker", "joker": "supernova", "kind": "xmult", "value": 10.5}]}
+	check(BMAchievements.check_campaign(run, {"a": "place"}, nova, {}).has("supernova_x10"), "x10.5 Supernova")
+
+
+func test_max_interest_achievement() -> void:
+	var run := BMRun.new_run(16)
+	run.credits = 30
+	run.round_state.score = run.round_state.target
+	var r := run._after_round_action()
+	r.ok = true
+	check(BMAchievements.check_campaign(run, {"a": "place"}, r, {}).has("interest_rate"), "30 held: +5")
+	var poor := BMRun.new_run(16)
+	poor.credits = 10
+	poor.round_state.score = poor.round_state.target
+	var r2 := poor._after_round_action()
+	r2.ok = true
+	check(not BMAchievements.check_campaign(poor, {"a": "place"}, r2, {}).has("interest_rate"), "10 held: +2")

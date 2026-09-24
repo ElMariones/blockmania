@@ -18,6 +18,8 @@ var drag_enabled := false
 var drag_receiver: Callable
 var emblem: Emblem ## the card's portrait (hops when the card is hovered)
 
+## Joker rack card height with five slots (the rack is 652 px tall).
+const RACK_HEIGHT := 124
 const PHASE_STYLE := {
 	"chips": ["pill_sky", "icon_chip"],
 	"add_mult": ["pill_pink", "icon_mult"],
@@ -130,18 +132,21 @@ func pulse(text: String = "", color: Color = BMStyle.SUN) -> void:
 
 # --- Builders ------------------------------------------------------------------------------
 
-static func joker_rack(run: BMRun, id: String) -> BMCard:
+## `height` shrinks the card when Rack Extender adds slots (the rack keeps its height).
+static func joker_rack(run: BMRun, id: String, height: int = RACK_HEIGHT) -> BMCard:
 	var def := BMJokers.get_def(id)
+	var compact := height < RACK_HEIGHT
 	var c := BMCard.new()
 	c.kind = "joker"
 	c.data = id
 	var rarity := int(def.rarity)
 	var disabled := run.joker_disabled_reason(id) if run != null else ""
-	c.add_theme_stylebox_override("panel", BMStyle.box(["rack_common", "rack_uncommon", "rack_rare"][rarity], Vector4(-2, 2, 0, -4)))
-	c.custom_minimum_size = Vector2(0, 124)
+	c.add_theme_stylebox_override("panel", BMStyle.box(["rack_common", "rack_uncommon", "rack_rare", "rack_legendary"][rarity], Vector4(-2, 2, 0, -4)))
+	c.custom_minimum_size = Vector2(0, height)
 	var h := BMStyle.hbox(10)
 	c.add_child(h)
-	c.emblem = Emblem.for_joker(id, Vector2(80, 80))
+	var em := 80 if not compact else (64 if height >= 96 else 48)
+	c.emblem = Emblem.for_joker(id, Vector2(em, em))
 	var em_box := CenterContainer.new()
 	em_box.add_child(c.emblem)
 	h.add_child(em_box)
@@ -154,13 +159,13 @@ static func joker_rack(run: BMRun, id: String) -> BMCard:
 	name_l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	name_l.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	top.add_child(name_l)
-	var rl := BMStyle.label(BMJokers.RARITY_NAMES[rarity].to_upper(), 20, [Color("#5c4282"), Color("#1f63b8"), Color("#a86a00")][rarity], true)
+	var rl := BMStyle.label(BMJokers.RARITY_NAMES[rarity].to_upper(), 20, [Color("#5c4282"), Color("#1f63b8"), Color("#a86a00"), Color("#7a3fd0")][rarity], true)
 	top.add_child(rl)
 	var body := String(def.text)
 	var counter := BMJokers.counter_text(id, run) if run != null else ""
 	var text := BMStyle.label(body, 20, Color(BMStyle.INK, 0.8))
 	text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	text.max_lines_visible = 1 if counter != "" else 2
+	text.max_lines_visible = 1 if counter != "" or compact else 2
 	text.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	v.add_child(text)
 	if id == "periscope" and run != null:
@@ -168,7 +173,7 @@ static func joker_rack(run: BMRun, id: String) -> BMCard:
 		peek.run = run
 		peek.tooltip_text = counter
 		v.add_child(peek)
-	elif counter != "":
+	elif counter != "" and not (compact and height < 96):
 		# Counters can be long ("Copying: nothing ..."); trim instead of widening the rack.
 		var cl := BMStyle.label(counter, 20, Color("#1f63b8"), true)
 		cl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
@@ -180,6 +185,11 @@ static func joker_rack(run: BMRun, id: String) -> BMCard:
 	c.tooltip_body = "%s  (%s)\n%s%s%s" % [def.name, BMJokers.RARITY_NAMES[rarity], body,
 		("\n" + counter) if counter != "" else "", ("\nDISABLED: " + disabled) if disabled != "" else ""]
 	return c
+
+
+## Card height that fits `slots` cards in the 652-px rack with 8-px gaps.
+static func rack_height(slots: int) -> int:
+	return mini(RACK_HEIGHT, (652 - 8 * (slots - 1)) / maxi(1, slots))
 
 
 static func item_rack(id: String) -> BMCard:
@@ -218,11 +228,11 @@ static func offer(run: BMRun, offer_kind: String, value: Variant, price_button: 
 		"joker":
 			var def := BMJokers.get_def(value)
 			var rarity := int(def.rarity)
-			frame = ["card_common", "card_uncommon", "card_rare"][rarity]
+			frame = ["card_common", "card_uncommon", "card_rare", "card_legendary"][rarity]
 			title = def.name
 			body = def.text
 			tag = BMJokers.RARITY_NAMES[rarity].to_upper()
-			tag_kind = ["plum", "sky", "sun"][rarity]
+			tag_kind = ["plum", "sky", "sun", "lilac"][rarity]
 			emblem = Emblem.for_joker(value, Vector2(80, 80))
 		"item":
 			var def := BMConsumables.get_def(value)
@@ -306,8 +316,8 @@ class Emblem extends Control:
 			e.art_set = "jokers"
 			e.art_id = id
 			var rarity := int(def.get("rarity", 0))
-			e.glint_period = [5.5, 4.0, 2.6][rarity]
-			e.twinkle = rarity == BMJokers.RARE
+			e.glint_period = [5.5, 4.0, 2.6, 1.6][rarity]
+			e.twinkle = rarity >= BMJokers.RARE
 		else:
 			e.icon = BMCard.JOKER_ICON.get(id, st[1])
 		e.custom_minimum_size = sz

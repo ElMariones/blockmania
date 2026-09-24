@@ -4,7 +4,7 @@ extends RefCounted
 ## separate from runs, settings and the Kit profile. Nothing here feeds back into the rules.
 ##
 ## Sections: [unlocked] id = unix time, [seen] id = true (the Trophy Case has shown it),
-## [life] hands_seen / endless_best, [records] furthest_round / best_placement /
+## [life] hands_seen / endless_best / legends_seen, [records] furthest_round / best_placement /
 ## best_round_score / machine_broken (round, 0 = never).
 
 const PATH := "user://achievements.cfg"
@@ -14,7 +14,7 @@ static var _cache: Dictionary = {}
 
 
 static func _blank() -> Dictionary:
-	return {"unlocked": {}, "seen": {}, "life": {"hands_seen": [], "endless_best": 0},
+	return {"unlocked": {}, "seen": {}, "life": {"hands_seen": [], "endless_best": 0, "legends_seen": []},
 		"records": {"furthest_round": 0, "best_placement": 0, "best_round_score": 0, "machine_broken": 0}}
 
 
@@ -95,6 +95,12 @@ static func note_campaign(run: BMRun) -> void:
 		var h := String(p.get("hand", "")) if not p.is_empty() else ""
 		if h != "" and not seen.has(h):
 			seen.append(h)
+			changed = true
+	# Legendary Jokers owned in any run (Pantheon).
+	var legends: Array = data().life.legends_seen
+	for id in run.jokers:
+		if BMJokers.is_legendary(id) and not legends.has(id):
+			legends.append(id)
 			changed = true
 	if changed:
 		save()

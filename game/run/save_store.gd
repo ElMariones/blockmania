@@ -46,6 +46,8 @@ static func load_run() -> BMRun:
 	if int(data.get("schema", 0)) < 2:
 		push_warning("Run save predates the Bag (schema 1); it cannot be resumed.")
 		return null
+	# Schema 5 -> 6 (engine update): `joker_state` ({}), `extra_slots` (0) and the round's
+	# `pending_xmult` (1), `lines_cleared` (0) and `refresh_used` (false) load with defaults.
 	# Schema 4 -> 5 (Overtime): `overtime`, `machine_broken` and `recorded` load with defaults
 	# (false, false, {}), and bosses for acts beyond the third are drawn when first needed.
 	# Schema 3 -> 4 (round-play update): new fields (tray `hand`/`brick` marks, patch, feats,

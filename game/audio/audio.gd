@@ -108,6 +108,8 @@ const SFX := {
 	"overtime": [["overtime"], 0.0, 500],
 	"record_new": [["record_new"], 0.0, 400],
 	"machine_break": [["machine_break"], 0.0, 1000],
+	"legendary_reveal": [["legendary_reveal"], 0.0, 800],
+	"legendary_get": [["legendary_get"], 0.0, 800],
 }
 
 ## Soundtrack. Order inside a playlist is shuffled (never the same track twice in a row).

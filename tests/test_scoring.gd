@@ -16,16 +16,16 @@ func _double_clear_board() -> Array:
 	]
 
 
-func test_gdd_example_305_chips_and_610_points() -> void:
+func test_gdd_example_305_chips_and_915_points() -> void:
 	var run := run_with(_double_clear_board(), [shape(&"square2")])
 	run.round_state.combo = 1
-	run.round_state.pending_mult = 1.0 # Spark: final Mult 2
+	run.round_state.pending_mult = 1.0 # Spark: Mult 1 + 1 (second line) + 1 (Spark) = 3
 	var r := run.place(0, Vector2i(6, 6))
 	check(r.ok, "placed")
 	eq(r.lines, 2, "row and column")
 	eq(r.chips, 305, "chips")
-	eq(r.mult, 2.0, "mult")
-	eq(r.points, 610, "points")
+	eq(r.mult, 3.0, "mult")
+	eq(r.points, 915, "points")
 	eq(r.cleared.size(), 15, "crossing cell removed once")
 	eq(run.round_state.combo, 2, "combo advanced")
 
@@ -66,10 +66,10 @@ func test_joker_chips_add_mult_then_x_mult_order() -> void:
 	var run := run_with(_double_clear_board(), [shape(&"square2")], ["golden_ratio", "wide_awake"])
 	run.round_state.placements_made = 2 # this is the 3rd placement -> Golden Ratio x1.5
 	var r := run.place(0, Vector2i(6, 6))
-	# chips: 40 cells + 200 lines + 40 multi = 280; mult (1 + 3) * 1.5 = 6
+	# chips: 40 cells + 200 lines + 40 multi = 280; mult (1 + 1 multi-line + 5) * 1.5 = 10.5
 	eq(r.chips, 280, "chips")
-	eq(r.mult, 6.0, "mult")
-	eq(r.points, 1680, "points")
+	eq(r.mult, 10.5, "mult")
+	eq(r.points, 2940, "points")
 	var kinds: Array = []
 	for it in r.items:
 		kinds.append(it.kind)

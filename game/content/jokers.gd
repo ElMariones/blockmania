@@ -11,12 +11,15 @@ extends RefCounted
 const COMMON := 0
 const UNCOMMON := 1
 const RARE := 2
-const RARITY_NAMES := ["Common", "Uncommon", "Rare"]
-const RARITY_COST := [3, 5, 8]
+## Legendary (2026-09-24): four unique, rule-bending Jokers. They come mostly from Boss Crates
+## (act 2 onward) and rarely from late shops; never more than one copy each.
+const LEGENDARY := 3
+const RARITY_NAMES := ["Common", "Uncommon", "Rare", "Legendary"]
+const RARITY_COST := [3, 5, 8, 12]
 
 const CATALOG := [
 	{"id": "clean_sweep", "name": "Clean Sweep", "rarity": COMMON, "phase": "chips", "text": "+50 Chips when exactly one line clears."},
-	{"id": "crossbar", "name": "Crossbar", "rarity": COMMON, "phase": "chips", "text": "+150 Chips when a row and a column clear together."},
+	{"id": "crossbar", "name": "Crossbar", "rarity": COMMON, "phase": "chips", "text": "+100 Chips when two or more lines clear together; +100 more if they cross (a row and a column)."},
 	{"id": "small_change", "name": "Small Change", "rarity": COMMON, "phase": "chips", "text": "+15 Chips per placed cell when placing a shape of 1-3 cells."},
 	{"id": "heavy_hand", "name": "Heavy Hand", "rarity": COMMON, "phase": "chips", "text": "+100 Chips when placing a shape of 5 or more cells."},
 	{"id": "first_strike", "name": "First Strike", "rarity": COMMON, "phase": "chips", "text": "The first clearing placement each round gains +150 Chips."},
@@ -27,7 +30,7 @@ const CATALOG := [
 	{"id": "spare_parts", "name": "Spare Parts", "rarity": COMMON, "phase": "rule", "text": "+2 Credits after a round won with at least two placements unused."},
 	{"id": "tiny_insurance", "name": "Tiny Insurance", "rarity": COMMON, "phase": "rule", "text": "Once per round, when no offered shape fits and no tray Refresh is available, replace one unplaced shape with a Single before defeat is checked."},
 	{"id": "second_look", "name": "Second Look", "rarity": COMMON, "phase": "rule", "text": "The first Refresh each round also grants +1 placement."},
-	{"id": "wide_awake", "name": "Wide Awake", "rarity": UNCOMMON, "phase": "add_mult", "text": "+3 Mult when two or more lines clear in a placement."},
+	{"id": "wide_awake", "name": "Wide Awake", "rarity": UNCOMMON, "phase": "add_mult", "text": "+2 Mult on every clearing placement; +3 more when two or more lines clear."},
 	{"id": "hollow_point", "name": "Hollow Point", "rarity": UNCOMMON, "phase": "add_mult", "text": "+0.5 Mult when the board has at least 44 empty cells before placement."},
 	{"id": "pressure_cooker", "name": "Pressure Cooker", "rarity": UNCOMMON, "phase": "add_mult", "text": "+0.5 Mult for every eight occupied cells before placement (max +2)."},
 	{"id": "golden_ratio", "name": "Golden Ratio", "rarity": UNCOMMON, "phase": "x_mult", "text": "Every third placed shape in a round gets x1.5 Mult."},
@@ -35,10 +38,10 @@ const CATALOG := [
 	{"id": "patch_panel", "name": "Patch Panel", "rarity": UNCOMMON, "phase": "rule", "text": "After the first clear each round, remove one block of your choice (use it from the Items row). The removal scores nothing."},
 	{"id": "long_game", "name": "Long Game", "rarity": UNCOMMON, "phase": "rule", "text": "+1 placement per round. The first placement of each round gains no cell Chips."},
 	{"id": "fire_sale", "name": "Fire Sale", "rarity": UNCOMMON, "phase": "add_mult", "text": "+0.25 Mult for each Joker sold this run (max +2). Selling this card ends its bonus."},
-	{"id": "jackpot_window", "name": "Jackpot Window", "rarity": RARE, "phase": "x_mult", "text": "If three or more lines clear in one placement, x4 Mult."},
+	{"id": "jackpot_window", "name": "Jackpot Window", "rarity": RARE, "phase": "x_mult", "text": "x2.5 Mult when two lines clear in one placement; x5 Mult for three or more."},
 	{"id": "mirror_maze", "name": "Mirror Maze", "rarity": RARE, "phase": "chips", "text": "The first row clear each round also clears the mirrored row's occupied cells for +50 Chips. The mirrored removal cannot chain."},
 	{"id": "compound_interest", "name": "Compound Interest", "rarity": RARE, "phase": "x_mult", "text": "Every second clearing placement in a round gets x1.75 Mult."},
-	{"id": "last_stand", "name": "Last Stand", "rarity": RARE, "phase": "x_mult", "text": "When no Refresh and three or fewer placements remain, placements gain x2 Mult."},
+	{"id": "last_stand", "name": "Last Stand", "rarity": RARE, "phase": "x_mult", "text": "Placements made with four or fewer placements left gain x2.5 Mult."},
 	# --- Bag-era Jokers (GDD §16.6) ---
 	{"id": "hoarder", "name": "Hoarder", "rarity": UNCOMMON, "phase": "chips", "text": "+1 Chip for each piece in your bag."},
 	{"id": "architect", "name": "Architect", "rarity": COMMON, "phase": "chips", "text": "+60 Chips when placing an L 3 or L 4 piece."},
@@ -51,7 +54,7 @@ const CATALOG := [
 	{"id": "neon_sign", "name": "Neon Sign", "rarity": UNCOMMON, "phase": "add_mult", "text": "Neon cells cleared give an extra +0.5 Mult each."},
 	{"id": "specialist", "name": "Specialist", "rarity": UNCOMMON, "phase": "add_mult", "text": "+0.5 Mult per Schematic level of the placed piece's family."},
 	{"id": "recycler", "name": "Recycler", "rarity": UNCOMMON, "phase": "add_mult", "text": "+0.1 Mult for each piece in the discard pile before placement (max +1)."},
-	{"id": "glass_cannon", "name": "Glass Cannon", "rarity": RARE, "phase": "x_mult", "text": "x1.5 Mult when a placement clears any Glass cell."},
+	{"id": "glass_cannon", "name": "Glass Cannon", "rarity": RARE, "phase": "x_mult", "text": "x0.3 Mult for each Glass piece in your bag (x1 + 0.3 each, max x4)."},
 	{"id": "collector", "name": "Collector", "rarity": RARE, "phase": "x_mult", "text": "x0.1 Mult for each different shape family in your bag beyond 6 (x1.4 with 10 families)."},
 	{"id": "mimic", "name": "Mimic", "rarity": RARE, "phase": "copy", "text": "Copies the scoring effect of the Joker directly below it."},
 	# --- Round-play update (docs/design/round_play_update.md §6) ---
@@ -65,10 +68,30 @@ const CATALOG := [
 	{"id": "showboat", "name": "Showboat", "rarity": RARE, "phase": "add_mult", "text": "+2 Mult for each Feat you earn for the first time this round."},
 	{"id": "full_tank", "name": "Full Tank", "rarity": UNCOMMON, "phase": "add_mult", "text": "+2 Mult when you place while your placements are at their refill cap."},
 	{"id": "overflow", "name": "Overflow", "rarity": COMMON, "phase": "rule", "text": "When a line clear would refill past your cap, each wasted refill gives +1 Credit (max 3 per round)."},
-	{"id": "keystone", "name": "Keystone", "rarity": RARE, "phase": "x_mult", "text": "x2 Mult when a piece of 1 or 2 blocks clears two or more lines."},
+	{"id": "keystone", "name": "Keystone", "rarity": RARE, "phase": "x_mult", "text": "x2 Mult when a piece of 1 to 3 blocks clears a line; x4 if it clears two or more."},
 	{"id": "draftsman", "name": "Draftsman", "rarity": UNCOMMON, "phase": "rule", "text": "Clearing a row and a column in the same placement gives you an Eraser (if an item slot is free)."},
 	{"id": "periscope", "name": "Periscope", "rarity": COMMON, "phase": "rule", "text": "Shows the next three pieces in your draw pile."},
 	{"id": "loan_shark", "name": "Loan Shark", "rarity": COMMON, "phase": "rule", "cost": 0, "text": "Costs 0. When bought: +6 Credits. After each won round, 2 Credits go to repay the loan until 8 are repaid. Cannot be sold until then."},
+	# --- Engine update (docs/playtests/2026-09-24_persona_playtest.md): scaling, economy, big pieces ---
+	# `scaling` cards keep a value for the whole run in BMRun.joker_state (shared by copies).
+	{"id": "snowball", "name": "Snowball", "rarity": UNCOMMON, "phase": "x_mult", "scaling": true, "text": "Gains x0.15 Mult every time two or more lines clear at once. Never resets."},
+	{"id": "tally_counter", "name": "Tally Counter", "rarity": COMMON, "phase": "chips", "text": "+4 Chips for every line you have cleared this run."},
+	{"id": "bonsai", "name": "Bonsai", "rarity": UNCOMMON, "phase": "add_mult", "text": "+0.35 Mult for every round won this run."},
+	{"id": "coin_pusher", "name": "Coin Pusher", "rarity": COMMON, "phase": "add_mult", "text": "+0.1 Mult for every Credit you hold (max +5)."},
+	{"id": "hot_streak", "name": "Hot Streak", "rarity": RARE, "phase": "x_mult", "scaling": true, "text": "Gains x0.3 Mult for each round won without a Refresh or Second Tray. Using one resets it to x1."},
+	{"id": "big_game_hunter", "name": "Big Game Hunter", "rarity": UNCOMMON, "phase": "add_mult", "text": "+1 Mult for each block over 4 in the placed piece."},
+	{"id": "rainbow_road", "name": "Rainbow Road", "rarity": UNCOMMON, "phase": "x_mult", "color": true, "text": "x1.75 Mult when the board holds all six block colors before the placement."},
+	{"id": "solo_act", "name": "Solo Act", "rarity": RARE, "phase": "x_mult", "text": "x1 Mult plus x0.75 for each empty Joker slot."},
+	{"id": "double_stamp", "name": "Double Stamp", "rarity": RARE, "phase": "rule", "text": "Stamps trigger twice: Encore x4, Tip +4 Credits, Refund +2 placements, Memory two Sparks."},
+	{"id": "vending_machine", "name": "Vending Machine", "rarity": COMMON, "phase": "rule", "text": "After each round won, drops a random item into a free item slot."},
+	{"id": "demolition_crew", "name": "Demolition Crew", "rarity": UNCOMMON, "phase": "chips", "text": "+15 Chips for every block cleared by the placement."},
+	{"id": "overachiever", "name": "Overachiever", "rarity": UNCOMMON, "phase": "add_mult", "scaling": true, "text": "Gains +1 Mult whenever a round ends at 1.5 times its target or more. Never resets."},
+	{"id": "full_pockets", "name": "Full Pockets", "rarity": COMMON, "phase": "add_mult", "text": "+1.5 Mult for each item you hold."},
+	# --- Legendary (unique; Boss Crates from act 2, rare in late shops) ---
+	{"id": "avalanche", "name": "The Avalanche", "rarity": LEGENDARY, "phase": "rule", "unique": true, "text": "After a clear, blocks fall down their columns. New full lines clear as chain waves, each scoring double the last (x2, x4, x8...)."},
+	{"id": "hall_of_mirrors", "name": "Hall of Mirrors", "rarity": LEGENDARY, "phase": "rule", "unique": true, "text": "Every other Joker's scoring effect triggers twice (Chips and Mult add twice, xMult applies twice)."},
+	{"id": "philosophers_stone", "name": "Philosopher's Stone", "rarity": LEGENDARY, "phase": "rule", "unique": true, "text": "Material effects are doubled. Every piece you place without a material gains a random one for good."},
+	{"id": "supernova", "name": "Supernova", "rarity": LEGENDARY, "phase": "x_mult", "unique": true, "text": "x1 Mult plus x0.5 for every line cleared earlier this round."},
 ]
 
 const PATIENCE_STEP := 40
@@ -77,6 +100,11 @@ const LOAN_CREDITS := 6
 const LOAN_TOTAL := 8
 const LOAN_INSTALLMENT := 2
 const OVERFLOW_MAX := 3
+const SNOWBALL_STEP := 0.15
+const HOT_STREAK_STEP := 0.3
+const OVERACHIEVER_RATIO := 1.5
+const SUPERNOVA_STEP := 0.5
+const LEGENDARY_IDS := ["avalanche", "hall_of_mirrors", "philosophers_stone", "supernova"]
 
 static var _by_id := {}
 
@@ -111,6 +139,22 @@ static func is_unique(id: String) -> bool:
 	return bool(get_def(id).get("unique", false))
 
 
+static func is_legendary(id: String) -> bool:
+	return int(get_def(id).get("rarity", COMMON)) == LEGENDARY
+
+
+static func is_scaling(id: String) -> bool:
+	return bool(get_def(id).get("scaling", false))
+
+
+## Starting value of a scaling card's run-long state.
+static func scaling_start(id: String) -> float:
+	match id:
+		"snowball", "hot_streak":
+			return 1.0
+	return 0.0
+
+
 static func ids_of_rarity(rarity: int) -> Array[String]:
 	var out: Array[String] = []
 	for d in CATALOG:
@@ -129,7 +173,9 @@ static func chips(id: String, ctx: Dictionary) -> int:
 		"clean_sweep":
 			return 50 if ctx.lines == 1 else 0
 		"crossbar":
-			return 150 if ctx.rows > 0 and ctx.cols > 0 else 0
+			if ctx.lines < 2:
+				return 0
+			return 200 if ctx.rows > 0 and ctx.cols > 0 else 100
 		"small_change":
 			return 15 * ctx.cell_count if ctx.cell_count <= 3 else 0
 		"heavy_hand":
@@ -158,6 +204,10 @@ static func chips(id: String, ctx: Dictionary) -> int:
 			return ctx.patience_store if ctx.is_clearing else 0
 		"locksmith":
 			return 75 if ctx.holes_filled > 0 and ctx.is_clearing else 0
+		"tally_counter":
+			return 4 * ctx.lines_before_run
+		"demolition_crew":
+			return 15 * ctx.cells_cleared
 	return 0
 
 
@@ -169,7 +219,9 @@ static func add_mult(id: String, ctx: Dictionary) -> float:
 		"chain_link":
 			return 1.0 * ctx.combo_before if ctx.is_clearing else 0.0
 		"wide_awake":
-			return 3.0 if ctx.lines >= 2 else 0.0
+			if not ctx.is_clearing:
+				return 0.0
+			return 5.0 if ctx.lines >= 2 else 2.0
 		"hollow_point":
 			return 0.5 if ctx.empty_before >= 44 else 0.0
 		"pressure_cooker":
@@ -192,6 +244,16 @@ static func add_mult(id: String, ctx: Dictionary) -> float:
 			return 2.0 * ctx.new_feats
 		"full_tank":
 			return 2.0 if ctx.at_cap else 0.0
+		"bonsai":
+			return 0.35 * ctx.rounds_won
+		"coin_pusher":
+			return minf(5.0, 0.1 * ctx.credits)
+		"big_game_hunter":
+			return 1.0 * maxi(0, ctx.cell_count - 4)
+		"overachiever":
+			return float(ctx.state.get("overachiever", 0.0))
+		"full_pockets":
+			return 1.5 * ctx.items_held
 	return 0.0
 
 
@@ -211,15 +273,17 @@ static func x_mult(id: String, ctx: Dictionary) -> float:
 					return 1.75
 			return 1.0
 		"glass_cannon":
-			return 1.5 if ctx.glass_cleared > 0 else 1.0
+			return minf(4.0, 1.0 + 0.3 * ctx.glass_in_bag)
 		"collector":
 			return 1.0 + 0.1 * maxi(0, ctx.distinct_families - 6)
 		"jackpot_window":
-			return 4.0 if ctx.lines >= 3 else 1.0
+			if ctx.lines >= 3:
+				return 5.0
+			return 2.5 if ctx.lines == 2 else 1.0
 		"compound_interest":
 			return 1.75 if ctx.is_clearing and ctx.clearing_index % 2 == 0 else 1.0
 		"last_stand":
-			return 2.0 if ctx.refreshes_available == 0 and ctx.placements_left_before <= 3 else 1.0
+			return 2.5 if ctx.placements_left_before <= 4 else 1.0
 		"hot_hand":
 			return 1.5 if ctx.hand != "" else 1.0
 		"countdown":
@@ -228,8 +292,28 @@ static func x_mult(id: String, ctx: Dictionary) -> float:
 				return 1.5
 			return 1.0
 		"keystone":
-			return 2.0 if ctx.cell_count <= 2 and ctx.lines >= 2 else 1.0
+			if ctx.cell_count > 3 or ctx.lines == 0:
+				return 1.0
+			return 4.0 if ctx.lines >= 2 else 2.0
+		"snowball":
+			return maxf(1.0, float(ctx.state.get("snowball", 1.0)))
+		"hot_streak":
+			return maxf(1.0, float(ctx.state.get("hot_streak", 1.0)))
+		"rainbow_road":
+			return 1.75 if ctx.colors_before >= 6 else 1.0
+		"solo_act":
+			return 1.0 + 0.75 * ctx.empty_joker_slots
+		"supernova":
+			return 1.0 + SUPERNOVA_STEP * ctx.round_lines_before
 	return 1.0
+
+
+## Compact number for counters: 2, 2.5, 2.25.
+static func _num(v: float) -> String:
+	var t := "%.2f" % v
+	while t.ends_with("0"):
+		t = t.left(t.length() - 1)
+	return t.trim_suffix(".")
 
 
 static func _same_color(a: int, b: int) -> bool:
@@ -299,6 +383,32 @@ static func counter_text(id: String, run: BMRun) -> String:
 			return "%d families: x%s Mult" % [fams, str(1.0 + 0.1 * maxi(0, fams - 6))]
 		"recycler":
 			return "Discard pile: %d" % run.discard_pile.size()
+		"snowball":
+			return "Now x%s Mult" % _num(run.joker_value("snowball"))
+		"hot_streak":
+			return "Now x%s Mult" % _num(run.joker_value("hot_streak"))
+		"overachiever":
+			return "Now +%s Mult" % _num(run.joker_value("overachiever"))
+		"tally_counter":
+			return "%d lines: +%d Chips" % [int(run.stats.get("lines_cleared", 0)), 4 * int(run.stats.get("lines_cleared", 0))]
+		"bonsai":
+			return "%d rounds won: +%s Mult" % [int(run.stats.get("rounds_won", 0)), _num(0.35 * int(run.stats.get("rounds_won", 0)))]
+		"coin_pusher":
+			return "%d Credits: +%s Mult" % [run.credits, _num(minf(5.0, 0.1 * run.credits))]
+		"solo_act":
+			var empty := maxi(0, run.joker_slots() - run.jokers.size())
+			return "%d empty slot%s: x%s Mult" % [empty, "" if empty == 1 else "s", _num(1.0 + 0.75 * empty)]
+		"full_pockets":
+			return "%d item%s: +%s Mult" % [run.consumables.size(), "" if run.consumables.size() == 1 else "s", _num(1.5 * run.consumables.size())]
+		"glass_cannon":
+			var g := BMBag.material_count(run, "glass")
+			return "%d Glass piece%s: x%s Mult" % [g, "" if g == 1 else "s", _num(minf(4.0, 1.0 + 0.3 * g))]
+		"supernova":
+			return "Lines this round: %d (x%s)" % [run.round_state.lines_cleared, _num(1.0 + SUPERNOVA_STEP * run.round_state.lines_cleared)]
+		"philosophers_stone":
+			return "Transmuted this run: %d" % int(run.stats.get("transmuted", 0))
+		"avalanche":
+			return "Best chain: %d wave%s" % [int(run.stats.get("best_waves", 1)), "" if int(run.stats.get("best_waves", 1)) == 1 else "s"]
 		"mimic":
 			var i := run.jokers.find("mimic")
 			if i >= 0 and i + 1 < run.jokers.size():

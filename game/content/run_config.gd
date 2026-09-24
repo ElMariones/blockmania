@@ -20,6 +20,10 @@ const SCORE_CAP_TEXT := "1,000,000,000,000,000"
 const CHIPS_PER_CELL := 10
 const CHIPS_PER_LINE := 100
 const CHIPS_PER_EXTRA_LINE := 40
+## Base Mult for each line beyond the first in one placement (playtest 2026-09-24: multi-line
+## clears were only 1-2% of placements and scored like two small clears; a double clear now
+## scores x2 base Mult, a triple x3).
+const MULT_PER_EXTRA_LINE := 1.0
 const CHIPS_PER_COMBO := 25
 const COMBO_CAP := 4
 ## Non-clearing placements the combo survives before it resets (0 = resets on any miss).
@@ -45,9 +49,24 @@ const SPARE_PARTS_CREDITS := 2
 const CASH_OUT_CREDITS := 4
 ## Boss Crate (docs/design/round_play_update.md §4): after a boss, pick 1 of 3 for free.
 const CRATE_CREDITS := 6
+## Interest (playtest 2026-09-24: Credits piled up late with nothing to decide): after a won
+## round, +1 Credit for every INTEREST_STEP Credits held, at most INTEREST_CAP.
+const INTEREST_STEP := 5
+const INTEREST_CAP := 5
+## Overkill: +1 Credit for every full OVERKILL_STEP of the target scored beyond it (max cap).
+const OVERKILL_STEP := 0.5
+const OVERKILL_CAP := 3
+## Joker slots can grow with Rack Extender (Workshop) up to this many.
+const MAX_JOKER_SLOTS := 7
 
-## Rarity weights [common, uncommon, rare] per act: 65/30/5 shifting to 40/40/20 by act 3.
-const RARITY_WEIGHTS := [[65, 30, 5], [53, 35, 12], [40, 40, 20]]
+## Rarity weights [common, uncommon, rare, legendary] per act: 65/30/5 shifting to 40/40/19/1
+## by act 3; Overtime acts use the last row. Legendary Jokers mostly come from Boss Crates.
+const RARITY_WEIGHTS := [[65, 30, 5, 0], [53, 35, 12, 0], [40, 40, 19, 1], [34, 40, 23, 3]]
+## Boss Crate Joker odds (percent): legendary by boss round (act 1 never), else rare 40%.
+const CRATE_LEGENDARY_ACT2 := 12
+const CRATE_LEGENDARY_ACT3 := 20
+const CRATE_LEGENDARY_OVERTIME := 30
+const CRATE_RARE := 40
 
 ## Kits (GDD §6 "Starting Kits"; docs/design/round_play_update.md §4). `bag` names the starter
 ## bag in BMPieces.STARTER_BAGS. `unlock` is the player-facing requirement and `need` the
@@ -82,7 +101,7 @@ static func is_overtime(round_number: int) -> bool:
 	return round_number > ROUND_COUNT
 
 
-## Rarity weights for the shop before `round_number`'s act (overtime uses the act 3 weights).
+## Rarity weights for the shop before `round_number`'s act (Overtime acts use the last row).
 static func rarity_weights(act: int) -> Array:
 	return RARITY_WEIGHTS[clampi(act, 1, RARITY_WEIGHTS.size()) - 1]
 

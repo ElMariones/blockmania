@@ -60,6 +60,11 @@ const PERSONAS := {
 		"jokers": ["jackpot_window", "compound_interest", "hot_hand", "golden_ratio", "color_cycle"],
 		"tools": ["encore_stamp", "glassworks", "neon_tubing"],
 		"about": "Ceiling probe: starts with the five strongest xMult Jokers."},
+	"dream_legend": {"placement": "expert", "shop": "meta",
+		"start_jokers": ["hall_of_mirrors", "supernova", "avalanche", "snowball", "jackpot_window"],
+		"jokers": ["hall_of_mirrors", "supernova", "avalanche", "philosophers_stone", "snowball", "hot_streak"],
+		"tools": ["encore_stamp", "glassworks", "neon_tubing", "rack_extender"],
+		"about": "Ceiling probe: three Legendaries (Mirrors, Supernova, Avalanche) plus Snowball and Jackpot Window from round 1."},
 	"dream_dupes": {"placement": "expert", "shop": "meta",
 		"start_jokers": ["compound_interest", "compound_interest", "compound_interest", "hot_hand", "hot_hand"],
 		"jokers": ["compound_interest", "hot_hand"],
@@ -81,6 +86,11 @@ const META_VALUE := {
 	"loan_shark": 20, "overflow": 15, "crossbar": 30, "second_look": 20, "tiny_insurance": 25,
 	"breakage_bonus": 10, "draftsman": 5, "card_sharp": 10, "fire_sale": 10,
 	"patch_panel": 0, "periscope": 0, "locksmith": 25,
+	# Engine update (2026-09-24).
+	"snowball": 55, "tally_counter": 40, "bonsai": 55, "coin_pusher": 40, "hot_streak": 60,
+	"big_game_hunter": 35, "rainbow_road": 35, "solo_act": 20, "double_stamp": 30,
+	"vending_machine": 30, "demolition_crew": 45, "overachiever": 50, "full_pockets": 35,
+	"avalanche": 200, "hall_of_mirrors": 220, "philosophers_stone": 180, "supernova": 210,
 }
 
 
