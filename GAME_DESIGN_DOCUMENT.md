@@ -744,3 +744,96 @@ All four respect the machine's limit (a wave that reaches it breaks the machine)
 ### 21.6 Achievements: page 5, "Legends" (12)
 
 Once Upon a Legend (own one, Silver) · Double Legend (two at once, Gold, secret) · Pantheon (own all four across runs, Legendary; lifetime `legends_seen`) · Chain Reaction (three Avalanche waves in one placement, Gold) · Mirror World (Hall of Mirrors doubles four other Jokers in one placement, Gold) · Heavy Metal (15 pieces with a material, Silver) · Going Nova (Supernova at x10+, Gold) · Snowed In (Snowball x2+, Silver) · Compound Growth (+5 interest, Bronze) · Wide Rack (7 Joker slots, Silver) · Billionaire (1,000,000,000 in one placement, Legendary) · Fallen Hero (lose a run with a Legendary, Bronze, secret). The catalog is now 60 achievements on five pages; Block Maniac needs all of them.
+
+## 22. Plan items, boss spectacle and menus (owner request, 2026-09-24)
+
+Owner request: "do the open report points, then add more songs, make more effects and cool animations when reaching bosses, harder rounds, etc. Play with sounds and colors and effects, shaders. Then take a good look at the settings/menu and improve it as a UI expert and senior game designer." The report points are the plan in `docs/playtests/2026-09-24_persona_playtest.md` §7. All numbers are **provisional**. Save schema 7 (`heat`, `daily`, `round_card`, `locked_jokers`; round `held`, `hold_used`, `locked_slot2`, `last_family`); older saves load with defaults.
+
+### 22.1 Campaign Hold
+
+- One Hold box (under the receipt). **Hold** stores a tray piece and its slot draws a replacement from the bag; with a piece already stored, Hold **swaps** it with the chosen tray piece. Once between placements (`hold_used` resets on `place`). Input: drag a piece onto the box or press H with a piece picked up (store or swap); click the box with nothing picked up to take the stored piece back into an empty tray slot. A held piece loses its Tray Hand tag.
+- The held piece stays in the bag's accounting (the pile invariant counts it). A new round starts with an empty Hold; the held piece returns to the discard pile.
+- A fitting held piece keeps a round alive while Hold is available: the no-fit check counts it (the player swaps it in).
+- The Lockdown Mk II disables Hold. Refresh and Second Tray never touch the held piece.
+- Why: a 2+ line clear was possible on only ~2% of placements. Hold lets the player keep a finisher for the moment the board is ready.
+
+### 22.2 Round cards
+
+Before every **non-boss** round, NEXT ROUND opens a choice of three cards: **Standard** plus two seeded twists (shop stream). The pick is a run command (`pick_round`), saved with the shop and applied when the round starts. Targets are rounded to tens.
+
+| Card | Target | Rule | Reward on a win |
+|---|---:|---|---|
+| Standard | x1 | No twist. | — |
+| Gold Rush | x1 | Six Gold blocks start on the board (never a full line). | +2 Credits |
+| Tight Budget | x1 | Three fewer placements. | +4 Credits |
+| Rush Hour | x0.8 | No Refresh this round (Coffee Break refused). | — |
+| Double or Nothing | x1.4 | — | +6 Credits |
+| Mult Fever | x1.3 | Every placement gets +1 Mult. | — |
+| Treasure Hunt | x1.15 | — | A random item (needs a free slot) |
+| Scholarship | x1.2 | — | Level up the family of the last piece placed |
+
+### 22.3 Mk II bosses
+
+From act 2, act bosses are **Mk II**: a harder version of the same rule. At Heat 4+ every boss is Mk II; the final boss is Mk II only in Overtime. The name gains "Mk II" everywhere (intro, panel, ticker, receipt).
+
+| Boss | Normal | Mk II |
+|---|---|---|
+| Cramped Cabinet | 4 fixed cells | 7 fixed cells |
+| Taxman | First line 60 Chips | First line 30 Chips, multi-line Mult halved |
+| Color Blind | Color effects off | ...and two fewer placements |
+| Lockdown | No Refresh or Second Tray | ...and no Coffee Break or Hold |
+| Warden | One barred slot until the first clear | Two barred slots |
+| Undertaker | A tombstone every 4th placement | Every 3rd placement |
+| Last Call | 12 placements, +50 Chips per multi-line placement | 10 placements |
+
+### 22.4 Tray Hands and Kits rebalanced
+
+- Twins now give **+1 Mult** per placement (was Chips). Triplets: +2 Mult and **x1.5**, +1 Refresh. Monochrome: **x2**. Grand Slam: **x2 and +2 Mult**, +1 Refresh, +3 Credits. Staircase unchanged (+1 placement).
+- Compact, Chunky and Tetromino Kits start with **14 placements** (Standard 15). Chunky's bag loses its 3x3 square (19 pieces). Reason: every unlockable Kit beat Standard in the persona playtest.
+
+### 22.5 Heat (stakes after a win)
+
+Heat 0–5 is chosen on the Kit screen. Each level keeps everything below it. Heat N unlocks when a run at Heat N−1 is won (`profile.heat_won`).
+
+| Heat | Adds |
+|---:|---|
+| 1 | Targets +15% |
+| 2 | One fewer placement every round |
+| 3 | Interest pays at most +3; shop rerolls start at 3 |
+| 4 | Every boss is its Mk II version |
+| 5 | Targets +35% (instead of +15%) and one fewer Refresh |
+
+### 22.6 Joker unlocks
+
+Fourteen Jokers join the shop pool only once an achievement is earned (the other Jokers are always in the pool). Locked Jokers are stored on the run (`locked_jokers`), so a run never changes mid-way; a Daily run locks nothing. Unlocking shows a NEW JOKER UNLOCKED toast, and the Trophy Case hover card says what a badge unlocks.
+
+Snowball ← Triple Decker · Hot Streak ← Boss Buster · Overachiever ← Overkill · Solo Act ← Travel Light · Double Stamp ← Special Delivery · Rainbow Road ← Full Spectrum · Big Game Hunter ← Square Dance · Demolition Crew ← Crossroads · Mimic ← Rare Taste · Jackpot Window ← Red Hot · the four Legendaries ← Champion (win a run).
+
+### 22.7 Daily run and run history
+
+- **Daily:** one seed per local date (`BMRunConfig.daily_seed`, an FNV hash of "YYYY-MM-DD"). Standard Kit, Heat 0, every Joker in the pool, so everyone plays the same game that day. The profile keeps today's best (furthest round or win); the title's DAILY popup shows it. Local only; no server.
+- **Run history:** the last 40 campaign runs in `user://history.json` (date, Kit, Heat or Daily, seed, round reached, result, best placement, total score, final Jokers). A won run that goes on into Overtime updates its entry. The title's HISTORY screen lists them and offers PLAY THIS SEED (the Kit screen opens with the seed filled in).
+
+### 22.8 Overtime milestones
+
+The first placement in a run to reach **1,000,000**, **1,000,000,000** and **1,000,000,000,000** points triggers a stadium moment: "SEVEN DIGITS", "BILLION-POINT BLOCK", "TRILLION TERRITORY" with confetti and a fanfare. The tier is in the resolution record (`milestone`), so it replays identically.
+
+### 22.9 Contextual tips
+
+Thirteen short tips (`BMTips`) appear once, the first time their situation arises: placing a piece, Chips x Mult, Hold, nothing fits, combo, Tray Hands, bosses, Heat, the shop, interest, round cards, the bag, Overtime. Conditions only read state. A tip is a plate over the receipt (round) or the Joker rack (shop), with GOT IT; it never blocks the board and fades after 16 seconds unless hovered. Seen ids are saved in settings; Settings > Game turns tips off and RESET TIPS shows them again. This is the first step of the tutorial (a scripted first round is still open).
+
+### 22.10 Menus and settings
+
+- **Title:** CONTINUE RUN, NEW RUN, then DAILY and ENDLESS side by side, then TROPHIES · HISTORY · SCORES, then OPTIONS and QUIT. The seed field moved to the Kit screen, where it matters.
+- **Kit screen:** five Kit cards, then a bar with the **Heat selector** (0–5, locked levels dimmed with the unlock rule in the tooltip, the selected level's rules spelled out) and the optional **seed**. A warning line appears when starting would replace a saved run.
+- **Pause / Options** (`BMSettingsMenu`): one 1920x1080 stage. A header with where you are (round, act, Kit, Heat, seed) and COPY SEED. A tab rail (RUN in a campaign, GAME, AUDIO, DISPLAY, ACCESSIBILITY, CONTROLS; Q/E or Page Up/Down switch) with RESUME, SAVE & QUIT and a two-step ABANDON under it. Every choice is a segmented control showing all values, the current one lit and marked with `*` (never color alone), with a one-line explanation; changes apply and save immediately; RESET PAGE restores a page's defaults. The menu reopens on the last page used.
+- **RUN page:** the twelve rounds as a track (bosses marked B, current round lit), Kit, Heat, Credits, Jokers, bag size, lines, best placement, bosses beaten, the Heat rules, this act's boss and its rule, and the round card in play.
+- **New settings:** Game speed (Normal / Fast x1.4 / Turbo x1.9; scales time on campaign screens only, so results and Endless statistics are unaffected), Tips, Boss intros (Cinematic / Quick), Danger heartbeat, V-Sync, Screen effects (Off / Soft / Full), Screen shake (Off / Low / Full), Flashes (Off / Soft / Full; also scales CRT jolts and background pulses). Defaults are in `BMSaveStore.default_settings()`.
+
+### 22.11 Boss spectacle, hard rounds and music
+
+- **Boss cinematic** (`BMBossIntro`, about 2.8 s, any input skips; Settings can make it Quick): letterbox bars with hazard tape, WARNING / BOSS ROUND (or MK II) marching text and an alarm, the name slams in with a shake, a flash and a CRT jolt, the rule types in, and a Mk II boss gets a stamped metal plate with sparks. An act's first round plays an act fanfare.
+- **Mood layer** (`BMMoodLayer`, `shaders/mood.gdshader`, edges only so the board stays clean): boss rounds get a crawling hazard-tape frame and a red glow; **danger** (three or fewer placements and short of the target) adds a vignette that throbs with a soft heartbeat; **heat haze** with rising embers at Heat 3+ and in Overtime (and faintly in act 3). The board's frame gets chasing bulbs on boss rounds (pink, sun for Mk II). The swirl background has boss, Mk II, act 2, act 3 and Overtime moods.
+- **Avalanche fall:** blocks now visibly fall with gravity and squash between chain waves.
+- **Music:** six new original songs (Paper Lanterns, Pocket Change, Iron Curtain, Cascade, Overtime Rush, High Score; 13 in total). Contexts: title, round, **round_hard** (act 3 and Heat 3+), shop, boss, **boss_mk2**, **overtime**, and the Endless moods. Eight new cues: boss alarm, boss slam, Mk II stamp, heartbeat, danger, Hold, round pick, act start.
+- Reduced Motion keeps every piece of information: the cinematic becomes a still card, the mood layer keeps its tint without motion, and flashes halve.

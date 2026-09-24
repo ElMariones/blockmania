@@ -3,7 +3,7 @@
 Living backlog. Update it in the same commit as the work. Milestones follow GDD §12.
 Legend: `[x]` done · `[~]` partial · `[ ]` open · **(owner)** needs a project-owner decision.
 
-_Last updated: 2026-09-24 — Persona playtest review (docs/playtests), engine update (interest, overkill, multi-line Mult, scaling Jokers, Rack Extender, 13 Jokers, 4 items, 4 Legendary Jokers, Legends achievement page, targets raised). Earlier today: shop menu, card portraits, Overtime, 48 achievements._
+_Last updated: 2026-09-24 — Plan items from the review (campaign Hold, round cards, Mk II bosses, Heat 0–5, Joker unlocks, Daily, run history, milestones, tips), boss cinematic and mood shader, 6 new songs, settings/menu redesign (GDD §22). Earlier: persona playtest review (docs/playtests), engine update (interest, overkill, multi-line Mult, scaling Jokers, Rack Extender, 13 Jokers, 4 items, 4 Legendary Jokers, Legends achievement page, targets raised). Earlier today: shop menu, card portraits, Overtime, 48 achievements._
 
 ## M0 — Rules prototype
 
@@ -24,7 +24,7 @@ _Last updated: 2026-09-24 — Persona playtest review (docs/playtests), engine u
 - [x] Mouse drag-and-release, click-to-hold, right-click/Esc cancel; keyboard 1–3 / arrows+WASD / Enter+Space / R / Esc.
 - [x] Local save after every action (atomic temp+rename), Continue on title, finished runs not resumable.
 - [ ] Ten reproducible complete seeded runs reviewed by a human (M0 exit criterion) — needs playtesting.
-- [ ] Tutorial (scripted offers) — M2.
+- [~] Tutorial: contextual tips are in (GDD §22.9); a scripted first round with fixed offers remains — M2.
 
 ## The Bag — customizable pieces (GDD §16)
 
@@ -51,7 +51,7 @@ _Last updated: 2026-09-24 — Persona playtest review (docs/playtests), engine u
 - [x] Score count-up (rolling counter, liquid tube) and clear VFX (sweep, wave-delayed bursts, shards, streams, CRT shock).
 - [x] **Placement budget rework** (owner: "12 is too short"): Kits start with 15 / 15 / 14 placements, every cleared line gives one back up to the starting count, a clear on the last placement keeps the round alive. Last Call 10 → 12, Extra Turn cap 16 → 20. HUD bulbs show left/cap with a mint refill flash, a +N pop, a receipt/message line, and intro and tooltip text. Save schema 3 (`placement_cap`). Tests added (GDD §5 "Placements and refills").
 - [ ] Human playtest of the refill budget: does Act 1 feel too easy now (targets unchanged)? Does the unused-placement Credit bonus and Spare Parts inflate the economy?
-- [ ] Fast Animations toggle; skip input for sequences.
+- [x] Game speed setting (Normal / Fast / Turbo, campaign only; GDD §22.10). Boss intro skips on any input. [ ] Skip input for the scoring sequence itself.
 - [x] Audio: 59 synthesized effect files for UI, pieces, clears, combos, economy, Jokers, bag, and results; seven original lo-fi tracks for title, round, shop and boss contexts.
 - [x] Audio options: master/music/effects levels, sound and music switches, background mute, Next Song, and `M` shortcut; settings persist separately from runs.
 - [ ] Human listening pass on target speakers/headphones: balance repetitive effects, confirm music pacing and cue comfort; adjust mixes after feedback.
@@ -109,17 +109,35 @@ Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/r
 - [x] **Achievements page 5 "Legends"** (12 badges, 2 secret, icons): Legendary finds, Pantheon (lifetime), Chain Reaction, Mirror World, Going Nova, Billionaire, and more. 60 achievements in total.
 - [x] Tests: `tests/test_engine.gd`, `tests/test_legendary.gd`, new cases in `test_achievements.gd`; retuned card tests updated.
 - [ ] Human playtest of the engine update: do Legendaries feel special or mandatory? Is the Avalanche readable (blocks do not animate their fall yet)? Does interest make players hoard?
-- [ ] Animate the Avalanche fall (per-wave board snapshots in the record), not just the wave pops.
-- [ ] Plan items from the report (§7): campaign Hold slot (multi-line availability is ~2% of placements), boss escalation in later acts, Tray Hand rebalance, round choice before non-boss rounds, tutorial, daily seed and run history, stakes after a win, achievement-gated Joker unlocks, Overtime milestones.
+- [x] Animate the Avalanche fall: blocks fall with gravity and squash between waves (GDD §22.11).
+- [x] Plan items from the report (§7): see the next section.
+
+## Owner requests, 2026-09-24 (plan items, boss spectacle, menus)
+
+- [x] **Campaign Hold** (GDD §22.1): store or swap one piece between placements; a fitting held piece keeps a round alive; the Lockdown Mk II disables it. Autoplayer uses it as a rescue.
+- [x] **Round cards** (§22.2): Standard + two seeded twists before every non-boss round (Gold Rush, Tight Budget, Rush Hour, Double or Nothing, Mult Fever, Treasure Hunt, Scholarship), picked on a CHOOSE ROUND overlay (keys 1–3).
+- [x] **Mk II bosses** (§22.3) from act 2, every boss at Heat 4+, the final boss in Overtime.
+- [x] **Tray Hands and Kits rebalanced** (§22.4): Twins +1 Mult, Triplets x1.5, Monochrome x2, Grand Slam x2; unlockable Kits at 14 placements, Chunky 19 pieces.
+- [x] **Heat 0–5** (§22.5) on the Kit screen; each win unlocks the next level.
+- [x] **Joker unlocks** (§22.6): 14 Jokers gated by achievements, NEW JOKER UNLOCKED toast, Trophy Case hover lines.
+- [x] **Daily run and RUN HISTORY** (§22.7), **Overtime milestones** at 1M / 1B / 1T (§22.8), **contextual tips** (§22.9).
+- [x] **Boss spectacle** (§22.11): boss cinematic, mood shader (hazard frame, danger vignette + heartbeat, heat haze and embers), board chase bulbs, new swirl moods, Avalanche fall animation, act-start fanfare.
+- [x] **Music**: six new original songs (13 total) and round_hard / boss_mk2 / overtime playlists; eight new cues (`tools/audio/gen_sfx_bosses.py`).
+- [x] **Menus** (§22.10): title reorganized (DAILY, HISTORY), Kit screen with Heat and seed, tabbed Pause/Options (`BMSettingsMenu`) with a RUN page and new accessibility settings.
+- [x] Tests: `tests/test_features.gd` (17), `tests/test_menu.gd` (6). 234 tests pass.
+- [ ] Human playtest: round-card pick rates (is one twist always right?), Heat 1–5 difficulty steps, Mk II spikes in act 2, whether Hold makes rounds too safe, tip timing and wording for a first-time player.
+- [ ] Human comfort pass: boss cinematic length, heartbeat annoyance, hazard frame and heat haze at 720p and with the CRT on, flash strength (the Flashes setting defaults to Full).
+- [ ] Human listening pass for the six new songs (checked for loudness only, not by ear).
+- [ ] Scripted first round (tutorial offers) on top of the tips.
 
 ## M2 — Content complete
 
 - [x] Kit selection screen + unlock tracking (see Round-play proposals).
 - [ ] Practice mode (choose seed, Kit, bosses, Jokers; Undo; no records).
-- [~] Collection / run history / discovery: the Trophy Case (achievements + personal records) is in; a Joker/item collection view and run history remain.
-- [~] Settings screen: audio controls are present; display mode, UI scale 75–150%, input remapping, colorblind presets, high-contrast grid remain.
+- [~] Collection / run history / discovery: the Trophy Case (achievements + personal records) and RUN HISTORY (last 40 runs, replay a seed) are in; a Joker/item collection view remains.
+- [~] Settings screen redesigned (GDD §22.10): tabs, segmented controls, RUN page, game speed, tips, boss intros, V-Sync, screen effects, shake and flash strength, heartbeat. Remaining: UI scale 75–150%, input remapping, colorblind presets, high-contrast grid.
 - [ ] Save schema migrations (`BMSaveStore.load_run` has the hook) + corruption recovery UI.
-- [ ] Daily Challenge (optional for launch).
+- [x] Daily run (local, one seed per date, standard rules; GDD §22.7).
 - [ ] Remove or gate the `_mcp_game_helper` autoload in release exports (dev-only tooling).
 
 ## M3 / M4 — Polish, balance, Steam

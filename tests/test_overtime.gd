@@ -118,6 +118,7 @@ func test_score_never_exceeds_the_limit() -> void:
 
 
 func test_a_run_won_then_lost_in_overtime_counts_once() -> void:
+	BMSaveStore.has_run() # static init first (see test_achievements._store)
 	BMSaveStore.profile_path = "user://test_profile_ot.cfg"
 	if FileAccess.file_exists(BMSaveStore.profile_path):
 		DirAccess.remove_absolute(BMSaveStore.profile_path)

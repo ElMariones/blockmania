@@ -11,6 +11,8 @@ const MAX_PARTICLES := 900
 const GRAVITY := 900.0
 
 var reduced_motion := false
+## Settings > Accessibility > Screen shake (0 = off).
+var shake_scale := 1.0
 var shake_target: Control
 var _parts: Array = [] ## {pos, vel, life, max, size, color, kind, rot, spin}
 var _shake := 0.0
@@ -207,7 +209,8 @@ func pop_text(at: Vector2, text: String, color: Color, size: int = 40, rise: flo
 
 
 func shake(amount: float) -> void:
-	if reduced_motion or shake_target == null:
+	amount *= shake_scale
+	if reduced_motion or shake_target == null or amount <= 0.0:
 		return
 	if _shake <= 0.0:
 		_shake_base = shake_target.position

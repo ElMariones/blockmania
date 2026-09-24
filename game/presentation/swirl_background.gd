@@ -7,6 +7,8 @@ static var instance: BMSwirlBackground
 
 var _mat: ShaderMaterial
 var _pulse := 0.0
+## Settings > Accessibility > Flashes also scales background pulses.
+var pulse_scale := 1.0
 var _focus := Vector2(0.5, 0.5)
 var _target_focus := Vector2(0.5, 0.5)
 
@@ -29,6 +31,9 @@ func set_motion(enabled: bool) -> void:
 
 ## Palette shift for context (e.g. boss rounds glow hotter).
 func set_mood(mood: String) -> void:
+	_mat.set_shader_parameter("col_glint", Color(1.0, 0.72, 0.30))
+	# Bosses churn faster; everything else keeps the calm default.
+	_mat.set_shader_parameter("speed", {"boss": 0.08, "boss_mk2": 0.11, "overtime": 0.07, "act3": 0.06}.get(mood, 0.05))
 	match mood:
 		"endless_clean":
 			_mat.set_shader_parameter("col_mid", Color("#326a80"))
@@ -50,6 +55,19 @@ func set_mood(mood: String) -> void:
 			_mat.set_shader_parameter("col_mid", Color("#4a1330"))
 			_mat.set_shader_parameter("col_hot", Color("#b3263f"))
 			_mat.set_shader_parameter("col_teal", Color("#2a1840"))
+		"boss_mk2":
+			_mat.set_shader_parameter("col_mid", Color("#3a0c1c"))
+			_mat.set_shader_parameter("col_hot", Color("#e0402a"))
+			_mat.set_shader_parameter("col_teal", Color("#1a0a24"))
+			_mat.set_shader_parameter("col_glint", Color("#ffd24a"))
+		"act2":
+			_mat.set_shader_parameter("col_mid", Color("#1f2a5a"))
+			_mat.set_shader_parameter("col_hot", Color("#6a3fb0"))
+			_mat.set_shader_parameter("col_teal", Color("#0f5a6a"))
+		"act3":
+			_mat.set_shader_parameter("col_mid", Color("#3e1840"))
+			_mat.set_shader_parameter("col_hot", Color("#c2473f"))
+			_mat.set_shader_parameter("col_teal", Color("#23264e"))
 		"trophy":
 			_mat.set_shader_parameter("col_mid", Color("#3a2250"))
 			_mat.set_shader_parameter("col_hot", Color("#b8862c"))
@@ -69,7 +87,7 @@ func set_mood(mood: String) -> void:
 
 
 func pulse(amount: float) -> void:
-	_pulse = clampf(maxf(_pulse, amount), 0.0, 1.0)
+	_pulse = clampf(maxf(_pulse, amount * pulse_scale), 0.0, 1.0)
 
 
 func _input(event: InputEvent) -> void:

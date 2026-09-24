@@ -34,6 +34,9 @@ func _next() -> void:
 
 
 func _show(id: String) -> void:
+	if id.begins_with("joker:"):
+		_show_joker(id.trim_prefix("joker:"))
+		return
 	var d := BMAchievements.get_def(id)
 	var tier := String(d.tier)
 	var secret := bool(d.get("secret", false))
@@ -86,6 +89,50 @@ func _show(id: String) -> void:
 	tw.tween_property(badge, "spin", 1.0, 0.32).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
 	tw.tween_interval(hold)
 	tw.tween_property(plate, "position:x", size.x + 20, 0.3).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+	tw.tween_callback(_done.bind(plate))
+
+
+## A Joker joined the shop pool because an achievement unlocked it (GDD §22.6).
+func _show_joker(joker_id: String) -> void:
+	var d := BMJokers.get_def(joker_id)
+	var legendary := BMJokers.is_legendary(joker_id)
+	var plate := BMStyle.panel("panel_plate", Vector4(20, 12, 24, 14))
+	plate.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	plate.custom_minimum_size = Vector2(WIDTH, 0)
+	add_child(plate)
+	var row := BMStyle.hbox(18)
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	plate.add_child(row)
+	var em := BMCard.Emblem.for_joker(joker_id, Vector2(96, 96))
+	row.add_child(em)
+	var v := BMStyle.vbox(2)
+	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(v)
+	var pill_row := BMStyle.hbox(10)
+	pill_row.add_child(BMStyle.pill("NEW JOKER UNLOCKED", "lilac" if legendary else "sun", 20))
+	v.add_child(pill_row)
+	v.add_child(BMStyle.label(String(d.name), 30, BMStyle.LILAC if legendary else BMStyle.SUN, true, 8))
+	var text := BMStyle.label("Now in the shop pool. %s" % String(d.text), 20, BMStyle.CREAM)
+	text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	text.max_lines_visible = 2
+	text.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	v.add_child(text)
+	plate.reset_size()
+	var rest := Vector2(size.x - plate.size.x - 24, 24).round()
+	plate.position = rest
+	BMAudio.sfx("legendary_reveal" if legendary else "ach_silver")
+	var tw := plate.create_tween()
+	if reduced_motion:
+		plate.modulate.a = 0.0
+		tw.tween_property(plate, "modulate:a", 1.0, 0.2)
+	else:
+		plate.position.x = size.x + 20
+		tw.tween_property(plate, "position:x", rest.x, 0.38).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		tw.tween_callback(func() -> void:
+			if BMFx.instance and is_instance_valid(em):
+				BMFx.instance.stars(em.get_global_rect().get_center(), 10, 90, BMStyle.LILAC if legendary else BMStyle.SUN_L))
+	tw.tween_interval(3.6)
+	tw.tween_property(plate, "modulate:a", 0.0, 0.3)
 	tw.tween_callback(_done.bind(plate))
 
 

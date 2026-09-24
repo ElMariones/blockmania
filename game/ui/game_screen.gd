@@ -44,6 +44,8 @@ var _joker_cards: Array[BMCard] = []
 
 # Held-shape state.
 var held_slot := -1
+## Hold (GDD §22.1): the stored-piece box under the receipt.
+var _hold_box: HoldBox
 var held_mode := "" ## "drag", "sticky", or "key"
 var key_anchor := Vector2i(3, 3)
 var _press_pos := Vector2.ZERO
@@ -196,7 +198,12 @@ func _build() -> void:
 	_boss_box = BMStyle.vbox(2)
 	_boss_panel.add_child(_boss_box)
 	_receipt = BMHud.Receipt.new()
-	_at(_receipt, Vector2(52, 562), Vector2(476, 480))
+	_receipt.clip_contents = true
+	_at(_receipt, Vector2(52, 562), Vector2(476, 304))
+	_hold_box = HoldBox.new()
+	_hold_box.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	_hold_box.gui_input.connect(_on_hold_box_input)
+	_at(_hold_box, Vector2(36, 878), Vector2(508, 176))
 
 	# --- Right: Jokers, items, buttons ---
 	var jh := BMStyle.hbox(8)
@@ -252,8 +259,17 @@ func bind(new_run: BMRun) -> void:
 	refresh_all()
 	_receipt.print_rows([{"text": "Round %d. Good luck!" % run.round_number, "color": Color(BMStyle.INK, 0.6)}])
 	if BMSwirlBackground.instance:
-		BMSwirlBackground.instance.set_mood("boss" if run.current_boss() != "" else ("overtime" if run.overtime else "round"))
+		BMSwirlBackground.instance.set_mood(swirl_mood())
 	_maybe_show_phase_overlay()
+
+
+## Background palette: bosses (Mk II hotter), Overtime embers, and a shift per act.
+func swirl_mood() -> String:
+	if run.current_boss() != "":
+		return "boss_mk2" if run.boss_is_mk2() else "boss"
+	if run.overtime:
+		return "overtime"
+	return ["round", "round", "act2", "act3"][clampi(run.act(), 1, 3)]
 
 
 func _apply_motion() -> void:
@@ -275,7 +291,9 @@ func refresh_all() -> void:
 	var boss := run.current_boss()
 	_marquee.boss = boss != ""
 	_marquee.text = "ROUND %d" % run.round_number
-	_marquee.sub = ("BOSS: " + BMBosses.get_def(boss).name.to_upper()) if boss != "" else "ACT %d OF 3" % run.act()
+	_marquee.sub = ("BOSS: " + BMBosses.title(boss, run.boss_is_mk2()).to_upper()) if boss != "" else "ACT %d OF 3" % run.act()
+	if boss == "" and run.round_card != "standard":
+		_marquee.sub = String(BMRoundCards.get_def(run.round_card).name).to_upper()
 	if run.overtime and boss == "":
 		_marquee.sub = "OVERTIME  -  ACT %d" % run.act()
 	_target_label.text = "/ " + BMUI.fmt_score(rs.target)
@@ -297,6 +315,21 @@ HANGING ON: clear on your next placement to keep it." if hanging else ""]
 	_combo_icon.modulate = Color.WHITE if rs.combo > 0 else Color(1, 1, 1, 0.35)
 	_combo_label.modulate = Color.WHITE if rs.combo > 0 else Color(1, 1, 1, 0.5)
 	_credits.set_target(run.credits)
+	board_view.boss_lights = boss != ""
+	board_view.lights_color = BMStyle.SUN if boss != "" and run.boss_is_mk2() else BMStyle.PINK
+	if BMMoodLayer.instance and visible:
+		var danger := run.phase == BMRun.Phase.ROUND and rs.placements_left <= 3 and rs.score < rs.target
+		var heat := 0.0
+		if run.heat >= 3 or run.overtime:
+			heat = 0.7
+		elif run.act() >= 3:
+			heat = 0.3
+		BMMoodLayer.instance.set_round(boss != "", danger, heat)
+	_hold_box.shape = rs.held
+	_hold_box.used = rs.hold_used
+	_hold_box.blocked = run.hold_blocked()
+	_hold_box.drop_ready = held_slot >= 0 and not rs.hold_used and not run.hold_blocked()
+	_hold_box.queue_redraw()
 
 	BMUI.clear_children(_boss_box)
 	_boss_panel.add_theme_stylebox_override("panel", BMStyle.box("panel_boss" if boss != "" else "panel_plate", Vector4(8, 2, 8, 2)))
@@ -304,15 +337,15 @@ HANGING ON: clear on your next placement to keep it." if hanging else ""]
 	_boss_box.add_child(head)
 	head.add_child(BMStyle.icon_rect("icon_skull", 0.75))
 	if boss != "":
-		var d := BMBosses.get_def(boss)
-		head.add_child(BMStyle.label("BOSS: " + d.name.to_upper(), 20, BMStyle.PINK_L, true, 6))
-		var rule := BMStyle.label(d.rule, 20, BMStyle.CREAM)
+		var mk2 := run.boss_is_mk2()
+		head.add_child(BMStyle.label("BOSS: " + BMBosses.title(boss, mk2).to_upper(), 20, BMStyle.PINK_L, true, 6))
+		var rule := BMStyle.label(BMBosses.rule_text(boss, mk2), 20, BMStyle.CREAM)
 		rule.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		_boss_box.add_child(rule)
 	else:
-		var d := BMBosses.get_def(run.act_boss())
-		head.add_child(BMStyle.label("ROUND %d BOSS: %s" % [run.act() * 4, d.name.to_upper()], 20, BMStyle.PINK_L, true, 6))
-		var rule := BMStyle.label(d.rule, 20, BMStyle.TEXT_DIM)
+		var mk2 := run.boss_is_mk2()
+		head.add_child(BMStyle.label("ROUND %d BOSS: %s" % [run.act() * 4, BMBosses.title(run.act_boss(), mk2).to_upper()], 20, BMStyle.PINK_L, true, 6))
+		var rule := BMStyle.label(BMBosses.rule_text(run.act_boss(), mk2), 20, BMStyle.TEXT_DIM)
 		rule.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		_boss_box.add_child(rule)
 
@@ -505,6 +538,10 @@ func _input(event: InputEvent) -> void:
 		drag_layer.queue_redraw()
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed and held_mode == "drag":
 		var moved := _mouse.distance_to(_press_pos) > 12.0
+		if moved and _hold_box.get_global_rect().has_point(_mouse):
+			_hold_piece(held_slot)
+			get_viewport().set_input_as_handled()
+			return
 		if _mouse_over_board():
 			if board_view.ghost_valid:
 				_place_held(board_view.ghost_anchor)
@@ -519,6 +556,9 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
 		_cancel_hold()
+		get_viewport().set_input_as_handled()
+	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT and held_mode == "sticky" and _hold_box.get_global_rect().has_point(_mouse):
+		_hold_piece(held_slot)
 		get_viewport().set_input_as_handled()
 	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT and held_mode == "sticky" and _mouse_over_board():
 		if board_view.ghost_valid:
@@ -570,6 +610,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		_show_bag()
 		get_viewport().set_input_as_handled()
 		return
+	if event.is_action("bm_hold"):
+		_hold_piece(held_slot)
+		get_viewport().set_input_as_handled()
+		return
 	if held_slot < 0:
 		return
 	var move := Vector2i.ZERO
@@ -594,6 +638,45 @@ func _unhandled_input(event: InputEvent) -> void:
 		else:
 			_set_message("That piece doesn't fit there.", BMStyle.PINK_L)
 			BMAudio.sfx("deny")
+		get_viewport().set_input_as_handled()
+
+
+## Hold the picked-up piece (swap with the stored one), or, with nothing picked up, take the
+## stored piece back into an empty tray slot.
+func _hold_piece(slot: int) -> void:
+	if run == null or not run.can_act_in_round():
+		return
+	var rs := run.round_state
+	if run.hold_blocked():
+		_deny("The Lockdown Mk II disables Hold this round.")
+		return
+	if rs.hold_used:
+		_deny("Hold is used. Place a piece to recharge it.")
+		return
+	if slot < 0:
+		if rs.held.is_empty():
+			_deny("Pick up a tray piece first, then drop it on HOLD (or press H).")
+			return
+		for i in run.tray.size():
+			if run.tray[i].is_empty() and not run.slot_locked(i):
+				slot = i
+				break
+		if slot < 0:
+			_deny("Pick up a tray piece to swap with the stored one.")
+			return
+	_cancel_hold("", false)
+	var r := _do_action({"a": "hold", "slot": slot})
+	if r.get("ok", false):
+		BMAudio.sfx("hold_store")
+		slots[slot].land()
+		if BMFx.instance:
+			BMFx.instance.ring(_hold_box.get_global_rect().get_center(), BMStyle.MINT_L, 120.0)
+			BMFx.instance.stars(_hold_box.get_global_rect().get_center(), 5, 60.0, BMStyle.MINT_L)
+
+
+func _on_hold_box_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT and held_slot < 0:
+		_hold_piece(-1)
 		get_viewport().set_input_as_handled()
 
 
@@ -726,20 +809,24 @@ func _place_held(anchor: Vector2i) -> void:
 	_do_action({"a": "place", "slot": slot, "x": anchor.x, "y": anchor.y})
 
 
-func _do_action(a: Dictionary) -> void:
+func _do_action(a: Dictionary) -> Dictionary:
 	if run == null:
-		return
+		return {}
 	var r: Dictionary = main.act(a)
 	if not r.ok:
 		_set_message(r.error, BMStyle.PINK_L)
 		BMAudio.sfx("deny")
-		return
+		return r
 	_new_kits = r.get("kits_unlocked", [])
 	match r.get("type", ""):
 		"place":
 			_present_placement(r)
 			if not r.events.is_empty():
 				_set_message("  ".join(PackedStringArray(r.events)), BMStyle.SUN)
+		"hold":
+			_set_message(", ".join(PackedStringArray(r.get("events", []))).to_upper(), BMStyle.MINT_L)
+			if Array(r.get("tray_events", [])).has("New tray"):
+				pass
 		"refresh":
 			_end_tool(false)
 			_set_message(", ".join(PackedStringArray(r.get("events", []))), BMStyle.MINT_L)
@@ -783,6 +870,7 @@ func _do_action(a: Dictionary) -> void:
 	if r.get("type", "") == "place":
 		_animate_jokers(r)
 	_maybe_show_phase_overlay(0.0 if main.settings.reduced_motion else 0.9)
+	return r
 
 
 func _present_placement(r: Dictionary) -> void:
@@ -845,6 +933,8 @@ func _present_placement(r: Dictionary) -> void:
 			f.pop_text(at + Vector2(0, 30), pts, BMStyle.SUN, 60, 70.0, 1.0)
 			f.shake(6.0 + 4.0 * w)
 			f.confetti(board_view.get_global_rect(), 30 + 20 * w))
+	if int(r.get("milestone", 0)) > 0:
+		_milestone_banner(int(r.milestone), int(r.points))
 	if String(r.get("transmuted", "")) != "" and fx:
 		var m := String(r.transmuted)
 		fx.pop_text(center + Vector2(0, 50), "TRANSMUTED: " + String(BMPieces.MATERIAL_DEFS[m].name).to_upper(), BMStyle.SUN_L, 30, 50.0, 1.2)
@@ -865,6 +955,30 @@ func _present_placement(r: Dictionary) -> void:
 		var moves_at := _moves_label.get_global_rect().get_center()
 		fx.pop_text(moves_at + Vector2(0, -36), "+%d" % refilled, BMStyle.MINT_L, 30, 40.0, 0.9)
 		fx.stars(moves_at, 2 + refilled, 50.0)
+
+
+## A single placement crossed 1M / 1B / 1T for the first time this run: a stadium moment.
+func _milestone_banner(tier: int, points: int) -> void:
+	var names: Array = BMResolver.MILESTONE_NAMES
+	var colors := [BMStyle.SUN, BMStyle.SUN_L, BMStyle.LILAC, BMStyle.PINK_L]
+	var col: Color = colors[clampi(tier, 0, 3)]
+	BMAudio.sfx_later("record_new", 0.2)
+	BMAudio.sfx_later("ach_gold" if tier < 3 else "ach_legend", 0.5)
+	var at := board_view.get_global_rect().get_center()
+	get_tree().create_timer(0.35).timeout.connect(func() -> void:
+		var f := BMFx.instance
+		if f == null:
+			return
+		f.pop_text(at + Vector2(0, -150), "MILESTONE!", BMStyle.CREAM, 40, 60.0, 2.0)
+		f.pop_text(at + Vector2(0, -80), String(names[clampi(tier, 0, 3)]), col, 80, 70.0, 2.2)
+		f.pop_text(at + Vector2(0, 10), BMUI.fmt_int(points), BMStyle.SUN, 60, 60.0, 2.2)
+		f.confetti(Rect2(Vector2.ZERO, size), 160 + 60 * tier)
+		f.shake(8.0 + 4.0 * tier)
+		if BMCrtLayer.instance:
+			BMCrtLayer.instance.shock(0.5 + 0.2 * tier)
+		if BMSwirlBackground.instance:
+			BMSwirlBackground.instance.pulse(1.0))
+	_set_message("MILESTONE: %s IN ONE PLACEMENT" % String(names[clampi(tier, 0, 3)]), col, 4.0)
 
 
 ## Sound for one placement. Timings follow BMBoardView (sweep starts at once; cells pop in a
@@ -1075,7 +1189,10 @@ func _maybe_show_phase_overlay(delay: float = 0.0) -> void:
 		BMRun.Phase.ROUND:
 			if _intro_shown_for != run.round_number and run.round_state.placements_made == 0:
 				_intro_shown_for = run.round_number
-				_show_round_intro()
+				if run.current_boss() != "" and String(main.settings.get("boss_intro", "cinematic")) == "cinematic":
+					_play_boss_intro()
+				else:
+					_show_round_intro()
 		BMRun.Phase.ROUND_RESULT:
 			_show_round_result()
 		BMRun.Phase.RUN_WON, BMRun.Phase.RUN_LOST, BMRun.Phase.ABANDONED:
@@ -1165,8 +1282,22 @@ func _bag_open() -> bool:
 	return overlay.find_children("*", "BMBagView", true, false).size() > 0
 
 
+## Boss rounds open with the cinematic (BMBossIntro), then the usual round intro.
+func _play_boss_intro() -> void:
+	var intro := BMBossIntro.new()
+	intro.boss = run.current_boss()
+	intro.mk2 = run.boss_is_mk2()
+	intro.reduced_motion = main.settings.reduced_motion
+	overlay.add_child(intro)
+	intro.finished.connect(func() -> void:
+		if run != null and run.phase == BMRun.Phase.ROUND:
+			_show_round_intro.call_deferred())
+
+
 func _show_round_intro() -> void:
 	var boss := run.current_boss()
+	if boss == "" and run.round_number % BMRunConfig.ROUNDS_PER_ACT == 1 and run.round_number > 1:
+		BMAudio.sfx_later("act_start", 0.15)
 	var v := _modal("panel_boss" if boss != "" else "panel_plate", 680)
 	BMAudio.sfx("sting_boss" if boss != "" else "sting_round")
 	var pill_text := "ROUND %d  -  ACT %d" % [run.round_number, run.act()]
@@ -1197,16 +1328,27 @@ func _show_round_intro() -> void:
 	facts.add_child(f1)
 	facts.add_child(f2)
 	v.add_child(facts)
+	if boss == "" and run.round_card != "standard":
+		var cd := BMRoundCards.get_def(run.round_card)
+		var cp := BMStyle.panel("panel_inset", Vector4(10, 6, 10, 8))
+		var cv := BMStyle.vbox(2)
+		cp.add_child(cv)
+		cv.add_child(BMStyle.label("TWIST: " + String(cd.name).to_upper(), 20, BMStyle.SUN_L, true, 6))
+		var ct := BMStyle.label(String(cd.text), 20, BMStyle.CREAM)
+		ct.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		cv.add_child(ct)
+		v.add_child(cp)
 	if boss != "":
 		var d := BMBosses.get_def(boss)
+		var mk2 := run.boss_is_mk2()
 		var bp := BMStyle.panel("panel_inset", Vector4(10, 8, 10, 8))
 		var bv := BMStyle.vbox(4)
 		bp.add_child(bv)
 		var bh := BMStyle.hbox(8)
 		bh.add_child(BMStyle.icon_rect("icon_skull", 1.0))
-		bh.add_child(BMStyle.label("BOSS: " + d.name.to_upper(), 30, BMStyle.PINK_L, true, 8))
+		bh.add_child(BMStyle.label("BOSS: " + BMBosses.title(boss, mk2).to_upper(), 30, BMStyle.PINK_L, true, 8))
 		bv.add_child(bh)
-		var rule := BMStyle.label(d.rule, 20, BMStyle.CREAM)
+		var rule := BMStyle.label(BMBosses.rule_text(boss, mk2), 20, BMStyle.CREAM)
 		rule.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		bv.add_child(rule)
 		var tip := BMStyle.label("Tip: " + d.counter, 20, BMStyle.TEXT_DIM)
@@ -1226,15 +1368,15 @@ func _show_round_intro() -> void:
 			ot.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			v.add_child(ot)
 		# First round of an act: preview the act's boss so it never arrives as a surprise.
-		var d := BMBosses.get_def(run.act_boss())
+		var mk2 := run.boss_is_mk2()
 		var np := BMStyle.panel("panel_inset", Vector4(10, 6, 10, 8))
 		var nv := BMStyle.vbox(4)
 		np.add_child(nv)
 		var nh := BMStyle.hbox(8)
 		nh.add_child(BMStyle.icon_rect("icon_skull", 0.75))
-		nh.add_child(BMStyle.label("ACT BOSS, ROUND %d:  %s" % [run.act() * BMRunConfig.ROUNDS_PER_ACT, String(d.name).to_upper()], 20, BMStyle.PINK_L, true, 6))
+		nh.add_child(BMStyle.label("ACT BOSS, ROUND %d:  %s" % [run.act() * BMRunConfig.ROUNDS_PER_ACT, BMBosses.title(run.act_boss(), mk2).to_upper()], 20, BMStyle.PINK_L, true, 6))
 		nv.add_child(nh)
-		var note := BMStyle.label(d.rule, 20, BMStyle.CREAM)
+		var note := BMStyle.label(BMBosses.rule_text(run.act_boss(), mk2), 20, BMStyle.CREAM)
 		note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		nv.add_child(note)
 		v.add_child(np)
@@ -2056,3 +2198,36 @@ func _warden_unlock(slot: int) -> void:
 		fx.sparks(at, BMStyle.SUN_L, 14)
 		fx.pop_text(at + Vector2(0, -90), "FREE!", BMStyle.MINT_L, 60, 60.0, 1.0)
 	slots[slot].flare()
+
+
+## The Hold box: the stored piece on the right, the rule on the left. Presentation of
+## round_state.held / hold_used only.
+class HoldBox extends Control:
+	var shape: Dictionary = {}
+	var used := false
+	var blocked := false
+	var drop_ready := false
+
+	func _ready() -> void:
+		mouse_filter = Control.MOUSE_FILTER_STOP
+		tooltip_text = "HOLD (H): store a tray piece; its slot draws a new one. Later, swap it back in or click here to return it to an empty slot. Once between placements."
+
+	func _draw() -> void:
+		draw_style_box(BMStyle.box("panel_plate", Vector4.ZERO), Rect2(Vector2.ZERO, size))
+		var well := Rect2(Vector2(size.x - 196, 12), Vector2(184, size.y - 24))
+		draw_style_box(BMStyle.box("panel_inset", Vector4.ZERO), well)
+		if drop_ready:
+			draw_rect(well.grow(-5), BMStyle.MINT_L, false, 4.0)
+		draw_string(BMStyle.font_bold, Vector2(26, 50), "HOLD", HORIZONTAL_ALIGNMENT_LEFT, -1, 40, BMStyle.MINT_L if drop_ready else BMStyle.SUN)
+		var line1 := "LOCKED BY BOSS" if blocked else ("USED THIS TURN" if used else ("DROP IT HERE" if drop_ready else "PRESS H OR DROP"))
+		var col := BMStyle.PINK_L if blocked or used else BMStyle.CREAM
+		draw_string(BMStyle.font_bold, Vector2(26, 92), line1, HORIZONTAL_ALIGNMENT_LEFT, size.x - 240, 20, col)
+		draw_string(BMStyle.font, Vector2(26, 124), "Store a piece, swap later.", HORIZONTAL_ALIGNMENT_LEFT, size.x - 240, 20, BMStyle.TEXT_DIM)
+		draw_string(BMStyle.font, Vector2(26, 150), "Once per placement.", HORIZONTAL_ALIGNMENT_LEFT, size.x - 240, 20, BMStyle.TEXT_DIM)
+		if shape.is_empty():
+			draw_string(BMStyle.font, Vector2(well.position.x, well.get_center().y + 10), "EMPTY", HORIZONTAL_ALIGNMENT_CENTER, well.size.x, 20, BMStyle.TEXT_DIM)
+		else:
+			var dims := Vector2(BMShapes.shape_size(shape))
+			var cell := minf(30.0, floorf(minf((well.size.x - 24) / dims.x, (well.size.y - 24) / dims.y)))
+			var at := (well.position + (well.size - dims * cell) / 2.0).round()
+			BMBlockPainter.draw_shape(self, shape, at, cell, 0.55 if used else 1.0, Color.WHITE, "classic")

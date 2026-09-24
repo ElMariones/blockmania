@@ -17,6 +17,8 @@ var _rect: ColorRect
 var _mat: ShaderMaterial
 var _warp := 0.35
 var _shock := 0.0
+## Settings > Accessibility > Flashes also scales the CRT jolt (0 = none).
+var shock_scale := 1.0
 
 
 func _init() -> void:
@@ -48,7 +50,7 @@ func set_mode(m: String) -> void:
 func shock(amount: float) -> void:
 	if mode == "off":
 		return
-	_shock = clampf(maxf(_shock, amount), 0.0, 1.0)
+	_shock = clampf(maxf(_shock, amount * shock_scale), 0.0, 1.0)
 
 
 func _process(delta: float) -> void:

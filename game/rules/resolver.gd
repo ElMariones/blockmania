@@ -22,6 +22,11 @@ extends RefCounted
 ## run-long scaling Jokers (BMRun.joker_state).
 
 
+## Single-placement milestones (a banner the first time each is crossed in a run).
+const MILESTONES := [1_000_000, 1_000_000_000, 1_000_000_000_000]
+const MILESTONE_NAMES := ["", "SEVEN DIGITS", "BILLION-POINT BLOCK", "TRILLION TERRITORY"]
+
+
 ## Caller (BMRun.place) has validated phase, slot, and legality.
 static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictionary:
 	var rs := run.round_state
@@ -176,8 +181,9 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 		var line_chips := BMRunConfig.CHIPS_PER_LINE * lines
 		var line_label := "Lines x%d" % lines
 		if run.boss_active("taxman"):
-			line_chips -= BMRunConfig.CHIPS_PER_LINE - BMBosses.TAXMAN_FIRST_LINE_CHIPS
-			line_label += " (Taxman: first line %d)" % BMBosses.TAXMAN_FIRST_LINE_CHIPS
+			var first := BMBosses.TAXMAN_FIRST_LINE_CHIPS_MK2 if run.boss_is_mk2() else BMBosses.TAXMAN_FIRST_LINE_CHIPS
+			line_chips -= BMRunConfig.CHIPS_PER_LINE - first
+			line_label += " (Taxman: first line %d)" % first
 		items.append({"label": line_label, "kind": "chips", "value": line_chips, "source": "base"})
 		chips += line_chips
 		if lines > 1:
@@ -191,9 +197,6 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 		if lines > 1 and run.boss_active("last_call"):
 			items.append({"label": "Last Call multi-line", "kind": "chips", "value": BMBosses.LAST_CALL_MULTI_LINE_CHIPS, "source": "boss"})
 			chips += BMBosses.LAST_CALL_MULTI_LINE_CHIPS
-	if hand == BMHands.TWINS:
-		items.append({"label": "Twins hand", "kind": "chips", "value": BMHands.TWINS_CHIPS, "source": "hand", "hand": hand})
-		chips += BMHands.TWINS_CHIPS
 
 	var effects := _joker_effects(run)
 
@@ -213,8 +216,16 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 		var lvl_mult := BMPieces.LEVEL_MULT * family_level
 		items.append({"label": "%s Lv %d" % [BMShapes.family(piece.family).name, family_level], "kind": "mult", "value": lvl_mult, "source": "piece"})
 		mult += lvl_mult
+	if hand == BMHands.TWINS:
+		items.append({"label": "Twins hand", "kind": "mult", "value": BMHands.TWINS_MULT, "source": "hand", "hand": hand})
+		mult += BMHands.TWINS_MULT
+	if run.round_card == "mult_fever":
+		items.append({"label": "Mult Fever", "kind": "mult", "value": 1.0, "source": "round"})
+		mult += 1.0
 	if lines > 1:
 		var ml := BMRunConfig.MULT_PER_EXTRA_LINE * (lines - 1)
+		if run.boss_active("taxman") and run.boss_is_mk2():
+			ml *= 0.5
 		items.append({"label": "Multi-line Mult (%d lines)" % lines, "kind": "mult", "value": ml, "source": "base"})
 		mult += ml
 	if neon_cleared > 0:
@@ -249,6 +260,9 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 	if hand in [BMHands.MONOCHROME, BMHands.GRAND_SLAM]:
 		items.append({"label": "%s hand" % BMHands.get_def(hand).name, "kind": "xmult", "value": BMHands.MONOCHROME_X_MULT, "source": "hand", "hand": hand})
 		mult *= BMHands.MONOCHROME_X_MULT
+	elif hand == BMHands.TRIPLETS:
+		items.append({"label": "Triplets hand", "kind": "xmult", "value": BMHands.TRIPLETS_X_MULT, "source": "hand", "hand": hand})
+		mult *= BMHands.TRIPLETS_X_MULT
 	for e in effects:
 		var x := BMJokers.x_mult(e.effect, ctx)
 		if x != 1.0:
@@ -272,6 +286,11 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 			var moves := board.settle()
 			if moves.is_empty():
 				break
+			# Presentation needs what fell: [from, to, color, mat].
+			for mv in moves:
+				var to: Vector2i = mv[1]
+				mv.append(board.get_cell(to))
+				mv.append(board.get_mat(to))
 			# Tombstones fall with their blocks.
 			for t in rs.tombs:
 				for mv in moves:
@@ -411,6 +430,16 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 				events.append("Glass %s cracked but held (bag at minimum size)" % name)
 	run.stats.lines_cleared += all_lines
 	rs.lines_cleared += all_lines
+	rs.last_family = String(piece.family)
+	# Milestones (1M / 1B / 1T in one placement): reported once per run for the big banner.
+	var milestone := 0
+	var tier := 0
+	for i in MILESTONES.size():
+		if points >= MILESTONES[i]:
+			tier = i + 1
+	if tier > int(run.stats.get("milestone", 0)):
+		run.stats["milestone"] = tier
+		milestone = tier
 	run.stats.placements += 1
 	run.stats.total_points = mini(BMRunConfig.SCORE_CAP, run.stats.total_points + points)
 	run.stats.best_placement = maxi(run.stats.best_placement, points)
@@ -441,6 +470,7 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 		"waves": waves,
 		"wave_lines": wave_lines,
 		"transmuted": transmuted,
+		"milestone": milestone,
 		"items": items,
 		"chips": chips,
 		"mult": mult,

@@ -211,9 +211,24 @@ All code-authored; no external media or generated-image art.
 | 17 Joker portraits (13 new Jokers, 4 Legendaries), 4 item portraits (Turbo, Tune-Up, Coffee Break, Coin Roll), Rack Extender, 12 achievement icons for page 5 "Legends" | `tools/art/cards_engine.py` (merged by `gen_cards.py`) → `assets/ui/cards/` | In game |
 | Legendary frames: `card_legendary`, `rack_legendary` (lilac rim, sun gem), `pill_lilac`; faster glint with twinkles on Legendary portraits | `tools/art/gen_ui.py`, `game/ui/card.gd` | In game; verified at 1920×1080 |
 | Legendary callouts: LEGENDARY! pop text, lilac confetti, CRT shock on purchase or crate pick; reveal sting once per shop visit | `game/ui/shop_screen.gd` | In game |
-| Avalanche chain waves (cells pop one beat per wave, AVALANCHE xN! callout, confetti, shake, wave lines in the receipt); TRANSMUTED label; Joker growth lines on the round result | `game/ui/board_view.gd`, `game/ui/game_screen.gd` | In game; falling blocks are not animated yet (they settle between beats) |
+| Avalanche chain waves (cells pop one beat per wave, AVALANCHE xN! callout, confetti, shake, wave lines in the receipt); TRANSMUTED label; Joker growth lines on the round result | `game/ui/board_view.gd`, `game/ui/game_screen.gd` | In game; since 12d the blocks visibly fall between waves |
 | Compact Joker rack for 6–7 slots (64/48-px portraits) | `game/ui/card.gd` | In game; verified with 7 slots in round and shop |
 | 2 sounds: `legendary_reveal`, `legendary_get` | `tools/audio/gen_sfx_achievements.py` | In game; human listening pass open |
+
+## 12d. Boss spectacle, hard rounds, music and menus (2026-09-24)
+
+All code-authored (shaders, procedural drawing, synthesized audio); no external media or generated-image art. GDD §22.
+
+| Deliverable | Source | Status |
+|---|---|---|
+| Boss cinematic: letterbox bars with hazard tape, WARNING / MK II marching text, name slam with chromatic shadow, typed rule, stamped Mk II plate with sparks | `game/ui/boss_intro.gd` (`BMBossIntro`) | In game; verified at 1920×1080 (Mk II Warden) |
+| Mood overlay shader: crawling hazard-tape frame and glow on boss rounds, heartbeat danger vignette, heat haze with embers, full-screen flash | `game/presentation/mood_layer.gd`, `shaders/mood.gdshader` | In game; boss frame and danger + heat verified in screenshots |
+| Board chase bulbs on boss rounds (pink, sun for Mk II); swirl moods `boss_mk2`, `act2`, `act3`, `overtime` with their own speeds | `game/ui/board_view.gd`, `game/presentation/swirl_background.gd` | In game |
+| Avalanche fall animation (gravity, squash, landing tick) | `game/ui/board_view.gd` | In game; verified mid-fall |
+| Hold box, round-card picker overlay, milestone banner, NEW JOKER UNLOCKED toast, tip plates | `game/ui/game_screen.gd`, `shop_screen.gd`, `achievement_toast.gd`, `tip_plate.gd` | In game; verified in screenshots |
+| Menus: reorganized title, Kit screen with Heat selector and seed, DAILY popup, RUN HISTORY with Joker portraits, tabbed Pause/Options with a round track | `game/ui/title_screen.gd`, `game/ui/settings_menu.gd` | In game; every page verified at 1920×1080 |
+| 6 songs: Paper Lanterns, Pocket Change, Iron Curtain, Cascade, Overtime Rush, High Score | `tools/audio/gen_music.py` | In game; loudness checked, human listening pass open |
+| 8 cues: `boss_alarm`, `boss_slam`, `mk2_stamp`, `heartbeat`, `danger_on`, `hold_store`, `round_pick`, `act_start` | `tools/audio/gen_sfx_bosses.py` | In game; human listening pass open |
 
 ## 13. Endless arcade mode (2026-09-23)
 

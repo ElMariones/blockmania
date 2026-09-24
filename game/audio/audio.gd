@@ -110,6 +110,15 @@ const SFX := {
 	"machine_break": [["machine_break"], 0.0, 1000],
 	"legendary_reveal": [["legendary_reveal"], 0.0, 800],
 	"legendary_get": [["legendary_get"], 0.0, 800],
+	# Bosses, danger, Hold and round cards (tools/audio/gen_sfx_bosses.py).
+	"boss_alarm": [["boss_alarm"], 0.0, 800],
+	"boss_slam": [["boss_slam"], 0.0, 800],
+	"mk2_stamp": [["mk2_stamp"], 0.0, 800],
+	"heartbeat": [["heartbeat"], 0.0, 500],
+	"danger_on": [["danger_on"], 0.0, 1500],
+	"hold_store": [["hold_store"], 0.04, 120],
+	"round_pick": [["round_pick"], 0.0, 300],
+	"act_start": [["act_start"], 0.0, 800],
 }
 
 ## Soundtrack. Order inside a playlist is shuffled (never the same track twice in a row).
@@ -121,20 +130,31 @@ const TRACKS := {
 	"night_shift": "Night Shift",
 	"the_toybox": "The Toybox",
 	"last_call": "Last Call",
+	"paper_lanterns": "Paper Lanterns",
+	"pocket_change": "Pocket Change",
+	"iron_curtain": "Iron Curtain",
+	"cascade": "Cascade",
+	"overtime_rush": "Overtime Rush",
+	"high_score": "High Score",
 }
 const PLAYLISTS := {
-	"title": ["blockhead_lullaby"],
-	"round": ["eight_by_eight", "rainy_arcade", "clear_skies", "night_shift"],
-	"shop": ["the_toybox"],
+	"title": ["blockhead_lullaby", "paper_lanterns"],
+	"round": ["eight_by_eight", "rainy_arcade", "clear_skies", "night_shift", "high_score"],
+	## Act 3 and Heat 3+: faster, darker tunes (GDD §22.11).
+	"round_hard": ["cascade", "night_shift", "high_score"],
+	"shop": ["the_toybox", "pocket_change"],
 	"boss": ["last_call"],
-	"endless_calm": ["blockhead_lullaby", "rainy_arcade", "clear_skies"],
-	"endless_tense": ["night_shift", "last_call"],
-	"endless_party": ["the_toybox", "eight_by_eight"],
-	"endless_clean": ["clear_skies", "the_toybox"],
+	"boss_mk2": ["iron_curtain"],
+	"overtime": ["overtime_rush", "cascade"],
+	"endless_calm": ["blockhead_lullaby", "rainy_arcade", "clear_skies", "paper_lanterns"],
+	"endless_tense": ["night_shift", "last_call", "iron_curtain", "cascade"],
+	"endless_party": ["the_toybox", "eight_by_eight", "high_score", "pocket_change", "overtime_rush"],
+	"endless_clean": ["clear_skies", "the_toybox", "paper_lanterns"],
 }
 const TRACK_BPM := {"blockhead_lullaby": 64, "eight_by_eight": 76, "rainy_arcade": 70,
-	"clear_skies": 84, "night_shift": 80, "the_toybox": 92, "last_call": 68}
-const TRACK_BEATS := {"clear_skies": 3}
+	"clear_skies": 84, "night_shift": 80, "the_toybox": 92, "last_call": 68,
+	"paper_lanterns": 72, "pocket_change": 104, "iron_curtain": 88, "cascade": 96, "overtime_rush": 116, "high_score": 100}
+const TRACK_BEATS := {"clear_skies": 3, "paper_lanterns": 3}
 ## A breath of silence between tracks, like an ambient soundtrack (seconds).
 const GAP := Vector2(2.5, 6.0)
 const CROSSFADE := 1.6

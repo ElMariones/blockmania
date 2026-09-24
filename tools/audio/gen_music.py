@@ -271,6 +271,135 @@ SONGS["last_call"] = {
 }
 
 
+# --- New tracks (2026-09-24): an alternate title waltz, a second shop tune, a Mk II boss theme,
+# a harder late-round track, an Overtime rush and a bright arcade tune. Same instruments; the
+# faster pieces add a 16th-note piano arpeggio and the "drive" / "march" drum patterns.
+
+SONGS["paper_lanterns"] = {
+    "snap": True,
+    "title": "Paper Lanterns", "context": "title", "bpm": 72, "beats": 3, "scale": "lydian",
+    "key": 53, "mel_base": 77, "seed": 808, "lofi": 0.5, "rain": 0.0, "vinyl": 0.6, "swing": 0.0,
+    "progs": {"A": "Fmaj7 | G/F | Em7 | Am7 | Dm9 | G13 | Cmaj7 | Cmaj7"},
+    "melodies": {
+        "m1": "5:2 6:1  7:3  6:1 5:1 3:1  5:3  4:2 3:1  2:2 1:1  3:3  r:3",
+        "m2": "1':2 7:1  6:3  5:1 6:1 7:1  1':3  2':2 1':1  7:2 5:1  6:3  5:3",
+    },
+    "sections": [
+        {"prog": "A", "reps": 1, "piano": "waltz", "pad": 0.3, "lp": (2000, 8000)},
+        {"prog": "A", "reps": 1, "piano": "waltz", "melody": "m1", "lead": "bells"},
+        {"prog": "A", "reps": 1, "piano": "waltz", "pad": 0.3, "melody": "m2", "lead": "bells+piano"},
+        {"prog": "A", "reps": 1, "piano": "waltz", "pad": 0.35, "melody": "m1", "lead": "piano", "bells": "counter"},
+        {"prog": "A", "reps": 1, "piano": "waltz", "pad": 0.4, "lp": (8000, 2000)},
+    ],
+}
+
+SONGS["pocket_change"] = {
+    "snap": True,
+    "title": "Pocket Change", "context": "shop", "bpm": 104, "beats": 4, "scale": "major",
+    "key": 55, "mel_base": 79, "seed": 909, "lofi": 0.7, "rain": 0.0, "vinyl": 0.7, "swing": 0.16,
+    "progs": {"A": "Gmaj7 | Em7 | Am7 | D7", "B": "Cmaj7 | Bm7 E7 | Am7 | D7sus4 D7"},
+    "melodies": {
+        "m1": "5:0.5 6:0.5 5:0.5 3:0.5 2:1 1:1  3:1 5:1 6:2  6:0.5 5:0.5 4:0.5 3:0.5 2:1 4:1  3:2 r:2  "
+              "5:0.5 6:0.5 5:0.5 3:0.5 2:1 1:1  3:1 5:1 1':2  7:1 6:1 5:1 2:1  1:2 r:2",
+        "m2": "3:1 4:1 5:2  6:1 5:1 3:2  4:1 5:1 6:1 1':1  7:2 5:2  "
+              "3:1 4:1 5:1 6:1  7:1.5 6:0.5 5:2  4:1 6:1 1':1 7:1  1':3 r:1",
+    },
+    "sections": [
+        {"prog": "A", "reps": 1, "ep": "offbeat", "bass": "walk", "drums": "toy", "lp": (1500, 8000)},
+        {"prog": "A", "reps": 2, "ep": "offbeat", "bass": "walk", "drums": "toy", "melody": "m1", "lead": "bells+piano"},
+        {"prog": "B", "reps": 2, "ep": "offbeat", "bass": "walk", "drums": "lofi", "melody": "m2", "lead": "piano"},
+        {"prog": "A", "reps": 2, "ep": "offbeat", "piano": "block", "bass": "walk", "drums": "toy", "melody": "m1", "lead": "bells"},
+        {"prog": "B", "reps": 2, "ep": "offbeat", "bass": "walk", "drums": "lofi", "melody": "m2", "lead": "bells+ep", "bells": "counter"},
+        {"prog": "A", "reps": 1, "ep": "offbeat", "bass": "walk", "lp": (8000, 1500)},
+    ],
+}
+
+SONGS["iron_curtain"] = {
+    "snap": True,
+    "title": "Iron Curtain", "context": "boss", "bpm": 88, "beats": 4, "scale": "minor",
+    "key": 64, "mel_base": 76, "seed": 1010, "lofi": 0.6, "rain": 0.2, "vinyl": 0.5, "swing": 0.0,
+    "progs": {"A": "Em | Cmaj7 | Am7 | B7sus4 B7", "B": "Cmaj7 | D6 | Bm7 | Em"},
+    "melodies": {
+        "m1": "1:1 2:1 3:2  5:1.5 4:0.5 3:2  6:1 5:1 4:1 3:1  2:3 #7,:1  "
+              "1:1 3:1 5:1 1':1  7:1.5 6:0.5 5:2  4:1 3:1 2:1 4:1  3:2 2:1 #7,:1",
+        "m2": "5:2 6:1 5:1  4:2 6:1 4:1  3:1 4:1 5:1 3:1  1:3 r:1  "
+              "5:1 7:1 1':2  2':1.5 1':0.5 7:2  6:1 5:1 4:1 6:1  5:4",
+    },
+    "sections": [
+        {"prog": "A", "reps": 1, "piano": "ostinato", "pad": 0.45, "drums": "heart", "lp": (700, 3000)},
+        {"prog": "A", "reps": 2, "piano": "ostinato", "pad": 0.35, "drums": "march", "bass": "lofi"},
+        {"prog": "A", "reps": 2, "piano": "ostinato", "pad": 0.35, "drums": "march", "bass": "lofi", "melody": "m1", "lead": "piano"},
+        {"prog": "B", "reps": 2, "piano": "arp16", "pad": 0.4, "drums": "drive", "bass": "lofi", "melody": "m2", "lead": "bells+piano"},
+        {"prog": "A", "reps": 2, "piano": "ostinato", "pad": 0.45, "drums": "march", "bass": "long", "melody": "m1", "lead": "bells"},
+        {"prog": "A", "reps": 1, "piano": "ostinato", "pad": 0.5, "lp": (4000, 600)},
+    ],
+}
+
+SONGS["cascade"] = {
+    "snap": True,
+    "title": "Cascade", "context": "round_hard", "bpm": 96, "beats": 4, "scale": "dorian",
+    "key": 62, "mel_base": 74, "seed": 1111, "lofi": 0.8, "rain": 0.0, "vinyl": 0.8, "swing": 0.08,
+    "progs": {"A": "Dm9 | G13 | Dm9 | G13", "B": "Bbmaj7 | C6 | Am7 | Dm9"},
+    "melodies": {
+        "m1": "5:0.5 4:0.5 3:0.5 1:0.5 2:2  3:1 5:1 7:2  6:0.5 5:0.5 4:0.5 3:0.5 2:2  1:3 r:1  "
+              "5:0.5 6:0.5 7:0.5 1':0.5 7:2  6:1 5:1 4:2  3:1 4:1 5:1 6:1  5:4",
+        "m2": "3:1 5:1 7:1 1':1  6:2 5:2  4:1 6:1 1':1 2':1  1':3 r:1  "
+              "7:1 6:1 5:1 4:1  3:2 5:2  4:1 3:1 2:1 7,:1  1:4",
+    },
+    "sections": [
+        {"prog": "A", "reps": 1, "ep": "comp", "piano": "arp16", "lp": (900, 5000)},
+        {"prog": "A", "reps": 2, "ep": "comp", "piano": "arp16", "bass": "lofi", "drums": "lofi"},
+        {"prog": "A", "reps": 2, "ep": "comp", "bass": "lofi", "drums": "drive", "melody": "m1", "lead": "piano"},
+        {"prog": "B", "reps": 2, "ep": "comp", "piano": "arp8", "bass": "lofi", "drums": "drive", "melody": "m2", "lead": "bells+piano", "pad": 0.25},
+        {"prog": "A", "reps": 2, "ep": "comp", "piano": "arp16", "bass": "lofi", "drums": "lofi", "melody": "m1", "lead": "bells+ep"},
+        {"prog": "A", "reps": 1, "ep": "comp", "pad": 0.3, "lp": (6000, 1000)},
+    ],
+}
+
+SONGS["overtime_rush"] = {
+    "snap": True,
+    "title": "Overtime Rush", "context": "overtime", "bpm": 116, "beats": 4, "scale": "minor",
+    "key": 57, "mel_base": 81, "seed": 1212, "lofi": 0.5, "rain": 0.0, "vinyl": 0.4, "swing": 0.0,
+    "progs": {"A": "Am9 | Fmaj7 | Cmaj7 | G6", "B": "Dm9 | Em7 | Fmaj7 | E7sus4 E7"},
+    "melodies": {
+        "m1": "1:1 3:1 5:1.5 4:0.5  3:2 2:1 1:1  5:1 6:1 7:1 1':1  7:2 5:2  "
+              "4:1 5:1 6:1 4:1  3:1.5 2:0.5 1:2  2:1 3:1 4:1 6:1  5,:2 #7,:2",
+        "m2": "5:1 6:1 7:2  1':1 7:1 5:2  6:1 5:1 4:1 3:1  2:2 5,:2  "
+              "3:1 4:1 5:1 6:1  7:1.5 1':0.5 2':2  1':1 7:1 6:1 5:1  5:2 #7:2",
+    },
+    "sections": [
+        {"prog": "A", "reps": 1, "piano": "arp16", "drums": "drive", "lp": (1200, 9000)},
+        {"prog": "A", "reps": 2, "piano": "arp16", "ep": "comp", "bass": "lofi", "drums": "drive", "melody": "m1", "lead": "piano"},
+        {"prog": "B", "reps": 2, "piano": "arp16", "ep": "comp", "bass": "lofi", "drums": "drive", "melody": "m2", "lead": "bells+piano", "bells": "counter"},
+        {"prog": "A", "reps": 2, "piano": "ostinato", "pad": 0.3, "bass": "long", "drums": "march"},
+        {"prog": "A", "reps": 2, "piano": "arp16", "ep": "comp", "bass": "lofi", "drums": "drive", "melody": "m1", "lead": "bells+piano"},
+        {"prog": "B", "reps": 2, "piano": "arp16", "ep": "comp", "bass": "lofi", "drums": "drive", "melody": "m2", "lead": "piano", "pad": 0.3},
+        {"prog": "A", "reps": 1, "piano": "arp16", "pad": 0.3, "lp": (9000, 1200)},
+    ],
+}
+
+SONGS["high_score"] = {
+    "snap": True,
+    "title": "High Score", "context": "round", "bpm": 100, "beats": 4, "scale": "major",
+    "key": 60, "mel_base": 72, "seed": 1313, "lofi": 0.8, "rain": 0.0, "vinyl": 0.8, "swing": 0.12,
+    "progs": {"A": "Cmaj7 | Fmaj7 | Am7 | G6", "B": "Dm7 | Em7 | Fmaj7 | Gsus4 G"},
+    "melodies": {
+        "m1": "3:1 5:1 1':2  7:1 6:1 5:2  3:1 5:1 6:1 5:1  2:3 r:1  "
+              "3:1 5:1 1':1 2':1  3':2 2':1 1':1  6:1 5:1 3:1 2:1  1:3 r:1",
+        "m2": "6:1.5 5:0.5 4:2  5:1.5 4:0.5 3:2  4:1 5:1 6:1 1':1  5:4  "
+              "6:1 1':1 2':1 1':1  7:2 5:2  4:1 3:1 2:1 5:1  5:4",
+    },
+    "sections": [
+        {"prog": "A", "reps": 1, "ep": "comp", "lp": (1000, 4000)},
+        {"prog": "A", "reps": 2, "ep": "comp", "piano": "arp8", "bass": "lofi", "drums": "lofi", "melody": "m1", "lead": "piano"},
+        {"prog": "B", "reps": 2, "ep": "comp", "bass": "lofi", "drums": "lofi", "melody": "m2", "lead": "bells+piano"},
+        {"prog": "A", "reps": 2, "ep": "comp", "piano": "arp8", "bass": "lofi", "drums": "drive", "melody": "m1", "lead": "bells+ep", "bells": "counter"},
+        {"prog": "B", "reps": 2, "ep": "comp", "bass": "lofi", "drums": "lofi", "melody": "m2", "lead": "piano", "pad": 0.25},
+        {"prog": "A", "reps": 1, "ep": "comp", "pad": 0.3, "lp": (6000, 1200)},
+    ],
+}
+
+
 # --- Arrangement -> note events --------------------------------------------------------------
 
 class Ev:
@@ -332,6 +461,16 @@ def arrange(song: dict) -> tuple:
                     for pos, idx in seq:
                         if pos < cl:
                             evs.append(Ev(when(t_bar, cb + pos), "piano", v[idx % len(v)], (cl - pos) * beat, r.uniform(0.25, 0.35), 0.2))
+                elif pat == "arp16":
+                    # Driving 16th-note arpeggio over the voicing (energetic tracks).
+                    evs.append(Ev(when(t_bar, cb), "piano", root, cl * beat, 0.42, -0.25))
+                    order = [0, 1, 2, 3, 2, 1, 2, 3]
+                    for k in range(int(cl * 4)):
+                        if k == 0:
+                            continue
+                        n = v[order[k % 8] % len(v)] + (12 if k % 8 == 3 else 0)
+                        evs.append(Ev(when(t_bar, cb + k * 0.25), "piano", n, 0.35 * beat,
+                                      (0.28 if k % 4 == 0 else 0.2) + r.uniform(-0.02, 0.02), 0.2))
                 elif pat == "block":
                     for k, n in enumerate(v):
                         evs.append(Ev(when(t_bar, cb) + k * 0.012, "piano", n, cl * beat * 0.9, 0.3, 0.1))
@@ -407,6 +546,14 @@ def arrange(song: dict) -> tuple:
                 ch = next((c for c in chords_at if c[0] - 1e-6 <= t0 < c[1]), chords_at[-1])[2]
                 pcs = {(ch["root"] + i) % 12 for i in ch["tones"]}
                 clash = min(min((n - p) % 12, (p - n) % 12) for p in pcs)
+                if song.get("snap") and strong and clash == 1:
+                    # Songs with "snap" resolve a semitone rub on a strong beat to the nearest
+                    # chord tone (below first), keeping the written contour.
+                    for delta in (-1, 1, -2, 2):
+                        if (n + delta) % 12 in pcs:
+                            n += delta
+                            break
+                    clash = 0
                 if strong and clash == 1 and d >= 1.0:
                     warnings.append(f"{song['title']}: strong clash {n} over {ch['name']} at beat {b} of '{sec['melody']}'")
                 vel = 0.55 if strong else 0.45
@@ -464,6 +611,25 @@ def drum_bar(kind, t_bar, beat, bpb, r, when, last=False):
             evs.append(Ev(when(t_bar, pos), "rim", 0, 0, 0.5, 0.2))
         for k in range(8):
             evs.append(Ev(when(t_bar, k * 0.5), "shaker", 0, 0, 0.26 if k % 2 == 0 else 0.16, -0.25))
+    elif kind == "drive":
+        for pos in (0.0, 1.0, 2.0, 2.5, 3.0):
+            evs.append(Ev(when(t_bar, pos), "kick", 0, 0, 0.75 if pos in (0.0, 2.0) else 0.5))
+        for pos in (1.0, 3.0):
+            evs.append(Ev(when(t_bar, pos), "snare", 0, 0, 0.6))
+        for k in range(16):
+            if last and k >= 14:
+                continue
+            evs.append(Ev(when(t_bar, k * 0.25), "hat", 0, 0, 0.3 if k % 4 == 0 else (0.22 if k % 2 == 0 else 0.14), 0.3))
+        if last:
+            evs.append(Ev(when(t_bar, 3.5), "ohat", 0, 0, 0.35, 0.3))
+    elif kind == "march":
+        for pos in (0.0, 1.5, 2.0):
+            evs.append(Ev(when(t_bar, pos), "kick_low", 0, 0, 0.6 if pos == 0 else 0.42))
+        evs.append(Ev(when(t_bar, 3.0), "snare", 0, 0, 0.5))
+        for k in range(4):
+            evs.append(Ev(when(t_bar, 3.0 + k * 0.25), "rim", 0, 0, 0.2 + 0.05 * k, 0.15))
+        for k in range(8):
+            evs.append(Ev(when(t_bar, k * 0.5), "shaker", 0, 0, 0.2 if k % 2 == 0 else 0.12, -0.25))
     return evs
 
 
@@ -570,7 +736,17 @@ def render(song_id: str) -> None:
         subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", wav, "-c:a", "libvorbis", "-q:a", "4", ogg], check=True)
         os.remove(wav)
     except (OSError, subprocess.CalledProcessError) as ex:
-        print("  ffmpeg failed, keeping WAV:", ex)
+        # No ffmpeg: libsndfile's own Vorbis encoder (quality ~0.4, like -q:a 4).
+        try:
+            data = mixb.astype(np.float32)
+            with sf.SoundFile(ogg, "w", SR, data.shape[1], format="OGG", subtype="VORBIS") as f:
+                # libsndfile's Vorbis writer fails on very large single writes: stream in blocks.
+                for i in range(0, len(data), 8192):
+                    f.write(data[i:i + 8192])
+            os.remove(wav)
+            print("  (encoded with libsndfile; ffmpeg not found)")
+        except Exception as ex2:  # noqa: BLE001
+            print("  OGG encoding failed, keeping WAV:", ex, ex2)
     peak = 20 * np.log10(np.abs(mixb).max() + 1e-9)
     print(f"  {song['title']}: {total:.1f}s, {len(evs)} events, peak {peak:.1f} dBFS, rms {dsp.rms_db(mixb):.1f} dBFS")
 

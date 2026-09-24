@@ -407,6 +407,16 @@ static func hover_card(achievement_id: String) -> Control:
 	rule.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	rule.custom_minimum_size.x = 460
 	v.add_child(rule)
+	# Joker unlocks (GDD §22.6): the badge says which Jokers it adds to the shop pool.
+	var jokers := BMJokers.unlocked_by(achievement_id)
+	if not jokers.is_empty() and not secret:
+		var names := PackedStringArray()
+		for j in jokers:
+			names.append(String(BMJokers.get_def(j).name))
+		var ul := BMStyle.label("%s Joker%s: %s" % ["Unlocked" if unlocked else "Unlocks", "s" if names.size() > 1 else "", ", ".join(names)], 20, BMStyle.LILAC, true, 4)
+		ul.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		ul.custom_minimum_size.x = 460
+		v.add_child(ul)
 	if unlocked:
 		var flavor := BMStyle.label("\"%s\"" % d.flavor, 20, BMStyle.TEXT_DIM)
 		flavor.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

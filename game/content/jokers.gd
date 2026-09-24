@@ -105,6 +105,33 @@ const HOT_STREAK_STEP := 0.3
 const OVERACHIEVER_RATIO := 1.5
 const SUPERNOVA_STEP := 0.5
 const LEGENDARY_IDS := ["avalanche", "hall_of_mirrors", "philosophers_stone", "supernova"]
+## Jokers that join the shop pool when an achievement is earned (GDD §22.6). A run records its
+## locked set at the start (BMRun.locked_jokers), so seeds replay exactly. Daily runs lock nothing.
+const UNLOCKS := {
+	"snowball": "triple_decker", "hot_streak": "boss_buster", "overachiever": "overkill",
+	"solo_act": "travel_light", "double_stamp": "special_delivery", "rainbow_road": "full_spectrum",
+	"big_game_hunter": "square_dance", "demolition_crew": "crossroads", "mimic": "rare_taste",
+	"jackpot_window": "red_hot",
+	"avalanche": "champion", "hall_of_mirrors": "champion", "philosophers_stone": "champion", "supernova": "champion",
+}
+
+
+## Jokers still locked for a player with these achievements (id -> anything).
+static func locked_for(unlocked: Dictionary) -> Array[String]:
+	var out: Array[String] = []
+	for id in UNLOCKS:
+		if not unlocked.has(UNLOCKS[id]):
+			out.append(String(id))
+	return out
+
+
+## Jokers unlocked by one achievement (for toasts and the Trophy Case).
+static func unlocked_by(achievement: String) -> Array[String]:
+	var out: Array[String] = []
+	for id in UNLOCKS:
+		if UNLOCKS[id] == achievement:
+			out.append(String(id))
+	return out
 
 static var _by_id := {}
 

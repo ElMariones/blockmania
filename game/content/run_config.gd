@@ -74,15 +74,50 @@ const CRATE_RARE := 40
 const KITS := [
 	{"id": "standard", "name": "Standard Kit", "joker_slots": 5, "refreshes": 1, "placements": 15, "credits": 0, "bag": "standard",
 		"text": "5 Joker slots, 1 Refresh, 15 placements per round. The 24-piece starter bag.", "unlock": "", "need": {}},
-	{"id": "compact", "name": "Compact Kit", "joker_slots": 4, "refreshes": 2, "placements": 15, "credits": 0, "bag": "compact",
-		"text": "1 extra Refresh each round, but only 4 Joker slots. An 18-piece bag with no Singles.", "unlock": "Clear 100 lines across runs.", "need": {"lines": 100}},
+	{"id": "compact", "name": "Compact Kit", "joker_slots": 4, "refreshes": 2, "placements": 14, "credits": 0, "bag": "compact",
+		"text": "1 extra Refresh each round, but only 4 Joker slots and 14 placements. An 18-piece bag with no Singles.", "unlock": "Clear 100 lines across runs.", "need": {"lines": 100}},
 	{"id": "high_roller", "name": "High Roller Kit", "joker_slots": 5, "refreshes": 1, "placements": 14, "credits": 4, "bag": "standard",
 		"text": "Start with 4 Credits, but 14 placements per round.", "unlock": "Win a standard run.", "need": {"wins": 1}},
-	{"id": "chunky", "name": "Chunky Kit", "joker_slots": 5, "refreshes": 1, "placements": 15, "credits": 0, "bag": "chunky",
-		"text": "A 20-piece bag of big, plump shapes: squares, Ts, pluses, even a 3x3.", "unlock": "Defeat 3 bosses across runs.", "need": {"bosses": 3}},
-	{"id": "tetromino", "name": "Tetromino Kit", "joker_slots": 5, "refreshes": 1, "placements": 15, "credits": 0, "bag": "tetromino",
-		"text": "Only four-block pieces: 20 of them, so Twins and Triplets come often.", "unlock": "Form 25 Tray Hands across runs.", "need": {"hands": 25}},
+	{"id": "chunky", "name": "Chunky Kit", "joker_slots": 5, "refreshes": 1, "placements": 14, "credits": 0, "bag": "chunky",
+		"text": "A 19-piece bag of big, plump shapes: squares, Ts, pluses. 14 placements per round.", "unlock": "Defeat 3 bosses across runs.", "need": {"bosses": 3}},
+	{"id": "tetromino", "name": "Tetromino Kit", "joker_slots": 5, "refreshes": 1, "placements": 14, "credits": 0, "bag": "tetromino",
+		"text": "Only four-block pieces: 20 of them, so Twins and Triplets come often. 14 placements per round.", "unlock": "Form 25 Tray Hands across runs.", "need": {"hands": 25}},
 ]
+
+
+## Heat (stakes after a win, GDD §22): each level keeps the ones below it. Heat N unlocks when
+## a run at heat N-1 is won. `target` multiplies round targets (never Overtime's formula input).
+const HEATS := [
+	{"name": "Heat 0", "short": "Standard rules.", "target": 1.0},
+	{"name": "Heat 1", "short": "Targets +15%.", "target": 1.15},
+	{"name": "Heat 2", "short": "One fewer placement every round.", "target": 1.15},
+	{"name": "Heat 3", "short": "Interest pays at most +3; rerolls start at 3.", "target": 1.15},
+	{"name": "Heat 4", "short": "Every boss is its Mk II version.", "target": 1.15},
+	{"name": "Heat 5", "short": "Targets +35% and one fewer Refresh.", "target": 1.35},
+]
+const MAX_HEAT := 5
+const HEAT_INTEREST_CAP := 3
+const HEAT_REROLL_BASE := 3
+
+
+static func heat_def(heat: int) -> Dictionary:
+	return HEATS[clampi(heat, 0, MAX_HEAT)]
+
+
+## Every rule a heat level adds, cumulative, for menus and tooltips.
+static func heat_rules(heat: int) -> PackedStringArray:
+	var out := PackedStringArray()
+	for h in range(1, clampi(heat, 0, MAX_HEAT) + 1):
+		out.append(String(HEATS[h].short))
+	return out
+
+
+## Daily run seed from a date string "YYYY-MM-DD" (same for everyone on that day).
+static func daily_seed(date: String) -> int:
+	var h := 2166136261
+	for c in date.to_utf8_buffer():
+		h = ((h ^ c) * 16777619) & 0x7FFFFFFF
+	return maxi(1, h % 999_999_937)
 
 
 static func target(round_number: int) -> int:

@@ -79,7 +79,6 @@ const STARTER_BAGS := {
 		["bar3", 0, 5], ["bar3", 1, 0], ["bar3", 0, 1],
 		["l3", 0, 2], ["l3", 2, 3], ["l3", 1, 4],
 		["bar2", 0, 5], ["bar2", 1, 0],
-		["square3", 0, 1],
 	],
 	"tetromino": [
 		["square2", 0, 0], ["square2", 0, 1], ["square2", 0, 2], ["square2", 0, 3],

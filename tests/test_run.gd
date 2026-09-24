@@ -235,6 +235,7 @@ func test_many_seeds_finish_without_errors() -> void:
 
 
 func test_save_store_round_trip_and_end_clears() -> void:
+	BMSaveStore.has_run() # static init first (see test_achievements._store)
 	BMSaveStore.run_path = "user://test_run_save.json"
 	var run := BMRun.new_run(31337)
 	BMAutoplayer.step(run)

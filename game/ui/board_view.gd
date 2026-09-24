@@ -27,6 +27,14 @@ var _pop_step := 0 ## position in the pop cascade of the current resolution
 var _fx_places: Array[Dictionary] = [] ## {cell, t, delay}
 var _fx_sweeps: Array[Dictionary] = [] ## {row|col, index, t}
 var _fx_tombs: Array[Dictionary] = [] ## {cell, t}: The Undertaker's tombstones rising
+## The Avalanche: blocks falling between chain waves ({from, to, color, mat, start, dur, pre,
+## until}), seconds since the placement, and final cells hidden until their block lands.
+var _falls: Array[Dictionary] = []
+var _fall_time := 0.0
+var _fall_hidden := {}
+## Boss rounds: marquee bulbs chase around the board rim (presentation of the boss flag).
+var boss_lights := false
+var lights_color := BMStyle.PINK
 const TOMB_TIME := 0.7
 var _time := 0.0
 
@@ -155,6 +163,7 @@ func play_resolution(r: Dictionary) -> void:
 			"t": 0.0, "delay": 0.03 * d, "burst": false})
 	# Avalanche chain waves pop after the first clear, one beat per wave.
 	var waves: Array = r.get("waves", [])
+	_build_falls(waves)
 	for w in range(1, waves.size()):
 		var k := 0
 		for e in waves[w].get("cleared", []):
@@ -165,9 +174,58 @@ func play_resolution(r: Dictionary) -> void:
 	queue_redraw()
 
 
+## Falls from each wave's `moves` (resolver: [from, to, color, mat]). A block is drawn at its
+## start cell until it drops, falls with gravity, then waits where it landed until the next
+## wave moves or clears it; a block that ends the chain on the board shows the real cell after.
+func _build_falls(waves: Array) -> void:
+	_falls.clear()
+	_fall_hidden.clear()
+	_fall_time = 0.0
+	if BMBlockPainter.reduced_motion:
+		return
+	var per_wave: Array = []
+	for k in waves.size():
+		var list: Array[Dictionary] = []
+		var start := 0.55 * k + 0.36
+		for mv in waves[k].get("moves", []):
+			if mv.size() < 4:
+				continue
+			var dist: int = mv[1].y - mv[0].y
+			list.append({"from": mv[0], "to": mv[1], "color": int(mv[2]), "mat": int(mv[3]),
+				"start": start, "dur": 0.12 + 0.035 * dist, "pre": true, "until": INF})
+		per_wave.append(list)
+		if not list.is_empty():
+			BMAudio.sfx_later("place_l", start + 0.22, 0.75, -3.0)
+	for k in per_wave.size():
+		for f in per_wave[k]:
+			if k > 0:
+				for g in per_wave[k - 1]:
+					if g.to == f.from:
+						f.pre = false
+			var next_moves: Array = per_wave[k + 1] if k + 1 < per_wave.size() else []
+			var handed := false
+			for h in next_moves:
+				if h.from == f.to:
+					f.until = h.start
+					handed = true
+			if not handed and k + 1 < waves.size():
+				for e in waves[k + 1].get("cleared", []):
+					if e.cell == f.to:
+						f.until = 0.55 * (k + 1)
+						handed = true
+			if not handed:
+				_fall_hidden[f.to] = f.start + f.dur
+			_falls.append(f)
+
+
 func _process(delta: float) -> void:
 	_time += delta
-	var busy := not _fx_clears.is_empty() or not _fx_places.is_empty() or not _fx_sweeps.is_empty()
+	if not _falls.is_empty():
+		_fall_time += delta
+		if _fall_time > 4.0:
+			_falls.clear()
+			_fall_hidden.clear()
+	var busy := not _fx_clears.is_empty() or not _fx_places.is_empty() or not _fx_sweeps.is_empty() or not _falls.is_empty()
 	for fx in _fx_places:
 		fx.t += delta
 	for fx in _fx_sweeps:
@@ -190,7 +248,7 @@ func _process(delta: float) -> void:
 	_fx_places = _fx_places.filter(func(f: Dictionary) -> bool: return f.t < f.delay + PLACE_TIME)
 	_fx_sweeps = _fx_sweeps.filter(func(f: Dictionary) -> bool: return f.t < SWEEP_TIME)
 	_fx_clears = _fx_clears.filter(func(f: Dictionary) -> bool: return f.t < f.delay + CLEAR_TIME)
-	if busy or ghost_valid or not ghost_shape.is_empty() or clean_glow or tool_kind != "" or _animated_blocks():
+	if busy or ghost_valid or not ghost_shape.is_empty() or clean_glow or boss_lights or tool_kind != "" or _animated_blocks():
 		queue_redraw()
 
 
@@ -208,6 +266,33 @@ func _animated_blocks() -> bool:
 	return false
 
 
+## Marquee bulbs around the frame: every third one lit, the pattern chasing clockwise.
+func _draw_bulbs(frame: Rect2) -> void:
+	var r := frame.grow(-5)
+	var per := r.size.x * 2.0 + r.size.y * 2.0
+	var n := 56
+	var step := per / n
+	var phase := 0 if reduced_motion else int(_time * 9.0)
+	for i in n:
+		var d := i * step
+		var p := Vector2.ZERO
+		if d < r.size.x:
+			p = r.position + Vector2(d, 0)
+		elif d < r.size.x + r.size.y:
+			p = r.position + Vector2(r.size.x, d - r.size.x)
+		elif d < r.size.x * 2.0 + r.size.y:
+			p = r.position + Vector2(r.size.x - (d - r.size.x - r.size.y), r.size.y)
+		else:
+			p = r.position + Vector2(0, r.size.y - (d - r.size.x * 2.0 - r.size.y))
+		var lit := (i + phase) % 3 == 0
+		var col := lights_color if lit else Color(lights_color.darkened(0.6), 0.8)
+		if lit:
+			draw_rect(Rect2(p - Vector2(7, 7), Vector2(14, 14)), Color(lights_color, 0.3))
+		draw_rect(Rect2((p - Vector2(4, 4)).round(), Vector2(8, 8)), col)
+		if lit:
+			draw_rect(Rect2((p - Vector2(2, 3)).round(), Vector2(3, 3)), Color(1, 1, 1, 0.8))
+
+
 func _draw() -> void:
 	if run == null:
 		return
@@ -218,6 +303,8 @@ func _draw() -> void:
 	draw_style_box(BMStyle.box("board_frame", Vector4.ZERO), frame_rect)
 	if clean_glow:
 		draw_rect(frame_rect.grow(-8), Color(BMStyle.MINT_L, 0.7 + 0.2 * sin(_time * 4.0)), false, 5.0)
+	if boss_lights:
+		_draw_bulbs(frame_rect)
 
 	# Coordinates stamped into the brass rim (ink on sun), for keyboard play and callouts.
 	var font := BMStyle.font_bold
@@ -257,6 +344,8 @@ func _draw() -> void:
 			var v := run.board.get_cell(p)
 			if v == BMBoard.EMPTY:
 				continue
+			if _fall_hidden.has(p) and _fall_time < float(_fall_hidden[p]):
+				continue
 			var rr := r
 			var pf := _place_fx(p)
 			if pf >= 0.0:
@@ -279,6 +368,28 @@ func _draw() -> void:
 				draw_texture_rect(tomb, Rect2((rr.get_center() - ts / 2.0).round(), ts), false)
 			if pending.has(p):
 				draw_rect(r.grow(-4), Color(1, 1, 1, 0.12 + 0.18 * pulse))
+
+	# Avalanche falls: blocks accelerate down their column and squash on landing.
+	for f in _falls:
+		var t: float = _fall_time
+		var at := Vector2.ZERO
+		var squash := 1.0
+		if t < f.start:
+			if not f.pre:
+				continue
+			at = Vector2(f.from)
+		elif t < f.start + f.dur:
+			var k: float = (t - f.start) / f.dur
+			at = Vector2(f.from).lerp(Vector2(f.to), k * k)
+		elif t < f.until:
+			at = Vector2(f.to)
+			var land: float = clampf((t - f.start - f.dur) / 0.12, 0.0, 1.0)
+			squash = 1.0 + 0.15 * sin(land * PI)
+		else:
+			continue
+		var base := Rect2(origin + at * c, Vector2(c, c))
+		var rr := Rect2(base.position + Vector2((c - c * squash) / 2.0, c * (1.0 - 1.0 / squash)), Vector2(c * squash, c / squash))
+		BMBlockPainter.draw_block(self, rr, int(f.color), 1.0, BMPieces.MATERIALS[int(f.mat)], Color.WHITE, block_skin, Vector2i(at))
 
 	# Ghost footprint.
 	if not ghost_shape.is_empty():

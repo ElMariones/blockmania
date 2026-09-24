@@ -28,6 +28,8 @@ var stage: Control
 var _logo: Control
 var _drift: Control
 var _seed_edit: LineEdit
+var _daily: Button
+var _heat := 0
 var _continue: Button
 var _new: Button
 var _trophies: Button
@@ -70,40 +72,47 @@ func _ready() -> void:
 	tag.size = Vector2(STAGE.x, 40)
 	stage.add_child(tag)
 
+	# Main menu (GDD §22.10): the campaign first, then the two other ways to play, then the
+	# collection, then settings. Seed and Heat live on the Kit screen, where they matter.
 	var menu := BMStyle.vbox(16)
-	menu.position = Vector2((STAGE.x - 600) / 2.0, 414)
-	menu.size = Vector2(600, 560)
+	menu.position = Vector2((STAGE.x - 640) / 2.0, 424)
+	menu.size = Vector2(640, 560)
 	stage.add_child(menu)
 	_continue = _menu_button("CONTINUE RUN", func() -> void: main.continue_run(), "mint", 40, BMStyle.tex("icon_play"))
 	_continue.custom_minimum_size.y = 92
 	menu.add_child(_continue)
 	_new = _menu_button("NEW RUN", _new_run, "sun", 40, BMStyle.tex("icon_piece"))
 	_new.custom_minimum_size.y = 92
+	_new.tooltip_text = "Pick a Kit and a Heat level, then twelve rounds and three bosses."
 	menu.add_child(_new)
-	var endless := _menu_button("ENDLESS", _endless_pressed, "sky", 40, BMStyle.infinity_icon())
-	endless.custom_minimum_size.y = 80
+	var modes := BMStyle.hbox(16)
+	menu.add_child(modes)
+	_daily = _menu_button("DAILY", _show_daily, "pink", 30, BMStyle.tex("icon_star"), 0.75, 18.0)
+	_daily.custom_minimum_size.y = 76
+	_daily.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_daily.tooltip_text = "Today's run: the same seed for everyone, Standard Kit, Heat 0."
+	modes.add_child(_daily)
+	var endless := _menu_button("ENDLESS", _endless_pressed, "sky", 30, BMStyle.infinity_icon(), 0.75, 18.0)
+	endless.custom_minimum_size.y = 76
+	endless.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	endless.tooltip_text = "Relaxed block placement. Clear rows and columns, build a combo, and chase your best score."
-	menu.add_child(endless)
+	modes.add_child(endless)
 	var boards := BMStyle.hbox(16)
 	menu.add_child(boards)
-	var scores := _menu_button("SCORES", _show_high_scores, "plum", 30, BMStyle.tex("icon_trophy"), 0.75, 18.0)
+	_trophies = _menu_button("TROPHIES", _show_trophies, "plum", 20, BMStyle.tex("icon_medal"), 0.5, 14.0)
+	_trophies.custom_minimum_size.y = 64
+	_trophies.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	boards.add_child(_trophies)
+	var history := _menu_button("HISTORY", _show_history, "plum", 20, BMStyle.tex("icon_blueprint"), 0.5, 14.0)
+	history.custom_minimum_size.y = 64
+	history.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	history.tooltip_text = "Your last %d campaign runs: Kit, Heat, seed, how far you got and your Jokers." % BMSaveStore.HISTORY_MAX
+	boards.add_child(history)
+	var scores := _menu_button("SCORES", _show_high_scores, "plum", 20, BMStyle.tex("icon_trophy"), 0.5, 14.0)
 	scores.custom_minimum_size.y = 64
 	scores.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scores.tooltip_text = "Endless high scores"
 	boards.add_child(scores)
-	_trophies = _menu_button("TROPHIES", _show_trophies, "plum", 30, BMStyle.tex("icon_medal"), 0.75, 18.0)
-	_trophies.custom_minimum_size.y = 64
-	_trophies.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	boards.add_child(_trophies)
-	var seed_row := BMStyle.hbox(10)
-	menu.add_child(seed_row)
-	seed_row.add_child(BMStyle.label("SEED", 30, BMStyle.TEXT_DIM, true, 8))
-	_seed_edit = LineEdit.new()
-	_seed_edit.placeholder_text = "random"
-	_seed_edit.custom_minimum_size = Vector2(0, 60)
-	_seed_edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_seed_edit.text_submitted.connect(func(_s: String) -> void: _new_run())
-	seed_row.add_child(_seed_edit)
 	var low := BMStyle.hbox(16)
 	menu.add_child(low)
 	var options := _menu_button("OPTIONS", func() -> void: main.show_options(), "sky", 30, BMStyle.tex("icon_gear"), 0.75, 18.0)
@@ -150,6 +159,12 @@ func _menu_button(text: String, cb: Callable, kind: String, font_size: int, icon
 func refresh() -> void:
 	stage.position = ((size - STAGE) / 2.0).round()
 	_continue.visible = BMSaveStore.has_run()
+	var profile := BMSaveStore.load_profile()
+	var today := Time.get_date_string_from_system()
+	var played := String(profile.get("daily_date", "")) == today
+	_daily.text = "DAILY  *" if played and int(profile.get("daily_won", 0)) > 0 else "DAILY"
+	_daily.tooltip_text = "Today's run: the same seed for everyone, Standard Kit, Heat 0." + \
+		("\nToday: %s" % ("won!" if int(profile.get("daily_won", 0)) > 0 else "reached round %d" % int(profile.get("daily_round", 0))) if played else "")
 	refresh_trophy_button()
 	_intro_t = 0.0
 	_landed = 0
@@ -337,16 +352,43 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _new_run() -> void:
-	var text := _seed_edit.text.strip_edges()
-	var seed_value := BMRun.random_seed()
-	if text != "":
-		seed_value = int(text) if text.is_valid_int() else absi(text.hash())
-	_show_kit_picker(seed_value)
+	_show_kit_picker()
+
+
+## The seed typed on the Kit screen, or a random one.
+func _picked_seed() -> int:
+	var text := _seed_edit.text.strip_edges() if is_instance_valid(_seed_edit) else ""
+	if text == "":
+		return BMRun.random_seed()
+	return int(text) if text.is_valid_int() else absi(text.hash())
+
+
+func _start_campaign(kit_id: String) -> void:
+	var seed_value := _picked_seed()
+	var heat := _heat
+	if main != null:
+		main.settings["last_heat"] = heat
+		BMSaveStore.save_settings(main.settings)
+	if is_instance_valid(_highscore_overlay):
+		_highscore_overlay.queue_free()
+	_highscore_overlay = null
+	main.start_new_run(seed_value, kit_id, heat)
+
+
+## A warning line when starting would replace the saved campaign run.
+func _replace_warning() -> String:
+	if not BMSaveStore.has_run():
+		return ""
+	var saved := BMSaveStore.load_run()
+	if saved == null or saved.phase in [BMRun.Phase.RUN_WON, BMRun.Phase.RUN_LOST, BMRun.Phase.ABANDONED]:
+		return ""
+	return "Starting replaces your saved run (round %d, %s)." % [saved.round_number, String(saved.kit().name)]
 
 
 ## Kit picker: one card per Kit with its rules, a drawing of its starter bag, and (when locked)
 ## the unlock requirement with progress. Locked Kits say how to earn them; nothing is hidden.
-func _show_kit_picker(seed_value: int) -> void:
+## Under the cards: the Heat selector (GDD §22.5) and an optional seed.
+func _show_kit_picker(seed_text: String = "") -> void:
 	if is_instance_valid(_highscore_overlay):
 		_highscore_overlay.queue_free()
 	var shade := ColorRect.new()
@@ -357,9 +399,16 @@ func _show_kit_picker(seed_value: int) -> void:
 	_highscore_overlay = shade
 	var heading := BMStyle.label("CHOOSE YOUR KIT", 60, BMStyle.SUN, true, 14)
 	heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	heading.position = Vector2(0, 60)
-	heading.size = Vector2(STAGE.x, 90)
+	heading.position = Vector2(0, 22)
+	heading.size = Vector2(STAGE.x, 84)
 	shade.add_child(heading)
+	var warn := _replace_warning()
+	if warn != "":
+		var wl := BMStyle.label(warn, 20, BMStyle.PINK_L, true, 4)
+		wl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		wl.position = Vector2(0, 98)
+		wl.size = Vector2(STAGE.x, 30)
+		shade.add_child(wl)
 	var profile := BMSaveStore.load_profile()
 	var first: Button
 	var w := 344.0
@@ -372,27 +421,295 @@ func _show_kit_picker(seed_value: int) -> void:
 		card.kit = k
 		card.unlocked = open
 		card.profile = profile
-		card.position = Vector2(x0 + i * (w + gap), 180)
-		card.size = Vector2(w, 700)
+		card.position = Vector2(x0 + i * (w + gap), 134)
+		card.size = Vector2(w, 616)
 		shade.add_child(card)
-		var pick := BMStyle.button("PLAY" if open else "LOCKED", func() -> void:
-			if is_instance_valid(_highscore_overlay):
-				_highscore_overlay.queue_free()
-			_highscore_overlay = null
-			main.start_new_run(seed_value, String(k.id)), "sun" if open else "plum", 30)
+		var pick := BMStyle.button("PLAY" if open else "LOCKED", _start_campaign.bind(String(k.id)), "sun" if open else "plum", 30)
 		pick.disabled = not open
 		pick.tooltip_text = String(k.text) if open else "Locked: " + String(k.unlock)
-		pick.position = Vector2(x0 + i * (w + gap), 896)
-		pick.size = Vector2(w, 80)
+		pick.position = Vector2(x0 + i * (w + gap), 762)
+		pick.size = Vector2(w, 76)
 		shade.add_child(pick)
 		if open and first == null:
 			first = pick
-	var back := BMStyle.button("BACK", func() -> void: _close_high_scores(), "sky", 30)
-	back.position = Vector2((STAGE.x - 300) / 2.0, 990)
-	back.size = Vector2(300, 64)
+	# Heat and seed bar.
+	var body := Panel.new()
+	body.add_theme_stylebox_override("panel", BMStyle.box("panel_plate", Vector4.ZERO))
+	body.position = Vector2(x0, 852)
+	body.size = Vector2(w * 5 + gap * 4, 140)
+	shade.add_child(body)
+	var avail := BMSaveStore.heat_available()
+	_heat = clampi(int(main.settings.get("last_heat", 0)) if main != null else 0, 0, avail)
+	var hl := BMStyle.label("HEAT", 30, BMStyle.PINK_L, true, 6)
+	hl.position = Vector2(24, 14)
+	hl.size = Vector2(120, 50)
+	body.add_child(hl)
+	var desc := BMStyle.label("", 20, BMStyle.CREAM, false, 4)
+	desc.position = Vector2(24, 80)
+	desc.size = Vector2(1000, 34)
+	desc.clip_text = true
+	desc.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	body.add_child(desc)
+	var heat_buttons: Array[Button] = []
+	var sync := func() -> void:
+		for h in heat_buttons.size():
+			var locked := h > avail
+			heat_buttons[h].disabled = locked
+			heat_buttons[h].modulate.a = 0.45 if locked else 1.0
+			heat_buttons[h].text = ("* %d" % h) if h == _heat else str(h)
+			BMStyle.button_boxes(heat_buttons[h], "pink" if h == _heat else "plum")
+		var rules := BMRunConfig.heat_rules(_heat)
+		desc.text = "Standard rules. Win to unlock Heat 1." if _heat == 0 and avail == 0 else \
+			("Standard rules." if _heat == 0 else "  -  ".join(rules))
+	for h in BMRunConfig.MAX_HEAT + 1:
+		var hb := BMStyle.button(str(h), func() -> void: pass, "plum", 30)
+		hb.position = Vector2(150 + h * 92, 10)
+		hb.size = Vector2(80, 60)
+		hb.tooltip_text = ("Heat %d:  %s" % [h, "  ".join(BMRunConfig.heat_rules(h))]) if h > 0 else "Heat 0: standard rules."
+		if h > avail:
+			hb.tooltip_text += "\nLocked: win a run at Heat %d first." % (h - 1)
+		hb.pressed.connect(func() -> void:
+			_heat = h
+			sync.call())
+		body.add_child(hb)
+		heat_buttons.append(hb)
+	sync.call()
+	var sl := BMStyle.label("SEED", 30, BMStyle.TEXT_DIM, true, 6)
+	sl.position = Vector2(1080, 14)
+	sl.size = Vector2(110, 50)
+	body.add_child(sl)
+	_seed_edit = LineEdit.new()
+	_seed_edit.placeholder_text = "random"
+	_seed_edit.text = seed_text
+	_seed_edit.position = Vector2(1190, 10)
+	_seed_edit.size = Vector2(560, 60)
+	_seed_edit.tooltip_text = "Leave empty for a random run. The same seed deals the same pieces, shops and bosses."
+	body.add_child(_seed_edit)
+	var sd := BMStyle.label("Same seed, same pieces, shops and bosses.", 20, BMStyle.TEXT_DIM, false, 4)
+	sd.position = Vector2(1080, 80)
+	sd.size = Vector2(680, 34)
+	body.add_child(sd)
+	var back := BMStyle.button("BACK", func() -> void: _close_high_scores(), "sky", 20)
+	back.position = Vector2((STAGE.x - 260) / 2.0, 1004)
+	back.size = Vector2(260, 60)
 	shade.add_child(back)
 	BMStyle.focus_later(first)
 	BMAudio.sfx("modal")
+
+
+## DAILY: one seed per local date. Standard Kit, Heat 0 and every Joker in the pool, so the
+## run is the same for every player that day. Shows today's best result.
+func _show_daily() -> void:
+	if is_instance_valid(_highscore_overlay):
+		_highscore_overlay.queue_free()
+	var date := Time.get_date_string_from_system()
+	var seed_value := BMRunConfig.daily_seed(date)
+	var profile := BMSaveStore.load_profile()
+	var shade := _popup_shade()
+	var panel := BMStyle.panel("panel_plate", Vector4(32, 20, 32, 26))
+	shade.add_child(panel)
+	var v := BMStyle.vbox(12)
+	panel.add_child(v)
+	var head := BMStyle.label("DAILY RUN", 60, BMStyle.PINK_L, true, 12)
+	head.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	v.add_child(head)
+	var dl := BMStyle.label("%s   -   SEED %d" % [date, seed_value], 30, BMStyle.SUN, true, 6)
+	dl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	v.add_child(dl)
+	for line in ["Standard Kit, Heat 0, every Joker in the pool.",
+			"Everyone gets the same pieces, shops and bosses today.",
+			"A new Daily starts at midnight."]:
+		var l := BMStyle.label(line, 20, BMStyle.CREAM, false, 4)
+		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		v.add_child(l)
+	var best := "Not played yet today."
+	if String(profile.get("daily_date", "")) == date:
+		best = "Today's best:  WON!" if int(profile.get("daily_won", 0)) > 0 else "Today's best:  reached round %d." % int(profile.get("daily_round", 0))
+	var bl := BMStyle.label(best, 30, BMStyle.MINT_L, true, 6)
+	bl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	v.add_child(bl)
+	var warn := _replace_warning()
+	if warn != "":
+		var wl := BMStyle.label(warn, 20, BMStyle.PINK_L, true, 4)
+		wl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		v.add_child(wl)
+	var play := _menu_button("PLAY TODAY'S RUN", func() -> void:
+		_close_high_scores()
+		main.start_new_run(seed_value, "standard", 0, date), "pink", 30, BMStyle.tex("icon_play"))
+	play.custom_minimum_size = Vector2(620, 80)
+	v.add_child(play)
+	var back := BMStyle.button("BACK", func() -> void: _close_high_scores(), "plum", 20)
+	back.custom_minimum_size = Vector2(200, 56)
+	back.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	v.add_child(back)
+	panel.reset_size()
+	panel.position = ((STAGE - panel.size) / 2.0).round()
+	BMStyle.focus_later(play)
+	BMAudio.sfx("modal")
+
+
+## A dimmed full-stage layer for a title popup; clicking outside the popup closes it.
+func _popup_shade() -> ColorRect:
+	var shade := ColorRect.new()
+	shade.color = Color(BMStyle.INK, 0.82)
+	shade.mouse_filter = Control.MOUSE_FILTER_STOP
+	stage.add_child(shade)
+	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_highscore_overlay = shade
+	shade.gui_input.connect(func(e: InputEvent) -> void:
+		if e is InputEventMouseButton and e.pressed:
+			_close_high_scores())
+	return shade
+
+
+## RUN HISTORY: the last campaign runs, newest first. Selecting one shows its Jokers and
+## lets the player replay the seed.
+func _show_history() -> void:
+	if is_instance_valid(_highscore_overlay):
+		_highscore_overlay.queue_free()
+	_score_rows.clear()
+	var shade := ColorRect.new()
+	shade.color = Color(BMStyle.INK, 0.88)
+	shade.mouse_filter = Control.MOUSE_FILTER_STOP
+	stage.add_child(shade)
+	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_highscore_overlay = shade
+	var panel := BMStyle.panel("panel_plate", Vector4(20, 14, 20, 20))
+	panel.position = Vector2(150, 90)
+	panel.size = Vector2(1620, 900)
+	shade.add_child(panel)
+	var body := Control.new()
+	panel.add_child(body)
+	var heading := BMStyle.label("RUN HISTORY", 40, BMStyle.SUN, true, 8)
+	_place_score_widget(body, heading, Vector2(12, 4), Vector2(700, 56))
+	var list := BMSaveStore.load_history()
+	var sub := BMStyle.label("%d runs  -  %d won" % [list.size(), list.filter(func(e: Dictionary) -> bool: return bool(e.get("won", false))).size()], 20, BMStyle.TEXT_DIM, true, 4)
+	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_place_score_widget(body, sub, Vector2(700, 16), Vector2(840, 40))
+	var detail := HistoryDetail.new()
+	detail.title = self
+	_place_score_widget(body, detail, Vector2(760, 76), Vector2(790, 730))
+	var back := BMStyle.button("BACK", func() -> void: _close_high_scores(), "sky", 30)
+	_place_score_widget(body, back, Vector2(12, 790), Vector2(720, 72))
+	if list.is_empty():
+		var empty := BMStyle.label("NO RUNS YET\nFINISH A CAMPAIGN RUN TO START YOUR HISTORY", 20, BMStyle.CREAM, true)
+		_place_score_widget(body, empty, Vector2(20, 120), Vector2(700, 90))
+		BMStyle.focus_later(back)
+		return
+	var scroll := ScrollContainer.new()
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_place_score_widget(body, scroll, Vector2(12, 76), Vector2(730, 700))
+	var rows := BMStyle.vbox(6)
+	rows.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(rows)
+	for i in list.size():
+		var e: Dictionary = list[i]
+		var row := BMStyle.button("", func() -> void: pass, "plum", 20)
+		row.custom_minimum_size = Vector2(700, 52)
+		_history_cells(row, e)
+		row.pressed.connect(func() -> void:
+			for j in _score_rows.size():
+				BMStyle.button_boxes(_score_rows[j], "sky" if j == i else "plum")
+			detail.set_entry(e))
+		rows.add_child(row)
+		_score_rows.append(row)
+	BMStyle.button_boxes(_score_rows[0], "sky")
+	detail.set_entry(list[0])
+	BMStyle.focus_later(_score_rows[0])
+
+
+static func history_result(e: Dictionary) -> String:
+	if bool(e.get("broken", false)):
+		return "BROKE THE MACHINE"
+	if bool(e.get("won", false)):
+		var past := int(e.get("round", 12)) - BMRunConfig.ROUND_COUNT
+		return "WON  +%d OVERTIME" % past if past > 0 else "WON"
+	if String(e.get("reason", "")) == "Run abandoned.":
+		return "ABANDONED  R%d" % int(e.get("round", 1))
+	return "LOST  ROUND %d" % int(e.get("round", 1))
+
+
+## A history row's columns: date, Kit, Heat (or DAILY) and the result, at fixed x.
+func _history_cells(row: Button, e: Dictionary) -> void:
+	var date := Time.get_date_string_from_unix_time(int(e.get("time", 0))).substr(5)
+	var kit := String(BMRunConfig.kit(String(e.get("kit", "standard"))).name).replace(" Kit", "").to_upper()
+	var tag := "DAILY" if String(e.get("daily", "")) != "" else "HEAT %d" % int(e.get("heat", 0))
+	var won := bool(e.get("won", false))
+	row.tooltip_text = "%s  -  %s  -  %s  -  seed %d" % [kit, tag, history_result(e), int(e.get("seed", 0))]
+	for c in [[date, 18.0, 80.0, BMStyle.TEXT_DIM], [kit, 110.0, 190.0, BMStyle.CREAM], [tag, 310.0, 110.0, BMStyle.PINK_L],
+			[history_result(e), 430.0, 260.0, BMStyle.MINT_L if won else BMStyle.CREAM]]:
+		var l := BMStyle.label(c[0], 20, c[3], true, 4)
+		l.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		l.position = Vector2(c[1], 8)
+		l.size = Vector2(c[2], 32)
+		l.clip_text = true
+		row.add_child(l)
+
+
+## Replay a history entry's seed: the Kit screen opens with the seed filled in.
+func replay_seed(seed_value: int) -> void:
+	_show_kit_picker(str(seed_value))
+
+
+## Right side of RUN HISTORY: the selected run's facts, its Jokers as portraits, and a
+## PLAY THIS SEED button.
+class HistoryDetail extends Control:
+	var title: Node
+	var _v: VBoxContainer
+
+	func _ready() -> void:
+		var p := BMStyle.panel("panel_inset", Vector4(20, 14, 20, 16))
+		p.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		add_child(p)
+		_v = BMStyle.vbox(10)
+		p.add_child(_v)
+
+	func set_entry(e: Dictionary) -> void:
+		if _v == null:
+			return
+		BMUI.clear_children(_v)
+		var won := bool(e.get("won", false))
+		var res := BMStyle.label(BMTitleScreen.history_result(e), 40, BMStyle.MINT_L if won else BMStyle.PINK_L, true, 8)
+		_v.add_child(res)
+		var kit := String(BMRunConfig.kit(String(e.get("kit", "standard"))).name)
+		var when := Time.get_datetime_string_from_unix_time(int(e.get("time", 0)), true)
+		var daily := String(e.get("daily", ""))
+		var grid := GridContainer.new()
+		grid.columns = 2
+		grid.add_theme_constant_override("h_separation", 20)
+		grid.add_theme_constant_override("v_separation", 6)
+		_v.add_child(grid)
+		var facts := [["PLAYED", when], ["MODE", ("Daily " + daily) if daily != "" else "%s  -  Heat %d" % [kit, int(e.get("heat", 0))]],
+			["SEED", str(int(e.get("seed", 0)))], ["ROUND REACHED", str(int(e.get("round", 1)))],
+			["BEST PLACEMENT", BMUI.fmt_score(int(e.get("best", 0)))], ["TOTAL SCORE", BMUI.fmt_score(int(e.get("total", 0)))]]
+		for f in facts:
+			grid.add_child(BMStyle.label(f[0], 20, BMStyle.TEXT_DIM, true, 4))
+			grid.add_child(BMStyle.label(f[1], 20, BMStyle.CREAM, true, 4))
+		var jokers: Array = e.get("jokers", [])
+		_v.add_child(BMStyle.label("JOKERS  (%d)" % jokers.size(), 20, BMStyle.SUN, true, 4))
+		var flow := HFlowContainer.new()
+		flow.add_theme_constant_override("h_separation", 10)
+		flow.add_theme_constant_override("v_separation", 10)
+		_v.add_child(flow)
+		for id in jokers:
+			if BMJokers.get_def(String(id)).is_empty():
+				continue
+			var em := BMCard.Emblem.for_joker(String(id), Vector2(96, 96))
+			em.custom_minimum_size = Vector2(96, 96)
+			em.tooltip_text = String(BMJokers.get_def(String(id)).name)
+			em.mouse_filter = Control.MOUSE_FILTER_PASS
+			flow.add_child(em)
+		if jokers.is_empty():
+			_v.add_child(BMStyle.label("No Jokers at the end of this run.", 20, BMStyle.TEXT_DIM))
+		var spacer := Control.new()
+		spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		_v.add_child(spacer)
+		if daily == "":
+			var seed_value := int(e.get("seed", 0))
+			var again := BMStyle.button("PLAY THIS SEED", func() -> void: title.replay_seed(seed_value), "sun", 30)
+			again.tooltip_text = "Open the Kit screen with this seed filled in."
+			again.custom_minimum_size.y = 72
+			_v.add_child(again)
 
 
 ## One Kit: name plate, numbers, starter-bag drawing, and lock progress.
@@ -417,15 +734,15 @@ class KitCard extends Control:
 		draw_string(f, Vector2(0, 58), String(kit.name).to_upper(), HORIZONTAL_ALIGNMENT_CENTER, size.x, 30, BMStyle.SUN if unlocked else BMStyle.TEXT_DIM)
 		var facts := "%d JOKERS  -  %d REFRESH%s" % [int(kit.joker_slots), int(kit.refreshes), "ES" if int(kit.refreshes) != 1 else ""]
 		draw_string(f, Vector2(0, 96), facts, HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.CREAM)
-		var moves := "%d PLACEMENTS" % int(kit.placements)
+		draw_string(f, Vector2(0, 124), "%d PLACEMENTS" % int(kit.placements), HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.CREAM)
+		var y := 150.0
 		if int(kit.credits) > 0:
-			moves += "  -  +%d CREDITS" % int(kit.credits)
-		draw_string(f, Vector2(0, 124), moves, HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.SUN_L if int(kit.credits) > 0 else BMStyle.CREAM)
+			draw_string(f, Vector2(0, 152), "+%d STARTING CREDITS" % int(kit.credits), HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.SUN_L)
+			y += 30.0
 		# The starter bag, as a little pile of pieces.
 		var bag := BMPieces.starter_bag(String(kit.get("bag", "standard")))
 		var cell := 12.0
 		var x := 24.0
-		var y := 150.0
 		var row_h := 0.0
 		for p in bag:
 			var dims := Vector2(BMShapes.shape_size(p))
@@ -445,19 +762,21 @@ class KitCard extends Control:
 			draw_string(BMStyle.font, Vector2(20, ty), l, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, BMStyle.CREAM if unlocked else BMStyle.TEXT_DIM)
 			ty += 26
 		if not unlocked:
+			# The lock sits under the description (never on it), the requirement under the lock.
 			var lock := BMStyle.tex("icon_lock")
-			var ls := lock.get_size() * 2.0
-			draw_texture_rect(lock, Rect2(Vector2((size.x - ls.x) / 2.0, size.y - 200), ls), false)
+			var ls := lock.get_size() * 1.5
 			var ul := _wrap(String(kit.unlock), size.x - 40)
+			var ly := maxf(ty - 10.0, size.y - 64.0 - ul.size() * 26.0 - ls.y - 30.0)
+			draw_texture_rect(lock, Rect2(Vector2((size.x - ls.x) / 2.0, ly), ls), false)
 			for i in ul.size():
-				draw_string(f, Vector2(0, size.y - 104 + i * 26), ul[i], HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.PINK_L)
+				draw_string(f, Vector2(0, ly + ls.y + 28 + i * 26), ul[i], HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.PINK_L)
 			var need: Dictionary = kit.get("need", {})
 			for key in need:
 				var have := mini(int(profile.get(key, 0)), int(need[key]))
-				var bar := Rect2(Vector2(30, size.y - 26), Vector2(size.x - 60, 12))
+				var bar := Rect2(Vector2(24, size.y - 30), Vector2(size.x - 150, 12))
 				draw_rect(bar, BMStyle.INK)
 				draw_rect(Rect2(bar.position, Vector2(bar.size.x * have / float(need[key]), bar.size.y)), BMStyle.MINT)
-				draw_string(f, Vector2(0, size.y - 36), "%d / %d" % [have, int(need[key])], HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.MINT_L)
+				draw_string(f, Vector2(size.x - 120, size.y - 16), "%d / %d" % [have, int(need[key])], HORIZONTAL_ALIGNMENT_RIGHT, 100, 20, BMStyle.MINT_L)
 
 	func _wrap(text: String, width: float) -> PackedStringArray:
 		var out := PackedStringArray()

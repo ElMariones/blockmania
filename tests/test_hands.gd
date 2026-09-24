@@ -65,15 +65,20 @@ func test_hand_rewards_score_on_each_placement() -> void:
 	var twins := run_with(EMPTY_ROWS, [_p(&"single", 0)])
 	twins.tray[0].hand = BMHands.TWINS
 	var r := twins.place(0, Vector2i(0, 0))
-	eq(r.chips, 10 + BMHands.TWINS_CHIPS, "cell + twins chips")
+	eq(r.chips, 10, "cell chips")
+	eq(r.mult, 1.0 + BMHands.TWINS_MULT, "twins +1 Mult")
 	var mono := run_with(EMPTY_ROWS, [_p(&"bar2", 4)])
 	mono.tray[0].hand = BMHands.MONOCHROME
 	r = mono.place(0, Vector2i(0, 0))
-	eq(r.mult, BMHands.MONOCHROME_X_MULT, "x1.5")
+	eq(r.mult, BMHands.MONOCHROME_X_MULT, "x2")
+	var trip := run_with(EMPTY_ROWS, [_p(&"bar2", 4)])
+	trip.tray[0].hand = BMHands.TRIPLETS
+	r = trip.place(0, Vector2i(0, 0))
+	eq(r.mult, (1.0 + BMHands.TRIPLETS_MULT) * BMHands.TRIPLETS_X_MULT, "+2 then x1.5")
 	var slam := run_with(EMPTY_ROWS, [_p(&"bar2", 4)])
 	slam.tray[0].hand = BMHands.GRAND_SLAM
 	r = slam.place(0, Vector2i(0, 0))
-	eq(r.mult, (1.0 + BMHands.TRIPLETS_MULT) * BMHands.MONOCHROME_X_MULT, "+2 then x1.5")
+	eq(r.mult, (1.0 + BMHands.TRIPLETS_MULT) * BMHands.MONOCHROME_X_MULT, "+2 then x2")
 
 
 func test_refresh_never_forms_a_hand_without_card_sharp() -> void:

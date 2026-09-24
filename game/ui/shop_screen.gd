@@ -128,7 +128,7 @@ func _ready() -> void:
 	_message = BMStyle.label("", 20, BMStyle.PINK_L, true, 6)
 	_message.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	_put(_message, Vector2(40, 1030), Vector2(1096, 36))
-	var leave := BMStyle.button("NEXT ROUND  >", func() -> void: _act({"a": "leave_shop"}), "sun", 40)
+	var leave := BMStyle.button("NEXT ROUND  >", _on_leave, "sun", 40)
 	leave.name = "LeaveButton"
 	_put(leave, Vector2(1156, 882), Vector2(284, 170))
 	# Two lines of text beside the full-size icon keep the button inside the ticker's width.
@@ -480,6 +480,12 @@ func _purchase_text(r: Dictionary) -> String:
 func _unhandled_input(event: InputEvent) -> void:
 	if main.is_paused():
 		return
+	if _overlay.get_child_count() > 0 and not Array(run.shop.get("round_cards", [])).is_empty() and _picker_open():
+		for i in 3:
+			if event.is_action_pressed("bm_slot_%d" % (i + 1)) and i < Array(run.shop.round_cards).size():
+				_pick_round_and_go(i)
+				get_viewport().set_input_as_handled()
+				return
 	if _overlay.get_child_count() > 0 and event.is_action_pressed("bm_cancel"):
 		BMUI.clear_children(_overlay)
 		get_viewport().set_input_as_handled()
@@ -505,15 +511,21 @@ func refresh_all() -> void:
 	var boss_next := BMRunConfig.is_boss_round(next)
 	_next_label.text = "ROUND %d" % next
 	_boss_pill.visible = boss_next
-	_target_label.text = BMUI.fmt_score(BMRunConfig.target(next))
-	_target_label.tooltip_text = "Score target for round %d: %s points%s" % [next, BMUI.fmt_int(BMRunConfig.target(next)),
+	var cards: Array = run.shop.get("round_cards", [])
+	var pick_card := String(cards[int(run.shop.get("round_pick", 0))]) if not cards.is_empty() else "standard"
+	var next_target := run.round_target(next, pick_card)
+	_target_label.text = BMUI.fmt_score(next_target)
+	_target_label.tooltip_text = "Score target for round %d: %s points%s" % [next, BMUI.fmt_int(next_target),
 		"\nOvertime: targets climb faster every round." if run.overtime else ""]
-	var boss_id: String = run.bosses[BMRunConfig.act_of(next) - 1]
-	var bd := BMBosses.get_def(boss_id)
-	var boss_round := BMRunConfig.act_of(next) * 4
-	_boss_name.text = String(bd.name).to_upper() if boss_next else "%s  (ROUND %d)" % [String(bd.name).to_upper(), boss_round]
-	_boss_label.text = bd.rule
-	_ticker.tooltip_text = "Round %d boss: %s\n%s" % [boss_round, bd.name, bd.rule]
+	var next_act := BMRunConfig.act_of(next)
+	var boss_id: String = run.bosses[next_act - 1]
+	var mk2 := run.boss_is_mk2(next_act)
+	var boss_round := next_act * 4
+	var bname := BMBosses.title(boss_id, mk2)
+	var brule := BMBosses.rule_text(boss_id, mk2)
+	_boss_name.text = bname.to_upper() if boss_next else "%s  (ROUND %d)" % [bname.to_upper(), boss_round]
+	_boss_label.text = brule
+	_ticker.tooltip_text = "Round %d boss: %s\n%s" % [boss_round, bname, brule]
 	_fit_ticker(_crate_button.visible)
 
 	BMUI.clear_children(_jokers_row)
@@ -661,6 +673,105 @@ func _sold_out() -> Control:
 
 
 # --- Bag viewer and Workshop picker ------------------------------------------------------------
+
+## NEXT ROUND: before a non-boss round the player first picks a round card (GDD §22.2).
+func _on_leave() -> void:
+	var cards: Array = run.shop.get("round_cards", [])
+	if cards.is_empty():
+		_act({"a": "leave_shop"})
+	else:
+		_show_round_picker()
+
+
+const ROUND_CARD_COLORS := {"standard": "plum", "gold_rush": "sun", "tight_budget": "pink", "rush_hour": "sky",
+	"double_or_nothing": "pink", "mult_fever": "pink", "treasure_hunt": "mint", "scholarship": "sky"}
+
+
+func _show_round_picker() -> void:
+	var v := _overlay_panel(1300)
+	BMAudio.sfx("modal")
+	var next := run.round_number + 1
+	var t := BMStyle.label("CHOOSE ROUND %d" % next, 60, BMStyle.SUN, true, 14)
+	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	t.add_theme_color_override("font_shadow_color", Color(BMStyle.PINK, 0.7))
+	t.add_theme_constant_override("shadow_offset_y", 6)
+	v.add_child(t)
+	var sub := BMStyle.label("Play it straight, or take a twist for a reward. Keys 1-3 choose, Esc goes back.", 20, BMStyle.CREAM)
+	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	v.add_child(sub)
+	var row := BMStyle.hbox(24)
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	v.add_child(row)
+	var cards: Array = run.shop.round_cards
+	var first: Button = null
+	for i in cards.size():
+		var id := String(cards[i])
+		var d := BMRoundCards.get_def(id)
+		var color := String(ROUND_CARD_COLORS.get(id, "plum"))
+		var card := BMStyle.panel("card_" + ("common" if id == "standard" else ("rare" if int(d.reward) >= 4 else "uncommon")), Vector4(-2, -2, -2, -6))
+		card.custom_minimum_size = Vector2(360, 420)
+		var cv := BMStyle.vbox(10)
+		card.add_child(cv)
+		var pill_row := CenterContainer.new()
+		pill_row.add_child(BMStyle.pill("STANDARD" if id == "standard" else "TWIST", color, 20))
+		cv.add_child(pill_row)
+		var name := BMStyle.label(String(d.name).to_upper(), 40, BMStyle.INK, true)
+		name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		name.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		cv.add_child(name)
+		var tgt := BMStyle.hbox(6)
+		tgt.alignment = BoxContainer.ALIGNMENT_CENTER
+		tgt.add_child(BMStyle.icon_rect("icon_target", 0.75))
+		var target := run.round_target(next, id)
+		var tl := BMStyle.label(BMUI.fmt_score(target), 30, Color("#c42848"), true)
+		tgt.add_child(tl)
+		cv.add_child(tgt)
+		var body := BMStyle.label(String(d.text), 20, Color(BMStyle.INK, 0.8))
+		body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		body.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		body.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		cv.add_child(body)
+		if int(d.reward) > 0:
+			var rw := BMStyle.hbox(6)
+			rw.alignment = BoxContainer.ALIGNMENT_CENTER
+			rw.add_child(BMStyle.icon_rect("icon_coin", 0.75))
+			rw.add_child(BMStyle.label("+%d IF YOU WIN" % int(d.reward), 20, Color("#8a5a00"), true))
+			cv.add_child(rw)
+		var idx := i
+		var b := BMStyle.button("PLAY  %d" % (i + 1), func() -> void: _pick_round_and_go(idx), "sun" if i == 0 else color, 30)
+		b.custom_minimum_size = Vector2(0, 72)
+		cv.add_child(b)
+		row.add_child(card)
+		if first == null:
+			first = b
+		if not main.settings.reduced_motion:
+			card.modulate = Color(1, 1, 1, 0)
+			card.position.y += 40
+			var tw := card.create_tween()
+			tw.tween_interval(0.08 * i)
+			tw.tween_property(card, "modulate", Color.WHITE, 0.2)
+	var back := BMStyle.button("BACK TO THE SHOP", func() -> void: BMUI.clear_children(_overlay), "plum", 20)
+	var bc := CenterContainer.new()
+	bc.add_child(back)
+	v.add_child(bc)
+	BMStyle.focus_later(first)
+
+
+func _picker_open() -> bool:
+	for n in _overlay.find_children("*", "Label", true, false):
+		if (n as Label).text.begins_with("CHOOSE ROUND"):
+			return true
+	return false
+
+
+func _pick_round_and_go(i: int) -> void:
+	var r := _act({"a": "pick_round", "i": i})
+	if not r.get("ok", false):
+		return
+	BMUI.clear_children(_overlay)
+	BMAudio.sfx("round_pick", 1.0 if i == 0 else 1.12)
+	_act({"a": "leave_shop"})
+
 
 func _overlay_panel(min_width: float, frame: String = "panel_plate") -> VBoxContainer:
 	BMUI.clear_children(_overlay)

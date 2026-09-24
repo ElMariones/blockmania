@@ -12,7 +12,7 @@ func test_each_kit_starts_with_its_own_bag() -> void:
 	for p in tetro.bag:
 		eq(p.cells.size(), 4, "tetromino: four blocks each")
 	var chunky := BMRun.new_run(1, "chunky")
-	eq(chunky.bag.size(), 20, "chunky 20")
+	eq(chunky.bag.size(), 19, "chunky 19")
 	var uids := {}
 	for p in chunky.bag:
 		uids[int(p.uid)] = true
@@ -27,6 +27,7 @@ func test_kit_unlocks_follow_the_profile() -> void:
 
 
 func test_record_run_accumulates_and_reports_unlocks() -> void:
+	BMSaveStore.has_run() # static init first (see test_achievements._store)
 	BMSaveStore.profile_path = "user://test_profile.cfg"
 	if FileAccess.file_exists(BMSaveStore.profile_path):
 		DirAccess.remove_absolute(BMSaveStore.profile_path)

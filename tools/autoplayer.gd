@@ -81,6 +81,15 @@ func _round_step(run: BMRun) -> Dictionary:
 		if bk >= 0 and run.board.empty_count() > 0:
 			return run.use_consumable(bk, {"slot": 0})
 		return run.concede_round()
+	# A stored piece that fits while nothing in the tray does: swap it in.
+	var any_tray := false
+	for i in run.tray.size():
+		if run.slot_fits(i):
+			any_tray = true
+	if not any_tray and not rs.held.is_empty() and not rs.hold_used and run.board.fits_anywhere(rs.held.cells):
+		for i in run.tray.size():
+			if not run.slot_locked(i):
+				return run.hold(i)
 	for instant in ["cash_out", "coin_roll"]:
 		var ci := run.consumables.find(instant)
 		if ci >= 0:

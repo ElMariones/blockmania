@@ -6,6 +6,9 @@ const EMPTY := ["........", "........", "........", "........", "........", "...
 
 
 func _store() -> void:
+	# The store's static vars initialize on its first static call; make that happen before
+	# redirecting the path, or the initializer puts the real path back (the old flaky test).
+	BMAchievementStore.reload()
 	BMAchievementStore.path = "user://test_achievements_%d.cfg" % OS.get_process_id()
 	if FileAccess.file_exists(BMAchievementStore.path):
 		DirAccess.remove_absolute(BMAchievementStore.path)
