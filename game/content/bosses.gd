@@ -69,6 +69,13 @@ static func choose_run_bosses(rng: BMRngStream) -> Array[String]:
 	return out
 
 
+## Overtime act boss: any boss in the pool (finals included) except the previous act's.
+static func choose_overtime_boss(rng: BMRngStream, previous: String) -> String:
+	var options: Array[String] = pool(false) + pool(true)
+	options.erase(previous)
+	return options[rng.randi_range(0, options.size() - 1)]
+
+
 ## Four distinct seeded cells for The Cramped Cabinet. Four cells can never complete a line.
 static func cramped_cells(rng: BMRngStream) -> Array[Vector2i]:
 	var out: Array[Vector2i] = []

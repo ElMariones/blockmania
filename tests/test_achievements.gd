@@ -1,0 +1,161 @@
+extends BMTestCase
+## Achievements (GDD §20): catalog integrity, conditions (trigger and no-trigger), the store
+## (unlock once, meta badge, records) and that checks never change a run.
+
+const EMPTY := ["........", "........", "........", "........", "........", "........", "........", "........"]
+
+
+func _store() -> void:
+	BMAchievementStore.path = "user://test_achievements.cfg"
+	if FileAccess.file_exists(BMAchievementStore.path):
+		DirAccess.remove_absolute(BMAchievementStore.path)
+	BMAchievementStore.reload()
+
+
+func _restore() -> void:
+	if FileAccess.file_exists(BMAchievementStore.path):
+		DirAccess.remove_absolute(BMAchievementStore.path)
+	BMAchievementStore.path = BMAchievementStore.PATH
+	BMAchievementStore.reload()
+
+
+func test_catalog_has_four_full_pages_and_art() -> void:
+	eq(BMAchievements.page_count(), 4, "four pages")
+	for page in BMAchievements.page_count():
+		eq(BMAchievements.page_ids(page).size(), BMAchievements.PER_PAGE, "page %d holds twelve" % page)
+	var seen := {}
+	var secrets := 0
+	for d in BMAchievements.CATALOG:
+		check(not seen.has(d.id), "unique id %s" % d.id)
+		seen[d.id] = true
+		check(BMAchievements.TIERS.has(d.tier), "%s tier" % d.id)
+		check(String(d.name) != "" and String(d.text) != "" and String(d.flavor) != "", "%s words" % d.id)
+		check(BMCardArt.has("achievements", d.id), "%s has a pixel icon" % d.id)
+		if bool(d.get("secret", false)):
+			secrets += 1
+			check(String(d.get("hint", "")) != "", "%s secret has a hint" % d.id)
+	check(secrets >= 6, "several secret achievements")
+
+
+func test_bag_achievements_count_the_bag() -> void:
+	var run := BMRun.new_run(3)
+	var got := BMAchievements.check_campaign(run, {"a": "reroll"}, {"ok": true, "type": "reroll"}, {})
+	check(not got.has("blue_period"), "starter bag is not blue enough")
+	check(not got.has("square_dance"), "starter bag has few squares")
+	for i in 10:
+		run.bag.append(BMPieces.make(100 + i, &"square2", 0, BMAchievements.BLUE))
+	got = BMAchievements.check_campaign(run, {"a": "reroll"}, {"ok": true, "type": "reroll"}, {})
+	check(got.has("blue_period"), "10 blue pieces")
+	check(got.has("square_dance"), "10 squares")
+	check(got.has("packrat") == (run.bag.size() >= 40), "packrat follows bag size")
+
+
+func test_no_starter_bag_earns_a_bag_badge_for_free() -> void:
+	for k in BMRunConfig.KITS:
+		var run := BMRun.new_run(1, String(k.id))
+		var got := BMAchievements.check_campaign(run, {"a": "x"}, {"ok": true, "type": "x"}, {})
+		eq(got, [] as Array[String], "%s starts with no badge" % k.id)
+
+
+func test_scoring_achievements_read_the_placement() -> void:
+	var run := run_with(EMPTY, [shape(&"single")])
+	var r := run.apply_action({"a": "place", "slot": 0, "x": 0, "y": 0})
+	var got := BMAchievements.check_campaign(run, {"a": "place"}, r, {}, 14)
+	check(not got.has("big_hit"), "a single is not a big hit")
+	check(not got.has("first_line"), "no line yet")
+	check(not got.has("night_shift"), "2 PM is not the night shift")
+	got = BMAchievements.check_campaign(run, {"a": "place"}, {"ok": true, "type": "place", "points": 12000, "lines": 4,
+		"rows": [1, 2], "cols": [3, 4], "combo_after": 4, "feats": ["clean_board"]}, {}, 3)
+	for id in ["big_hit", "mega_hit", "first_line", "triple_decker", "four_alarm", "crossroads", "red_hot", "spotless", "night_shift"]:
+		check(got.has(id), id)
+	check(not got.has("giga_hit"), "12,000 is not a million")
+
+
+func test_round_and_run_achievements() -> void:
+	var run := BMRun.new_run(9)
+	run.round_state.score = run.round_state.target * 3
+	var r := run._after_round_action()
+	r.ok = true
+	var got := BMAchievements.check_campaign(run, {"a": "place"}, r, {})
+	check(got.has("first_round"), "round won")
+	check(got.has("overkill"), "three times the target")
+	check(got.has("no_lines"), "won without a clear")
+	check(got.has("speedrunner"), "zero placements")
+	check(not got.has("champion"), "not the whole game")
+	run.phase = BMRun.Phase.RUN_WON
+	got = BMAchievements.check_campaign(run, {"a": "continue"}, {"ok": true, "type": "continue"}, {})
+	check(got.has("champion"), "won the game")
+	check(not got.has("kit_winner"), "standard kit")
+
+
+func test_endless_achievements() -> void:
+	var g := BMEndless.new_game(5)
+	var got := BMAchievements.check_endless(g, {"ok": true, "type": "place"}, 12)
+	check(got.is_empty(), "fresh game earns nothing")
+	g.score = 30000
+	g.best_combo = 10
+	got = BMAchievements.check_endless(g, {"ok": true, "type": "place", "clean_board": true}, 1)
+	for id in ["arcade_rookie", "arcade_regular", "blockstorm", "fresh_start", "night_shift"]:
+		check(got.has(id), id)
+	check(not got.has("arcade_legend"), "not 100k")
+
+
+func test_checks_do_not_change_the_run() -> void:
+	var run := BMRun.new_run(21)
+	var before := JSON.stringify(run.to_dict())
+	BMAchievements.check_campaign(run, {"a": "place"}, {"ok": true, "type": "place", "points": 5}, {}, 2)
+	eq(JSON.stringify(run.to_dict()), before, "state untouched")
+
+
+func test_store_unlocks_once_and_grants_the_meta_badge() -> void:
+	_store()
+	var fresh := BMAchievementStore.unlock(["first_line", "first_line", "nonsense"])
+	eq(fresh, ["first_line"] as Array[String], "unlocked once, unknown ids ignored")
+	eq(BMAchievementStore.unlock(["first_line"]).size(), 0, "already unlocked")
+	BMAchievementStore.reload()
+	check(BMAchievementStore.is_unlocked("first_line"), "persisted")
+	check(BMAchievementStore.is_new("first_line"), "new until seen")
+	BMAchievementStore.mark_seen(["first_line"])
+	check(not BMAchievementStore.is_new("first_line"), "seen")
+	var rest: Array = []
+	for id in BMAchievements.ids():
+		if id != "block_maniac":
+			rest.append(id)
+	fresh = BMAchievementStore.unlock(rest)
+	check(fresh.has("block_maniac"), "meta badge follows the last one")
+	_restore()
+
+
+func test_records_keep_the_best() -> void:
+	_store()
+	var run := BMRun.new_run(2)
+	run.round_number = 7
+	run.stats.best_placement = 900
+	run.stats["best_round_score"] = 2000
+	var beaten := BMAchievementStore.record_run(run)
+	eq(beaten.size(), 3, "first run sets three records")
+	run.round_number = 5
+	run.stats.best_placement = 1200
+	beaten = BMAchievementStore.record_run(run)
+	eq(beaten.size(), 1, "only the placement improved")
+	eq(BMAchievementStore.records().furthest_round, 7, "furthest kept")
+	run.machine_broken = true
+	run.round_number = 40
+	beaten = BMAchievementStore.record_run(run)
+	eq(BMAchievementStore.records().machine_broken, 40, "machine record")
+	run.round_number = 30
+	BMAchievementStore.record_run(run)
+	eq(BMAchievementStore.records().machine_broken, 30, "breaking it sooner is better")
+	_restore()
+
+
+func test_hands_seen_accumulate() -> void:
+	_store()
+	var run := BMRun.new_run(4)
+	run.tray[0].hand = BMHands.TWINS
+	BMAchievementStore.note_campaign(run)
+	BMAchievementStore.note_campaign(run)
+	eq(Array(BMAchievementStore.life().hands_seen).size(), 1, "counted once")
+	var got := BMAchievements.check_campaign(run, {}, {"ok": true}, {"hands_seen": BMHands.ORDER})
+	check(got.has("full_deck"), "all five")
+	_restore()

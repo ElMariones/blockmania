@@ -46,6 +46,8 @@ static func load_run() -> BMRun:
 	if int(data.get("schema", 0)) < 2:
 		push_warning("Run save predates the Bag (schema 1); it cannot be resumed.")
 		return null
+	# Schema 4 -> 5 (Overtime): `overtime`, `machine_broken` and `recorded` load with defaults
+	# (false, false, {}), and bosses for acts beyond the third are drawn when first needed.
 	# Schema 3 -> 4 (round-play update): new fields (tray `hand`/`brick` marks, patch, feats,
 	# Patience, Warden lock, tombs, combo misses, loan debt, shop crate) all load with defaults.
 	# Schema 2 -> 3: rounds gained `placement_cap` (line clears refill placements up to it).
@@ -97,15 +99,26 @@ static func load_profile() -> Dictionary:
 
 
 ## Adds a finished run's statistics to the profile. Returns the Kit ids it unlocked.
+## A run can end twice (won at round 12, then lost in Overtime): `run.recorded` remembers what
+## was already added, so only the difference counts and the run and its win count once.
 static func record_run(run: BMRun) -> Array[String]:
 	var before := load_profile()
 	var after := before.duplicate()
-	after.lines += int(run.stats.get("lines_cleared", 0))
-	after.bosses += int(run.stats.get("bosses_beaten", 0))
-	after.hands += int(run.stats.get("hands", 0))
-	after.runs += 1
-	if run.phase == BMRun.Phase.RUN_WON and run.kit_id == "standard":
+	var done := run.recorded
+	var now := {"lines": int(run.stats.get("lines_cleared", 0)), "bosses": int(run.stats.get("bosses_beaten", 0)),
+		"hands": int(run.stats.get("hands", 0))}
+	for k in now:
+		after[k] += maxi(0, now[k] - int(done.get(k, 0)))
+	if not done.has("run"):
+		after.runs += 1
+	var won := run.phase == BMRun.Phase.RUN_WON or run.overtime
+	if won and run.kit_id == "standard" and not done.has("won"):
 		after.wins += 1
+		now["won"] = 1
+	elif done.has("won"):
+		now["won"] = 1
+	now["run"] = 1
+	run.recorded = now
 	var cfg := ConfigFile.new()
 	for k in after:
 		cfg.set_value("profile", k, after[k])

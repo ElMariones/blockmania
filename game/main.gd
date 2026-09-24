@@ -14,6 +14,10 @@ var game_screen: BMGameScreen
 var shop_screen: BMShopScreen
 var endless_screen: BMEndlessScreen
 var fx: BMFx
+var toasts: BMAchievementToasts
+## News from the run that just ended (Kits unlocked, records beaten), read once by the run-end
+## screen: {"kits": [...], "records": [...]}.
+var run_end_news := {}
 var crt: BMCrtLayer
 var audio: BMAudio
 var _pause: Control
@@ -54,6 +58,8 @@ func _ready() -> void:
 	_pause.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_pause.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_pause)
+	toasts = BMAchievementToasts.new()
+	add_child(toasts)
 	crt = BMCrtLayer.new()
 	crt.mode = String(settings.get("crt", "soft"))
 	add_child(crt)
@@ -137,6 +143,8 @@ func endless_act(action: Dictionary) -> Dictionary:
 	if result.ok:
 		_endless_pending_ms = 0.0
 		BMEndlessStore.record(endless_screen.game)
+		BMAchievementStore.note_endless(endless_screen.game)
+		grant(BMAchievements.check_endless(endless_screen.game, result, _local_hour()))
 	return result
 
 
@@ -176,10 +184,41 @@ func act(a: Dictionary) -> Dictionary:
 		BMSaveStore.clear_run()
 		if before != run.phase:
 			r.kits_unlocked = BMSaveStore.record_run(run)
+			r.records = BMAchievementStore.record_run(run)
+			run_end_news = {"kits": r.kits_unlocked, "records": r.records}
 	else:
 		BMSaveStore.save_run(run)
+	# Achievements read the state and the result; they never change the run.
+	BMAchievementStore.note_campaign(run)
+	grant(BMAchievements.check_campaign(run, a, r, BMAchievementStore.life(), _local_hour()))
+	if String(a.get("a", "")) == "overtime":
+		BMAudio.sfx("overtime")
 	_route(before != run.phase and run.phase in [BMRun.Phase.SHOP, BMRun.Phase.RUN_WON])
 	return r
+
+
+## Unlocks achievements (the store ignores ones already earned) and announces the new ones.
+func grant(ids: Array) -> Array[String]:
+	var fresh := BMAchievementStore.unlock(ids)
+	if not fresh.is_empty():
+		toasts.announce(fresh)
+	return fresh
+
+
+## Presentation-side achievement events (the title logo easter egg).
+func achievement_event(id: String) -> void:
+	grant([id])
+
+
+## Run-end news for the result screen, handed over once.
+func take_run_end_news() -> Dictionary:
+	var n := run_end_news
+	run_end_news = {}
+	return n
+
+
+func _local_hour() -> int:
+	return int(Time.get_datetime_dict_from_system().get("hour", -1))
 
 
 func _route(rebind: bool) -> void:
@@ -251,7 +290,11 @@ func _open_menu(in_run: bool) -> void:
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(title)
 	if in_run:
-		var info_text := "ENDLESS  -  Seed %d" % endless_screen.game.seed if endless_screen.visible else "Round %d  -  Seed %d" % [run.round_number, run.run_seed]
+		var info_text := "Round %d  -  Seed %d" % [run.round_number, run.run_seed]
+		if endless_screen.visible:
+			info_text = "ENDLESS  -  Seed %d" % endless_screen.game.seed
+		elif shop_screen.visible:
+			info_text = "The Toybox, after round %d  -  Seed %d  -  your run is saved" % [run.round_number, run.run_seed]
 		var info := BMStyle.label(info_text, 20, BMStyle.TEXT_DIM, false, 6)
 		info.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		v.add_child(info)
@@ -272,12 +315,13 @@ func _open_menu(in_run: bool) -> void:
 	if in_run:
 		var row := BMStyle.hbox(10)
 		left.add_child(row)
-		var save := BMStyle.button("SAVE & QUIT", func() -> void:
+		var save := BMStyle.button("SAVE & MAIN MENU", func() -> void:
 			if endless_screen.visible:
 				BMEndlessStore.record(endless_screen.game)
 			else:
 				BMSaveStore.save_run(run)
 			show_title(), "plum", 20)
+		save.tooltip_text = "Save and go back to the main menu. CONTINUE RUN picks it up exactly here."
 		save.custom_minimum_size.y = 60
 		save.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(save)
@@ -481,6 +525,7 @@ func _apply_display_settings() -> void:
 func _apply_motion_setting() -> void:
 	backdrop.set_motion(not settings.reduced_motion)
 	fx.reduced_motion = settings.reduced_motion
+	toasts.reduced_motion = settings.reduced_motion
 	BMBlockPainter.reduced_motion = settings.reduced_motion
 
 

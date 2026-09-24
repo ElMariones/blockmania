@@ -61,6 +61,8 @@ This document lists the art, animation, UI, audio, and Steam marketing assets ne
 | Round-play icons *(produced, code-authored in `tools/art/gen_ui.py`)* | 11 | brick, eraser, hammer, bucket, blueprint, crate, tomb, scope, medal, shield, magnet | P1 | Pixel icons at 4× nearest; used on item cards, Joker emblems, tool sprites, Feat banners. |
 | Boss Crate sprite *(produced, code-authored in `tools/art/gen_ui.py`)* | 2 | `crate_big` (closed wooden crate: planks, frame and diagonal brace, iron corner caps, brass hasp, pink skull seal) and `crate_big_open` (hover: lid lifted with light and sparkles) | P1 | 64×60 art px at 4×; the small `icon_crate` is its matching button icon. |
 | `collection_unknown` | 1 | Undiscovered silhouette/card treatment | P2 | No gameplay information leak beyond desired unlock presentation. |
+| Card portraits *(produced 2026-09-24, code-authored in `tools/art/gen_cards.py`)* | 52 Jokers + 11 items + 5 Workshop tools | 16×16 art px sprites with an auto ink outline; per sprite 8 frames: rest, 6-frame diagonal glint, dark silhouette. Drawn at whole-number scales (4× on offer/rack cards, 2× on item racks) over the phase-colored tile | P1 | `assets/ui/cards/{jokers,items,tools}.png` + `cards.json`. Materials/stamps keep their live finish drawing; Schematics show the family with a small drafting portrait. |
+| Achievement badges *(produced 2026-09-24, `tools/art/gen_cards.py`)* | 48 icons + "?" + 6 frames | 16×16 icons (same format as the card portraits) and 24×24 medal frames: bronze, silver, gold, prism-rimmed legendary, locked, secret | P1 | `assets/ui/cards/achievements.png`, `badges.png`. Locked = silhouette + padlock; secret = "?" medal. |
 
 **Card brief:** cards should look like miniature arcade curios or strange physical tokens on a workbench. Favor bold silhouettes, playful mechanical motifs, and subtle animated foil over playing-card suits or joker faces associated with other games. Each card needs legible rarity, name, rules text area, counters, and disabled-reason overlay.
 
@@ -186,6 +188,19 @@ Everything below is original, authored as code in this repository, and regenerat
 | Title menu icons: play, T-piece (New Run), trophy, power (plus gear and infinity) | `tools/art/gen_ui.py` | produced | Icon pinned left, label centered on every menu button |
 
 Screens covered: title (+ Options), round HUD (score machine, marquee, receipt, Joker rack, items, tray, Refresh/Concede), round intro, round result, run end, pause, bag view, shop ("The Toybox") and Workshop picker. Checked at 1920×1080, 1280×720, 1680×1050 (16:10) and 2560×1080 (ultrawide).
+
+## 12b. Overtime, achievements and the Trophy Case (2026-09-24)
+
+All code-authored; no external media or generated-image art.
+
+| Deliverable | Source | Status |
+|---|---|---|
+| Card portraits and achievement art (see §5) | `tools/art/gen_cards.py` → `assets/ui/cards/` | In game |
+| Trophy Case screen: glass cabinet with reflections, wooden shelves, spotlights behind earned badges, completion meter, tier counts, page tabs, page slide, NEW tags, hover cards, records plaque | `game/ui/trophy_case.gd`, `game/ui/badge.gd` | In game; verified at 1920×1080 |
+| Unlock toast: slide-in plate, coin-flip medal, tiered particles (ring/stars, sparks, confetti, full burst + swirl pulse + shake) | `game/ui/achievement_toast.gd` | In game; Reduced Motion fades only |
+| Swirl moods `trophy` (gold on plum) and `overtime` (ember orange) | `game/presentation/swirl_background.gd` | In game |
+| Overtime and machine-broken presentation: OVERTIME tags, compact M/B/T/Q numbers, KEEP PLAYING panel, MACHINE BROKEN! screen (crash sound, shake, burst, ring, title jitter) | `game/ui/game_screen.gd`, `shop_screen.gd` | In game |
+| 12 sounds: `ach_bronze/silver/gold/legend/secret`, `trophy_open`, `page_flip`, `badge_hover`, `badge_locked`, `overtime`, `record_new`, `machine_break` | `tools/audio/gen_sfx_achievements.py` | In game; human listening pass open |
 
 ## 13. Endless arcade mode (2026-09-23)
 

@@ -34,6 +34,7 @@ var _message: Label
 var _overlay: Control
 var _awning: Control
 var _crate_button: Button
+var _overtime_pill: Control
 var _t := 0.0
 
 
@@ -55,6 +56,9 @@ func _ready() -> void:
 	sign.add_theme_constant_override("shadow_offset_y", 6)
 	sign.add_theme_constant_override("shadow_offset_x", 0)
 	_put(sign, Vector2(60, 18), Vector2(600, 70))
+	_overtime_pill = BMStyle.pill("OVERTIME", "pink", 20)
+	_overtime_pill.tooltip_text = "You beat the game and kept playing. Targets climb faster every round."
+	_put(_overtime_pill, Vector2(652, 34), Vector2(0, 0))
 	var cred := BMStyle.panel("panel_inset", Vector4(10, 0, 12, 0))
 	var ch := BMStyle.hbox(8)
 	cred.add_child(ch)
@@ -141,10 +145,16 @@ func _ready() -> void:
 	_put(BMStyle.header("YOUR ITEMS", 30), Vector2(1464, 728), Vector2(420, 40))
 	_owned_items = BMStyle.hbox(12)
 	_put(_owned_items, Vector2(1464, 772), Vector2(420, 160))
-	_bag_button = BMStyle.button("VIEW BAG", _show_bag, "sky", 30)
+	_bag_button = BMStyle.button("BAG", _show_bag, "sky", 30)
 	_bag_button.icon = BMStyle.tex("icon_bag")
 	_bag_button.tooltip_text = "Every piece in your bag (B)"
-	_put(_bag_button, Vector2(1464, 966), Vector2(420, 80))
+	_put(_bag_button, Vector2(1464, 966), Vector2(236, 80))
+	# Pause menu from the shop (Esc): settings, Save & Quit to the title, or abandon the run.
+	var menu := BMStyle.button("MENU", func() -> void: main.show_pause(), "plum", 20)
+	menu.name = "MenuButton"
+	menu.icon = BMStyle.tex("icon_gear")
+	menu.tooltip_text = "Pause, settings, Save & Quit to the main menu (Esc)"
+	_put(menu, Vector2(1712, 966), Vector2(172, 80))
 
 	_overlay = Control.new()
 	_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -447,8 +457,13 @@ func _purchase_text(r: Dictionary) -> String:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if main.is_paused():
+		return
 	if _overlay.get_child_count() > 0 and event.is_action_pressed("bm_cancel"):
 		BMUI.clear_children(_overlay)
+		get_viewport().set_input_as_handled()
+	elif _overlay.get_child_count() == 0 and event.is_action_pressed("bm_cancel"):
+		main.show_pause()
 		get_viewport().set_input_as_handled()
 	elif _overlay.get_child_count() == 0 and event.is_action_pressed("bm_bag"):
 		_show_bag()
@@ -461,15 +476,17 @@ func refresh_all() -> void:
 	if run == null or run.phase != BMRun.Phase.SHOP:
 		return
 	_credits.set_target(run.credits)
+	_overtime_pill.visible = run.overtime
 	_reroll_button.text = "REROLL  %d" % int(run.shop.reroll_cost)
 	_reroll_button.disabled = run.credits < int(run.shop.reroll_cost)
-	_bag_button.text = "VIEW BAG  (%d)" % run.bag.size()
+	_bag_button.text = "BAG  %d" % run.bag.size()
 	var next := run.round_number + 1
 	var boss_next := BMRunConfig.is_boss_round(next)
 	_next_label.text = "ROUND %d" % next
 	_boss_pill.visible = boss_next
-	_target_label.text = BMUI.fmt_int(BMRunConfig.target(next))
-	_target_label.tooltip_text = "Score target for round %d" % next
+	_target_label.text = BMUI.fmt_score(BMRunConfig.target(next))
+	_target_label.tooltip_text = "Score target for round %d: %s points%s" % [next, BMUI.fmt_int(BMRunConfig.target(next)),
+		"\nOvertime: targets climb faster every round." if run.overtime else ""]
 	var boss_id: String = run.bosses[BMRunConfig.act_of(next) - 1]
 	var bd := BMBosses.get_def(boss_id)
 	var boss_round := BMRunConfig.act_of(next) * 4

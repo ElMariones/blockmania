@@ -188,13 +188,13 @@ class Counter extends Label:
 		target = v
 		if instant or reduced_motion:
 			shown = v
-			text = prefix + BMUI.fmt_int(v)
+			text = prefix + BMUI.fmt_score(v)
 
 	func _process(delta: float) -> void:
 		if int(shown) == target:
 			return
 		shown = move_toward(shown, target, maxf(30.0, absf(target - shown) * 6.0) * delta)
-		text = prefix + BMUI.fmt_int(int(shown))
+		text = prefix + BMUI.fmt_score(int(shown))
 
 
 ## Full-width dashed tear line for paper panels.

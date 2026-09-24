@@ -50,6 +50,14 @@ func set_mood(mood: String) -> void:
 			_mat.set_shader_parameter("col_mid", Color("#4a1330"))
 			_mat.set_shader_parameter("col_hot", Color("#b3263f"))
 			_mat.set_shader_parameter("col_teal", Color("#2a1840"))
+		"trophy":
+			_mat.set_shader_parameter("col_mid", Color("#3a2250"))
+			_mat.set_shader_parameter("col_hot", Color("#b8862c"))
+			_mat.set_shader_parameter("col_teal", Color("#24204a"))
+		"overtime":
+			_mat.set_shader_parameter("col_mid", Color("#401a3a"))
+			_mat.set_shader_parameter("col_hot", Color("#e0662a"))
+			_mat.set_shader_parameter("col_teal", Color("#1d2a52"))
 		"shop":
 			_mat.set_shader_parameter("col_mid", Color("#26314f"))
 			_mat.set_shader_parameter("col_hot", Color("#2f8c7a"))

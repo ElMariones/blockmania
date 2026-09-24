@@ -58,14 +58,14 @@ If documents conflict, resolve the discrepancy in favor of the owner's latest in
 |---|---|
 | `game/rules/` | Pure rules: `BMBoard` (cells + owner/material layers), `BMRngStream`, `BMBag` (draw/discard piles, dealing, legality guarantee), `BMResolver` (placement pipeline), `BMHands` (Tray Hands and their odds). No nodes. |
 | `game/rules/endless.gd`, `game/run/endless_store.gd`, `game/ui/endless_screen.gd` | Separate Endless arcade rules, independent progress/top-ten saves, and cabinet UI. Endless does not mutate or serialize the campaign `BMRun`. |
-| `game/content/` | Data catalogs with stable string IDs: `BMShapes`, `BMPieces` (starter bag, materials, stamps, Schematic values), `BMTools` (Workshop cards), `BMJokers` (+ effect functions), `BMConsumables`, `BMBosses`, `BMRunConfig` (targets, economy, Kits), `BMFeats`. |
-| `game/run/` | `BMRun` (complete run state + every player command, history, replay, `to_dict`/`from_dict`) and `BMSaveStore` (local saves/settings). |
-| `game/ui/` | Screens and widgets built in code on a fixed 1920×1080 `stage` centered for any aspect: `BMGameScreen`, `BMShopScreen` (with the Workshop picker), `BMTitleScreen`, `BMSplash` (launch splash; `-- --no-splash` skips it, `tools/shoot.py` passes that unless `BM_SPLASH=1`), `BMBoardView`, `BMTraySlot`, `BMBagView`, `BMPieceTile`, `BMCard` (Joker/item racks, shop offer cards, emblems), `BMHud` (marquee, tube, lamps, rolling counter, receipt), `BMBrickThrow` (the physics Emergency Brick), `BMStyle` (palette, fonts, 9-slice boxes, buttons, theme), `BMUI` (formatting). |
-| `game/presentation/` | Visual-only: `BMFinishes` (finish catalog: names, animation phase, glow, particles), `BMBlockPainter` (plastic blocks, animated finish faces, glow pass, stamp badges), `BMSwirlBackground` + `shaders/bg_swirl.gdshader`, `BMCrtLayer` + `shaders/crt.gdshader` (also remaps mouse input through the warp), `BMFx` (capped particle layer, pop text, shake). |
+| `game/content/` | Data catalogs with stable string IDs: `BMShapes`, `BMPieces` (starter bag, materials, stamps, Schematic values), `BMTools` (Workshop cards), `BMJokers` (+ effect functions), `BMConsumables`, `BMBosses`, `BMRunConfig` (targets incl. Overtime, score cap, economy, Kits), `BMFeats`, `BMAchievements` (48 achievements, pages, conditions). |
+| `game/run/` | `BMRun` (complete run state + every player command, history, replay, `to_dict`/`from_dict`), `BMSaveStore` (local saves/settings/Kit profile) and `BMAchievementStore` (unlocks, seen flags, lifetime data, personal records in `user://achievements.cfg`). |
+| `game/ui/` | Screens and widgets built in code on a fixed 1920×1080 `stage` centered for any aspect: `BMGameScreen`, `BMShopScreen` (with the Workshop picker), `BMTitleScreen`, `BMSplash` (launch splash; `-- --no-splash` skips it, `tools/shoot.py` passes that unless `BM_SPLASH=1`), `BMBoardView`, `BMTraySlot`, `BMBagView`, `BMPieceTile`, `BMCard` (Joker/item racks, shop offer cards, emblems), `BMHud` (marquee, tube, lamps, rolling counter, receipt), `BMBrickThrow` (the physics Emergency Brick), `BMTrophyCase` (achievement pages + records), `BMBadge` (medal widget), `BMAchievementToasts` (unlock plates), `BMStyle` (palette, fonts, 9-slice boxes, buttons, theme), `BMUI` (formatting, `fmt_score` for M/B/T/Q). |
+| `game/presentation/` | Visual-only: `BMCardArt` (card portraits and badge sheets from `tools/art/gen_cards.py`), `BMFinishes` (finish catalog: names, animation phase, glow, particles), `BMBlockPainter` (plastic blocks, animated finish faces, glow pass, stamp badges), `BMSwirlBackground` + `shaders/bg_swirl.gdshader`, `BMCrtLayer` + `shaders/crt.gdshader` (also remaps mouse input through the warp), `BMFx` (capped particle layer, pop text, shake). |
 | `assets/ui/`, `assets/fonts/` | Generated pixel-art UI kit (`nine.json` holds 9-slice margins) and the original Blockhead fonts. Output of `tools/art/`; regenerate, never hand-edit. |
 | `game/main.gd` + `main.tscn` | App root `BMMain`: routes screens, the single `act()` entry point, autosave, pause, input-map registration. |
 | `tests/` | Headless test runner and `test_*.gd` suites (extend `BMTestCase`). |
-| `tools/art/` | `gen_ui.py` (UI kit PNGs at 4× nearest + `nine.json`), `gen_finishes.py` (animated block-finish sprite sheets shared by Endless styles and campaign materials, stamp badge strips, the glow halo and `finishes.json`), and `gen_font.py` (Blockhead regular/bold TTF via fontTools). Python + Pillow + fontTools. |
+| `tools/art/` | `gen_ui.py` (UI kit PNGs at 4× nearest + `nine.json`), `gen_cards.py` (16×16 portraits for Jokers/items/tools, achievement icons and medal frames at 1×, drawn at whole-number scales), `gen_finishes.py` (animated block-finish sprite sheets shared by Endless styles and campaign materials, stamp badge strips, the glow halo and `finishes.json`), and `gen_font.py` (Blockhead regular/bold TTF via fontTools). Python + Pillow + fontTools. |
 | `tools/` | `shoot.py` (focus-safe screenshot runner, see below), `BMAutoplayer` (preview-guided bot with a configurable shop policy), `simulate.gd` (quick balance probe), `experiments.gd` (paired-seed content experiments: curve / jokers / upgrades). Dev-only. |
 | `docs/balance/` | Saved experiment reports that justify provisional numbers. |
 | `addons/godot_ai/` | Third-party editor plugin (MIT) for AI tooling; dev-only, see THIRD_PARTY.md. |
@@ -93,6 +93,9 @@ Future: `assets/export`. Godot resource paths and stable IDs (Joker/boss/item/sh
 - Lambdas that run later (timers, `call_deferred`) must not capture nodes that can be freed; capture a `weakref()` instead (a freed capture logs an engine error).
 - Presentation never changes results: particles, the CRT, the background and animations read resolution records only, and reduced motion keeps all information.
 - Block finishes (Endless styles and campaign material faces) are one catalog, `BMFinishes`, drawn from `tools/art/gen_finishes.py` sheets. A new finish needs art in that script, a `DEFS` entry, `fin_<id>_place/clear` cues in `tools/audio/gen_finish_sfx.py`, and must pass `tests/test_finishes.gd`. Frame 0 is the calm rest pose that Reduced Motion shows; glow is drawn in a pass before the blocks.
+- Overtime (GDD §19) is a run command (`overtime`); targets beyond round 12 come from `BMRunConfig.target`, bosses for later acts from `BMRun._ensure_bosses` (boss stream). A placement at `SCORE_CAP` breaks the machine and ends the run; keep every score path clamped to the cap. `BMRun.recorded` stops the Kit profile from counting a run twice.
+- Achievements (GDD §20): conditions live in `BMAchievements.check_*` and only read state; `BMMain.act`/`endless_act` call them after the command and `BMMain.grant` unlocks and announces. New achievement: add a `CATALOG` entry (12 per page), a 14×14 icon in `tools/art/gen_cards.py`, its condition, and trigger/no-trigger tests in `tests/test_achievements.gd`. Secret ones need a `hint`.
+- New Joker, item or Workshop card also needs its portrait in `tools/art/gen_cards.py` (an emblem without one falls back to a UI icon).
 - Keyboard focus outlines appear only after keyboard input; pointer input hides them without clearing focus. Owned Joker cards reorder by drag and drop, with Alt+Up/Down for keyboard access.
 
 ### Commands
@@ -105,6 +108,8 @@ Future: `assets/export`. Godot resource paths and stable IDs (Joker/boss/item/sh
 "<godot>" --headless --path . --script res://tests/run_tests.gd -- jokers
 # Balance probe: number of runs, first seed
 "<godot>" --headless --path . --script res://tools/simulate.gd -- 200 1
+# ... and play won runs on into Overtime
+"<godot>" --headless --path . --script res://tools/simulate.gd -- 100 1 overtime
 # Content experiments (paired seeds): mode curve|jokers|upgrades|all, runs, first seed, report path
 "<godot>" --headless --path . --script res://tools/experiments.gd -- all 60 1 res://docs/balance/experiments_v1.md
 ```
@@ -114,8 +119,10 @@ Future: `assets/export`. Godot resource paths and stable IDs (Joker/boss/item/sh
 python tools/shoot.py fixture.gd out.png 1920x1080
 # Regenerate the UI kit / fonts, then reimport them in the open editor (see below)
 python tools/art/gen_ui.py
+python tools/art/gen_cards.py [contact_sheet.png]
 python tools/art/gen_finishes.py
 python tools/audio/gen_finish_sfx.py
+python tools/audio/gen_sfx_achievements.py
 python tools/art/gen_font.py
 ```
 

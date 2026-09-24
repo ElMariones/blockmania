@@ -225,8 +225,11 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 			items.append({"label": e.label, "kind": "xmult", "value": x, "source": "joker", "joker": e.id, "slot": e.slot})
 			mult *= x
 
-	# Step 7: Points with full precision, one rounding.
-	var points := floori(maxi(0, chips) * maxf(1.0, mult))
+	# Step 7: Points with full precision, one rounding. A result at or past the machine's limit
+	# (BMRunConfig.SCORE_CAP) "breaks the machine": it scores exactly the cap (BMRun ends the run).
+	var raw := float(maxi(0, chips)) * maxf(1.0, mult)
+	var broken := is_nan(raw) or is_inf(raw) or raw >= float(BMRunConfig.SCORE_CAP)
+	var points := BMRunConfig.SCORE_CAP if broken else floori(maxi(0, chips) * maxf(1.0, mult))
 
 	# Step 8: remove cleared cells (crossing cells once) plus Mirror Maze extras.
 	var cleared := board.clear_cells(clear_set)
@@ -241,7 +244,7 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 		rs.combo_misses += 1
 		if rs.combo_misses > BMRunConfig.COMBO_GRACE:
 			rs.combo = 0
-	rs.score += points
+	rs.score = mini(BMRunConfig.SCORE_CAP, rs.score + points)
 	rs.pending_chips = 0
 	rs.pending_mult = 0.0
 	if gold_cleared > 0:
@@ -309,8 +312,9 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 				events.append("Glass %s cracked but held (bag at minimum size)" % name)
 	run.stats.lines_cleared += lines
 	run.stats.placements += 1
-	run.stats.total_points += points
+	run.stats.total_points = mini(BMRunConfig.SCORE_CAP, run.stats.total_points + points)
 	run.stats.best_placement = maxi(run.stats.best_placement, points)
+	run.stats["best_round_score"] = maxi(int(run.stats.get("best_round_score", 0)), rs.score)
 	run.stats.highest_combo = maxi(run.stats.highest_combo, rs.combo)
 	if lines >= 3:
 		run.stats.triple_clears += 1
@@ -337,6 +341,7 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 		"chips": chips,
 		"mult": mult,
 		"points": points,
+		"broken": broken,
 		"triggered_jokers": triggered,
 		"combo_before": combo_before,
 		"combo_after": rs.combo,

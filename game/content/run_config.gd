@@ -6,6 +6,16 @@ const ROUND_COUNT := 12
 const ROUNDS_PER_ACT := 4
 const TARGETS := [450, 650, 850, 1150, 1600, 2100, 2800, 3700, 4700, 6000, 7500, 10000]
 
+# Overtime (GDD §19): after the round-12 win the player may keep going. Rounds continue in acts
+# of four with a boss every fourth round; the target of overtime round 12+k is
+# TARGETS[-1] * OVERTIME_BASE^k * (1 + OVERTIME_CURVE * k^2), rounded to two significant digits.
+const OVERTIME_BASE := 1.6
+const OVERTIME_CURVE := 0.08
+## The scoring machine's limit (safe for exact JSON numbers). A placement worth this much or more
+## "breaks the machine": it scores exactly SCORE_CAP and ends the run as a legendary win.
+const SCORE_CAP := 1_000_000_000_000_000
+const SCORE_CAP_TEXT := "1,000,000,000,000,000"
+
 # Base scoring (GDD §5 "Base scoring event").
 const CHIPS_PER_CELL := 10
 const CHIPS_PER_LINE := 100
@@ -57,7 +67,24 @@ const KITS := [
 
 
 static func target(round_number: int) -> int:
-	return TARGETS[clampi(round_number, 1, ROUND_COUNT) - 1]
+	if round_number <= ROUND_COUNT:
+		return TARGETS[clampi(round_number, 1, ROUND_COUNT) - 1]
+	var k := round_number - ROUND_COUNT
+	var raw := float(TARGETS[ROUND_COUNT - 1]) * pow(OVERTIME_BASE, k) * (1.0 + OVERTIME_CURVE * k * k)
+	if raw >= SCORE_CAP:
+		return SCORE_CAP
+	# Two significant digits: 17,280 -> 17,000; 2,611,000 -> 2,600,000.
+	var step := pow(10.0, floorf(log(raw) / log(10.0)) - 1.0)
+	return mini(SCORE_CAP, int(roundf(raw / step) * step))
+
+
+static func is_overtime(round_number: int) -> bool:
+	return round_number > ROUND_COUNT
+
+
+## Rarity weights for the shop before `round_number`'s act (overtime uses the act 3 weights).
+static func rarity_weights(act: int) -> Array:
+	return RARITY_WEIGHTS[clampi(act, 1, RARITY_WEIGHTS.size()) - 1]
 
 
 static func act_of(round_number: int) -> int:

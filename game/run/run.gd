@@ -5,7 +5,7 @@ extends RefCounted
 ## a result Dictionary ({ok: bool, error: String, ...}). Seed + history replays a run exactly.
 ## to_dict()/from_dict() capture a complete state between actions (saves, previews, tests).
 
-const SCHEMA_VERSION := 4
+const SCHEMA_VERSION := 5
 
 enum Phase { ROUND, ROUND_RESULT, SHOP, RUN_WON, RUN_LOST, ABANDONED }
 
@@ -141,6 +141,13 @@ var history: Array = []
 var stats := {}
 var last_round_result := {}
 var end_reason := ""
+## Overtime (GDD §19): the player chose to keep going after the round-12 win.
+var overtime := false
+## A placement reached BMRunConfig.SCORE_CAP: the run ended as a legendary win.
+var machine_broken := false
+## Lifetime profile counters this run has already added (BMSaveStore.record_run), so a run that
+## is won and then continues into Overtime is never counted twice.
+var recorded := {}
 
 
 # --- Construction ------------------------------------------------------------------------
@@ -356,6 +363,8 @@ func apply_action(a: Dictionary) -> Dictionary:
 			return open_crate(int(a.i))
 		"abandon":
 			return abandon()
+		"overtime":
+			return start_overtime()
 	return _fail("Unknown action %s" % a)
 
 
@@ -370,6 +379,10 @@ func place(slot: int, anchor: Vector2i) -> Dictionary:
 		return _fail("The shape does not fit there.")
 	var result := BMResolver.resolve_placement(self, slot, anchor)
 	history.append({"a": "place", "slot": slot, "x": anchor.x, "y": anchor.y})
+	if bool(result.get("broken", false)):
+		_break_machine()
+		result.phase = phase
+		return result
 	# The Undertaker: a tombstone rises after every 4th placement (not after the winning one).
 	if current_boss() == "undertaker" and round_state.score < round_state.target \
 			and round_state.placements_made % BMBosses.UNDERTAKER_EVERY == 0:
@@ -567,12 +580,32 @@ func continue_after_round() -> Dictionary:
 	if phase != Phase.ROUND_RESULT:
 		return _fail("No round result to continue from.")
 	history.append({"a": "continue"})
-	if round_number >= BMRunConfig.ROUND_COUNT:
+	if round_number >= BMRunConfig.ROUND_COUNT and not overtime:
 		phase = Phase.RUN_WON
 		end_reason = "All %d rounds cleared!" % BMRunConfig.ROUND_COUNT
 		return {"ok": true, "type": "continue", "phase": phase}
 	_open_shop()
 	return {"ok": true, "type": "continue", "phase": phase}
+
+
+## Overtime: after the round-12 win, keep playing. The shop opens and rounds continue with
+## rising targets (BMRunConfig.target) and a boss every fourth round, until a round is lost.
+func start_overtime() -> Dictionary:
+	if phase != Phase.RUN_WON or overtime or machine_broken or round_number < BMRunConfig.ROUND_COUNT:
+		return _fail("Overtime starts after winning the final round.")
+	overtime = true
+	history.append({"a": "overtime"})
+	_open_shop()
+	return {"ok": true, "type": "overtime", "phase": phase}
+
+
+## A placement hit the machine's limit: the round and the run end at once, as a win.
+func _break_machine() -> void:
+	machine_broken = true
+	round_state.status = WON
+	phase = Phase.RUN_WON
+	stats.rounds_won += 1
+	end_reason = "You broke the machine in round %d: one placement hit its limit of %s points." % [round_number, BMRunConfig.SCORE_CAP_TEXT]
 
 
 # --- Shop commands -------------------------------------------------------------------------
@@ -771,6 +804,7 @@ func _fail(msg: String) -> Dictionary:
 
 
 func _start_round() -> void:
+	_ensure_bosses(act())
 	phase = Phase.ROUND
 	board = BMBoard.new()
 	var rs := RoundState.new()
@@ -981,7 +1015,14 @@ func _lose(reason: String) -> void:
 	end_reason = reason
 
 
+## Overtime acts beyond the third draw their boss from the boss stream when first needed.
+func _ensure_bosses(through_act: int) -> void:
+	while bosses.size() < through_act:
+		bosses.append(BMBosses.choose_overtime_boss(rng_boss, bosses[bosses.size() - 1]))
+
+
 func _open_shop() -> void:
+	_ensure_bosses(BMRunConfig.act_of(round_number + 1))
 	phase = Phase.SHOP
 	shop = {"jokers": [], "consumables": [], "tools": [], "pieces": [], "reroll_cost": BMRunConfig.REROLL_BASE, "crate": []}
 	if BMRunConfig.is_boss_round(round_number):
@@ -1029,7 +1070,7 @@ func open_crate(i: int) -> Dictionary:
 
 func _fill_shop_offers() -> void:
 	var next_act := BMRunConfig.act_of(round_number + 1)
-	var weights: Array = BMRunConfig.RARITY_WEIGHTS[next_act - 1]
+	var weights: Array = BMRunConfig.rarity_weights(next_act)
 	var offered: Array[String] = []
 	for i in BMRunConfig.JOKER_OFFERS:
 		var rarity := rng_shop.weighted_index(weights)
@@ -1133,6 +1174,7 @@ func to_dict(include_history: bool = true) -> Dictionary:
 		"round_state": round_state.to_dict(), "shop": shop.duplicate(true),
 		"history": history.duplicate(true) if include_history else [], "stats": stats.duplicate(),
 		"last_round_result": last_round_result.duplicate(true), "end_reason": end_reason,
+		"overtime": overtime, "machine_broken": machine_broken, "recorded": recorded.duplicate(),
 	}
 
 
@@ -1173,6 +1215,9 @@ static func from_dict(d: Dictionary) -> BMRun:
 		run.stats[k] = int(d.stats[k])
 	run.last_round_result = _integral(d.last_round_result.duplicate(true))
 	run.end_reason = String(d.end_reason)
+	run.overtime = bool(d.get("overtime", false))
+	run.machine_broken = bool(d.get("machine_broken", false))
+	run.recorded = _integral(d.get("recorded", {}).duplicate())
 	return run
 
 

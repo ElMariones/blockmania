@@ -252,7 +252,7 @@ func bind(new_run: BMRun) -> void:
 	refresh_all()
 	_receipt.print_rows([{"text": "Round %d. Good luck!" % run.round_number, "color": Color(BMStyle.INK, 0.6)}])
 	if BMSwirlBackground.instance:
-		BMSwirlBackground.instance.set_mood("boss" if run.current_boss() != "" else "round")
+		BMSwirlBackground.instance.set_mood("boss" if run.current_boss() != "" else ("overtime" if run.overtime else "round"))
 	_maybe_show_phase_overlay()
 
 
@@ -276,7 +276,10 @@ func refresh_all() -> void:
 	_marquee.boss = boss != ""
 	_marquee.text = "ROUND %d" % run.round_number
 	_marquee.sub = ("BOSS: " + BMBosses.get_def(boss).name.to_upper()) if boss != "" else "ACT %d OF 3" % run.act()
-	_target_label.text = "/ " + BMUI.fmt_int(rs.target)
+	if run.overtime and boss == "":
+		_marquee.sub = "OVERTIME  -  ACT %d" % run.act()
+	_target_label.text = "/ " + BMUI.fmt_score(rs.target)
+	_target_label.tooltip_text = "Target: %s points" % BMUI.fmt_int(rs.target)
 	_score.set_target(rs.score)
 	_tube.set_fraction(float(rs.score) / maxf(1.0, rs.target))
 	_moves_label.text = str(rs.placements_left)
@@ -669,7 +672,7 @@ func _show_preview(p: Dictionary) -> void:
 	_preview_box.add_child(BMStyle.icon_rect("icon_mult", 0.75))
 	_preview_box.add_child(BMStyle.label(BMUI.fmt_mult(p.mult), 30, BMStyle.MULT, true, 8))
 	_preview_box.add_child(BMStyle.label("=", 30, BMStyle.CREAM, true, 8))
-	_preview_box.add_child(BMStyle.label(BMUI.fmt_int(p.points), 30, BMStyle.SUN, true, 8))
+	_preview_box.add_child(BMStyle.label(BMUI.fmt_score(p.points), 30, BMStyle.SUN, true, 8))
 	if p.lines > 0:
 		_preview_box.add_child(BMStyle.pill("%d LINE%s" % [p.lines, "S" if p.lines > 1 else ""], "mint", 20))
 
@@ -783,7 +786,7 @@ func _present_placement(r: Dictionary) -> void:
 	center /= maxf(1.0, r.placed.size())
 	if fx:
 		var size_px := 40 if r.points < 300 else (60 if r.points < 1200 else 80)
-		fx.pop_text(center + Vector2(0, -30), "+" + BMUI.fmt_int(r.points), BMStyle.SUN if r.lines > 0 else BMStyle.CREAM, size_px, 90.0, 1.0)
+		fx.pop_text(center + Vector2(0, -30), "+" + BMUI.fmt_score(r.points), BMStyle.SUN if r.lines > 0 else BMStyle.CREAM, size_px, 90.0, 1.0)
 		fx.stream(center, _score.get_global_rect().get_center(), BMStyle.SUN, mini(18, 4 + r.lines * 5))
 		if r.credits_gained > 0:
 			fx.coins(center, _credits.get_global_rect().get_center(), mini(8, r.credits_gained * 2))
@@ -1002,7 +1005,7 @@ func _write_receipt(r: Dictionary) -> void:
 	for e in r.get("events", []):
 		rows.append({"text": e, "color": Color("#8a5a00")})
 	rows.append({"dashes": true})
-	rows.append({"text": "%s x %s" % [BMUI.fmt_int(r.chips), BMUI.fmt_mult(r.mult)], "value": "= %s" % BMUI.fmt_int(r.points), "bold": true, "value_color": Color("#c42848")})
+	rows.append({"text": "%s x %s" % [BMUI.fmt_int(r.chips), BMUI.fmt_mult(r.mult)], "value": "= %s" % BMUI.fmt_score(r.points), "bold": true, "value_color": Color("#c42848")})
 	if r.combo_after > 0:
 		rows.append({"text": "Combo now x%d" % r.combo_after, "color": Color(BMStyle.INK, 0.6)})
 	for f in r.get("feats", []):
@@ -1128,11 +1131,15 @@ func _show_round_intro() -> void:
 	var boss := run.current_boss()
 	var v := _modal("panel_boss" if boss != "" else "panel_plate", 680)
 	BMAudio.sfx("sting_boss" if boss != "" else "sting_round")
-	v.add_child(_centered(BMStyle.pill("ROUND %d  -  ACT %d" % [run.round_number, run.act()], "pink" if boss != "" else "sun", 30)))
+	var pill_text := "ROUND %d  -  ACT %d" % [run.round_number, run.act()]
+	if run.overtime:
+		pill_text = "ROUND %d  -  OVERTIME" % run.round_number
+	v.add_child(_centered(BMStyle.pill(pill_text, "pink" if boss != "" or run.overtime else "sun", 30)))
 	var tl := BMStyle.label("TARGET", 30, BMStyle.TEXT_DIM, true, 8)
 	tl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(tl)
-	var big := BMStyle.label(BMUI.fmt_int(run.round_state.target), 80, BMStyle.SUN, true, 16)
+	var big := BMStyle.label(BMUI.fmt_score(run.round_state.target), 80, BMStyle.SUN, true, 16)
+	big.tooltip_text = "%s points" % BMUI.fmt_int(run.round_state.target)
 	big.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	big.add_theme_color_override("font_shadow_color", Color(BMStyle.PINK, 0.7))
 	big.add_theme_constant_override("shadow_offset_y", 8)
@@ -1175,6 +1182,11 @@ func _show_round_intro() -> void:
 			bv.add_child(BMStyle.label("Disabled this round: " + ", ".join(disabled), 20, BMStyle.PINK_L))
 		v.add_child(bp)
 	elif run.round_number % BMRunConfig.ROUNDS_PER_ACT == 1:
+		if run.overtime and run.round_number == BMRunConfig.ROUND_COUNT + 1:
+			var ot := BMStyle.label("OVERTIME: the targets climb faster every round. How far can you go?", 20, BMStyle.SUN_L, true, 6)
+			ot.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			ot.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			v.add_child(ot)
 		# First round of an act: preview the act's boss so it never arrives as a surprise.
 		var d := BMBosses.get_def(run.act_boss())
 		var np := BMStyle.panel("panel_inset", Vector4(10, 6, 10, 8))
@@ -1214,7 +1226,7 @@ func _show_round_result() -> void:
 	t.add_theme_constant_override("shadow_offset_y", 6)
 	t.add_theme_constant_override("shadow_offset_x", 0)
 	v.add_child(t)
-	var sc := BMStyle.label("%s / %s points   -   %d placements unused" % [BMUI.fmt_int(res.score), BMUI.fmt_int(res.target), res.unused], 20, BMStyle.CREAM, true)
+	var sc := BMStyle.label("%s / %s points   -   %d placements unused" % [BMUI.fmt_score(res.score), BMUI.fmt_score(res.target), res.unused], 20, BMStyle.CREAM, true)
 	sc.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(sc)
 	var paper := BMStyle.panel("panel_paper", Vector4(16, 8, 16, 14))
@@ -1244,7 +1256,7 @@ func _show_round_result() -> void:
 	total.add_child(BMStyle.icon_rect("icon_coin", 1.0))
 	total.add_child(BMStyle.label("%d" % run.credits, 40, BMStyle.SUN, true, 10))
 	v.add_child(total)
-	var last: bool = res.round >= BMRunConfig.ROUND_COUNT
+	var last: bool = res.round >= BMRunConfig.ROUND_COUNT and not run.overtime
 	var b := BMStyle.button("FINISH RUN" if last else "TO THE SHOP", func() -> void:
 		close_overlay()
 		main.act({"a": "continue"}), "mint", 40)
@@ -1258,13 +1270,32 @@ func _show_round_result() -> void:
 
 func _show_run_end() -> void:
 	var won := run.phase == BMRun.Phase.RUN_WON
-	var v := _modal("panel_plate" if won else "panel_boss", 720)
-	BMAudio.sfx("jingle_run_win" if won else "jingle_lose")
+	var broken := run.machine_broken
+	var ended_overtime := run.overtime and not won
+	var can_overtime := won and not broken and not run.overtime
+	var news: Dictionary = main.take_run_end_news()
+	var v := _modal("panel_plate" if won or ended_overtime else "panel_boss", 760)
+	if broken:
+		BMAudio.sfx("machine_break")
+		BMAudio.sfx_later("jingle_run_win", 1.4)
+	else:
+		BMAudio.sfx("jingle_run_win" if won else "jingle_lose")
 	var title := "YOU WIN!" if won else ("RUN ABANDONED" if run.phase == BMRun.Phase.ABANDONED else "GAME OVER")
-	var t := BMStyle.label(title, 80, BMStyle.SUN if won else BMStyle.PINK_L, true, 16)
+	if broken:
+		title = "MACHINE BROKEN!"
+	elif ended_overtime:
+		title = "OVERTIME OVER"
+	var t := BMStyle.label(title, 80, BMStyle.SUN if won or ended_overtime else BMStyle.PINK_L, true, 16)
 	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	if broken:
+		t.add_theme_color_override("font_shadow_color", Color(BMStyle.PINK, 0.8))
+		t.add_theme_constant_override("shadow_offset_x", 6)
+		t.add_theme_constant_override("shadow_offset_y", 0)
 	v.add_child(t)
-	var reason := BMStyle.label(run.end_reason, 20, BMStyle.CREAM, true)
+	var reason_text := run.end_reason
+	if ended_overtime:
+		reason_text = "Your run was already a win. Overtime ended in round %d.\n%s" % [run.round_number, run.end_reason]
+	var reason := BMStyle.label(reason_text, 20, BMStyle.CREAM, true)
 	reason.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	reason.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(reason)
@@ -1278,8 +1309,11 @@ func _show_run_end() -> void:
 	grid.add_theme_constant_override("h_separation", 18)
 	grid.add_theme_constant_override("v_separation", 4)
 	var rs := run.round_state
-	var pairs := [["Round", "%d / %d" % [run.round_number, BMRunConfig.ROUND_COUNT]], ["Lines cleared", BMUI.fmt_int(s.lines_cleared)],
-			["Last score", "%s / %s" % [BMUI.fmt_int(rs.score), BMUI.fmt_int(rs.target)]], ["Best placement", BMUI.fmt_int(s.best_placement)],
+	var round_text := "%d / %d" % [run.round_number, BMRunConfig.ROUND_COUNT]
+	if run.overtime:
+		round_text = "%d  (OVERTIME +%d)" % [run.round_number, run.round_number - BMRunConfig.ROUND_COUNT]
+	var pairs := [["Round", round_text], ["Lines cleared", BMUI.fmt_int(s.lines_cleared)],
+			["Last score", "%s / %s" % [BMUI.fmt_score(rs.score), BMUI.fmt_score(rs.target)]], ["Best placement", BMUI.fmt_score(s.best_placement)],
 			["Bag size", str(run.bag.size())], ["Highest combo", "x%d" % s.highest_combo]]
 	for pair in pairs:
 		var k := BMStyle.label(pair[0], 20, BMStyle.TEXT_DIM)
@@ -1296,7 +1330,21 @@ func _show_run_end() -> void:
 	var seed_l := BMStyle.label("Seed %d  -  %s" % [run.run_seed, BMRunConfig.kit(run.kit_id).name], 20, BMStyle.TEXT_DIM)
 	sv.add_child(seed_l)
 	v.add_child(sp)
-	for k in _new_kits:
+	var records: Array = news.get("records", [])
+	if not records.is_empty():
+		var rp := BMStyle.panel("panel_paper", Vector4(14, 6, 14, 8))
+		var rv := BMStyle.vbox(2)
+		rp.add_child(rv)
+		for rec in records:
+			var line := "NEW RECORD!  %s: %s" % [String(rec.label).to_upper(), _record_value(String(rec.key), int(rec.value))]
+			if int(rec.before) > 0:
+				line += "  (was %s)" % _record_value(String(rec.key), int(rec.before))
+			var rl := BMStyle.label(line, 20, Color("#c42848"), true)
+			rl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			rv.add_child(rl)
+		v.add_child(rp)
+		BMAudio.sfx_later("record_new", 0.9 if not broken else 2.2)
+	for k in news.get("kits", []):
 		var kp := BMStyle.panel("panel_sun", Vector4(14, 6, 14, 8))
 		var kl := BMStyle.label("NEW KIT UNLOCKED: %s!" % String(BMRunConfig.kit(k).name).to_upper(), 30, BMStyle.INK, true)
 		kl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -1304,11 +1352,32 @@ func _show_run_end() -> void:
 		v.add_child(kp)
 		BMAudio.sfx_later("hand_triplets", 0.8)
 	_new_kits = []
+	var first: Button
+	if can_overtime:
+		# Overtime offer: keep the same build and push on into ever-bigger targets.
+		var op := BMStyle.panel("panel_boss", Vector4(14, 8, 14, 10))
+		var ov := BMStyle.vbox(6)
+		op.add_child(ov)
+		var oh := BMStyle.label("THE ARCADE STAYS OPEN...", 30, BMStyle.SUN, true, 8)
+		oh.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		ov.add_child(oh)
+		var ot := BMStyle.label("Keep this build and play on: round 13 needs %s, and every target after climbs faster. A boss every fourth round. Your win is already saved." % BMUI.fmt_int(BMRunConfig.target(BMRunConfig.ROUND_COUNT + 1)), 20, BMStyle.CREAM)
+		ot.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		ot.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		ov.add_child(ot)
+		var go := BMStyle.button("KEEP PLAYING: OVERTIME  >", func() -> void:
+			close_overlay()
+			main.act({"a": "overtime"}), "sun", 30)
+		go.custom_minimum_size = Vector2(0, 72)
+		go.tooltip_text = "Rounds 13 and beyond. How far can your build go before the machine gives up?"
+		ov.add_child(go)
+		v.add_child(op)
+		first = go
 	var row := BMStyle.hbox(12)
 	v.add_child(row)
 	var again := BMStyle.button("NEW RUN", func() -> void:
 		close_overlay()
-		main.start_new_run(BMRun.random_seed()), "sun", 30)
+		main.start_new_run(BMRun.random_seed()), "sun" if not can_overtime else "plum", 30)
 	var same := BMStyle.button("SAME SEED", func() -> void:
 		close_overlay()
 		main.start_new_run(run.run_seed), "sky", 30)
@@ -1319,9 +1388,26 @@ func _show_run_end() -> void:
 		b.custom_minimum_size = Vector2(0, 72)
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(b)
-	BMStyle.focus_later(again)
-	if won and BMFx.instance:
+	BMStyle.focus_later(first if first != null else again)
+	if BMFx.instance and (won or ended_overtime):
 		BMFx.instance.confetti(Rect2(Vector2.ZERO, size), 260)
+	if broken and BMFx.instance:
+		var c := size / 2.0
+		BMFx.instance.shake(18.0)
+		BMFx.instance.burst(c, [BMStyle.PINK, BMStyle.SUN, BMStyle.SKY, BMStyle.MINT, BMStyle.CREAM], 60, 900.0, 10.0)
+		BMFx.instance.sparks(c, BMStyle.SUN_L, 30, 900.0)
+		BMFx.instance.ring(c, BMStyle.PINK_L, 600.0)
+		if BMSwirlBackground.instance:
+			BMSwirlBackground.instance.pulse(1.0)
+		if not main.settings.reduced_motion:
+			var tw := t.create_tween().set_loops(6)
+			tw.tween_property(t, "position:x", t.position.x + 8, 0.05)
+			tw.tween_property(t, "position:x", t.position.x - 8, 0.05)
+			tw.tween_property(t, "position:x", t.position.x, 0.05)
+
+
+func _record_value(key: String, value: int) -> String:
+	return str(value) if key in ["furthest_round", "machine_broken"] else BMUI.fmt_score(value)
 
 
 # --- Item targeting --------------------------------------------------------------------------

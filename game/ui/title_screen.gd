@@ -30,6 +30,7 @@ var _drift: Control
 var _seed_edit: LineEdit
 var _continue: Button
 var _new: Button
+var _trophies: Button
 var _highscore_overlay: Control
 var _score_rows: Array[Button] = []
 var _t := 0.0
@@ -83,9 +84,17 @@ func _ready() -> void:
 	endless.custom_minimum_size.y = 80
 	endless.tooltip_text = "Relaxed block placement. Clear rows and columns, build a combo, and chase your best score."
 	menu.add_child(endless)
-	var scores := _menu_button("HIGH SCORES", _show_high_scores, "plum", 30, BMStyle.tex("icon_trophy"))
+	var boards := BMStyle.hbox(16)
+	menu.add_child(boards)
+	var scores := _menu_button("SCORES", _show_high_scores, "plum", 30, BMStyle.tex("icon_trophy"), 0.75, 18.0)
 	scores.custom_minimum_size.y = 64
-	menu.add_child(scores)
+	scores.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scores.tooltip_text = "Endless high scores"
+	boards.add_child(scores)
+	_trophies = _menu_button("TROPHIES", _show_trophies, "plum", 30, BMStyle.tex("icon_medal"), 0.75, 18.0)
+	_trophies.custom_minimum_size.y = 64
+	_trophies.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	boards.add_child(_trophies)
 	var seed_row := BMStyle.hbox(10)
 	menu.add_child(seed_row)
 	seed_row.add_child(BMStyle.label("SEED", 30, BMStyle.TEXT_DIM, true, 8))
@@ -141,6 +150,7 @@ func _menu_button(text: String, cb: Callable, kind: String, font_size: int, icon
 func refresh() -> void:
 	stage.position = ((size - STAGE) / 2.0).round()
 	_continue.visible = BMSaveStore.has_run()
+	refresh_trophy_button()
 	_intro_t = 0.0
 	_landed = 0
 	_reset_letters()
@@ -220,6 +230,35 @@ func _show_endless_choice(saved: BMEndless) -> void:
 	BMStyle.focus_later(cont)
 
 
+## The Trophy Case sits over the title like the other title popups; Esc or BACK closes it.
+func _show_trophies() -> void:
+	if is_instance_valid(_highscore_overlay):
+		_highscore_overlay.queue_free()
+	var tc := BMTrophyCase.new()
+	tc.main = main
+	stage.add_child(tc)
+	_highscore_overlay = tc
+	tc.closed.connect(func() -> void:
+		_highscore_overlay = null
+		if main != null:
+			main.backdrop.set_mood("title")
+		refresh_trophy_button()
+		BMStyle.focus_later(_trophies))
+	if main != null:
+		main.backdrop.set_mood("trophy")
+
+
+## The TROPHIES button turns mint while badges wait to be seen in the case.
+func refresh_trophy_button() -> void:
+	var fresh := 0
+	for id in BMAchievements.ids():
+		if BMAchievementStore.is_new(id):
+			fresh += 1
+	_trophies.tooltip_text = "Trophy Case: %d of %d achievements, and your personal records.%s" % [
+		BMAchievementStore.unlocked_count(), BMAchievements.CATALOG.size(), "\n%d new since your last visit!" % fresh if fresh > 0 else ""]
+	BMStyle.button_boxes(_trophies, "mint" if fresh > 0 else "plum")
+
+
 func _show_high_scores(featured: Dictionary = {}) -> void:
 	if is_instance_valid(_highscore_overlay):
 		_highscore_overlay.queue_free()
@@ -290,6 +329,8 @@ func _select_score_row(detail: Control, entry: Dictionary, selected: int) -> voi
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if _highscore_overlay is BMTrophyCase:
+		return
 	if is_instance_valid(_highscore_overlay) and event.is_action_pressed("bm_cancel"):
 		_close_high_scores()
 		get_viewport().set_input_as_handled()
@@ -565,6 +606,8 @@ func _pop_letter(li: int) -> void:
 				"vel": out * randf_range(280.0, 620.0) + Vector2(randf_range(-90.0, 90.0), -randf_range(380.0, 720.0))})
 	_pops[li] = {"at": _intro_t, "pieces": pieces}
 	BMAudio.sfx("letter_pop", BMAudio.scale_pitch(li))
+	if _pops.size() == WORD.length() and main != null:
+		main.achievement_event("vandal")
 	if BMFx.instance:
 		var g := _logo.get_global_transform() * center
 		var hue: Color = BMFinishes.HUES[li % BMShapes.OFFER_COLOR_COUNT]

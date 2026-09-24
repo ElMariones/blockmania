@@ -95,6 +95,19 @@ const SFX := {
 	"crate_open": [["crate_open"], 0.0, 300],
 	"letter_pop": [["letter_pop"], 0.08, 60],
 	"letter_back": [["letter_back"], 0.06, 60],
+	# Achievements, Trophy Case and Overtime (tools/audio/gen_sfx_achievements.py).
+	"ach_bronze": [["ach_bronze"], 0.0, 300],
+	"ach_silver": [["ach_silver"], 0.0, 300],
+	"ach_gold": [["ach_gold"], 0.0, 300],
+	"ach_legend": [["ach_legend"], 0.0, 300],
+	"ach_secret": [["ach_secret"], 0.0, 300],
+	"trophy_open": [["trophy_open"], 0.0, 300],
+	"page_flip": [["page_flip"], 0.06, 80],
+	"badge_hover": [["badge_hover"], 0.1, 40],
+	"badge_locked": [["badge_locked"], 0.04, 80],
+	"overtime": [["overtime"], 0.0, 500],
+	"record_new": [["record_new"], 0.0, 400],
+	"machine_break": [["machine_break"], 0.0, 1000],
 }
 
 ## Soundtrack. Order inside a playlist is shuffled (never the same track twice in a row).
