@@ -130,6 +130,11 @@ Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/r
 - [ ] Human listening pass for the six new songs (checked for loudness only, not by ear).
 - [ ] Scripted first round (tutorial offers) on top of the tips.
 
+## Owner requests, 2026-09-24 (README)
+
+- [x] README rebuilt as a store-style page: banner, badges, gameplay and boss GIFs, feature rows with screenshots, Joker/finish/achievement galleries, screenshot grid, "how it is made", tech stack, architecture and commands for developers. Media in `docs/media/`, reproducible with `tools/readme/shoot_all.py` (real game, off-screen, seeded run + staged board) and `tools/readme/build_media.py` (Pillow, game fonts and art only). Raw captures are git-ignored.
+- [ ] Refresh README media and the test badge count when the UI or content changes noticeably.
+
 ## M2 — Content complete
 
 - [x] Kit selection screen + unlock tracking (see Round-play proposals).
@@ -148,6 +153,8 @@ Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/r
 - [ ] Steamworks integration (achievements/cloud optional, never required for play).
 
 ## Balance watch (provisional numbers — do not tune silently)
+
+- 2026-09-24: **after the plan items** (Hold, round cards, Mk II bosses, Hands/Kits rebalance; the bot always picks Standard and uses Hold only as a rescue): `simulate.gd -- 200 1` gives **30% wins** (was 16% of 100 before), 51% of runs end in round 12 (the final boss is now the wall: 102 of 200), 11 in round 11, avg 283 points per placement. Persona playtests (`steady`, `planner`) still to re-run on this build; Heat 1–5 not yet simulated.
 
 - 2026-09-24: **Engine update + targets 450 / 650 / 900 / 1,200 / 1,800 / 2,400 / 3,300 / 4,400 / 5,700 / 7,300 / 9,300 / 12,500.** Persona playtest (seeds 1001+): steady 10% → 37% wins with the engine and old targets → **18%** with the new targets; newcomer avg round 6.0 → 6.6; planner 82% → 83% (builds grow instead: best placement 34k → 434k, deepest Overtime 15 → 20); multi-line build 38% → 63%; painter 82% → 90%. Legendary probe (three Legendaries from round 1, 7 seeds): Overtime rounds 15–32, and one seed reached round 60 with a 1.2 × 10^14 placement (machine limit 10^15). Watch: planner still clears rounds 1–11 almost always; every unlockable Kit beats Standard (Chunky 100%); late Credits pile up for the greedy bot (33 at round 12). Report: `docs/playtests/2026-09-24_persona_playtest.md` §6.
 

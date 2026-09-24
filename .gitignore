@@ -15,3 +15,6 @@ Thumbs.db
 *.tmp
 __pycache__/
 *.pyc
+
+# README capture work files (regenerate with tools/readme/shoot_all.py)
+/docs/media/raw/
