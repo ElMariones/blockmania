@@ -2,6 +2,8 @@
 
 Owner request: "do playtests, multiple runs, multiple strategies, different seeds; analyze the game loop: is it fun, too easy, too hard, always the same; are there broken and satisfying games; write a complete report as a game designer, and plan how to make the game more addictive, satisfying and fun." Follow-up: "improve what the game lacks, add Jokers, items, four Legendary Jokers and achievements around them."
 
+A designed version of this report with charts: https://claude.ai/artifact/TpHgviX138tC6JAxfJ6Eip (private to the owner).
+
 This document is the review (baseline build `15a2dca`), what was changed because of it (the engine update, GDD §21), the re-test of the changed build, and the plan for what is left.
 
 ## 1. Verdict in one page
@@ -71,7 +73,19 @@ The re-test (§6) shows builds now grow through the run, the greedy player's win
 | dream_mixed | 87% | 12.0 | 489 | 1.0% | 8,255 / 157,920 |
 | dream_dupes | 100% | 12.0 | 661 | 0.8% | 14,922 / 32,558 |
 
-TODO_KITS
+**Kits (planner hands):**
+
+| Kit | Win % | Multi-line % | Points / placement |
+|---|---:|---:|---:|
+| Standard | 82% | 1.3% | 351 |
+| Compact | 92% | 1.8% | 364 |
+| High Roller | 85% | 1.2% | 368 |
+| Chunky | **100%** | 2.3% | 429 |
+| Tetromino | 92% | 1.9% | 419 |
+| Tetromino + Hand build (gambler) | 85% | 2.3% | 422 |
+| Economy build (tycoon) | 68% | 1.4% | 314 |
+
+Every unlockable Kit is *easier* than the Standard Kit, and Chunky never lost. Bigger pieces fill lines faster and nearly double multi-line clears (2.3% vs 1.3%). That is a second lever on multi-line availability, and a reason to re-tune the Chunky bag (fewer 3×3s, or one fewer placement).
 
 **Round anatomy, planner (baseline):**
 
@@ -150,7 +164,26 @@ Every baseline Overtime ended between rounds 13 and 16, all "out of placements".
 
 ## 6. Re-test of the changed build
 
-TODO_AFTER
+Same seeds, final numbers (engine update + raised targets). The Legendary probe gets three Legendaries from round 1: it measures the ceiling, not a fair run.
+
+| Persona | Win % before → after | Avg round | Best placement before → after | Deepest Overtime before → after |
+|---|---|---:|---|---|
+| newcomer | 0% → 0% | 6.0 → 6.6 | 2,160 → 5,520 | – |
+| steady | 10% → **18%** | 10.0 → 9.6 | 5,850 → 11,465 | 14 → 15 |
+| planner | 82% → 83% | 11.9 → 11.9 | 34,020 → 434,396 | 15 → 20 |
+| painter (color) | 82% → 90% | 11.9 → 11.9 | 13,927 → 2,976,750 | 16 → 23 |
+| line_hunter (multi-line) | **38% → 63%** | 11.2 → 11.9 | 14,520 → 657,011 | 15 → 20 |
+| dream (Legendary probe, 7 seeds) | 100% | 12.0 | 158k (best baseline probe) → **123,881,786,837,029** | 16 → **60+** (the harness stops at round 60) |
+
+What changed in play:
+
+- **Builds grow through the run.** The planner's median best placement doubled (4,419 → 10,585), its max Mult reached 976 (was 76) and its max xMult 146 (was 14). Painter runs reached a Mult of 13,669.
+- **The greedy player's curve is healthier.** 18% wins, and its losses spread over rounds 7–12 (clear rates 86 / 73 / 83 / 83 / 76 / 58%) instead of piling up at the final boss. Placements needed in round 12 dropped from 22.8 to 18.5.
+- **The multi-line build is now viable** (63%): base multi-line Mult plus the retuned cards. Multi-line clears are still rare (1.3–1.7%), so it is a build you steer toward, not a default.
+- **The new Jokers get picked.** In winning planner, painter and line_hunter builds: Overachiever in 13, Snowball 9, Coin Pusher 5, Hot Streak, Demolition Crew and Tally Counter 4 each.
+- **Legendaries are special, not standard.** None was owned by round 8 in any run. 17 of 82 winning runs (21%) had one at the win, mostly from the round-8 crate and act-3 shops. In Overtime, crates offer them more often.
+- **Broken runs exist now.** The Legendary probe reached Overtime rounds 15, 19, 25, 27, 30 and 32 with 6- to 9-digit placements. One seed (1007) snowballed to round 60, where the harness stops, with a single placement worth 123,881,786,837,029: about 8x short of breaking the machine (10^15). The limit is now a real, rare goal rather than a number nobody can reach.
+- **Still open:** the planner clears rounds 1–11 almost every time (100% except 97% at round 8). For experts, early tension has to come from stakes and round choice (plan §7), not from higher targets that would crush the newcomer. Late Credits grew for the greedy player (33 held at round 12, was 23): interest works, but the late shop needs more worth buying (Rack Extender helps; round choice and stakes more).
 
 ## 7. Plan: what to do next (prioritized)
 
@@ -163,9 +196,11 @@ TODO_AFTER
    - A boss target bonus (x1.2).
 4. **Tray Hands rebalance.** Twins and Staircase fire on most trays and mean little. Rarer, bigger Hands (Monochrome, Triplets) are the fun ones. Consider making Twins give +1 Mult instead of +30 Chips, and raising Triplets and Monochrome odds with a "Card Sharp"-like common.
 
+5. **Kit balance.** Chunky won every planner run and every unlockable Kit beat the Standard Kit. Trim Chunky (one fewer 3×3 or 14 placements) and give Compact and Tetromino a real cost.
+
 **Next:**
 
-5. **Round choice (Balatro's blind select, in our language).** Before each non-boss round, pick one of two "round cards", for example:
+6. **Round choice (Balatro's blind select, in our language).** Before each non-boss round, pick one of two "round cards", for example:
    - Standard.
    - *Gold Rush*: 6 Gold cells pre-placed, +3 Credits.
    - *Tight Budget*: 12 placements, +4 Credits.
@@ -173,14 +208,14 @@ TODO_AFTER
    - Skip for a Tag (a free item or a Workshop coupon).
 
    This adds agency and variety to every round, not just the shop.
-6. **Tutorial** (GDD §8). Round 1 already teaches by itself (random play clears it), so a guided first round plus contextual tips on the first shop, first Hand and first boss is enough.
-7. **Daily seed and run history** (GDD launch scope): the strongest "one more run" hook after the build fantasy itself.
+7. **Tutorial** (GDD §8). Round 1 already teaches by itself (random play clears it), so a guided first round plus contextual tips on the first shop, first Hand and first boss is enough.
+8. **Daily seed and run history** (GDD launch scope): the strongest "one more run" hook after the build fantasy itself.
 
 **Later:**
 
-8. **Stakes / heat levels after a win** (difficulty ladder: fewer placements, harder bosses, higher interest cap).
-9. **Joker unlocks tied to achievements**, so new cards enter the pool as you play (a slow drip of novelty).
-10. **Overtime milestones:** records and toasts at 1M / 1B / 1T single placements, so the road to the machine's limit has signposts.
+9. **Stakes / heat levels after a win** (difficulty ladder: fewer placements, harder bosses, higher interest cap).
+10. **Joker unlocks tied to achievements**, so new cards enter the pool as you play (a slow drip of novelty).
+11. **Overtime milestones:** records and toasts at 1M / 1B / 1T single placements, so the road to the machine's limit has signposts.
 
 ## 8. Reproducing
 

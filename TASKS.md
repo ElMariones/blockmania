@@ -131,7 +131,7 @@ Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/r
 
 ## Balance watch (provisional numbers — do not tune silently)
 
-- 2026-09-24: **Engine update + targets 450 / 650 / 900 / 1,200 / 1,800 / 2,400 / 3,300 / 4,400 / 5,700 / 7,300 / 9,300 / 12,500.** Persona playtest (seeds 1001+): steady 10% → 37% wins with the engine and old targets → **18%** with the new targets; newcomer avg round 6.0 → 6.6; planner PLANNER_AFTER. Legendary probe: DREAM_AFTER. Report: `docs/playtests/2026-09-24_persona_playtest.md` §6.
+- 2026-09-24: **Engine update + targets 450 / 650 / 900 / 1,200 / 1,800 / 2,400 / 3,300 / 4,400 / 5,700 / 7,300 / 9,300 / 12,500.** Persona playtest (seeds 1001+): steady 10% → 37% wins with the engine and old targets → **18%** with the new targets; newcomer avg round 6.0 → 6.6; planner 82% → 83% (builds grow instead: best placement 34k → 434k, deepest Overtime 15 → 20); multi-line build 38% → 63%; painter 82% → 90%. Legendary probe (three Legendaries from round 1, 7 seeds): Overtime rounds 15–32, and one seed reached round 60 with a 1.2 × 10^14 placement (machine limit 10^15). Watch: planner still clears rounds 1–11 almost always; every unlockable Kit beats Standard (Chunky 100%); late Credits pile up for the greedy bot (33 at round 12). Report: `docs/playtests/2026-09-24_persona_playtest.md` §6.
 
 - 2026-09-24: **Overtime** targets `10,000 × 1.6^k × (1 + 0.08k²)`. Autoplayer, 100 seeds: 16 wins; Overtime ended in round 13 for 12 and round 14 for 4. Human playtests with strong builds decide the curve.
 
