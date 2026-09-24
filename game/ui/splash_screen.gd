@@ -2,9 +2,10 @@ class_name BMSplash
 extends Control
 ## Studio splash shown once at launch, over the title (replaces Godot's boot image, which is
 ## turned off in the project settings). The Buru Arcade logo builds itself: "BURU" drops in as
-## toy block letters, the ARCADE marquee pops up under it with chasing bulbs, and the last U's
-## corner block pops off in a starburst. "made with Godot" slides in, then every block bursts
-## apart while the ink curtain fades to reveal the title. Same art as tools/art/gen_studio_logo.py.
+## toy block letters, the ARCADE marquee pops up under it with chasing bulbs, POPS rises from
+## behind the sign and points at the logo, and the last U's corner block pops off in a starburst
+## (POPS cheers). "made with Godot" slides in, then every block and POPS burst apart while the
+## ink curtain fades to reveal the title. Same art as tools/art/gen_studio_logo.py.
 ## About 2.4 s. Any click, key or pad button skips straight to the burst; a second one ends it.
 ## Reduced motion: the logo fades in and out, with no drops, pops, bursting or particles.
 
@@ -31,6 +32,10 @@ const PLATE_AT := 0.72
 const PLATE_TIME := 0.22
 const LABEL_STEP := 0.04
 const POP_AT := 1.2 ## the corner block pops off
+const POPS_AT := 0.8 ## POPS rises from behind the marquee
+const POPS_RISE := 0.28
+const POPS_FRAME := Vector2(56, 62) ## one frame of assets/ui/helper.png (tools/art/gen_helper.py)
+const POPS_SCALE := 4.0
 const MADE_AT := 1.05
 const BURST_AT := 2.0
 const FADE_TIME := 0.55
@@ -49,11 +54,16 @@ var _pop_block := {} ## the popped block {base, color} and, once popped, {pos, v
 var _bits: Array = [] ## burst particles {pos, vel, color, size, life}
 var _motes: Array = [] ## slow background blocks
 var _landed := 0
+var _pops_tex: Texture2D
+var _pops_rect := Rect2() ## where POPS stands once risen (screen px)
+var _pops_hi := false
+var _pops_fly := {} ## on the burst: {pos (center), vel, rot, spin}
 
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
+	_pops_tex = load("res://assets/ui/helper.png")
 	_layout()
 	resized.connect(_layout)
 	for i in 22:
@@ -75,8 +85,10 @@ func _layout() -> void:
 		cols += String(LETTERS[ch][0]).length() + 1
 	cols -= 1
 	var word_w := cols * CELL
+	var pops_w := POPS_FRAME.x * POPS_SCALE
 	var c := size / 2.0
-	var top := c + Vector2(-word_w / 2.0, -190.0)
+	# POPS stands left of the word; the pair is centered together.
+	var top := c + Vector2(-(word_w + pops_w + 12.0) / 2.0 + pops_w + 12.0, -190.0)
 	var x := 0
 	for li in WORD.length():
 		var rows: Array = LETTERS[WORD[li]]
@@ -91,7 +103,10 @@ func _layout() -> void:
 				else:
 					_blocks.append(b)
 		x += String(rows[0]).length() + 1
-	_plate = Rect2(Vector2(c.x - (word_w - 70.0) / 2.0, top.y + 7 * CELL - 14.0), Vector2(word_w - 70.0, 104.0)).abs()
+	var plate_x := top.x - pops_w - 12.0 + 36.0
+	_plate = Rect2(Vector2(plate_x, top.y + 7 * CELL - 14.0), Vector2(top.x + word_w - 40.0 - plate_x, 104.0))
+	_pops_rect = Rect2(Vector2(top.x - pops_w - 12.0, _plate.position.y + 12.0 - POPS_FRAME.y * POPS_SCALE),
+		POPS_FRAME * POPS_SCALE)
 	_label = _text_line(LABEL, 80, _plate.get_center() + Vector2(0, 2), PLATE_AT + PLATE_TIME * 0.5, LABEL_STEP)
 	_made = _text_line(MADE + ENGINE, 30, c + Vector2(0, 170), MADE_AT, 0.012)
 
@@ -138,6 +153,10 @@ func _process(delta: float) -> void:
 		if not rm:
 			BMAudio.sfx("letter", BMAudio.scale_pitch(_landed * 2), -5.0)
 		_landed += 1
+	if not _pops_hi and _t >= POPS_AT and not _burst:
+		_pops_hi = true
+		if not rm:
+			BMAudio.sfx("pops_hi", 1.0, -4.0)
 	if not _popped and _t >= POP_AT and not _burst:
 		_pop_corner(rm)
 	if not _burst and _t >= BURST_AT:
@@ -150,6 +169,10 @@ func _process(delta: float) -> void:
 				_pop_block.vel *= pow(0.02, delta) # it hangs in the air, the logo's "pop" pose
 			_pop_block.rot += _pop_block.spin * delta
 		if _burst:
+			if not _pops_fly.is_empty():
+				_pops_fly.vel.y += GRAVITY * delta
+				_pops_fly.pos += _pops_fly.vel * delta
+				_pops_fly.rot += _pops_fly.spin * delta
 			for b in _blocks:
 				b.vel.y += GRAVITY * delta
 				b.pos += b.vel * delta
@@ -224,6 +247,9 @@ func _start_burst() -> void:
 			_chips(p, BMFinishes.HUES[int(b.color)], 2)
 	_pop_block.vel += Vector2(300.0, -300.0)
 	_pop_block.spin = 10.0
+	# POPS hops up and tumbles off with his blocks.
+	if _t >= POPS_AT:
+		_pops_fly = {"pos": _pops_rect.get_center(), "vel": Vector2(-260.0, -820.0), "rot": 0.0, "spin": -4.0}
 
 
 func _finish() -> void:
@@ -260,6 +286,7 @@ func _draw() -> void:
 		for m in _motes:
 			var mp := Vector2(m.pos.x * size.x, m.pos.y * size.y).round()
 			draw_rect(Rect2(mp, Vector2(m.size, m.size)), Color(m.color, 0.12 * (1.0 - fade)))
+	_draw_pops(rm, gone, fade)
 	_draw_plate(rm, gone, fade)
 	_draw_blocks(rm, gone, fade)
 	_draw_pop(rm, gone, fade)
@@ -278,10 +305,10 @@ func _draw_plate(rm: bool, gone: float, fade: float) -> void:
 	var a := _appear(PLATE_AT, PLATE_TIME)
 	if a <= 0.0:
 		return
-	var alpha := a * (gone if not rm else 1.0 - fade)
+	var alpha := a * (gone * gone if not rm else 1.0 - fade)
 	var sc := 1.0
 	if not rm:
-		sc = (0.3 + 0.7 * a + sin(a * PI) * 0.12) if not _burst else 1.0 + (1.0 - gone) * 0.25
+		sc = (0.3 + 0.7 * a + sin(a * PI) * 0.12) if not _burst else 1.0 - (1.0 - gone) * 0.4
 	var r := _plate
 	draw_set_transform(r.get_center(), 0.0, Vector2(sc, sc))
 	r.position = -r.size / 2.0
@@ -376,6 +403,39 @@ func _draw_pop(rm: bool, gone: float, fade: float) -> void:
 	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 
 
+## POPS: rises from behind the marquee (clipped at the sign), points at BURU while he talks, and
+## cheers once the corner block pops. On the burst he tumbles away.
+func _draw_pops(rm: bool, gone: float, fade: float) -> void:
+	if _pops_tex == null or _t < POPS_AT:
+		return
+	var a := _appear(POPS_AT, POPS_RISE)
+	var talk := int(_t * 10.0) % 2 == 0 and _t < POP_AT + 0.45
+	var frame := (5 if talk else 4) if _t < POP_AT else (7 if talk else 6)
+	if rm:
+		frame = 6
+	var src := Rect2(Vector2(frame * POPS_FRAME.x, 0), POPS_FRAME)
+	if _burst and not rm and not _pops_fly.is_empty():
+		draw_set_transform(_pops_fly.pos, _pops_fly.rot, Vector2.ONE)
+		draw_texture_rect_region(_pops_tex, Rect2(-_pops_rect.size / 2.0, _pops_rect.size), src, Color(1, 1, 1, gone))
+		draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+		return
+	var alpha := a if not _burst else (a * (1.0 - fade) if rm else gone)
+	if rm:
+		draw_texture_rect_region(_pops_tex, _pops_rect, src, Color(1, 1, 1, alpha))
+		return
+	# Rise with an overshoot; only the part above the sign's bottom edge shows.
+	var k := 1.0 - pow(1.0 - a, 3.0) + sin(a * PI) * 0.12
+	var dst := _pops_rect
+	dst.position.y += (1.0 - k) * _pops_rect.size.y
+	var limit := _plate.end.y
+	var shown := clampf((limit - dst.position.y) / POPS_SCALE, 0.0, POPS_FRAME.y)
+	if shown <= 0.0:
+		return
+	src.size.y = shown
+	dst.size.y = shown * POPS_SCALE
+	draw_texture_rect_region(_pops_tex, dst, src, Color(1, 1, 1, alpha))
+
+
 func _draw_star(center: Vector2, radius: float, alpha: float) -> void:
 	for layer in [[1.08, BMStyle.INK], [1.0, BMStyle.SUN], [0.66, BMStyle.SUN_L]]:
 		var pts := PackedVector2Array()
@@ -394,7 +454,7 @@ func _draw_text(line: Array, rm: bool, gone: float, fade: float, dance: float) -
 			continue
 		var pos: Vector2 = l.base
 		var sc := 1.0
-		var alpha := a * (gone if not rm else 1.0 - fade)
+		var alpha := a * ((gone * gone if line == _label else gone) if not rm else 1.0 - fade)
 		if not rm and not _burst:
 			pos.y += -(1.0 - a) * 40.0 + sin(_t * 9.0 + pos.x * 0.012) * dance * a
 			sc = 0.2 + 0.8 * a + sin(a * PI) * 0.35

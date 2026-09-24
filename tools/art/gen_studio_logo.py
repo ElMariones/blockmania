@@ -4,11 +4,12 @@ Run:  python tools/art/gen_studio_logo.py
 Out:  assets/brand/  (marketing exports, kept out of the Godot import by .gdignore)
       buru_arcade_logo.png        horizontal lockup, transparent, 4x art pixels
       buru_arcade_logo_8x.png     the same at 8x, for press kits and video
-      buru_arcade_mark.png        square mark (BU / RU stacked over the marquee), transparent
+      buru_arcade_mark.png        square mark (POPS over a BURU ARCADE banner), transparent
       steam_avatar_184.png        Steam creator page avatar, 184x184
       steam_header_1500x220.png   Steam creator page header background, 1500x220
 
-Design: "BURU" in the title logo's chunky two-block toy letters, one candy color each, over a
+Design: POPS, the arcade's caretaker (tools/art/gen_helper.py), stands behind the marquee and
+points at "BURU", spelled in the title logo's chunky two-block toy letters, one candy color each, over a
 plum arcade marquee with a brass rim and chaser bulbs that reads "ARCADE" in Blockhead bold.
 The last U's corner block has just popped off in a burst of chips: the same pop the game
 plays when a line clears or a logo letter is clicked. The launch splash (game/ui/splash_screen.gd)
@@ -18,6 +19,7 @@ import os
 from PIL import Image, ImageDraw, ImageFont
 
 import gen_ui as ui
+import gen_helper
 
 ROOT = ui.ROOT
 OUT = os.path.join(ROOT, "assets", "brand")
@@ -114,7 +116,7 @@ def text(word, size, color):
     return im
 
 
-def marquee(w, h, label_size):
+def marquee(w, h, label_size, word="ARCADE", label_cx=None):
     """Plum marquee plate with a brass rim, chaser bulbs, and ARCADE."""
     im = ui.img(w, h)
     ui.fill_shape(im, 0, 0, w, h, 3, ui.INK)
@@ -132,9 +134,9 @@ def marquee(w, h, label_size):
             ui.px(im, bx + 1, by, c)
             ui.px(im, bx, by + 1, ui.SUN_L)
             ui.px(im, bx + 1, by + 1, ui.SUN_L)
-    label = text("ARCADE", label_size, ui.CREAM)
-    shadow = text("ARCADE", label_size, ui.PINK_D)
-    lx = (w - label.width) // 2
+    label = text(word, label_size, ui.CREAM)
+    shadow = text(word, label_size, ui.PINK_D)
+    lx = (w - label.width) // 2 if label_cx is None else label_cx - label.width // 2
     ly = (h - label.height) // 2
     stamp(im, shadow, lx, ly + max(1, label_size // 10))
     stamp(im, label, lx, ly)
@@ -165,20 +167,25 @@ def pop_burst(im, cx, cy, s, color):
         ui.rect(im, cx + dx, cy + dy, n, n, c)
 
 
-def lockup(s=8):
-    """BURU over the ARCADE marquee, with the pop. Returns an art-pixel image."""
+def lockup(s=8, with_pops=True):
+    """POPS pointing at BURU over the ARCADE marquee, with the pop. Returns an art-pixel image."""
     li, rx, ry = POPPED
     letters = inked(block_word(WORD, s, skip=POPPED))
-    mw = letters.width - 20
+    pops = gen_helper.draw_pops(4) if with_pops else None  # frame 4: pointing right, at the logo
+    left = pops.width + 3 if pops else 0
     mh = 26
-    plate = marquee(mw, mh, 20)
     margin = 22  # room for the pop above and to the right
-    w = letters.width + margin + 4
+    w = left + letters.width + margin + 4
     h = margin + letters.height - 6 + mh + 2
     im = ui.img(w, h)
-    lx, ly = 2, margin
-    # The marquee tucks just under the letters' shadow.
-    stamp(im, plate, lx + (letters.width - 2 - mw) // 2, ly + letters.height - 6)
+    lx, ly = left + 2, margin
+    plate_top = ly + letters.height - 6
+    px0 = 10 if pops else lx + 9
+    mw = lx + letters.width - 11 - px0
+    # POPS stands behind the marquee like a shopkeeper behind his sign.
+    if pops:
+        stamp(im, pops, 0, plate_top + 3 - pops.height)
+    stamp(im, marquee(mw, mh, 20, label_cx=lx + (letters.width - 2) // 2 - px0), px0, plate_top)
     stamp(im, letters, lx, ly)
     # Popped block: flying up and right from its slot at the top of the last U.
     col = sum(len(LETTERS[c][0]) + 1 for c in WORD[:li]) + rx
@@ -187,8 +194,8 @@ def lockup(s=8):
     return im
 
 
-def mark(s=4):
-    """Square mark: BU over RU, the marquee under them, on a plum tile with a bulb rim."""
+def mark():
+    """Square mark: POPS (happy) on a plum tile with a bulb rim, over a BURU ARCADE banner."""
     n = 92
     im = ui.img(n, n)
     ui.fill_shape(im, 0, 0, n, n, 6, ui.INK)
@@ -196,29 +203,23 @@ def mark(s=4):
     ui.fill_shape(im, 1, 1, n - 2, n - 3, 6, ui.SUN)
     ui.fill_shape(im, 4, 4, n - 8, n - 8, 4, ui.INK)
     ui.fill_shape(im, 5, 5, n - 10, n - 10, 4, ui.PLUM_D)
-    # Stepped glow behind the letters.
-    ui.fill_shape(im, 12, 12, n - 24, n - 40, 4, ui.PLUM)
+    ui.fill_shape(im, 14, 10, n - 28, n - 36, 8, ui.PLUM)  # stepped glow behind POPS
+    ui.fill_shape(im, 20, 16, n - 40, n - 48, 8, ui.PLUM_L)
     for i, bx in enumerate(range(9, n - 8, 6)):
         c = ui.WHITE if i % 2 == 0 else ui.CREAM_D
-        for by in (2, n - 4):
-            ui.rect(im, bx, by, 2, 1, c)
-        for by in (bx,):
-            ui.rect(im, 2, by, 1, 2, c)
-            ui.rect(im, n - 3, by, 1, 2, c)
-    global COLORS
-    keep = COLORS
-    COLORS = ["red", "blue"]
-    top = inked(block_word("BU", s, skip=(1, 5, 0)))
-    COLORS = ["green", "yellow"]
-    bottom = inked(block_word("RU", s))
-    COLORS = keep
-    x = (n - top.width) // 2 + 1
-    stamp(im, top, x - 3, 13)
-    stamp(im, bottom, x - 3, 13 + 7 * s + 3)
-    plate = marquee(58, 16, 10)
-    stamp(im, plate, (n - 58) // 2, n - 16 - 7)
-    # The pop off the last U.
-    pop_burst(im, x - 3 + 1 + 11 * s + 2 + 7, 13 - 1, s, "blue")
+        ui.rect(im, bx, 2, 2, 1, c)
+        ui.rect(im, bx, n - 3, 2, 1, c)
+        ui.rect(im, 2, bx, 1, 2, c)
+        ui.rect(im, n - 3, bx, 1, 2, c)
+    pops = gen_helper.draw_pops(6)
+    stamp(im, pops, (n - pops.width) // 2, 8)
+    # Two little blocks popping off his afro.
+    pop_burst(im, 76, 17, 4, "blue")
+    blk = ui.img(4, 4)
+    mini_block(blk, 0, 0, 4, "red")
+    stamp(im, inked(blk, (1, 1)), 12, 22)
+    plate = marquee(n - 6, 18, 10, "BURU ARCADE")
+    stamp(im, plate, 3, n - 18 - 6)
     return im
 
 
@@ -238,7 +239,7 @@ def header():
     for i in range(46):
         s = rng.choice((4, 5, 6, 8))
         x, y = rng.randrange(0, w - s), rng.randrange(6, h - s - 6)
-        if abs(x + s / 2 - w / 2) < 200:
+        if abs(x + s / 2 - w / 2) < 250:
             continue  # keep the logo area clean
         blk = ui.img(s, s)
         mini_block(blk, 0, 0, s, names[i % 6])
@@ -249,8 +250,8 @@ def header():
         c = ui.SUN_L if i % 2 == 0 else ui.SUN_D
         ui.rect(im, bx, 1, 3, 2, c)
         ui.rect(im, bx, h - 3, 3, 2, c)
-    logo = lockup(s=6)
-    stamp(im, logo, (w - logo.width) // 2, (h - logo.height) // 2 - 3)
+    logo = lockup()
+    stamp(im, logo, (w - logo.width) // 2, (h - logo.height) // 2)
     return im.resize((w * 2, h * 2), Image.NEAREST)
 
 
