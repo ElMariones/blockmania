@@ -230,6 +230,17 @@ All code-authored (shaders, procedural drawing, synthesized audio); no external 
 | 6 songs: Paper Lanterns, Pocket Change, Iron Curtain, Cascade, Overtime Rush, High Score | `tools/audio/gen_music.py` | In game; loudness checked, human listening pass open |
 | 8 cues: `boss_alarm`, `boss_slam`, `mk2_stamp`, `heartbeat`, `danger_on`, `hold_store`, `round_pick`, `act_start` | `tools/audio/gen_sfx_bosses.py` | In game; human listening pass open |
 
+## 12e. POPS, the tutorial helper (2026-09-24)
+
+Original pixel art and synthesized audio authored as code, in the style of a character reference the owner supplied (not traced; drawn procedurally). GDD §23.
+
+| Deliverable | Source | Status |
+|---|---|---|
+| POPS sprite sheet, 8 frames of 56×62 (idle, blink, talk ×2, point, point + talk, happy, happy + talk), drawn at 4× | `tools/art/gen_helper.py` → `assets/ui/helper.png` | In game; verified in E2E screenshots at 1920×1080 |
+| White glove pointer, 4 directions of 16×16 | `tools/art/gen_helper.py` → `assets/ui/helper_pointer.png` | In game |
+| Speech bubble, spotlight dim and marching outline | `game/ui/tutorial.gd` (code-drawn) | In game |
+| Voice: 5 vowel blips (`pops_a`...`pops_u`), `pops_hi`, `pops_next`, `pops_bye` | `tools/audio/gen_sfx_helper.py` | In game; human listening pass open |
+
 ## 13. Endless arcade mode (2026-09-23)
 
 The main menu has a code-drawn pixel infinity emblem on the Endless entry (with a game in progress it opens a Continue / New Game popup) and a local high-score view. Its cabinet reuses the original board, tray, block textures, clear waves, CRT option, particles, and existing SFX. The right rail now has a large Hold well with an occupied-shape drawing, recharge state, and drop highlight. The swirl shader has calm teal, tense rose, and celebratory multicolor moods; original tracks are grouped into matching playlists. At x5, a code-synthesized percussion layer joins the current track, with a stronger level at x8. High combos add capped drag trails, board pulse, larger score text, scoreward particles, confetti, and subtle shake. DOUBLE CLEAR, TRIPLE CLEAR, MEGA CLEAR, PERFECT, BLOCKSTORM, and CLEAN BOARD have prominent text feedback; an empty-board clear gets the largest celebration. Reduced motion retains score, Hold state, and callout text. The Endless screen and game-over card are code-built UI; no external media or generated-image art is used. Human comfort/listening review remains open.

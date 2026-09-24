@@ -44,8 +44,10 @@ static func save() -> void:
 	cfg.save(path)
 
 
-## Forget the cache (tests, or after `path` changes).
-static func reload() -> void:
+## Forget the cache (tests, or after `path` changes). Not named `reload`: on a class that
+## would call the built-in Script.reload(), which re-parses the script and resets `path` to
+## the real file (redirected stores then read and wrote real player data).
+static func forget_cache() -> void:
 	_cache = {}
 
 

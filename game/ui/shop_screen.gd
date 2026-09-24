@@ -674,6 +674,19 @@ func _sold_out() -> Control:
 
 # --- Bag viewer and Workshop picker ------------------------------------------------------------
 
+## Where the tutorial (BMTutorial) points, in global coordinates; Rect2() when unknown.
+func tutorial_rect(id: String) -> Rect2:
+	match id:
+		"shop_jokers":
+			return _jokers_row.get_global_rect()
+		"shop_tools":
+			return _tools_row.get_global_rect()
+		"next_round":
+			var b := stage.find_child("LeaveButton", true, false) as Control
+			return b.get_global_rect() if b else Rect2()
+	return Rect2()
+
+
 ## NEXT ROUND: before a non-boss round the player first picks a round card (GDD §22.2).
 func _on_leave() -> void:
 	var cards: Array = run.shop.get("round_cards", [])

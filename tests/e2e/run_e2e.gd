@@ -84,9 +84,9 @@ func _go() -> void:
 
 ## A fresh, empty profile for each scenario: saves, settings, achievements, Endless, history.
 func _sandbox() -> void:
-	# Static vars initialize on first use; touch each store before redirecting it.
+	# Touch each store so its statics exist before they are redirected.
 	BMSaveStore.has_run()
-	BMAchievementStore.reload()
+	BMAchievementStore.forget_cache()
 	BMEndlessStore.high_scores()
 	var dir := ProjectSettings.globalize_path(SANDBOX)
 	if DirAccess.dir_exists_absolute(dir):
@@ -98,6 +98,6 @@ func _sandbox() -> void:
 	BMSaveStore.profile_path = SANDBOX + "/profile.cfg"
 	BMSaveStore.history_path = SANDBOX + "/history.json"
 	BMAchievementStore.path = SANDBOX + "/achievements.cfg"
-	BMAchievementStore.reload()
+	BMAchievementStore.forget_cache()
 	BMEndlessStore.game_path = SANDBOX + "/endless.json"
 	BMEndlessStore.scores_path = SANDBOX + "/endless_scores.json"

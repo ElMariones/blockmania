@@ -641,6 +641,29 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 
+## Where the tutorial (BMTutorial) points, in global coordinates; Rect2() when unknown.
+func tutorial_rect(id: String) -> Rect2:
+	match id:
+		"board":
+			return board_view.get_global_rect()
+		"tray":
+			var r := slots[0].get_global_rect()
+			for s in slots:
+				r = r.merge(s.get_global_rect())
+			return r
+		"receipt":
+			return _receipt.get_global_rect()
+		"score":
+			return (_score.get_parent().get_parent() as Control).get_global_rect()
+		"refresh":
+			return refresh_button.get_global_rect()
+		"hold":
+			return _hold_box.get_global_rect()
+		"jokers":
+			return _jokers_box.get_global_rect()
+	return Rect2()
+
+
 ## Hold the picked-up piece (swap with the stored one), or, with nothing picked up, take the
 ## stored piece back into an empty tray slot.
 func _hold_piece(slot: int) -> void:

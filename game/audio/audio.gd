@@ -118,6 +118,15 @@ const SFX := {
 	"danger_on": [["danger_on"], 0.0, 1500],
 	"hold_store": [["hold_store"], 0.04, 120],
 	"round_pick": [["round_pick"], 0.0, 300],
+	# POPS, the tutorial helper (GDD §23): gibberish vowel blips and his cues.
+	"pops_a": [["pops_a"], 0.0, 40],
+	"pops_e": [["pops_e"], 0.0, 40],
+	"pops_i": [["pops_i"], 0.0, 40],
+	"pops_o": [["pops_o"], 0.0, 40],
+	"pops_u": [["pops_u"], 0.0, 40],
+	"pops_hi": [["pops_hi"], 0.0, 500],
+	"pops_next": [["pops_next"], 0.0, 120],
+	"pops_bye": [["pops_bye"], 0.0, 500],
 	"act_start": [["act_start"], 0.0, 800],
 }
 

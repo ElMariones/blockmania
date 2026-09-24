@@ -29,7 +29,7 @@ func _play(seed_value: int, kit: String, heat: int) -> void:
 	# Jokers and change this run's shop pool (and so its fingerprint).
 	if FileAccess.file_exists(BMAchievementStore.path):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(BMAchievementStore.path))
-	BMAchievementStore.reload()
+	BMAchievementStore.forget_cache()
 	main.start_new_run(seed_value, kit, heat)
 	await frames(3)
 	main.game_screen.close_overlay()

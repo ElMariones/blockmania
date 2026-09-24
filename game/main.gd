@@ -25,6 +25,8 @@ var audio: BMAudio
 var _pause: Control
 ## Contextual tips (BMTips) sit on their own 1920x1080 stage, above the screens and under the menu.
 var _tips: Control
+## First-session tutorial with POPS (GDD §23); above the screens and tips, under the menu.
+var tutorial: BMTutorial
 var _tip_stage: Control
 var _tip_poll := 0.0
 var _fps_layer: CanvasLayer
@@ -71,6 +73,9 @@ func _ready() -> void:
 	_tip_stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_tips.add_child(_tip_stage)
 	_tips.resized.connect(func() -> void: _tip_stage.position = ((_tips.size - _tip_stage.size) / 2.0).round())
+	tutorial = BMTutorial.new()
+	tutorial.main = self
+	add_child(tutorial)
 	_pause = Control.new()
 	_pause.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_pause.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -311,6 +316,9 @@ func _show(screen: Control) -> void:
 ## Checks the current screen for a tip to show (BMTips conditions only read state).
 func _poll_tips() -> void:
 	if not bool(settings.get("tips", true)) or is_paused() or _tip_stage.get_child_count() > 0 or run == null:
+		return
+	# POPS is talking: no tips on top of the tutorial.
+	if tutorial != null and tutorial.active:
 		return
 	var seen: Array = settings.get("tips_seen", [])
 	if game_screen.visible and game_screen.overlay.get_child_count() == 0:

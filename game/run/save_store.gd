@@ -76,6 +76,8 @@ static func default_settings() -> Dictionary:
 		"endless_skin": "classic", "endless_skins_unlocked": [],
 		# Game: animation speed (campaign only), contextual tips, boss cinematic.
 		"game_speed": "normal", "tips": true, "tips_seen": [], "boss_intro": "cinematic",
+		# First-session tutorial with POPS (GDD §23): done or skipped.
+		"tutorial_done": false,
 		# Kit screen: the Heat picked last time.
 		"last_heat": 0,
 		# Audio: volumes are 0..1; "muted" silences everything, "music_on" only the soundtrack.

@@ -6,20 +6,20 @@ const EMPTY := ["........", "........", "........", "........", "........", "...
 
 
 func _store() -> void:
-	# The store's static vars initialize on its first static call; make that happen before
-	# redirecting the path, or the initializer puts the real path back (the old flaky test).
-	BMAchievementStore.reload()
+	# Redirect to a scratch file. (The old flake: the store's cache reset used to be named
+	# `reload`, which called Script.reload() and put the real path back.)
+	BMAchievementStore.forget_cache()
 	BMAchievementStore.path = "user://test_achievements_%d.cfg" % OS.get_process_id()
 	if FileAccess.file_exists(BMAchievementStore.path):
 		DirAccess.remove_absolute(BMAchievementStore.path)
-	BMAchievementStore.reload()
+	BMAchievementStore.forget_cache()
 
 
 func _restore() -> void:
 	if FileAccess.file_exists(BMAchievementStore.path):
 		DirAccess.remove_absolute(BMAchievementStore.path)
 	BMAchievementStore.path = BMAchievementStore.PATH
-	BMAchievementStore.reload()
+	BMAchievementStore.forget_cache()
 
 
 func test_bag_achievements_count_the_bag() -> void:
@@ -90,7 +90,7 @@ func test_store_unlocks_once_and_grants_the_meta_badge() -> void:
 	var fresh := BMAchievementStore.unlock(["first_line", "first_line", "nonsense"])
 	eq(fresh, ["first_line"] as Array[String], "unlocked once, unknown ids ignored")
 	eq(BMAchievementStore.unlock(["first_line"]).size(), 0, "already unlocked")
-	BMAchievementStore.reload()
+	BMAchievementStore.forget_cache()
 	check(BMAchievementStore.is_unlocked("first_line"), "persisted")
 	check(BMAchievementStore.is_new("first_line"), "new until seen")
 	BMAchievementStore.mark_seen(["first_line"])

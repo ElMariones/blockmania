@@ -249,6 +249,12 @@ func _page_game() -> void:
 		b.text = "DONE!")
 	_choice("Boss intros", "CINEMATIC plays the warning, the name slam and the rule. QUICK goes straight to the rule card.",
 		"boss_intro", ["cinematic", "quick"], {"cinematic": "CINEMATIC", "quick": "QUICK"})
+	_action("Tutorial", "POPS shows you around again the next time a run starts.", "REPLAY TUTORIAL", func(b: Button) -> void:
+		if main.tutorial:
+			main.tutorial.reset()
+		b.text = "READY!")
+	for btn in _page.get_children().back().find_children("*", "Button", true, false):
+		btn.name = "ReplayTutorial"
 
 
 func _page_audio() -> void:

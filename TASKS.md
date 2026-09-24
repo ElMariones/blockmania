@@ -24,7 +24,7 @@ _Last updated: 2026-09-24 — Plan items from the review (campaign Hold, round c
 - [x] Mouse drag-and-release, click-to-hold, right-click/Esc cancel; keyboard 1–3 / arrows+WASD / Enter+Space / R / Esc.
 - [x] Local save after every action (atomic temp+rename), Continue on title, finished runs not resumable.
 - [ ] Ten reproducible complete seeded runs reviewed by a human (M0 exit criterion) — needs playtesting.
-- [~] Tutorial: contextual tips are in (GDD §22.9); a scripted first round with fixed offers remains — M2.
+- [x] Tutorial: POPS guides the first session (GDD §23) on top of the contextual tips (§22.9). A scripted first round with fixed offers is not planned unless playtests ask for it.
 
 ## The Bag — customizable pieces (GDD §16)
 
@@ -128,7 +128,7 @@ Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/r
 - [ ] Human playtest: round-card pick rates (is one twist always right?), Heat 1–5 difficulty steps, Mk II spikes in act 2, whether Hold makes rounds too safe, tip timing and wording for a first-time player.
 - [ ] Human comfort pass: boss cinematic length, heartbeat annoyance, hazard frame and heat haze at 720p and with the CRT on, flash strength (the Flashes setting defaults to Full).
 - [ ] Human listening pass for the six new songs (checked for loudness only, not by ear).
-- [ ] Scripted first round (tutorial offers) on top of the tips.
+- [x] First-session tutorial: POPS (GDD §23).
 
 ## Owner requests, 2026-09-24 (README)
 
@@ -140,7 +140,9 @@ Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/r
 - [x] **E2E suite** (`tests/e2e/`): the real app with a sandboxed profile; campaign (3 seeds, 3 Kits, Heat 0/2/4, save/resume, replay, preview = result on every placement), Endless (Hold rescue, resume, high score) and menus (every popup, every setting persisted, game speed scope). Artifacts in `build/e2e/` with a gameplay fingerprint that repeats run to run.
 - [x] **Unit test triage** (six parallel reviews): 39 of 234 isolated tests deleted (catalog restatements, trivial wrappers, duplicates, and checks the E2E now asserts: full-run determinism, save/resume, bag accounting in normal play, run completion). 195 remain, each pinning a number, trigger or edge case the E2E cannot see.
 - [x] **Testing policy** in AGENTS.md: no unit tests after code, E2E first with repeatable artifacts, failure modes written before any isolated test.
-- [ ] `test_achievements.gd::test_store_unlocks_once_and_grants_the_meta_badge` failed once in a full run and then passed 9 times; cause not found.
+- [x] **Tutorial with POPS** (GDD §23): a pixel-art caretaker bot (rainbow afro, beard, bow tie, antenna bulb) in the screen corners with a speech bubble, gibberish vowel voice, pointing arm, bobbing glove and spotlight; 14 steps through round 1 and the first shop; SKIP and REPLAY TUTORIAL. Written test-first: `tests/e2e/scenario_tutorial.gd` (13 failure modes).
+- [ ] Human playtest of the tour: wording, pacing (42 cps), whether the "clear a line" step feels forced, voice pitch and volume.
+- [x] Flaky `test_store_unlocks_once_and_grants_the_meta_badge`: root cause found through the E2E runs. `BMAchievementStore.reload()` resolved to the built-in `Script.reload()`, which re-parsed the class and put `path` back to the real `user://achievements.cfg`, so redirected stores (tests, the E2E sandbox) read and wrote real player data and the test's cleanup deleted it. Renamed to `forget_cache()`.
 - [ ] The E2E seeds never win the campaign, so Overtime is only covered by isolated tests; find a winning seed or script a win.
 - [ ] docs/design/round_play_update.md §2 still says Twins gives +30 Chips (the code gives +1 Mult since the Hands rebalance, GDD §22.4).
 

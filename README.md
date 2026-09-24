@@ -5,7 +5,7 @@
 <p align="center">
   <img alt="Godot 4.7.2" src="https://img.shields.io/badge/Godot-4.7.2-478cbf?logo=godotengine&logoColor=white">
   <img alt="GDScript" src="https://img.shields.io/badge/GDScript-100%25-3d2b5e">
-  <img alt="Tests" src="https://img.shields.io/badge/tests-234%20passing-3dd691">
+  <img alt="Tests" src="https://img.shields.io/badge/tests-E2E%20%2B%20195%20rule%20tests-3dd691">
   <img alt="Platform" src="https://img.shields.io/badge/platform-Windows%20%C2%B7%20Steam%20(planned)-ffcc3d">
   <img alt="Status" src="https://img.shields.io/badge/status-in%20development-ff4d6d">
 </p>
@@ -90,6 +90,7 @@ Twelve rounds, three acts, and a boss at the end of each act that rewrites one r
 - **Overtime.** Keep playing after the final boss, with milestone moments at one million, one billion and one trillion points in a single placement.
 - **Endless.** A relaxed arcade mode with a ×10 combo ladder, Hold, 15 block styles, a local top ten and a score graph for every game.
 - **60 achievements** on five pages, ten of them secret. Some unlock new Jokers.
+- **POPS**, the arcade's old caretaker bot, shows first-time players around: he pops up in the corners, points at things and chatters in toy gibberish. Skip him any time.
 
 <p align="center"><img src="docs/media/badges.png" alt="Pixel icons of 24 achievements" width="80%"></p>
 
@@ -126,7 +127,7 @@ Everything you see and hear is **authored as code** in this repository, with no 
 | Rendering | Godot shading language (3 shaders), a capped CPU particle layer, procedural block painter with animated sprite-sheet finishes |
 | Audio | Two buses (music and SFX), a pooled player with rate limits, playlists per game context, runtime-synthesized combo percussion |
 | Tooling | Python 3 · Pillow · fontTools · NumPy · SciPy · SoundFile |
-| Testing | Custom headless test runner (`tests/run_tests.gd`) with runtime-error capture: **234 tests** on rules, determinism, saves, content and menus |
+| Testing | **End-to-end suite** (`tests/e2e/`) that plays the real game through its UI (campaign, Endless, menus, tutorial) and writes repeatable JSON artifacts plus screenshots; 195 isolated rule tests kept only where they catch what E2E cannot |
 | Simulation | Autoplayer bot, paired-seed content experiments and a persona playtest harness (15 simulated player types, 770+ runs per report) |
 | Build | Windows export preset: a single self-contained `.exe` with embedded pack, icon and version info |
 | Workflow | Git, design-doc-driven development ([GDD](GAME_DESIGN_DOCUMENT.md), [TASKS](TASKS.md), [ASSET_PLAN](ASSET_PLAN.md)) and an [AGENTS.md](AGENTS.md) contract for AI-assisted pair programming |
@@ -166,7 +167,8 @@ Open the folder in **Godot 4.7.2** and press Play, or use the command line (`god
 ```bash
 godot --headless --path . --import                                    # first run / after adding scripts
 godot --path .                                                        # play
-godot --headless --path . --script res://tests/run_tests.gd           # 234 tests (exit code 0 = pass)
+godot --headless --path . --script res://tests/e2e/run_e2e.gd        # E2E suite; artifacts in build/e2e/
+godot --headless --path . --script res://tests/run_tests.gd           # isolated rule tests (exit code 0 = pass)
 godot --headless --path . --script res://tests/run_tests.gd -- jokers # one suite
 godot --headless --path . --script res://tools/simulate.gd -- 200 1   # bot balance probe
 godot --headless --path . --script res://tools/playtest.gd -- planner 60 1001 /tmp/planner.json

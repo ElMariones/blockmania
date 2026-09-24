@@ -44,7 +44,7 @@ func run() -> void:
 	while tut.active and main.run.phase == BMRun.Phase.ROUND and guard < 40:
 		guard += 1
 		await _settle(tut)
-		_check_step(tut, seen)
+		await _check_step(tut, seen)
 		match tut.step_id:
 			"place":
 				check(not tut.can_next(), "F6: the place step has no NEXT")
@@ -92,7 +92,7 @@ func run() -> void:
 		while tut.active and guard < 20:
 			guard += 1
 			await _settle(tut)
-			_check_step(tut, seen)
+			await _check_step(tut, seen)
 			if tut.step_id == "next_round":
 				check(not tut.can_next(), "F6: the NEXT ROUND step waits for the button")
 				main.shop_screen._on_leave()
@@ -100,12 +100,16 @@ func run() -> void:
 				if main.shop_screen._picker_open():
 					main.shop_screen._pick_round_and_go(0)
 				await frames(3)
+				# POPS waits for the round intro to close before saying goodbye.
+				check(not tut.visible, "POPS stays hidden behind the round intro")
+				main.game_screen.close_overlay()
+				await frames(2)
 			elif tut.can_next():
 				tut.press_next()
 			await frames(2)
 		await _settle(tut)
 		if tut.active and tut.step_id == "bye":
-			_check_step(tut, seen)
+			await _check_step(tut, seen)
 			tut.press_next()
 			await frames(3)
 	check(not tut.active, "the tutorial ends after the shop")
