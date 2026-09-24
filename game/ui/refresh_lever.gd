@@ -8,7 +8,8 @@ extends Button
 ##     slams with a shake, sparks and a coin burst, the spent lamp pops, every lamp runs a
 ##     casino chase and the title flashes; then the arm springs back with a wobble. The tray's
 ##     reels start spinning at the slam (BMGameScreen).
-##   - hovering nudges the knob; holding the mouse down pulls it partway (it follows the drag)
+##   - the pull starts on mouse DOWN (action mode "press"), like grabbing a real lever, so a
+##     click plays exactly the same animation as the R key; hovering nudges the knob
 ##   - no Refresh left: the housing goes cold and the knob sits still; The Lockdown boss chains
 ##     it with a padlock; concede mode turns the rim pink with a skull
 ## Presentation only: the pull animation plays after the run already refreshed.
@@ -30,8 +31,6 @@ var cap := 1 ## lamps drawn even when spent (the round's starting Refreshes)
 var _tex: Texture2D
 var _t := 0.0
 var _pull_t := -1.0 ## seconds since pull() (-1 = idle)
-var _press_y := -1.0 ## where the mouse went down (for the partial drag pull)
-var _drag_k := 0.0 ## 0..1 how far the held mouse pulls the knob
 var _hover := false
 var _popping := -1 ## lamp index popping after a pull
 var _spent := -1 ## the lamp the current pull will pop at the slam
@@ -49,13 +48,11 @@ func _ready() -> void:
 		add_theme_stylebox_override(s, StyleBoxEmpty.new())
 	add_theme_stylebox_override("focus", BMStyle.focus_box())
 	mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	# Fire on press: releasing later must not restart or cut the pull animation.
+	action_mode = BaseButton.ACTION_MODE_BUTTON_PRESS
 	pressed.connect(func() -> void: BMAudio.sfx("click"))
 	mouse_entered.connect(func() -> void: _hover = true)
-	mouse_exited.connect(func() -> void:
-		_hover = false
-		_press_y = -1.0)
-	button_down.connect(func() -> void: _press_y = get_local_mouse_position().y)
-	button_up.connect(func() -> void: _press_y = -1.0)
+	mouse_exited.connect(func() -> void: _hover = false)
 
 
 ## Sets what the lever shows. `lamps` = Refreshes left this round, `lamp_cap` = the round's
@@ -97,10 +94,6 @@ func _process(delta: float) -> void:
 		_pop_t += delta
 		if _pop_t > 0.45:
 			_popping = -1
-	var target := 0.0
-	if _press_y >= 0.0 and look == Look.READY and not disabled:
-		target = clampf((get_local_mouse_position().y - _press_y) / 90.0, 0.0, 1.0) * 0.8 + 0.15
-	_drag_k = move_toward(_drag_k, target, delta * 8.0)
 	queue_redraw()
 
 
@@ -123,9 +116,10 @@ func _slam() -> void:
 
 ## Knob position 0 (up) .. 4 (fully pulled), from the pull animation, the drag or the hover.
 func _knob() -> int:
-	if look == Look.LOCKED or look == Look.EMPTY:
+	# The last Refresh turns the lever EMPTY right away: let that pull finish first.
+	if (look == Look.LOCKED or look == Look.EMPTY) and _pull_t < 0.0:
 		return 0
-	var k := _drag_k
+	var k := 0.0
 	if _pull_t >= 0.0:
 		if _pull_t < PULL_DOWN:
 			k = _pull_t / PULL_DOWN
@@ -136,7 +130,7 @@ func _knob() -> int:
 			var b := (_pull_t - PULL_DOWN - PULL_HOLD) / PULL_BACK
 			k = maxf(0.0, (1.0 - b) * (1.0 - b)) - sin(b * PI * 2.0) * 0.12 * (1.0 - b)
 			k = clampf(k, 0.0, 1.0)
-	elif _hover and not disabled and not _reduced and _press_y < 0.0:
+	elif _hover and not disabled and not _reduced:
 		k = maxf(k, 0.18 + sin(_t * 9.0) * 0.06)
 	return clampi(roundi(k * 4.0), 0, 4)
 
