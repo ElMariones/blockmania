@@ -69,7 +69,7 @@ If documents conflict, resolve the discrepancy in favor of the owner's latest in
 | `tools/art/` | `gen_ui.py` (UI kit PNGs at 4× nearest + `nine.json`), `gen_cards.py` (16×16 portraits for Jokers/items/tools, achievement icons and medal frames at 1×, drawn at whole-number scales), `gen_finishes.py` (animated block-finish sprite sheets shared by Endless styles and campaign materials, stamp badge strips, the glow halo and `finishes.json`), and `gen_font.py` (Blockhead regular/bold TTF via fontTools). Python + Pillow + fontTools. |
 | `tools/` | `shoot.py` (focus-safe screenshot runner, see below), `BMAutoplayer` (preview-guided bot with a configurable shop policy), `simulate.gd` (quick balance probe), `experiments.gd` (paired-seed content experiments: curve / jokers / upgrades), `playtest.gd` + `playtest_report.py` (persona playtests: random / newcomer / steady / planner skill ladder, build archetypes, Kits, ceiling probes; report in `docs/playtests/`). Dev-only. |
 | `tools/readme/`, `docs/media/` | README media: `shoot_all.py` captures shots and GIFs from the real game (fixtures in `shots.py`), `build_media.py` composes the banner, headers and galleries from the game's own art and fonts. Rebuild instead of hand-editing; `docs/media/raw/` is git-ignored. |
-| `tools/release/`, `.github/workflows/release.yml` | Downloadable builds: `build_release.sh` exports the Windows, macOS and Linux zips to `build/release/` (presets in `export_presets.cfg`, templates via `install_templates.sh`); pushing a `v*` tag publishes them as a GitHub Release with fixed asset names that the README download buttons link to. |
+| `tools/release/`, `.github/workflows/release.yml` | Downloadable builds: `build_release.sh` exports the Windows, macOS and Linux zips to `build/release/` (presets in `export_presets.cfg`, templates via `install_templates.sh`); bumping `tools/release/VERSION` on main (or pushing a `v*` tag) publishes them as a GitHub Release with fixed asset names that the README download buttons link to. |
 | `docs/balance/` | Saved experiment reports that justify provisional numbers. |
 | `docs/playtests/` | Persona playtest reports (design reviews with plans) and their full tables. |
 | `addons/godot_ai/` | Third-party editor plugin (MIT) for AI tooling; dev-only, see THIRD_PARTY.md. |
@@ -132,7 +132,7 @@ python tools/playtest_report.py out_dir planner.json steady.json
 ```
 
 ```bash
-# Downloadable builds (Windows, macOS, Linux zips in build/release/); release = push a v* tag
+# Downloadable builds (Windows, macOS, Linux zips in build/release/); release = bump tools/release/VERSION on main
 tools/release/install_templates.sh && tools/release/build_release.sh
 # Screenshot a fixture without the editor and without stealing focus (window off-screen)
 python tools/shoot.py fixture.gd out.png 1920x1080

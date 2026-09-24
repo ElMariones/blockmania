@@ -1,6 +1,6 @@
 # Builds BLOCKMANIA for Windows, macOS and Linux and publishes them as a GitHub Release.
-# Trigger: push a tag like v0.1.0 (git tag v0.1.0 && git push origin v0.1.0),
-# or run it by hand from the Actions tab with a tag name.
+# Triggers: change tools/release/VERSION on main (publishes v<VERSION>), push a tag like
+# v0.1.0, or run it by hand from the Actions tab with a tag name.
 # The asset names never change, so the README links to
 # https://github.com/ElMariones/blockmania/releases/latest/download/<asset> always work.
 name: Release builds
@@ -8,6 +8,8 @@ name: Release builds
 on:
   push:
     tags: ["v*"]
+    branches: [main]
+    paths: ["tools/release/VERSION"]
   workflow_dispatch:
     inputs:
       tag:
@@ -25,6 +27,14 @@ jobs:
       GODOT: ${{ github.workspace }}/godot
     steps:
       - uses: actions/checkout@v4
+
+      - name: Pick the release tag
+        id: tag
+        run: |
+          if [ -n "${{ github.event.inputs.tag }}" ]; then t="${{ github.event.inputs.tag }}"
+          elif [ "${{ github.ref_type }}" = "tag" ]; then t="${{ github.ref_name }}"
+          else t="v$(tr -d '[:space:]' < tools/release/VERSION)"; fi
+          echo "tag=$t" >> "$GITHUB_OUTPUT"
 
       - name: Install Godot ${{ env.GODOT_VERSION }}
         run: |
@@ -49,8 +59,9 @@ jobs:
       - name: Publish the release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.event.inputs.tag || github.ref_name }}
-          name: BLOCKMANIA ${{ github.event.inputs.tag || github.ref_name }}
+          tag_name: ${{ steps.tag.outputs.tag }}
+          target_commitish: ${{ github.sha }}
+          name: BLOCKMANIA ${{ steps.tag.outputs.tag }}
           body_path: tools/release/RELEASE_NOTES.md
           make_latest: true
           files: |

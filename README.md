@@ -178,7 +178,7 @@ Numbers are tuned with evidence, not guesswork. [`tools/autoplayer.gd`](tools/au
 
 ### Release builds
 
-`tools/release/build_release.sh` exports the three downloadable zips (Windows x86_64, macOS universal with ad-hoc signing, Linux x86_64) into `build/release/`; `tools/release/install_templates.sh` fetches the Godot 4.7.2 export templates first. Pushing a tag such as `v0.1.1` runs `.github/workflows/release.yml`, which does the same on GitHub Actions and publishes a Release with fixed asset names, so the download buttons above always point at the newest build.
+`tools/release/build_release.sh` exports the three downloadable zips (Windows x86_64, macOS universal with ad-hoc signing, Linux x86_64) into `build/release/`; `tools/release/install_templates.sh` fetches the Godot 4.7.2 export templates first. Bumping `tools/release/VERSION` on `main` (or pushing a tag such as `v0.1.1`) runs `.github/workflows/release.yml`, which does the same on GitHub Actions and publishes a Release with fixed asset names, so the download buttons above always point at the newest build.
 
 ### Run it
 
