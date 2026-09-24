@@ -133,7 +133,8 @@ func pulse(text: String = "", color: Color = BMStyle.SUN) -> void:
 # --- Builders ------------------------------------------------------------------------------
 
 ## `height` shrinks the card when Rack Extender adds slots (the rack keeps its height).
-static func joker_rack(run: BMRun, id: String, height: int = RACK_HEIGHT) -> BMCard:
+## `width` is the rack's width (the round screen's rack is wider than the shop's).
+static func joker_rack(run: BMRun, id: String, height: int = RACK_HEIGHT, width: float = 508.0) -> BMCard:
 	var def := BMJokers.get_def(id)
 	var compact := height < RACK_HEIGHT
 	var c := BMCard.new()
@@ -141,7 +142,10 @@ static func joker_rack(run: BMRun, id: String, height: int = RACK_HEIGHT) -> BMC
 	c.data = id
 	var rarity := int(def.rarity)
 	var disabled := run.joker_disabled_reason(id) if run != null else ""
-	c.add_theme_stylebox_override("panel", BMStyle.box(["rack_common", "rack_uncommon", "rack_rare", "rack_legendary"][rarity], Vector4(-2, 2, 0, -4)))
+	# A crowded rack (Rack Extender, 6-7 slots) trims the card's inner padding so its content
+	# fits the slot height; otherwise the column would spill past the rack into the header below.
+	var pad := Vector4(-2, 2, 0, -4) if height >= 90 else Vector4(-2, -4, 0, -9)
+	c.add_theme_stylebox_override("panel", BMStyle.box(["rack_common", "rack_uncommon", "rack_rare", "rack_legendary"][rarity], pad))
 	c.custom_minimum_size = Vector2(0, height)
 	var h := BMStyle.hbox(10)
 	c.add_child(h)
@@ -159,7 +163,12 @@ static func joker_rack(run: BMRun, id: String, height: int = RACK_HEIGHT) -> BMC
 	name_l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	name_l.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	top.add_child(name_l)
-	var rl := BMStyle.label(BMJokers.RARITY_NAMES[rarity].to_upper(), 20, [Color("#5c4282"), Color("#1f63b8"), Color("#a86a00"), Color("#7a3fd0")][rarity], true)
+	# A long name keeps its full width: the rarity tag shortens instead (full words in the tooltip).
+	var tag: String = BMJokers.RARITY_NAMES[rarity].to_upper()
+	var fb := BMStyle.font_bold
+	if fb.get_string_size(String(def.name), HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x + fb.get_string_size(tag, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x > width - 130.0:
+		tag = ["COMMON", "UNCOM.", "RARE", "LEGEND"][rarity]
+	var rl := BMStyle.label(tag, 20, [Color("#5c4282"), Color("#1f63b8"), Color("#a86a00"), Color("#7a3fd0")][rarity], true)
 	top.add_child(rl)
 	var body := String(def.text)
 	var counter := BMJokers.counter_text(id, run) if run != null else ""
@@ -187,9 +196,10 @@ static func joker_rack(run: BMRun, id: String, height: int = RACK_HEIGHT) -> BMC
 	return c
 
 
-## Card height that fits `slots` cards in the 652-px rack with 8-px gaps.
+## Card height that fits `slots` cards in the 652-px rack with 8-px gaps, leaving room under
+## the last card for its drop shadow above the ITEMS header (full 7-slot rack).
 static func rack_height(slots: int) -> int:
-	return mini(RACK_HEIGHT, (652 - 8 * (slots - 1)) / maxi(1, slots))
+	return mini(RACK_HEIGHT, (640 - 8 * (slots - 1)) / maxi(1, slots))
 
 
 static func item_rack(id: String) -> BMCard:

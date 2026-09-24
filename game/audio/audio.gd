@@ -53,6 +53,8 @@ const SFX := {
 	"workshop": [["workshop"], 0.02, 100],
 	"item": [["item_use"], 0.02, 100],
 	"refresh": [["refresh"], 0.02, 100],
+	"lever_pull": [["lever_pull"], 0.03, 100],
+	"lever_spring": [["lever_spring"], 0.03, 100],
 	"deal": [["deal"], 0.06, 30],
 	"print": [["print_tick"], 0.1, 30],
 	"score": [["score_whoosh"], 0.04, 120],

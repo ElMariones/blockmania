@@ -17,7 +17,7 @@ uniform float flash = 0.0;
 uniform vec4 flash_col : source_color = vec4(1.0, 0.3, 0.35, 1.0);
 uniform float strength = 1.0;
 uniform float time_scale = 1.0;
-uniform float pixel_size = 4.0;
+uniform float pixel_size = 4.0; // in 1920x1080 stage pixels; scaled to the window below
 
 float hash(vec2 p) {
 	p = fract(p * vec2(123.34, 456.21));
@@ -27,23 +27,34 @@ float hash(vec2 p) {
 
 void fragment() {
 	vec2 res = 1.0 / SCREEN_PIXEL_SIZE;
-	vec2 px = floor(FRAGCOORD.xy / pixel_size) * pixel_size;
+	// The UI is a 1920x1080 stage scaled by `sc` and centered; `off` is the letterbox space
+	// around it on each axis (window pixels). Everything below is sized in stage pixels, so the
+	// frame looks the same at 720p, 1080p, 1440p, 16:10 and ultrawide.
+	float sc = min(res.x / 1920.0, res.y / 1080.0);
+	vec2 off = max(vec2(0.0), (res - vec2(1920.0, 1080.0) * sc) * 0.5);
+	float ps = max(1.0, floor(pixel_size * sc + 0.5));
+	vec2 px = floor(FRAGCOORD.xy / ps) * ps;
 	vec2 uv = px / res;
 	float t = TIME * time_scale;
+	vec2 d = min(px, res - px); // distance to the left/right and top/bottom window edges
 	// Distance to the nearest screen edge in pixels.
-	float edge = min(min(px.x, res.x - px.x), min(px.y, res.y - px.y));
+	float edge = min(d.x, d.y);
 	vec4 col = vec4(0.0);
 
-	// Boss: a 22-px hazard tape frame whose stripes crawl, and a soft red glow inside it.
+	// Boss: hazard tape whose stripes crawl, and a soft red glow inside it. On the playfield the
+	// tape is only 7 stage px deep (clear of the HUD text at the stage's top edge); where the
+	// window has letterbox space it widens into it, up to 22 stage px.
 	if (boss > 0.0) {
-		float band = 22.0;
-		if (edge < band) {
-			float s = step(0.5, fract((px.x + px.y) / 36.0 - t * 0.6));
+		vec2 band = clamp(off, vec2(7.0 * sc), vec2(22.0 * sc));
+		band = max(vec2(ps), floor(band / ps) * ps);
+		if (d.x < band.x || d.y < band.y) {
+			float s = step(0.5, fract((px.x + px.y) / (36.0 * sc) - t * 0.6));
 			vec3 tape = mix(vec3(0.07, 0.03, 0.08), boss_col.rgb, s);
 			col = vec4(tape, 0.9 * boss);
 		} else {
-			float glow = exp(-(edge - band) / 90.0) * (0.35 + 0.15 * sin(t * 2.4));
-			col = vec4(boss_col.rgb, glow * boss * 0.55);
+			float inside = min(d.x - band.x, d.y - band.y);
+			float glow = exp(-inside / (70.0 * sc)) * (0.3 + 0.12 * sin(t * 2.4));
+			col = vec4(boss_col.rgb, glow * boss * 0.45);
 		}
 	}
 
@@ -60,7 +71,7 @@ void fragment() {
 	if (heat > 0.0) {
 		float y = 1.0 - uv.y;
 		float haze = smoothstep(0.28, 0.0, y) * (0.18 + 0.08 * sin(uv.x * 30.0 + t * 3.0 + y * 40.0));
-		vec2 cell = floor(vec2(px.x / 10.0, (px.y + t * 60.0) / 10.0));
+		vec2 cell = floor(vec2(px.x / (10.0 * sc), (px.y + t * 60.0 * sc) / (10.0 * sc)));
 		float ember = step(0.996, hash(cell)) * smoothstep(0.45, 0.0, y);
 		float a = (haze + ember * 0.9) * heat;
 		col.rgb = mix(col.rgb, mix(heat_col.rgb, vec3(1.0, 0.85, 0.4), ember), a / max(0.001, col.a + a));

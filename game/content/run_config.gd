@@ -71,17 +71,28 @@ const CRATE_RARE := 40
 ## Kits (GDD §6 "Starting Kits"; docs/design/round_play_update.md §4). `bag` names the starter
 ## bag in BMPieces.STARTER_BAGS. `unlock` is the player-facing requirement and `need` the
 ## lifetime profile counter that satisfies it (BMSaveStore profile); "" = always available.
+## Each unlockable Kit has its own bag and one signature rule (`perk`, owner request 2026-09-24):
+##   thrift_credits   Credits per Refresh left unused when a round is won (BMRun._win_round)
+##   interest_bonus   added to the interest cap (BMRun._win_round)
+##   refill_per_line  placements a cleared line gives back (BMResolver, default REFILL_PER_LINE)
+##   hand_credits     Credits each time a Tray Hand forms (BMRun._apply_hand)
+## All numbers provisional.
 const KITS := [
 	{"id": "standard", "name": "Standard Kit", "joker_slots": 5, "refreshes": 1, "placements": 15, "credits": 0, "bag": "standard",
-		"text": "5 Joker slots, 1 Refresh, 15 placements per round. The 24-piece starter bag.", "unlock": "", "need": {}},
-	{"id": "compact", "name": "Compact Kit", "joker_slots": 4, "refreshes": 2, "placements": 14, "credits": 0, "bag": "compact",
-		"text": "1 extra Refresh each round, but only 4 Joker slots and 14 placements. An 18-piece bag with no Singles.", "unlock": "Clear 100 lines across runs.", "need": {"lines": 100}},
+		"perk": "CLASSIC", "perk_text": "No twist: the rules as designed. The best Kit to learn with.",
+		"text": "The 24-piece starter bag: a bit of every shape.", "unlock": "", "need": {}},
+	{"id": "compact", "name": "Compact Kit", "joker_slots": 4, "refreshes": 2, "placements": 16, "credits": 0, "bag": "compact",
+		"perk": "THRIFT", "perk_text": "+1 Credit for every Refresh you did not use when you win a round.", "thrift_credits": 1,
+		"text": "An 18-piece bag of small pieces: Singles, Bars, little Ls and Squares. Only 4 Joker slots.", "unlock": "Clear 100 lines across runs.", "need": {"lines": 100}},
 	{"id": "high_roller", "name": "High Roller Kit", "joker_slots": 5, "refreshes": 1, "placements": 14, "credits": 4, "bag": "standard",
-		"text": "Start with 4 Credits, but 14 placements per round.", "unlock": "Win a standard run.", "need": {"wins": 1}},
-	{"id": "chunky", "name": "Chunky Kit", "joker_slots": 5, "refreshes": 1, "placements": 14, "credits": 0, "bag": "chunky",
-		"text": "A 19-piece bag of big, plump shapes: squares, Ts, pluses. 14 placements per round.", "unlock": "Defeat 3 bosses across runs.", "need": {"bosses": 3}},
+		"perk": "COMPOUND INTEREST", "perk_text": "Interest can pay up to +3 more Credits each round.", "interest_bonus": 3,
+		"text": "Start with 4 Credits. The standard bag, 14 placements per round.", "unlock": "Win a standard run.", "need": {"wins": 1}},
+	{"id": "chunky", "name": "Chunky Kit", "joker_slots": 5, "refreshes": 1, "placements": 12, "credits": 0, "bag": "chunky",
+		"perk": "HEAVY LIFTING", "perk_text": "Every cleared line gives back 2 placements (up to your cap).", "refill_per_line": 2,
+		"text": "A 19-piece bag of big, plump shapes: squares, Ts, pluses, a Bar 5 and a 3x3. Only 12 placements.", "unlock": "Defeat 3 bosses across runs.", "need": {"bosses": 3}},
 	{"id": "tetromino", "name": "Tetromino Kit", "joker_slots": 5, "refreshes": 1, "placements": 14, "credits": 0, "bag": "tetromino",
-		"text": "Only four-block pieces: 20 of them, so Twins and Triplets come often. 14 placements per round.", "unlock": "Form 25 Tray Hands across runs.", "need": {"hands": 25}},
+		"perk": "FULL HOUSE", "perk_text": "+1 Credit every time a Tray Hand forms.", "hand_credits": 1,
+		"text": "Only four-block pieces: 20 of them, so Twins and Triplets come often.", "unlock": "Form 25 Tray Hands across runs.", "need": {"hands": 25}},
 ]
 
 

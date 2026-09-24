@@ -17,6 +17,13 @@ extends BME2ECase
 ##      SKIP.
 ##  F12 Reduced Motion still slides and bobs the helper.
 ##  F13 REPLAY TUTORIAL in Options does not bring it back.
+## Added with the owner's tutorial feedback (2026-09-24), before the changes:
+##  F14 The pointing glove is hidden under POPS or his dialog (tray and clear steps).
+##  F15 During the "clear a line" task, which can take several turns, the dialog and the dim
+##      stay over the board instead of POPS ducking down to a reminder.
+##  F16 After "see you in the shop" POPS stays on screen for the rest of the round.
+##  F17 In the shop POPS forces NEXT ROUND and sits over the Joker cards: after his last shop
+##      line he must leave, and buying must still work.
 
 const SEED := 90210
 
@@ -54,10 +61,20 @@ func run() -> void:
 			"clear":
 				# Keep placing until a clear (or a handful of placements): the step must follow.
 				var n := 0
+				var ducked := false
 				while tut.step_id == "clear" and n < 12 and main.run.phase == BMRun.Phase.ROUND:
 					await _place_via_ui()
+					await wait(0.3)
+					if tut.step_id == "clear":
+						ducked = ducked or (tut.minimized() and not tut._dialog.visible and tut.target_rect().size == Vector2.ZERO)
 					n += 1
+				if n > 1:
+					check(ducked, "F15: POPS ducks down while the clear takes several turns")
 			"play":
+				await wait(4.5)
+				check(tut.step_id == "away_round" and not tut.visible, "F16: POPS leaves after 'see you in the shop'")
+				continue
+			"away_round":
 				# Last round step: finish the round (bot moves through the UI).
 				var n := 0
 				while main.run.phase == BMRun.Phase.ROUND and n < 60:
@@ -94,7 +111,13 @@ func run() -> void:
 			await _settle(tut)
 			await _check_step(tut, seen)
 			if tut.step_id == "next_round":
-				check(not tut.can_next(), "F6: the NEXT ROUND step waits for the button")
+				check(tut.can_next(), "F17: the NEXT ROUND hint can be dismissed")
+				if tut.typing():
+					tut.press_next() # the first press only finishes the line
+				tut.press_next()
+				await frames(3)
+				check(tut.away() and not tut.visible, "F17: POPS leaves the shop after his last line (step %s, visible %s)" % [tut.step_id, tut.visible])
+				check(tut.active, "F17: the tour waits for the next round")
 				main.shop_screen._on_leave()
 				await frames(2)
 				if main.shop_screen._picker_open():
@@ -193,6 +216,8 @@ func _check_step(tut, seen: Array[String]) -> void:
 	check(tut.blocks_only_dialog(), "F4: step %s: only the dialog takes clicks" % id)
 	var target: Rect2 = tut.target_rect()
 	if target.size != Vector2.ZERO:
+		var glove := Rect2(tut._glove.position, tut._glove.size)
+		check(not glove.intersects(tut.dialog_rect()) and not glove.intersects(tut.helper_rect()), "F14: step %s: the glove is not under POPS or his dialog" % id)
 		check(not tut.helper_rect().intersects(target), "F5: step %s: POPS does not cover the target" % id)
 		check(not tut.dialog_rect().intersects(target), "F5: step %s: the dialog does not cover the target" % id)
 		check(tut.target_on_screen(), "F7: step %s points at a visible control" % id)

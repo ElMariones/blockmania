@@ -47,6 +47,8 @@ static func load_run() -> BMRun:
 	if int(data.get("schema", 0)) < 2:
 		push_warning("Run save predates the Bag (schema 1); it cannot be resumed.")
 		return null
+	# Schema 7 -> 8: run `custom_seed` (false) and a bag piece's `veteran` Chips (0) load with
+	# defaults.
 	# Schema 6 -> 7 (GDD §22): run `heat`, `daily`, `round_card`, `locked_jokers`; round `held`,
 	# `hold_used`, `locked_slot2`, `last_family`; shop `round_cards` / `round_pick`. All load
 	# with defaults (Heat 0, nothing locked, Standard round, empty Hold).
@@ -85,6 +87,8 @@ static func default_settings() -> Dictionary:
 		"muted": false, "music_on": true, "mute_unfocused": false, "heartbeat": true,
 		# Display: window mode, V-Sync, edge effects (boss frame, danger, heat) and the FPS counter.
 		"fullscreen": false, "vsync": true, "screen_fx": "full", "show_fps": false,
+		# Pointer: "custom" (BMCursor: pixel arrow, POPS's glove, click effects) or "system".
+		"cursor": "custom",
 		# Accessibility: shake and flash strength.
 		"shake": "full", "flashes": "full"}
 

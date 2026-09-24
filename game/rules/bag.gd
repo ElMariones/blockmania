@@ -118,6 +118,9 @@ static func remove_piece(run: BMRun, uid: int) -> bool:
 
 static func add_piece(run: BMRun, piece: Dictionary) -> Dictionary:
 	var p := BMPieces.make(run.next_uid, piece.family, int(piece.rot), int(piece.color), String(piece.get("material", "")), String(piece.get("stamp", "")))
+	# An exact copy keeps the trained Veteran Chips (a snapshot; the two pieces grow apart).
+	if int(piece.get("veteran", 0)) > 0:
+		p.veteran = int(piece.veteran)
 	run.next_uid += 1
 	run.bag.append(p)
 	return p

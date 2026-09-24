@@ -13,7 +13,7 @@ var run: BMRun
 var stage: Control
 var board_view: BMBoardView
 var slots: Array[BMTraySlot] = []
-var refresh_button: Button
+var refresh_button: BMRefreshLever
 var drag_layer: Control
 var overlay: Control
 
@@ -101,10 +101,8 @@ func _build() -> void:
 		s.pressed.connect(_on_slot_pressed)
 		_at(s, Vector2(560 + i * 212, 878), Vector2(200, 176))
 		slots.append(s)
-	refresh_button = BMStyle.button("", _on_refresh_button, "mint", 20)
-	refresh_button.icon = BMStyle.tex("icon_refresh")
-	refresh_button.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	refresh_button.vertical_icon_alignment = VERTICAL_ALIGNMENT_TOP
+	refresh_button = BMRefreshLever.new()
+	refresh_button.pressed.connect(_on_refresh_button)
 	refresh_button.tooltip_text = "Refresh (R): replace every unplaced piece in the tray. Costs no placement."
 	_at(refresh_button, Vector2(1196, 878), Vector2(164, 176))
 
@@ -336,18 +334,36 @@ HANGING ON: clear on your next placement to keep it." if hanging else ""]
 	var head := BMStyle.hbox(8)
 	_boss_box.add_child(head)
 	head.add_child(BMStyle.icon_rect("icon_skull", 0.75))
-	if boss != "":
-		var mk2 := run.boss_is_mk2()
-		head.add_child(BMStyle.label("BOSS: " + BMBosses.title(boss, mk2).to_upper(), 20, BMStyle.PINK_L, true, 6))
-		var rule := BMStyle.label(BMBosses.rule_text(boss, mk2), 20, BMStyle.CREAM)
-		rule.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		_boss_box.add_child(rule)
-	else:
-		var mk2 := run.boss_is_mk2()
-		head.add_child(BMStyle.label("ROUND %d BOSS: %s" % [run.act() * 4, BMBosses.title(run.act_boss(), mk2).to_upper()], 20, BMStyle.PINK_L, true, 6))
-		var rule := BMStyle.label(BMBosses.rule_text(run.act_boss(), mk2), 20, BMStyle.TEXT_DIM)
-		rule.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		_boss_box.add_child(rule)
+	# The panel has a fixed rect beside the board: long boss names clip with an ellipsis and the
+	# rule wraps to at most four lines, so the panel can never grow into the board or receipt.
+	# The full text is always in the tooltip.
+	var shown_boss := boss if boss != "" else run.act_boss()
+	var mk2 := run.boss_is_mk2()
+	var boss_name := BMBosses.title(shown_boss, mk2).to_upper()
+	var short := boss_name.trim_prefix("THE ")
+	var r := run.act() * 4
+	var options := ["BOSS: " + boss_name, "BOSS: " + short] if boss != "" else \
+		["ROUND %d BOSS: %s" % [r, boss_name], "R%d BOSS: %s" % [r, boss_name], "R%d BOSS: %s" % [r, short], "R%d: %s" % [r, short]]
+	var head_text: String = options.back()
+	var room := _boss_panel.size.x - 110.0 # panel margins, the skull and the gap
+	for o in options:
+		if BMStyle.font_bold.get_string_size(o, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x <= room:
+			head_text = o
+			break
+	var hl := BMStyle.label(head_text, 20, BMStyle.PINK_L, true, 6)
+	hl.clip_text = true
+	hl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	hl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hl.custom_minimum_size.x = 1
+	head.add_child(hl)
+	var rule := BMStyle.label(BMBosses.rule_text(shown_boss, mk2), 20, BMStyle.CREAM if boss != "" else BMStyle.TEXT_DIM)
+	rule.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	rule.max_lines_visible = 4
+	rule.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	rule.custom_minimum_size.x = 1
+	_boss_box.add_child(rule)
+	_boss_panel.tooltip_text = "%s\n%s" % [BMBosses.title(shown_boss, mk2), BMBosses.rule_text(shown_boss, mk2)]
+	_boss_panel.mouse_filter = Control.MOUSE_FILTER_STOP
 
 	for i in 3:
 		slots[i].locked = run.slot_locked(i)
@@ -355,18 +371,23 @@ HANGING ON: clear on your next placement to keep it." if hanging else ""]
 		slots[i].focused_by_key = held_mode == "key" and held_slot == i
 		slots[i].tooltip_text = BMPieces.describe(run.tray[i]) if not run.tray[i].is_empty() else ""
 	_concede_mode = run.phase == BMRun.Phase.ROUND and (rs.status == BMRun.OUT_OF_PLACEMENTS or (rs.status == BMRun.STUCK and run.refreshes_available() <= 0))
+	var rm := bool(main.settings.get("reduced_motion", false))
 	if _concede_mode:
-		BMStyle.button_boxes(refresh_button, "pink")
-		refresh_button.icon = BMStyle.tex("icon_skull")
-		refresh_button.text = "CONCEDE\nROUND"
+		refresh_button.set_state(BMRefreshLever.Look.CONCEDE, 0, rm)
 		refresh_button.disabled = false
-		refresh_button.tooltip_text = "No legal move is left. Use an item that can help, or concede to end the run."
+		refresh_button.tooltip_text = "No legal move is left. Use an item that can help, or pull to concede the round and end the run."
 	else:
-		BMStyle.button_boxes(refresh_button, "mint")
-		refresh_button.icon = BMStyle.tex("icon_refresh")
-		refresh_button.text = "REFRESH\n" + ("LOCKED" if boss == "lockdown" else "x%d" % rs.refreshes_left)
+		var look := BMRefreshLever.Look.READY
+		if boss == "lockdown":
+			look = BMRefreshLever.Look.LOCKED
+		elif rs.refreshes_left <= 0:
+			look = BMRefreshLever.Look.EMPTY
+		var start_refreshes := maxi(0, int(run.kit().refreshes) - (1 if run.heat >= 5 else 0))
+		refresh_button.set_state(look, rs.refreshes_left, rm, start_refreshes)
 		refresh_button.disabled = run.refreshes_available() <= 0 or not run.can_act_in_round() or rs.status == BMRun.OUT_OF_PLACEMENTS
-		refresh_button.tooltip_text = "Refresh (R): replace every unplaced piece in the tray. Costs no placement."
+		var left := "Locked by The Lockdown this round." if boss == "lockdown" else \
+			"%d Refresh%s left this round." % [rs.refreshes_left, "es" if rs.refreshes_left != 1 else ""]
+		refresh_button.tooltip_text = "Refresh (R): pull the lever to replace every unplaced piece in the tray. Costs no placement.\n" + left
 
 	_refresh_jokers()
 	_refresh_items()
@@ -854,6 +875,7 @@ func _do_action(a: Dictionary) -> Dictionary:
 			_end_tool(false)
 			_set_message(", ".join(PackedStringArray(r.get("events", []))), BMStyle.MINT_L)
 			BMAudio.sfx("refresh")
+			refresh_button.pull(run.round_state.refreshes_left)
 			_spin_tray(0.1, String(r.get("hand", "")))
 			if BMFx.instance:
 				for s in slots:
@@ -1534,7 +1556,9 @@ func _show_run_end() -> void:
 	var build := BMStyle.label("Jokers: " + (", ".join(names) if names.size() > 0 else "none"), 20, BMStyle.SUN_L)
 	build.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	sv.add_child(build)
-	var seed_l := BMStyle.label("Seed %d  -  %s" % [run.run_seed, BMRunConfig.kit(run.kit_id).name], 20, BMStyle.TEXT_DIM)
+	var seed_l := BMStyle.label("Seed %d  -  %s%s" % [run.run_seed, BMRunConfig.kit(run.kit_id).name,
+		"  -  practice seed: no achievements, records or unlocks" if run.custom_seed else ""], 20, BMStyle.TEXT_DIM)
+	seed_l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	sv.add_child(seed_l)
 	v.add_child(sp)
 	var records: Array = news.get("records", [])
@@ -1587,7 +1611,7 @@ func _show_run_end() -> void:
 		main.start_new_run(BMRun.random_seed()), "sun" if not can_overtime else "plum", 30)
 	var same := BMStyle.button("SAME SEED", func() -> void:
 		close_overlay()
-		main.start_new_run(run.run_seed), "sky", 30)
+		main.start_new_run(run.run_seed, run.kit_id, run.heat, "", true), "sky", 30)
 	var title_b := BMStyle.button("TITLE", func() -> void:
 		close_overlay()
 		main.show_title(), "plum", 30)

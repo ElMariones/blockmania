@@ -4,6 +4,22 @@ palette letters as gen_cards.py (which merges these dicts). Original art, author
 """
 
 JOKERS = {
+    "veteran": [
+        "....pPr.......",
+        "....pPr.......",
+        "....ppr.......",
+        "...kyYok......",
+        "..kyYYYok.....",
+        "..kYYoYOk.....",
+        "...kYYOk......",
+        "..kkkkkkkkkk..",
+        "..kssssssSSk..",
+        "..ksYYyyYYSk..",
+        "..kSoYSSYoBk..",
+        "..kSYYyyYYBk..",
+        "..kSoYSSYoBk..",
+        "..kkkkkkkkkk..",
+    ],
     "snowball": [
         "..............",
         "........wwww..",

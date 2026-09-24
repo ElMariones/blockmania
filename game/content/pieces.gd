@@ -2,6 +2,9 @@ class_name BMPieces
 extends RefCounted
 ## The Bag's pieces (GDD §16). A piece is a concrete, persistent tray offer:
 ##   {uid, family, rot, color, material, stamp, cells}
+## `veteran` (optional, default 0): Chips this exact piece has trained with the Veteran Joker. It
+## scores every time the piece is placed (even after Veteran is sold), survives repaint, turn,
+## material and stamp, is copied by Copier, and is lost if the piece leaves the bag.
 ## `uid` is unique within a run (-1 = not in the bag: temporary pieces, shop offers, test pieces).
 ## Temporary pieces also carry `temporary: true`.
 ## `cells` is derived from family + rot and is never saved.
@@ -64,21 +67,24 @@ static func make(uid: int, family: StringName, rot: int, color: int, material: S
 
 ## Kit starter bags: [family, rotation, color]. "standard" is STARTER_BAG.
 const STARTER_BAGS := {
+	# Small pieces only (1-4 cells): easy to fit, few cell Chips.
 	"compact": [
-		["bar2", 0, 1], ["bar2", 1, 4],
+		["single", 0, 0], ["single", 0, 3],
+		["bar2", 0, 1], ["bar2", 1, 4], ["bar2", 0, 5], ["bar2", 1, 2],
 		["bar3", 0, 2], ["bar3", 1, 5], ["bar3", 0, 0],
-		["l3", 0, 1], ["l3", 1, 2], ["l3", 2, 4], ["l3", 3, 0],
+		["l3", 0, 1], ["l3", 1, 2], ["l3", 2, 4], ["l3", 3, 0], ["l3", 0, 3],
 		["square2", 0, 5], ["square2", 0, 3],
-		["bar4", 0, 3], ["l4", 0, 4], ["l4", 2, 5], ["t4", 0, 0], ["t4", 2, 1], ["zigzag4", 0, 2], ["plus5", 0, 4],
+		["bar4", 0, 4], ["bar4", 1, 1],
 	],
+	# Big pieces (4-9 cells) plus a few Bar 3s to plug gaps.
 	"chunky": [
 		["square2", 0, 0], ["square2", 0, 1], ["square2", 0, 2], ["square2", 0, 3],
 		["t4", 0, 4], ["t4", 1, 5], ["t4", 2, 0],
 		["plus5", 0, 1], ["plus5", 0, 2],
-		["l4", 0, 3], ["l4", 3, 4],
-		["bar3", 0, 5], ["bar3", 1, 0], ["bar3", 0, 1],
-		["l3", 0, 2], ["l3", 2, 3], ["l3", 1, 4],
-		["bar2", 0, 5], ["bar2", 1, 0],
+		["l4", 0, 3], ["l4", 3, 4], ["l4", 1, 5],
+		["bar5", 0, 4], ["square3", 0, 5],
+		["bar4", 0, 1], ["bar4", 1, 2],
+		["bar3", 0, 5], ["bar3", 1, 0], ["bar3", 0, 3],
 	],
 	"tetromino": [
 		["square2", 0, 0], ["square2", 0, 1], ["square2", 0, 2], ["square2", 0, 3],
@@ -110,6 +116,8 @@ static func to_dict(p: Dictionary) -> Dictionary:
 		d.hand = String(p.hand)
 	if bool(p.get("brick", false)):
 		d.brick = true
+	if int(p.get("veteran", 0)) > 0:
+		d.veteran = int(p.veteran)
 	return d
 
 
@@ -123,6 +131,8 @@ static func from_dict(d: Dictionary) -> Dictionary:
 		p.hand = String(d.hand)
 	if bool(d.get("brick", false)):
 		p.brick = true
+	if int(d.get("veteran", 0)) > 0:
+		p.veteran = int(d.veteran)
 	return p
 
 
@@ -162,6 +172,8 @@ static func describe(p: Dictionary) -> String:
 	var s := String(p.get("stamp", ""))
 	if s != "":
 		parts.append("%s: %s" % [STAMP_DEFS[s].name, STAMP_DEFS[s].text])
+	if int(p.get("veteran", 0)) > 0:
+		parts.append("Veteran: +%d Chips whenever this piece is placed." % int(p.veteran))
 	if bool(p.get("brick", false)):
 		parts.append("Emergency Brick: a temporary block. It does not stay in your bag.")
 	elif bool(p.get("temporary", false)):
@@ -178,6 +190,8 @@ static func brief(p: Dictionary) -> String:
 	var s := String(p.get("stamp", ""))
 	if s != "":
 		parts.append("%s: %s" % [STAMP_DEFS[s].name.replace(" Stamp", ""), STAMP_DEFS[s].brief])
+	if int(p.get("veteran", 0)) > 0:
+		parts.append("Veteran: +%d Chips" % int(p.veteran))
 	return "\n".join(parts) if not parts.is_empty() else "No upgrades."
 
 

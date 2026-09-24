@@ -5,7 +5,7 @@ extends RefCounted
 ## never changes the outcome; it only reads the record.
 ##
 ## Order inside the pipeline:
-##   step 3 base Chips: cells, Chrome, Schematic level, lines, multi-line, combo, boss, Twins hand
+##   step 3 base Chips: cells, Chrome, Veteran training, Schematic level, lines, multi-line, combo, boss, Twins hand
 ##   step 4 additive Chips: Polish, then Jokers top to bottom (Mimic copies the Joker below it)
 ##   step 5 additive Mult: 1 + Schematic level + Neon cells cleared + Spark + Triplets/Grand Slam
 ##         hand + Jokers; floor 1
@@ -173,6 +173,10 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 		var chrome := BMPieces.CHROME_CHIPS_PER_CELL * placed.size() * (2 if stone else 1)
 		items.append({"label": "Chrome cells x%d%s" % [placed.size(), " (Stone: doubled)" if stone else ""], "kind": "chips", "value": chrome, "source": "piece"})
 		chips += chrome
+	var veteran_chips := int(piece.get("veteran", 0))
+	if veteran_chips > 0:
+		items.append({"label": "Veteran training", "kind": "chips", "value": veteran_chips, "source": "piece"})
+		chips += veteran_chips
 	if family_level > 0:
 		var lvl_chips := BMPieces.LEVEL_CHIPS * family_level
 		items.append({"label": "%s Lv %d" % [BMShapes.family(piece.family).name, family_level], "kind": "chips", "value": lvl_chips, "source": "piece"})
@@ -362,12 +366,13 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 		rs.placements_left += stamp_times
 		events.append("Refund Stamp: this placement was free" + (" (+1 more)" if stamp_times > 1 else ""))
 	var refilled := 0
+	var per_line := int(run.kit().get("refill_per_line", BMRunConfig.REFILL_PER_LINE))
 	if all_lines > 0:
-		refilled = clampi(all_lines * BMRunConfig.REFILL_PER_LINE, 0, maxi(0, rs.placement_cap - rs.placements_left))
+		refilled = clampi(all_lines * per_line, 0, maxi(0, rs.placement_cap - rs.placements_left))
 		rs.placements_left += refilled
 		if refilled > 0:
 			events.append("Lines cleared: +%d placement%s" % [refilled, "" if refilled == 1 else "s"])
-		var wasted := all_lines * BMRunConfig.REFILL_PER_LINE - refilled
+		var wasted := all_lines * per_line - refilled
 		if wasted > 0 and run.has_active_joker("overflow"):
 			var pay := mini(wasted, BMJokers.OVERFLOW_MAX - rs.overflow_paid)
 			if pay > 0:
@@ -404,6 +409,13 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 	if lines >= 2 and run.jokers.has("snowball") and run.is_joker_active("snowball"):
 		run._grow_joker("snowball", BMJokers.SNOWBALL_STEP)
 		events.append("Snowball grew to x%s Mult" % BMJokers._num(run.joker_value("snowball")))
+	# Veteran: the exact bag piece just placed trains for good (+5 Chips per Veteran copy).
+	var veterans := run.jokers.count("veteran") if run.is_joker_active("veteran") else 0
+	if veterans > 0 and int(piece.get("uid", -1)) >= 0 and not bool(piece.get("temporary", false)):
+		var vp := BMBag.piece_by_uid(run, int(piece.uid))
+		if not vp.is_empty():
+			vp.veteran = int(vp.get("veteran", 0)) + BMJokers.VETERAN_STEP * veterans
+			events.append("Veteran: this piece now scores +%d Chips" % int(vp.veteran))
 	# Philosopher's Stone: a plain bag piece turns into a random material for good.
 	var transmuted := ""
 	if stone and material == "" and int(piece.get("uid", -1)) >= 0 and not bool(piece.get("temporary", false)):

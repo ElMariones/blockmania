@@ -49,6 +49,7 @@ func wait(seconds: float) -> void:
 static func run_digest(r: BMRun) -> String:
 	var d := r.to_dict(true)
 	d.erase("recorded")
+	d.erase("custom_seed") # how the seed was chosen, not game state (replays cannot know it)
 	return JSON.stringify(d, "", true).sha256_text()
 
 

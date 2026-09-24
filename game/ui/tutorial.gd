@@ -47,6 +47,11 @@ var _base := {} ## step-start snapshot for "placed" / "cleared"
 var _target := Rect2()
 var _flip := false
 var _move: Tween
+var _typed_for := 0.0 ## seconds since the current line finished typing
+var _mini := false ## POPS ducked down to a peek (minimize steps)
+var _mini_k := 0.0 ## 0 = full, 1 = peeking (animated)
+var _peek: PanelContainer ## the one-line reminder above the peeking POPS
+var _peek_label: Label
 
 
 func _ready() -> void:
@@ -76,6 +81,14 @@ func _ready() -> void:
 	_glove.draw.connect(_draw_glove)
 	stage.add_child(_glove)
 	_build_dialog()
+	# The glove is drawn above the dialog, so the dialog can never hide it.
+	stage.move_child(_glove, stage.get_child_count() - 1)
+	_peek = BMStyle.panel("panel_sun", Vector4(14, 4, 14, 6))
+	_peek.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_peek_label = BMStyle.label("", 20, BMStyle.INK, true, 0)
+	_peek.add_child(_peek_label)
+	stage.add_child(_peek)
+	_peek.visible = false
 	visible = false
 
 
@@ -124,6 +137,17 @@ func has_skip() -> bool:
 
 func can_next() -> bool:
 	return active and _index >= 0 and String(_step().advance) == "next"
+
+
+## POPS is off stage while a step waits for the game (after "see you in the shop", and after
+## the NEXT ROUND hint), so he never covers the board, the shop or its cards.
+func away() -> bool:
+	return active and _index >= 0 and bool(_step().get("hidden", false))
+
+
+## POPS has ducked down to a peek while the player works on a multi-turn task.
+func minimized() -> bool:
+	return active and _mini
 
 
 func typing() -> bool:
@@ -210,6 +234,19 @@ func _process(delta: float) -> void:
 	visible = shown
 	if not shown:
 		return
+	var st := _step()
+	# Minimize steps: once the player gets going (a placement) or after a few seconds of reading,
+	# POPS ducks down and leaves a one-line reminder.
+	if bool(st.get("minimize", false)) and not _mini and not typing():
+		if run.round_state.placements_made > int(_base.get("placements", 0)) or _typed_for > 4.0:
+			_mini = true
+	_mini_k = move_toward(_mini_k, 1.0 if _mini else 0.0, delta * 5.0) if not rm else (1.0 if _mini else 0.0)
+	if not typing():
+		_typed_for += delta
+		# Auto steps move on by themselves a moment after the line is read.
+		if float(st.get("auto", 0.0)) > 0.0 and _typed_for >= float(st.auto) and can_next():
+			_go(_index + 1)
+			return
 	# Typewriter with gibberish: one blip for every second letter.
 	if _chars < _text.text.length():
 		var before := int(_chars)
@@ -281,11 +318,11 @@ func _follow_the_game(run: BMRun) -> void:
 		if first_shop >= 0:
 			_go(first_shop)
 	elif st.screen == "shop" and run.phase == BMRun.Phase.ROUND and adv != "left_shop":
-		_go(BMTutorialSteps.index_of("next_round") + 1)
+		_go(BMTutorialSteps.index_of("bye"))
 
 
 func _should_show() -> bool:
-	if main.is_paused():
+	if main.is_paused() or away():
 		return false
 	var screen := _screen_for(String(_step().screen))
 	if not screen.visible:
@@ -309,6 +346,8 @@ func _go(i: int) -> void:
 	var run: BMRun = main.run
 	_base = {"placements": run.round_state.placements_made if run else 0, "lines": int(run.stats.get("lines_cleared", 0)) if run else 0}
 	_text.text = String(st.text)
+	_typed_for = 0.0
+	_mini = false
 	_chars = 0.0
 	_text.visible_characters = 0
 	_talking = true
@@ -317,7 +356,9 @@ func _go(i: int) -> void:
 	_next.text = "SHOW ME!" if step_id == "hello" else ("BYE!" if step_id == "bye" else "NEXT  >")
 	_wait_hint.text = {"placed": "Place a piece", "cleared": "Clear a line", "shop": "Win the round",
 		"left_shop": "Press NEXT ROUND"}.get(adv, "")
-	_dots.text = "%d / %d" % [i + 1, BMTutorialSteps.STEPS.size()]
+	_peek_label.text = String(_wait_hint.text).to_upper() + "!" if _wait_hint.text != "" else ""
+	var shown_steps := BMTutorialSteps.shown_count()
+	_dots.text = "%d / %d" % [BMTutorialSteps.shown_index(i) + 1, shown_steps]
 	_dialog.reset_size()
 
 
@@ -389,21 +430,45 @@ func _layout(rm: bool) -> void:
 		_dialog.position = dialog_to
 	_corner = best
 	_flip = _target.size != Vector2.ZERO and _target.get_center().x < _pops.position.x + _pops.size.x / 2.0
-	# The glove sits just outside the target, on POPS's side, and bobs toward it.
+	# The glove sits just outside the target and bobs toward it. It prefers pointing down from
+	# above; if POPS or his dialog would cover it there, it tries his side, below, then the far side.
 	_glove.visible = _target.size != Vector2.ZERO
 	if _glove.visible:
-		var from := _pops.position + _pops.size / 2.0
-		var c := _target.get_center()
-		var d := from - c
 		var push := 0.0 if rm else absf(sin(_t * 6.0)) * 10.0
-		if absf(d.x) * _target.size.y > absf(d.y) * _target.size.x:
-			var side := signf(d.x)
-			_glove.set_meta("dir", 2 if side > 0 else 0) # pointing left if POPS is right of it
-			_glove.position = Vector2(c.x + side * (_target.size.x / 2.0 + 8.0 + push) - (0.0 if side > 0 else 80.0), c.y - 40.0)
-		else:
-			var side := signf(d.y)
-			_glove.set_meta("dir", 3 if side > 0 else 1) # pointing up if POPS is below it
-			_glove.position = Vector2(c.x - 40.0, c.y + side * (_target.size.y / 2.0 + 8.0 + push) - (0.0 if side > 0 else 80.0))
+		var c := _target.get_center()
+		var gs := _glove.size
+		var toward := signf(rects[0].get_center().x - c.x)
+		if toward == 0.0:
+			toward = 1.0
+		var candidates := [
+			[Vector2(c.x - gs.x / 2.0, _target.position.y - 8.0 - push - gs.y), 1],
+			[Vector2(c.x + toward * (_target.size.x / 2.0 + 8.0 + push) - (0.0 if toward > 0 else gs.x), c.y - gs.y / 2.0), 2 if toward > 0 else 0],
+			[Vector2(c.x - gs.x / 2.0, _target.end.y + 8.0 + push), 3],
+			[Vector2(c.x - toward * (_target.size.x / 2.0 + 8.0 + push) - (gs.x if toward > 0 else 0.0), c.y - gs.y / 2.0), 0 if toward > 0 else 2],
+		]
+		var pick: Array = candidates[0]
+		for cand in candidates:
+			var gr := Rect2(cand[0], gs)
+			# Judge the spot without the bob, so the glove does not jump sides mid-bounce.
+			gr.position -= Vector2(0, -push) if int(cand[1]) == 1 else Vector2.ZERO
+			if Rect2(Vector2.ZERO, STAGE).encloses(gr) and not gr.intersects(rects[0]) and not gr.intersects(rects[1]):
+				pick = cand
+				break
+		_glove.position = pick[0]
+		_glove.set_meta("dir", int(pick[1]))
+	# Minimized: POPS ducks down in his corner with a one-line reminder; no dim, no glove.
+	var k := _mini_k
+	_dialog.visible = k < 0.99
+	_dialog.modulate.a = 1.0 - k
+	if k > 0.0:
+		_target = Rect2() if k >= 0.99 else _target
+		_glove.visible = _glove.visible and k < 0.5
+		_pops.position.y = rects[0].position.y + k * _pops.size.y * 0.66 + (0.0 if rm else roundf(sin(_t * 2.2) * 3.0))
+	_peek.visible = k >= 0.99 and _peek_label.text != ""
+	if _peek.visible:
+		_peek.reset_size()
+		var px := clampf(rects[0].get_center().x - _peek.size.x / 2.0, MARGIN, STAGE.x - MARGIN - _peek.size.x)
+		_peek.position = Vector2(px, _pops.position.y - _peek.size.y - 6.0)
 
 
 func _is_tweening() -> bool:

@@ -5,7 +5,7 @@ extends RefCounted
 ## a result Dictionary ({ok: bool, error: String, ...}). Seed + history replays a run exactly.
 ## to_dict()/from_dict() capture a complete state between actions (saves, previews, tests).
 
-const SCHEMA_VERSION := 7
+const SCHEMA_VERSION := 8
 
 enum Phase { ROUND, ROUND_RESULT, SHOP, RUN_WON, RUN_LOST, ABANDONED }
 
@@ -174,6 +174,9 @@ var extra_slots := 0
 var heat := 0
 ## "YYYY-MM-DD" for a Daily run (fixed seed, standard Kit, nothing locked), else "".
 var daily := ""
+## The player typed or replayed this seed (practice): the run earns no achievements, records,
+## Kit or Heat unlocks, and adds nothing to the lifetime profile. Fixed at new_run.
+var custom_seed := false
 ## Round card chosen in the shop for the current round (BMRoundCards).
 var round_card := "standard"
 ## Jokers not yet unlocked by achievements when the run started (never offered).
@@ -1052,6 +1055,10 @@ func _apply_hand() -> String:
 			add_credits(BMHands.GRAND_SLAM_CREDITS)
 	rs.hands_formed += 1
 	stats["hands"] = int(stats.get("hands", 0)) + 1
+	# Tetromino Kit, Full House: every Hand pays.
+	var hc := int(kit().get("hand_credits", 0))
+	if hc > 0:
+		add_credits(hc)
 	return hand
 
 
@@ -1185,8 +1192,12 @@ func _win_round() -> void:
 	var card := BMRoundCards.get_def(round_card)
 	if int(card.reward) > 0:
 		lines.append({"label": "%s bonus" % card.name, "value": int(card.reward)})
-	# Interest on the Credits held when the round ended.
-	var cap := BMRunConfig.HEAT_INTEREST_CAP if heat >= 3 else BMRunConfig.INTEREST_CAP
+	# Compact Kit, Thrift: Refreshes left unused pay.
+	var thrift := int(kit().get("thrift_credits", 0))
+	if thrift > 0 and rs.refreshes_left > 0:
+		lines.append({"label": "Thrift (%d unused Refresh%s)" % [rs.refreshes_left, "es" if rs.refreshes_left != 1 else ""], "value": thrift * rs.refreshes_left})
+	# Interest on the Credits held when the round ended (High Roller: Compound Interest).
+	var cap := (BMRunConfig.HEAT_INTEREST_CAP if heat >= 3 else BMRunConfig.INTEREST_CAP) + int(kit().get("interest_bonus", 0))
 	var interest := mini(cap, held / BMRunConfig.INTEREST_STEP)
 	if interest > 0:
 		lines.append({"label": "Interest (%d held)" % held, "value": interest})
@@ -1435,6 +1446,7 @@ func to_dict(include_history: bool = true) -> Dictionary:
 		"overtime": overtime, "machine_broken": machine_broken, "recorded": recorded.duplicate(),
 		"joker_state": joker_state.duplicate(), "extra_slots": extra_slots,
 		"heat": heat, "daily": daily, "round_card": round_card, "locked_jokers": locked_jokers.duplicate(),
+		"custom_seed": custom_seed,
 	}
 
 
@@ -1485,6 +1497,7 @@ static func from_dict(d: Dictionary) -> BMRun:
 	run.extra_slots = int(d.get("extra_slots", 0))
 	run.heat = int(d.get("heat", 0))
 	run.daily = String(d.get("daily", ""))
+	run.custom_seed = bool(d.get("custom_seed", false))
 	run.round_card = String(d.get("round_card", "standard"))
 	run.locked_jokers.assign(d.get("locked_jokers", []))
 	return run

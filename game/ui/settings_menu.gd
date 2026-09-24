@@ -149,6 +149,8 @@ func _build_context(panel: Control) -> void:
 			line1 = where
 			var kit := String(run.kit().name).to_upper()
 			line2 = ("DAILY %s" % run.daily) if run.daily != "" else "%s  -  HEAT %d" % [kit, run.heat]
+			if run.custom_seed:
+				line2 += "  -  PRACTICE SEED"
 			line2 += "  -  SEED %d" % run.run_seed
 		"endless":
 			line1 = "ENDLESS  -  %s POINTS" % BMUI.fmt_int(main.endless_screen.game.score)
@@ -286,6 +288,8 @@ func _page_display() -> void:
 	_choice("Screen effects", "Hazard frame on boss rounds, the danger vignette and heat haze at the screen's edges.",
 		"screen_fx", ["off", "soft", "full"], {"off": "OFF", "soft": "SOFT", "full": "FULL"})
 	_choice("FPS counter", "Frames per second in the top-left corner.", "show_fps", [false, true], {false: "OFF", true: "ON"})
+	_choice("Mouse cursor", "CUSTOM: a pixel arrow, POPS's glove over buttons and little click sparks. SYSTEM: your normal pointer.",
+		"cursor", ["custom", "system"], {"custom": "CUSTOM", "system": "SYSTEM"})
 
 
 func _page_access() -> void:
@@ -502,7 +506,7 @@ func _reset_page() -> void:
 	var keys: Array = {
 		"game": ["game_speed", "tips", "boss_intro"],
 		"audio": ["master_volume", "music_volume", "sfx_volume", "muted", "music_on", "heartbeat", "mute_unfocused"],
-		"display": ["fullscreen", "vsync", "crt", "screen_fx", "show_fps"],
+		"display": ["fullscreen", "vsync", "crt", "screen_fx", "show_fps", "cursor"],
 		"access": ["reduced_motion", "shake", "flashes", "block_patterns", "boss_intro"],
 	}.get(_tab, [])
 	for k in keys:

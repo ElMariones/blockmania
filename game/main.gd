@@ -21,6 +21,7 @@ var toasts: BMAchievementToasts
 ## screen: {"kits": [...], "records": [...]}.
 var run_end_news := {}
 var crt: BMCrtLayer
+var cursor: BMCursor
 var audio: BMAudio
 var _pause: Control
 ## Contextual tips (BMTips) sit on their own 1920x1080 stage, above the screens and under the menu.
@@ -85,6 +86,12 @@ func _ready() -> void:
 	crt = BMCrtLayer.new()
 	crt.mode = String(settings.get("crt", "soft"))
 	add_child(crt)
+	# Custom cursor + click effects. Before the CRT in the tree, so it reads remapped positions.
+	cursor = BMCursor.new()
+	cursor.main = self
+	cursor.enabled = String(settings.get("cursor", "custom")) == "custom"
+	add_child(cursor)
+	move_child(cursor, crt.get_index())
 	# FPS counter: its own layer above the CRT so the digits stay crisp.
 	_fps_layer = CanvasLayer.new()
 	_fps_layer.layer = 120
@@ -112,12 +119,15 @@ func _ready() -> void:
 
 ## A new campaign run. `daily` ("YYYY-MM-DD") makes it the Daily: fixed seed, standard Kit,
 ## Heat 0, nothing locked, so everyone plays the same game that day.
-func start_new_run(seed_value: int, kit_id: String = "", heat: int = 0, daily: String = "") -> void:
+## `custom_seed`: the player chose the seed (typed, PLAY THIS SEED, SAME SEED); such a run
+## never counts toward achievements, records or unlocks.
+func start_new_run(seed_value: int, kit_id: String = "", heat: int = 0, daily: String = "", custom_seed := false) -> void:
 	if kit_id == "":
 		kit_id = run.kit_id if run != null else "standard"
 	var locked: Array = [] if daily != "" else BMJokers.locked_for(BMAchievementStore.data().unlocked)
 	run = BMRun.new_run(seed_value, kit_id, heat, locked)
 	run.daily = daily
+	run.custom_seed = custom_seed and daily == ""
 	BMSaveStore.save_run(run)
 	_route(true)
 
@@ -224,15 +234,17 @@ func act(a: Dictionary) -> Dictionary:
 	if run.phase in [BMRun.Phase.RUN_WON, BMRun.Phase.RUN_LOST, BMRun.Phase.ABANDONED]:
 		BMSaveStore.clear_run()
 		if before != run.phase:
-			r.kits_unlocked = BMSaveStore.record_run(run)
+			# A custom-seed run is practice: history only, no profile, Kit/Heat unlocks or records.
+			r.kits_unlocked = [] if run.custom_seed else BMSaveStore.record_run(run)
 			BMSaveStore.append_history(run)
-			r.records = BMAchievementStore.record_run(run)
-			run_end_news = {"kits": r.kits_unlocked, "records": r.records}
+			r.records = [] if run.custom_seed else BMAchievementStore.record_run(run)
+			run_end_news = {"kits": r.kits_unlocked, "records": r.records, "custom_seed": run.custom_seed}
 	else:
 		BMSaveStore.save_run(run)
 	# Achievements read the state and the result; they never change the run.
-	BMAchievementStore.note_campaign(run)
-	grant(BMAchievements.check_campaign(run, a, r, BMAchievementStore.life(), _local_hour()))
+	if not run.custom_seed:
+		BMAchievementStore.note_campaign(run)
+		grant(BMAchievements.check_campaign(run, a, r, BMAchievementStore.life(), _local_hour()))
 	if String(a.get("a", "")) == "overtime":
 		BMAudio.sfx("overtime")
 	_route(before != run.phase and run.phase in [BMRun.Phase.SHOP, BMRun.Phase.RUN_WON])
@@ -416,6 +428,7 @@ func _apply_settings() -> void:
 	_apply_display_settings()
 	BMBlockPainter.show_patterns = settings.block_patterns
 	crt.set_mode(String(settings.crt))
+	cursor.set_enabled(String(settings.cursor) == "custom")
 	_apply_motion_setting()
 	if game_screen.run != null:
 		game_screen._apply_motion()

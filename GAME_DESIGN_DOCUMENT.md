@@ -200,17 +200,23 @@ Kits are starting presets, not permanent power upgrades. Standard Kit is availab
 
 | Kit | Start effect | Unlock target |
 |---|---|---|
-| **Standard Kit** | 5 Joker slots, 1 Refresh, 15 placements. | Default |
-| **Compact Kit** | Starts with 1 extra Refresh each round, but only 4 Joker slots. | Clear 100 total lines across runs. |
-| **High Roller Kit** | Starts with 4 Credits and 14 placements per round. | Win a standard run. |
-| **Chunky Kit** | A 20-piece bag of plump shapes (four Square 2×2, three T 4, two Plus 5, a Square 3×3, and a few small pieces). | Defeat 3 bosses across runs. |
-| **Tetromino Kit** | A 20-piece bag of four-block pieces only (so Twins and Triplets are common). | Form 25 Tray Hands across runs. |
+| Kit | Start effect | Signature perk (2026-09-24) | Unlock target |
+|---|---|---|---|
+| **Standard Kit** | 5 Joker slots, 1 Refresh, 15 placements; the 24-piece bag. | *Classic:* no twist. | Default |
+| **Compact Kit** | 4 Joker slots, 2 Refreshes, 16 placements; an 18-piece bag of small pieces only (2 Singles, 4 Bar 2, 3 Bar 3, 5 L 3, 2 Square 2×2, 2 Bar 4). | *Thrift:* +1 Credit for every Refresh left unused when a round is won. | Clear 100 total lines across runs. |
+| **High Roller Kit** | 5 slots, 1 Refresh, 14 placements, 4 starting Credits; the standard bag. | *Compound Interest:* the interest cap is 3 higher (+8, or +6 at Heat 3+). | Win a standard run. |
+| **Chunky Kit** | 5 slots, 1 Refresh, **12** placements; a 19-piece bag of big shapes (4 Square 2×2, 3 T 4, 2 Plus 5, 3 L 4, a Bar 5, a Square 3×3, 2 Bar 4, 3 Bar 3). | *Heavy Lifting:* every cleared line gives back **2** placements (up to the cap). | Defeat 3 bosses across runs. |
+| **Tetromino Kit** | 5 slots, 1 Refresh, 14 placements; 20 four-block pieces only. | *Full House:* +1 Credit every time a Tray Hand forms. | Form 25 Tray Hands across runs. |
+
+*Kit picker (2026-09-24): an unlocked Kit shows its numbers, perk, bag and text. A **locked Kit hides its contents** (question marks for its numbers and bag, a big padlock that rattles when pointed at): only its name, the unlock requirement and the progress bar show.*
 
 *Kits own their starter bags (2026-09-23): Standard and High Roller use the 24-piece bag; Compact uses an 18-piece bag without Singles. A Kit picker opens from New Run; lifetime counters (lines, standard wins, bosses, Tray Hands) live in `user://profile.cfg`, separate from runs and settings.*
 
 ### Meta progression
 
 The collection records discovered Jokers, bosses, consumables, best run, win count, and noteworthy scoring events. Unlocks may add new Kits, cosmetics, and Joker availability to future runs; no stat grind, currency purchase, or permanent score multiplier. If players want a fully open sandbox, Practice mode exposes all content and excludes records/achievements.
+
+*Practice seeds (owner, 2026-09-24):* a campaign run started on a seed the player chose (typed on the Kit screen, PLAY THIS SEED from the run history, SAME SEED on the game-over screen) is **practice**: it is saved and listed in the run history, but it earns no achievements, records, lifetime profile counters, Kit or Heat unlocks. The Daily and random-seed runs count as before. The mark is saved with the run (`custom_seed`, save schema 8), shown in the pause menu ("PRACTICE SEED") and on the run-end summary.
 
 ## 7. Joker content specification
 
@@ -707,6 +713,7 @@ Owner request: "after your review, improve what you see the game lacking, modify
 | Bonsai | Uncommon | +Mult | +0.35 Mult per round won this run. |
 | Coin Pusher | Common | +Mult | +0.1 Mult per Credit held (max +5). Pairs with interest. |
 | Hot Streak | Rare | xMult, scaling | Gains x0.3 per round won without a Refresh or Second Tray; using one resets it to x1. |
+| Veteran | Rare | rule (Chips on pieces) | Each placed bag piece permanently gains +5 Chips, stored on that piece (§24). |
 | Big Game Hunter | Uncommon | +Mult | +1 Mult per block over 4 in the placed piece. |
 | Rainbow Road | Uncommon | xMult, color | x1.75 when the board holds all six colors before the placement. |
 | Solo Act | Rare | xMult | x1 + 0.75 per empty Joker slot. |
@@ -844,10 +851,21 @@ Owner request: a skippable tutorial with a small bot-like helper, a dialogue box
 
 - **POPS** is the arcade's old caretaker bot: rainbow afro with an antenna bulb (lit while he talks), big ears, a round peach face with slanted oval eyes and rosy cheeks, a fluffy white beard, a ruffled collar and a polka-dot bow tie. 56×62 art pixels drawn at 4× with the project's 1-pixel ink outline; frames for idle, blink, two talk frames, point, point-and-talk, happy, happy-and-talk (`tools/art/gen_helper.py`).
 - **When:** round 1 of any campaign run while `settings.tutorial_done` is false, once the round intro is closed. It never starts mid-run. Finishing or skipping sets the flag; Options > Game > REPLAY TUTORIAL clears it.
-- **Steps** (`BMTutorialSteps`, 14): greeting (SHOW ME! or SKIP TUTORIAL), the tray, place a piece (waits for a placement), the receipt and Chips × Mult, clear a line (waits for a clear, or five more placements), the target and lamps, Refresh, Hold, the Joker rack, "meet me in the shop" (waits for the shop), the Toybox Jokers, the Workshop, NEXT ROUND (waits for the next round), goodbye. Round steps are skipped if the round ends first; the goodbye waits for the next round's intro to close. If the run ends mid-tour, the tour stops and starts again on the next run's round 1.
-- **Pointing:** POPS picks the screen corner farthest from the target whose body and speech bubble do not cover it, hops there, turns and points with his arm, a white glove bobs just outside the target, and the rest of the screen dims around a marching outline.
+- **Steps** (`BMTutorialSteps`, 14 spoken + 2 hidden waits): greeting (SHOW ME! or SKIP TUTORIAL), the tray, place a piece (waits for a placement), the receipt and Chips × Mult, clear a line (waits for a clear, or five more placements; once the player starts on it, or after four seconds, POPS **ducks down** to a peek in his corner with a "CLEAR A LINE!" reminder, so a task that takes several turns does not keep the board dimmed), the target and lamps, Refresh, Hold, the Joker rack, "meet me in the shop" (**he leaves** 3.5 s after the line, and stays away until the shop opens), the Toybox Jokers, the Workshop, the NEXT ROUND hint (a NEXT button; pressing it sends him away so the player can keep shopping; he waits for the next round), goodbye. Round steps are skipped if the round ends first; the goodbye waits for the next round's intro to close. If the run ends mid-tour, the tour stops and starts again on the next run's round 1.
+- **Pointing:** POPS picks the screen corner farthest from the target whose body and speech bubble do not cover it, hops there, turns and points with his arm, a white glove bobs just outside the target, and the rest of the screen dims around a marching outline. The glove prefers pointing down from above the target, then POPS's side, below, and the far side, taking the first spot clear of POPS and his bubble; it is drawn above the bubble.
 - **Speech:** lines type in at 42 characters per second; every second letter plays a synthesized vowel blip (a/e/i/o/u by the letter, pitch from the letter code), so a line always sounds the same. A greeting, page and goodbye cue. First NEXT finishes a line, the second moves on.
 - **Never in the way:** only the speech bubble takes the mouse; the dim, POPS and the glove let clicks through. POPS hides behind the pause menu and screen overlays (round intro, results, round picker) and keeps his step. Contextual tips (§22.9) wait while he talks; the tips he already covered are marked seen when the tour is finished.
 - **Reduced Motion:** no slide-in, hop, bob, glove bounce or marching outline; lines appear at once. All text and pointing stay.
 - Presentation only: the tutorial reads the run and never changes it (checked by the E2E replay).
 - **Verification:** `tests/e2e/scenario_tutorial.gd` lists 13 failure modes (written before the code) and walks the whole tour through the real UI, including pause, skip, replay and Reduced Motion.
+
+
+## 24. Owner feedback update (2026-09-24)
+
+- **Veteran** (Rare Joker, `veteran`, rule phase): each time you place a bag piece, *that exact piece* permanently gains +5 Chips (+5 per Veteran copy). The Chips are stored on the piece (`veteran`, save schema 8), score at step 3 as "Veteran training" every time the piece is placed, and stay even after Veteran is sold. Copier copies them (a snapshot: the copy then trains on its own); a shop piece of the same shape starts at +0; Repaint, Turntable, materials, stamps and Schematic levels keep them (Schematic bonuses stack); a Glass shatter or Shredder loses them with the piece. Temporary pieces never train. It opens a "carry piece" build: train one block, then copy it. Numbers provisional.
+- **Kits** each have their own bag and a signature perk (§6 table) so they play differently, and locked Kits hide their contents.
+- **Practice seeds** do not count (§6 "Meta progression").
+- **Refresh lever:** the Refresh button is an arcade lever (`BMRefreshLever`, art `tools/art/gen_lever.py`, cues `tools/audio/gen_sfx_lever.py`). A row of lamps shows the Refreshes left (spent lamps stay dark); pulling slams the red ball down with sparks and a thunk, the spent lamp pops, and the lever springs back. Holding the mouse on it pulls the knob partway; R still works (a keycap shows it). It goes cold with no Refresh left, gets a padlock under The Lockdown, and turns pink with a skull as CONCEDE when no move is left.
+- **Custom cursor** (Options > Display > Mouse cursor, default CUSTOM): a pixel arrow, POPS's white glove over anything clickable (fingers wiggle), a pressed frame, a fist while dragging; click ring and sparks, a twinkle on new buttons, a trail on fast flicks. Hardware cursors (no lag), scaled by a whole number for the window. SYSTEM restores the OS pointer; Reduced Motion drops the effects.
+- **Boss hazard frame:** sized in stage pixels: 7 stage px deep over the playfield (clear of the HUD's top text at every resolution), widening into letterbox space up to 22 px.
+- **Boss panel:** its header picks the longest wording that fits ("ROUND 8 BOSS: …", "R8 BOSS: …", dropping "THE" last) and the rule wraps to at most four lines, so the panel never grows into the board; the full text is in its tooltip.

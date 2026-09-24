@@ -363,6 +363,11 @@ func _picked_seed() -> int:
 	return int(text) if text.is_valid_int() else absi(text.hash())
 
 
+## True when the player typed a seed: that run is practice (no achievements or unlocks).
+func _seed_is_custom() -> bool:
+	return is_instance_valid(_seed_edit) and _seed_edit.text.strip_edges() != ""
+
+
 func _start_campaign(kit_id: String) -> void:
 	var seed_value := _picked_seed()
 	var heat := _heat
@@ -372,7 +377,7 @@ func _start_campaign(kit_id: String) -> void:
 	if is_instance_valid(_highscore_overlay):
 		_highscore_overlay.queue_free()
 	_highscore_overlay = null
-	main.start_new_run(seed_value, kit_id, heat)
+	main.start_new_run(seed_value, kit_id, heat, "", _seed_is_custom())
 
 
 ## A warning line when starting would replace the saved campaign run.
@@ -385,14 +390,14 @@ func _replace_warning() -> String:
 	return "Starting replaces your saved run (round %d, %s)." % [saved.round_number, String(saved.kit().name)]
 
 
-## Kit picker: one card per Kit with its rules, a drawing of its starter bag, and (when locked)
-## the unlock requirement with progress. Locked Kits say how to earn them; nothing is hidden.
+## Kit picker: one card per Kit with its rules, perk, and a drawing of its starter bag. A locked
+## Kit shows only its name, the unlock requirement and progress: its contents stay a surprise.
 ## Under the cards: the Heat selector (GDD §22.5) and an optional seed.
 func _show_kit_picker(seed_text: String = "") -> void:
 	if is_instance_valid(_highscore_overlay):
 		_highscore_overlay.queue_free()
 	var shade := ColorRect.new()
-	shade.color = Color(BMStyle.INK, 0.88)
+	shade.color = Color(BMStyle.INK, 0.97)
 	shade.mouse_filter = Control.MOUSE_FILTER_STOP
 	stage.add_child(shade)
 	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -426,6 +431,9 @@ func _show_kit_picker(seed_text: String = "") -> void:
 		shade.add_child(card)
 		var pick := BMStyle.button("PLAY" if open else "LOCKED", _start_campaign.bind(String(k.id)), "sun" if open else "plum", 30)
 		pick.disabled = not open
+		if not open:
+			pick.icon = BMStyle.tex("icon_lock")
+			pick.add_theme_color_override("icon_disabled_color", Color(1, 1, 1, 0.55))
 		pick.tooltip_text = String(k.text) if open else "Locked: " + String(k.unlock)
 		pick.position = Vector2(x0 + i * (w + gap), 762)
 		pick.size = Vector2(w, 76)
@@ -453,18 +461,21 @@ func _show_kit_picker(seed_text: String = "") -> void:
 	var heat_buttons: Array[Button] = []
 	var sync := func() -> void:
 		for h in heat_buttons.size():
+			var hb := heat_buttons[h]
 			var locked := h > avail
-			heat_buttons[h].disabled = locked
-			heat_buttons[h].modulate.a = 0.45 if locked else 1.0
-			heat_buttons[h].text = ("* %d" % h) if h == _heat else str(h)
-			BMStyle.button_boxes(heat_buttons[h], "pink" if h == _heat else "plum")
+			hb.disabled = locked
+			hb.text = "" if locked else str(h)
+			hb.icon = BMStyle.tex("icon_lock") if locked else (BMStyle.tex("icon_flame") if h > 0 else null)
+			BMStyle.button_boxes(hb, "pink" if h == _heat else "plum")
+			hb.add_theme_color_override("icon_disabled_color", Color(1, 1, 1, 0.45))
 		var rules := BMRunConfig.heat_rules(_heat)
-		desc.text = "Standard rules. Win to unlock Heat 1." if _heat == 0 and avail == 0 else \
-			("Standard rules." if _heat == 0 else "  -  ".join(rules))
+		desc.text = "Standard rules. Win a run to unlock Heat 1." if _heat == 0 and avail == 0 else 			("Heat 0: standard rules." if _heat == 0 else "Heat %d:  %s" % [_heat, "  -  ".join(rules)])
 	for h in BMRunConfig.MAX_HEAT + 1:
 		var hb := BMStyle.button(str(h), func() -> void: pass, "plum", 30)
-		hb.position = Vector2(150 + h * 92, 10)
-		hb.size = Vector2(80, 60)
+		hb.position = Vector2(150 + h * 104, 10)
+		hb.size = Vector2(92, 60)
+		hb.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
+		hb.add_theme_constant_override("h_separation", 6)
 		hb.tooltip_text = ("Heat %d:  %s" % [h, "  ".join(BMRunConfig.heat_rules(h))]) if h > 0 else "Heat 0: standard rules."
 		if h > avail:
 			hb.tooltip_text += "\nLocked: win a run at Heat %d first." % (h - 1)
@@ -483,9 +494,9 @@ func _show_kit_picker(seed_text: String = "") -> void:
 	_seed_edit.text = seed_text
 	_seed_edit.position = Vector2(1190, 10)
 	_seed_edit.size = Vector2(560, 60)
-	_seed_edit.tooltip_text = "Leave empty for a random run. The same seed deals the same pieces, shops and bosses."
+	_seed_edit.tooltip_text = "Leave empty for a random run. The same seed deals the same pieces, shops and bosses.\nA run on a seed you choose is practice: it earns no achievements, records or unlocks."
 	body.add_child(_seed_edit)
-	var sd := BMStyle.label("Same seed, same pieces, shops and bosses.", 20, BMStyle.TEXT_DIM, false, 4)
+	var sd := BMStyle.label("Chosen seeds are practice: no achievements or unlocks.", 20, BMStyle.TEXT_DIM, false, 4)
 	sd.position = Vector2(1080, 80)
 	sd.size = Vector2(680, 34)
 	body.add_child(sd)
@@ -712,78 +723,137 @@ class HistoryDetail extends Control:
 			_v.add_child(again)
 
 
-## One Kit: name plate, numbers, starter-bag drawing, and lock progress.
+## One Kit: name plate, numbers, its signature perk, starter-bag drawing and description.
+## A locked Kit keeps its secrets: only its name, a big padlock that wobbles when pointed at,
+## a row of mystery pieces, the unlock requirement and its progress.
 class KitCard extends Control:
 	var kit: Dictionary
 	var unlocked := true
 	var profile: Dictionary
 	var _t := 0.0
+	var _hover := false
+	var _wobble := 0.0
 
 	func _ready() -> void:
 		mouse_filter = Control.MOUSE_FILTER_PASS
-		tooltip_text = String(kit.text)
+		var perk := String(kit.get("perk", ""))
+		tooltip_text = (String(kit.text) + ("\n%s: %s" % [perk, kit.perk_text] if perk != "" else "")) \
+			if unlocked else "Locked. " + String(kit.unlock)
+		mouse_entered.connect(func() -> void:
+			_hover = true
+			if not unlocked:
+				_wobble = 1.0
+				BMAudio.sfx("warden_lock", 1.4, -10.0))
+		mouse_exited.connect(func() -> void: _hover = false)
 
 	func _process(delta: float) -> void:
 		_t += delta
+		_wobble = maxf(0.0, _wobble - delta * 1.6)
 		queue_redraw()
+
+	func _reduced() -> bool:
+		var m = get_tree().current_scene if is_inside_tree() else null
+		return m != null and "settings" in m and bool(m.settings.get("reduced_motion", false))
 
 	func _draw() -> void:
 		var r := Rect2(Vector2.ZERO, size)
 		draw_style_box(BMStyle.box("panel_plate" if unlocked else "panel_inset", Vector4.ZERO), r)
 		var f := BMStyle.font_bold
 		draw_string(f, Vector2(0, 58), String(kit.name).to_upper(), HORIZONTAL_ALIGNMENT_CENTER, size.x, 30, BMStyle.SUN if unlocked else BMStyle.TEXT_DIM)
+		if unlocked:
+			_draw_open(f)
+		else:
+			_draw_locked(f)
+
+	func _draw_open(f: Font) -> void:
 		var facts := "%d JOKERS  -  %d REFRESH%s" % [int(kit.joker_slots), int(kit.refreshes), "ES" if int(kit.refreshes) != 1 else ""]
 		draw_string(f, Vector2(0, 96), facts, HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.CREAM)
 		draw_string(f, Vector2(0, 124), "%d PLACEMENTS" % int(kit.placements), HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.CREAM)
-		var y := 150.0
+		var y := 142.0
 		if int(kit.credits) > 0:
 			draw_string(f, Vector2(0, 152), "+%d STARTING CREDITS" % int(kit.credits), HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.SUN_L)
-			y += 30.0
+			y += 26.0
+		# Signature perk on a sun plate.
+		if String(kit.get("perk", "")) != "":
+			var lines := _wrap(String(kit.perk_text), size.x - 64, BMStyle.font)
+			var ph := 84.0 + (lines.size() - 1) * 24.0
+			var pr := Rect2(Vector2(16, y), Vector2(size.x - 32, ph))
+			draw_style_box(BMStyle.box("panel_sun", Vector4.ZERO), pr)
+			draw_string(f, Vector2(pr.position.x, y + 28), String(kit.perk), HORIZONTAL_ALIGNMENT_CENTER, pr.size.x, 20, BMStyle.INK)
+			for i in lines.size():
+				draw_string(BMStyle.font, Vector2(pr.position.x, y + 52 + i * 24), lines[i], HORIZONTAL_ALIGNMENT_CENTER, pr.size.x, 20, BMStyle.PLUM_D)
+			y += ph + 12.0
+		else:
+			y += 8.0
 		# The starter bag, as a little pile of pieces.
 		var bag := BMPieces.starter_bag(String(kit.get("bag", "standard")))
-		var cell := 12.0
+		var cell := 11.0
 		var x := 24.0
 		var row_h := 0.0
 		for p in bag:
 			var dims := Vector2(BMShapes.shape_size(p))
 			if x + dims.x * cell > size.x - 24:
 				x = 24.0
-				y += row_h + 10.0
+				y += row_h + 8.0
 				row_h = 0.0
-			var bob := 0.0 if not unlocked else roundf(sin(_t * 2.0 + x * 0.05) * 2.0)
-			BMBlockPainter.draw_shape(self, p, Vector2(x, y + bob), cell, 1.0 if unlocked else 0.35)
-			x += dims.x * cell + 10.0
+			var bob := 0.0 if _reduced() else roundf(sin(_t * 2.0 + x * 0.05) * 2.0)
+			BMBlockPainter.draw_shape(self, p, Vector2(x, y + bob), cell, 1.0)
+			x += dims.x * cell + 9.0
 			row_h = maxf(row_h, dims.y * cell)
-		draw_string(f, Vector2(0, y + row_h + 34), "%d PIECES" % bag.size(), HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.TEXT_DIM)
-		# Description, wrapped.
-		var lines := _wrap(String(kit.text), size.x - 40)
-		var ty := y + row_h + 70
-		for l in lines:
-			draw_string(BMStyle.font, Vector2(20, ty), l, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, BMStyle.CREAM if unlocked else BMStyle.TEXT_DIM)
+		draw_string(f, Vector2(0, y + row_h + 30), "%d PIECES" % bag.size(), HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.TEXT_DIM)
+		var ty := y + row_h + 64
+		for l in _wrap(String(kit.text), size.x - 40, BMStyle.font):
+			if ty > size.y - 14:
+				break
+			draw_string(BMStyle.font, Vector2(20, ty), l, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, BMStyle.CREAM)
 			ty += 26
-		if not unlocked:
-			# The lock sits under the description (never on it), the requirement under the lock.
-			var lock := BMStyle.tex("icon_lock")
-			var ls := lock.get_size() * 1.5
-			var ul := _wrap(String(kit.unlock), size.x - 40)
-			var ly := maxf(ty - 10.0, size.y - 64.0 - ul.size() * 26.0 - ls.y - 30.0)
-			draw_texture_rect(lock, Rect2(Vector2((size.x - ls.x) / 2.0, ly), ls), false)
-			for i in ul.size():
-				draw_string(f, Vector2(0, ly + ls.y + 28 + i * 26), ul[i], HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.PINK_L)
-			var need: Dictionary = kit.get("need", {})
-			for key in need:
-				var have := mini(int(profile.get(key, 0)), int(need[key]))
-				var bar := Rect2(Vector2(24, size.y - 30), Vector2(size.x - 150, 12))
-				draw_rect(bar, BMStyle.INK)
-				draw_rect(Rect2(bar.position, Vector2(bar.size.x * have / float(need[key]), bar.size.y)), BMStyle.MINT)
-				draw_string(f, Vector2(size.x - 120, size.y - 16), "%d / %d" % [have, int(need[key])], HORIZONTAL_ALIGNMENT_RIGHT, 100, 20, BMStyle.MINT_L)
 
-	func _wrap(text: String, width: float) -> PackedStringArray:
+	func _draw_locked(f: Font) -> void:
+		draw_string(f, Vector2(0, 96), "? JOKERS  -  ? REFRESHES", HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, Color(BMStyle.TEXT_DIM, 0.6))
+		draw_string(f, Vector2(0, 124), "? PLACEMENTS", HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, Color(BMStyle.TEXT_DIM, 0.6))
+		# Mystery pieces: stone blocks with question marks.
+		var n := 5
+		var cs := 40.0
+		var gx := (size.x - (n * cs + (n - 1) * 12.0)) / 2.0
+		for i in n:
+			var br := Rect2(Vector2(gx + i * (cs + 12.0), 150), Vector2(cs, cs))
+			BMBlockPainter.draw_block(self, br, BMShapes.COLOR_STONE, 0.45)
+			draw_string(f, br.position + Vector2(0, 30), "?", HORIZONTAL_ALIGNMENT_CENTER, cs, 30, Color(BMStyle.INK, 0.8))
+		# The padlock: bobs gently, wobbles when pointed at.
+		var lock := BMStyle.tex("icon_padlock")
+		var ls := lock.get_size() * 1.5
+		var c := Vector2(size.x / 2.0, 314)
+		var rm := _reduced()
+		var rot := 0.0 if rm else sin(_t * 30.0) * 0.18 * _wobble
+		var bob := 0.0 if rm else roundf(sin(_t * 1.8) * 4.0)
+		draw_rect(Rect2(c + Vector2(-ls.x * 0.4, ls.y * 0.5 + 6), Vector2(ls.x * 0.8, 10)), Color(BMStyle.INK, 0.5))
+		draw_set_transform(c + Vector2(0, bob), rot, Vector2.ONE)
+		draw_texture_rect(lock, Rect2(-ls / 2.0, ls), false)
+		draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+		# Requirement, wrapped inside the card with the font it is drawn in.
+		var ul := _wrap(String(kit.unlock), size.x - 48, f)
+		var ty := 430.0
+		draw_string(f, Vector2(0, ty), "TO UNLOCK", HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.TEXT_DIM)
+		ty += 32
+		for l in ul:
+			draw_string(f, Vector2(0, ty), l, HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.PINK_L)
+			ty += 26
+		var need: Dictionary = kit.get("need", {})
+		for key in need:
+			var goal := int(need[key])
+			var have := mini(int(profile.get(key, 0)), goal)
+			var bar := Rect2(Vector2(24, size.y - 62), Vector2(size.x - 48, 16))
+			draw_rect(bar.grow(3), BMStyle.INK)
+			draw_rect(bar, BMStyle.PLUM_D)
+			draw_rect(Rect2(bar.position, Vector2(roundf(bar.size.x * have / float(goal)), bar.size.y)), BMStyle.MINT)
+			draw_string(f, Vector2(0, size.y - 22), "%d / %d" % [have, goal], HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.MINT_L)
+
+	func _wrap(text: String, width: float, font: Font) -> PackedStringArray:
 		var out := PackedStringArray()
 		var line := ""
 		for word in text.split(" "):
 			var trial := word if line == "" else line + " " + word
-			if BMStyle.font.get_string_size(trial, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x > width and line != "":
+			if font.get_string_size(trial, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x > width and line != "":
 				out.append(line)
 				line = word
 			else:

@@ -583,7 +583,7 @@ func refresh_all() -> void:
 	_owned_header.text = "YOUR JOKERS %d/%d" % [run.jokers.size(), run.joker_slots()]
 	for i in run.jokers.size():
 		var id := run.jokers[i]
-		var card := BMCard.joker_rack(run, id, BMCard.rack_height(run.joker_slots()))
+		var card := BMCard.joker_rack(run, id, BMCard.rack_height(run.joker_slots()), 420.0)
 		card.reduced_motion = main.settings.reduced_motion
 		card.drag_index = i
 		card.drag_enabled = true
@@ -642,12 +642,18 @@ func _card(c: BMCard) -> BMCard:
 
 ## While the BOSS CRATE button shows, the round ticker ends above it and the boss rule keeps
 ## as many lines as fit (ellipsis); the ticker tooltip always has the full rule.
+## Shows as many lines of the boss rule as the ticker has room for. An autowrapped Label
+## reports a one-line minimum height, so the rule's height is set from its real line count.
 func _fit_ticker(crate_showing: bool) -> void:
 	var h := (CRATE_BUTTON_Y - 8.0 if crate_showing else TICKER_BOTTOM) - _ticker.position.y
-	for n in range(TICKER_RULE_LINES, 0, -1):
-		_boss_label.max_lines_visible = n
-		if _ticker.get_combined_minimum_size().y <= h:
-			break
+	_boss_label.custom_minimum_size.y = 0
+	_boss_label.max_lines_visible = 1
+	var lh := float(_boss_label.get_line_height()) + float(_boss_label.get_theme_constant("line_spacing"))
+	var others := _ticker.get_combined_minimum_size().y - lh
+	var lines := maxi(1, _boss_label.get_line_count())
+	var n := clampi(floori((h - others) / lh), 1, mini(TICKER_RULE_LINES, lines))
+	_boss_label.max_lines_visible = n
+	_boss_label.custom_minimum_size.y = n * lh
 	_ticker.size = Vector2(_ticker.size.x, h)
 
 
