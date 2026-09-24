@@ -413,9 +413,9 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 	if lines >= 2 and run.jokers.has("snowball") and run.is_joker_active("snowball"):
 		run._grow_joker("snowball", BMJokers.SNOWBALL_STEP)
 		events.append("Snowball grew to x%s Mult" % BMJokers._num(run.joker_value("snowball")))
-	# Veteran: the exact bag piece just placed trains for good (+5 Chips per Veteran copy).
+	# Veteran: a bag piece that completes a line trains for good (+5 Chips per Veteran copy).
 	var veterans := run.jokers.count("veteran") if run.is_joker_active("veteran") else 0
-	if veterans > 0 and int(piece.get("uid", -1)) >= 0 and not bool(piece.get("temporary", false)):
+	if veterans > 0 and is_clearing and int(piece.get("uid", -1)) >= 0 and not bool(piece.get("temporary", false)):
 		var vp := BMBag.piece_by_uid(run, int(piece.uid))
 		if not vp.is_empty():
 			vp.veteran = int(vp.get("veteran", 0)) + BMJokers.VETERAN_STEP * veterans

@@ -16,7 +16,7 @@
 
 - Boss and feature cues (2026-09-24): `tools/audio/gen_sfx_bosses.py` writes 8 WAVs: `boss_alarm` (two-tone siren over a drone), `boss_slam` (sub kick, crash, low brass stab), `mk2_stamp` (metal press, ratchet, sparks), `heartbeat` (soft, low; danger), `danger_on`, `hold_store`, `round_pick` and `act_start`. Run `python tools/audio/gen_sfx_bosses.py`.
 
-- Refresh lever (2026-09-24): `tools/audio/gen_sfx_lever.py` writes `lever_pull` (a ratchet run and a metal thunk) and `lever_spring` (the spring snapping back). Run `python tools/audio/gen_sfx_lever.py`.
+- Refresh lever (2026-09-24): `tools/audio/gen_sfx_lever.py` writes `lever_pull` (a casino one-armed-bandit pull: a ratchet that speeds up, a ringing KA-CHUNK and a coin jingle) and `lever_spring` (the spring snapping back). Run `python tools/audio/gen_sfx_lever.py`.
 - Tutorial helper POPS (2026-09-24): `tools/audio/gen_sfx_helper.py` writes 8 WAVs: five formant-filtered vowel blips `pops_a` ... `pops_u` (his gibberish voice; pitched per letter at runtime), `pops_hi`, `pops_next` and `pops_bye`. Run `python tools/audio/gen_sfx_helper.py`.
 
 ## Music

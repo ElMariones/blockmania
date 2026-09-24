@@ -6,8 +6,10 @@ extends BME2ECase
 ##      progress, records or achievements change when it ends.
 ##  P2  The practice mark is lost on SAVE & QUIT + CONTINUE, so the rest of the run counts.
 ##  P3  A normal (random seed) run stops counting after the change.
-##  V1  Placing a piece with Veteran does not train that exact bag piece, or trains others of
-##      the same shape too.
+##  V1  A placement that completes a line does not train that exact bag piece, or trains
+##      others of the same shape too.
+##  V7  A placement that completes no line trains its piece (owner rework, 2026-09-24:
+##      only pieces that complete lines train).
 ##  V2  Trained Chips do not score: the receipt has no "Veteran training" line of the right size.
 ##  V3  Copier does not copy the trained Chips, or the copy stays linked to the original.
 ##  V4  Selling Veteran wipes the trained Chips or stops them scoring.
@@ -100,16 +102,35 @@ func _veteran() -> void:
 	main.game_screen.close_overlay()
 	var r: BMRun = main.run
 	r.jokers.append("veteran") # setup
-	var res := await _place_first_fitting()
-	var uid := int(res.get("uid", -1))
+	# Bot placements until one completes a line: only that piece may train (V7, V1).
+	var uid := -1
+	var guard0 := 0
+	while uid < 0 and guard0 < 40 and r.phase == BMRun.Phase.ROUND:
+		guard0 += 1
+		var a := bot_action(r)
+		if a.is_empty():
+			break
+		var placed_uid := -1
+		if String(a.get("a", "")) == "place":
+			placed_uid = int(r.tray[int(a.slot)].get("uid", -1))
+		var pr: Dictionary = main.game_screen._do_action(a)
+		await frames(1)
+		if placed_uid < 0 or not pr.get("ok", false):
+			continue
+		if int(pr.get("lines", 0)) > 0:
+			uid = placed_uid
+			eq(_veteran_line(pr), 0, "V2: nothing was trained before the first clear")
+		else:
+			eq(int(BMBag.piece_by_uid(r, placed_uid).get("veteran", 0)), 0, "V7: a placement with no line does not train")
+	if not check(uid >= 0, "V1: a placement completed a line"):
+		return
 	var bp := BMBag.piece_by_uid(r, uid)
-	eq(int(bp.get("veteran", 0)), BMJokers.VETERAN_STEP, "V1: the placed piece trained +5")
+	eq(int(bp.get("veteran", 0)), BMJokers.VETERAN_STEP, "V1: the piece that completed a line trained +5")
 	var trained := 0
 	for p in r.bag:
 		if int(p.get("veteran", 0)) > 0:
 			trained += 1
 	eq(trained, 1, "V1: only that exact piece trained")
-	eq(_veteran_line(res), 0, "V2: the first placement had nothing trained yet")
 	# Play until the trained piece comes back, then check it scores its Chips.
 	var scored := -1
 	var guard := 0
@@ -138,7 +159,8 @@ func _veteran() -> void:
 			await frames(1)
 			scored = _veteran_line(rr)
 			eq(scored, before, "V2: the receipt shows the trained Chips")
-			eq(int(BMBag.piece_by_uid(r, uid).veteran), before + BMJokers.VETERAN_STEP, "V1: it trained again")
+			var gain := BMJokers.VETERAN_STEP if int(rr.get("lines", 0)) > 0 else 0
+			eq(int(BMBag.piece_by_uid(r, uid).veteran), before + gain, "V1/V7: it trains again only if it completes a line")
 		else:
 			var a := bot_action(r)
 			if a.is_empty():

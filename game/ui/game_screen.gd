@@ -874,9 +874,9 @@ func _do_action(a: Dictionary) -> Dictionary:
 		"refresh":
 			_end_tool(false)
 			_set_message(", ".join(PackedStringArray(r.get("events", []))), BMStyle.MINT_L)
-			BMAudio.sfx("refresh")
+			# The lever's one-armed-bandit pull; the tray reels start spinning when it slams down.
 			refresh_button.pull(run.round_state.refreshes_left)
-			_spin_tray(0.1, String(r.get("hand", "")))
+			_spin_tray(0.1 if main.settings.reduced_motion else BMRefreshLever.PULL_DOWN, String(r.get("hand", "")))
 			if BMFx.instance:
 				for s in slots:
 					BMFx.instance.stars(s.get_global_rect().get_center(), 3, 60.0)

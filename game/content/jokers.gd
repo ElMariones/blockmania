@@ -15,7 +15,7 @@ const RARE := 2
 ## (act 2 onward) and rarely from late shops; never more than one copy each.
 const LEGENDARY := 3
 const RARITY_NAMES := ["Common", "Uncommon", "Rare", "Legendary"]
-## Veteran: Chips an exact bag piece gains each time it is placed (per Veteran copy).
+## Veteran: Chips an exact bag piece gains each time it completes a line (per Veteran copy).
 const VETERAN_STEP := 5
 const RARITY_COST := [3, 5, 8, 12]
 
@@ -89,7 +89,7 @@ const CATALOG := [
 	{"id": "demolition_crew", "name": "Demolition Crew", "rarity": UNCOMMON, "phase": "chips", "text": "+15 Chips for every block cleared by the placement."},
 	{"id": "overachiever", "name": "Overachiever", "rarity": UNCOMMON, "phase": "add_mult", "scaling": true, "text": "Gains +1 Mult whenever a round ends at 1.5 times its target or more. Never resets."},
 	{"id": "full_pockets", "name": "Full Pockets", "rarity": COMMON, "phase": "add_mult", "text": "+1.5 Mult for each item you hold."},
-	{"id": "veteran", "name": "Veteran", "rarity": RARE, "phase": "rule", "text": "Each time you place a piece, that exact piece permanently gains +5 Chips. The Chips stay on the piece (and on its Copier copies) even if you sell Veteran."},
+	{"id": "veteran", "name": "Veteran", "rarity": RARE, "phase": "rule", "text": "Each time a piece completes a line, that exact piece permanently gains +5 Chips. The Chips stay on the piece (and on its Copier copies) even if you sell Veteran."},
 	# --- Legendary (unique; Boss Crates from act 2, rare in late shops) ---
 	{"id": "avalanche", "name": "The Avalanche", "rarity": LEGENDARY, "phase": "rule", "unique": true, "text": "After a clear, blocks fall down their columns. New full lines clear as chain waves, each scoring double the last (x2, x4, x8...)."},
 	{"id": "hall_of_mirrors", "name": "Hall of Mirrors", "rarity": LEGENDARY, "phase": "rule", "unique": true, "text": "Every other Joker's scoring effect triggers twice (Chips and Mult add twice, xMult applies twice)."},

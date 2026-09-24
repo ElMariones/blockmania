@@ -4,8 +4,10 @@ extends Button
 ## clicks, the R key, focus and tooltips work as before; the look is drawn here:
 ##   - a brass gate with a red-ball lever; a row of lamps, one lit per Refresh left (a number
 ##     when there are more than fit); the labels REFRESH / LOCKED / EMPTY / CONCEDE
-##   - pull(): the stick slams down, sparks fly from the gate, the spent lamp pops with a puff,
-##     then the lever springs back with a wobble
+##   - pull(): a one-armed-bandit pull. The arm ratchets down (timed to lever_pull's teeth),
+##     slams with a shake, sparks and a coin burst, the spent lamp pops, every lamp runs a
+##     casino chase and the title flashes; then the arm springs back with a wobble. The tray's
+##     reels start spinning at the slam (BMGameScreen).
 ##   - hovering nudges the knob; holding the mouse down pulls it partway (it follows the drag)
 ##   - no Refresh left: the housing goes cold and the knob sits still; The Lockdown boss chains
 ##     it with a padlock; concede mode turns the rim pink with a skull
@@ -13,9 +15,11 @@ extends Button
 
 const FRAME := Vector2(41, 44) ## art px per frame
 const ART := 4.0
-const PULL_DOWN := 0.11
-const PULL_HOLD := 0.07
-const PULL_BACK := 0.34
+const PULL_DOWN := 0.24 ## matches the ratchet in lever_pull.wav, so the slam lands on its KA-CHUNK
+const PULL_HOLD := 0.09
+const PULL_BACK := 0.4
+const CHASE := 0.8 ## seconds of lamp chase and title flash after the slam
+const SHAKE := 0.28
 const MAX_LAMPS := 5
 
 enum Look { READY, EMPTY, LOCKED, CONCEDE }
@@ -30,6 +34,8 @@ var _press_y := -1.0 ## where the mouse went down (for the partial drag pull)
 var _drag_k := 0.0 ## 0..1 how far the held mouse pulls the knob
 var _hover := false
 var _popping := -1 ## lamp index popping after a pull
+var _spent := -1 ## the lamp the current pull will pop at the slam
+var _slam_t := -1.0 ## seconds since the slam (-1 = none): shake, chase and flash
 var _pop_t := 0.0
 var _reduced := false
 
@@ -64,12 +70,14 @@ func set_state(new_look: Look, lamps: int, reduced_motion: bool, lamp_cap: int =
 
 ## The lever animation for a Refresh that just happened. `spent_lamp` = the lamp that went out.
 func pull(spent_lamp: int) -> void:
+	BMAudio.sfx("lever_pull")
 	if _reduced:
+		BMAudio.sfx_later("lever_spring", PULL_DOWN + PULL_HOLD, 1.0, -4.0)
 		return
 	_pull_t = 0.0
-	_popping = spent_lamp
+	_popping = -1
+	_spent = spent_lamp
 	_pop_t = 0.0
-	BMAudio.sfx("lever_pull")
 
 
 func _process(delta: float) -> void:
@@ -81,6 +89,10 @@ func _process(delta: float) -> void:
 			_slam()
 		if _pull_t > PULL_DOWN + PULL_HOLD + PULL_BACK:
 			_pull_t = -1.0
+	if _slam_t >= 0.0:
+		_slam_t += delta
+		if _slam_t > maxf(CHASE, SHAKE):
+			_slam_t = -1.0
 	if _popping >= 0:
 		_pop_t += delta
 		if _pop_t > 0.45:
@@ -95,11 +107,18 @@ func _process(delta: float) -> void:
 ## The bottom of the pull: sparks from the gate and a thunk.
 func _slam() -> void:
 	BMAudio.sfx_later("lever_spring", PULL_HOLD, 1.0, -4.0)
+	_slam_t = 0.0
+	_popping = _spent
+	_pop_t = 0.0
 	if BMFx.instance:
 		var g := get_global_rect()
 		var gate := g.position + Vector2(g.size.x / 2.0, g.size.y * 0.86)
-		BMFx.instance.sparks(gate, BMStyle.SUN_L, 8, 420.0)
-		BMFx.instance.burst(gate, [BMStyle.SUN, BMStyle.PINK_L, BMStyle.CREAM], 6, 260.0, 6.0)
+		BMFx.instance.sparks(gate, BMStyle.SUN_L, 10, 460.0)
+		BMFx.instance.burst(gate, [BMStyle.SUN, BMStyle.PINK_L, BMStyle.CREAM], 8, 300.0, 6.0)
+		# Payout: a spray of sun-gold coins out of the top, like a jackpot tray.
+		var top := g.position + Vector2(g.size.x / 2.0, g.size.y * 0.18)
+		BMFx.instance.burst(top, [BMStyle.SUN_L, BMStyle.SUN, Color.WHITE], 10, 380.0, 8.0)
+		BMFx.instance.stars(top, 4, 70.0)
 
 
 ## Knob position 0 (up) .. 4 (fully pulled), from the pull animation, the drag or the hover.
@@ -134,6 +153,10 @@ func _draw() -> void:
 	var scale := minf(sz.x / (FRAME.x * ART), sz.y / (FRAME.y * ART)) * ART
 	var art := FRAME * scale
 	var o := ((sz - art) / 2.0).round()
+	# Slam shake: a few pixels of decaying jitter.
+	if _slam_t >= 0.0 and _slam_t < SHAKE:
+		var k := 1.0 - _slam_t / SHAKE
+		o += Vector2(roundf(sin(_slam_t * 90.0) * 4.0 * k), roundf(cos(_slam_t * 70.0) * 2.0 * k))
 	var housing := 0
 	match look:
 		Look.CONCEDE:
@@ -142,13 +165,8 @@ func _draw() -> void:
 			housing = 7
 	var base := Rect2(o, art)
 	draw_texture_rect_region(_tex, base, _region(housing))
-	# Hover / focus: a soft sun outline on the knob gate.
-	var lit := (_hover or has_focus()) and not disabled and look != Look.EMPTY and look != Look.LOCKED
 	draw_texture_rect_region(_tex, base, _region(1 + _knob()),
 		Color(1, 1, 1, 1.0) if look != Look.EMPTY else Color(0.7, 0.7, 0.8, 1.0))
-	if lit:
-		var gate := Rect2(o + Vector2(11, 14) * scale, Vector2(19, 29) * scale)
-		draw_rect(gate.grow(2.0), Color(BMStyle.SUN_L, 0.35 + 0.15 * sin(_t * 6.0)), false, 2.0)
 	var f := BMStyle.font_bold
 	# Title strip.
 	var title := "REFRESH"
@@ -162,6 +180,10 @@ func _draw() -> void:
 			title_col = BMStyle.PINK_L
 		Look.EMPTY:
 			title_col = BMStyle.TEXT_DIM
+	var chase := _slam_t >= 0.0 and _slam_t < CHASE
+	if chase and look == Look.READY:
+		# Jackpot flash: the title blinks sun and white while the lamps chase.
+		title_col = BMStyle.SUN_L if int(_slam_t * 14.0) % 2 == 0 else Color.WHITE
 	draw_string(f, o + Vector2(0, 7.5 * scale), title, HORIZONTAL_ALIGNMENT_CENTER, art.x, 20, title_col)
 	# Lamps: one per Refresh left (a number past MAX_LAMPS); skull or padlock otherwise.
 	var row_y := o.y + 10.0 * scale
@@ -189,6 +211,13 @@ func _draw() -> void:
 			var col := BMStyle.MINT_L if on else Color(BMStyle.PLUM_L, 0.8)
 			if on and not _reduced:
 				col = col.lerp(Color.WHITE, 0.25 + 0.25 * sin(_t * 4.0 + i))
+			if chase:
+				# Casino chase: one bright lamp runs along the row, spent lamps included.
+				var head := int(_slam_t * 18.0) % shown
+				if i == head:
+					col = BMStyle.SUN_L
+				elif absi(i - head) == 1:
+					col = col.lerp(BMStyle.SUN, 0.5)
 			draw_rect(r, col)
 			if on:
 				draw_rect(Rect2(r.position, Vector2(scale, scale)), Color.WHITE)
