@@ -15,6 +15,9 @@ after `res://game/main.tscn` loads, e.g.:
 
 Set BM_GODOT to the Godot 4.7.2 console executable if it is not at the default path.
 The launch splash is skipped (`-- --no-splash`); set BM_SPLASH=1 to keep it.
+Set BM_SANDBOX=1 to run on a fresh, empty profile (user://shoot_sandbox: saves, settings,
+achievements, Endless) instead of the owner's: nothing real is overwritten, the window stays
+windowed, and the tutorial and tips are off.
 """
 import os, subprocess, sys, tempfile, textwrap
 
@@ -36,8 +39,33 @@ def main() -> None:
     open(work + "/runner.gd", "w", encoding="utf-8", newline="\n").write('''extends SceneTree
 
 func _initialize() -> void:
+	if %s:
+		_sandbox()
 	change_scene_to_file("res://game/main.tscn")
 	_go.call_deferred()
+
+func _sandbox() -> void:
+	const BOX := "user://shoot_sandbox"
+	BMSaveStore.has_run()
+	BMAchievementStore.forget_cache()
+	BMEndlessStore.high_scores()
+	var dir := ProjectSettings.globalize_path(BOX)
+	if DirAccess.dir_exists_absolute(dir):
+		for f in DirAccess.get_files_at(dir):
+			DirAccess.remove_absolute(dir.path_join(f))
+	DirAccess.make_dir_recursive_absolute(dir)
+	BMSaveStore.run_path = BOX + "/run.json"
+	BMSaveStore.settings_path = BOX + "/settings.cfg"
+	BMSaveStore.profile_path = BOX + "/profile.cfg"
+	BMSaveStore.history_path = BOX + "/history.json"
+	BMAchievementStore.path = BOX + "/achievements.cfg"
+	BMAchievementStore.forget_cache()
+	BMEndlessStore.game_path = BOX + "/endless.json"
+	BMEndlessStore.scores_path = BOX + "/endless_scores.json"
+	var cfg := ConfigFile.new()
+	for kv in [["language", "en"], ["tutorial_done", true], ["tips", false]]:
+		cfg.set_value("settings", kv[0], kv[1])
+	cfg.save(BMSaveStore.settings_path)
 
 func _go() -> void:
 	await process_frame
@@ -50,7 +78,7 @@ func _go() -> void:
 	img.save_png("%s")
 	print("SHOT_OK ", img.get_size())
 	quit()
-''' % (work, out))
+''' % ("true" if os.environ.get("BM_SANDBOX") == "1" else "false", work, out))
     cmd = [GODOT, "--path", PROJECT, "--resolution", res, "--position", "%d,%d" % (-w - 400, -h - 400),
            "--windowed", "--audio-driver", "Dummy", "--script", work + "/runner.gd"]
     if os.environ.get("BM_SPLASH") != "1":

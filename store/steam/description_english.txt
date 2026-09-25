@@ -1,0 +1,65 @@
+[img src="{STEAM_APP_IMAGE}/extras/banner_english.jpg"][/img]
+
+[b]BLOCKMANIA[/b] starts as the block puzzle everyone knows: three pieces in your tray, an 8×8 board, fill a row or a column and it clears. Then it gets out of hand.
+
+[video mp4="{STEAM_APP_IMAGE}/extras/clip_gameplay.mp4" webm="{STEAM_APP_IMAGE}/extras/clip_gameplay.webm" autoplay="true" controls="false"][/video]
+
+Every piece comes from [b]your own bag[/b], and you can upgrade it: chrome that pays Chips, neon that adds Mult, gold that prints Credits, glass that shatters for a multiplier. Between rounds the Toybox sells [b]Jokers[/b], 70 rule-bending cards that grow with every clear, copy their neighbours, pay you for patience or double everything the others do. Each placement is scored as [b]Chips × Mult[/b], and every number is itemized on a receipt, so you always know why a move was worth 12 points or 12 million.
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_how_english.png"][/img]
+[img src="{STEAM_APP_IMAGE}/extras/loop_english.png"][/img]
+[list]
+[*][b]Place[/b] one of three pieces. Before you commit, the board shows where it fits, which lines it completes and exactly what it will score.
+[*][b]Clear[/b] rows and columns for Chips, then multiply them with Mult from combos, block materials and Jokers.
+[*][b]Beat the target[/b] before you run out of placements, collect your Credits and spend them in the Toybox.
+[*][b]Survive 12 rounds[/b] across three acts. Each act ends with a boss that rewrites one rule.
+[/list]
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_features_english.png"][/img]
+
+[h2]70 Jokers, 4 of them Legendary[/h2]
+Chips, Mult and ×Mult cards, economy cards, cards that grow for the whole run and cards that copy the one next to them. Order matters. The four Legendaries change how the game plays: [b]The Avalanche[/b] adds gravity and chain waves, [b]Hall of Mirrors[/b] makes every Joker trigger twice, [b]Philosopher's Stone[/b] turns your bag to metal and [b]Supernova[/b] builds each round to a crescendo.
+[img src="{STEAM_APP_IMAGE}/extras/jokers_english.png"][/img]
+
+[h2]A puzzle you read at a glance[/h2]
+No hidden rolls and no timers. Carry a piece and you see the score before you place it: every result is decided by the rules and only [i]shown[/i] by the effects. Lines flash, blocks burst in the style of their finish, Jokers fire one by one with their own sound and the score rolls up the tube.
+[img src="{STEAM_APP_IMAGE}/extras/shot_clear.jpg"][/img]
+
+[h2]Build your bag, not just your deck[/h2]
+The Toybox sells Jokers, one-use items (a throwable Emergency Brick, an Eraser, a Second Tray) and [b]Workshop[/b] upgrades that edit the pieces themselves: repaint, rotate, copy, shred, add materials and stamps. Save your Credits to earn interest, or overkill a target for a bonus.
+[img src="{STEAM_APP_IMAGE}/extras/shot_shop.jpg"][/img]
+
+[h2]Bosses with an entrance[/h2]
+Every act ends with a boss that bends one rule: fixed blocks, a tax on your first line, barred tray slots, a tombstone every third move. From act 2 they come back as [b]Mk II[/b], with a warning cinematic, a hazard-tape frame and their own music.
+[video mp4="{STEAM_APP_IMAGE}/extras/clip_boss.mp4" webm="{STEAM_APP_IMAGE}/extras/clip_boss.webm" autoplay="true" controls="false"][/video]
+
+[h2]Choose how hard the next round is[/h2]
+Before each normal round, play it straight or take a twist for a reward: [i]Double or Nothing[/i], [i]Gold Rush[/i], [i]Rush Hour[/i], [i]Mult Fever[/i], [i]Treasure Hunt[/i] and more. Keep one piece in reserve with [b]Hold[/b], and check your bag's odds before you commit.
+[img src="{STEAM_APP_IMAGE}/extras/shot_round_pick.jpg"][/img]
+
+[h2]Blocks with character[/h2]
+Fourteen animated finishes: light rolls through stained glass, neon tubes flicker, lava pulses, stars fall. Each has its own glow, particles and sounds.
+[img src="{STEAM_APP_IMAGE}/extras/finishes_english.png"][/img]
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_modes_english.png"][/img]
+[list]
+[*][b]Five Kits[/b]: different starter bags and signature rules (Standard, Compact, High Roller, Chunky, Tetromino), unlocked by playing.
+[*][b]Heat 0–5[/b]: win a run to unlock the next stake. Bigger targets, fewer placements, capped interest, and at Heat 4 every boss is Mk II.
+[*][b]Daily run[/b]: one seed a day, with the same pieces, shops and bosses for everyone.
+[*][b]Overtime[/b]: beat round 12 and keep going. Targets explode, and the only way out is losing, or scoring one quadrillion points in a single placement and [b]breaking the machine[/b].
+[*][b]Endless[/b]: a relaxed arcade mode with a ×10 combo ladder, Hold, 15 block styles, a local top ten and a score graph for every game.
+[*][b]60 achievements[/b] on five pages, ten of them secret. Some unlock new Jokers.
+[*][b]POPS[/b], the arcade's old caretaker bot, shows first-time players around, then gets out of the way.
+[/list]
+[img src="{STEAM_APP_IMAGE}/extras/badges_english.png"][/img]
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_options_english.png"][/img]
+[list]
+[*]Mouse-first, with full keyboard play on every screen.
+[*]Reduced Motion calms the animation and keeps every number on screen.
+[*]Block patterns, so colours never carry meaning on their own.
+[*]Separate strengths for screen shake, flashes and edge effects; an optional CRT filter; game speed; custom or system cursor.
+[*]Every score is itemized, and every boss rule, target and card is shown before it matters.
+[/list]
+
+Every pixel, sound and note in BLOCKMANIA was made for this game by a solo developer: pixel art and the Blockhead font drawn in code, and an original synthesized soundtrack.
