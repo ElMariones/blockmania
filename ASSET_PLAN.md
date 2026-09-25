@@ -142,10 +142,10 @@ Steamworks currently lists the following dimensions. **Recheck the live template
 | Store main capsule | 1232×706 | P3 | Clear game identity. |
 | Store vertical capsule | 748×896 | P3 | Composition for vertical crop. |
 | Store screenshots | Minimum 1920×1080, 16:9 | P3 | Actual gameplay, no invented UI; show board, Jokers, shop, boss. |
-| Library capsule | 600×900 | P3 | Logo included. |
-| Library hero | 3840×1240 PNG | P3 | Artwork only, no words. |
-| Library logo | 1280 px wide and/or 720 px tall PNG | P3 | Transparent original logotype. |
-| Library header capsule | 920×430 | P3 | Logo and artwork. |
+| Library capsule | 600×900 | P3 | Logo included. Produced: `store/steam/library/library_capsule_english.png`. |
+| Library hero | 3840×1240 PNG | P3 | Artwork only, no words. Produced: `store/steam/library/library_hero_english.png`. |
+| Library logo | 1280 px wide and/or 720 px tall PNG | P3 | Transparent original logotype. Produced: `store/steam/library/library_logo_english.png` (1280×599). |
+| Library header capsule | 920×430 | P3 | Logo and artwork. Produced: `store/steam/library/library_header_english.png`. |
 | Shortcut icon | 256×256 ICO or PNG | P3 | Recognizable at desktop scale. |
 | App icon | 184×184 JPG | P3 | Representative icon. |
 | Page background | 1438×810, optional | P3 | Quiet enough for store content. |

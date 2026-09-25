@@ -40,6 +40,25 @@ localized element is the subtitle (the trailer's line). Upload each file in its 
 | Vertical capsule | 748×896 | `capsule_vertical_<lang>.png` | subtitle |
 | Page background | 1438×810 | `page_background.png` | none (Steam tints it blue and fades the edges) |
 
+## Library assets (Graphical assets > Library)
+
+```bash
+node tools/store/capsules.mjs library   # -> store/steam/library/
+```
+
+Library assets may carry only the game title, so there is no subtitle and one `_english` file per slot (Steam shows
+the English file for every language that has none of its own).
+
+| Steamworks slot | Size | File | Notes |
+|---|---|---|---|
+| Library capsule | 600×900 | `library_capsule_english.png` | logo over the board mid-clear, POPS, a Legendary Joker |
+| Library header | 920×430 | `library_header_english.png` | logo left, board right |
+| Library hero | 3840×1240 | `library_hero_english.png` | no text; the board sits in the centred safe area, the bottom-left is kept quiet |
+| Library logo | 1280×599 | `library_logo_english.png` | transparent, ink rim for legibility; in the preview tool pick **bottom left** |
+
+The hero's safe area is read as 860×380 at the half-size 1920×620 (1720×760 at full size). Library assets only show
+in the Steam client once the store page is published.
+
 The subtitle counts as the official subtitle only if you use it as one: keep it consistent with the trailer and the
 store text, or remove it from `SUBTITLE` in `tools/store/capsules.js` if review objects.
 

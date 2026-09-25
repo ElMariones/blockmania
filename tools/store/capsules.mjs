@@ -3,6 +3,7 @@
 //
 //   node tools/store/capsules.mjs            -> every capsule in english, spanish and schinese + page background
 //   node tools/store/capsules.mjs main small -> only those capsules
+//   node tools/store/capsules.mjs library    -> only the library assets (store/steam/library/)
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -17,7 +18,11 @@ const OUT = path.join(ROOT, 'store/steam/capsules');
 const CHROME = process.env.CHROME || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
 const LANGS = ['english', 'spanish', 'schinese'];
 const CAPS = { header: 'capsule_header', small: 'capsule_small', main: 'capsule_main', vertical: 'capsule_vertical' };
-const SIZES = { header: [920, 430], small: [462, 174], main: [1232, 706], vertical: [748, 896], background: [1438, 810] };
+const SIZES = { header: [920, 430], small: [462, 174], main: [1232, 706], vertical: [748, 896], background: [1438, 810],
+  lib_capsule: [600, 900], lib_header: [920, 430], lib_hero: [3840, 1240], lib_logo: [1280, 720] };
+// Library assets carry only the game title, so one English file each (Steam uses it for every language).
+const LIB = { lib_capsule: 'library_capsule', lib_header: 'library_header', lib_hero: 'library_hero', lib_logo: 'library_logo' };
+const LIB_OUT = path.join(ROOT, 'store/steam/library');
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.png': 'image/png', '.jpg': 'image/jpeg', '.json': 'application/json', '.ttf': 'font/ttf' };
 
 function serve() {
@@ -36,8 +41,10 @@ const want = process.argv.slice(2);
 const jobs = [];
 for (const [cap, name] of Object.entries(CAPS)) if (!want.length || want.includes(cap)) for (const lang of LANGS) jobs.push([cap, lang, `${name}_${lang}.png`]);
 if (!want.length || want.includes('background')) jobs.push(['background', 'english', 'page_background.png']);
+for (const [cap, name] of Object.entries(LIB)) if (!want.length || want.includes('library') || want.includes(cap)) jobs.push([cap, 'english', `${name}_english.png`]);
 
 fs.mkdirSync(OUT, { recursive: true });
+fs.mkdirSync(LIB_OUT, { recursive: true });
 const srv = await serve();
 const browser = await puppeteer.launch({
   executablePath: CHROME, headless: 'new',
@@ -53,7 +60,7 @@ try {
     await page.goto(`http://127.0.0.1:${srv.address().port}/tools/store/capsules.html?cap=${cap}&lang=${lang}`, { waitUntil: 'load' });
     await page.evaluate(() => window.READY);
     const url = await page.evaluate(() => window.capsulePNG());
-    fs.writeFileSync(path.join(OUT, file), Buffer.from(url.slice(url.indexOf(',') + 1), 'base64'));
+    fs.writeFileSync(path.join(LIB[cap] ? LIB_OUT : OUT, file), Buffer.from(url.slice(url.indexOf(',') + 1), 'base64'));
     console.log(file, `${w}x${h}`);
     await page.close();
   }

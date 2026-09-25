@@ -265,16 +265,82 @@ const LAYOUTS = {
     const shapes = [[[0, 0], [1, 0], [0, 1], [1, 1]], [[0, 0], [1, 0], [2, 0], [1, 1]], [[0, 0], [0, 1], [0, 2], [1, 2]], [[0, 0], [1, 0], [1, 1], [2, 1]]];
     for (const [x, y, ci, k] of falls) piece(shapes[k % shapes.length], ci, x, y, 40, null, 0.4);
   },
+
+  // Library assets: Steam allows the game title and nothing else, so no subtitle.
+  // 600x900 library capsule: logo on top, the board below with POPS and Jokers around it.
+  lib_capsule() {
+    const cell = logo2Cell(W - 70, 250);
+    const L = logo2(W / 2, 60, cell, Math.round(cell * 2.2));
+    const S = 54, bx = Math.round((W - 8 * S) / 2) + 16, by = Math.max(L.bottom + 90, H - 8 * S - 60);
+    board(bx, by, S);
+    sticker('supernova', bx + 8 * S + 4, by + 24, 3, 0.12);
+    sticker('philosophers_stone', bx - 18, by + 8 * S - 30, 3, -0.1);
+    pops(-6, H - 62 * 3 + 6, 3);
+  },
+  // 920x430 library header: the big logo on the left, the board mid-clear on the right.
+  lib_header() {
+    const S = 42, bx = W - 8 * S - 44, by = Math.round((H - 8 * S) / 2);
+    board(bx, by, S);
+    sticker('supernova', bx + 8 * S + 6, by + 26, 3, 0.1);
+    sticker('avalanche', bx + 8 * S + 10, by + 8 * S - 40, 3, 0.1);
+    const left = bx - 40;
+    const cell = logo2Cell(left - 70, 260);
+    const a = glyphs('BLOCK', true), gap = Math.round(cell * 2.2);
+    logo2(left / 2 + 6, Math.round((H - (2 * a.h * cell + gap)) / 2) - 30, cell, gap);
+    pops(10, H - 62 * 2 + 24, 2);
+    piece([[0, 0], [1, 0], [0, 1], [1, 1]], 4, 150, H - 70, 30, 'neon');
+    piece([[0, 0], [1, 0], [2, 0], [1, 1]], 5, 250, H - 70, 30);
+  },
+  // 3840x1240 library hero: no text. The board sits in the centred safe area (860x380 at the half-size
+  // 1920x620, 1720x760 here); Jokers, POPS and falling pieces fill the rest. The bottom-left, where Steam
+  // puts the library logo by default, stays quiet.
+  lib_hero() {
+    emptyGrid(120, 0.05);
+    const S = 80, bx = Math.round(W / 2 - 4 * S) + 60, by = Math.round(H / 2 - 4 * S) + 10;
+    board(bx, by, S, { lift: [0.45, -0.6] });
+    sticker('supernova', bx - 150, by + 70, 7, -0.12);
+    sticker('hall_of_mirrors', bx + 8 * S + 90, by + 40, 6, 0.1);
+    sticker('avalanche', bx + 8 * S + 60, by + 8 * S - 150, 7, 0.08);
+    sticker('philosophers_stone', bx - 190, by + 8 * S - 190, 6, -0.06);
+    pops(bx + 8 * S + 330, by + 8 * S - 62 * 7 + 60, 7);
+    const shapes = [[[0, 0], [1, 0], [0, 1], [1, 1]], [[0, 0], [1, 0], [2, 0], [1, 1]], [[0, 0], [0, 1], [0, 2], [1, 2]],
+      [[0, 0], [1, 0], [1, 1], [2, 1]], [[0, 0], [1, 0], [2, 0], [3, 0]], [[0, 0], [0, 1], [1, 1]]];
+    const falls = [
+      [260, 120, 4, 0, 70, null, 0.75], [720, 60, 1, 1, 60, 'neon', 0.85], [1000, 330, 3, 5, 54, null, 0.7],
+      [2960, 90, 2, 2, 64, 'prism', 0.85], [3400, 300, 5, 3, 70, null, 0.75], [3620, 720, 0, 4, 56, null, 0.6],
+      [3150, 960, 4, 5, 60, 'lava', 0.7], [2800, 1080, 1, 0, 50, null, 0.5],
+    ];
+    for (const [x, y, ci, k, s, fin, a] of falls) piece(shapes[k], ci, x, y, s, fin, a);
+  },
+  // Library logo: the two-line block logo, 1280 px wide on transparency, with an ink rim so it reads on
+  // any part of the hero. Cropped to its height by capsulePNG.
+  lib_logo() {
+    const a = glyphs('BLOCK', true), b = glyphs('MANIA', true);
+    const cell = Math.floor((W - 40) / Math.max(a.w, b.w)), gap = Math.round(cell * 2.2);
+    const rim = Math.max(4, Math.round(cell / 5));
+    const cx = W / 2 - 6;
+    const top = 30;
+    // Ink rim under every block of both lines.
+    for (const [str, t] of [['BLOCK', top], ['MANIA', top + a.h * cell + gap]]) {
+      const g = glyphs(str, true);
+      const x0 = Math.round(cx - (g.w * cell) / 2);
+      ctx.fillStyle = PAL.ink;
+      for (const c of g.cells) ctx.fillRect(x0 + c.x * cell - rim, t + c.y * cell - rim, cell + 2 * rim, cell + 2 * rim);
+    }
+    logo2(cx, top, cell, gap);
+  },
 };
 const BG_OPTS = {
   header: { swirl: 2.4, focusX: 0.5 }, small: { swirl: 2.2, dark: 0.85 }, main: { swirl: 2.4, focusX: 0.4 },
   vertical: { swirl: 2.6 }, background: { swirl: 2.0, dark: 0.7 },
+  lib_capsule: { swirl: 2.6 }, lib_header: { swirl: 2.4, focusX: 0.5 }, lib_hero: { swirl: 2.4, focusX: 0.5 },
 };
 
 function renderCapsule() {
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.clearRect(0, 0, W, H);
   LAYOUTS[CAP]();
+  if (CAP === 'lib_logo') return; // transparent: exported straight from the content layer
   const bg = bgp('plum', BG_OPTS[CAP]);
   bg.px = Math.max(2, Math.round(W / 320));
   const small = CAP === 'small';
@@ -291,4 +357,14 @@ window.READY = loadAll().then(() => document.fonts.load(CJK_FONT, '方块')).the
   renderCapsule();
   return true;
 });
-window.capsulePNG = () => document.getElementById('out').toDataURL('image/png');
+window.capsulePNG = () => {
+  if (CAP !== 'lib_logo') return document.getElementById('out').toDataURL('image/png');
+  // The logo keeps the full 1280 px width and is cropped to the rows it uses.
+  const d = ctx.getImageData(0, 0, W, H).data;
+  let y0 = H, y1 = -1;
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) if (d[(y * W + x) * 4 + 3]) { y0 = Math.min(y0, y); y1 = y; break; }
+  const cv = document.createElement('canvas');
+  cv.width = W; cv.height = y1 - y0 + 1;
+  cv.getContext('2d').drawImage(layer, 0, -y0);
+  return cv.toDataURL('image/png');
+};

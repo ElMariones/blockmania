@@ -8,10 +8,11 @@
   canvas { display: block; }
 </style>
 <script>
-  // One capsule per page load: ?cap=header|small|main|vertical|background&lang=english|spanish|schinese
+  // One capsule per page load: ?cap=header|small|main|vertical|background|lib_capsule|lib_header|lib_hero|lib_logo&lang=english|spanish|schinese
   const Q = new URLSearchParams(location.search);
   const CAP = Q.get('cap') || 'header', LANG = Q.get('lang') || 'english';
-  const SIZES = { header: [920, 430], small: [462, 174], main: [1232, 706], vertical: [748, 896], background: [1438, 810] };
+  const SIZES = { header: [920, 430], small: [462, 174], main: [1232, 706], vertical: [748, 896], background: [1438, 810],
+    lib_capsule: [600, 900], lib_header: [920, 430], lib_hero: [3840, 1240], lib_logo: [1280, 720] };
   self.CANVAS_W = SIZES[CAP][0]; self.CANVAS_H = SIZES[CAP][1];
 </script>
 </head>

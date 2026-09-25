@@ -126,7 +126,7 @@ Before release, the default branch is only available to your team and to people 
 ## Part D. Store page ✋ (Store page admin)
 
 1. **Description**: `store/steam/README.md` (About, short description, custom images and clips, three languages).
-2. **Graphical assets**: the capsules and background in `store/steam/capsules/`, screenshots in `store/steam/screenshots/`.
+2. **Graphical assets**: the capsules and background in `store/steam/capsules/`, the library assets in `store/steam/library/`, screenshots in `store/steam/screenshots/`.
 3. **Trailer**: upload `tools/trailer/build/BLOCKMANIA_trailer.mp4`.
 4. **System requirements**: `store/steam/system_requirements.md`, one tab per OS, for English, Spanish and
    Simplified Chinese.
