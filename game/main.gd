@@ -83,6 +83,7 @@ func _ready() -> void:
 	add_child(_pause)
 	toasts = BMAchievementToasts.new()
 	add_child(toasts)
+	BMSteam.start()
 	crt = BMCrtLayer.new()
 	crt.mode = String(settings.get("crt", "soft"))
 	add_child(crt)
@@ -197,6 +198,7 @@ func _process(delta: float) -> void:
 	if Engine.time_scale != speed:
 		Engine.time_scale = speed
 	BMBlockPainter.clock += delta
+	BMSteam.tick()
 	if endless_screen != null and endless_screen.visible and endless_screen.game != null \
 			and not endless_screen.game.over and not is_paused() and not endless_screen.is_style_picker_open() and _window_focused:
 		_endless_pending_ms += delta * 1000.0
@@ -254,6 +256,7 @@ func act(a: Dictionary) -> Dictionary:
 ## Unlocks achievements (the store ignores ones already earned) and announces the new ones.
 func grant(ids: Array) -> Array[String]:
 	var fresh := BMAchievementStore.unlock(ids)
+	BMSteam.report(fresh)
 	if not fresh.is_empty():
 		var news: Array = fresh.duplicate()
 		for id in fresh:

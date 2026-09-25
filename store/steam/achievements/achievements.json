@@ -1,0 +1,110 @@
+[
+ {
+  "api": "ACH_CROSSROADS",
+  "local": "crossroads",
+  "tier": "bronze",
+  "hidden": false,
+  "english": [
+   "Crossroads",
+   "Clear a row and a column with one placement."
+  ],
+  "spanish": [
+   "Encrucijada",
+   "Limpia una fila y una columna con una sola colocación."
+  ],
+  "schinese": [
+   "十字路口",
+   "单次放置同时消除一行和一列。"
+  ]
+ },
+ {
+  "api": "ACH_BOSS_BUSTER",
+  "local": "boss_buster",
+  "tier": "bronze",
+  "hidden": false,
+  "english": [
+   "Boss Buster",
+   "Defeat a boss."
+  ],
+  "spanish": [
+   "Revientajefes",
+   "Derrota a un jefe."
+  ],
+  "schinese": [
+   "首领克星",
+   "击败一个首领。"
+  ]
+ },
+ {
+  "api": "ACH_LEGEND_FOUND",
+  "local": "legend_found",
+  "tier": "silver",
+  "hidden": false,
+  "english": [
+   "Once Upon a Legend",
+   "Own a Legendary Joker."
+  ],
+  "spanish": [
+   "Érase una leyenda",
+   "Consigue un comodín legendario."
+  ],
+  "schinese": [
+   "传说的开端",
+   "拥有一张传说小丑牌。"
+  ]
+ },
+ {
+  "api": "ACH_ARCADE_REGULAR",
+  "local": "arcade_regular",
+  "tier": "silver",
+  "hidden": false,
+  "english": [
+   "Arcade Regular",
+   "Score 25,000 points in one Endless game."
+  ],
+  "spanish": [
+   "Habitual del arcade",
+   "Consigue 25.000 puntos en una partida del modo Infinito."
+  ],
+  "schinese": [
+   "街机常客",
+   "在一局无尽模式中获得25,000分。"
+  ]
+ },
+ {
+  "api": "ACH_BLOCKMANIA",
+  "local": "champion",
+  "tier": "gold",
+  "hidden": false,
+  "english": [
+   "BLOCKMANIA!",
+   "Beat the game: win round 12."
+  ],
+  "spanish": [
+   "¡BLOCKMANIA!",
+   "Pásate el juego: gana la ronda 12."
+  ],
+  "schinese": [
+   "BLOCKMANIA!",
+   "通关：赢下第12回合。"
+  ]
+ },
+ {
+  "api": "ACH_BROKE_THE_MACHINE",
+  "local": "broke_machine",
+  "tier": "legend",
+  "hidden": true,
+  "english": [
+   "Broke the Machine",
+   "Score a single placement past the machine's limit of one quadrillion points."
+  ],
+  "spanish": [
+   "Máquina rota",
+   "Supera con una sola colocación el límite de la máquina: mil billones de puntos."
+  ],
+  "schinese": [
+   "机器被玩坏了",
+   "单次放置得分超过机器上限（1,000,000,000,000,000分）。"
+  ]
+ }
+]

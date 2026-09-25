@@ -1,0 +1,57 @@
+"lang"
+{
+	"english"
+	{
+		"Tokens"
+		{
+			"NEW_ACHIEVEMENT_1_0_NAME"	"Crossroads"
+			"NEW_ACHIEVEMENT_1_0_DESC"	"Clear a row and a column with one placement."
+			"NEW_ACHIEVEMENT_1_1_NAME"	"Boss Buster"
+			"NEW_ACHIEVEMENT_1_1_DESC"	"Defeat a boss."
+			"NEW_ACHIEVEMENT_1_2_NAME"	"Once Upon a Legend"
+			"NEW_ACHIEVEMENT_1_2_DESC"	"Own a Legendary Joker."
+			"NEW_ACHIEVEMENT_1_3_NAME"	"Arcade Regular"
+			"NEW_ACHIEVEMENT_1_3_DESC"	"Score 25,000 points in one Endless game."
+			"NEW_ACHIEVEMENT_1_4_NAME"	"BLOCKMANIA!"
+			"NEW_ACHIEVEMENT_1_4_DESC"	"Beat the game: win round 12."
+			"NEW_ACHIEVEMENT_1_5_NAME"	"Broke the Machine"
+			"NEW_ACHIEVEMENT_1_5_DESC"	"Score a single placement past the machine's limit of one quadrillion points."
+		}
+	}
+	"spanish"
+	{
+		"Tokens"
+		{
+			"NEW_ACHIEVEMENT_1_0_NAME"	"Encrucijada"
+			"NEW_ACHIEVEMENT_1_0_DESC"	"Limpia una fila y una columna con una sola colocación."
+			"NEW_ACHIEVEMENT_1_1_NAME"	"Revientajefes"
+			"NEW_ACHIEVEMENT_1_1_DESC"	"Derrota a un jefe."
+			"NEW_ACHIEVEMENT_1_2_NAME"	"Érase una leyenda"
+			"NEW_ACHIEVEMENT_1_2_DESC"	"Consigue un comodín legendario."
+			"NEW_ACHIEVEMENT_1_3_NAME"	"Habitual del arcade"
+			"NEW_ACHIEVEMENT_1_3_DESC"	"Consigue 25.000 puntos en una partida del modo Infinito."
+			"NEW_ACHIEVEMENT_1_4_NAME"	"¡BLOCKMANIA!"
+			"NEW_ACHIEVEMENT_1_4_DESC"	"Pásate el juego: gana la ronda 12."
+			"NEW_ACHIEVEMENT_1_5_NAME"	"Máquina rota"
+			"NEW_ACHIEVEMENT_1_5_DESC"	"Supera con una sola colocación el límite de la máquina: mil billones de puntos."
+		}
+	}
+	"schinese"
+	{
+		"Tokens"
+		{
+			"NEW_ACHIEVEMENT_1_0_NAME"	"十字路口"
+			"NEW_ACHIEVEMENT_1_0_DESC"	"单次放置同时消除一行和一列。"
+			"NEW_ACHIEVEMENT_1_1_NAME"	"首领克星"
+			"NEW_ACHIEVEMENT_1_1_DESC"	"击败一个首领。"
+			"NEW_ACHIEVEMENT_1_2_NAME"	"传说的开端"
+			"NEW_ACHIEVEMENT_1_2_DESC"	"拥有一张传说小丑牌。"
+			"NEW_ACHIEVEMENT_1_3_NAME"	"街机常客"
+			"NEW_ACHIEVEMENT_1_3_DESC"	"在一局无尽模式中获得25,000分。"
+			"NEW_ACHIEVEMENT_1_4_NAME"	"BLOCKMANIA!"
+			"NEW_ACHIEVEMENT_1_4_DESC"	"通关：赢下第12回合。"
+			"NEW_ACHIEVEMENT_1_5_NAME"	"机器被玩坏了"
+			"NEW_ACHIEVEMENT_1_5_DESC"	"单次放置得分超过机器上限（1,000,000,000,000,000分）。"
+		}
+	}
+}
