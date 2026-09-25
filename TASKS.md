@@ -189,7 +189,7 @@ Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/r
 - [ ] Production art/audio per ASSET_PLAN; original fonts with licenses.
 - [ ] Performance profiling on target hardware.
 - [x] Windows export preset and a first demo executable (2026-09-23): single exe with embedded pck, original BLOCKMANIA icon (`tools/art/gen_icon.py`) and version info; dev folders excluded. Launch verified off-screen on the owner's machine.
-- [ ] Steamworks integration (achievements/cloud optional, never required for play).
+- [ ] Steamworks integration (achievements/cloud optional, never required for play). Achievements done (GodotSteam); Steam Cloud via Auto-Cloud, no code (setup in `store/steam/SUBMIT.md` A3b, owner to configure).
 
 ## Balance watch (provisional numbers — do not tune silently)
 

@@ -48,9 +48,43 @@ No arguments, no working directory. Do not add redistributables: the builds are 
 
 Follow `store/steam/achievements/README.md` (six achievements, icons and translations).
 
+### A3b. Steam Cloud ✋ (App Admin > Application > Steam Cloud)
+
+The game needs no code for this: **Steam Auto-Cloud** copies the save files before launch and after quit. Godot keeps
+them in `user://`, which is `Godot/app_userdata/BLOCKMANIA` under the OS data folder (`%APPDATA%` on Windows,
+`~/Library/Application Support` on macOS, `~/.local/share` with a lowercase `godot` on Linux and Steam Deck).
+
+1. **Byte quota per user**: `10000000` (10 MB). **Number of files allowed per user**: `20`. Save.
+2. **Enable Steam Auto-Cloud**, then add one **Root Path** row per file below. Root `WinAppDataRoaming`,
+   Subdirectory `Godot/app_userdata/BLOCKMANIA`, OS **All OSes**, **Recursive unticked**:
+
+| Pattern | Holds |
+|---|---|
+| `run.json` | The run in progress (written complete, never half a placement) |
+| `settings.cfg` | Options, tips and tutorial seen |
+| `profile.cfg` | Kit unlocks and progress |
+| `history.json` | Past runs |
+| `achievements.cfg` | Unlocks, lifetime stats, records |
+| `endless.json` | The Endless run in progress |
+| `endless_scores.json` | Endless top ten |
+
+   Do not use `*`: the same folder holds `logs/`, `shader_cache/` and the `*.tmp` files of a save in progress.
+3. **Root Overrides** (Add Root Override twice):
+
+| Original root | OS | New root | Add/Replace path | Replace path |
+|---|---|---|---|---|
+| `WinAppDataRoaming` | macOS | `MacAppSupport` | `Godot/app_userdata/BLOCKMANIA` | ticked |
+| `WinAppDataRoaming` | Linux + SteamOS | `LinuxXdgDataHome` | `godot/app_userdata/BLOCKMANIA` | ticked |
+
+4. Save, then publish (A4). Test: play a few placements on one machine, quit, and check the Steam client's
+   **Properties > General > Steam Cloud** shows it in sync; on a second machine (or after deleting the local folder)
+   the run resumes where you left it.
+
+Then tick **Steam Cloud** in the store page's supported features (Part D).
+
 ### A4. Publish the setup ✋ (App Admin > Publish)
 
-**Prepare for publishing**, then **Publish to Steam**. Depots, launch options and achievements only take effect after this.
+**Prepare for publishing**, then **Publish to Steam**. Depots, launch options, achievements and Steam Cloud only take effect after this.
 
 ### A5. A build account (recommended) ✋
 
@@ -132,8 +166,13 @@ Before release, the default branch is only available to your team and to people 
    Simplified Chinese.
 5. **Supported languages**: **English only** (interface), until the game ships its Spanish/Chinese localization.
    The Spanish and Chinese store text is fine anyway.
-6. **Supported features**: Single-player, **Steam Achievements**. Leave Steam Cloud, controller support, Remote Play,
-   and Trading Cards unticked (none is implemented).
+6. **Supported features**: Single-player, **Steam Achievements**, **Steam Cloud** (once A3b is published). Leave
+   controller support, Remote Play and Trading Cards unticked (none is implemented).
+   **Controller support description** (checklist item): answer that the game has **no controller support**. Every
+   controller family (Xbox, PlayStation, Nintendo/other) = **not supported**, and do not say it uses the Steam Input API.
+   The game is played with mouse (keyboard works for menus, board and shop). Optional, for Steam Deck players:
+   App Admin > Application > Steam Input, default configuration **Keyboard (WASD) and Mouse**; this does not claim
+   controller support.
 7. **Content survey** (age ratings, IARC): answer it. The game has no violence, gambling with real money, or user
    content. Jokers and Credits are fictional game items, and nothing is bought with real money.
 8. **Release date**: the page must be public as **Coming Soon** for at least two weeks before release.
