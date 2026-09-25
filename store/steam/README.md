@@ -17,6 +17,8 @@ python tools/store/build_store.py   # compose -> store/steam/images and store/st
 | Store page > Description > **Custom images** (Cargar imágenes personalizadas) | every file in `images/` |
 | Graphical assets > **Screenshots** (5 or more) | `screenshots/*.jpg`, 1920×1080, numbered in the suggested order |
 
+**Uploading the game and submitting it for review:** see [SUBMIT.md](SUBMIT.md). System requirements: [system_requirements.md](system_requirements.md).
+
 ## Capsules and page background (Graphical assets)
 
 ```bash

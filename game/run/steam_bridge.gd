@@ -7,7 +7,7 @@ extends RefCounted
 ## built by tools/store/build_achievements.py; keep API names in sync with ACH there.
 ##
 ## Never reports from a sandboxed profile (E2E, tools/shoot.py) or a --script tool, so tests cannot
-## unlock achievements on a real Steam account.
+## unlock achievements on a real Steam account. `-- --no-steam` turns it off for a local smoke test.
 
 const APP_ID := 5328810
 ## Local achievement id -> Steamworks API name. Never rename an API name once published.
@@ -70,4 +70,6 @@ static func active() -> bool:
 
 
 static func _allowed() -> bool:
-	return BMAchievementStore.path == BMAchievementStore.PATH and not OS.get_cmdline_args().has("--script")
+	if BMAchievementStore.path != BMAchievementStore.PATH:
+		return false
+	return not OS.get_cmdline_args().has("--script") and not OS.get_cmdline_user_args().has("--no-steam")

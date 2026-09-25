@@ -18,3 +18,10 @@ __pycache__/
 
 # README capture work files (regenerate with tools/readme/shoot_all.py)
 /docs/media/raw/
+
+# GodotSteam GDExtension: fetched by tools/release/install_godotsteam.sh
+addons/godotsteam/
+
+# SteamCMD login tokens: never commit
+config.vdf
+*.b64

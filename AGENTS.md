@@ -71,6 +71,7 @@ If documents conflict, resolve the discrepancy in favor of the owner's latest in
 | `tools/readme/`, `docs/media/` | README media: `shoot_all.py` captures shots and GIFs from the real game (fixtures in `shots.py`), `build_media.py` composes the banner, headers and galleries from the game's own art and fonts. Rebuild instead of hand-editing; `docs/media/raw/` is git-ignored. |
 | `tools/store/`, `store/steam/` | Steam store page kit: `capture.py` shoots the real game on a sandboxed profile (`BM_SANDBOX=1` in `tools/shoot.py`), `build_store.py` composes the localized description images, clips and store screenshots; `capsules.html`/`capsules.js` + `capsules.mjs` render the localized capsules and page background to `store/steam/capsules/` with the trailer engine; descriptions, upload guide and glossary in `store/steam/`. Rebuild instead of hand-editing; `build/store/` holds the raw captures. |
 | `tools/release/`, `.github/workflows/release.yml` | Downloadable builds: `build_release.sh` exports the Windows, macOS and Linux zips to `build/release/` (presets in `export_presets.cfg`, templates via `install_templates.sh`); bumping `tools/release/VERSION` on main (or pushing a `v*` tag) publishes them as a GitHub Release with fixed asset names that the README download buttons link to. |
+| `tools/steam/`, `.github/workflows/steam.yml` | Steam depots: `build_steam.sh` exports Windows/macOS/Linux into `build/steam/content/` with GodotSteam (`tools/release/install_godotsteam.sh`, git-ignored addon); `upload_steam.sh` writes the SteamPipe scripts and runs SteamCMD. Upload macOS/Linux from Linux (the manual workflow) so executable bits survive. Owner guide: `store/steam/SUBMIT.md`. Never commit SteamCMD's `config.vdf`. |
 | `docs/balance/` | Saved experiment reports that justify provisional numbers. |
 | `docs/playtests/` | Persona playtest reports (design reviews with plans) and their full tables. |
 | `addons/godot_ai/` | Third-party editor plugin (MIT) for AI tooling; dev-only, see THIRD_PARTY.md. |
@@ -157,6 +158,7 @@ python tools/art/gen_studio_logo.py
 python tools/store/capture.py && python tools/store/build_store.py
 node tools/store/capsules.mjs   # Steam capsules + page background (needs tools/trailer npm install)
 python tools/store/build_achievements.py   # Steam achievement icons, texts, localization VDF
+tools/steam/build_steam.sh && STEAM_USER=<account> tools/steam/upload_steam.sh   # Steam depots + upload (see store/steam/SUBMIT.md)
 python tools/audio/gen_sfx_lever.py
 python tools/audio/gen_music.py [song_id ...]
 python tools/art/gen_font.py

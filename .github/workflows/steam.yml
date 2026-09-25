@@ -1,0 +1,79 @@
+# Builds the Steam depots (Windows, macOS, Linux) on Linux, so the macOS and Linux executables keep
+# their executable bit, and uploads them to Steam with SteamCMD. Run by hand from the Actions tab.
+# Secrets (Settings > Secrets and variables > Actions), see store/steam/SUBMIT.md:
+#   STEAM_USERNAME     the build account
+#   STEAM_CONFIG_VDF   base64 of SteamCMD's config/config.vdf after one interactive login (Steam Guard)
+name: Steam upload
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Beta branch to set live after upload (empty: set the default branch live by hand in Steamworks)"
+        required: false
+        default: ""
+      desc:
+        description: "Build description (empty: version + commit)"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  steam:
+    runs-on: ubuntu-latest
+    env:
+      GODOT_VERSION: "4.7.2"
+      GODOT: ${{ github.workspace }}/godot
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Godot ${{ env.GODOT_VERSION }}
+        run: |
+          curl -sSL -o godot.zip "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"
+          unzip -q godot.zip
+          mv "Godot_v${GODOT_VERSION}-stable_linux.x86_64" godot
+          chmod +x godot
+
+      - name: Cache export templates
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/share/godot/export_templates
+          key: godot-templates-${{ env.GODOT_VERSION }}-desktop
+
+      - name: Install export templates
+        run: tools/release/install_templates.sh
+
+      - name: Build the Steam depots
+        run: tools/steam/build_steam.sh
+
+      - name: Install SteamCMD
+        run: |
+          sudo dpkg --add-architecture i386 && sudo apt-get update -qq && sudo apt-get install -y -qq lib32gcc-s1
+          mkdir -p "$HOME/steamcmd" && cd "$HOME/steamcmd"
+          curl -sSL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar -xz
+          ./steamcmd.sh +quit || true
+
+      - name: Restore the SteamCMD login
+        env:
+          STEAM_CONFIG_VDF: ${{ secrets.STEAM_CONFIG_VDF }}
+        run: |
+          for d in "$HOME/steamcmd/config" "$HOME/Steam/config"; do
+            mkdir -p "$d" && echo "$STEAM_CONFIG_VDF" | base64 -d > "$d/config.vdf"
+          done
+
+      - name: Upload to Steam
+        env:
+          STEAM_USER: ${{ secrets.STEAM_USERNAME }}
+          BRANCH: ${{ github.event.inputs.branch }}
+          DESC: ${{ github.event.inputs.desc }}
+        run: STEAMCMD="$HOME/steamcmd/steamcmd.sh" tools/steam/upload_steam.sh
+
+      - name: Keep the SteamPipe log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: steampipe-output
+          path: build/steam/output
+          if-no-files-found: ignore
