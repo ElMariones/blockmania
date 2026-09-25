@@ -178,6 +178,14 @@ Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/r
 
 ## M3 / M4 — Polish, balance, Steam
 
+### Marketing launch plan (owner, 2026-09-25)
+
+- [x] Draft a dated solo-developer marketing strategy, creator outreach, store-page positioning, calendar, measurement plan, and assumption-based sales scenarios in `docs/marketing/LAUNCH_PLAN_2026.md`. Owner confirms 0 wishlists before page publication, €7–12 intended price, ~€100 marketing budget, late-October target, and no October Next Fest registration.
+- [ ] Publish the approved Steam Coming Soon page as soon as review permits; record the publication date and check the two-week minimum before release.
+- [ ] Capture a gameplay-first 15–20 second clip and a press kit; test the live page's first media with five genre-fit players.
+- [ ] Build a list of 40–60 relevant creators; send 10–15 personalized pitches per week with tagged Steam links and track replies, coverage, and wishlists.
+- [ ] Decide exact release date and final €7–12 price after page traffic, external playtests, and build review. Consider the February 2027 Next Fest route if maximizing launch reach outweighs the late-October date.
+
 - [ ] Production art/audio per ASSET_PLAN; original fonts with licenses.
 - [ ] Performance profiling on target hardware.
 - [x] Windows export preset and a first demo executable (2026-09-23): single exe with embedded pck, original BLOCKMANIA icon (`tools/art/gen_icon.py`) and version info; dev folders excluded. Launch verified off-screen on the owner's machine.
