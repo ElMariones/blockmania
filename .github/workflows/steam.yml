@@ -22,7 +22,7 @@ permissions:
 
 jobs:
   steam:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       GODOT_VERSION: "4.7.2"
       GODOT: ${{ github.workspace }}/godot
@@ -43,10 +43,10 @@ jobs:
           key: godot-templates-${{ env.GODOT_VERSION }}-desktop
 
       - name: Install export templates
-        run: tools/release/install_templates.sh
+        run: bash tools/release/install_templates.sh
 
       - name: Build the Steam depots
-        run: tools/steam/build_steam.sh
+        run: bash tools/steam/build_steam.sh
 
       - name: Install SteamCMD
         run: |
@@ -68,7 +68,7 @@ jobs:
           STEAM_USER: ${{ secrets.STEAM_USERNAME }}
           BRANCH: ${{ github.event.inputs.branch }}
           DESC: ${{ github.event.inputs.desc }}
-        run: STEAMCMD="$HOME/steamcmd/steamcmd.sh" tools/steam/upload_steam.sh
+        run: STEAMCMD="$HOME/steamcmd/steamcmd.sh" bash tools/steam/upload_steam.sh
 
       - name: Keep the SteamPipe log
         if: always()

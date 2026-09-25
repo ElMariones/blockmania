@@ -11,7 +11,7 @@ GODOT="${GODOT:-godot}"
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 OUT="$ROOT/build/steam/content"
 cd "$ROOT"
-"$ROOT/tools/release/install_godotsteam.sh"
+bash "$ROOT/tools/release/install_godotsteam.sh"
 rm -rf "$OUT" && mkdir -p "$OUT/windows" "$OUT/macos" "$OUT/linux"
 "$GODOT" --headless --path . --import >/dev/null 2>&1 || true
 "$GODOT" --headless --path . --export-release "Windows Desktop" "$OUT/windows/BLOCKMANIA.exe"
