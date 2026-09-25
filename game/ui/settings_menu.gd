@@ -11,8 +11,8 @@ extends Control
 const STAGE := Vector2(1920, 1080)
 const PANEL := Rect2(170, 60, 1580, 960)
 const TABS := ["run", "game", "audio", "display", "access", "controls"]
-const TAB_NAMES := {"run": "RUN", "game": "GAME", "audio": "AUDIO", "display": "DISPLAY",
-	"access": "ACCESSIBILITY", "controls": "CONTROLS"} # i18n
+const TAB_NAMES := {"run": "RUN", "game": "GAME", "audio": "AUDIO", "display": "DISPLAY", # i18n
+	"access": "ACCESSIBILITY", "controls": "CONTROLS"}
 ## The last page opened, so the menu reopens where the player left it.
 static var last_tab := "game"
 

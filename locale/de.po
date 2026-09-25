@@ -1,4178 +1,4184 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: BLOCKMANIA\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: game/content/achievements.gd:12
 msgctxt "tier"
 msgid "Bronze"
-msgstr ""
+msgstr "Bronze"
 
 #: game/content/achievements.gd:12
 msgctxt "tier"
 msgid "Gold"
-msgstr ""
+msgstr "Gold"
 
 #: game/content/achievements.gd:12
 msgctxt "tier"
 msgid "Legendary"
-msgstr ""
+msgstr "Legendär"
 
 #: game/content/achievements.gd:12
 msgctxt "tier"
 msgid "Silver"
-msgstr ""
+msgstr "Silber"
 
 #: game/content/achievements.gd:13
 msgid "ARCADE & SECRETS"
-msgstr ""
+msgstr "ARCADE & GEHEIMNISSE"
 
 #: game/content/achievements.gd:13
 msgid "LEGENDS"
-msgstr ""
+msgstr "LEGENDEN"
 
 #: game/content/achievements.gd:13
 msgid "THE BAG & THE SHOP"
-msgstr ""
+msgstr "BEUTEL & LADEN"
 
 #: game/content/achievements.gd:13
 msgid "THE CAMPAIGN"
-msgstr ""
+msgstr "DIE KAMPAGNE"
 
 #: game/content/achievements.gd:13
 msgid "THE SCOREBOARD"
-msgstr ""
+msgstr "DIE ANZEIGETAFEL"
 
 #: game/content/achievements.gd:21
 msgid "Clear your first line."
-msgstr ""
+msgstr "Räume deine erste Linie ab."
 
 #: game/content/achievements.gd:21
 msgid "First Crack"
-msgstr ""
+msgstr "Erster Riss"
 
 #: game/content/achievements.gd:21
 msgid "It's a start. A very satisfying start."
-msgstr ""
+msgstr "Ein Anfang. Ein sehr befriedigender Anfang."
 
 #: game/content/achievements.gd:22
 msgid "The target never stood a chance."
-msgstr ""
+msgstr "Das Ziel hatte nie eine Chance."
 
 #: game/content/achievements.gd:22
 msgid "Warmed Up"
-msgstr ""
+msgstr "Aufgewärmt"
 
 #: game/content/achievements.gd:22
 msgid "Win a round."
-msgstr ""
+msgstr "Gewinne eine Runde."
 
 #: game/content/achievements.gd:23
 msgid "Boss Buster"
-msgstr ""
+msgstr "Bossbrecher"
 
 #: game/content/achievements.gd:23
 msgid "Defeat a boss."
-msgstr ""
+msgstr "Besiege einen Boss."
 
 #: game/content/achievements.gd:23
 msgid "They always look bigger on the poster."
-msgstr ""
+msgstr "Auf dem Plakat sehen sie immer größer aus."
 
 #: game/content/achievements.gd:24
 msgid "Intermission is over. Back to your seats."
-msgstr ""
+msgstr "Die Pause ist vorbei. Zurück auf die Plätze."
 
 #: game/content/achievements.gd:24
 msgid "Reach Act 2 (round 5)."
-msgstr ""
+msgstr "Erreiche Akt 2 (Runde 5)."
 
 #: game/content/achievements.gd:24
 msgid "Second Act"
-msgstr ""
+msgstr "Zweiter Akt"
 
 #: game/content/achievements.gd:25
 msgid "Final Act"
-msgstr ""
+msgstr "Letzter Akt"
 
 #: game/content/achievements.gd:25
 msgid "Reach Act 3 (round 9)."
-msgstr ""
+msgstr "Erreiche Akt 3 (Runde 9)."
 
 #: game/content/achievements.gd:25
 msgid "The curtain is starting to twitch."
-msgstr ""
+msgstr "Der Vorhang fängt an zu zucken."
 
 #: game/content/achievements.gd:26
 msgid "Blink and you missed it."
-msgstr ""
+msgstr "Einmal geblinzelt, schon vorbei."
 
 #: game/content/achievements.gd:26
 msgid "Speedrunner"
-msgstr ""
+msgstr "Speedrunner"
 
 #: game/content/achievements.gd:26
 msgid "Win a round in five placements or fewer."
-msgstr ""
+msgstr "Gewinne eine Runde in fünf Zügen oder weniger."
 
 #: game/content/achievements.gd:27
 msgid "BLOCKMANIA!"
-msgstr ""
+msgstr "BLOCKMANIA!"
 
 #: game/content/achievements.gd:27
 msgid "Beat the game: win round 12."
-msgstr ""
+msgstr "Schlag das Spiel: Gewinne Runde 12."
 
 #: game/content/achievements.gd:27
 msgid "Twelve rounds, three bosses, one very full board."
-msgstr ""
+msgstr "Zwölf Runden, drei Bosse, ein sehr volles Brett."
 
 #: game/content/achievements.gd:28
 msgid "A good builder never blames the Kit."
-msgstr ""
+msgstr "Ein guter Baumeister gibt nie dem Kit die Schuld."
 
 #: game/content/achievements.gd:28
 msgid "Beat the game with any Kit other than the Standard Kit."
-msgstr ""
+msgstr "Schlag das Spiel mit einem anderen Kit als dem Standard-Kit."
 
 #: game/content/achievements.gd:28
 msgid "Different Tools"
-msgstr ""
+msgstr "Anderes Werkzeug"
 
 #: game/content/achievements.gd:29 game/content/tips.gd:33
 msgid "Overtime"
-msgstr ""
+msgstr "Verlängerung"
 
 #: game/content/achievements.gd:29
 msgid "The arcade was supposed to close an hour ago."
-msgstr ""
+msgstr "Die Spielhalle sollte schon vor einer Stunde schließen."
 
 #: game/content/achievements.gd:29
 msgid "Win a round in Overtime (after beating the game, keep playing)."
-msgstr ""
+msgstr "Gewinne eine Runde in der Verlängerung (nach dem Sieg einfach weiterspielen)."
 
 #: game/content/achievements.gd:30
 msgid "Every target is a cliff now."
-msgstr ""
+msgstr "Jedes Ziel ist jetzt eine Steilwand."
 
 #: game/content/achievements.gd:30
 msgid "Reach round 20 in Overtime."
-msgstr ""
+msgstr "Erreiche Runde 20 in der Verlängerung."
 
 #: game/content/achievements.gd:30
 msgid "Sudden Death"
-msgstr ""
+msgstr "Sudden Death"
 
 #: game/content/achievements.gd:31
 msgid "No Off Switch"
-msgstr ""
+msgstr "Kein Ausschalter"
 
 #: game/content/achievements.gd:31
 msgid "Reach round 30 in Overtime."
-msgstr ""
+msgstr "Erreiche Runde 30 in der Verlängerung."
 
 #: game/content/achievements.gd:31
 msgid "Somebody unplug this thing."
-msgstr ""
+msgstr "Kann mal jemand den Stecker ziehen?"
 
 #: game/content/achievements.gd:32
 msgid "Broke the Machine"
-msgstr ""
+msgstr "Maschine kaputt"
 
 #: game/content/achievements.gd:32
 msgid "ERR ERR ERR. Please insert more digits."
-msgstr ""
+msgstr "ERR ERR ERR. Bitte mehr Ziffern einwerfen."
 
 #: game/content/achievements.gd:32
 msgid "Score a single placement past the machine's limit (1,000,000,000,000,000 points)."
-msgstr ""
+msgstr "Übertriff mit einem einzigen Zug das Limit der Maschine (1 000 000 000 000 000 Punkte)."
 
 #: game/content/achievements.gd:32
 msgid "Some scores are too big for any machine."
-msgstr ""
+msgstr "Manche Punktzahlen sind für jede Maschine zu groß."
 
 #: game/content/achievements.gd:34
 msgid "Blue Period"
-msgstr ""
+msgstr "Blaue Periode"
 
 #: game/content/achievements.gd:34
 msgid "Feeling a little blue? Feeling VERY blue."
-msgstr ""
+msgstr "Ein bisschen blau? Nein: SEHR blau."
 
 #: game/content/achievements.gd:34
 msgid "Have 10 or more blue pieces in your bag."
-msgstr ""
+msgstr "Habe 10 oder mehr blaue Teile im Beutel."
 
 #: game/content/achievements.gd:35
 msgid "Have 10 or more Square pieces (2x2 or 3x3) in your bag."
-msgstr ""
+msgstr "Habe 10 oder mehr Quadrat-Teile (2x2 oder 3x3) im Beutel."
 
 #: game/content/achievements.gd:35
 msgid "Square Dance"
-msgstr ""
+msgstr "Quadrille"
 
 #: game/content/achievements.gd:35
 msgid "Swing your partner, stack your blocks."
-msgstr ""
+msgstr "Dreh die Partnerin, stapel die Blöcke."
 
 #: game/content/achievements.gd:36
 msgid "Full Spectrum"
-msgstr ""
+msgstr "Volles Spektrum"
 
 #: game/content/achievements.gd:36
 msgid "Have at least five pieces of every color in your bag."
-msgstr ""
+msgstr "Habe mindestens fünf Teile jeder Farbe im Beutel."
 
 #: game/content/achievements.gd:36
 msgid "Taste the whole toybox."
-msgstr ""
+msgstr "Probier die ganze Spielzeugkiste."
 
 #: game/content/achievements.gd:37
 msgid "Have 40 or more pieces in your bag."
-msgstr ""
+msgstr "Habe 40 oder mehr Teile im Beutel."
 
 #: game/content/achievements.gd:37
 msgid "Packrat"
-msgstr ""
+msgstr "Hamster"
 
 #: game/content/achievements.gd:37
 msgid "You never know when you'll need a spare T."
-msgstr ""
+msgstr "Man weiß nie, wann man ein Ersatz-T braucht."
 
 #: game/content/achievements.gd:38
 msgid "Only the essentials."
-msgstr ""
+msgstr "Nur das Nötigste."
 
 #: game/content/achievements.gd:38
 msgid "Shrink your bag to 14 pieces or fewer."
-msgstr ""
+msgstr "Verkleinere deinen Beutel auf 14 Teile oder weniger."
 
 #: game/content/achievements.gd:38
 msgid "Travel Light"
-msgstr ""
+msgstr "Leichtes Gepäck"
 
 #: game/content/achievements.gd:39
 msgid "Alchemist"
-msgstr ""
+msgstr "Alchemist"
 
 #: game/content/achievements.gd:39
 msgid "Own pieces of all five materials at once: Chrome, Neon, Gold, Glass and Prism."
-msgstr ""
+msgstr "Besitze gleichzeitig Teile aus allen fünf Materialien: Chrom, Neon, Gold, Glas und Prisma."
 
 #: game/content/achievements.gd:39
 msgid "Plastic into gold, gold into glass."
-msgstr ""
+msgstr "Aus Plastik wird Gold, aus Gold wird Glas."
 
 #: game/content/achievements.gd:40
 msgid "Own pieces with all four stamps at once: Encore, Refund, Tip and Memory."
-msgstr ""
+msgstr "Besitze gleichzeitig Teile mit allen vier Stempeln: Zugabe, Erstattung, Trinkgeld und Erinnerung."
 
 #: game/content/achievements.gd:40
 msgid "Signed, sealed, stamped four times."
-msgstr ""
+msgstr "Unterschrieben, versiegelt, viermal gestempelt."
 
 #: game/content/achievements.gd:40
 msgid "Special Delivery"
-msgstr ""
+msgstr "Eilzustellung"
 
 #: game/content/achievements.gd:41
 msgid "Fill every Joker slot."
-msgstr ""
+msgstr "Belege jeden Joker-Platz."
 
 #: game/content/achievements.gd:41
 msgid "Full House"
-msgstr ""
+msgstr "Ausgebucht"
 
 #: game/content/achievements.gd:41
 msgid "No vacancies at the Joker hotel."
-msgstr ""
+msgstr "Im Joker-Hotel ist kein Zimmer mehr frei."
 
 #: game/content/achievements.gd:42
 msgid "Hold three Rare Jokers at the same time."
-msgstr ""
+msgstr "Habe drei seltene Joker gleichzeitig."
 
 #: game/content/achievements.gd:42
 msgid "Only the finest cardboard."
-msgstr ""
+msgstr "Nur der feinste Karton."
 
 #: game/content/achievements.gd:42
 msgid "Rare Taste"
-msgstr ""
+msgstr "Erlesener Geschmack"
 
 #: game/content/achievements.gd:43
 msgid "Master Plan"
-msgstr ""
+msgstr "Masterplan"
 
 #: game/content/achievements.gd:43
 msgid "Raise a shape family to Schematic level 3."
-msgstr ""
+msgstr "Bringe eine Formfamilie auf Bauplan-Stufe 3."
 
 #: game/content/achievements.gd:43
 msgid "The blueprints have blueprints."
-msgstr ""
+msgstr "Die Baupläne haben Baupläne."
 
 #: game/content/achievements.gd:44
 msgid "Hold 50 or more Credits."
-msgstr ""
+msgstr "Habe 50 oder mehr Credits."
 
 #: game/content/achievements.gd:44
 msgid "Oink."
-msgstr ""
+msgstr "Oink."
 
 #: game/content/achievements.gd:44
 msgid "Piggy Bank"
-msgstr ""
+msgstr "Sparschwein"
 
 #: game/content/achievements.gd:45
 msgid "Even a wallet has a limit."
-msgstr ""
+msgstr "Selbst ein Geldbeutel hat ein Limit."
 
 #: game/content/achievements.gd:45
 msgid "Hold the maximum 99 Credits."
-msgstr ""
+msgstr "Habe das Maximum von 99 Credits."
 
 #: game/content/achievements.gd:45
 msgid "Scrooge"
-msgstr ""
+msgstr "Geizhals"
 
 #: game/content/achievements.gd:45
 msgid "Swimming in coins is harder than it looks."
-msgstr ""
+msgstr "In Münzen zu baden ist schwerer, als es aussieht."
 
 #: game/content/achievements.gd:47
 msgid "Big Hit"
-msgstr ""
+msgstr "Volltreffer"
 
 #: game/content/achievements.gd:47
 msgid "Ka-chunk."
-msgstr ""
+msgstr "Ka-tschank."
 
 #: game/content/achievements.gd:47
 msgid "Score 1,000 points with one placement."
-msgstr ""
+msgstr "Erziele 1 000 Punkte mit einem Zug."
 
 #: game/content/achievements.gd:48
 msgid "Mega Hit"
-msgstr ""
+msgstr "Mega-Treffer"
 
 #: game/content/achievements.gd:48
 msgid "Score 10,000 points with one placement."
-msgstr ""
+msgstr "Erziele 10 000 Punkte mit einem Zug."
 
 #: game/content/achievements.gd:48
 msgid "The receipt printer is sweating."
-msgstr ""
+msgstr "Der Bondrucker schwitzt."
 
 #: game/content/achievements.gd:49
 msgid "Giga Hit"
-msgstr ""
+msgstr "Giga-Treffer"
 
 #: game/content/achievements.gd:49
 msgid "Score 1,000,000 points with one placement."
-msgstr ""
+msgstr "Erziele 1 000 000 Punkte mit einem Zug."
 
 #: game/content/achievements.gd:49
 msgid "That's a lot of zeros for one little piece."
-msgstr ""
+msgstr "Ganz schön viele Nullen für so ein kleines Teil."
 
 #: game/content/achievements.gd:50
 msgid "Clear three lines with one placement."
-msgstr ""
+msgstr "Räume drei Linien mit einem Zug ab."
 
 #: game/content/achievements.gd:50
 msgid "Stacked high and cleared clean."
-msgstr ""
+msgstr "Hoch gestapelt, sauber abgeräumt."
 
 #: game/content/achievements.gd:50
 msgid "Triple Decker"
-msgstr ""
+msgstr "Dreistöckig"
 
 #: game/content/achievements.gd:51
 msgid "Clear four or more lines with one placement."
-msgstr ""
+msgstr "Räume vier oder mehr Linien mit einem Zug ab."
 
 #: game/content/achievements.gd:51
 msgid "Four-Alarm Fire"
-msgstr ""
+msgstr "Großalarm"
 
 #: game/content/achievements.gd:51
 msgid "Somebody call the block brigade."
-msgstr ""
+msgstr "Ruft die Block-Feuerwehr!"
 
 #: game/content/achievements.gd:52
 msgid "Clear a row and a column with one placement."
-msgstr ""
+msgstr "Räume eine Zeile und eine Spalte mit einem Zug ab."
 
 #: game/content/achievements.gd:52
 msgid "Crossroads"
-msgstr ""
+msgstr "Kreuzung"
 
 #: game/content/achievements.gd:52
 msgid "X marks the spot."
-msgstr ""
+msgstr "X markiert die Stelle."
 
 #: game/content/achievements.gd:53
 msgid "Don't touch the board, it's hot."
-msgstr ""
+msgstr "Nicht das Brett anfassen, es ist heiß."
 
 #: game/content/achievements.gd:53
 msgid "Reach the maximum combo (x4)."
-msgstr ""
+msgstr "Erreiche die maximale Kombo (x4)."
 
 #: game/content/achievements.gd:53
 msgid "Red Hot"
-msgstr ""
+msgstr "Glühend heiß"
 
 #: game/content/achievements.gd:54
 msgid "Finish a round with at least three times its target."
-msgstr ""
+msgstr "Beende eine Runde mit mindestens dem Dreifachen ihres Ziels."
 
 #: game/content/achievements.gd:54
 msgid "Overkill"
-msgstr ""
+msgstr "Overkill"
 
 #: game/content/achievements.gd:54
 msgid "The target asked for a little. You gave a lot."
-msgstr ""
+msgstr "Das Ziel wollte ein bisschen. Du hast richtig geliefert."
 
 #: game/content/achievements.gd:55
 msgid "By a Thread"
-msgstr ""
+msgstr "Um Haaresbreite"
 
 #: game/content/achievements.gd:55
 msgid "Close. So close. Close enough!"
-msgstr ""
+msgstr "Knapp. Ganz knapp. Knapp genug!"
 
 #: game/content/achievements.gd:55
 msgid "Win a round with your very last placement."
-msgstr ""
+msgstr "Gewinne eine Runde mit deinem allerletzten Zug."
 
 #: game/content/achievements.gd:56
 msgid "Leave the board completely empty after a clear (campaign)."
-msgstr ""
+msgstr "Hinterlasse das Brett nach dem Abräumen komplett leer (Kampagne)."
 
 #: game/content/achievements.gd:56
 msgid "Spotless"
-msgstr ""
+msgstr "Blitzblank"
 
 #: game/content/achievements.gd:56
 msgid "You could eat off this board."
-msgstr ""
+msgstr "Von diesem Brett könnte man essen."
 
 #: game/content/achievements.gd:57
 msgid "Get dealt a Grand Slam Tray Hand."
-msgstr ""
+msgstr "Bekomme ein Grand-Slam-Blatt in die Auslage."
 
 #: game/content/achievements.gd:57 game/rules/hands.gd:17
 msgid "Grand Slam"
-msgstr ""
+msgstr "Grand Slam"
 
 #: game/content/achievements.gd:57
 msgid "Three of a kind, one color, all the lights."
-msgstr ""
+msgstr "Drei Gleiche, eine Farbe, alle Lichter an."
 
 #: game/content/achievements.gd:58
 msgid "Full Deck"
-msgstr ""
+msgstr "Volles Deck"
 
 #: game/content/achievements.gd:58
 msgid "See all five Tray Hands (across any runs)."
-msgstr ""
+msgstr "Sieh alle fünf Blätter der Auslage (über alle Partien)."
 
 #: game/content/achievements.gd:58
 msgid "Twins, Staircase, Monochrome, Triplets, Grand Slam. Collected."
-msgstr ""
+msgstr "Zwillinge, Treppe, Einfarbig, Drillinge, Grand Slam. Gesammelt."
 
 #: game/content/achievements.gd:60
 msgid "Arcade Rookie"
-msgstr ""
+msgstr "Spielhallen-Neuling"
 
 #: game/content/achievements.gd:60
 msgid "Put your initials in. Go on."
-msgstr ""
+msgstr "Trag deine Initialen ein. Na los."
 
 #: game/content/achievements.gd:60
 msgid "Score 5,000 points in one Endless game."
-msgstr ""
+msgstr "Erziele 5 000 Punkte in einem Endlos-Spiel."
 
 #: game/content/achievements.gd:61
 msgid "Arcade Regular"
-msgstr ""
+msgstr "Spielhallen-Stammgast"
 
 #: game/content/achievements.gd:61
 msgid "Score 25,000 points in one Endless game."
-msgstr ""
+msgstr "Erziele 25 000 Punkte in einem Endlos-Spiel."
 
 #: game/content/achievements.gd:61
 msgid "The cabinet knows your name."
-msgstr ""
+msgstr "Der Automat kennt deinen Namen."
 
 #: game/content/achievements.gd:62
 msgid "Arcade Legend"
-msgstr ""
+msgstr "Spielhallen-Legende"
 
 #: game/content/achievements.gd:62
 msgid "Score 100,000 points in one Endless game."
-msgstr ""
+msgstr "Erziele 100 000 Punkte in einem Endlos-Spiel."
 
 #: game/content/achievements.gd:62
 msgid "They're going to name the cabinet after you."
-msgstr ""
+msgstr "Sie werden den Automaten nach dir benennen."
 
 #: game/content/achievements.gd:63
 msgid "Blockstorm"
-msgstr ""
+msgstr "Blocksturm"
 
 #: game/content/achievements.gd:63
 msgid "Reach the x10 combo in Endless."
-msgstr ""
+msgstr "Erreiche die x10-Kombo im Endlos-Modus."
 
 #: game/content/achievements.gd:63
 msgid "Ten out of ten. No notes."
-msgstr ""
+msgstr "Zehn von zehn. Keine Anmerkungen."
 
 #: game/content/achievements.gd:64
 msgid "Ahh. That new-board smell."
-msgstr ""
+msgstr "Ahh. Dieser Neues-Brett-Geruch."
 
 #: game/content/achievements.gd:64
 msgid "Clear the whole board in Endless."
-msgstr ""
+msgstr "Räume im Endlos-Modus das ganze Brett leer."
 
 #: game/content/achievements.gd:64
 msgid "Fresh Start"
-msgstr ""
+msgstr "Neuanfang"
 
 #: game/content/achievements.gd:65
 msgid "BL...CKM...NIA? Where did everything go?"
-msgstr ""
+msgstr "BL...CKM...NIA? Wo ist denn alles hin?"
 
 #: game/content/achievements.gd:65
 msgid "Have every letter of the BLOCKMANIA logo blown up at once."
-msgstr ""
+msgstr "Lass alle Buchstaben des BLOCKMANIA-Logos gleichzeitig platzen."
 
 #: game/content/achievements.gd:65
 msgid "The title looks awfully fragile."
-msgstr ""
+msgstr "Der Titel sieht furchtbar zerbrechlich aus."
 
 #: game/content/achievements.gd:65
 msgid "Vandal"
-msgstr ""
+msgstr "Vandale"
 
 #: game/content/achievements.gd:66
 msgid "Night Shift"
-msgstr ""
+msgstr "Nachtschicht"
 
 #: game/content/achievements.gd:66
 msgid "Place a piece between midnight and 5 AM."
-msgstr ""
+msgstr "Lege ein Teil zwischen Mitternacht und 5 Uhr morgens."
 
 #: game/content/achievements.gd:66
 msgid "Some players only come out after dark."
-msgstr ""
+msgstr "Manche Spieler kommen erst nach Einbruch der Dunkelheit."
 
 #: game/content/achievements.gd:66
 msgid "The blocks glow brighter at night. Probably."
-msgstr ""
+msgstr "Nachts leuchten die Blöcke heller. Vermutlich."
 
 #: game/content/achievements.gd:67
 msgid "Look Ma, No Lines"
-msgstr ""
+msgstr "Schau, Mama, ohne Linien"
 
 #: game/content/achievements.gd:67
 msgid "Technically, the rules never said you HAD to."
-msgstr ""
+msgstr "Genau genommen stand nirgends, dass man MUSS."
 
 #: game/content/achievements.gd:67
 msgid "Who needs lines anyway?"
-msgstr ""
+msgstr "Wer braucht schon Linien?"
 
 #: game/content/achievements.gd:67
 msgid "Win a campaign round without clearing a single line."
-msgstr ""
+msgstr "Gewinne eine Kampagnenrunde, ohne eine einzige Linie abzuräumen."
 
 #: game/content/achievements.gd:68
 msgid "Butterfingers"
-msgstr ""
+msgstr "Butterfinger"
 
 #: game/content/achievements.gd:68
 msgid "Handle with care."
-msgstr ""
+msgstr "Vorsicht, zerbrechlich."
 
 #: game/content/achievements.gd:68
 msgid "Shatter a Glass piece."
-msgstr ""
+msgstr "Zerbrich ein Glasteil."
 
 #: game/content/achievements.gd:68
 msgid "That one's coming out of your allowance."
-msgstr ""
+msgstr "Das geht von deinem Taschengeld ab."
 
 #: game/content/achievements.gd:69
 msgid "In case of emergency, break something."
-msgstr ""
+msgstr "Im Notfall etwas kaputt machen."
 
 #: game/content/achievements.gd:69
 msgid "Through the Window"
-msgstr ""
+msgstr "Durchs Fenster"
 
 #: game/content/achievements.gd:69
 msgid "Throw an Emergency Brick."
-msgstr ""
+msgstr "Wirf einen Notfallziegel."
 
 #: game/content/achievements.gd:69
 msgid "Who's paying for that?"
-msgstr ""
+msgstr "Wer bezahlt das jetzt?"
 
 #: game/content/achievements.gd:70
 msgid "Always read the small text."
-msgstr ""
+msgstr "Lies immer das Kleingedruckte."
 
 #: game/content/achievements.gd:70
 msgid "Get a lost round replayed by Insurance Policy."
-msgstr ""
+msgstr "Lass dir eine verlorene Runde von der Versicherungspolice wiederholen."
 
 #: game/content/achievements.gd:70
 msgid "Terms and conditions apply. Luckily, they applied to you."
-msgstr ""
+msgstr "Es gelten die AGB. Zum Glück galten sie für dich."
 
 #: game/content/achievements.gd:70
 msgid "The Fine Print"
-msgstr ""
+msgstr "Das Kleingedruckte"
 
 #: game/content/achievements.gd:71
 msgid "Block Maniac"
-msgstr ""
+msgstr "Blockmaniac"
 
 #: game/content/achievements.gd:71
 msgid "The whole trophy case. Every last shelf. Take a bow."
-msgstr ""
+msgstr "Die ganze Vitrine. Jedes einzelne Regalbrett. Verbeugung!"
 
 #: game/content/achievements.gd:71
 msgid "Unlock every other achievement."
-msgstr ""
+msgstr "Schalte alle anderen Erfolge frei."
 
 #: game/content/achievements.gd:73
 msgid "It hums a little when you hold it."
-msgstr ""
+msgstr "Er summt ein bisschen, wenn man ihn hält."
 
 #: game/content/achievements.gd:73
 msgid "Once Upon a Legend"
-msgstr ""
+msgstr "Es war einmal eine Legende"
 
 #: game/content/achievements.gd:73
 msgid "Own a Legendary Joker."
-msgstr ""
+msgstr "Besitze einen legendären Joker."
 
 #: game/content/achievements.gd:74
 msgid "Double Legend"
-msgstr ""
+msgstr "Doppelte Legende"
 
 #: game/content/achievements.gd:74
 msgid "One legend is a story. Two is a problem."
-msgstr ""
+msgstr "Eine Legende ist eine Geschichte. Zwei sind ein Problem."
 
 #: game/content/achievements.gd:74
 msgid "Own two Legendary Jokers at the same time."
-msgstr ""
+msgstr "Besitze zwei legendäre Joker gleichzeitig."
 
 #: game/content/achievements.gd:74
 msgid "The rack has never looked so smug."
-msgstr ""
+msgstr "Das Regal sah noch nie so selbstgefällig aus."
 
 #: game/content/achievements.gd:75
 msgid "Own each of the four Legendary Jokers (across any runs)."
-msgstr ""
+msgstr "Besitze jeden der vier legendären Joker (über alle Partien)."
 
 #: game/content/achievements.gd:75
 msgid "Pantheon"
-msgstr ""
+msgstr "Pantheon"
 
 #: game/content/achievements.gd:75
 msgid "The Avalanche, the Mirrors, the Stone and the Star. All accounted for."
-msgstr ""
+msgstr "Die Lawine, die Spiegel, der Stein und der Stern. Alle beisammen."
 
 #: game/content/achievements.gd:76
 msgid "Chain Reaction"
-msgstr ""
+msgstr "Kettenreaktion"
 
 #: game/content/achievements.gd:76
 msgid "Chain three clear waves in one placement with The Avalanche."
-msgstr ""
+msgstr "Verkette mit der Lawine drei Abräumwellen in einem Zug."
 
 #: game/content/achievements.gd:76
 msgid "Nobody touch anything. Let it fall."
-msgstr ""
+msgstr "Niemand fasst etwas an. Lass es fallen."
 
 #: game/content/achievements.gd:77
 msgid "How many of you are in there?"
-msgstr ""
+msgstr "Wie viele von dir sind da drin?"
 
 #: game/content/achievements.gd:77
 msgid "Mirror World"
-msgstr ""
+msgstr "Spiegelwelt"
 
 #: game/content/achievements.gd:77
 msgid "Score a placement where Hall of Mirrors doubles four other Jokers."
-msgstr ""
+msgstr "Punkte mit einem Zug, bei dem der Spiegelsaal vier andere Joker verdoppelt."
 
 #: game/content/achievements.gd:78
 msgid "Chrome, neon, gold and glass. Very little plastic left."
-msgstr ""
+msgstr "Chrom, Neon, Gold und Glas. Kaum noch Plastik übrig."
 
 #: game/content/achievements.gd:78
 msgid "Have 15 or more pieces with a material in your bag."
-msgstr ""
+msgstr "Habe 15 oder mehr Teile mit Material im Beutel."
 
 #: game/content/achievements.gd:78
 msgid "Heavy Metal"
-msgstr ""
+msgstr "Heavy Metal"
 
 #: game/content/achievements.gd:79
 msgid "Eighteen lines and one very bright star."
-msgstr ""
+msgstr "Achtzehn Linien und ein sehr heller Stern."
 
 #: game/content/achievements.gd:79
 msgid "Going Nova"
-msgstr ""
+msgstr "Auf zur Nova"
 
 #: game/content/achievements.gd:79
 msgid "Score with Supernova at x10 Mult or more."
-msgstr ""
+msgstr "Punkte mit Supernova bei x10 Mult oder mehr."
 
 #: game/content/achievements.gd:80
 msgid "Grow Snowball to x2 Mult or more."
-msgstr ""
+msgstr "Lass Schneeball auf x2 Mult oder mehr wachsen."
 
 #: game/content/achievements.gd:80
 msgid "It started as a pebble of snow."
-msgstr ""
+msgstr "Es fing mit einer Schneeflocke an."
 
 #: game/content/achievements.gd:80
 msgid "Snowed In"
-msgstr ""
+msgstr "Eingeschneit"
 
 #: game/content/achievements.gd:81
 msgid "Compound Growth"
-msgstr ""
+msgstr "Zinseszins"
 
 #: game/content/achievements.gd:81
 msgid "Earn the maximum interest (+5 Credits) after a round."
-msgstr ""
+msgstr "Kassiere nach einer Runde die maximalen Zinsen (+5 Credits)."
 
 #: game/content/achievements.gd:81
 msgid "Your Credits have been working harder than you."
-msgstr ""
+msgstr "Deine Credits haben härter gearbeitet als du."
 
 #: game/content/achievements.gd:82
 msgid "Have seven Joker slots."
-msgstr ""
+msgstr "Habe sieben Joker-Plätze."
 
 #: game/content/achievements.gd:82
 msgid "Two Rack Extenders and a lot of shelf brackets."
-msgstr ""
+msgstr "Zwei Regalerweiterungen und viele Winkel."
 
 #: game/content/achievements.gd:82
 msgid "Wide Rack"
-msgstr ""
+msgstr "Breites Regal"
 
 #: game/content/achievements.gd:83
 msgid "Billionaire"
-msgstr ""
+msgstr "Milliardär"
 
 #: game/content/achievements.gd:83
 msgid "Nine zeros. The counter had to borrow some."
-msgstr ""
+msgstr "Neun Nullen. Der Zähler musste sich welche leihen."
 
 #: game/content/achievements.gd:83
 msgid "Score 1,000,000,000 points with one placement."
-msgstr ""
+msgstr "Erziele 1 000 000 000 Punkte mit einem Zug."
 
 #: game/content/achievements.gd:84
 msgid "Even legends have bad days."
-msgstr ""
+msgstr "Auch Legenden haben schlechte Tage."
 
 #: game/content/achievements.gd:84
 msgid "Fallen Hero"
-msgstr ""
+msgstr "Gefallener Held"
 
 #: game/content/achievements.gd:84
 msgid "Lose a run while owning a Legendary Joker."
-msgstr ""
+msgstr "Verliere eine Partie, während du einen legendären Joker besitzt."
 
 #: game/content/achievements.gd:84
 msgid "They'll write songs about it. Sad ones."
-msgstr ""
+msgstr "Man wird Lieder darüber schreiben. Traurige."
 
 #: game/content/bosses.gd:7
 msgid "Cramped Cabinet"
-msgstr ""
+msgstr "Enger Schrank"
 
 #: game/content/bosses.gd:7
 msgid "The Cramped Cabinet"
-msgstr ""
+msgstr "Der Enge Schrank"
 
 #: game/content/bosses.gd:8
 msgid "The round begins with four fixed occupied cells. They clear normally and score no placement Chips."
-msgstr ""
+msgstr "Die Runde beginnt mit vier fest belegten Feldern. Sie werden normal abgeräumt und bringen keine Zug-Chips."
 
 #: game/content/bosses.gd:9
 msgid "The round begins with seven fixed occupied cells. They clear normally and score no placement Chips."
-msgstr ""
+msgstr "Die Runde beginnt mit sieben fest belegten Feldern. Sie werden normal abgeräumt und bringen keine Zug-Chips."
 
 #: game/content/bosses.gd:10
 msgid "Favor small shapes or board-clearing tools."
-msgstr ""
+msgstr "Setz auf kleine Formen oder Werkzeuge, die das Brett freiräumen."
 
 #: game/content/bosses.gd:11
 msgid "Taxman"
-msgstr ""
+msgstr "Steuereintreiber"
 
 #: game/content/bosses.gd:11
 msgid "The Taxman"
-msgstr ""
+msgstr "Der Steuereintreiber"
 
 #: game/content/bosses.gd:12
 msgid "The first line cleared by each placement grants 60 instead of 100 base Chips."
-msgstr ""
+msgstr "Die erste Linie, die ein Zug abräumt, bringt 60 statt 100 Basis-Chips."
 
 #: game/content/bosses.gd:13
 msgid "The first line cleared by each placement grants 30 instead of 100 base Chips, and multi-line Mult is halved."
-msgstr ""
+msgstr "Die erste Linie, die ein Zug abräumt, bringt 30 statt 100 Basis-Chips, und der Mehrlinien-Mult wird halbiert."
 
 #: game/content/bosses.gd:14
 msgid "Pursue double clears and flat Chip Jokers."
-msgstr ""
+msgstr "Setz auf Doppel-Abräumer und Joker mit festen Chips."
 
 #: game/content/bosses.gd:15
 msgid "Color Blind"
-msgstr ""
+msgstr "Farbenblinder"
 
 #: game/content/bosses.gd:15
 msgid "The Color Blind"
-msgstr ""
+msgstr "Der Farbenblinde"
 
 #: game/content/bosses.gd:16
 msgid "Effects that name a block color are disabled this round."
-msgstr ""
+msgstr "Effekte, die eine Blockfarbe nennen, sind in dieser Runde deaktiviert."
 
 #: game/content/bosses.gd:17
 msgid "Effects that name a block color are disabled, and you have two fewer placements."
-msgstr ""
+msgstr "Effekte, die eine Blockfarbe nennen, sind deaktiviert, und du hast zwei Züge weniger."
 
 #: game/content/bosses.gd:18
 msgid "Diversify beyond color-dependent scoring."
-msgstr ""
+msgstr "Verlass dich nicht nur auf Farben."
 
 #: game/content/bosses.gd:21
 msgid "Echo Chamber"
-msgstr ""
+msgstr "Echokammer"
 
 #: game/content/bosses.gd:21
 msgid "The Echo Chamber"
-msgstr ""
+msgstr "Die Echokammer"
 
 #: game/content/bosses.gd:22
 msgid "Extra clear waves after the first score half Chips before Jokers."
-msgstr ""
+msgstr "Zusätzliche Abräumwellen nach der ersten bringen vor den Jokern nur die halben Chips."
 
 #: game/content/bosses.gd:23
 msgid "Prefer immediate clears over chained board effects."
-msgstr ""
+msgstr "Lieber sofort abräumen als auf Ketteneffekte setzen."
 
 #: game/content/bosses.gd:24
 msgid "Lockdown"
-msgstr ""
+msgstr "Abriegelung"
 
 #: game/content/bosses.gd:24
 msgid "The Lockdown"
-msgstr ""
+msgstr "Die Abriegelung"
 
 #: game/content/bosses.gd:25
 msgid "The free Refresh and Second Tray are unavailable this round."
-msgstr ""
+msgstr "Der kostenlose Tausch und die Zweite Auslage sind in dieser Runde nicht verfügbar."
 
 #: game/content/bosses.gd:26
 msgid "Refresh, Second Tray, Coffee Break and Hold are all unavailable this round."
-msgstr ""
+msgstr "Tausch, Zweite Auslage, Kaffeepause und Halten sind in dieser Runde nicht verfügbar."
 
 #: game/content/bosses.gd:27
 msgid "Plan tray order and preserve board space."
-msgstr ""
+msgstr "Plane die Reihenfolge der Auslage und halte Platz auf dem Brett frei."
 
 #: game/content/bosses.gd:28
 msgid "The Warden"
-msgstr ""
+msgstr "Der Wärter"
 
 #: game/content/bosses.gd:28
 msgid "Warden"
-msgstr ""
+msgstr "Wärter"
 
 #: game/content/bosses.gd:29
 msgid "One tray slot starts barred: its piece can't be played until you clear a line. Deals skip the barred slot."
-msgstr ""
+msgstr "Ein Platz der Auslage ist anfangs gesperrt: Sein Teil kann erst gespielt werden, wenn du eine Linie abräumst. Beim Austeilen wird er übersprungen."
 
 #: game/content/bosses.gd:30
 msgid "Two tray slots start barred until you clear a line. Deals skip barred slots."
-msgstr ""
+msgstr "Zwei Plätze der Auslage sind gesperrt, bis du eine Linie abräumst. Beim Austeilen werden sie übersprungen."
 
 #: game/content/bosses.gd:31
 msgid "Open with a quick clear using the other two slots."
-msgstr ""
+msgstr "Räum mit den anderen beiden Plätzen schnell eine Linie ab."
 
 #: game/content/bosses.gd:32
 msgid "The Undertaker"
-msgstr ""
+msgstr "Der Totengräber"
 
 #: game/content/bosses.gd:32
 msgid "Undertaker"
-msgstr ""
+msgstr "Totengräber"
 
 #: game/content/bosses.gd:33
 msgid "After every 4th placement, a tombstone rises on an empty cell. It clears with its line like any block."
-msgstr ""
+msgstr "Nach jedem 4. Zug erscheint ein Grabstein auf einem leeren Feld. Er wird mit seiner Linie abgeräumt wie jeder Block."
 
 #: game/content/bosses.gd:34
 msgid "After every 3rd placement, a tombstone rises on an empty cell. It clears with its line like any block."
-msgstr ""
+msgstr "Nach jedem 3. Zug erscheint ein Grabstein auf einem leeren Feld. Er wird mit seiner Linie abgeräumt wie jeder Block."
 
 #: game/content/bosses.gd:35
 msgid "Clear often and keep lanes open."
-msgstr ""
+msgstr "Räum oft ab und halte Bahnen frei."
 
 #: game/content/bosses.gd:36
 msgid "Last Call"
-msgstr ""
+msgstr "Letzte Runde"
 
 #: game/content/bosses.gd:36
 msgid "The Last Call"
-msgstr ""
+msgstr "Die Letzte Runde"
 
 #: game/content/bosses.gd:37
 msgid "Only 12 placements. Each multi-line placement gains +50 Chips."
-msgstr ""
+msgstr "Nur 12 Züge. Jeder Mehrlinien-Zug erhält +50 Chips."
 
 #: game/content/bosses.gd:38
 msgid "Only 10 placements. Each multi-line placement gains +50 Chips."
-msgstr ""
+msgstr "Nur 10 Züge. Jeder Mehrlinien-Zug erhält +50 Chips."
 
 #: game/content/bosses.gd:39
 msgid "Prepare efficient shapes and simultaneous clears."
-msgstr ""
+msgstr "Bereite effiziente Formen und gleichzeitige Abräumer vor."
 
 #: game/content/consumables.gd:11
 msgid "Add +100 Chips to the next placement this round."
-msgstr ""
+msgstr "Gibt dem nächsten Zug dieser Runde +100 Chips."
 
 #. rules text (shown through BMLoc.tf)
 #: game/content/consumables.gd:11 game/rules/resolver.gd:214
 msgid "Polish"
-msgstr ""
+msgstr "Politur"
 
 #: game/content/consumables.gd:12
 msgid "Add +1 Mult to the next placement this round."
-msgstr ""
+msgstr "Gibt dem nächsten Zug dieser Runde +1 Mult."
 
 #. rules text (shown through BMLoc.tf)
 #: game/content/consumables.gd:12 game/rules/resolver.gd:245
 msgid "Spark"
-msgstr ""
+msgstr "Funke"
 
 #: game/content/consumables.gd:13
 msgid "Eraser"
-msgstr ""
+msgstr "Radiergummi"
 
 #: game/content/consumables.gd:13
 msgid "Remove up to two blocks of your choice from the board."
-msgstr ""
+msgstr "Entferne bis zu zwei Blöcke deiner Wahl vom Brett."
 
 #: game/content/consumables.gd:14
 msgid "Refresh the current tray without spending the round's free Refresh."
-msgstr ""
+msgstr "Tauscht die aktuelle Auslage, ohne den kostenlosen Tausch der Runde zu verbrauchen."
 
 #. rules text (shown through BMLoc.tf)
 #: game/content/consumables.gd:14 game/run/run.gd:611
 msgid "Second Tray"
-msgstr ""
+msgstr "Zweite Auslage"
 
 #: game/content/consumables.gd:15
 msgid "Extra Turn"
-msgstr ""
+msgstr "Extrazug"
 
 #: game/content/consumables.gd:15
 msgid "Gain two placements this round (maximum 20 remaining)."
-msgstr ""
+msgstr "Erhalte zwei Züge in dieser Runde (höchstens 20 übrig)."
 
 #: game/content/consumables.gd:16
 msgid "Lucky Paint"
-msgstr ""
+msgstr "Glücksfarbe"
 
 #: game/content/consumables.gd:16
 msgid "Recolor one tray piece to a color of your choice. Its shape is unchanged."
-msgstr ""
+msgstr "Färbe ein Teil der Auslage in einer Farbe deiner Wahl um. Die Form bleibt gleich."
 
 #: game/content/consumables.gd:17
 msgid "Blueprint"
-msgstr ""
+msgstr "Entwurf"
 
 #: game/content/consumables.gd:17
 msgid "Swap one tray piece for a temporary 1-3 cell piece you choose."
-msgstr ""
+msgstr "Tausche ein Teil der Auslage gegen ein temporäres Teil mit 1-3 Feldern deiner Wahl."
 
 #. rules text (shown through BMLoc.tf)
 #: game/content/consumables.gd:18 game/run/run.gd:1186
 msgid "Cash Out"
-msgstr ""
+msgstr "Auszahlung"
 
 #: game/content/consumables.gd:18
 msgid "Gain 4 Credits after this round if it is won."
-msgstr ""
+msgstr "Erhalte nach dieser Runde 4 Credits, falls du sie gewinnst."
 
 #: game/content/consumables.gd:19
 msgid "Punch"
-msgstr ""
+msgstr "Faustschlag"
 
 #: game/content/consumables.gd:19
 msgid "Smash a plus-shaped area: remove up to 5 blocks around the cell you hit."
-msgstr ""
+msgstr "Schlag auf ein kreuzförmiges Feld: Entfernt bis zu 5 Blöcke um das getroffene Feld."
 
 #: game/content/consumables.gd:20
 msgid "Color Purge"
-msgstr ""
+msgstr "Farbsäuberung"
 
 #: game/content/consumables.gd:20
 msgid "Remove every block of one color from the board. Stone is immune."
-msgstr ""
+msgstr "Entferne alle Blöcke einer Farbe vom Brett. Stein ist immun."
 
 #: game/content/consumables.gd:21
 msgid "Emergency Brick"
-msgstr ""
+msgstr "Notfallziegel"
 
 #: game/content/consumables.gd:21
 msgid "Throw a brick at a tray slot: it becomes a temporary one-block piece. A piece it hits goes to the discard pile."
-msgstr ""
+msgstr "Wirf einen Ziegel auf einen Platz der Auslage: Er wird zu einem temporären Ein-Block-Teil. Ein getroffenes Teil kommt auf den Ablagestapel."
 
 #: game/content/consumables.gd:23
 msgid "The next placement this round gets x2 Mult."
-msgstr ""
+msgstr "Der nächste Zug dieser Runde erhält x2 Mult."
 
 #. rules text (shown through BMLoc.tf)
 #: game/content/consumables.gd:23 game/rules/resolver.gd:267
 msgid "Turbo"
-msgstr ""
+msgstr "Turbo"
 
 #: game/content/consumables.gd:24
 msgid "Level up the shape family of a tray piece, like a Schematic (+25 Chips, +0.25 Mult per level)."
-msgstr ""
+msgstr "Steigert die Formfamilie eines Teils der Auslage wie ein Bauplan (+25 Chips, +0.25 Mult pro Stufe)."
 
 #: game/content/consumables.gd:24
 msgid "Tune-Up"
-msgstr ""
+msgstr "Tuning"
 
 #: game/content/consumables.gd:25
 msgid "+1 Refresh this round."
-msgstr ""
+msgstr "+1 Tausch in dieser Runde."
 
 #: game/content/consumables.gd:25
 msgid "Coffee Break"
-msgstr ""
+msgstr "Kaffeepause"
 
 #: game/content/consumables.gd:26
 msgid "Coin Roll"
-msgstr ""
+msgstr "Münzrolle"
 
 #: game/content/consumables.gd:26
 msgid "Gain Credits equal to the round number (max 12)."
-msgstr ""
+msgstr "Erhalte so viele Credits wie die Rundennummer (max. 12)."
 
 #: game/content/feats.gd:8
 msgid "Clear a row and a column in the same placement."
-msgstr ""
+msgstr "Räume in einem Zug eine Zeile und eine Spalte ab."
 
 #: game/content/feats.gd:8
 msgid "Crossfire"
-msgstr ""
+msgstr "Kreuzfeuer"
 
 #: game/content/feats.gd:9
 msgid "Clear lines on two placements in a row."
-msgstr ""
+msgstr "Räume in zwei Zügen hintereinander Linien ab."
 
 #: game/content/feats.gd:9
 msgid "Double Tap"
-msgstr ""
+msgstr "Doppelschlag"
 
 #: game/content/feats.gd:10
 msgid "Clear three or more lines in one placement."
-msgstr ""
+msgstr "Räume drei oder mehr Linien in einem Zug ab."
 
 #: game/content/feats.gd:10
 msgid "Hat Trick"
-msgstr ""
+msgstr "Hattrick"
 
 #: game/content/feats.gd:11
 msgid "Clean Board"
-msgstr ""
+msgstr "Leeres Brett"
 
 #: game/content/feats.gd:11
 msgid "Leave the board completely empty."
-msgstr ""
+msgstr "Hinterlasse das Brett komplett leer."
 
 #: game/content/feats.gd:12
 msgid "Fill a one-block hole (closed on all four sides) and clear a line with it."
-msgstr ""
+msgstr "Fülle ein Ein-Block-Loch (an allen vier Seiten zu) und räume damit eine Linie ab."
 
 #: game/content/feats.gd:12
 msgid "Needle Threader"
-msgstr ""
+msgstr "Einfädler"
 
 #: game/content/feats.gd:13
 msgid "Clear a line with your last placement."
-msgstr ""
+msgstr "Räume mit deinem letzten Zug eine Linie ab."
 
 #: game/content/feats.gd:13
 msgid "Last Breath"
-msgstr ""
+msgstr "Letzter Atemzug"
 
 #: game/content/jokers.gd:17
 msgid "Common"
-msgstr ""
+msgstr "Gewöhnlich"
 
 #: game/content/jokers.gd:17
 msgid "Legendary"
-msgstr ""
+msgstr "Legendär"
 
 #: game/content/jokers.gd:17
 msgid "Rare"
-msgstr ""
+msgstr "Selten"
 
 #: game/content/jokers.gd:17
 msgid "Uncommon"
-msgstr ""
+msgstr "Ungewöhnlich"
 
 #: game/content/jokers.gd:23
 msgid "+50 Chips when exactly one line clears."
-msgstr ""
+msgstr "+50 Chips, wenn genau eine Linie abgeräumt wird."
 
 #: game/content/jokers.gd:23
 msgid "Clean Sweep"
-msgstr ""
+msgstr "Kehraus"
 
 #: game/content/jokers.gd:24
 msgid "+100 Chips when two or more lines clear together; +100 more if they cross (a row and a column)."
-msgstr ""
+msgstr "+100 Chips, wenn zwei oder mehr Linien zusammen abgeräumt werden; +100 extra, wenn sie sich kreuzen (eine Zeile und eine Spalte)."
 
 #: game/content/jokers.gd:24
 msgid "Crossbar"
-msgstr ""
+msgstr "Querlatte"
 
 #: game/content/jokers.gd:25
 msgid "+15 Chips per placed cell when placing a shape of 1-3 cells."
-msgstr ""
+msgstr "+15 Chips pro gelegtem Feld, wenn du eine Form mit 1-3 Feldern legst."
 
 #: game/content/jokers.gd:25
 msgid "Small Change"
-msgstr ""
+msgstr "Kleingeld"
 
 #: game/content/jokers.gd:26
 msgid "+100 Chips when placing a shape of 5 or more cells."
-msgstr ""
+msgstr "+100 Chips, wenn du eine Form mit 5 oder mehr Feldern legst."
 
 #: game/content/jokers.gd:26
 msgid "Heavy Hand"
-msgstr ""
+msgstr "Schwere Hand"
 
 #: game/content/jokers.gd:27
 msgid "First Strike"
-msgstr ""
+msgstr "Erstschlag"
 
 #: game/content/jokers.gd:27
 msgid "The first clearing placement each round gains +150 Chips."
-msgstr ""
+msgstr "Der erste abräumende Zug jeder Runde erhält +150 Chips."
 
 #: game/content/jokers.gd:28
 msgid "+40 Chips if the placed shape touches no occupied cell diagonally (checked before placement)."
-msgstr ""
+msgstr "+40 Chips, wenn die gelegte Form kein belegtes Feld diagonal berührt (vor dem Legen geprüft)."
 
 #: game/content/jokers.gd:28
 msgid "Neat Freak"
-msgstr ""
+msgstr "Ordnungsfanatiker"
 
 #: game/content/jokers.gd:29
 msgid "+60 Chips if any placed cell occupies a board corner."
-msgstr ""
+msgstr "+60 Chips, wenn ein gelegtes Feld eine Ecke des Bretts belegt."
 
 #: game/content/jokers.gd:29
 msgid "Corner Office"
-msgstr ""
+msgstr "Eckbüro"
 
 #: game/content/jokers.gd:30
 msgid "Blue Mood"
-msgstr ""
+msgstr "Blaue Stimmung"
 
 #: game/content/jokers.gd:30
 msgid "Blue shapes gain +2 Mult."
-msgstr ""
+msgstr "Blaue Formen erhalten +2 Mult."
 
 #: game/content/jokers.gd:31
 msgid "+1 Mult per current combo level on clearing placements."
-msgstr ""
+msgstr "+1 Mult pro aktueller Kombo-Stufe bei abräumenden Zügen."
 
 #: game/content/jokers.gd:31
 msgid "Chain Link"
-msgstr ""
+msgstr "Kettenglied"
 
 #: game/content/jokers.gd:32
 msgid "+2 Credits after a round won with at least two placements unused."
-msgstr ""
+msgstr "+2 Credits nach einer gewonnenen Runde mit mindestens zwei ungenutzten Zügen."
 
 #. rules text (shown through BMLoc.tf)
 #: game/content/jokers.gd:32 game/run/run.gd:1184
 msgid "Spare Parts"
-msgstr ""
+msgstr "Ersatzteile"
 
 #: game/content/jokers.gd:33
 msgid "Once per round, when no offered shape fits and no tray Refresh is available, replace one unplaced shape with a Single before defeat is checked."
-msgstr ""
+msgstr "Einmal pro Runde: Wenn keine angebotene Form passt und kein Tausch mehr übrig ist, wird eine ungelegte Form durch ein Einzel ersetzt, bevor die Niederlage geprüft wird."
 
 #: game/content/jokers.gd:33
 msgid "Tiny Insurance"
-msgstr ""
+msgstr "Mini-Versicherung"
 
 #: game/content/jokers.gd:34
 msgid "Second Look"
-msgstr ""
+msgstr "Zweiter Blick"
 
 #: game/content/jokers.gd:34
 msgid "The first Refresh each round also grants +1 placement."
-msgstr ""
+msgstr "Der erste Tausch jeder Runde gibt zusätzlich +1 Zug."
 
 #: game/content/jokers.gd:35
 msgid "+2 Mult on every clearing placement; +3 more when two or more lines clear."
-msgstr ""
+msgstr "+2 Mult bei jedem abräumenden Zug; +3 extra, wenn zwei oder mehr Linien abgeräumt werden."
 
 #: game/content/jokers.gd:35
 msgid "Wide Awake"
-msgstr ""
+msgstr "Hellwach"
 
 #: game/content/jokers.gd:36
 msgid "+0.5 Mult when the board has at least 44 empty cells before placement."
-msgstr ""
+msgstr "+0.5 Mult, wenn das Brett vor dem Zug mindestens 44 leere Felder hat."
 
 #: game/content/jokers.gd:36
 msgid "Hollow Point"
-msgstr ""
+msgstr "Hohlspitze"
 
 #: game/content/jokers.gd:37
 msgid "+0.5 Mult for every eight occupied cells before placement (max +2)."
-msgstr ""
+msgstr "+0.5 Mult je acht belegten Feldern vor dem Zug (max. +2)."
 
 #: game/content/jokers.gd:37
 msgid "Pressure Cooker"
-msgstr ""
+msgstr "Schnellkochtopf"
 
 #: game/content/jokers.gd:38
 msgid "Every third placed shape in a round gets x1.5 Mult."
-msgstr ""
+msgstr "Jede dritte gelegte Form einer Runde erhält x1.5 Mult."
 
 #: game/content/jokers.gd:38
 msgid "Golden Ratio"
-msgstr ""
+msgstr "Goldener Schnitt"
 
 #: game/content/jokers.gd:39
 msgid "Color Cycle"
-msgstr ""
+msgstr "Farbkreis"
 
 #: game/content/jokers.gd:39
 msgid "When the last three placed shapes this round all have different colors, the third gains x1.75 Mult."
-msgstr ""
+msgstr "Haben die letzten drei gelegten Formen dieser Runde alle verschiedene Farben, erhält die dritte x1.75 Mult."
 
 #: game/content/jokers.gd:40
 msgid "After the first clear each round, remove one block of your choice (use it from the Items row). The removal scores nothing."
-msgstr ""
+msgstr "Nach dem ersten Abräumen jeder Runde entfernst du einen Block deiner Wahl (einsetzbar in der Gegenstandsleiste). Das Entfernen bringt keine Punkte."
 
 #: game/content/jokers.gd:40
 msgid "Patch Panel"
-msgstr ""
+msgstr "Flickenfeld"
 
 #: game/content/jokers.gd:41
 msgid "+1 placement per round. The first placement of each round gains no cell Chips."
-msgstr ""
+msgstr "+1 Zug pro Runde. Der erste Zug jeder Runde bringt keine Feld-Chips."
 
 #: game/content/jokers.gd:41
 msgid "Long Game"
-msgstr ""
+msgstr "Langer Atem"
 
 #: game/content/jokers.gd:42
 msgid "+0.25 Mult for each Joker sold this run (max +2). Selling this card ends its bonus."
-msgstr ""
+msgstr "+0.25 Mult für jeden in dieser Partie verkauften Joker (max. +2). Wird diese Karte verkauft, endet ihr Bonus."
 
 #: game/content/jokers.gd:42
 msgid "Fire Sale"
-msgstr ""
+msgstr "Räumungsverkauf"
 
 #: game/content/jokers.gd:43
 msgid "Jackpot Window"
-msgstr ""
+msgstr "Jackpot-Schalter"
 
 #: game/content/jokers.gd:43
 msgid "x2.5 Mult when two lines clear in one placement; x5 Mult for three or more."
-msgstr ""
+msgstr "x2.5 Mult, wenn zwei Linien in einem Zug abgeräumt werden; x5 Mult bei drei oder mehr."
 
 #: game/content/jokers.gd:44
 msgid "Mirror Maze"
-msgstr ""
+msgstr "Spiegelkabinett"
 
 #: game/content/jokers.gd:44
 msgid "The first row clear each round also clears the mirrored row's occupied cells for +50 Chips. The mirrored removal cannot chain."
-msgstr ""
+msgstr "Die erste abgeräumte Zeile jeder Runde räumt auch die belegten Felder der gespiegelten Zeile ab, für +50 Chips. Das Spiegel-Entfernen kann keine Kette auslösen."
 
 #: game/content/jokers.gd:45
 msgid "Compound Interest"
-msgstr ""
+msgstr "Zinseszins"
 
 #: game/content/jokers.gd:45
 msgid "Every second clearing placement in a round gets x1.75 Mult."
-msgstr ""
+msgstr "Jeder zweite abräumende Zug einer Runde erhält x1.75 Mult."
 
 #: game/content/jokers.gd:46
 msgid "Last Stand"
-msgstr ""
+msgstr "Letztes Gefecht"
 
 #: game/content/jokers.gd:46
 msgid "Placements made with four or fewer placements left gain x2.5 Mult."
-msgstr ""
+msgstr "Züge mit vier oder weniger verbleibenden Zügen erhalten x2.5 Mult."
 
 #: game/content/jokers.gd:48
 msgid "+1 Chip for each piece in your bag."
-msgstr ""
+msgstr "+1 Chip für jedes Teil in deinem Beutel."
 
 #: game/content/jokers.gd:48
 msgid "Hoarder"
-msgstr ""
+msgstr "Horter"
 
 #: game/content/jokers.gd:49
 msgid "+60 Chips when placing an L 3 or L 4 piece."
-msgstr ""
+msgstr "+60 Chips, wenn du ein L 3- oder L 4-Teil legst."
 
 #: game/content/jokers.gd:49
 msgid "Architect"
-msgstr ""
+msgstr "Architekt"
 
 #: game/content/jokers.gd:50
 msgid "+15 Chips per cell when placing a Bar piece."
-msgstr ""
+msgstr "+15 Chips pro Feld, wenn du ein Balken-Teil legst."
 
 #: game/content/jokers.gd:50
 msgid "Straight Edge"
-msgstr ""
+msgstr "Lineal"
 
 #: game/content/jokers.gd:51
 msgid "+2 Mult when placing a Square piece."
-msgstr ""
+msgstr "+2 Mult, wenn du ein Quadrat-Teil legst."
 
 #: game/content/jokers.gd:51
 msgid "Square Deal"
-msgstr ""
+msgstr "Fairer Deal"
 
 #: game/content/jokers.gd:52
 msgid "+80 Chips when this placement empties the tray."
-msgstr ""
+msgstr "+80 Chips, wenn dieser Zug die Auslage leert."
 
 #: game/content/jokers.gd:52
 msgid "Last Piece"
-msgstr ""
+msgstr "Letztes Teil"
 
 #: game/content/jokers.gd:53
 msgid "+40 Chips when placing a stamped piece."
-msgstr ""
+msgstr "+40 Chips, wenn du ein gestempeltes Teil legst."
 
 #: game/content/jokers.gd:53
 msgid "Postmaster"
-msgstr ""
+msgstr "Postmeister"
 
 #: game/content/jokers.gd:54
 msgid "+0.25 Mult for each piece your bag has below 24 (max +3)."
-msgstr ""
+msgstr "+0.25 Mult für jedes Teil, das dein Beutel unter 24 hat (max. +3)."
 
 #: game/content/jokers.gd:54
 msgid "Lean Bag"
-msgstr ""
+msgstr "Schlanker Beutel"
 
 #: game/content/jokers.gd:55
 msgid "+5 Chips for each upgraded piece (material or stamp) in your bag."
-msgstr ""
+msgstr "+5 Chips für jedes verbesserte Teil (Material oder Stempel) in deinem Beutel."
 
 #: game/content/jokers.gd:55
 msgid "Foundry"
-msgstr ""
+msgstr "Gießerei"
 
 #: game/content/jokers.gd:56
 msgid "Neon Sign"
-msgstr ""
+msgstr "Leuchtreklame"
 
 #: game/content/jokers.gd:56
 msgid "Neon cells cleared give an extra +0.5 Mult each."
-msgstr ""
+msgstr "Jedes abgeräumte Neonfeld gibt zusätzlich +0.5 Mult."
 
 #: game/content/jokers.gd:57
 msgid "+0.5 Mult per Schematic level of the placed piece's family."
-msgstr ""
+msgstr "+0.5 Mult pro Bauplan-Stufe der Familie des gelegten Teils."
 
 #: game/content/jokers.gd:57
 msgid "Specialist"
-msgstr ""
+msgstr "Spezialist"
 
 #: game/content/jokers.gd:58
 msgid "+0.1 Mult for each piece in the discard pile before placement (max +1)."
-msgstr ""
+msgstr "+0.1 Mult für jedes Teil auf dem Ablagestapel vor dem Zug (max. +1)."
 
 #: game/content/jokers.gd:58
 msgid "Recycler"
-msgstr ""
+msgstr "Recycler"
 
 #: game/content/jokers.gd:59
 msgid "Glass Cannon"
-msgstr ""
+msgstr "Glaskanone"
 
 #: game/content/jokers.gd:59
 msgid "x0.3 Mult for each Glass piece in your bag (x1 + 0.3 each, max x4)."
-msgstr ""
+msgstr "x0.3 Mult für jedes Glasteil in deinem Beutel (x1 + 0.3 pro Teil, max. x4)."
 
 #: game/content/jokers.gd:60
 msgid "Collector"
-msgstr ""
+msgstr "Sammler"
 
 #: game/content/jokers.gd:60
 msgid "x0.1 Mult for each different shape family in your bag beyond 6 (x1.4 with 10 families)."
-msgstr ""
+msgstr "x0.1 Mult für jede verschiedene Formfamilie in deinem Beutel über 6 hinaus (x1.4 bei 10 Familien)."
 
 #: game/content/jokers.gd:61
 msgid "Copies the scoring effect of the Joker directly below it."
-msgstr ""
+msgstr "Kopiert den Punkteeffekt des Jokers direkt darunter."
 
 #: game/content/jokers.gd:61
 msgid "Mimic"
-msgstr ""
+msgstr "Nachahmer"
 
 #: game/content/jokers.gd:63
 msgid "Hot Hand"
-msgstr ""
+msgstr "Heiße Hand"
 
 #: game/content/jokers.gd:63
 msgid "x1.5 Mult on placements from a tray that formed a Hand."
-msgstr ""
+msgstr "x1.5 Mult auf Züge aus einer Auslage, die ein Blatt gebildet hat."
 
 #: game/content/jokers.gd:64
 msgid "A full tray dealt by a Refresh or Second Tray can form a Hand."
-msgstr ""
+msgstr "Eine volle Auslage aus einem Tausch oder einer Zweiten Auslage kann ein Blatt bilden."
 
 #: game/content/jokers.gd:64
 msgid "Card Sharp"
-msgstr ""
+msgstr "Kartenhai"
 
 #: game/content/jokers.gd:65
 msgid "Each placement that clears nothing stores +40 Chips (max +200). The next clearing placement adds them and resets."
-msgstr ""
+msgstr "Jeder Zug, der nichts abräumt, speichert +40 Chips (max. +200). Der nächste abräumende Zug addiert sie und setzt zurück."
 
 #: game/content/jokers.gd:65
 msgid "Patience"
-msgstr ""
+msgstr "Geduld"
 
 #: game/content/jokers.gd:66
 msgid "+1 Mult when the placed piece fills a one-block hole closed on all four sides; +75 Chips more if it also clears a line."
-msgstr ""
+msgstr "+1 Mult, wenn das gelegte Teil ein Ein-Block-Loch füllt, das an allen vier Seiten zu ist; +75 Chips extra, wenn es dabei auch eine Linie abräumt."
 
 #: game/content/jokers.gd:66
 msgid "Locksmith"
-msgstr ""
+msgstr "Schlosser"
 
 #: game/content/jokers.gd:67
 msgid "Countdown"
-msgstr ""
+msgstr "Countdown"
 
 #: game/content/jokers.gd:67
 msgid "x1.5 Mult on the third of three placements in a row with fewer blocks each time (like 5, 4, 3)."
-msgstr ""
+msgstr "x1.5 Mult auf den dritten von drei Zügen hintereinander mit jeweils weniger Blöcken (etwa 5, 4, 3)."
 
 #: game/content/jokers.gd:68
 msgid "+2 Credits whenever one of your Glass pieces shatters."
-msgstr ""
+msgstr "+2 Credits, wann immer eines deiner Glasteile zerbricht."
 
 #: game/content/jokers.gd:68
 msgid "Breakage Bonus"
-msgstr ""
+msgstr "Bruchprämie"
 
 #: game/content/jokers.gd:69
 msgid "Insurance Policy"
-msgstr ""
+msgstr "Versicherungspolice"
 
 #: game/content/jokers.gd:69
 msgid "Once: when you would lose a round, replay it from the start with no free Refresh. Then this card is destroyed."
-msgstr ""
+msgstr "Einmalig: Wenn du eine Runde verlieren würdest, spielst du sie von vorn, ohne kostenlosen Tausch. Danach wird diese Karte zerstört."
 
 #: game/content/jokers.gd:70
 msgid "+2 Mult for each Feat you earn for the first time this round."
-msgstr ""
+msgstr "+2 Mult für jedes Kunststück, das du in dieser Runde zum ersten Mal schaffst."
 
 #: game/content/jokers.gd:70
 msgid "Showboat"
-msgstr ""
+msgstr "Angeber"
 
 #: game/content/jokers.gd:71
 msgid "+2 Mult when you place while your placements are at their refill cap."
-msgstr ""
+msgstr "+2 Mult, wenn du legst, während deine Züge an ihrer Auffüllgrenze sind."
 
 #: game/content/jokers.gd:71
 msgid "Full Tank"
-msgstr ""
+msgstr "Voller Tank"
 
 #: game/content/jokers.gd:72
 msgid "Overflow"
-msgstr ""
+msgstr "Überlauf"
 
 #: game/content/jokers.gd:72
 msgid "When a line clear would refill past your cap, each wasted refill gives +1 Credit (max 3 per round)."
-msgstr ""
+msgstr "Würde ein Abräumen über deine Grenze auffüllen, gibt jede verschenkte Auffüllung +1 Credit (max. 3 pro Runde)."
 
 #: game/content/jokers.gd:73
 msgid "Keystone"
-msgstr ""
+msgstr "Schlussstein"
 
 #: game/content/jokers.gd:73
 msgid "x2 Mult when a piece of 1 to 3 blocks clears a line; x4 if it clears two or more."
-msgstr ""
+msgstr "x2 Mult, wenn ein Teil mit 1 bis 3 Blöcken eine Linie abräumt; x4, wenn es zwei oder mehr abräumt."
 
 #: game/content/jokers.gd:74
 msgid "Clearing a row and a column in the same placement gives you an Eraser (if an item slot is free)."
-msgstr ""
+msgstr "Räumst du in einem Zug eine Zeile und eine Spalte ab, erhältst du einen Radiergummi (falls ein Gegenstandsplatz frei ist)."
 
 #: game/content/jokers.gd:74
 msgid "Draftsman"
-msgstr ""
+msgstr "Bauzeichner"
 
 #: game/content/jokers.gd:75
 msgid "Periscope"
-msgstr ""
+msgstr "Periskop"
 
 #: game/content/jokers.gd:75
 msgid "Shows the next three pieces in your draw pile."
-msgstr ""
+msgstr "Zeigt die nächsten drei Teile deines Nachziehstapels."
 
 #: game/content/jokers.gd:76
 msgid "Costs 0. When bought: +6 Credits. After each won round, 2 Credits go to repay the loan until 8 are repaid. Cannot be sold until then."
-msgstr ""
+msgstr "Kostet 0. Beim Kauf: +6 Credits. Nach jeder gewonnenen Runde gehen 2 Credits in die Tilgung, bis 8 zurückgezahlt sind. Bis dahin unverkäuflich."
 
 #: game/content/jokers.gd:76
 msgid "Loan Shark"
-msgstr ""
+msgstr "Kredithai"
 
 #: game/content/jokers.gd:79
 msgid "Gains x0.15 Mult every time two or more lines clear at once. Never resets."
-msgstr ""
+msgstr "Erhält x0.15 Mult, jedes Mal wenn zwei oder mehr Linien auf einmal abgeräumt werden. Setzt nie zurück."
 
 #: game/content/jokers.gd:79
 msgid "Snowball"
-msgstr ""
+msgstr "Schneeball"
 
 #: game/content/jokers.gd:80
 msgid "+4 Chips for every line you have cleared this run."
-msgstr ""
+msgstr "+4 Chips für jede Linie, die du in dieser Partie abgeräumt hast."
 
 #: game/content/jokers.gd:80
 msgid "Tally Counter"
-msgstr ""
+msgstr "Handzähler"
 
 #: game/content/jokers.gd:81
 msgid "+0.35 Mult for every round won this run."
-msgstr ""
+msgstr "+0.35 Mult für jede in dieser Partie gewonnene Runde."
 
 #: game/content/jokers.gd:81
 msgid "Bonsai"
-msgstr ""
+msgstr "Bonsai"
 
 #: game/content/jokers.gd:82
 msgid "+0.1 Mult for every Credit you hold (max +5)."
-msgstr ""
+msgstr "+0.1 Mult für jeden Credit, den du hast (max. +5)."
 
 #: game/content/jokers.gd:82
 msgid "Coin Pusher"
-msgstr ""
+msgstr "Münzschieber"
 
 #: game/content/jokers.gd:83
 msgid "Gains x0.3 Mult for each round won without a Refresh or Second Tray. Using one resets it to x1."
-msgstr ""
+msgstr "Erhält x0.3 Mult für jede Runde, die ohne Tausch oder Zweite Auslage gewonnen wird. Beides zu nutzen setzt ihn auf x1 zurück."
 
 #: game/content/jokers.gd:83
 msgid "Hot Streak"
-msgstr ""
+msgstr "Glückssträhne"
 
 #: game/content/jokers.gd:84
 msgid "+1 Mult for each block over 4 in the placed piece."
-msgstr ""
+msgstr "+1 Mult für jeden Block über 4 im gelegten Teil."
 
 #: game/content/jokers.gd:84
 msgid "Big Game Hunter"
-msgstr ""
+msgstr "Großwildjäger"
 
 #: game/content/jokers.gd:85
 msgid "Rainbow Road"
-msgstr ""
+msgstr "Regenbogenstraße"
 
 #: game/content/jokers.gd:85
 msgid "x1.75 Mult when the board holds all six block colors before the placement."
-msgstr ""
+msgstr "x1.75 Mult, wenn das Brett vor dem Zug alle sechs Blockfarben enthält."
 
 #: game/content/jokers.gd:86
 msgid "Solo Act"
-msgstr ""
+msgstr "Solonummer"
 
 #: game/content/jokers.gd:86
 msgid "x1 Mult plus x0.75 for each empty Joker slot."
-msgstr ""
+msgstr "x1 Mult plus x0.75 für jeden leeren Joker-Platz."
 
 #: game/content/jokers.gd:87
 msgid "Double Stamp"
-msgstr ""
+msgstr "Doppelstempel"
 
 #: game/content/jokers.gd:87
 msgid "Stamps trigger twice: Encore x4, Tip +4 Credits, Refund +2 placements, Memory two Sparks."
-msgstr ""
+msgstr "Stempel lösen doppelt aus: Zugabe x4, Trinkgeld +4 Credits, Erstattung +2 Züge, Erinnerung zwei Funken."
 
 #: game/content/jokers.gd:88
 msgid "After each round won, drops a random item into a free item slot."
-msgstr ""
+msgstr "Wirft nach jeder gewonnenen Runde einen zufälligen Gegenstand in einen freien Gegenstandsplatz."
 
 #: game/content/jokers.gd:88
 msgid "Vending Machine"
-msgstr ""
+msgstr "Verkaufsautomat"
 
 #: game/content/jokers.gd:89
 msgid "+15 Chips for every block cleared by the placement."
-msgstr ""
+msgstr "+15 Chips für jeden Block, den der Zug abräumt."
 
 #: game/content/jokers.gd:89
 msgid "Demolition Crew"
-msgstr ""
+msgstr "Abrisstrupp"
 
 #: game/content/jokers.gd:90
 msgid "Gains +1 Mult whenever a round ends at 1.5 times its target or more. Never resets."
-msgstr ""
+msgstr "Erhält +1 Mult, wann immer eine Runde mit dem 1.5-Fachen ihres Ziels oder mehr endet. Setzt nie zurück."
 
 #: game/content/jokers.gd:90
 msgid "Overachiever"
-msgstr ""
+msgstr "Streber"
 
 #: game/content/jokers.gd:91
 msgid "+1.5 Mult for each item you hold."
-msgstr ""
+msgstr "+1.5 Mult für jeden Gegenstand, den du hast."
 
 #: game/content/jokers.gd:91
 msgid "Full Pockets"
-msgstr ""
+msgstr "Volle Taschen"
 
 #: game/content/jokers.gd:92
 msgid "Each time a piece completes a line, that exact piece permanently gains +5 Chips. The Chips stay on the piece (and on its Copier copies) even if you sell Veteran."
-msgstr ""
+msgstr "Jedes Mal, wenn ein Teil eine Linie vervollständigt, erhält genau dieses Teil dauerhaft +5 Chips. Die Chips bleiben auf dem Teil (und auf seinen Kopierer-Kopien), auch wenn du Veteran verkaufst."
 
 #: game/content/jokers.gd:92
 msgid "Veteran"
-msgstr ""
+msgstr "Veteran"
 
 #: game/content/jokers.gd:94
 msgid "After a clear, blocks fall down their columns. New full lines clear as chain waves, each scoring double the last (x2, x4, x8...)."
-msgstr ""
+msgstr "Nach einem Abräumen fallen die Blöcke in ihren Spalten nach unten. Neue volle Linien werden als Kettenwellen abgeräumt, jede bringt das Doppelte der vorigen (x2, x4, x8...)."
 
 #: game/content/jokers.gd:94
 msgid "The Avalanche"
-msgstr ""
+msgstr "Die Lawine"
 
 #: game/content/jokers.gd:95
 msgid "Every other Joker's scoring effect triggers twice (Chips and Mult add twice, xMult applies twice)."
-msgstr ""
+msgstr "Der Punkteeffekt jedes anderen Jokers löst doppelt aus (Chips und Mult zählen doppelt, xMult wirkt doppelt)."
 
 #: game/content/jokers.gd:95
 msgid "Hall of Mirrors"
-msgstr ""
+msgstr "Spiegelsaal"
 
 #: game/content/jokers.gd:96
 msgid "Material effects are doubled. Every piece you place without a material gains a random one for good."
-msgstr ""
+msgstr "Materialeffekte sind verdoppelt. Jedes Teil ohne Material, das du legst, erhält dauerhaft ein zufälliges."
 
 #: game/content/jokers.gd:96
 msgid "Philosopher's Stone"
-msgstr ""
+msgstr "Stein der Weisen"
 
 #: game/content/jokers.gd:97
 msgid "Supernova"
-msgstr ""
+msgstr "Supernova"
 
 #: game/content/jokers.gd:97
 msgid "x1 Mult plus x0.5 for every line cleared earlier this round."
-msgstr ""
+msgstr "x1 Mult plus x0.5 für jede zuvor in dieser Runde abgeräumte Linie."
 
 #: game/content/jokers.gd:371
 #, c-format
 msgid "Triggers in %d placement"
 msgid_plural "Triggers in %d placements"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Löst in %d Zug aus"
+msgstr[1] "Löst in %d Zügen aus"
 
 #: game/content/jokers.gd:373
 #, c-format
 msgid "Clears this round: %d"
-msgstr ""
+msgstr "Abgeräumt in dieser Runde: %d"
 
 #: game/content/jokers.gd:379
 #, c-format
 msgid "Recent: %s"
-msgstr ""
+msgstr "Zuletzt: %s"
 
 #: game/content/jokers.gd:379 game/content/jokers.gd:395 game/ui/game_screen.gd:1558
 msgid "none"
-msgstr ""
+msgstr "keine"
 
 #: game/content/jokers.gd:381
 #, c-format
 msgid "Jokers sold: %d"
-msgstr ""
+msgstr "Verkaufte Joker: %d"
 
 #: game/content/jokers.gd:383 game/content/jokers.gd:385 game/content/jokers.gd:387
 msgid "Ready"
-msgstr ""
+msgstr "Bereit"
 
 #: game/content/jokers.gd:383 game/content/jokers.gd:385 game/content/jokers.gd:387 game/content/jokers.gd:417
 msgid "Used this round"
-msgstr ""
+msgstr "In dieser Runde benutzt"
 
 #: game/content/jokers.gd:389
 #, c-format
 msgid "Stored: +%d Chips"
-msgstr ""
+msgstr "Gespeichert: +%d Chips"
 
 #: game/content/jokers.gd:395
 #, c-format
 msgid "Recent sizes: %s"
-msgstr ""
+msgstr "Letzte Größen: %s"
 
 #: game/content/jokers.gd:397
 #, c-format
 msgid "Feats this round: %d"
-msgstr ""
+msgstr "Kunststücke in dieser Runde: %d"
 
 #: game/content/jokers.gd:399
 #, c-format
 msgid "Placements %d / %d"
-msgstr ""
+msgstr "Züge %d / %d"
 
 #: game/content/jokers.gd:401
 #, c-format
 msgid "Paid this round: %d / %d"
-msgstr ""
+msgstr "In dieser Runde gezahlt: %d / %d"
 
 #: game/content/jokers.gd:403
 #, c-format
 msgid "Owed: %d Credits"
-msgstr ""
+msgstr "Schulden: %d Credits"
 
 #: game/content/jokers.gd:403
 msgid "Repaid"
-msgstr ""
+msgstr "Zurückgezahlt"
 
 #: game/content/jokers.gd:405
 msgid "Unused: saves one lost round"
-msgstr ""
+msgstr "Ungenutzt: rettet eine verlorene Runde"
 
 #: game/content/jokers.gd:412
 msgid "reshuffle"
-msgstr ""
+msgstr "neu mischen"
 
 #: game/content/jokers.gd:413
 #, c-format
 msgid "Next: %s"
-msgstr ""
+msgstr "Als Nächstes: %s"
 
 #: game/content/jokers.gd:416
 msgid "Ready: remove a block"
-msgstr ""
+msgstr "Bereit: entferne einen Block"
 
 #: game/content/jokers.gd:417
 msgid "Waiting for the first clear"
-msgstr ""
+msgstr "Wartet auf das erste Abräumen"
 
 #: game/content/jokers.gd:419
 #, c-format
 msgid "%d pieces: +%d Chips"
-msgstr ""
+msgstr "%d Teile: +%d Chips"
 
 #: game/content/jokers.gd:421
 #, c-format
 msgid "%d pieces: +%s Mult"
-msgstr ""
+msgstr "%d Teile: +%s Mult"
 
 #: game/content/jokers.gd:423
 #, c-format
 msgid "%d upgraded: +%d Chips"
-msgstr ""
+msgstr "%d verbessert: +%d Chips"
 
 #: game/content/jokers.gd:426
 #, c-format
 msgid "%d families: x%s Mult"
-msgstr ""
+msgstr "%d Familien: x%s Mult"
 
 #: game/content/jokers.gd:428
 #, c-format
 msgid "Discard pile: %d"
-msgstr ""
+msgstr "Ablagestapel: %d"
 
 #: game/content/jokers.gd:430 game/content/jokers.gd:432
 #, c-format
 msgid "Now x%s Mult"
-msgstr ""
+msgstr "Jetzt x%s Mult"
 
 #: game/content/jokers.gd:434
 #, c-format
 msgid "Now +%s Mult"
-msgstr ""
+msgstr "Jetzt +%s Mult"
 
 #: game/content/jokers.gd:436
 #, c-format
 msgid "%d lines: +%d Chips"
-msgstr ""
+msgstr "%d Linien: +%d Chips"
 
 #: game/content/jokers.gd:438
 #, c-format
 msgid "%d rounds won: +%s Mult"
-msgstr ""
+msgstr "%d Runden gewonnen: +%s Mult"
 
 #: game/content/jokers.gd:440
 #, c-format
 msgid "%d Credits: +%s Mult"
-msgstr ""
+msgstr "%d Credits: +%s Mult"
 
 #: game/content/jokers.gd:443
 #, c-format
 msgid "%d empty slot: x%s Mult"
 msgid_plural "%d empty slots: x%s Mult"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d leerer Platz: x%s Mult"
+msgstr[1] "%d leere Plätze: x%s Mult"
 
 #: game/content/jokers.gd:446
 #, c-format
 msgid "%d item: +%s Mult"
 msgid_plural "%d items: +%s Mult"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d Gegenstand: +%s Mult"
+msgstr[1] "%d Gegenstände: +%s Mult"
 
 #: game/content/jokers.gd:449
 #, c-format
 msgid "%d Glass piece: x%s Mult"
 msgid_plural "%d Glass pieces: x%s Mult"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d Glasteil: x%s Mult"
+msgstr[1] "%d Glasteile: x%s Mult"
 
 #: game/content/jokers.gd:451
 #, c-format
 msgid "Lines this round: %d (x%s)"
-msgstr ""
+msgstr "Linien in dieser Runde: %d (x%s)"
 
 #: game/content/jokers.gd:453
 #, c-format
 msgid "Transmuted this run: %d"
-msgstr ""
+msgstr "In dieser Partie verwandelt: %d"
 
 #: game/content/jokers.gd:456
 #, c-format
 msgid "Best chain: %d wave"
 msgid_plural "Best chain: %d waves"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Beste Kette: %d Welle"
+msgstr[1] "Beste Kette: %d Wellen"
 
 #: game/content/jokers.gd:460
 #, c-format
 msgid "Copying: %s"
-msgstr ""
+msgstr "Kopiert: %s"
 
 #: game/content/jokers.gd:461
 msgid "Copying: nothing below"
-msgstr ""
+msgstr "Kopiert: nichts darunter"
 
 #: game/content/pieces.gd:19
 msgid "+20 Chips per cell"
-msgstr ""
+msgstr "+20 Chips pro Feld"
 
 #: game/content/pieces.gd:19
 msgid "Chrome"
-msgstr ""
+msgstr "Chrom"
 
 #: game/content/pieces.gd:19
 msgid "Each cell scores +20 Chips when placed."
-msgstr ""
+msgstr "Jedes Feld bringt beim Legen +20 Chips."
 
 #: game/content/pieces.gd:20
 msgid "+0.5 Mult per cell cleared"
-msgstr ""
+msgstr "+0.5 Mult pro abgeräumtem Feld"
 
 #: game/content/pieces.gd:20
 msgid "Each Neon cell cleared gives +0.5 Mult to that placement."
-msgstr ""
+msgstr "Jedes abgeräumte Neonfeld gibt diesem Zug +0.5 Mult."
 
 #: game/content/pieces.gd:20
 msgid "Neon"
-msgstr ""
+msgstr "Neon"
 
 #: game/content/pieces.gd:21
 msgid "+1 Credit per cell cleared"
-msgstr ""
+msgstr "+1 Credit pro abgeräumtem Feld"
 
 #: game/content/pieces.gd:21
 msgid "Each Gold cell cleared gives +1 Credit."
-msgstr ""
+msgstr "Jedes abgeräumte Goldfeld gibt +1 Credit."
 
 #: game/content/pieces.gd:21
 msgid "Gold"
-msgstr ""
+msgstr "Gold"
 
 #: game/content/pieces.gd:22
 msgid "Glass"
-msgstr ""
+msgstr "Glas"
 
 #: game/content/pieces.gd:22
 msgid "x1.5 Mult on clear, may shatter"
-msgstr ""
+msgstr "x1.5 Mult beim Abräumen, kann zerbrechen"
 
 #: game/content/pieces.gd:22
 msgid "x1.5 Mult when a placement clears any Glass cell. A Glass piece with a cleared cell has a 1 in 4 chance to shatter and leave your bag."
-msgstr ""
+msgstr "x1.5 Mult, wenn ein Zug ein Glasfeld abräumt. Ein Glasteil mit abgeräumtem Feld zerbricht mit einer Chance von 1 zu 4 und verlässt deinen Beutel."
 
 #: game/content/pieces.gd:23
 msgid "Counts as every color for Joker effects."
-msgstr ""
+msgstr "Zählt für Joker-Effekte als jede Farbe."
 
 #: game/content/pieces.gd:23
 msgid "Prism"
-msgstr ""
+msgstr "Prisma"
 
 #: game/content/pieces.gd:23
 msgid "counts as every color"
-msgstr ""
+msgstr "zählt als jede Farbe"
 
 #: game/content/pieces.gd:32
 msgid "Encore"
-msgstr ""
+msgstr "Zugabe"
 
 #. rules text (shown through BMLoc.tf)
 #: game/content/pieces.gd:32 game/content/tools.gd:13 game/rules/resolver.gd:260
 msgid "Encore Stamp"
-msgstr ""
+msgstr "Zugabe-Stempel"
 
 #: game/content/pieces.gd:32
 msgid "If this piece clears a line, x2 Mult."
-msgstr ""
+msgstr "Räumt dieses Teil eine Linie ab: x2 Mult."
 
 #: game/content/pieces.gd:32
 msgid "x2 Mult on clear"
-msgstr ""
+msgstr "x2 Mult beim Abräumen"
 
 #: game/content/pieces.gd:33
 msgid "Placing this piece does not use up a placement."
-msgstr ""
+msgstr "Dieses Teil zu legen verbraucht keinen Zug."
 
 #: game/content/pieces.gd:33
 msgid "Refund"
-msgstr ""
+msgstr "Erstattung"
 
 #: game/content/pieces.gd:33 game/content/tools.gd:14
 msgid "Refund Stamp"
-msgstr ""
+msgstr "Erstattungsstempel"
 
 #: game/content/pieces.gd:33
 msgid "placing it is free"
-msgstr ""
+msgstr "Legen ist gratis"
 
 #: game/content/pieces.gd:34
 msgid "+2 Credits when placed"
-msgstr ""
+msgstr "+2 Credits beim Legen"
 
 #: game/content/pieces.gd:34
 msgid "+2 Credits whenever this piece is placed."
-msgstr ""
+msgstr "+2 Credits, wann immer dieses Teil gelegt wird."
 
 #: game/content/pieces.gd:34
 msgid "Tip"
-msgstr ""
+msgstr "Trinkgeld"
 
 #: game/content/pieces.gd:34 game/content/tools.gd:15
 msgid "Tip Stamp"
-msgstr ""
+msgstr "Trinkgeldstempel"
 
 #: game/content/pieces.gd:35
 msgid "Memory"
-msgstr ""
+msgstr "Erinnerung"
 
 #: game/content/pieces.gd:35 game/content/tools.gd:16
 msgid "Memory Stamp"
-msgstr ""
+msgstr "Erinnerungsstempel"
 
 #: game/content/pieces.gd:35
 msgid "Spark when placed"
-msgstr ""
+msgstr "Funke beim Legen"
 
 #: game/content/pieces.gd:35
 msgid "Whenever this piece is placed, gain a Spark item (needs a free item slot)."
-msgstr ""
+msgstr "Wann immer dieses Teil gelegt wird, erhältst du einen Funken (braucht einen freien Gegenstandsplatz)."
 
 #: game/content/pieces.gd:167
 msgid "{color} {shape}"
-msgstr ""
+msgstr "{shape} ({color})"
 
 #: game/content/pieces.gd:180
 msgid "Brick"
-msgstr ""
+msgstr "Ziegel"
 
 #: game/content/pieces.gd:188
 #, c-format
 msgid "Veteran: +%d Chips whenever this piece is placed."
-msgstr ""
+msgstr "Veteran: +%d Chips, wann immer dieses Teil gelegt wird."
 
 #: game/content/pieces.gd:190
 msgid "Emergency Brick: a temporary block. It does not stay in your bag."
-msgstr ""
+msgstr "Notfallziegel: ein temporärer Block. Er bleibt nicht in deinem Beutel."
 
 #: game/content/pieces.gd:192
 msgid "Temporary: it does not stay in your bag."
-msgstr ""
+msgstr "Temporär: bleibt nicht in deinem Beutel."
 
 #: game/content/pieces.gd:206
 #, c-format
 msgid "Veteran: +%d Chips"
-msgstr ""
+msgstr "Veteran: +%d Chips"
 
 #: game/content/pieces.gd:207
 msgid "No upgrades."
-msgstr ""
+msgstr "Keine Verbesserungen."
 
 #: game/content/round_cards.gd:8 game/content/run_config.gd:82
 msgid "Standard"
-msgstr ""
+msgstr "Standard"
 
 #: game/content/round_cards.gd:9
 msgid "No twist."
-msgstr ""
+msgstr "Keine Wendung."
 
 #: game/content/round_cards.gd:10
 msgid "Gold Rush"
-msgstr ""
+msgstr "Goldrausch"
 
 #: game/content/round_cards.gd:11
 msgid "Six Gold blocks start on the board (+1 Credit per Gold cell cleared). +2 Credits if you win."
-msgstr ""
+msgstr "Sechs Goldblöcke liegen zu Beginn auf dem Brett (+1 Credit pro abgeräumtem Goldfeld). +2 Credits, wenn du gewinnst."
 
 #: game/content/round_cards.gd:12
 msgid "Tight Budget"
-msgstr ""
+msgstr "Knappes Budget"
 
 #: game/content/round_cards.gd:13
 msgid "Three fewer placements. +4 Credits if you win."
-msgstr ""
+msgstr "Drei Züge weniger. +4 Credits, wenn du gewinnst."
 
 #: game/content/round_cards.gd:14
 msgid "Rush Hour"
-msgstr ""
+msgstr "Stoßzeit"
 
 #: game/content/round_cards.gd:15
 msgid "Target x0.8, but no Refresh this round."
-msgstr ""
+msgstr "Ziel x0.8, aber in dieser Runde kein Tausch."
 
 #: game/content/round_cards.gd:16
 msgid "Double or Nothing"
-msgstr ""
+msgstr "Doppelt oder nichts"
 
 #: game/content/round_cards.gd:17
 msgid "Target x1.4. +6 Credits if you win."
-msgstr ""
+msgstr "Ziel x1.4. +6 Credits, wenn du gewinnst."
 
 #. rules text (shown through BMLoc.tf)
 #: game/content/round_cards.gd:18 game/rules/resolver.gd:232
 msgid "Mult Fever"
-msgstr ""
+msgstr "Mult-Fieber"
 
 #: game/content/round_cards.gd:19
 msgid "Every placement gets +1 Mult. Target x1.3."
-msgstr ""
+msgstr "Jeder Zug erhält +1 Mult. Ziel x1.3."
 
 #: game/content/round_cards.gd:20
 msgid "Treasure Hunt"
-msgstr ""
+msgstr "Schatzsuche"
 
 #: game/content/round_cards.gd:21
 msgid "Win to find a random item (needs a free item slot). Target x1.15."
-msgstr ""
+msgstr "Gewinne, um einen zufälligen Gegenstand zu finden (braucht einen freien Gegenstandsplatz). Ziel x1.15."
 
 #: game/content/round_cards.gd:22
 msgid "Scholarship"
-msgstr ""
+msgstr "Stipendium"
 
 #: game/content/round_cards.gd:23
 msgid "Win to level up the family of the last piece you place. Target x1.2."
-msgstr ""
+msgstr "Gewinne, um die Familie deines zuletzt gelegten Teils aufzuwerten. Ziel x1.2."
 
 #: game/content/run_config.gd:82
 msgid "Standard Kit"
-msgstr ""
+msgstr "Standard-Kit"
 
 #: game/content/run_config.gd:83
 msgid "CLASSIC"
-msgstr ""
+msgstr "KLASSISCH"
 
 #: game/content/run_config.gd:83
 msgid "No twist: the rules as designed. The best Kit to learn with."
-msgstr ""
+msgstr "Keine Wendung: die Regeln wie vorgesehen. Das beste Kit zum Lernen."
 
 #: game/content/run_config.gd:84
 msgid "The 24-piece starter bag: a bit of every shape."
-msgstr ""
+msgstr "Der Startbeutel mit 24 Teilen: von jeder Form ein bisschen."
 
 #: game/content/run_config.gd:85
 msgid "Compact"
-msgstr ""
+msgstr "Kompakt"
 
 #: game/content/run_config.gd:85
 msgid "Compact Kit"
-msgstr ""
+msgstr "Kompakt-Kit"
 
 #: game/content/run_config.gd:86
 msgid "+1 Credit for every Refresh you did not use when you win a round."
-msgstr ""
+msgstr "+1 Credit für jeden ungenutzten Tausch, wenn du eine Runde gewinnst."
 
 #: game/content/run_config.gd:86
 msgid "THRIFT"
-msgstr ""
+msgstr "SPARSAM"
 
 #: game/content/run_config.gd:87
 msgid "An 18-piece bag of small pieces: Singles, Bars, little Ls and Squares. Only 4 Joker slots."
-msgstr ""
+msgstr "Ein Beutel mit 18 kleinen Teilen: Einzel, Balken, kleine Ls und Quadrate. Nur 4 Joker-Plätze."
 
 #: game/content/run_config.gd:87
 msgid "Clear 100 lines across runs."
-msgstr ""
+msgstr "Räume insgesamt 100 Linien über alle Partien ab."
 
 #: game/content/run_config.gd:88
 msgid "High Roller"
-msgstr ""
+msgstr "Highroller"
 
 #: game/content/run_config.gd:88
 msgid "High Roller Kit"
-msgstr ""
+msgstr "Highroller-Kit"
 
 #: game/content/run_config.gd:89
 msgid "COMPOUND INTEREST"
-msgstr ""
+msgstr "ZINSESZINS"
 
 #: game/content/run_config.gd:89
 msgid "Interest can pay up to +3 more Credits each round."
-msgstr ""
+msgstr "Zinsen können pro Runde bis zu +3 Credits mehr bringen."
 
 #: game/content/run_config.gd:90
 msgid "Start with 4 Credits. The standard bag, 14 placements per round."
-msgstr ""
+msgstr "Starte mit 4 Credits. Der Standardbeutel, 14 Züge pro Runde."
 
 #: game/content/run_config.gd:90
 msgid "Win a standard run."
-msgstr ""
+msgstr "Gewinne eine Standard-Partie."
 
 #: game/content/run_config.gd:91
 msgid "Chunky"
-msgstr ""
+msgstr "Klotz"
 
 #: game/content/run_config.gd:91
 msgid "Chunky Kit"
-msgstr ""
+msgstr "Klotz-Kit"
 
 #: game/content/run_config.gd:92
 msgid "HEAVY LIFTING"
-msgstr ""
+msgstr "SCHWERSTARBEIT"
 
 #: game/content/run_config.gd:92
 msgid "Pieces of 5 or more blocks score +10 Chips per block."
-msgstr ""
+msgstr "Teile mit 5 oder mehr Blöcken bringen +10 Chips pro Block."
 
 #: game/content/run_config.gd:93
 msgid "A 19-piece bag of big, plump shapes: squares, Ts, pluses, a Bar 5 and a 3x3. Only 13 placements."
-msgstr ""
+msgstr "Ein Beutel mit 19 großen, dicken Formen: Quadrate, Ts, Pluszeichen, ein Balken 5 und ein 3x3. Nur 13 Züge."
 
 #: game/content/run_config.gd:93
 msgid "Defeat 3 bosses across runs."
-msgstr ""
+msgstr "Besiege insgesamt 3 Bosse über alle Partien."
 
 #: game/content/run_config.gd:94
 msgid "Tetromino"
-msgstr ""
+msgstr "Tetromino"
 
 #: game/content/run_config.gd:94
 msgid "Tetromino Kit"
-msgstr ""
+msgstr "Tetromino-Kit"
 
 #: game/content/run_config.gd:95
 msgid "+1 Credit every time a Tray Hand forms."
-msgstr ""
+msgstr "+1 Credit, jedes Mal wenn sich ein Blatt in der Auslage bildet."
 
 #: game/content/run_config.gd:95
 msgid "FULL HOUSE"
-msgstr ""
+msgstr "FULL HOUSE"
 
 #: game/content/run_config.gd:96
 msgid "Form 25 Tray Hands across runs."
-msgstr ""
+msgstr "Bilde insgesamt 25 Blätter über alle Partien."
 
 #: game/content/run_config.gd:96
 msgid "Only four-block pieces: 20 of them, so Twins and Triplets come often."
-msgstr ""
+msgstr "Nur Teile aus vier Blöcken: 20 Stück, also kommen Zwillinge und Drillinge oft."
 
 #: game/content/run_config.gd:103
 msgid "Heat 0"
-msgstr ""
+msgstr "Hitze 0"
 
 #: game/content/run_config.gd:103
 msgid "Standard rules."
-msgstr ""
+msgstr "Standardregeln."
 
 #: game/content/run_config.gd:104
 msgid "Heat 1"
-msgstr ""
+msgstr "Hitze 1"
 
 #: game/content/run_config.gd:104
 #, c-format
 msgid "Targets +15%."
-msgstr ""
+msgstr "Ziele +15 %."
 
 #: game/content/run_config.gd:105
 msgid "Heat 2"
-msgstr ""
+msgstr "Hitze 2"
 
 #: game/content/run_config.gd:105
 msgid "One fewer placement every round."
-msgstr ""
+msgstr "Jede Runde ein Zug weniger."
 
 #: game/content/run_config.gd:106
 msgid "Heat 3"
-msgstr ""
+msgstr "Hitze 3"
 
 #: game/content/run_config.gd:106
 msgid "Interest pays at most +3; rerolls start at 3."
-msgstr ""
+msgstr "Zinsen zahlen höchstens +3; Neuwürfeln beginnt bei 3."
 
 #: game/content/run_config.gd:107
 msgid "Every boss is its Mk II version."
-msgstr ""
+msgstr "Jeder Boss ist seine Mk-II-Version."
 
 #: game/content/run_config.gd:107
 msgid "Heat 4"
-msgstr ""
+msgstr "Hitze 4"
 
 #: game/content/run_config.gd:108
 msgid "Heat 5"
-msgstr ""
+msgstr "Hitze 5"
 
 #: game/content/run_config.gd:108
 #, c-format
 msgid "Targets +35% and one fewer Refresh."
-msgstr ""
+msgstr "Ziele +35 % und ein Tausch weniger."
 
 #: game/content/shapes.gd:16
 msgid "Blue"
-msgstr ""
+msgstr "Blau"
 
 #: game/content/shapes.gd:16
 msgid "Green"
-msgstr ""
+msgstr "Grün"
 
 #: game/content/shapes.gd:16
 msgid "Orange"
-msgstr ""
+msgstr "Orange"
 
 #: game/content/shapes.gd:16
 msgid "Purple"
-msgstr ""
+msgstr "Lila"
 
 #: game/content/shapes.gd:16
 msgid "Red"
-msgstr ""
+msgstr "Rot"
 
 #: game/content/shapes.gd:16
 msgid "Stone"
-msgstr ""
+msgstr "Stein"
 
 #: game/content/shapes.gd:16
 msgid "Yellow"
-msgstr ""
+msgstr "Gelb"
 
 #: game/content/shapes.gd:21
 msgid "Single"
-msgstr ""
+msgstr "Einzel"
 
 #: game/content/shapes.gd:22
 msgid "Bar 2"
-msgstr ""
+msgstr "Balken 2"
 
 #: game/content/shapes.gd:23
 msgid "Bar 3"
-msgstr ""
+msgstr "Balken 3"
 
 #: game/content/shapes.gd:24
 msgid "L 3"
-msgstr ""
+msgstr "L 3"
 
 #: game/content/shapes.gd:25
 msgid "Square 2x2"
-msgstr ""
+msgstr "Quadrat 2x2"
 
 #: game/content/shapes.gd:26
 msgid "Bar 4"
-msgstr ""
+msgstr "Balken 4"
 
 #: game/content/shapes.gd:27
 msgid "L 4"
-msgstr ""
+msgstr "L 4"
 
 #: game/content/shapes.gd:28
 msgid "T 4"
-msgstr ""
+msgstr "T 4"
 
 #: game/content/shapes.gd:29
 msgid "Zigzag 4"
-msgstr ""
+msgstr "Zickzack 4"
 
 #: game/content/shapes.gd:30
 msgid "Plus 5"
-msgstr ""
+msgstr "Plus 5"
 
 #: game/content/shapes.gd:31
 msgid "Bar 5"
-msgstr ""
+msgstr "Balken 5"
 
 #: game/content/shapes.gd:32
 msgid "Square 3x3"
-msgstr ""
+msgstr "Quadrat 3x3"
 
 #: game/content/shapes.gd:34
 msgid "Rectangle 2x3"
-msgstr ""
+msgstr "Rechteck 2x3"
 
 #: game/content/tips.gd:9 game/ui/tutorial.gd:366
 msgid "Place a piece"
-msgstr ""
+msgstr "Lege ein Teil"
 
 #: game/content/tips.gd:10
 msgid "Drag a piece from the tray onto the board, or click it and then a cell. Fill a whole row or column to clear it: clears are where the points are."
-msgstr ""
+msgstr "Zieh ein Teil aus der Auslage aufs Brett, oder klick es an und dann ein Feld. Fülle eine ganze Zeile oder Spalte, um sie abzuräumen: Dort gibt es die Punkte."
 
 #: game/content/tips.gd:11
 msgid "Chips x Mult"
-msgstr ""
+msgstr "Chips x Mult"
 
 #: game/content/tips.gd:12
 msgid "Every placement scores Chips x Mult. Cells and cleared lines give Chips; Jokers, combos and Tray Hands add Mult. The receipt shows the math."
-msgstr ""
+msgstr "Jeder Zug bringt Chips x Mult. Felder und abgeräumte Linien geben Chips; Joker, Kombos und Blätter geben Mult dazu. Der Bon zeigt die Rechnung."
 
 #: game/content/tips.gd:13
 msgid "Hold"
-msgstr ""
+msgstr "Halten"
 
 #: game/content/tips.gd:14
 msgid "Press H or drop a piece on HOLD to keep it for later; it deals a new one. You can hold or swap once between placements."
-msgstr ""
+msgstr "Drück H oder zieh ein Teil auf HALTEN, um es für später aufzuheben; dafür kommt ein neues. Du kannst einmal zwischen zwei Zügen halten oder tauschen."
 
 #: game/content/tips.gd:15
 msgid "Nothing fits"
-msgstr ""
+msgstr "Nichts passt"
 
 #: game/content/tips.gd:16
 msgid "No piece fits the board. REFRESH (R) swaps the whole tray for new pieces. If nothing fits and neither a Refresh nor your held piece helps, the round is lost."
-msgstr ""
+msgstr "Kein Teil passt aufs Brett. TAUSCHEN (R) ersetzt die ganze Auslage durch neue Teile. Passt nichts und helfen weder Tausch noch dein gehaltenes Teil, ist die Runde verloren."
 
 #: game/content/tips.gd:17
 msgid "Combo"
-msgstr ""
+msgstr "Kombo"
 
 #: game/content/tips.gd:18
 msgid "Clearing on placement after placement builds a combo that adds Mult. A few placements without a clear break it."
-msgstr ""
+msgstr "Wer Zug für Zug abräumt, baut eine Kombo auf, die Mult gibt. Ein paar Züge ohne Abräumen brechen sie."
 
 #: game/content/tips.gd:19
 msgid "Tray Hand"
-msgstr ""
+msgstr "Blatt der Auslage"
 
 #: game/content/tips.gd:20
 msgid "The three dealt pieces form a Hand (same family, same color, a staircase...). The tag on each piece says what it adds while you place them."
-msgstr ""
+msgstr "Die drei ausgeteilten Teile bilden ein Blatt (gleiche Familie, gleiche Farbe, eine Treppe...). Das Etikett auf jedem Teil zeigt, was es beim Legen dazugibt."
 
 #: game/content/tips.gd:21
 msgid "Boss round"
-msgstr ""
+msgstr "Bossrunde"
 
 #: game/content/tips.gd:22
 msgid "Each act ends with a boss that bends one rule for this round. Its rule is on the left panel; hover it any time."
-msgstr ""
+msgstr "Jeder Akt endet mit einem Boss, der für diese Runde eine Regel verbiegt. Seine Regel steht links im Panel; fahr jederzeit mit der Maus darüber."
 
 #: game/content/tips.gd:23
 msgid "Heat"
-msgstr ""
+msgstr "Hitze"
 
 #: game/content/tips.gd:24
 msgid "Heat makes every run harder: bigger targets, fewer placements, Mk II bosses. Each Heat you win unlocks the next."
-msgstr ""
+msgstr "Hitze macht jede Partie schwerer: höhere Ziele, weniger Züge, Mk-II-Bosse. Jede gewonnene Hitzestufe schaltet die nächste frei."
 
 #: game/content/tips.gd:25
 msgid "The Toybox"
-msgstr ""
+msgstr "Die Spielzeugkiste"
 
 #: game/content/tips.gd:26
 msgid "Spend Credits here. Jokers score for you every placement, items are one-use tools, and Workshop cards change the pieces in your bag."
-msgstr ""
+msgstr "Gib hier deine Credits aus. Joker punkten bei jedem Zug für dich, Gegenstände sind Einweg-Werkzeuge, und Werkstattkarten verändern die Teile in deinem Beutel."
 
 #: game/content/tips.gd:27
 msgid "Interest"
-msgstr ""
+msgstr "Zinsen"
 
 #: game/content/tips.gd:28
 msgid "Unspent Credits earn interest after each round: +1 for every 5 you hold, up to +5 (less at Heat 3+). Saving can pay off."
-msgstr ""
+msgstr "Nicht ausgegebene Credits bringen nach jeder Runde Zinsen: +1 für je 5, bis zu +5 (weniger ab Hitze 3). Sparen kann sich lohnen."
 
 #: game/content/tips.gd:29
 msgid "Choose the next round"
-msgstr ""
+msgstr "Wähle die nächste Runde"
 
 #: game/content/tips.gd:30
 msgid "Standard, or a twist: a harder target or a special rule for a bigger reward. Boss rounds never offer a choice."
-msgstr ""
+msgstr "Standard oder eine Wendung: ein härteres Ziel oder eine Sonderregel für eine größere Belohnung. Bossrunden bieten nie eine Wahl."
 
 #: game/content/tips.gd:31
 msgid "Your bag"
-msgstr ""
+msgstr "Dein Beutel"
 
 #: game/content/tips.gd:32
 msgid "B (or the BAG button) shows every piece you own and what is still to draw. The tray is dealt from this bag, not at random."
-msgstr ""
+msgstr "B (oder der BEUTEL-Knopf) zeigt jedes Teil, das du besitzt, und was noch zu ziehen ist. Die Auslage wird aus diesem Beutel gezogen, nicht zufällig."
 
 #: game/content/tips.gd:34
 msgid "Targets keep growing and a new boss arrives every four rounds. How far can the machine go?"
-msgstr ""
+msgstr "Die Ziele wachsen weiter, und alle vier Runden kommt ein neuer Boss. Wie weit hält die Maschine durch?"
 
 #: game/content/tools.gd:8
 msgid "Chrome Plating"
-msgstr ""
+msgstr "Verchromung"
 
 #: game/content/tools.gd:8
 msgid "Give up to 2 pieces the Chrome material."
-msgstr ""
+msgstr "Gib bis zu 2 Teilen das Material Chrom."
 
 #: game/content/tools.gd:9
 msgid "Give up to 2 pieces the Neon material."
-msgstr ""
+msgstr "Gib bis zu 2 Teilen das Material Neon."
 
 #: game/content/tools.gd:9
 msgid "Neon Tubing"
-msgstr ""
+msgstr "Neonröhre"
 
 #: game/content/tools.gd:10
 msgid "Give 1 piece the Gold material."
-msgstr ""
+msgstr "Gib 1 Teil das Material Gold."
 
 #: game/content/tools.gd:10
 msgid "Gold Leaf"
-msgstr ""
+msgstr "Blattgold"
 
 #: game/content/tools.gd:11
 msgid "Give up to 2 pieces the Glass material."
-msgstr ""
+msgstr "Gib bis zu 2 Teilen das Material Glas."
 
 #: game/content/tools.gd:11
 msgid "Glassworks"
-msgstr ""
+msgstr "Glashütte"
 
 #: game/content/tools.gd:12
 msgid "Give up to 2 pieces the Prism material."
-msgstr ""
+msgstr "Gib bis zu 2 Teilen das Material Prisma."
 
 #: game/content/tools.gd:12
 msgid "Prism Coat"
-msgstr ""
+msgstr "Prismalack"
 
 #: game/content/tools.gd:13
 msgid "Stamp up to 2 pieces with Encore."
-msgstr ""
+msgstr "Stemple bis zu 2 Teile mit Zugabe."
 
 #: game/content/tools.gd:14
 msgid "Stamp up to 2 pieces with Refund."
-msgstr ""
+msgstr "Stemple bis zu 2 Teile mit Erstattung."
 
 #: game/content/tools.gd:15
 msgid "Stamp up to 2 pieces with Tip."
-msgstr ""
+msgstr "Stemple bis zu 2 Teile mit Trinkgeld."
 
 #: game/content/tools.gd:16
 msgid "Stamp up to 2 pieces with Memory."
-msgstr ""
+msgstr "Stemple bis zu 2 Teile mit Erinnerung."
 
 #: game/content/tools.gd:17
 msgid "Add an exact copy of 1 piece (with its material and stamp) to your bag."
-msgstr ""
+msgstr "Füge deinem Beutel eine exakte Kopie von 1 Teil hinzu (mit Material und Stempel)."
 
 #: game/content/tools.gd:17
 msgid "Copier"
-msgstr ""
+msgstr "Kopierer"
 
 #: game/content/tools.gd:18
 msgid "Remove up to 2 pieces from your bag (the bag keeps at least 12)."
-msgstr ""
+msgstr "Entferne bis zu 2 Teile aus deinem Beutel (der Beutel behält mindestens 12)."
 
 #: game/content/tools.gd:18
 msgid "Shredder"
-msgstr ""
+msgstr "Aktenvernichter"
 
 #: game/content/tools.gd:19
 msgid "Rotate up to 2 pieces 90 degrees clockwise."
-msgstr ""
+msgstr "Dreh bis zu 2 Teile um 90 Grad im Uhrzeigersinn."
 
 #: game/content/tools.gd:19
 msgid "Turntable"
-msgstr ""
+msgstr "Drehteller"
 
 #: game/content/tools.gd:20
 msgid "Repaint"
-msgstr ""
+msgstr "Umlackieren"
 
 #: game/content/tools.gd:20
 msgid "Repaint up to 3 pieces to a color of your choice."
-msgstr ""
+msgstr "Lackiere bis zu 3 Teile in einer Farbe deiner Wahl um."
 
 #: game/content/tools.gd:21
 msgid "Level up a shape family: its pieces gain +25 Chips and +0.25 Mult per level when placed."
-msgstr ""
+msgstr "Wertet eine Formfamilie auf: Ihre Teile erhalten beim Legen +25 Chips und +0.25 Mult pro Stufe."
 
 #: game/content/tools.gd:21
 msgid "Schematic"
-msgstr ""
+msgstr "Bauplan"
 
 #: game/content/tools.gd:22
 msgid "+1 Joker slot for the rest of the run (up to 7)."
-msgstr ""
+msgstr "+1 Joker-Platz für den Rest der Partie (bis zu 7)."
 
 #: game/content/tools.gd:22
 msgid "Rack Extender"
-msgstr ""
+msgstr "Regalerweiterung"
 
 #: game/content/tools.gd:46
 #, c-format
 msgid "Schematic: %s"
-msgstr ""
+msgstr "Bauplan: %s"
 
 #: game/content/tools.gd:54
 #, c-format
 msgid "Level up %s pieces (now Lv %d): +%d Chips and +%s Mult per level when placed."
-msgstr ""
+msgstr "Wertet %s-Teile auf (jetzt Stufe %d): +%d Chips und +%s Mult pro Stufe beim Legen."
 
 #: game/content/tutorial_steps.gd:23
 msgid "Well hello there! I'm POPS. I've kept this arcade running since blocks were square. Want the grand tour?"
-msgstr ""
+msgstr "Na, hallo! Ich bin POPS. Ich halte diese Spielhalle am Laufen, seit die Blöcke eckig sind. Lust auf eine Führung?"
 
 #: game/content/tutorial_steps.gd:25
 msgid "These three are your tray: pieces drawn from your very own bag."
-msgstr ""
+msgstr "Diese drei sind deine Auslage: Teile aus deinem ganz eigenen Beutel."
 
 #: game/content/tutorial_steps.gd:27
 msgid "Drag one onto the board, or click it and then a cell. Go on, place a piece!"
-msgstr ""
+msgstr "Zieh eins aufs Brett, oder klick es an und dann ein Feld. Na los, leg ein Teil!"
 
 #: game/content/tutorial_steps.gd:29
 msgid "Nice! Every placement scores CHIPS x MULT, and the receipt shows the sums. No secrets here."
-msgstr ""
+msgstr "Schön! Jeder Zug bringt CHIPS x MULT, und der Bon zeigt die Rechnung. Hier gibt's keine Geheimnisse."
 
 #: game/content/tutorial_steps.gd:31
 msgid "Now fill a whole row or column. It clears, pays big, and gives you a placement back!"
-msgstr ""
+msgstr "Jetzt füll eine ganze Zeile oder Spalte. Sie wird abgeräumt, bringt viel und gibt dir einen Zug zurück!"
 
 #: game/content/tutorial_steps.gd:33
 msgid "Reach the target up here before the lamps run out. Each lamp is one placement."
-msgstr ""
+msgstr "Erreiche das Ziel hier oben, bevor die Lämpchen ausgehen. Jedes Lämpchen ist ein Zug."
 
 #: game/content/tutorial_steps.gd:35
 msgid "Bad tray? REFRESH swaps all three pieces. Only once a round, so pick your moment."
-msgstr ""
+msgstr "Schlechte Auslage? TAUSCHEN wechselt alle drei Teile. Nur einmal pro Runde, also wähl den Moment gut."
 
 #: game/content/tutorial_steps.gd:37
 msgid "HOLD keeps one piece for later. Drop a piece on it, or press H."
-msgstr ""
+msgstr "HALTEN hebt ein Teil für später auf. Zieh ein Teil darauf oder drück H."
 
 #: game/content/tutorial_steps.gd:39
 msgid "Jokers live here. They add Chips and Mult to every placement. You buy them in the shop."
-msgstr ""
+msgstr "Hier wohnen die Joker. Sie geben jedem Zug Chips und Mult dazu. Kaufen kannst du sie im Laden."
 
 #: game/content/tutorial_steps.gd:41
 msgid "That's the basics! Hit the target and I'll meet you in the shop."
-msgstr ""
+msgstr "Das sind die Grundlagen! Erreiche das Ziel, dann sehen wir uns im Laden."
 
 #: game/content/tutorial_steps.gd:44
 msgid "Welcome to the Toybox! Spend your Credits on Jokers here."
-msgstr ""
+msgstr "Willkommen in der Spielzeugkiste! Hier gibst du deine Credits für Joker aus."
 
 #: game/content/tutorial_steps.gd:46
 msgid "Workshop cards change the pieces in your bag: paint them, copy them, make them shiny."
-msgstr ""
+msgstr "Werkstattkarten verändern die Teile in deinem Beutel: bemalen, kopieren, zum Glänzen bringen."
 
 #: game/content/tutorial_steps.gd:48
 msgid "Shop as long as you like. When you're ready, NEXT ROUND is here: you even pick how hard it is."
-msgstr ""
+msgstr "Kauf ein, so lange du willst. Wenn du bereit bist, ist hier NÄCHSTE RUNDE: Du wählst sogar, wie schwer sie wird."
 
 #: game/content/tutorial_steps.gd:51
 msgid "You're a natural! Every fourth round a boss shows up, so read its rule. Have fun!"
-msgstr ""
+msgstr "Du bist ein Naturtalent! Alle vier Runden taucht ein Boss auf, also lies seine Regel. Viel Spaß!"
 
 #: game/main.gd:596
 msgid "SOUND OFF  (M)"
-msgstr ""
+msgstr "TON AUS  (M)"
 
 #: game/main.gd:596
 msgid "SOUND ON  (M)"
-msgstr ""
+msgstr "TON AN  (M)"
 
 #: game/presentation/finishes.gd:22
 msgid "Bright toy plastic. The original."
-msgstr ""
+msgstr "Leuchtendes Spielzeugplastik. Das Original."
 
 #: game/presentation/finishes.gd:22
 msgid "CLASSIC PLASTIC"
-msgstr ""
+msgstr "KLASSISCHES PLASTIK"
 
 #: game/presentation/finishes.gd:24
 msgid "Lead-lined jewel panes. Light rolls through them."
-msgstr ""
+msgstr "Bleigefasste Juwelenscheiben. Das Licht rollt hindurch."
 
 #: game/presentation/finishes.gd:24
 msgid "STAINED GLASS"
-msgstr ""
+msgstr "BUNTGLAS"
 
 #: game/presentation/finishes.gd:26
 msgid "CRYSTAL"
-msgstr ""
+msgstr "KRISTALL"
 
 #: game/presentation/finishes.gd:26
 msgid "Step-cut gems with twinkling facets."
-msgstr ""
+msgstr "Stufig geschliffene Edelsteine mit funkelnden Facetten."
 
 #: game/presentation/finishes.gd:28
 msgid "Buzzing glass tubes on a black sign."
-msgstr ""
+msgstr "Summende Glasröhren auf einem schwarzen Schild."
 
 #: game/presentation/finishes.gd:28
 msgid "NEON"
-msgstr ""
+msgstr "NEON"
 
 #: game/presentation/finishes.gd:30
 msgid "GOLD"
-msgstr ""
+msgstr "GOLD"
 
 #: game/presentation/finishes.gd:30
 msgid "Gilded bullion, enamel jewel, rolling shine."
-msgstr ""
+msgstr "Vergoldete Barren, Emaille-Juwel, rollender Glanz."
 
 #: game/presentation/finishes.gd:32
 msgid "MARBLE"
-msgstr ""
+msgstr "MARMOR"
 
 #: game/presentation/finishes.gd:32
 msgid "Polished stone veined with color."
-msgstr ""
+msgstr "Polierter Stein mit farbigen Adern."
 
 #: game/presentation/finishes.gd:34
 msgid "CYBERPUNK"
-msgstr ""
+msgstr "CYBERPUNK"
 
 #: game/presentation/finishes.gd:34
 msgid "Circuit boards pulsing with data."
-msgstr ""
+msgstr "Platinen, die vor Daten pulsieren."
 
 #: game/presentation/finishes.gd:36
 msgid "Painted maple blocks with carved rings."
-msgstr ""
+msgstr "Bemalte Ahornklötze mit geschnitzten Ringen."
 
 #: game/presentation/finishes.gd:36
 msgid "TOY WOOD"
-msgstr ""
+msgstr "SPIELZEUGHOLZ"
 
 #: game/presentation/finishes.gd:38
 msgid "CANDY"
-msgstr ""
+msgstr "BONBON"
 
 #: game/presentation/finishes.gd:38
 msgid "Glossy pinwheels that slowly turn."
-msgstr ""
+msgstr "Glänzende Windrädchen, die sich langsam drehen."
 
 #: game/presentation/finishes.gd:40
 msgid "Basalt plates over pulsing magma."
-msgstr ""
+msgstr "Basaltplatten über pulsierendem Magma."
 
 #: game/presentation/finishes.gd:40
 msgid "LAVA"
-msgstr ""
+msgstr "LAVA"
 
 #: game/presentation/finishes.gd:42
 msgid "Frosted cubes with trapped bubbles."
-msgstr ""
+msgstr "Bereifte Würfel mit eingeschlossenen Bläschen."
 
 #: game/presentation/finishes.gd:42
 msgid "ICE"
-msgstr ""
+msgstr "EIS"
 
 #: game/presentation/finishes.gd:44
 msgid "CHROME"
-msgstr ""
+msgstr "CHROM"
 
 #: game/presentation/finishes.gd:44
 msgid "Mirror polish. A glint races across."
-msgstr ""
+msgstr "Spiegelpolitur. Ein Glanz huscht darüber."
 
 #: game/presentation/finishes.gd:46
 msgid "Holographic foil in every color at once."
-msgstr ""
+msgstr "Holografische Folie in allen Farben zugleich."
 
 #: game/presentation/finishes.gd:46
 msgid "PRISM"
-msgstr ""
+msgstr "PRISMA"
 
 #: game/presentation/finishes.gd:48
 msgid "AURORA"
-msgstr ""
+msgstr "POLARLICHT"
 
 #: game/presentation/finishes.gd:48
 msgid "Northern lights over tiny mountains."
-msgstr ""
+msgstr "Nordlichter über winzigen Bergen."
 
 #: game/presentation/finishes.gd:50
 msgid "Nebulae, twinkles and shooting stars."
-msgstr ""
+msgstr "Nebel, Funkeln und Sternschnuppen."
 
 #: game/presentation/finishes.gd:50
 msgid "STARFALL"
-msgstr ""
+msgstr "STERNSCHNUPPEN"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/endless.gd:98
 msgid "Game over."
-msgstr ""
+msgstr "Spiel vorbei."
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/endless.gd:114
 msgid "Pick an offered piece."
-msgstr ""
+msgstr "Wähle ein angebotenes Teil."
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/endless.gd:117
 msgid "That piece does not fit."
-msgstr ""
+msgstr "Dieses Teil passt nicht."
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/endless.gd:139
 msgid "DOUBLE CLEAR"
-msgstr ""
+msgstr "DOPPEL-ABRÄUMER"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/endless.gd:141
 msgid "TRIPLE CLEAR"
-msgstr ""
+msgstr "DREIFACH-ABRÄUMER"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/endless.gd:143
 msgid "MEGA CLEAR"
-msgstr ""
+msgstr "MEGA-ABRÄUMER"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/endless.gd:147
 msgid "PERFECT"
-msgstr ""
+msgstr "PERFEKT"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/endless.gd:148
 msgid "CLEAN BOARD"
-msgstr ""
+msgstr "LEERES BRETT"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/endless.gd:150
 msgid "BLOCKSTORM"
-msgstr ""
+msgstr "BLOCKSTURM"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/endless.gd:204 game/run/run.gd:503
 msgid "Hold is available again after a placement."
-msgstr ""
+msgstr "Halten ist nach einem Zug wieder verfügbar."
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/endless.gd:206
 msgid "Select a piece to hold."
-msgstr ""
+msgstr "Wähle ein Teil zum Halten."
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/endless.gd:229
 msgid "That swap leaves no playable piece."
-msgstr ""
+msgstr "Dieser Tausch lässt kein spielbares Teil übrig."
 
 #: game/rules/hands.gd:17
 msgid "SLAM!"
-msgstr ""
+msgstr "SLAM!"
 
 #: game/rules/hands.gd:17
 msgid "x2 MULT, +2 MULT, +1 REFRESH, +3 CREDITS"
-msgstr ""
+msgstr "x2 MULT, +2 MULT, +1 TAUSCH, +3 CREDITS"
 
 #: game/rules/hands.gd:18
 msgid "Three pieces of the same family and the same color. Every placement from this tray gets +2 Mult and x2 Mult; you gain +1 Refresh this round and 3 Credits."
-msgstr ""
+msgstr "Drei Teile derselben Familie und derselben Farbe. Jeder Zug aus dieser Auslage erhält +2 Mult und x2 Mult; du erhältst +1 Tausch in dieser Runde und 3 Credits."
 
 #: game/rules/hands.gd:19
 msgid "+2 MULT, x1.5 MULT EACH, +1 REFRESH"
-msgstr ""
+msgstr "+2 MULT, JE x1.5 MULT, +1 TAUSCH"
 
 #: game/rules/hands.gd:19
 msgid "TRIPLETS"
-msgstr ""
+msgstr "DRILLINGE"
 
 #: game/rules/hands.gd:19
 msgid "Triplets"
-msgstr ""
+msgstr "Drillinge"
 
 #: game/rules/hands.gd:20
 msgid "Three pieces of the same family. Every placement from this tray gets +2 Mult and x1.5 Mult, and you gain +1 Refresh this round."
-msgstr ""
+msgstr "Drei Teile derselben Familie. Jeder Zug aus dieser Auslage erhält +2 Mult und x1.5 Mult, und du erhältst +1 Tausch in dieser Runde."
 
 #: game/rules/hands.gd:21
 msgid "MONO"
-msgstr ""
+msgstr "MONO"
 
 #: game/rules/hands.gd:21
 msgid "Monochrome"
-msgstr ""
+msgstr "Einfarbig"
 
 #: game/rules/hands.gd:21
 msgid "x2 MULT EACH"
-msgstr ""
+msgstr "JE x2 MULT"
 
 #: game/rules/hands.gd:22
 msgid "Three pieces of the same color (Prism counts as any color). Every placement from this tray gets x2 Mult."
-msgstr ""
+msgstr "Drei Teile derselben Farbe (Prisma zählt als jede Farbe). Jeder Zug aus dieser Auslage erhält x2 Mult."
 
 #: game/rules/hands.gd:23
 msgid "+1 PLACEMENT"
-msgstr ""
+msgstr "+1 ZUG"
 
 #: game/rules/hands.gd:23
 msgid "STAIRS"
-msgstr ""
+msgstr "TREPPE"
 
 #: game/rules/hands.gd:23
 msgid "Staircase"
-msgstr ""
+msgstr "Treppe"
 
 #: game/rules/hands.gd:24
 msgid "Cell counts in a row, like 2-3-4. You gain +1 placement (it can go above your refill cap)."
-msgstr ""
+msgstr "Aufeinanderfolgende Feldzahlen, etwa 2-3-4. Du erhältst +1 Zug (auch über deine Auffüllgrenze)."
 
 #: game/rules/hands.gd:25
 msgid "+1 MULT EACH"
-msgstr ""
+msgstr "JE +1 MULT"
 
 #: game/rules/hands.gd:25
 msgid "TWINS"
-msgstr ""
+msgstr "ZWILLINGE"
 
 #: game/rules/hands.gd:25
 msgid "Twins"
-msgstr ""
+msgstr "Zwillinge"
 
 #: game/rules/hands.gd:26
 msgid "Exactly two pieces of the same family. Every placement from this tray gets +1 Mult."
-msgstr ""
+msgstr "Genau zwei Teile derselben Familie. Jeder Zug aus dieser Auslage erhält +1 Mult."
 
 #: game/rules/resolver.gd:27
 msgid "BILLION-POINT BLOCK"
-msgstr ""
+msgstr "MILLIARDEN-BLOCK"
 
 #: game/rules/resolver.gd:27
 msgid "SEVEN DIGITS"
-msgstr ""
+msgstr "SIEBEN STELLEN"
 
 #: game/rules/resolver.gd:27
 msgid "TRILLION TERRITORY"
-msgstr ""
+msgstr "BILLIONEN-GEBIET"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:168
 #, c-format
 msgid "Cells x%d (Long Game: no cell Chips)"
-msgstr ""
+msgstr "Felder x%d (Langer Atem: keine Feld-Chips)"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:170
 #, c-format
 msgid "Cells x%d"
-msgstr ""
+msgstr "Felder x%d"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:174
 #, c-format
 msgid "Chrome cells x%d"
-msgstr ""
+msgstr "Chromfelder x%d"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:174
 #, c-format
 msgid "Chrome cells x%d (Stone: doubled)"
-msgstr ""
+msgstr "Chromfelder x%d (Stein: verdoppelt)"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:178
 msgid "Veteran training"
-msgstr ""
+msgstr "Veteranentraining"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:183
 #, c-format
 msgid "Heavy Lifting x%d"
-msgstr ""
+msgstr "Schwerstarbeit x%d"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:187 game/rules/resolver.gd:226
 #, c-format
 msgid "%s Lv %d"
-msgstr ""
+msgstr "%s Stufe %d"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:191
 #, c-format
 msgid "Lines x%d"
-msgstr ""
+msgstr "Linien x%d"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:195
 #, c-format
 msgid "Lines x%d (Taxman: first line %d)"
-msgstr ""
+msgstr "Linien x%d (Steuereintreiber: erste Linie %d)"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:200
 msgid "Multi-line bonus"
-msgstr ""
+msgstr "Mehrlinien-Bonus"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:204
 #, c-format
 msgid "Combo %d"
-msgstr ""
+msgstr "Kombo %d"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:207
 msgid "Last Call multi-line"
-msgstr ""
+msgstr "Letzte Runde: Mehrlinien"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:229
 msgid "Twins hand"
-msgstr ""
+msgstr "Blatt Zwillinge"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:238
 #, c-format
 msgid "Multi-line Mult (%d lines)"
-msgstr ""
+msgstr "Mehrlinien-Mult (%d Linien)"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:242
 #, c-format
 msgid "Neon cells cleared x%d"
-msgstr ""
+msgstr "Abgeräumte Neonfelder x%d"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:248 game/rules/resolver.gd:270
 #, c-format
 msgid "%s hand"
-msgstr ""
+msgstr "Blatt %s"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:260
 msgid "Encore Stamp (Double Stamp)"
-msgstr ""
+msgstr "Zugabe-Stempel (Doppelstempel)"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:264
 msgid "Glass cleared"
-msgstr ""
+msgstr "Glas abgeräumt"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:264
 msgid "Glass cleared (Stone: doubled)"
-msgstr ""
+msgstr "Glas abgeräumt (Stein: verdoppelt)"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:273
 msgid "Triplets hand"
-msgstr ""
+msgstr "Blatt Drillinge"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:320
 #, c-format
 msgid "Avalanche wave %d: lines x%d"
-msgstr ""
+msgstr "Lawinenwelle %d: Linien x%d"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:323
 #, c-format
 msgid "Avalanche wave %d: lines x%d (Echo Chamber: half)"
-msgstr ""
+msgstr "Lawinenwelle %d: Linien x%d (Echokammer: halbiert)"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:334
 #, c-format
 msgid "Chain x%d"
-msgstr ""
+msgstr "Kette x%d"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:366
 #, c-format
 msgid "Gold: +%d Credit"
 msgid_plural "Gold: +%d Credits"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Gold: +%d Credit"
+msgstr[1] "Gold: +%d Credits"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:369
 #, c-format
 msgid "Tip Stamp: +%d Credits"
-msgstr ""
+msgstr "Trinkgeldstempel: +%d Credits"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:372
 msgid "Refund Stamp: this placement was free"
-msgstr ""
+msgstr "Erstattungsstempel: Dieser Zug war gratis"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:372
 msgid "Refund Stamp: this placement was free (+1 more)"
-msgstr ""
+msgstr "Erstattungsstempel: Dieser Zug war gratis (+1 extra)"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:378
 #, c-format
 msgid "Lines cleared: +%d placement"
 msgid_plural "Lines cleared: +%d placements"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Linien abgeräumt: +%d Zug"
+msgstr[1] "Linien abgeräumt: +%d Züge"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:385
 #, c-format
 msgid "Overflow: +%d Credit"
 msgid_plural "Overflow: +%d Credits"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Überlauf: +%d Credit"
+msgstr[1] "Überlauf: +%d Credits"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:391
 msgid "Draftsman: gained an Eraser"
-msgstr ""
+msgstr "Bauzeichner: Radiergummi erhalten"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:393
 msgid "Draftsman: item slots full"
-msgstr ""
+msgstr "Bauzeichner: Gegenstandsplätze voll"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:402
 #, c-format
 msgid "The Warden's bars break: slot %d is free"
-msgstr ""
+msgstr "Die Gitter des Wärters brechen: Platz %d ist frei"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:405
 msgid "Patch Panel ready: remove one block"
-msgstr ""
+msgstr "Flickenfeld bereit: Entferne einen Block"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:410
 msgid "Memory Stamp: gained a Spark"
-msgstr ""
+msgstr "Erinnerungsstempel: Funke erhalten"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:412
 msgid "Memory Stamp: item slots full"
-msgstr ""
+msgstr "Erinnerungsstempel: Gegenstandsplätze voll"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:415
 #, c-format
 msgid "Snowball grew to x%s Mult"
-msgstr ""
+msgstr "Schneeball wuchs auf x%s Mult"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:422
 #, c-format
 msgid "Veteran: this piece now scores +%d Chips"
-msgstr ""
+msgstr "Veteran: Dieses Teil bringt jetzt +%d Chips"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:431
 #, c-format
 msgid "Philosopher's Stone: it turned %s"
-msgstr ""
+msgstr "Stein der Weisen: Es wurde zu %s"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:441
 #, c-format
 msgid "Glass %s shattered and left your bag"
-msgstr ""
+msgstr "Glasteil %s ist zerbrochen und hat deinen Beutel verlassen"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:444
 msgid "Breakage Bonus: +2 Credits"
-msgstr ""
+msgstr "Bruchprämie: +2 Credits"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:446
 #, c-format
 msgid "Glass %s cracked but held (bag at minimum size)"
-msgstr ""
+msgstr "Glasteil %s hat einen Sprung, hält aber (Beutel auf Mindestgröße)"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:525
 #, c-format
 msgid "Mimic (%s)"
-msgstr ""
+msgstr "Nachahmer (%s)"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:527
 #, c-format
 msgid "Mimic (%s), mirrored"
-msgstr ""
+msgstr "Nachahmer (%s), gespiegelt"
 
 #. rules text (shown through BMLoc.tf)
 #: game/rules/resolver.gd:531
 #, c-format
 msgid "%s, mirrored"
-msgstr ""
+msgstr "%s, gespiegelt"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/achievement_store.gd:144 game/ui/game_screen.gd:1547
 msgid "Best placement"
-msgstr ""
+msgstr "Bester Zug"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/achievement_store.gd:144
 msgid "Furthest round"
-msgstr ""
+msgstr "Weiteste Runde"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/achievement_store.gd:145
 msgid "Best round score"
-msgstr ""
+msgstr "Beste Rundenpunktzahl"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/achievement_store.gd:145
 msgid "Machine broken in round"
-msgstr ""
+msgstr "Maschine kaputt in Runde"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:323
 msgid "Disabled by The Color Blind: color effects are off this round."
-msgstr ""
+msgstr "Deaktiviert durch den Farbenblinden: Farbeffekte sind in dieser Runde aus."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:374
 msgid "No item in that slot."
-msgstr ""
+msgstr "Kein Gegenstand auf diesem Platz."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:376
 msgid "Items can be used during a round, between placements."
-msgstr ""
+msgstr "Gegenstände nutzt du während einer Runde, zwischen den Zügen."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:381
 msgid "The Lockdown disables tray refreshes."
-msgstr ""
+msgstr "Die Abriegelung sperrt das Tauschen der Auslage."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:383 game/run/run.gd:392 game/run/run.gd:402 game/run/run.gd:555
 msgid "The tray is empty."
-msgstr ""
+msgstr "Die Auslage ist leer."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:386
 #, c-format
 msgid "Already at %d placements."
-msgstr ""
+msgstr "Du hast bereits %d Züge."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:389
 msgid "The board is empty."
-msgstr ""
+msgstr "Das Brett ist leer."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:397 game/run/run.gd:551
 msgid "The Lockdown disables Refresh this round."
-msgstr ""
+msgstr "Die Abriegelung sperrt in dieser Runde den Tausch."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:399
 msgid "Rush Hour: no Refresh this round."
-msgstr ""
+msgstr "Stoßzeit: In dieser Runde kein Tausch."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:405
 msgid "Not usable yet in this build."
-msgstr ""
+msgstr "In dieser Version noch nicht nutzbar."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:407
 msgid "Only Extra Turn helps when placements are spent."
-msgstr ""
+msgstr "Ohne Züge hilft nur noch Extrazug."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:466
 msgid "Cannot place right now."
-msgstr ""
+msgstr "Gerade kann nicht gelegt werden."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:468 game/run/run.gd:688
 msgid "That tray slot is empty."
-msgstr ""
+msgstr "Dieser Platz der Auslage ist leer."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:470
 msgid "The Warden barred this slot. Clear a line to free it."
-msgstr ""
+msgstr "Der Wärter hat diesen Platz gesperrt. Räume eine Linie ab, um ihn freizugeben."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:472
 msgid "The shape does not fit there."
-msgstr ""
+msgstr "Die Form passt dort nicht hin."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:489
 msgid "The Undertaker raised a tombstone"
-msgstr ""
+msgstr "Der Totengräber hat einen Grabstein errichtet"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:498
 msgid "Cannot hold right now."
-msgstr ""
+msgstr "Halten ist gerade nicht möglich."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:500 game/ui/game_screen.gd:695
 msgid "The Lockdown Mk II disables Hold this round."
-msgstr ""
+msgstr "Die Abriegelung Mk II sperrt in dieser Runde das Halten."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:505
 msgid "Choose an open tray slot."
-msgstr ""
+msgstr "Wähle einen freien Platz der Auslage."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:509
 msgid "Nothing to hold."
-msgstr ""
+msgstr "Nichts zum Halten."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:518 game/run/run.gd:1119
 msgid "New tray"
-msgstr ""
+msgstr "Neue Auslage"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:521
 #, c-format
 msgid "Held %s"
-msgstr ""
+msgstr "Gehalten: %s"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:525
 #, c-format
 msgid "Swapped in %s"
-msgstr ""
+msgstr "Eingetauscht: %s"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:538 game/run/run.gd:780 game/run/run.gd:802 game/run/run.gd:822 game/run/run.gd:896 game/run/run.gd:918
 msgid "The shop is closed."
-msgstr ""
+msgstr "Der Laden ist geschlossen."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:541
 msgid "No round card there."
-msgstr ""
+msgstr "Dort ist keine Rundenkarte."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:549
 msgid "Cannot refresh right now."
-msgstr ""
+msgstr "Tauschen ist gerade nicht möglich."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:553
 msgid "No Refresh left this round."
-msgstr ""
+msgstr "In dieser Runde ist kein Tausch mehr übrig."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:558
 msgid "Refresh"
-msgstr ""
+msgstr "Tausch"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:582
 #, c-format
 msgid "%s removed %d block"
 msgid_plural "%s removed %d blocks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s entfernte %d Block"
+msgstr[1] "%s entfernte %d Blöcke"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:651
 msgid "Choose blocks on the board."
-msgstr ""
+msgstr "Wähle Blöcke auf dem Brett."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:655
 msgid "Choose 1 or 2 blocks."
-msgstr ""
+msgstr "Wähle 1 oder 2 Blöcke."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:660
 msgid "Choose where to hit."
-msgstr ""
+msgstr "Wähle, wo du zuschlägst."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:666 game/ui/game_screen.gd:1828
 msgid "Nothing to hit there."
-msgstr ""
+msgstr "Dort ist nichts zum Treffen."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:671 game/run/run.gd:692 game/run/run.gd:877
 msgid "Choose a color."
-msgstr ""
+msgstr "Wähle eine Farbe."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:678
 #, c-format
 msgid "No %s blocks on the board."
-msgstr ""
+msgstr "Keine Blöcke der Farbe %s auf dem Brett."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:683
 msgid "Choose a tray slot."
-msgstr ""
+msgstr "Wähle einen Platz der Auslage."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:686
 msgid "The Warden barred that slot."
-msgstr ""
+msgstr "Der Wärter hat diesen Platz gesperrt."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:694
 #, c-format
 msgid "That piece is already %s."
-msgstr ""
+msgstr "Dieses Teil hat schon die Farbe %s."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:699
 msgid "Choose a shape."
-msgstr ""
+msgstr "Wähle eine Form."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:708
 msgid "Cannot patch right now."
-msgstr ""
+msgstr "Flicken ist gerade nicht möglich."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:710
 msgid "Patch Panel is not ready."
-msgstr ""
+msgstr "Das Flickenfeld ist nicht bereit."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:712
 msgid "Choose a block on the board."
-msgstr ""
+msgstr "Wähle einen Block auf dem Brett."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:718
 msgid "Patch Panel removed a block"
-msgstr ""
+msgstr "Das Flickenfeld hat einen Block entfernt"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:725
 msgid "You can only concede when stuck."
-msgstr ""
+msgstr "Aufgeben kannst du nur, wenn du feststeckst."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:727
 msgid "Conceded: no legal placement remained."
-msgstr ""
+msgstr "Aufgegeben: Kein gültiger Zug war mehr möglich."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:727
 msgid "Conceded: out of placements."
-msgstr ""
+msgstr "Aufgegeben: Keine Züge mehr."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:737
 msgid "The run is already over."
-msgstr ""
+msgstr "Die Partie ist bereits vorbei."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:740
 msgid "Run abandoned."
-msgstr ""
+msgstr "Partie abgebrochen."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:746
 msgid "No round result to continue from."
-msgstr ""
+msgstr "Kein Rundenergebnis zum Fortsetzen."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:750
 #, c-format
 msgid "All %d rounds cleared!"
-msgstr ""
+msgstr "Alle %d Runden geschafft!"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:760
 msgid "Overtime starts after winning the final round."
-msgstr ""
+msgstr "Die Verlängerung beginnt nach dem Sieg in der letzten Runde."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:773
 #, c-format
 msgid "You broke the machine in round %d: one placement hit its limit of %s points."
-msgstr ""
+msgstr "Du hast die Maschine in Runde %d kaputt gemacht: Ein Zug erreichte ihr Limit von %s Punkten."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:782 game/run/run.gd:804 game/run/run.gd:824 game/run/run.gd:898
 msgid "That offer is gone."
-msgstr ""
+msgstr "Dieses Angebot ist weg."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:786 game/run/run.gd:808 game/run/run.gd:828 game/run/run.gd:901 game/run/run.gd:921 game/ui/shop_screen.gd:666
 msgid "Not enough Credits."
-msgstr ""
+msgstr "Nicht genug Credits."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:788 game/run/run.gd:1323
 msgid "Joker slots are full. Sell a Joker first."
-msgstr ""
+msgstr "Die Joker-Plätze sind voll. Verkauf zuerst einen Joker."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:810 game/run/run.gd:1330 game/ui/shop_screen.gd:554
 msgid "Item slots are full. Use an item first."
-msgstr ""
+msgstr "Die Gegenstandsplätze sind voll. Benutze zuerst einen Gegenstand."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:835
 msgid "This card does not target pieces."
-msgstr ""
+msgstr "Diese Karte zielt nicht auf Teile."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:837
 #, c-format
 msgid "Choose 1 to %d piece."
 msgid_plural "Choose 1 to %d pieces."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Wähle 1 bis %d Teil."
+msgstr[1] "Wähle 1 bis %d Teile."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:842
 msgid "That piece is not in your bag."
-msgstr ""
+msgstr "Dieses Teil ist nicht in deinem Beutel."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:848
 #, c-format
 msgid "A chosen piece is already %s."
-msgstr ""
+msgstr "Ein gewähltes Teil ist bereits aus %s."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:854
 msgid "That piece already has this stamp."
-msgstr ""
+msgstr "Dieses Teil hat diesen Stempel schon."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:859 game/run/run.gd:903
 #, c-format
 msgid "Your bag is full (%d pieces)."
-msgstr ""
+msgstr "Dein Beutel ist voll (%d Teile)."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:864
 #, c-format
 msgid "Your bag must keep at least %d pieces."
-msgstr ""
+msgstr "Dein Beutel muss mindestens %d Teile behalten."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:885
 #, c-format
 msgid "Your Joker rack is already at %d slots."
-msgstr ""
+msgstr "Dein Joker-Regal hat bereits %d Plätze."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:931
 msgid "Jokers can be sold in the shop or between placements."
-msgstr ""
+msgstr "Joker kannst du im Laden oder zwischen den Zügen verkaufen."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:933
 msgid "No Joker in that slot."
-msgstr ""
+msgstr "Kein Joker auf diesem Platz."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:936
 #, c-format
 msgid "Repay the loan first (%d Credits owed)."
-msgstr ""
+msgstr "Zahl zuerst den Kredit zurück (%d Credits Schulden)."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:952
 msgid "Jokers can be reordered in the shop or between placements."
-msgstr ""
+msgstr "Joker kannst du im Laden oder zwischen den Zügen umsortieren."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:954
 msgid "Invalid Joker move."
-msgstr ""
+msgstr "Ungültige Joker-Verschiebung."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:1076 game/run/run.gd:1122
 msgid "No piece in your bag fits: a temporary Single was dealt"
-msgstr ""
+msgstr "Kein Teil aus deinem Beutel passt: Ein temporäres Einzel wurde ausgeteilt"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:1081
 #, c-format
 msgid "Card Sharp: %s!"
-msgstr ""
+msgstr "Kartenhai: %s!"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:1087
 #, c-format
 msgid "Second Look: +%d placement"
 msgid_plural "Second Look: +%d placements"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Zweiter Blick: +%d Zug"
+msgstr[1] "Zweiter Blick: +%d Züge"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:1127
 #, c-format
 msgid "Out of placements: %d / %d points."
-msgstr ""
+msgstr "Keine Züge mehr: %d / %d Punkte."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:1150
 msgid "Tiny Insurance: a Single replaced a stuck shape"
-msgstr ""
+msgstr "Mini-Versicherung: Ein Einzel ersetzte eine festsitzende Form"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:1154
 msgid "No offered shape fits and no rescue remains."
-msgstr ""
+msgstr "Keine angebotene Form passt und es gibt keine Rettung mehr."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:1175
 msgid "Round won"
-msgstr ""
+msgstr "Runde gewonnen"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:1178
 #, c-format
 msgid "Unused placements (%d)"
-msgstr ""
+msgstr "Ungenutzte Züge (%d)"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:1180
 msgid "Boss defeated"
-msgstr ""
+msgstr "Boss besiegt"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:1192
 #, c-format
 msgid "Overkill (%s of target)"
-msgstr ""
+msgstr "Overkill (%s des Ziels)"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:1195
 #, c-format
 msgid "%s bonus"
-msgstr ""
+msgstr "Bonus: %s"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:1199
 #, c-format
 msgid "Thrift (%d unused Refresh)"
 msgid_plural "Thrift (%d unused Refreshes)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Sparsam (%d ungenutzter Tausch)"
+msgstr[1] "Sparsam (%d ungenutzte Tausche)"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:1204
 #, c-format
 msgid "Interest (%d held)"
-msgstr ""
+msgstr "Zinsen (%d im Besitz)"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:1209
 #, c-format
 msgid "Overachiever grew to +%s Mult"
-msgstr ""
+msgstr "Streber wuchs auf +%s Mult"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:1212
 #, c-format
 msgid "Hot Streak heated up to x%s Mult"
-msgstr ""
+msgstr "Glückssträhne heizte auf x%s Mult"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:1219
 #, c-format
 msgid "Treasure Hunt: found %s"
-msgstr ""
+msgstr "Schatzsuche: %s gefunden"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:1222
 #, c-format
 msgid "Scholarship: %s is now level %d"
-msgstr ""
+msgstr "Stipendium: %s ist jetzt Stufe %d"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:1229
 #, c-format
 msgid "Vending Machine dropped %s"
-msgstr ""
+msgstr "Der Verkaufsautomat warf %s aus"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:1233
 msgid "Loan Shark repayment"
-msgstr ""
+msgstr "Rate an den Kredithai"
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:1316
 msgid "Nothing in the crate there."
-msgstr ""
+msgstr "Dort ist nichts in der Kiste."
 
 #. rules text (shown through BMLoc.tf)
 #: game/run/run.gd:1321
 msgid "That offer is empty."
-msgstr ""
+msgstr "Dieses Angebot ist leer."
 
 #: game/ui/achievement_toast.gd:56
 msgid "ACHIEVEMENT UNLOCKED"
-msgstr ""
+msgstr "ERFOLG FREIGESCHALTET"
 
 #: game/ui/achievement_toast.gd:56 game/ui/shop_screen.gd:457
 msgid "LEGENDARY!"
-msgstr ""
+msgstr "LEGENDÄR!"
 
 #: game/ui/achievement_toast.gd:56
 msgid "SECRET UNLOCKED!"
-msgstr ""
+msgstr "GEHEIMNIS GELÜFTET!"
 
 #: game/ui/achievement_toast.gd:112
 msgid "NEW JOKER UNLOCKED"
-msgstr ""
+msgstr "NEUER JOKER FREIGESCHALTET"
 
 #: game/ui/achievement_toast.gd:115
 #, c-format
 msgid "Now in the shop pool. %s"
-msgstr ""
+msgstr "Jetzt im Laden erhältlich. %s"
 
 #: game/ui/bag_view.gd:40
 #, c-format
 msgid "YOUR BAG  %d PIECE"
 msgid_plural "YOUR BAG  %d PIECES"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "DEIN BEUTEL  %d TEIL"
+msgstr[1] "DEIN BEUTEL  %d TEILE"
 
 #: game/ui/bag_view.gd:41
 #, c-format
 msgid "min %d  -  max %d"
-msgstr ""
+msgstr "min. %d  -  max. %d"
 
 #: game/ui/bag_view.gd:50
 msgid "SCHEMATICS"
-msgstr ""
+msgstr "BAUPLÄNE"
 
 #: game/ui/bag_view.gd:52
 #, c-format
 msgid "%s LV %d"
-msgstr ""
+msgstr "%s STUFE %d"
 
 #: game/ui/bag_view.gd:59
 #, c-format
 msgid "DRAW PILE  %d"
-msgstr ""
+msgstr "NACHZIEHSTAPEL  %d"
 
 #: game/ui/bag_view.gd:59
 msgid "order hidden"
-msgstr ""
+msgstr "Reihenfolge verdeckt"
 
 #: game/ui/bag_view.gd:60
 #, c-format
 msgid "IN TRAY  %d"
-msgstr ""
+msgstr "IN DER AUSLAGE  %d"
 
 #: game/ui/bag_view.gd:61
 #, c-format
 msgid "DISCARD PILE  %d"
-msgstr ""
+msgstr "ABLAGESTAPEL  %d"
 
 #: game/ui/bag_view.gd:61
 msgid "shuffled back in when the draw pile runs out"
-msgstr ""
+msgstr "wird zurückgemischt, wenn der Nachziehstapel leer ist"
 
 #: game/ui/bag_view.gd:96
 msgid "(empty)"
-msgstr ""
+msgstr "(leer)"
 
 #: game/ui/bag_view.gd:128 game/ui/game_screen.gd:221 game/ui/settings_menu.gd:426 game/ui/shop_screen.gd:150
 msgid "BAG"
-msgstr ""
+msgstr "BEUTEL"
 
 #: game/ui/bag_view.gd:129
 #, c-format
 msgid "%d FAMILIES"
-msgstr ""
+msgstr "%d FAMILIEN"
 
 #: game/ui/bag_view.gd:130
 #, c-format
 msgid "%d COLORS"
-msgstr ""
+msgstr "%d FARBEN"
 
 #: game/ui/bag_view.gd:131
 #, c-format
 msgid "%d UPGRADED"
-msgstr ""
+msgstr "%d VERBESSERT"
 
 #: game/ui/bag_view.gd:137
 msgid "HAND ODDS PER DEAL"
-msgstr ""
+msgstr "BLATT-CHANCEN PRO AUSTEILEN"
 
 #: game/ui/bag_view.gd:138
 msgid "Chance that a fresh three-piece deal forms each Tray Hand, from your whole bag."
-msgstr ""
+msgstr "Wahrscheinlichkeit, dass ein neues Austeilen von drei Teilen jedes Blatt bildet, bezogen auf deinen ganzen Beutel."
 
 #: game/ui/boss_intro.gd:107
 msgid "WARNING"
-msgstr ""
+msgstr "WARNUNG"
 
 #: game/ui/boss_intro.gd:108
 msgid "BOSS ROUND"
-msgstr ""
+msgstr "BOSSRUNDE"
 
 #: game/ui/boss_intro.gd:153
 msgid "CLICK OR PRESS ANY KEY"
-msgstr ""
+msgstr "KLICKEN ODER BELIEBIGE TASTE"
 
 #: game/ui/brick_throw.gd:247
 msgid "GRAB & THROW IT!"
-msgstr ""
+msgstr "PACK IHN UND WIRF!"
 
 #: game/ui/brick_throw.gd:248
 msgid "or click a tray slot  |  right-click to cancel"
-msgstr ""
+msgstr "oder klick einen Platz an  |  Rechtsklick zum Abbrechen"
 
 #: game/ui/brick_throw.gd:250
 msgid "GRAB IT AGAIN, OR CLICK A SLOT"
-msgstr ""
+msgstr "NOCHMAL PACKEN ODER PLATZ ANKLICKEN"
 
 #: game/ui/card.gd:171
 msgid "COMMON"
-msgstr ""
+msgstr "GEWÖHNL."
 
 #: game/ui/card.gd:171
 msgid "LEGEND"
-msgstr ""
+msgstr "LEGENDÄR"
 
 #: game/ui/card.gd:171
 msgid "RARE"
-msgstr ""
+msgstr "SELTEN"
 
 #: game/ui/card.gd:171
 msgid "UNCOM."
-msgstr ""
+msgstr "UNGEW."
 
 #: game/ui/card.gd:193
 msgid "(DISABLED)"
-msgstr ""
+msgstr "(DEAKTIVIERT)"
 
 #: game/ui/card.gd:196
 #, c-format
 msgid "DISABLED: %s"
-msgstr ""
+msgstr "DEAKTIVIERT: %s"
 
 #: game/ui/card.gd:223
 #, c-format
 msgid "%s  (Item)"
-msgstr ""
+msgstr "%s  (Gegenstand)"
 
 #: game/ui/card.gd:253 game/ui/shop_screen.gd:383
 msgid "ITEM"
-msgstr ""
+msgstr "GEGENSTAND"
 
 #: game/ui/card.gd:260
 msgid "WORKSHOP"
-msgstr ""
+msgstr "WERKSTATT"
 
 #: game/ui/card.gd:267
 msgid "PIECE"
-msgstr ""
+msgstr "TEIL"
 
 #: game/ui/card.gd:375
 msgid "+1 LV"
-msgstr ""
+msgstr "+1 STUFE"
 
 #: game/ui/endless_screen.gd:77 game/ui/game_screen.gd:2270
 msgid "HOLD"
-msgstr ""
+msgstr "HALTEN"
 
 #: game/ui/endless_screen.gd:80 game/ui/game_screen.gd:2277
 msgid "EMPTY"
-msgstr ""
+msgstr "LEER"
 
 #: game/ui/endless_screen.gd:87 game/ui/game_screen.gd:2271
 msgid "USED THIS TURN"
-msgstr ""
+msgstr "DIESEN ZUG BENUTZT"
 
 #: game/ui/endless_screen.gd:100 game/ui/settings_menu.gd:384 game/ui/title_screen.gd:95 game/ui/title_screen.gd:220
 msgid "ENDLESS"
-msgstr ""
+msgstr "ENDLOS"
 
 #: game/ui/endless_screen.gd:101
 msgid "ONE MORE CLEAR"
-msgstr ""
+msgstr "NOCH EIN ABRÄUMER"
 
 #: game/ui/endless_screen.gd:114
 msgid "ARCADE SCORE"
-msgstr ""
+msgstr "ARCADE-PUNKTE"
 
 #: game/ui/endless_screen.gd:134
 msgid "HOLD  •  ONCE PER PLACEMENT"
-msgstr ""
+msgstr "HALTEN  •  EINMAL PRO ZUG"
 
 #: game/ui/endless_screen.gd:139
 msgid "Select a piece, then drop it here or press H."
-msgstr ""
+msgstr "Wähle ein Teil und lege es hier ab oder drück H."
 
 #: game/ui/endless_screen.gd:147
 msgid "BLOCK STYLE"
-msgstr ""
+msgstr "BLOCKSTIL"
 
 #: game/ui/endless_screen.gd:150 game/ui/game_screen.gd:225 game/ui/shop_screen.gd:155
 msgid "MENU"
-msgstr ""
+msgstr "MENÜ"
 
 #: game/ui/endless_screen.gd:208
 #, c-format
 msgid "BEST  %s"
-msgstr ""
+msgstr "BESTWERT  %s"
 
 #: game/ui/endless_screen.gd:209 game/ui/game_screen.gd:941
 #, c-format
 msgid "COMBO x%d"
-msgstr ""
+msgstr "KOMBO x%d"
 
 #: game/ui/endless_screen.gd:211
 #, c-format
 msgid "Placements %d   •   Lines %d"
-msgstr ""
+msgstr "Züge %d   •   Linien %d"
 
 #: game/ui/endless_screen.gd:212
 #, c-format
 msgid "%d more miss before combo resets"
 msgid_plural "%d more misses before combo resets"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Noch %d Fehlzug, dann ist die Kombo weg"
+msgstr[1] "Noch %d Fehlzüge, dann ist die Kombo weg"
 
 #: game/ui/endless_screen.gd:213
 msgid "Clear lines to climb the combo ladder"
-msgstr ""
+msgstr "Räume Linien ab, um die Kombo-Leiter hochzuklettern"
 
 #: game/ui/endless_screen.gd:217
 msgid "HOLD USED — place a piece to recharge"
-msgstr ""
+msgstr "HALTEN BENUTZT: Leg ein Teil, um es aufzuladen"
 
 #: game/ui/endless_screen.gd:217
 msgid "Select a piece, then drop it here or press H"
-msgstr ""
+msgstr "Wähle ein Teil und lege es hier ab oder drück H"
 
 #: game/ui/endless_screen.gd:218
 #, c-format
 msgid "BLOCK STYLE:  %s"
-msgstr ""
+msgstr "BLOCKSTIL:  %s"
 
 #: game/ui/endless_screen.gd:221
 msgid "No board fit. Select this piece to use Hold."
-msgstr ""
+msgstr "Passt nicht aufs Brett. Wähle dieses Teil, um Halten zu nutzen."
 
 #: game/ui/endless_screen.gd:242
 msgid "FRESH BOARD"
-msgstr ""
+msgstr "FRISCHES BRETT"
 
 #: game/ui/endless_screen.gd:244
 msgid "A perfect clear. Enjoy the open space!"
-msgstr ""
+msgstr "Ein perfektes Abräumen. Genieß den Platz!"
 
 #: game/ui/endless_screen.gd:246
 msgid "COLOR PARADE"
-msgstr ""
+msgstr "FARBPARADE"
 
 #: game/ui/endless_screen.gd:248
 #, c-format
 msgid "Your x%d chain is alive. Keep clearing!"
-msgstr ""
+msgstr "Deine x%d-Kette lebt. Räum weiter ab!"
 
 #: game/ui/endless_screen.gd:250
 msgid "THE BOARD IS HEATING UP"
-msgstr ""
+msgstr "DAS BRETT WIRD HEISS"
 
 #: game/ui/endless_screen.gd:252
 msgid "The spaces are shrinking. Find the next opening."
-msgstr ""
+msgstr "Der Platz wird knapp. Such die nächste Lücke."
 
 #: game/ui/endless_screen.gd:254
 msgid "EASY DOES IT"
-msgstr ""
+msgstr "GANZ ENTSPANNT"
 
 #: game/ui/endless_screen.gd:256
 msgid "Find a rhythm. There is no timer and no target."
-msgstr ""
+msgstr "Finde deinen Rhythmus. Kein Timer, kein Ziel."
 
 #: game/ui/endless_screen.gd:387
 msgid "NEW TRIO  •  PIECE HELD"
-msgstr ""
+msgstr "NEUES TRIO  •  TEIL GEHALTEN"
 
 #: game/ui/endless_screen.gd:387
 msgid "PIECE HELD  •  PLACE TO RECHARGE"
-msgstr ""
+msgstr "TEIL GEHALTEN  •  ZUM AUFLADEN LEGEN"
 
 #: game/ui/endless_screen.gd:522
 msgid "BLOCK STYLES"
-msgstr ""
+msgstr "BLOCKSTILE"
 
 #: game/ui/endless_screen.gd:524
 msgid "Pick a look. Styles change art, effects and sound, never the rules."
-msgstr ""
+msgstr "Wähle einen Look. Stile ändern Grafik, Effekte und Klang, nie die Regeln."
 
 #: game/ui/endless_screen.gd:534
 msgid "Unlock at combo x10."
-msgstr ""
+msgstr "Freischalten mit Kombo x10."
 
 #: game/ui/endless_screen.gd:534
 msgid "Unlock with a clean board."
-msgstr ""
+msgstr "Freischalten mit einem leeren Brett."
 
 #: game/ui/endless_screen.gd:539 game/ui/game_screen.gd:306 game/ui/refresh_lever.gd:173 game/ui/shop_screen.gd:340 game/ui/title_screen.gd:432 game/ui/tray_slot.gd:156
 msgid "LOCKED"
-msgstr ""
+msgstr "GESPERRT"
 
 #: game/ui/endless_screen.gd:543
 msgid "BACK TO GAME"
-msgstr ""
+msgstr "ZURÜCK ZUM SPIEL"
 
 #: game/ui/endless_screen.gd:580
 #, c-format
 msgid "NEW STYLE: %s"
-msgstr ""
+msgstr "NEUER STIL: %s"
 
 #: game/ui/endless_screen.gd:613
 msgid "ENDLESS RUN"
-msgstr ""
+msgstr "ENDLOS-PARTIE"
 
 #: game/ui/endless_screen.gd:615
 msgid ""
 "NO ROOM\n"
 "LEFT"
 msgstr ""
+"KEIN PLATZ\n"
+"MEHR"
 
 #: game/ui/endless_screen.gd:623
 #, c-format
 msgid "HIGH SCORE  #%02d"
-msgstr ""
+msgstr "BESTWERT  #%02d"
 
 #: game/ui/endless_screen.gd:623
 msgid "RUN COMPLETE"
-msgstr ""
+msgstr "PARTIE BEENDET"
 
 #: game/ui/endless_screen.gd:632
 msgid "PLAY AGAIN"
-msgstr ""
+msgstr "NOCHMAL SPIELEN"
 
 #: game/ui/endless_screen.gd:636
 msgid "HIGH SCORES"
-msgstr ""
+msgstr "BESTENLISTE"
 
 #: game/ui/endless_screen.gd:641 game/ui/game_screen.gd:1617
 msgid "TITLE"
-msgstr ""
+msgstr "TITEL"
 
 #: game/ui/endless_stats_panel.gd:16
 msgid "NO SCORE HISTORY FOR THIS RUN"
-msgstr ""
+msgstr "KEIN PUNKTEVERLAUF FÜR DIESE PARTIE"
 
 #: game/ui/endless_stats_panel.gd:30
 msgid "0 PLACEMENTS"
-msgstr ""
+msgstr "0 ZÜGE"
 
 #: game/ui/endless_stats_panel.gd:31 game/ui/title_screen.gd:773
 #, c-format
 msgid "%d PLACEMENT"
 msgid_plural "%d PLACEMENTS"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d ZUG"
+msgstr[1] "%d ZÜGE"
 
 #: game/ui/endless_stats_panel.gd:37
 msgid "RUN BREAKDOWN"
-msgstr ""
+msgstr "AUSWERTUNG"
 
 #. rules text (shown through BMLoc.tf)
 #: game/ui/endless_stats_panel.gd:44
 msgid "LINES CLEARED"
-msgstr ""
+msgstr "ABGERÄUMTE LINIEN"
 
 #. rules text (shown through BMLoc.tf)
 #: game/ui/endless_stats_panel.gd:45
 msgid "BLOCKS PLACED"
-msgstr ""
+msgstr "GELEGTE BLÖCKE"
 
 #. rules text (shown through BMLoc.tf)
 #: game/ui/endless_stats_panel.gd:46
 msgid "HIGHEST COMBO"
-msgstr ""
+msgstr "HÖCHSTE KOMBO"
 
 #. rules text (shown through BMLoc.tf)
 #: game/ui/endless_stats_panel.gd:47
 msgid "PERFECT CLEARS"
-msgstr ""
+msgstr "PERFEKTE ABRÄUMER"
 
 #: game/ui/endless_stats_panel.gd:48
 #, c-format
 msgid "%d line"
 msgid_plural "%d lines"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d Linie"
+msgstr[1] "%d Linien"
 
 #. rules text (shown through BMLoc.tf)
 #: game/ui/endless_stats_panel.gd:48
 msgid "LARGEST CLEAR"
-msgstr ""
+msgstr "GRÖSSTER ABRÄUMER"
 
 #. rules text (shown through BMLoc.tf)
 #: game/ui/endless_stats_panel.gd:49
 msgid "RUN DURATION"
-msgstr ""
+msgstr "DAUER"
 
 #. rules text (shown through BMLoc.tf)
 #: game/ui/endless_stats_panel.gd:50
 msgid "BOARD COVERAGE PEAK"
-msgstr ""
+msgstr "HÖCHSTE BRETTBELEGUNG"
 
 #: game/ui/endless_stats_panel.gd:51
 #, c-format
 msgid "%.1f sec"
-msgstr ""
+msgstr "%.1f s"
 
 #. rules text (shown through BMLoc.tf)
 #: game/ui/endless_stats_panel.gd:51
 msgid "AVERAGE PLACEMENT"
-msgstr ""
+msgstr "ZUG IM SCHNITT"
 
 #. rules text (shown through BMLoc.tf)
 #: game/ui/endless_stats_panel.gd:52
 msgid "SCORE / PLACEMENT"
-msgstr ""
+msgstr "PUNKTE / ZUG"
 
 #. rules text (shown through BMLoc.tf)
 #: game/ui/endless_stats_panel.gd:53
 msgid "BEST STREAK"
-msgstr ""
+msgstr "BESTE SERIE"
 
 #. rules text (shown through BMLoc.tf)
 #: game/ui/endless_stats_panel.gd:54 game/ui/title_screen.gd:488 game/ui/title_screen.gd:695
 msgid "SEED"
-msgstr ""
+msgstr "SEED"
 
 #. rules text (shown through BMLoc.tf)
 #: game/ui/endless_stats_panel.gd:55
 msgid "DATE"
-msgstr ""
+msgstr "DATUM"
 
 #: game/ui/endless_stats_panel.gd:69
 msgid "SCORE PROGRESSION"
-msgstr ""
+msgstr "PUNKTEVERLAUF"
 
 #: game/ui/game_screen.gd:106
 msgid "Refresh (R): replace every unplaced piece in the tray. Costs no placement."
-msgstr ""
+msgstr "Tauschen (R): Ersetzt alle ungelegten Teile der Auslage. Kostet keinen Zug."
 
 #: game/ui/game_screen.gd:116
 msgid "SCORE"
-msgstr ""
+msgstr "PUNKTE"
 
 #: game/ui/game_screen.gd:148 game/ui/game_screen.gd:791
 msgid "Pick up a piece to preview its score"
-msgstr ""
+msgstr "Nimm ein Teil, um seine Punkte zu sehen"
 
 #: game/ui/game_screen.gd:160
 msgid "Placements left this round"
-msgstr ""
+msgstr "Verbleibende Züge in dieser Runde"
 
 #: game/ui/game_screen.gd:209 game/ui/settings_menu.gd:425 game/ui/shop_screen.gd:85
 msgid "JOKERS"
-msgstr ""
+msgstr "JOKER"
 
 #: game/ui/game_screen.gd:211
 msgid "drag to reorder  |  top first"
-msgstr ""
+msgstr "ziehen zum Sortieren  |  oben zuerst"
 
 #: game/ui/game_screen.gd:217 game/ui/shop_screen.gd:88
 msgid "ITEMS"
-msgstr ""
+msgstr "GEGENSTÄNDE"
 
 #: game/ui/game_screen.gd:223
 msgid "See every piece in your bag: draw pile, tray, and discard pile. (B)"
-msgstr ""
+msgstr "Sieh dir jedes Teil in deinem Beutel an: Nachziehstapel, Auslage und Ablagestapel. (B)"
 
 #: game/ui/game_screen.gd:227
 msgid "Pause, settings and controls (Esc)"
-msgstr ""
+msgstr "Pause, Einstellungen und Steuerung (Esc)"
 
 #: game/ui/game_screen.gd:258
 #, c-format
 msgid "Round %d. Good luck!"
-msgstr ""
+msgstr "Runde %d. Viel Glück!"
 
 #: game/ui/game_screen.gd:291 game/ui/settings_menu.gd:446 game/ui/shop_screen.gd:511
 #, c-format
 msgid "ROUND %d"
-msgstr ""
+msgstr "RUNDE %d"
 
 #: game/ui/game_screen.gd:292
 #, c-format
 msgid "ACT %d OF 3"
-msgstr ""
+msgstr "AKT %d VON 3"
 
 #: game/ui/game_screen.gd:292 game/ui/game_screen.gd:345 game/ui/game_screen.gd:1394
 #, c-format
 msgid "BOSS: %s"
-msgstr ""
+msgstr "BOSS: %s"
 
 #: game/ui/game_screen.gd:296
 #, c-format
 msgid "OVERTIME  -  ACT %d"
-msgstr ""
+msgstr "VERLÄNGERUNG  -  AKT %d"
 
 #: game/ui/game_screen.gd:298
 #, c-format
 msgid "Target: %s points"
-msgstr ""
+msgstr "Ziel: %s Punkte"
 
 #: game/ui/game_screen.gd:304
 #, c-format
@@ -4180,413 +4186,417 @@ msgid ""
 "Placements left this round.\n"
 "Each line you clear gives one back, up to %d."
 msgstr ""
+"Verbleibende Züge in dieser Runde.\n"
+"Jede abgeräumte Linie gibt einen zurück, bis zu %d."
 
 #: game/ui/game_screen.gd:311
 #, c-format
 msgid "Combo: each clearing placement adds 1 (max %d). It survives %d placement without a clear, then resets."
-msgstr ""
+msgstr "Kombo: Jeder abräumende Zug gibt +1 (max. %d). Sie übersteht %d Zug ohne Abräumen, dann fällt sie zurück."
 
 #: game/ui/game_screen.gd:312
 msgid "HANGING ON: clear on your next placement to keep it."
-msgstr ""
+msgstr "AUF DER KIPPE: Räum im nächsten Zug ab, um sie zu halten."
 
 #: game/ui/game_screen.gd:346
 #, c-format
 msgid "R%d BOSS: %s"
-msgstr ""
+msgstr "R%d BOSS: %s"
 
 #: game/ui/game_screen.gd:346
 #, c-format
 msgid "R%d: %s"
-msgstr ""
+msgstr "R%d: %s"
 
 #: game/ui/game_screen.gd:346
 #, c-format
 msgid "ROUND %d BOSS: %s"
-msgstr ""
+msgstr "BOSS IN RUNDE %d: %s"
 
 #: game/ui/game_screen.gd:378
 msgid "No legal move is left. Use an item that can help, or pull to concede the round and end the run."
-msgstr ""
+msgstr "Kein gültiger Zug mehr möglich. Nutze einen Gegenstand, der hilft, oder zieh den Hebel, um aufzugeben und die Partie zu beenden."
 
 #: game/ui/game_screen.gd:388
 msgid "Locked by The Lockdown this round."
-msgstr ""
+msgstr "In dieser Runde von der Abriegelung gesperrt."
 
 #: game/ui/game_screen.gd:389
 #, c-format
 msgid "%d Refresh left this round."
 msgid_plural "%d Refreshes left this round."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Noch %d Tausch in dieser Runde."
+msgstr[1] "Noch %d Tausche in dieser Runde."
 
 #: game/ui/game_screen.gd:390
 msgid "Refresh (R): pull the lever to replace every unplaced piece in the tray. Costs no placement.\n"
-msgstr ""
+msgstr "Tauschen (R): Zieh den Hebel, um alle ungelegten Teile der Auslage zu ersetzen. Kostet keinen Zug.\n"
 
 #: game/ui/game_screen.gd:394 game/ui/shop_screen.gd:508
 #, c-format
 msgid "BAG  %d"
-msgstr ""
+msgstr "BEUTEL  %d"
 
 #: game/ui/game_screen.gd:395
 #, c-format
 msgid "Your bag: %d pieces. Draw pile %d, discard pile %d. (B)"
-msgstr ""
+msgstr "Dein Beutel: %d Teile. Nachziehstapel %d, Ablagestapel %d. (B)"
 
 #: game/ui/game_screen.gd:403
 #, c-format
 msgid "JOKERS %d/%d"
-msgstr ""
+msgstr "JOKER %d/%d"
 
 #: game/ui/game_screen.gd:416 game/ui/shop_screen.gd:594
 msgid ""
 "\n"
 "Drag onto another Joker to reorder. Alt+Up/Down while focused also moves it."
 msgstr ""
+"\n"
+"Auf einen anderen Joker ziehen, um umzusortieren. Mit Fokus verschiebt ihn auch Alt+Hoch/Runter."
 
 #: game/ui/game_screen.gd:426 game/ui/shop_screen.gd:612
 msgid "empty slot"
-msgstr ""
+msgstr "leerer Platz"
 
 #: game/ui/game_screen.gd:440
 #, c-format
 msgid "SELL +%d"
-msgstr ""
+msgstr "VERKAUFEN +%d"
 
 #: game/ui/game_screen.gd:451
 #, c-format
 msgid "ITEMS %d/%d"
-msgstr ""
+msgstr "GEGENSTÄNDE %d/%d"
 
 #: game/ui/game_screen.gd:467
 msgid "USE"
-msgstr ""
+msgstr "NUTZEN"
 
 #: game/ui/game_screen.gd:473
 msgid "Use this item now."
-msgstr ""
+msgstr "Diesen Gegenstand jetzt benutzen."
 
 #: game/ui/game_screen.gd:473
 msgid "Use this item now: you choose where next."
-msgstr ""
+msgstr "Diesen Gegenstand jetzt benutzen: Danach wählst du das Ziel."
 
 #: game/ui/game_screen.gd:482 game/ui/shop_screen.gd:630
 msgid "empty"
-msgstr ""
+msgstr "leer"
 
 #: game/ui/game_screen.gd:500 game/ui/game_screen.gd:506
 msgid "NOTHING FITS!  HIT REFRESH"
-msgstr ""
+msgstr "NICHTS PASST!  TAUSCHEN"
 
 #: game/ui/game_screen.gd:502 game/ui/game_screen.gd:506
 msgid "NOTHING FITS!  USE AN ITEM OR CONCEDE"
-msgstr ""
+msgstr "NICHTS PASST!  GEGENSTAND ODER AUFGEBEN"
 
 #: game/ui/game_screen.gd:504 game/ui/game_screen.gd:506
 msgid "OUT OF PLACEMENTS!  EXTRA TURN OR CONCEDE"
-msgstr ""
+msgstr "KEINE ZÜGE MEHR!  EXTRAZUG ODER AUFGEBEN"
 
 #: game/ui/game_screen.gd:570
 msgid "That piece doesn't fit there, so it went back to the tray."
-msgstr ""
+msgstr "Dieses Teil passt dort nicht, also ist es zurück in die Auslage."
 
 #: game/ui/game_screen.gd:588 game/ui/game_screen.gd:660
 msgid "That piece doesn't fit there."
-msgstr ""
+msgstr "Dieses Teil passt dort nicht."
 
 #: game/ui/game_screen.gd:698
 msgid "Hold is used. Place a piece to recharge it."
-msgstr ""
+msgstr "Halten ist verbraucht. Leg ein Teil, um es aufzuladen."
 
 #: game/ui/game_screen.gd:702
 msgid "Pick up a tray piece first, then drop it on HOLD (or press H)."
-msgstr ""
+msgstr "Nimm zuerst ein Teil aus der Auslage und zieh es auf HALTEN (oder drück H)."
 
 #: game/ui/game_screen.gd:709
 msgid "Pick up a tray piece to swap with the stored one."
-msgstr ""
+msgstr "Nimm ein Teil aus der Auslage, um es mit dem gehaltenen zu tauschen."
 
 #: game/ui/game_screen.gd:786
 msgid "Doesn't fit here"
-msgstr ""
+msgstr "Passt hier nicht"
 
 #: game/ui/game_screen.gd:791
 msgid "Move over the board"
-msgstr ""
+msgstr "Über das Brett bewegen"
 
 #: game/ui/game_screen.gd:804
 #, c-format
 msgid "%d LINE"
 msgid_plural "%d LINES"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d LINIE"
+msgstr[1] "%d LINIEN"
 
 #: game/ui/game_screen.gd:889 game/ui/shop_screen.gd:469
 #, c-format
 msgid "Used %s."
-msgstr ""
+msgstr "%s benutzt."
 
 #: game/ui/game_screen.gd:892
 msgid "TURBO: NEXT PLACEMENT x2 MULT"
-msgstr ""
+msgstr "TURBO: NÄCHSTER ZUG x2 MULT"
 
 #: game/ui/game_screen.gd:894
 msgid "COFFEE BREAK: +1 REFRESH"
-msgstr ""
+msgstr "KAFFEEPAUSE: +1 TAUSCH"
 
 #: game/ui/game_screen.gd:896
 #, c-format
 msgid "COIN ROLL: +%d CREDITS"
-msgstr ""
+msgstr "MÜNZROLLE: +%d CREDITS"
 
 #: game/ui/game_screen.gd:904
 #, c-format
 msgid "Sold %s for %d Credits."
-msgstr ""
+msgstr "%s für %d Credits verkauft."
 
 #: game/ui/game_screen.gd:937
 msgid "DOUBLE!"
-msgstr ""
+msgstr "DOPPELT!"
 
 #: game/ui/game_screen.gd:937
 msgid "MEGA!"
-msgstr ""
+msgstr "MEGA!"
 
 #: game/ui/game_screen.gd:937
 msgid "QUAD!"
-msgstr ""
+msgstr "VIERFACH!"
 
 #: game/ui/game_screen.gd:937
 msgid "TRIPLE!"
-msgstr ""
+msgstr "DREIFACH!"
 
 #: game/ui/game_screen.gd:965
 #, c-format
 msgid "+%d STORED"
-msgstr ""
+msgstr "+%d GESPEICHERT"
 
 #: game/ui/game_screen.gd:970
 #, c-format
 msgid "AVALANCHE x%d!"
-msgstr ""
+msgstr "LAWINE x%d!"
 
 #: game/ui/game_screen.gd:985
 #, c-format
 msgid "TRANSMUTED: %s"
-msgstr ""
+msgstr "VERWANDELT: %s"
 
 #: game/ui/game_screen.gd:997
 msgid "HANG ON!"
-msgstr ""
+msgstr "DURCHHALTEN!"
 
 #: game/ui/game_screen.gd:1017
 msgid "MILESTONE!"
-msgstr ""
+msgstr "MEILENSTEIN!"
 
 #: game/ui/game_screen.gd:1026
 #, c-format
 msgid "MILESTONE: %s IN ONE PLACEMENT"
-msgstr ""
+msgstr "MEILENSTEIN: %s IN EINEM ZUG"
 
 #: game/ui/game_screen.gd:1160
 #, c-format
 msgid "+%s MULT"
-msgstr ""
+msgstr "+%s MULT"
 
 #: game/ui/game_screen.gd:1163
 #, c-format
 msgid "x%s MULT"
-msgstr ""
+msgstr "x%s MULT"
 
 #: game/ui/game_screen.gd:1180
 #, c-format
 msgid "%s  (%d cell)"
 msgid_plural "%s  (%d cells)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s  (%d Feld)"
+msgstr[1] "%s  (%d Felder)"
 
 #: game/ui/game_screen.gd:1188
 #, c-format
 msgid "+%s mult"
-msgstr ""
+msgstr "+%s Mult"
 
 #: game/ui/game_screen.gd:1190
 #, c-format
 msgid "x%s mult"
-msgstr ""
+msgstr "x%s Mult"
 
 #: game/ui/game_screen.gd:1192
 #, c-format
 msgid "Mirror Maze removed %d cells"
-msgstr ""
+msgstr "Spiegelkabinett entfernte %d Felder"
 
 #: game/ui/game_screen.gd:1202
 #, c-format
 msgid "Avalanche wave %d  (x%d chain)"
-msgstr ""
+msgstr "Lawinenwelle %d  (Kette x%d)"
 
 #: game/ui/game_screen.gd:1203
 msgid "Total"
-msgstr ""
+msgstr "Gesamt"
 
 #: game/ui/game_screen.gd:1207
 #, c-format
 msgid "Combo now x%d"
-msgstr ""
+msgstr "Kombo jetzt x%d"
 
 #: game/ui/game_screen.gd:1209
 #, c-format
 msgid "Feat: %s"
-msgstr ""
+msgstr "Kunststück: %s"
 
 #: game/ui/game_screen.gd:1215
 #, c-format
 msgid "Sell %s for %d Credits?"
-msgstr ""
+msgstr "%s für %d Credits verkaufen?"
 
 #: game/ui/game_screen.gd:1216
 msgid "KEEP"
-msgstr ""
+msgstr "BEHALTEN"
 
 #: game/ui/game_screen.gd:1216
 msgid "SELL"
-msgstr ""
+msgstr "VERKAUFEN"
 
 #: game/ui/game_screen.gd:1220
 msgid "Concede this round? The run will end."
-msgstr ""
+msgstr "Diese Runde aufgeben? Die Partie endet dann."
 
 #: game/ui/game_screen.gd:1221 game/ui/game_screen.gd:2092 game/ui/game_screen.gd:2137 game/ui/settings_menu.gd:116 game/ui/title_screen.gd:239 game/ui/title_screen.gd:321
 msgid "BACK"
-msgstr ""
+msgstr "ZURÜCK"
 
 #: game/ui/game_screen.gd:1221 game/ui/refresh_lever.gd:170
 msgid "CONCEDE"
-msgstr ""
+msgstr "AUFGEBEN"
 
 #: game/ui/game_screen.gd:1320 game/ui/shop_screen.gd:825
 msgid "CLOSE  (ESC)"
-msgstr ""
+msgstr "SCHLIESSEN  (ESC)"
 
 #: game/ui/game_screen.gd:1348
 #, c-format
 msgid "ROUND %d  -  ACT %d"
-msgstr ""
+msgstr "RUNDE %d  -  AKT %d"
 
 #: game/ui/game_screen.gd:1350
 #, c-format
 msgid "ROUND %d  -  OVERTIME"
-msgstr ""
+msgstr "RUNDE %d  -  VERLÄNGERUNG"
 
 #: game/ui/game_screen.gd:1352
 msgid "TARGET"
-msgstr ""
+msgstr "ZIEL"
 
 #: game/ui/game_screen.gd:1356
 #, c-format
 msgid "%s points"
-msgstr ""
+msgstr "%s Punkte"
 
 #: game/ui/game_screen.gd:1367
 #, c-format
 msgid "%d placement, +1 per line"
 msgid_plural "%d placements, +1 per line"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d Zug, +1 pro Linie"
+msgstr[1] "%d Züge, +1 pro Linie"
 
 #: game/ui/game_screen.gd:1368
 #, c-format
 msgid "Each line you clear gives one placement back, up to %d."
-msgstr ""
+msgstr "Jede abgeräumte Linie gibt einen Zug zurück, bis zu %d."
 
 #: game/ui/game_screen.gd:1372
 #, c-format
 msgid "%d refresh"
 msgid_plural "%d refreshes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d Tausch"
+msgstr[1] "%d Tausche"
 
 #: game/ui/game_screen.gd:1381
 #, c-format
 msgid "TWIST: %s"
-msgstr ""
+msgstr "WENDUNG: %s"
 
 #: game/ui/game_screen.gd:1399
 #, c-format
 msgid "Tip: %s"
-msgstr ""
+msgstr "Tipp: %s"
 
 #: game/ui/game_screen.gd:1407
 #, c-format
 msgid "Disabled this round: %s"
-msgstr ""
+msgstr "In dieser Runde deaktiviert: %s"
 
 #: game/ui/game_screen.gd:1413
 msgid "OVERTIME: the targets climb faster every round. How far can you go?"
-msgstr ""
+msgstr "VERLÄNGERUNG: Die Ziele steigen jede Runde schneller. Wie weit kommst du?"
 
 #: game/ui/game_screen.gd:1424
 #, c-format
 msgid "ACT BOSS, ROUND %d:  %s"
-msgstr ""
+msgstr "AKT-BOSS, RUNDE %d:  %s"
 
 #: game/ui/game_screen.gd:1433
 msgid "START ROUND"
-msgstr ""
+msgstr "RUNDE STARTEN"
 
 #: game/ui/game_screen.gd:1438
 #, c-format
 msgid "THE WARDEN BARRED SLOT %d: CLEAR A LINE TO FREE IT"
-msgstr ""
+msgstr "DER WÄRTER HAT PLATZ %d GESPERRT: RÄUM EINE LINIE AB, UM IHN FREIZUGEBEN"
 
 #: game/ui/game_screen.gd:1450
 #, c-format
 msgid "ROUND %d CLEARED!"
-msgstr ""
+msgstr "RUNDE %d GESCHAFFT!"
 
 #: game/ui/game_screen.gd:1456
 #, c-format
 msgid "%s / %s points   -   %d placement unused"
 msgid_plural "%s / %s points   -   %d placements unused"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s / %s Punkte   -   %d Zug übrig"
+msgstr[1] "%s / %s Punkte   -   %d Züge übrig"
 
 #: game/ui/game_screen.gd:1473
 msgid "Earned"
-msgstr ""
+msgstr "Verdient"
 
 #: game/ui/game_screen.gd:1486
 msgid "YOU HAVE"
-msgstr ""
+msgstr "DU HAST"
 
 #: game/ui/game_screen.gd:1491
 msgid "FINISH RUN"
-msgstr ""
+msgstr "PARTIE BEENDEN"
 
 #: game/ui/game_screen.gd:1491
 msgid "TO THE SHOP"
-msgstr ""
+msgstr "ZUM LADEN"
 
 #: game/ui/game_screen.gd:1514
 msgid "GAME OVER"
-msgstr ""
+msgstr "GAME OVER"
 
 #: game/ui/game_screen.gd:1514
 msgid "RUN ABANDONED"
-msgstr ""
+msgstr "PARTIE ABGEBROCHEN"
 
 #: game/ui/game_screen.gd:1514
 msgid "YOU WIN!"
-msgstr ""
+msgstr "GEWONNEN!"
 
 #: game/ui/game_screen.gd:1516
 msgid "MACHINE BROKEN!"
-msgstr ""
+msgstr "MASCHINE KAPUTT!"
 
 #: game/ui/game_screen.gd:1518
 msgid "OVERTIME OVER"
-msgstr ""
+msgstr "VERLÄNGERUNG VORBEI"
 
 #: game/ui/game_screen.gd:1528
 #, c-format
@@ -4594,1262 +4604,1266 @@ msgid ""
 "Your run was already a win. Overtime ended in round %d.\n"
 "%s"
 msgstr ""
+"Deine Partie war schon gewonnen. Die Verlängerung endete in Runde %d.\n"
+"%s"
 
 #: game/ui/game_screen.gd:1545
 #, c-format
 msgid "%d  (OVERTIME +%d)"
-msgstr ""
+msgstr "%d  (VERLÄNGERUNG +%d)"
 
 #: game/ui/game_screen.gd:1546
 msgid "Lines cleared"
-msgstr ""
+msgstr "Abgeräumte Linien"
 
 #: game/ui/game_screen.gd:1546
 msgid "Round"
-msgstr ""
+msgstr "Runde"
 
 #: game/ui/game_screen.gd:1547
 msgid "Last score"
-msgstr ""
+msgstr "Letzte Punktzahl"
 
 #: game/ui/game_screen.gd:1548
 msgid "Bag size"
-msgstr ""
+msgstr "Beutelgröße"
 
 #: game/ui/game_screen.gd:1548
 msgid "Highest combo"
-msgstr ""
+msgstr "Höchste Kombo"
 
 #: game/ui/game_screen.gd:1558
 #, c-format
 msgid "Jokers: %s"
-msgstr ""
+msgstr "Joker: %s"
 
 #: game/ui/game_screen.gd:1561
 #, c-format
 msgid "Seed %d  -  %s"
-msgstr ""
+msgstr "Seed %d  -  %s"
 
 #: game/ui/game_screen.gd:1562
 msgid "  -  practice seed: no achievements, records or unlocks"
-msgstr ""
+msgstr "  -  Übungs-Seed: keine Erfolge, Rekorde oder Freischaltungen"
 
 #: game/ui/game_screen.gd:1572
 #, c-format
 msgid "NEW RECORD!  %s: %s"
-msgstr ""
+msgstr "NEUER REKORD!  %s: %s"
 
 #: game/ui/game_screen.gd:1574
 #, c-format
 msgid "  (was %s)"
-msgstr ""
+msgstr "  (vorher %s)"
 
 #: game/ui/game_screen.gd:1582
 #, c-format
 msgid "NEW KIT UNLOCKED: %s!"
-msgstr ""
+msgstr "NEUES KIT FREIGESCHALTET: %s!"
 
 #: game/ui/game_screen.gd:1594
 msgid "THE ARCADE STAYS OPEN..."
-msgstr ""
+msgstr "DIE SPIELHALLE BLEIBT OFFEN..."
 
 #: game/ui/game_screen.gd:1597
 #, c-format
 msgid "Keep this build and play on: round 13 needs %s, and every target after climbs faster. A boss every fourth round. Your win is already saved."
-msgstr ""
+msgstr "Behalte dieses Build und spiel weiter: Runde 13 verlangt %s, und jedes weitere Ziel steigt schneller. Alle vier Runden ein Boss. Dein Sieg ist schon gespeichert."
 
 #: game/ui/game_screen.gd:1601
 msgid "KEEP PLAYING: OVERTIME  >"
-msgstr ""
+msgstr "WEITERSPIELEN: VERLÄNGERUNG  >"
 
 #: game/ui/game_screen.gd:1605
 msgid "Rounds 13 and beyond. How far can your build go before the machine gives up?"
-msgstr ""
+msgstr "Runde 13 und weiter. Wie weit kommt dein Build, bevor die Maschine aufgibt?"
 
 #: game/ui/game_screen.gd:1611 game/ui/title_screen.gd:84
 msgid "NEW RUN"
-msgstr ""
+msgstr "NEUE PARTIE"
 
 #: game/ui/game_screen.gd:1614
 msgid "SAME SEED"
-msgstr ""
+msgstr "GLEICHER SEED"
 
 #: game/ui/game_screen.gd:1649
 msgid "ERASER: click up to 2 blocks to rub out"
-msgstr ""
+msgstr "RADIERGUMMI: Klick bis zu 2 Blöcke an, um sie wegzuradieren"
 
 #: game/ui/game_screen.gd:1650
 msgid "PUNCH: click where to smash (plus shape)"
-msgstr ""
+msgstr "FAUSTSCHLAG: Klick, wo du zuschlägst (kreuzförmig)"
 
 #: game/ui/game_screen.gd:1651
 msgid "COLOR PURGE: click a block to remove its whole color"
-msgstr ""
+msgstr "FARBSÄUBERUNG: Klick einen Block an, um seine ganze Farbe zu entfernen"
 
 #: game/ui/game_screen.gd:1652
 msgid "LUCKY PAINT: click a tray piece to repaint"
-msgstr ""
+msgstr "GLÜCKSFARBE: Klick ein Teil der Auslage zum Umfärben an"
 
 #: game/ui/game_screen.gd:1653
 msgid "BLUEPRINT: click a tray piece to swap"
-msgstr ""
+msgstr "ENTWURF: Klick ein Teil der Auslage zum Tauschen an"
 
 #: game/ui/game_screen.gd:1654
 msgid "BRICK: throw it at a tray slot, or click one"
-msgstr ""
+msgstr "ZIEGEL: Wirf ihn auf einen Platz der Auslage oder klick einen an"
 
 #: game/ui/game_screen.gd:1655
 msgid "PATCH PANEL: click one block to remove"
-msgstr ""
+msgstr "FLICKENFELD: Klick einen Block zum Entfernen an"
 
 #: game/ui/game_screen.gd:1656
 msgid "TUNE-UP: click a tray piece to level up its family"
-msgstr ""
+msgstr "TUNING: Klick ein Teil der Auslage an, um seine Familie aufzuwerten"
 
 #: game/ui/game_screen.gd:1670
 msgid "Right-click or Esc to cancel"
-msgstr ""
+msgstr "Rechtsklick oder Esc zum Abbrechen"
 
 #: game/ui/game_screen.gd:1712
 #, c-format
 msgid "ERASE %d"
-msgstr ""
+msgstr "RADIEREN %d"
 
 #: game/ui/game_screen.gd:1715
 msgid "CANCEL"
-msgstr ""
+msgstr "ABBRECHEN"
 
 #: game/ui/game_screen.gd:1717
 msgid "Put the item away (right-click or Esc)."
-msgstr ""
+msgstr "Gegenstand wegstecken (Rechtsklick oder Esc)."
 
 #: game/ui/game_screen.gd:1725
 #, c-format
 msgid "%s (Joker)"
-msgstr ""
+msgstr "%s (Joker)"
 
 #: game/ui/game_screen.gd:1728
 msgid "Remove one block of your choice."
-msgstr ""
+msgstr "Entferne einen Block deiner Wahl."
 
 #: game/ui/game_screen.gd:1734
 msgid "PATCH"
-msgstr ""
+msgstr "FLICKEN"
 
 #: game/ui/game_screen.gd:1808 game/ui/game_screen.gd:1839
 msgid "Pick a block, not an empty cell."
-msgstr ""
+msgstr "Wähle einen Block, kein leeres Feld."
 
 #: game/ui/game_screen.gd:1820
 #, c-format
 msgid "%d OF 2 CHOSEN: PICK ANOTHER, OR PRESS ERASE"
-msgstr ""
+msgstr "%d VON 2 GEWÄHLT: WÄHLE NOCH EINEN ODER DRÜCK RADIEREN"
 
 #: game/ui/game_screen.gd:1833
 msgid "Pick a colored block (stone is immune)."
-msgstr ""
+msgstr "Wähle einen farbigen Block (Stein ist immun)."
 
 #: game/ui/game_screen.gd:1850 game/ui/game_screen.gd:1855
 msgid "That slot is empty."
-msgstr ""
+msgstr "Dieser Platz ist leer."
 
 #: game/ui/game_screen.gd:1911
 #, c-format
 msgid "RUBBED OUT %d BLOCK"
 msgid_plural "RUBBED OUT %d BLOCKS"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d BLOCK WEGRADIERT"
+msgstr[1] "%d BLÖCKE WEGRADIERT"
 
 #: game/ui/game_screen.gd:1924 game/ui/game_screen.gd:1992
 msgid "SMASH!"
-msgstr ""
+msgstr "WUMMS!"
 
 #: game/ui/game_screen.gd:1927
 #, c-format
 msgid "PUNCHED OUT %d BLOCK"
 msgid_plural "PUNCHED OUT %d BLOCKS"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d BLOCK WEGGEHAUEN"
+msgstr[1] "%d BLÖCKE WEGGEHAUEN"
 
 #: game/ui/game_screen.gd:1942
 #, c-format
 msgid "PURGED %d BLOCK: %s"
 msgid_plural "PURGED %d BLOCKS: %s"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d BLOCK ENTFERNT: %s"
+msgstr[1] "%d BLÖCKE ENTFERNT: %s"
 
 #: game/ui/game_screen.gd:1951
 msgid "SPLASH!"
-msgstr ""
+msgstr "PLATSCH!"
 
 #: game/ui/game_screen.gd:1952
 #, c-format
 msgid "REPAINTED %s"
-msgstr ""
+msgstr "UMGEFÄRBT: %s"
 
 #: game/ui/game_screen.gd:1961
 msgid "BLUEPRINT: A FRESH PIECE, DRAFTED"
-msgstr ""
+msgstr "ENTWURF: EIN FRISCHES TEIL, GERADE GEZEICHNET"
 
 #: game/ui/game_screen.gd:1971
 #, c-format
 msgid "LV %d!"
-msgstr ""
+msgstr "STUFE %d!"
 
 #: game/ui/game_screen.gd:1972
 #, c-format
 msgid "TUNE-UP: %s IS NOW LEVEL %d"
-msgstr ""
+msgstr "TUNING: %s IST JETZT STUFE %d"
 
 #: game/ui/game_screen.gd:1994
 msgid "BRICK!"
-msgstr ""
+msgstr "ZIEGEL!"
 
 #: game/ui/game_screen.gd:1999
 msgid "BRICK IN THE TRAY"
-msgstr ""
+msgstr "ZIEGEL IN DER AUSLAGE"
 
 #: game/ui/game_screen.gd:1999
 #, c-format
 msgid "SMASHED %s!"
-msgstr ""
+msgstr "ZERTRÜMMERT: %s!"
 
 #: game/ui/game_screen.gd:2069
 msgid "PAINT IT WHICH COLOR?"
-msgstr ""
+msgstr "WELCHE FARBE SOLL ES SEIN?"
 
 #: game/ui/game_screen.gd:2088
 msgid "Already this color."
-msgstr ""
+msgstr "Hat schon diese Farbe."
 
 #: game/ui/game_screen.gd:2104
 msgid "DRAFT A NEW PIECE"
-msgstr ""
+msgstr "ZEICHNE EIN NEUES TEIL"
 
 #: game/ui/game_screen.gd:2224
 msgid "INSURANCE CLAIMED!"
-msgstr ""
+msgstr "VERSICHERUNG AUSGEZAHLT!"
 
 #: game/ui/game_screen.gd:2227
 #, c-format
 msgid "Your policy paid out. Round %d starts over from an empty board, without the free Refresh. The Insurance Policy card is used up."
-msgstr ""
+msgstr "Deine Police hat gezahlt. Runde %d beginnt neu auf einem leeren Brett, ohne kostenlosen Tausch. Die Karte Versicherungspolice ist verbraucht."
 
 #: game/ui/game_screen.gd:2231
 msgid "TRY AGAIN"
-msgstr ""
+msgstr "NOCHMAL"
 
 #: game/ui/game_screen.gd:2248
 msgid "FREE!"
-msgstr ""
+msgstr "GRATIS!"
 
 #: game/ui/game_screen.gd:2262
 msgid "HOLD (H): store a tray piece; its slot draws a new one. Later, swap it back in or click here to return it to an empty slot. Once between placements."
-msgstr ""
+msgstr "HALTEN (H): Heb ein Teil der Auslage auf; sein Platz bekommt ein neues. Später tauschst du es zurück oder klickst hier, um es auf einen leeren Platz zu legen. Einmal zwischen zwei Zügen."
 
 #: game/ui/game_screen.gd:2271
 msgid "DROP IT HERE"
-msgstr ""
+msgstr "HIER ABLEGEN"
 
 #: game/ui/game_screen.gd:2271
 msgid "LOCKED BY BOSS"
-msgstr ""
+msgstr "VOM BOSS GESPERRT"
 
 #: game/ui/game_screen.gd:2271
 msgid "PRESS H OR DROP"
-msgstr ""
+msgstr "H ODER ABLEGEN"
 
 #: game/ui/game_screen.gd:2274
 msgid "Store a piece, swap later."
-msgstr ""
+msgstr "Teil aufheben, später tauschen."
 
 #: game/ui/game_screen.gd:2275
 msgid "Once per placement."
-msgstr ""
+msgstr "Einmal pro Zug."
 
 #: game/ui/hud.gd:226
 msgid "RECEIPT"
-msgstr ""
+msgstr "BON"
 
 #: game/ui/piece_tile.gd:5 game/ui/piece_tile.gd:66 game/ui/piece_tile.gd:69
 msgid "PICKED"
-msgstr ""
+msgstr "GEWÄHLT"
 
 #: game/ui/refresh_lever.gd:166
 msgid "REFRESH"
-msgstr ""
+msgstr "TAUSCHEN"
 
 #: game/ui/settings_menu.gd:14
 msgid "AUDIO"
-msgstr ""
+msgstr "AUDIO"
 
 #: game/ui/settings_menu.gd:14
 msgid "DISPLAY"
-msgstr ""
+msgstr "ANZEIGE"
 
 #: game/ui/settings_menu.gd:14
 msgid "GAME"
-msgstr ""
+msgstr "SPIEL"
 
 #: game/ui/settings_menu.gd:14
 msgid "RUN"
-msgstr ""
+msgstr "PARTIE"
 
 #: game/ui/settings_menu.gd:15
 msgid "ACCESSIBILITY"
-msgstr ""
+msgstr "BEDIENHILFEN"
 
 #: game/ui/settings_menu.gd:15
 msgid "CONTROLS"
-msgstr ""
+msgstr "STEUERUNG"
 
 #: game/ui/settings_menu.gd:78 game/ui/title_screen.gd:118
 msgid "OPTIONS"
-msgstr ""
+msgstr "OPTIONEN"
 
 #: game/ui/settings_menu.gd:78
 msgid "PAUSED"
-msgstr ""
+msgstr "PAUSE"
 
 #: game/ui/settings_menu.gd:97
 msgid "RESUME"
-msgstr ""
+msgstr "WEITER"
 
 #: game/ui/settings_menu.gd:99
 msgid "SAVE & QUIT"
-msgstr ""
+msgstr "SPEICHERN & BEENDEN"
 
 #: game/ui/settings_menu.gd:100
 msgid "Save and go back to the main menu. CONTINUE picks it up exactly here."
-msgstr ""
+msgstr "Speichern und zurück zum Hauptmenü. FORTSETZEN macht genau hier weiter."
 
 #: game/ui/settings_menu.gd:101
 msgid "Save and go back to the main menu. ENDLESS offers to continue this game."
-msgstr ""
+msgstr "Speichern und zurück zum Hauptmenü. ENDLOS bietet an, dieses Spiel fortzusetzen."
 
 #: game/ui/settings_menu.gd:104 game/ui/settings_menu.gd:108 game/ui/settings_menu.gd:113
 msgid "ABANDON RUN..."
-msgstr ""
+msgstr "PARTIE ABBRECHEN..."
 
 #: game/ui/settings_menu.gd:106
 msgid "End this run now. It counts as a loss and cannot be continued."
-msgstr ""
+msgstr "Beende diese Partie jetzt. Sie zählt als Niederlage und kann nicht fortgesetzt werden."
 
 #: game/ui/settings_menu.gd:109
 msgid "CLICK AGAIN TO ABANDON"
-msgstr ""
+msgstr "NOCHMAL KLICKEN ZUM ABBRECHEN"
 
 #: game/ui/settings_menu.gd:130
 #, c-format
 msgid "Q / E  switch page    ESC  %s"
-msgstr ""
+msgstr "Q / E  Seite wechseln    ESC  %s"
 
 #: game/ui/settings_menu.gd:130
 msgid "back"
-msgstr ""
+msgstr "zurück"
 
 #: game/ui/settings_menu.gd:130
 msgid "resume"
-msgstr ""
+msgstr "weiter"
 
 #: game/ui/settings_menu.gd:132
 msgid "RESET PAGE"
-msgstr ""
+msgstr "SEITE ZURÜCKSETZEN"
 
 #: game/ui/settings_menu.gd:134
 msgid "Put this page's settings back to their defaults."
-msgstr ""
+msgstr "Setzt die Einstellungen dieser Seite auf die Standardwerte zurück."
 
 #: game/ui/settings_menu.gd:145
 #, c-format
 msgid "OVERTIME ROUND %d"
-msgstr ""
+msgstr "VERLÄNGERUNG: RUNDE %d"
 
 #: game/ui/settings_menu.gd:146
 #, c-format
 msgid "ROUND %d OF %d  -  ACT %d"
-msgstr ""
+msgstr "RUNDE %d VON %d  -  AKT %d"
 
 #: game/ui/settings_menu.gd:148
 #, c-format
 msgid "THE TOYBOX, AFTER ROUND %d"
-msgstr ""
+msgstr "DIE SPIELZEUGKISTE, NACH RUNDE %d"
 
 #: game/ui/settings_menu.gd:151
 #, c-format
 msgid "%s  -  HEAT %d"
-msgstr ""
+msgstr "%s  -  HITZE %d"
 
 #: game/ui/settings_menu.gd:151
 #, c-format
 msgid "DAILY %s"
-msgstr ""
+msgstr "TAGESSPIEL %s"
 
 #: game/ui/settings_menu.gd:153
 msgid "  -  PRACTICE SEED"
-msgstr ""
+msgstr "  -  ÜBUNGS-SEED"
 
 #: game/ui/settings_menu.gd:154
 #, c-format
 msgid "  -  SEED %d"
-msgstr ""
+msgstr "  -  SEED %d"
 
 #: game/ui/settings_menu.gd:156
 #, c-format
 msgid "ENDLESS  -  %s POINTS"
-msgstr ""
+msgstr "ENDLOS  -  %s PUNKTE"
 
 #: game/ui/settings_menu.gd:157
 #, c-format
 msgid "SEED %d"
-msgstr ""
+msgstr "SEED %d"
 
 #: game/ui/settings_menu.gd:159
 msgid "SETTINGS ARE SAVED AS YOU CHANGE THEM"
-msgstr ""
+msgstr "EINSTELLUNGEN WERDEN SOFORT GESPEICHERT"
 
 #: game/ui/settings_menu.gd:168
 msgid "COPY SEED"
-msgstr ""
+msgstr "SEED KOPIEREN"
 
 #: game/ui/settings_menu.gd:169
 msgid "Copy the seed to the clipboard. Type it on the Kit screen to replay this run's draws."
-msgstr ""
+msgstr "Kopiert den Seed in die Zwischenablage. Gib ihn im Kit-Bildschirm ein, um die Austeilungen dieser Partie nachzuspielen."
 
 #: game/ui/settings_menu.gd:172
 msgid "COPIED!"
-msgstr ""
+msgstr "KOPIERT!"
 
 #: game/ui/settings_menu.gd:243
 msgid "Game speed"
-msgstr ""
+msgstr "Spieltempo"
 
 #: game/ui/settings_menu.gd:243
 msgid "Speeds up scoring, clears and round animations. Results are identical at every speed."
-msgstr ""
+msgstr "Beschleunigt Punkte-, Abräum- und Rundenanimationen. Die Ergebnisse sind bei jedem Tempo gleich."
 
 #: game/ui/settings_menu.gd:244
 msgid "FAST"
-msgstr ""
+msgstr "SCHNELL"
 
 #: game/ui/settings_menu.gd:244
 msgid "NORMAL"
-msgstr ""
+msgstr "NORMAL"
 
 #: game/ui/settings_menu.gd:244
 msgid "TURBO"
-msgstr ""
+msgstr "TURBO"
 
 #: game/ui/settings_menu.gd:245
 msgid "A short hint the first time something new shows up: Hold, bosses, round cards, Heat..."
-msgstr ""
+msgstr "Ein kurzer Hinweis, wenn etwas Neues zum ersten Mal auftaucht: Halten, Bosse, Rundenkarten, Hitze..."
 
 #: game/ui/settings_menu.gd:245
 msgid "Tips"
-msgstr ""
+msgstr "Tipps"
 
 #: game/ui/settings_menu.gd:246 game/ui/settings_menu.gd:307 game/ui/settings_menu.gd:308 game/ui/settings_menu.gd:310 game/ui/settings_menu.gd:311 game/ui/settings_menu.gd:326
 msgid "OFF"
-msgstr ""
+msgstr "AUS"
 
 #: game/ui/settings_menu.gd:246 game/ui/settings_menu.gd:307 game/ui/settings_menu.gd:308 game/ui/settings_menu.gd:310 game/ui/settings_menu.gd:311 game/ui/settings_menu.gd:326
 msgid "ON"
-msgstr ""
+msgstr "AN"
 
 #: game/ui/settings_menu.gd:247
 msgid "RESET TIPS"
-msgstr ""
+msgstr "TIPPS ZURÜCKSETZEN"
 
 #: game/ui/settings_menu.gd:247
 msgid "Replay tips"
-msgstr ""
+msgstr "Tipps wiederholen"
 
 #: game/ui/settings_menu.gd:247
 msgid "Show every tip again, as if this were your first run."
-msgstr ""
+msgstr "Zeigt alle Tipps erneut, als wäre es deine erste Partie."
 
 #: game/ui/settings_menu.gd:252
 msgid "DONE!"
-msgstr ""
+msgstr "ERLEDIGT!"
 
 #: game/ui/settings_menu.gd:253 game/ui/settings_menu.gd:345
 msgid "Boss intros"
-msgstr ""
+msgstr "Boss-Intros"
 
 #: game/ui/settings_menu.gd:253
 msgid "CINEMATIC plays the warning, the name slam and the rule. QUICK goes straight to the rule card."
-msgstr ""
+msgstr "KINO zeigt die Warnung, den Namen in groß und die Regel. SCHNELL geht direkt zur Regelkarte."
 
 #: game/ui/settings_menu.gd:254 game/ui/settings_menu.gd:346
 msgid "CINEMATIC"
-msgstr ""
+msgstr "KINO"
 
 #: game/ui/settings_menu.gd:254 game/ui/settings_menu.gd:346
 msgid "QUICK"
-msgstr ""
+msgstr "SCHNELL"
 
 #: game/ui/settings_menu.gd:255
 msgid "POPS shows you around again the next time a run starts."
-msgstr ""
+msgstr "POPS führt dich zu Beginn der nächsten Partie noch einmal herum."
 
 #: game/ui/settings_menu.gd:255
 msgid "REPLAY TUTORIAL"
-msgstr ""
+msgstr "TUTORIAL WIEDERHOLEN"
 
 #: game/ui/settings_menu.gd:255
 msgid "Tutorial"
-msgstr ""
+msgstr "Tutorial"
 
 #: game/ui/settings_menu.gd:258
 msgid "READY!"
-msgstr ""
+msgstr "BEREIT!"
 
 #: game/ui/settings_menu.gd:266
 msgid "Language"
-msgstr ""
+msgstr "Sprache"
 
 #: game/ui/settings_menu.gd:269
 msgid "Menus, cards and tips. Names like BLOCKMANIA and POPS stay the same."
-msgstr ""
+msgstr "Menüs, Karten und Tipps. Namen wie BLOCKMANIA und POPS bleiben gleich."
 
 #: game/ui/settings_menu.gd:295 game/ui/settings_menu.gd:333
 msgid "SYSTEM"
-msgstr ""
+msgstr "SYSTEM"
 
 #: game/ui/settings_menu.gd:297
 #, c-format
 msgid "Follow the computer's language (%s)."
-msgstr ""
+msgstr "Sprache des Computers verwenden (%s)."
 
 #: game/ui/settings_menu.gd:304
 msgid "Everything at once."
-msgstr ""
+msgstr "Alles auf einmal."
 
 #: game/ui/settings_menu.gd:304
 msgid "Master volume"
-msgstr ""
+msgstr "Gesamtlautstärke"
 
 #: game/ui/settings_menu.gd:305
 msgid "Music volume"
-msgstr ""
+msgstr "Musiklautstärke"
 
 #: game/ui/settings_menu.gd:305
 msgid "The soundtrack. Each part of the game has its own songs."
-msgstr ""
+msgstr "Der Soundtrack. Jeder Teil des Spiels hat eigene Songs."
 
 #: game/ui/settings_menu.gd:306
 msgid "Clicks, clears, Jokers and fanfares."
-msgstr ""
+msgstr "Klicks, Abräumer, Joker und Fanfaren."
 
 #: game/ui/settings_menu.gd:306
 msgid "Effects volume"
-msgstr ""
+msgstr "Effektlautstärke"
 
 #: game/ui/settings_menu.gd:307
 msgid "Sound"
-msgstr ""
+msgstr "Ton"
 
 #: game/ui/settings_menu.gd:307
 msgid "Turns every sound on or off. M toggles it anywhere."
-msgstr ""
+msgstr "Schaltet jeden Ton an oder aus. M schaltet überall um."
 
 #: game/ui/settings_menu.gd:308
 msgid "Keep the effects but switch the songs off."
-msgstr ""
+msgstr "Effekte behalten, aber die Songs ausschalten."
 
 #: game/ui/settings_menu.gd:308
 msgid "Soundtrack"
-msgstr ""
+msgstr "Soundtrack"
 
 #: game/ui/settings_menu.gd:309
 msgid "A soft heartbeat when three or fewer placements are left and the target is not met."
-msgstr ""
+msgstr "Ein leiser Herzschlag, wenn höchstens drei Züge übrig sind und das Ziel nicht erreicht ist."
 
 #: game/ui/settings_menu.gd:309
 msgid "Danger heartbeat"
-msgstr ""
+msgstr "Gefahren-Herzschlag"
 
 #: game/ui/settings_menu.gd:311
 msgid "Mute in background"
-msgstr ""
+msgstr "Stumm im Hintergrund"
 
 #: game/ui/settings_menu.gd:311
 msgid "Silence the game while its window is not focused."
-msgstr ""
+msgstr "Schaltet das Spiel stumm, wenn sein Fenster nicht aktiv ist."
 
 #: game/ui/settings_menu.gd:312
 msgid "Now playing"
-msgstr ""
+msgstr "Läuft gerade"
 
 #: game/ui/settings_menu.gd:317
 msgid "NEXT SONG  >"
-msgstr ""
+msgstr "NÄCHSTER SONG  >"
 
 #: game/ui/settings_menu.gd:318
 msgid "Play another song from this part of the game."
-msgstr ""
+msgstr "Spielt einen anderen Song aus diesem Teil des Spiels."
 
 #: game/ui/settings_menu.gd:324
 msgid "Fullscreen uses your desktop resolution. The board always stays square."
-msgstr ""
+msgstr "Vollbild nutzt deine Desktop-Auflösung. Das Brett bleibt immer quadratisch."
 
 #: game/ui/settings_menu.gd:324
 msgid "Window"
-msgstr ""
+msgstr "Fenster"
 
 #: game/ui/settings_menu.gd:325
 msgid "FULLSCREEN"
-msgstr ""
+msgstr "VOLLBILD"
 
 #: game/ui/settings_menu.gd:325
 msgid "WINDOWED"
-msgstr ""
+msgstr "FENSTER"
 
 #: game/ui/settings_menu.gd:326
 msgid "Locks the frame rate to your screen and removes tearing."
-msgstr ""
+msgstr "Koppelt die Bildrate an deinen Bildschirm und verhindert Tearing."
 
 #: game/ui/settings_menu.gd:326
 msgid "V-Sync"
-msgstr ""
+msgstr "V-Sync"
 
 #: game/ui/settings_menu.gd:327
 msgid "CRT filter"
-msgstr ""
+msgstr "CRT-Filter"
 
 #: game/ui/settings_menu.gd:327
 msgid "Scanlines and a curved-glass glow. SOFT keeps text sharpest."
-msgstr ""
+msgstr "Scanlines und ein Glanz wie auf gewölbtem Glas. SANFT hält Text am schärfsten."
 
 #: game/ui/settings_menu.gd:328 game/ui/settings_menu.gd:330 game/ui/settings_menu.gd:338 game/ui/settings_menu.gd:340 game/ui/settings_menu.gd:342
 msgid "FULL"
-msgstr ""
+msgstr "VOLL"
 
 #: game/ui/settings_menu.gd:328 game/ui/settings_menu.gd:330 game/ui/settings_menu.gd:342
 msgid "SOFT"
-msgstr ""
+msgstr "SANFT"
 
 #: game/ui/settings_menu.gd:329
 msgid "Hazard frame on boss rounds, the danger vignette and heat haze at the screen's edges."
-msgstr ""
+msgstr "Gefahrenrahmen in Bossrunden, Gefahrenvignette und Hitzeflimmern am Bildschirmrand."
 
 #: game/ui/settings_menu.gd:329
 msgid "Screen effects"
-msgstr ""
+msgstr "Bildschirmeffekte"
 
 #: game/ui/settings_menu.gd:331
 msgid "FPS counter"
-msgstr ""
+msgstr "FPS-Anzeige"
 
 #: game/ui/settings_menu.gd:331
 msgid "Frames per second in the top-left corner."
-msgstr ""
+msgstr "Bilder pro Sekunde in der oberen linken Ecke."
 
 #: game/ui/settings_menu.gd:332
 msgid "CUSTOM: a pixel arrow, POPS's glove over buttons and little click sparks. SYSTEM: your normal pointer."
-msgstr ""
+msgstr "EIGENER: ein Pixelpfeil, POPS' Handschuh über Knöpfen und kleine Klickfunken. SYSTEM: dein normaler Mauszeiger."
 
 #: game/ui/settings_menu.gd:332
 msgid "Mouse cursor"
-msgstr ""
+msgstr "Mauszeiger"
 
 #: game/ui/settings_menu.gd:333
 msgid "CUSTOM"
-msgstr ""
+msgstr "EIGENER"
 
 #: game/ui/settings_menu.gd:337
 msgid "Motion"
-msgstr ""
+msgstr "Bewegung"
 
 #: game/ui/settings_menu.gd:337
 msgid "REDUCED stops background motion, bobbing and fly-ins. Every number and effect is still shown."
-msgstr ""
+msgstr "REDUZIERT stoppt Hintergrundbewegung, Wippen und Einflüge. Alle Zahlen und Effekte bleiben sichtbar."
 
 #: game/ui/settings_menu.gd:338
 msgid "REDUCED"
-msgstr ""
+msgstr "REDUZIERT"
 
 #: game/ui/settings_menu.gd:339
 msgid "How hard big clears, slams and bosses shake the screen."
-msgstr ""
+msgstr "Wie stark große Abräumer, Einschläge und Bosse den Bildschirm wackeln lassen."
 
 #: game/ui/settings_menu.gd:339
 msgid "Screen shake"
-msgstr ""
+msgstr "Bildschirmwackeln"
 
 #: game/ui/settings_menu.gd:340
 msgid "LOW"
-msgstr ""
+msgstr "NIEDRIG"
 
 #: game/ui/settings_menu.gd:341
 msgid "Bright full-screen flashes and CRT jolts on slams and bosses. OFF removes them all."
-msgstr ""
+msgstr "Helle Vollbildblitze und CRT-Ruckler bei Einschlägen und Bossen. AUS entfernt sie alle."
 
 #: game/ui/settings_menu.gd:341
 msgid "Flashes"
-msgstr ""
+msgstr "Blitze"
 
 #: game/ui/settings_menu.gd:343
 msgid "Block patterns"
-msgstr ""
+msgstr "Blockmuster"
 
 #: game/ui/settings_menu.gd:343
 msgid "Every block color also gets its own pattern, so colors never have to be told apart by hue."
-msgstr ""
+msgstr "Jede Blockfarbe bekommt zusätzlich ein eigenes Muster, damit Farben nie am Farbton unterschieden werden müssen."
 
 #: game/ui/settings_menu.gd:345
 msgid "QUICK skips the flashing warning cinematic before boss rounds."
-msgstr ""
+msgstr "SCHNELL überspringt die blinkende Warnsequenz vor Bossrunden."
 
 #: game/ui/settings_menu.gd:353 game/ui/settings_menu.gd:366
 msgid "Drag a piece, or click it, then a cell"
-msgstr ""
+msgstr "Teil ziehen oder anklicken, dann ein Feld"
 
 #: game/ui/settings_menu.gd:353 game/ui/settings_menu.gd:366
 msgid "MOUSE"
-msgstr ""
+msgstr "MAUS"
 
 #: game/ui/settings_menu.gd:354
 msgid "Put the carried piece back"
-msgstr ""
+msgstr "Getragenes Teil zurücklegen"
 
 #: game/ui/settings_menu.gd:354
 msgid "RIGHT CLICK"
-msgstr ""
+msgstr "RECHTSKLICK"
 
 #: game/ui/settings_menu.gd:355 game/ui/settings_menu.gd:367
 msgid "1  2  3"
-msgstr ""
+msgstr "1  2  3"
 
 #: game/ui/settings_menu.gd:355 game/ui/settings_menu.gd:367
 msgid "Pick up a tray piece"
-msgstr ""
+msgstr "Teil aus der Auslage nehmen"
 
 #: game/ui/settings_menu.gd:356 game/ui/settings_menu.gd:368
 msgid "ARROWS / WASD"
-msgstr ""
+msgstr "PFEILE / WASD"
 
 #: game/ui/settings_menu.gd:356 game/ui/settings_menu.gd:368
 msgid "Move the carried piece"
-msgstr ""
+msgstr "Getragenes Teil bewegen"
 
 #: game/ui/settings_menu.gd:357 game/ui/settings_menu.gd:369
 msgid "ENTER / SPACE"
-msgstr ""
+msgstr "ENTER / LEER"
 
 #: game/ui/settings_menu.gd:357 game/ui/settings_menu.gd:369
 msgid "Place it"
-msgstr ""
+msgstr "Legen"
 
 #: game/ui/settings_menu.gd:358
 msgid "Hold or swap a piece"
-msgstr ""
+msgstr "Teil halten oder tauschen"
 
 #: game/ui/settings_menu.gd:359
 msgid "Refresh the tray"
-msgstr ""
+msgstr "Auslage tauschen"
 
 #: game/ui/settings_menu.gd:360
 msgid "Open your bag"
-msgstr ""
+msgstr "Beutel öffnen"
 
 #: game/ui/settings_menu.gd:361
 msgid "ALT + UP / DOWN"
-msgstr ""
+msgstr "ALT + HOCH / RUNTER"
 
 #: game/ui/settings_menu.gd:361
 msgid "Move a focused Joker"
-msgstr ""
+msgstr "Gewählten Joker verschieben"
 
 #: game/ui/settings_menu.gd:362 game/ui/settings_menu.gd:371
 msgid "Sound on / off"
-msgstr ""
+msgstr "Ton an / aus"
 
 #: game/ui/settings_menu.gd:363 game/ui/settings_menu.gd:372 game/ui/settings_menu.gd:375
 msgid "ESC"
-msgstr ""
+msgstr "ESC"
 
 #: game/ui/settings_menu.gd:363 game/ui/settings_menu.gd:372
 msgid "Pause, or put a piece back"
-msgstr ""
+msgstr "Pause oder Teil zurücklegen"
 
 #: game/ui/settings_menu.gd:370
 msgid "Hold or swap the piece"
-msgstr ""
+msgstr "Teil halten oder tauschen"
 
 #: game/ui/settings_menu.gd:374
 msgid "ENTER"
-msgstr ""
+msgstr "ENTER"
 
 #: game/ui/settings_menu.gd:374
 msgid "Move between buttons"
-msgstr ""
+msgstr "Zwischen Knöpfen wechseln"
 
 #: game/ui/settings_menu.gd:374
 msgid "Press the focused button"
-msgstr ""
+msgstr "Gewählten Knopf drücken"
 
 #: game/ui/settings_menu.gd:374
 msgid "TAB / ARROWS"
-msgstr ""
+msgstr "TAB / PFEILE"
 
 #: game/ui/settings_menu.gd:375
 msgid "Close a window"
-msgstr ""
+msgstr "Fenster schließen"
 
 #: game/ui/settings_menu.gd:375
 msgid "Q  E"
-msgstr ""
+msgstr "Q  E"
 
 #: game/ui/settings_menu.gd:375
 msgid "Switch pages in this menu"
-msgstr ""
+msgstr "Seiten in diesem Menü wechseln"
 
 #: game/ui/settings_menu.gd:379
 msgid "CAMPAIGN"
-msgstr ""
+msgstr "KAMPAGNE"
 
 #: game/ui/settings_menu.gd:386
 msgid "MENUS"
-msgstr ""
+msgstr "MENÜS"
 
 #: game/ui/settings_menu.gd:422
 msgid "KIT"
-msgstr ""
+msgstr "KIT"
 
 #: game/ui/settings_menu.gd:423
 msgid "(standard)"
-msgstr ""
+msgstr "(Standard)"
 
 #: game/ui/settings_menu.gd:423 game/ui/title_screen.gd:451
 msgid "HEAT"
-msgstr ""
+msgstr "HITZE"
 
 #: game/ui/settings_menu.gd:424 game/ui/shop_screen.gd:384
 msgid "CREDITS"
-msgstr ""
+msgstr "CREDITS"
 
 #: game/ui/settings_menu.gd:426
 #, c-format
 msgid "%d piece"
 msgid_plural "%d pieces"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d Teil"
+msgstr[1] "%d Teile"
 
 #: game/ui/settings_menu.gd:427
 msgid "LINES"
-msgstr ""
+msgstr "LINIEN"
 
 #. rules text (shown through BMLoc.tf)
 #: game/ui/settings_menu.gd:428 game/ui/title_screen.gd:696 game/ui/trophy_case.gd:149
 msgid "BEST PLACEMENT"
-msgstr ""
+msgstr "BESTER ZUG"
 
 #: game/ui/settings_menu.gd:429
 msgid "BOSSES BEATEN"
-msgstr ""
+msgstr "BESIEGTE BOSSE"
 
 #: game/ui/settings_menu.gd:439
 #, c-format
 msgid "HEAT %d RULES"
-msgstr ""
+msgstr "REGELN FÜR HITZE %d"
 
 #: game/ui/settings_menu.gd:446 game/ui/settings_menu.gd:606
 msgid "NOW"
-msgstr ""
+msgstr "JETZT"
 
 #: game/ui/settings_menu.gd:447
 #, c-format
 msgid "ACT %d BOSS  -  %s  (%s)"
-msgstr ""
+msgstr "BOSS VON AKT %d  -  %s  (%s)"
 
 #: game/ui/settings_menu.gd:450
 #, c-format
 msgid "THIS ROUND  -  %s"
-msgstr ""
+msgstr "DIESE RUNDE  -  %s"
 
 #: game/ui/settings_menu.gd:570
 msgid "(silence between songs)"
-msgstr ""
+msgstr "(Stille zwischen den Songs)"
 
 #: game/ui/settings_menu.gd:606
 msgid "NEXT"
-msgstr ""
+msgstr "NÄCHSTE"
 
 #: game/ui/settings_menu.gd:608
 #, c-format
 msgid "ACT %d"
-msgstr ""
+msgstr "AKT %d"
 
 #: game/ui/settings_menu.gd:610
 #, c-format
 msgid "OVERTIME  -  ROUND %d  (%d PAST THE FINAL BOSS)"
-msgstr ""
+msgstr "VERLÄNGERUNG  -  RUNDE %d  (%d NACH DEM ENDBOSS)"
 
 #: game/ui/shop_screen.gd:56
 msgid "THE TOYBOX"
-msgstr ""
+msgstr "DIE SPIELZEUGKISTE"
 
 #: game/ui/shop_screen.gd:61
 msgid "OVERTIME"
-msgstr ""
+msgstr "VERLÄNGERUNG"
 
 #: game/ui/shop_screen.gd:62
 msgid "You beat the game and kept playing. Targets climb faster every round."
-msgstr ""
+msgstr "Du hast das Spiel geschlagen und weitergespielt. Die Ziele steigen jede Runde schneller."
 
 #: game/ui/shop_screen.gd:79
 msgid "Replace every offer in the shop. The price rises by 1 each reroll."
-msgstr ""
+msgstr "Ersetzt jedes Angebot im Laden. Der Preis steigt mit jedem Neuwürfeln um 1."
 
 #: game/ui/shop_screen.gd:91
 msgid "WORKSHOP  -  edit your bag"
-msgstr ""
+msgstr "WERKSTATT  -  Beutel bearbeiten"
 
 #: game/ui/shop_screen.gd:94
 msgid "PIECES FOR YOUR BAG"
-msgstr ""
+msgstr "TEILE FÜR DEINEN BEUTEL"
 
 #: game/ui/shop_screen.gd:107
 msgid "BOSS"
-msgstr ""
+msgstr "BOSS"
 
 #: game/ui/shop_screen.gd:131
 msgid "NEXT ROUND  >"
-msgstr ""
+msgstr "NÄCHSTE RUNDE  >"
 
 #: game/ui/shop_screen.gd:135
 msgid ""
 "BOSS\n"
 "CRATE"
 msgstr ""
+"BOSS-\n"
+"KISTE"
 
 #: game/ui/shop_screen.gd:137
 msgid "Your free Boss Crate is still closed. Open it before you leave."
-msgstr ""
+msgstr "Deine kostenlose Boss-Kiste ist noch zu. Öffne sie, bevor du gehst."
 
 #: game/ui/shop_screen.gd:143
 msgid "YOUR JOKERS"
-msgstr ""
+msgstr "DEINE JOKER"
 
 #: game/ui/shop_screen.gd:147
 msgid "YOUR ITEMS"
-msgstr ""
+msgstr "DEINE GEGENSTÄNDE"
 
 #: game/ui/shop_screen.gd:152
 msgid "Every piece in your bag (B)"
-msgstr ""
+msgstr "Jedes Teil in deinem Beutel (B)"
 
 #: game/ui/shop_screen.gd:158
 msgid "Pause, settings, Save & Quit to the main menu (Esc)"
-msgstr ""
+msgstr "Pause, Einstellungen, Speichern & Beenden zum Hauptmenü (Esc)"
 
 #: game/ui/shop_screen.gd:214
 msgid "BOSS CRATE!"
-msgstr ""
+msgstr "BOSS-KISTE!"
 
 #: game/ui/shop_screen.gd:219
 msgid "You beat the boss. Open it and take one thing for free."
-msgstr ""
+msgstr "Du hast den Boss besiegt. Öffne sie und nimm dir eine Sache umsonst."
 
 #: game/ui/shop_screen.gd:234
 msgid "Open the crate"
-msgstr ""
+msgstr "Kiste öffnen"
 
 #: game/ui/shop_screen.gd:237
 msgid "CLICK TO OPEN"
-msgstr ""
+msgstr "KLICKEN ZUM ÖFFNEN"
 
 #: game/ui/shop_screen.gd:271
 msgid "TAKE IT"
-msgstr ""
+msgstr "NEHMEN"
 
 #: game/ui/shop_screen.gd:279
 #, c-format
 msgid "From the crate: %s."
-msgstr ""
+msgstr "Aus der Kiste: %s."
 
 #: game/ui/shop_screen.gd:292 game/ui/shop_screen.gd:338
 msgid "sell a Joker"
-msgstr ""
+msgstr "verkauf einen Joker"
 
 #: game/ui/shop_screen.gd:292 game/ui/shop_screen.gd:338
 msgid "use an item"
-msgstr ""
+msgstr "benutze einen Gegenstand"
 
 #: game/ui/shop_screen.gd:306
 msgid "LATER"
-msgstr ""
+msgstr "SPÄTER"
 
 #: game/ui/shop_screen.gd:307
 msgid "Close the crate for now: the BOSS CRATE button reopens it until you leave the shop."
-msgstr ""
+msgstr "Kiste vorerst schließen: Der BOSS-KISTE-Knopf öffnet sie wieder, bis du den Laden verlässt."
 
 #: game/ui/shop_screen.gd:311
 msgid " or "
-msgstr ""
+msgstr " oder "
 
 #: game/ui/shop_screen.gd:311
 #, c-format
 msgid "Slots full? Press LATER, %s, then reopen the crate."
-msgstr ""
+msgstr "Plätze voll? Drück SPÄTER, %s, und öffne die Kiste dann erneut."
 
 #: game/ui/shop_screen.gd:328
 msgid "Joker slots are full"
-msgstr ""
+msgstr "Die Joker-Plätze sind voll"
 
 #: game/ui/shop_screen.gd:331
 msgid "Item slots are full"
-msgstr ""
+msgstr "Die Gegenstandsplätze sind voll"
 
 #: game/ui/shop_screen.gd:342
 #, c-format
 msgid "%s. Press LATER, %s, then reopen the crate with the BOSS CRATE button."
-msgstr ""
+msgstr "%s. Drück SPÄTER, %s, und öffne die Kiste dann mit dem BOSS-KISTE-Knopf erneut."
 
 #: game/ui/shop_screen.gd:343
 #, c-format
 msgid "LOCKED: %s. Press LATER, %s, then reopen the crate."
-msgstr ""
+msgstr "GESPERRT: %s. Drück SPÄTER, %s, und öffne die Kiste dann erneut."
 
 #: game/ui/shop_screen.gd:361
 msgid "SLOTS FULL"
-msgstr ""
+msgstr "PLÄTZE VOLL"
 
 #: game/ui/shop_screen.gd:371
 #, c-format
 msgid "%d Credit"
 msgid_plural "%d Credits"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d Credit"
+msgstr[1] "%d Credits"
 
 #: game/ui/shop_screen.gd:376
 #, c-format
 msgid "%d Credit, straight into your wallet."
 msgid_plural "%d Credits, straight into your wallet."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d Credit, direkt in deinen Geldbeutel."
+msgstr[1] "%d Credits, direkt in deinen Geldbeutel."
 
 #: game/ui/shop_screen.gd:380
 #, c-format
 msgid "%d CREDIT"
 msgid_plural "%d CREDITS"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d CREDIT"
+msgstr[1] "%d CREDITS"
 
 #: game/ui/shop_screen.gd:382
 msgid "Straight into your wallet."
-msgstr ""
+msgstr "Direkt in deinen Geldbeutel."
 
 #: game/ui/shop_screen.gd:413
 #, c-format
 msgid "Sold for %d Credits."
-msgstr ""
+msgstr "Für %d Credits verkauft."
 
 #: game/ui/shop_screen.gd:467
 #, c-format
 msgid "Added %s to your bag (%d pieces)."
-msgstr ""
+msgstr "%s zu deinem Beutel hinzugefügt (%d Teile)."
 
 #: game/ui/shop_screen.gd:472
 #, c-format
 msgid "Loan Shark lent you %d Credits. It takes %d back after each won round."
-msgstr ""
+msgstr "Der Kredithai hat dir %d Credits geliehen. Nach jeder gewonnenen Runde holt er sich %d zurück."
 
 #: game/ui/shop_screen.gd:473
 #, c-format
 msgid "%s joined your rack!"
-msgstr ""
+msgstr "%s ist jetzt in deinem Regal!"
 
 #: game/ui/shop_screen.gd:475
 #, c-format
 msgid "Bought %s."
-msgstr ""
+msgstr "%s gekauft."
 
 #: game/ui/shop_screen.gd:506
 #, c-format
 msgid "REROLL  %d"
-msgstr ""
+msgstr "NEU WÜRFELN  %d"
 
 #: game/ui/shop_screen.gd:517
 #, c-format
 msgid "Score target for round %d: %s points"
-msgstr ""
+msgstr "Punkteziel für Runde %d: %s Punkte"
 
 #: game/ui/shop_screen.gd:518
 msgid "Overtime: targets climb faster every round."
-msgstr ""
+msgstr "Verlängerung: Die Ziele steigen jede Runde schneller."
 
 #: game/ui/shop_screen.gd:525
 #, c-format
 msgid "%s  (ROUND %d)"
-msgstr ""
+msgstr "%s  (RUNDE %d)"
 
 #: game/ui/shop_screen.gd:527
 #, c-format
 msgid "Round %d boss: %s"
-msgstr ""
+msgstr "Boss in Runde %d: %s"
 
 #: game/ui/shop_screen.gd:542
 msgid "Joker slots are full. Sell one first."
-msgstr ""
+msgstr "Die Joker-Plätze sind voll. Verkauf zuerst einen."
 
 #: game/ui/shop_screen.gd:566
 #, c-format
 msgid "PICK %d"
-msgstr ""
+msgstr "WÄHLEN %d"
 
 #: game/ui/shop_screen.gd:578
 msgid "Your bag is full."
-msgstr ""
+msgstr "Dein Beutel ist voll."
 
 #: game/ui/shop_screen.gd:582
 #, c-format
 msgid "YOUR JOKERS %d/%d"
-msgstr ""
+msgstr "DEINE JOKER %d/%d"
 
 #: game/ui/shop_screen.gd:660
 #, c-format
 msgid "BUY %d"
-msgstr ""
+msgstr "KAUFEN %d"
 
 #: game/ui/shop_screen.gd:673
 msgid "SOLD OUT"
-msgstr ""
+msgstr "AUSVERKAUFT"
 
 #: game/ui/shop_screen.gd:712
 #, c-format
 msgid "CHOOSE ROUND %d"
-msgstr ""
+msgstr "WÄHLE RUNDE %d"
 
 #: game/ui/shop_screen.gd:718
 msgid "Play it straight, or take a twist for a reward. Keys 1-3 choose, Esc goes back."
-msgstr ""
+msgstr "Spiel sie normal oder nimm eine Wendung für eine Belohnung. Tasten 1-3 wählen, Esc geht zurück."
 
 #: game/ui/shop_screen.gd:735
 msgid "STANDARD"
-msgstr ""
+msgstr "STANDARD"
 
 #: game/ui/shop_screen.gd:735
 msgid "TWIST"
-msgstr ""
+msgstr "WENDUNG"
 
 #: game/ui/shop_screen.gd:757
 #, c-format
 msgid "+%d IF YOU WIN"
-msgstr ""
+msgstr "+%d BEI SIEG"
 
 #: game/ui/shop_screen.gd:760
 #, c-format
 msgid "PLAY  %d"
-msgstr ""
+msgstr "SPIELEN  %d"
 
 #: game/ui/shop_screen.gd:772
 msgid "BACK TO THE SHOP"
-msgstr ""
+msgstr "ZURÜCK ZUM LADEN"
 
 #: game/ui/shop_screen.gd:846
 #, c-format
 msgid "%s  -  %d CREDITS"
-msgstr ""
+msgstr "%s  -  %d CREDITS"
 
 #: game/ui/shop_screen.gd:850
 #, c-format
 msgid "Choose up to %d piece."
 msgid_plural "Choose up to %d pieces."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Wähle bis zu %d Teil."
+msgstr[1] "Wähle bis zu %d Teile."
 
 #: game/ui/shop_screen.gd:853
 msgid "CONFIRM PURCHASE"
-msgstr ""
+msgstr "KAUF BESTÄTIGEN"
 
 #: game/ui/shop_screen.gd:859
 #, c-format
 msgid "%d of %d chosen"
-msgstr ""
+msgstr "%d von %d gewählt"
 
 #: game/ui/shop_screen.gd:861
 #, c-format
 msgid "   -   color: %s"
-msgstr ""
+msgstr "   -   Farbe: %s"
 
 #: game/ui/shop_screen.gd:861
 msgid "pick one"
-msgstr ""
+msgstr "wähl eine"
 
 #: game/ui/shop_screen.gd:902
 msgid "CANCEL  (ESC)"
-msgstr ""
+msgstr "ABBRECHEN  (ESC)"
 
 #: game/ui/tip_plate.gd:25
 msgid "TIP"
-msgstr ""
+msgstr "TIPP"
 
 #: game/ui/tip_plate.gd:34
 msgid "Turn tips off in Options."
-msgstr ""
+msgstr "Tipps kannst du in den Optionen ausschalten."
 
 #: game/ui/tip_plate.gd:38
 msgid "GOT IT"
-msgstr ""
+msgstr "VERSTANDEN"
 
 #: game/ui/title_screen.gd:69
 msgid "a toy-block roguelike of tricks, jokers and one very full board"
-msgstr ""
+msgstr "ein Spielzeugblock-Roguelike voller Tricks, Joker und mit einem sehr vollen Brett"
 
 #: game/ui/title_screen.gd:81
 msgid "CONTINUE RUN"
-msgstr ""
+msgstr "PARTIE FORTSETZEN"
 
 #: game/ui/title_screen.gd:86
 msgid "Pick a Kit and a Heat level, then twelve rounds and three bosses."
-msgstr ""
+msgstr "Wähle ein Kit und eine Hitzestufe, dann warten zwölf Runden und drei Bosse."
 
 #: game/ui/title_screen.gd:90 game/ui/title_screen.gd:165 game/ui/title_screen.gd:648
 msgid "DAILY"
-msgstr ""
+msgstr "TAGESSPIEL"
 
 #: game/ui/title_screen.gd:93 game/ui/title_screen.gd:166
 msgid "Today's run: the same seed for everyone, Standard Kit, Heat 0."
-msgstr ""
+msgstr "Die Partie des Tages: derselbe Seed für alle, Standard-Kit, Hitze 0."
 
 #: game/ui/title_screen.gd:98
 msgid "Relaxed block placement. Clear rows and columns, build a combo, and chase your best score."
-msgstr ""
+msgstr "Entspanntes Blöckelegen. Räume Zeilen und Spalten ab, bau Kombos auf und jag deinen Bestwert."
 
 #: game/ui/title_screen.gd:102
 msgid "TROPHIES"
-msgstr ""
+msgstr "TROPHÄEN"
 
 #: game/ui/title_screen.gd:106
 msgid "HISTORY"
-msgstr ""
+msgstr "VERLAUF"
 
 #: game/ui/title_screen.gd:109
 #, c-format
 msgid "Your last %d campaign runs: Kit, Heat, seed, how far you got and your Jokers."
-msgstr ""
+msgstr "Deine letzten %d Kampagnenpartien: Kit, Hitze, Seed, wie weit du kamst und deine Joker."
 
 #: game/ui/title_screen.gd:111
 msgid "SCORES"
-msgstr ""
+msgstr "BESTWERTE"
 
 #: game/ui/title_screen.gd:114
 msgid "Endless high scores"
-msgstr ""
+msgstr "Endlos-Bestenliste"
 
 #: game/ui/title_screen.gd:122
 msgid "QUIT"
-msgstr ""
+msgstr "BEENDEN"
 
 #: game/ui/title_screen.gd:127
 msgid "prototype build"
-msgstr ""
+msgstr "Prototyp-Version"
 
 #: game/ui/title_screen.gd:165
 msgid "DAILY  *"
-msgstr ""
+msgstr "TAGESSPIEL  *"
 
 #: game/ui/title_screen.gd:167
 #, c-format
@@ -5857,41 +5871,43 @@ msgid ""
 "\n"
 "Today: %s"
 msgstr ""
+"\n"
+"Heute: %s"
 
 #: game/ui/title_screen.gd:167
 #, c-format
 msgid "reached round %d"
-msgstr ""
+msgstr "Runde %d erreicht"
 
 #: game/ui/title_screen.gd:167
 msgid "won!"
-msgstr ""
+msgstr "gewonnen!"
 
 #: game/ui/title_screen.gd:222
 #, c-format
 msgid "You have a game in progress:  %s points."
-msgstr ""
+msgstr "Du hast ein laufendes Spiel:  %s Punkte."
 
 #: game/ui/title_screen.gd:225
 msgid "CONTINUE"
-msgstr ""
+msgstr "FORTSETZEN"
 
 #: game/ui/title_screen.gd:230
 msgid "NEW GAME"
-msgstr ""
+msgstr "NEUES SPIEL"
 
 #: game/ui/title_screen.gd:234
 msgid "Start over. The game in progress is discarded (it was not finished, so it is not a high score)."
-msgstr ""
+msgstr "Neu anfangen. Das laufende Spiel wird verworfen (es war nicht beendet, also kein Bestwert)."
 
 #: game/ui/title_screen.gd:236
 msgid "A new game replaces the one in progress."
-msgstr ""
+msgstr "Ein neues Spiel ersetzt das laufende."
 
 #: game/ui/title_screen.gd:272
 #, c-format
 msgid "Trophy Case: %d of %d achievements, and your personal records.%s"
-msgstr ""
+msgstr "Trophäenvitrine: %d von %d Erfolgen und deine persönlichen Rekorde.%s"
 
 #: game/ui/title_screen.gd:273
 #, c-format
@@ -5899,55 +5915,59 @@ msgid ""
 "\n"
 "%d new since your last visit!"
 msgstr ""
+"\n"
+"%d neu seit deinem letzten Besuch!"
 
 #: game/ui/title_screen.gd:301
 msgid "ENDLESS HIGH SCORES"
-msgstr ""
+msgstr "ENDLOS-BESTENLISTE"
 
 #: game/ui/title_screen.gd:307
 msgid "NO SAVED SCORES YET"
-msgstr ""
+msgstr "NOCH KEINE GESPEICHERTEN PUNKTE"
 
 #: game/ui/title_screen.gd:307
 msgid ""
 "NO SCORES YET\n"
 "FINISH A GAME TO START"
 msgstr ""
+"NOCH KEINE PUNKTE\n"
+"BEENDE EIN SPIEL, UM ANZUFANGEN"
 
 #: game/ui/title_screen.gd:314
 #, c-format
 msgid "%d lines  •  x%d combo  •  %s"
-msgstr ""
+msgstr "%d Linien  •  x%d Kombo  •  %s"
 
 #: game/ui/title_screen.gd:390
 #, c-format
 msgid "Starting replaces your saved run (round %d, %s)."
-msgstr ""
+msgstr "Ein Neustart ersetzt deine gespeicherte Partie (Runde %d, %s)."
 
 #: game/ui/title_screen.gd:405
 msgid "CHOOSE YOUR KIT"
-msgstr ""
+msgstr "WÄHLE DEIN KIT"
 
 #: game/ui/title_screen.gd:432
 msgid "PLAY"
-msgstr ""
+msgstr "SPIELEN"
 
 #: game/ui/title_screen.gd:437
 msgid "Locked: "
-msgstr ""
+msgstr "Gesperrt: "
 
 #: game/ui/title_screen.gd:472 game/ui/title_screen.gd:479
 #, c-format
 msgid "Heat %d:  %s"
-msgstr ""
+msgstr "Hitze %d:  %s"
 
 #: game/ui/title_screen.gd:472 game/ui/title_screen.gd:479
 msgid "Heat 0: standard rules."
-msgstr ""
+msgstr "Hitze 0: Standardregeln."
 
 #: game/ui/title_screen.gd:472
 msgid "Standard rules. Win a run to unlock Heat 1."
-msgstr ""
+msgstr "Standardregeln. Gewinne eine Partie, um Hitze 1 freizuschalten."
 
 #: game/ui/title_screen.gd:481
 #, c-format
@@ -5955,352 +5975,358 @@ msgid ""
 "\n"
 "Locked: win a run at Heat %d first."
 msgstr ""
+"\n"
+"Gesperrt: Gewinne zuerst eine Partie auf Hitze %d."
 
 #: game/ui/title_screen.gd:493
 msgid "random"
-msgstr ""
+msgstr "zufällig"
 
 #: game/ui/title_screen.gd:497
 msgid ""
 "Leave empty for a random run. The same seed deals the same pieces, shops and bosses.\n"
 "A run on a seed you choose is practice: it earns no achievements, records or unlocks."
 msgstr ""
+"Leer lassen für eine zufällige Partie. Derselbe Seed teilt dieselben Teile, Läden und Bosse aus.\n"
+"Eine Partie mit selbst gewähltem Seed ist Übung: keine Erfolge, Rekorde oder Freischaltungen."
 
 #: game/ui/title_screen.gd:499
 msgid "Chosen seeds are practice: no achievements or unlocks."
-msgstr ""
+msgstr "Gewählte Seeds sind Übung: keine Erfolge oder Freischaltungen."
 
 #: game/ui/title_screen.gd:524
 msgid "DAILY RUN"
-msgstr ""
+msgstr "TAGESSPIEL"
 
 #: game/ui/title_screen.gd:527
 #, c-format
 msgid "%s   -   SEED %d"
-msgstr ""
+msgstr "%s   -   SEED %d"
 
 #: game/ui/title_screen.gd:530
 msgid "Standard Kit, Heat 0, every Joker in the pool."
-msgstr ""
+msgstr "Standard-Kit, Hitze 0, alle Joker im Pool."
 
 #: game/ui/title_screen.gd:531
 msgid "Everyone gets the same pieces, shops and bosses today."
-msgstr ""
+msgstr "Heute bekommen alle dieselben Teile, Läden und Bosse."
 
 #: game/ui/title_screen.gd:532
 msgid "A new Daily starts at midnight."
-msgstr ""
+msgstr "Um Mitternacht beginnt ein neues Tagesspiel."
 
 #: game/ui/title_screen.gd:536
 msgid "Not played yet today."
-msgstr ""
+msgstr "Heute noch nicht gespielt."
 
 #: game/ui/title_screen.gd:538
 msgid "Today's best:  WON!"
-msgstr ""
+msgstr "Heutiger Bestwert:  GEWONNEN!"
 
 #: game/ui/title_screen.gd:538
 #, c-format
 msgid "Today's best:  reached round %d."
-msgstr ""
+msgstr "Heutiger Bestwert:  Runde %d erreicht."
 
 #: game/ui/title_screen.gd:547
 msgid "PLAY TODAY'S RUN"
-msgstr ""
+msgstr "TAGESSPIEL STARTEN"
 
 #: game/ui/title_screen.gd:594
 msgid "RUN HISTORY"
-msgstr ""
+msgstr "PARTIEVERLAUF"
 
 #: game/ui/title_screen.gd:598
 #, c-format
 msgid "%d run"
 msgid_plural "%d runs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d Partie"
+msgstr[1] "%d Partien"
 
 #: game/ui/title_screen.gd:598
 #, c-format
 msgid "%d won"
 msgid_plural "%d won"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d gewonnen"
+msgstr[1] "%d gewonnen"
 
 #: game/ui/title_screen.gd:607
 msgid ""
 "NO RUNS YET\n"
 "FINISH A CAMPAIGN RUN TO START YOUR HISTORY"
 msgstr ""
+"NOCH KEINE PARTIEN\n"
+"BEENDE EINE KAMPAGNENPARTIE, UM DEINEN VERLAUF ZU BEGINNEN"
 
 #: game/ui/title_screen.gd:635
 msgid "BROKE THE MACHINE"
-msgstr ""
+msgstr "MASCHINE KAPUTT"
 
 #: game/ui/title_screen.gd:638
 msgid "WON"
-msgstr ""
+msgstr "GEWONNEN"
 
 #: game/ui/title_screen.gd:638
 #, c-format
 msgid "WON  +%d OVERTIME"
-msgstr ""
+msgstr "GEWONNEN  +%d VERL."
 
 #: game/ui/title_screen.gd:640
 #, c-format
 msgid "ABANDONED  R%d"
-msgstr ""
+msgstr "ABGEBROCHEN  R%d"
 
 #: game/ui/title_screen.gd:641
 #, c-format
 msgid "LOST  ROUND %d"
-msgstr ""
+msgstr "VERLOREN  RUNDE %d"
 
 #: game/ui/title_screen.gd:648
 #, c-format
 msgid "HEAT %d"
-msgstr ""
+msgstr "HITZE %d"
 
 #: game/ui/title_screen.gd:650
 #, c-format
 msgid "%s  -  %s  -  %s  -  seed %d"
-msgstr ""
+msgstr "%s  -  %s  -  %s  -  Seed %d"
 
 #: game/ui/title_screen.gd:694
 #, c-format
 msgid "%s  -  Heat %d"
-msgstr ""
+msgstr "%s  -  Hitze %d"
 
 #: game/ui/title_screen.gd:694
 msgid "Daily "
-msgstr ""
+msgstr "Tagesspiel "
 
 #: game/ui/title_screen.gd:694
 msgid "MODE"
-msgstr ""
+msgstr "MODUS"
 
 #: game/ui/title_screen.gd:694
 msgid "PLAYED"
-msgstr ""
+msgstr "GESPIELT"
 
 #: game/ui/title_screen.gd:695
 msgid "ROUND REACHED"
-msgstr ""
+msgstr "ERREICHTE RUNDE"
 
 #: game/ui/title_screen.gd:696
 msgid "TOTAL SCORE"
-msgstr ""
+msgstr "GESAMTPUNKTE"
 
 #: game/ui/title_screen.gd:701
 #, c-format
 msgid "JOKERS  (%d)"
-msgstr ""
+msgstr "JOKER  (%d)"
 
 #: game/ui/title_screen.gd:715
 msgid "No Jokers at the end of this run."
-msgstr ""
+msgstr "Keine Joker am Ende dieser Partie."
 
 #: game/ui/title_screen.gd:721
 msgid "PLAY THIS SEED"
-msgstr ""
+msgstr "DIESEN SEED SPIELEN"
 
 #: game/ui/title_screen.gd:722
 msgid "Open the Kit screen with this seed filled in."
-msgstr ""
+msgstr "Öffnet den Kit-Bildschirm mit diesem Seed."
 
 #: game/ui/title_screen.gd:742
 msgid "Locked. "
-msgstr ""
+msgstr "Gesperrt. "
 
 #: game/ui/title_screen.gd:770
 #, c-format
 msgid "%d JOKER"
 msgid_plural "%d JOKERS"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d JOKER"
+msgstr[1] "%d JOKER"
 
 #: game/ui/title_screen.gd:771
 #, c-format
 msgid "%d REFRESH"
 msgid_plural "%d REFRESHES"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d TAUSCH"
+msgstr[1] "%d TAUSCHE"
 
 #: game/ui/title_screen.gd:776
 #, c-format
 msgid "+%d STARTING CREDIT"
 msgid_plural "+%d STARTING CREDITS"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "+%d START-CREDIT"
+msgstr[1] "+%d START-CREDITS"
 
 #: game/ui/title_screen.gd:805
 #, c-format
 msgid "%d PIECE"
 msgid_plural "%d PIECES"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d TEIL"
+msgstr[1] "%d TEILE"
 
 #: game/ui/title_screen.gd:814
 msgid "? JOKERS  -  ? REFRESHES"
-msgstr ""
+msgstr "? JOKER  -  ? TAUSCHE"
 
 #: game/ui/title_screen.gd:815
 msgid "? PLACEMENTS"
-msgstr ""
+msgstr "? ZÜGE"
 
 #: game/ui/title_screen.gd:838
 msgid "TO UNLOCK"
-msgstr ""
+msgstr "ZUM FREISCHALTEN"
 
 #: game/ui/tray_slot.gd:4 game/ui/tray_slot.gd:158
 msgid "HOLDING"
-msgstr ""
+msgstr "GEHALTEN"
 
 #: game/ui/tray_slot.gd:4 game/ui/tray_slot.gd:160
 msgid "NO ROOM"
-msgstr ""
+msgstr "KEIN PLATZ"
 
 #: game/ui/tray_slot.gd:126
 msgid "placed"
-msgstr ""
+msgstr "gelegt"
 
 #: game/ui/tray_slot.gd:162
 msgid "BRICK: 1 BLOCK"
-msgstr ""
+msgstr "ZIEGEL: 1 BLOCK"
 
 #: game/ui/tray_slot.gd:164
 msgid "TEMPORARY"
-msgstr ""
+msgstr "TEMPORÄR"
 
 #: game/ui/trophy_case.gd:47
 msgid "Previous page (Q)"
-msgstr ""
+msgstr "Vorherige Seite (Q)"
 
 #: game/ui/trophy_case.gd:52
 msgid "Next page (E)"
-msgstr ""
+msgstr "Nächste Seite (E)"
 
 #: game/ui/trophy_case.gd:80
 msgid "TROPHY CASE"
-msgstr ""
+msgstr "TROPHÄENVITRINE"
 
 #: game/ui/trophy_case.gd:101
 #, c-format
 msgid "%d / %d UNLOCKED  -  %d%%"
-msgstr ""
+msgstr "%d / %d FREIGESCHALTET  -  %d%%"
 
 #: game/ui/trophy_case.gd:113
 #, c-format
 msgid "%s badges unlocked"
-msgstr ""
+msgstr "%s-Abzeichen freigeschaltet"
 
 #: game/ui/trophy_case.gd:141
 msgid "PERSONAL RECORDS"
-msgstr ""
+msgstr "PERSÖNLICHE REKORDE"
 
 #. rules text (shown through BMLoc.tf)
 #: game/ui/trophy_case.gd:148
 msgid "FURTHEST ROUND"
-msgstr ""
+msgstr "WEITESTE RUNDE"
 
 #. rules text (shown through BMLoc.tf)
 #: game/ui/trophy_case.gd:150
 msgid "BEST ROUND"
-msgstr ""
+msgstr "BESTE RUNDE"
 
 #: game/ui/trophy_case.gd:151
 #, c-format
 msgid "BROKEN IN ROUND %d"
-msgstr ""
+msgstr "KAPUTT IN RUNDE %d"
 
 #: game/ui/trophy_case.gd:151
 msgid "STILL IN ONE PIECE"
-msgstr ""
+msgstr "NOCH IN EINEM STÜCK"
 
 #. rules text (shown through BMLoc.tf)
 #: game/ui/trophy_case.gd:151
 msgid "THE MACHINE"
-msgstr ""
+msgstr "DIE MASCHINE"
 
 #: game/ui/trophy_case.gd:313
 msgid "SECRET"
-msgstr ""
+msgstr "GEHEIM"
 
 #: game/ui/trophy_case.gd:319
 #, c-format
 msgid "LOCKED  -  %s"
-msgstr ""
+msgstr "GESPERRT  -  %s"
 
 #: game/ui/trophy_case.gd:383
 msgid "NEW!"
-msgstr ""
+msgstr "NEU!"
 
 #: game/ui/trophy_case.gd:404
 msgid "  -  SECRET"
-msgstr ""
+msgstr "  -  GEHEIM"
 
 #: game/ui/trophy_case.gd:406
 #, c-format
 msgid "Hint: %s"
-msgstr ""
+msgstr "Hinweis: %s"
 
 #: game/ui/trophy_case.gd:417
 #, c-format
 msgid "Unlocked Joker: %s"
 msgid_plural "Unlocked Jokers: %s"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Joker freigeschaltet: %s"
+msgstr[1] "Joker freigeschaltet: %s"
 
 #: game/ui/trophy_case.gd:418
 #, c-format
 msgid "Unlocks Joker: %s"
 msgid_plural "Unlocks Jokers: %s"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Schaltet Joker frei: %s"
+msgstr[1] "Schaltet Joker frei: %s"
 
 #: game/ui/trophy_case.gd:423
 #, c-format
 msgid "\"%s\""
-msgstr ""
+msgstr "„%s“"
 
 #: game/ui/trophy_case.gd:428
 #, c-format
 msgid "Unlocked %s"
-msgstr ""
+msgstr "Freigeschaltet am %s"
 
 #: game/ui/trophy_case.gd:432
 #, c-format
 msgid "Progress: %s / %s"
-msgstr ""
+msgstr "Fortschritt: %s / %s"
 
 #: game/ui/trophy_case.gd:433
 msgid "Locked"
-msgstr ""
+msgstr "Gesperrt"
 
 #: game/ui/tutorial.gd:116 game/ui/tutorial.gd:375
 msgid "SKIP TUTORIAL"
-msgstr ""
+msgstr "TUTORIAL ÜBERSPRINGEN"
 
 #: game/ui/tutorial.gd:125 game/ui/tutorial.gd:365
 msgid "NEXT  >"
-msgstr ""
+msgstr "WEITER  >"
 
 #: game/ui/tutorial.gd:365
 msgid "BYE!"
-msgstr ""
+msgstr "TSCHÜSS!"
 
 #: game/ui/tutorial.gd:365
 msgid "SHOW ME!"
-msgstr ""
+msgstr "ZEIG'S MIR!"
 
 #: game/ui/tutorial.gd:366
 msgid "Clear a line"
-msgstr ""
+msgstr "Räume eine Linie ab"
 
 #: game/ui/tutorial.gd:366
 msgid "Win the round"
-msgstr ""
+msgstr "Gewinne die Runde"
 
 #: game/ui/tutorial.gd:367
 msgid "Press NEXT ROUND"
-msgstr ""
+msgstr "Drück NÄCHSTE RUNDE"
 

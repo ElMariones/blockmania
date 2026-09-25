@@ -64,7 +64,7 @@ static func cjk_font(code: String) -> FontFile:
 	if not code in BMLoc.CJK:
 		code = "zh_CN"
 	if not _cjk.has(code):
-		var path := "res://assets/fonts/fusion_%s.ttf" % code.to_lower()
+		var path := "res://assets/fonts/cjk_%s.ttf" % code.to_lower()
 		_cjk[code] = _pixel_font(path) if ResourceLoader.exists(path) else null
 	return _cjk[code]
 
