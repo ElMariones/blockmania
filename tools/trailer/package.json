@@ -1,0 +1,7 @@
+{
+  "name": "blockmania-trailer",
+  "private": true,
+  "type": "module",
+  "description": "Code-authored Steam trailer for BLOCKMANIA (dev-only tool)",
+  "dependencies": { "puppeteer-core": "^24.0.0" }
+}

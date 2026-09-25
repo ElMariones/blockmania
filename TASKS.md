@@ -156,6 +156,13 @@ Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/r
 - [ ] Launch-test the Windows and macOS downloads on real machines (the Mac build is unsigned and not notarized: right-click → Open).
 - [ ] Code signing / notarization before a wider release (Windows SmartScreen, macOS Gatekeeper).
 
+## Owner requests, 2026-09-25 (Steam trailer)
+
+- [x] **Steam trailer v1** (72 s, 1080p60, H.264 + AAC, -14 LUFS): authored as code in `tools/trailer/`. The picture is a deterministic canvas/WebGL render (`trailer.html`, `engine.js`, `scenes.js`) with the game's own sprites, fonts, swirl and CRT look plus real `docs/media` screenshots; the music is synthesized (`gen_score.py`, B minor so the game's D-major SFX sit in key) with the game's SFX on the picture cues. Style sheet and shot plan: `tools/trailer/STYLE.md`. Build: `cd tools/trailer && npm install && node render.mjs cues && python gen_score.py && node render.mjs video 8 && ./mux.sh` (output `tools/trailer/build/BLOCKMANIA_trailer.mp4`, git-ignored).
+- [ ] Owner listening pass on the score (mixed by measurement only: stem levels, spectrogram, loudness), especially the formant "BLOCK-MA-NI-A" chant and the SFX levels.
+- [ ] Re-render when content changes: the trailer states 70 Jokers, 14 finishes, 60 achievements, 5 Kits, Heat 0–5 (`data.js` is generated from `game/content`).
+- [ ] README still says "69 Jokers" (the catalog has 70 since Veteran).
+
 ## M2 — Content complete
 
 - [x] Kit selection screen + unlock tracking (see Round-play proposals).

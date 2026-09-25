@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>BLOCKMANIA Trailer</title>
+<style>
+  :root { --bg: #0d0814; --fg: #fff3db; --dim: #b9a6d6; }
+  html, body { margin: 0; background: var(--bg); color: var(--fg); font: 14px system-ui, sans-serif; }
+  #wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 8px; }
+  canvas#out { width: min(100vw - 16px, 1600px); aspect-ratio: 16 / 9; background: #000; image-rendering: auto; }
+  #ui { display: flex; gap: 8px; align-items: center; width: min(100vw - 16px, 1600px); }
+  #ui input[type=range] { flex: 1; }
+  body.capture #ui { display: none; }
+  body.capture #wrap { padding: 0; }
+  body.capture canvas#out { width: 1920px; height: 1080px; }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <canvas id="out" width="1920" height="1080"></canvas>
+  <div id="ui">
+    <button id="play">play</button>
+    <input id="scrub" type="range" min="0" max="72" step="0.0166667" value="0">
+    <span id="tc">0.00</span>
+  </div>
+</div>
+<script src="data.js"></script>
+<script src="engine.js"></script>
+<script src="scenes.js"></script>
+<script>
+'use strict';
+function render(t) {
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.clearRect(0, 0, W, H);
+  ctx.globalAlpha = 1;
+  const sc = SCENES.find((s) => t >= s.t0 && t < s.t1) || SCENES[SCENES.length - 1];
+  sc.draw(t, t - sc.t0);
+  const im = impactsAt(t);
+  const extra = sc.post ? sc.post(t) : {};
+  const bg = sc.bg ? sc.bg(t) : bgp('plum');
+  present(t, bg, {
+    sx: im.sx, sy: im.sy, zoom: 1 + im.shock * 0.012,
+    shock: im.shock, flash: im.flash, glitch: extra.glitch || 0, collapse: extra.collapse || 0,
+    warp: 0.22, scan: 0.16, vig: 0.28, grain: 0.018, abr: 0.9,
+  });
+}
+window.READY = loadAll().then(() => {
+  initGL(document.getElementById('out'));
+  for (const s of SCENES) s.init && s.init();
+  CUES.sort((a, b) => a.t - b.t);
+  window.CUES_JSON = JSON.stringify({ bpm: BPM, dur: DUR, cues: CUES });
+  if (new URLSearchParams(location.search).has('capture')) document.body.classList.add('capture');
+  const q = new URLSearchParams(location.search).get('t');
+  render(q ? +q : 0);
+  return true;
+});
+window.frameData = (t, type = 'image/png') => { render(t); return document.getElementById('out').toDataURL(type); };
+// preview UI
+{
+  const scrub = document.getElementById('scrub'), tc = document.getElementById('tc'), btn = document.getElementById('play');
+  let playing = false, start = 0, from = 0, audio = null;
+  scrub.oninput = () => { render(+scrub.value); tc.textContent = (+scrub.value).toFixed(2); if (audio) audio.currentTime = +scrub.value; };
+  btn.onclick = () => {
+    playing = !playing; btn.textContent = playing ? 'pause' : 'play';
+    if (!audio) { audio = new Audio('build/score.wav'); }
+    if (playing) { from = +scrub.value; start = performance.now(); audio.currentTime = from; audio.play().catch(() => {}); loop(); } else audio.pause();
+  };
+  function loop() {
+    if (!playing) return;
+    const t = from + (performance.now() - start) / 1000;
+    if (t >= DUR) { playing = false; btn.textContent = 'play'; return; }
+    scrub.value = t; tc.textContent = t.toFixed(2); render(t);
+    requestAnimationFrame(loop);
+  }
+}
+</script>
+</body>
+</html>
