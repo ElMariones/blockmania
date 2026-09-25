@@ -17,6 +17,30 @@ python tools/store/build_store.py   # compose -> store/steam/images and store/st
 | Store page > Description > **Custom images** (Cargar imágenes personalizadas) | every file in `images/` |
 | Graphical assets > **Screenshots** (5 or more) | `screenshots/*.jpg`, 1920×1080, numbered in the suggested order |
 
+## Capsules and page background (Graphical assets)
+
+```bash
+cd tools/trailer && npm install   # once: puppeteer-core, shared with the trailer
+node tools/store/capsules.mjs     # -> store/steam/capsules/ (optional filter: header small main vertical background)
+```
+
+Code-authored key art: the block logo, the 8x8 board a beat before a gold T piece clears a row and a column,
+Legendary Joker portraits, POPS, the swirl and a soft CRT, drawn by the trailer engine (`tools/store/capsules.html`
++ `capsules.js`). Steam allows only game art, the game name and an official subtitle on base capsules, so the only
+localized element is the subtitle (the trailer's line). Upload each file in its Steamworks slot; the `_english`,
+`_spanish`, `_schinese` suffix assigns the language automatically.
+
+| Steamworks slot | Size | Files | Localized text |
+|---|---|---|---|
+| Header capsule | 920×430 | `capsule_header_<lang>.png` | THE BLOCK PUZZLE ROGUELIKE / EL ROGUELIKE DE PUZLE DE BLOQUES / 方块拼图 ROGUELIKE |
+| Small capsule | 462×174 | `capsule_small_<lang>.png` | none: the logo fills the capsule, so the three files are identical |
+| Main capsule | 1232×706 | `capsule_main_<lang>.png` | subtitle |
+| Vertical capsule | 748×896 | `capsule_vertical_<lang>.png` | subtitle |
+| Page background | 1438×810 | `page_background.png` | none (Steam tints it blue and fades the edges) |
+
+The subtitle counts as the official subtitle only if you use it as one: keep it consistent with the trailer and the
+store text, or remove it from `SUBTITLE` in `tools/store/capsules.js` if review objects.
+
 ## Uploading the description images
 
 1. Upload all of `images/` in the custom images box. Files ending in `_english`, `_spanish` and `_schinese` are

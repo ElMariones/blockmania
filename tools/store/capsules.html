@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>BLOCKMANIA Capsules</title>
+<style>
+  html, body { margin: 0; background: #0d0814; }
+  canvas { display: block; }
+</style>
+<script>
+  // One capsule per page load: ?cap=header|small|main|vertical|background&lang=english|spanish|schinese
+  const Q = new URLSearchParams(location.search);
+  const CAP = Q.get('cap') || 'header', LANG = Q.get('lang') || 'english';
+  const SIZES = { header: [920, 430], small: [462, 174], main: [1232, 706], vertical: [748, 896], background: [1438, 810] };
+  self.CANVAS_W = SIZES[CAP][0]; self.CANVAS_H = SIZES[CAP][1];
+</script>
+</head>
+<body>
+<canvas id="out"></canvas>
+<script src="../trailer/data.js"></script>
+<script src="../trailer/engine.js"></script>
+<script src="../trailer/scenes.js"></script>
+<script src="capsules.js"></script>
+</body>
+</html>

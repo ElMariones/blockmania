@@ -69,7 +69,7 @@ If documents conflict, resolve the discrepancy in favor of the owner's latest in
 | `tools/art/` | `gen_ui.py` (UI kit PNGs at 4× nearest + `nine.json`), `gen_cards.py` (16×16 portraits for Jokers/items/tools, achievement icons and medal frames at 1×, drawn at whole-number scales), `gen_finishes.py` (animated block-finish sprite sheets shared by Endless styles and campaign materials, stamp badge strips, the glow halo and `finishes.json`), `gen_font.py` (Blockhead regular/bold TTF via fontTools), `gen_lever.py` (Refresh lever sheet), `gen_cursor.py` (custom cursors), and `gen_studio_logo.py` (Buru Arcade logo with POPS, Steam creator page art to `assets/brand/`). Python + Pillow + fontTools. |
 | `tools/` | `shoot.py` (focus-safe screenshot runner, see below), `BMAutoplayer` (preview-guided bot with a configurable shop policy), `simulate.gd` (quick balance probe), `experiments.gd` (paired-seed content experiments: curve / jokers / upgrades), `playtest.gd` + `playtest_report.py` (persona playtests: random / newcomer / steady / planner skill ladder, build archetypes, Kits, ceiling probes; report in `docs/playtests/`). Dev-only. |
 | `tools/readme/`, `docs/media/` | README media: `shoot_all.py` captures shots and GIFs from the real game (fixtures in `shots.py`), `build_media.py` composes the banner, headers and galleries from the game's own art and fonts. Rebuild instead of hand-editing; `docs/media/raw/` is git-ignored. |
-| `tools/store/`, `store/steam/` | Steam store page kit: `capture.py` shoots the real game on a sandboxed profile (`BM_SANDBOX=1` in `tools/shoot.py`), `build_store.py` composes the localized description images, clips and store screenshots; descriptions, upload guide and glossary in `store/steam/`. Rebuild instead of hand-editing; `build/store/` holds the raw captures. |
+| `tools/store/`, `store/steam/` | Steam store page kit: `capture.py` shoots the real game on a sandboxed profile (`BM_SANDBOX=1` in `tools/shoot.py`), `build_store.py` composes the localized description images, clips and store screenshots; `capsules.html`/`capsules.js` + `capsules.mjs` render the localized capsules and page background to `store/steam/capsules/` with the trailer engine; descriptions, upload guide and glossary in `store/steam/`. Rebuild instead of hand-editing; `build/store/` holds the raw captures. |
 | `tools/release/`, `.github/workflows/release.yml` | Downloadable builds: `build_release.sh` exports the Windows, macOS and Linux zips to `build/release/` (presets in `export_presets.cfg`, templates via `install_templates.sh`); bumping `tools/release/VERSION` on main (or pushing a `v*` tag) publishes them as a GitHub Release with fixed asset names that the README download buttons link to. |
 | `docs/balance/` | Saved experiment reports that justify provisional numbers. |
 | `docs/playtests/` | Persona playtest reports (design reviews with plans) and their full tables. |
@@ -154,6 +154,7 @@ python tools/art/gen_cursor.py
 python tools/art/gen_studio_logo.py
 # Steam store page media (sandboxed captures, then compose)
 python tools/store/capture.py && python tools/store/build_store.py
+node tools/store/capsules.mjs   # Steam capsules + page background (needs tools/trailer npm install)
 python tools/audio/gen_sfx_lever.py
 python tools/audio/gen_music.py [song_id ...]
 python tools/art/gen_font.py

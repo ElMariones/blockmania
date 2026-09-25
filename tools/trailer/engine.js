@@ -3,7 +3,8 @@
 // the events defined at load, so frames can be rendered out of order and in parallel.
 'use strict';
 
-const W = 1920, H = 1080, FPS = 60, BPM = 120, BEAT = 60 / BPM, DUR = 72;
+// Canvas size: the trailer is 1920x1080; tools/store/capsules.html sets CANVAS_W/H before loading.
+const W = self.CANVAS_W || 1920, H = self.CANVAS_H || 1080, FPS = 60, BPM = 120, BEAT = 60 / BPM, DUR = 72;
 const b2t = (b) => b * BEAT;
 
 const PAL = {
@@ -537,7 +538,7 @@ function present(t, bgp, post) {
   const P = prog.swirl;
   bgp.cols.forEach((c, i) => gl.uniform3fv(u(P, 'c' + i), c));
   gl.uniform1f(u(P, 'T'), t); gl.uniform1f(u(P, 'pulse'), bgp.pulse); gl.uniform1f(u(P, 'swirl'), bgp.swirl);
-  gl.uniform1f(u(P, 'px'), 6); gl.uniform1f(u(P, 'focusX'), bgp.focusX); gl.uniform1f(u(P, 'dark'), bgp.dark);
+  gl.uniform1f(u(P, 'px'), bgp.px ?? 6); gl.uniform1f(u(P, 'focusX'), bgp.focusX); gl.uniform1f(u(P, 'dark'), bgp.dark);
   gl.uniform2f(u(P, 'res'), W, H);
   gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   // composite content
