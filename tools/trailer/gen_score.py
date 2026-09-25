@@ -24,10 +24,10 @@ from dsp import SR, lowpass, highpass, bandpass, saturate, reverb, midi_hz  # no
 BPM = 120
 BEAT = 60.0 / BPM
 BAR = 4 * BEAT
-DUR = 72.0
+DUR = 64.0
 N = int(DUR * SR) + SR * 2
 SFX_DIR = os.path.join(ROOT, "assets", "audio", "sfx")
-KEYUP_FROM, KEYUP_TO = 56.0, 63.0  # climax modulation (+2 semitones)
+KEYUP_FROM, KEYUP_TO = 48.0, 55.0  # climax modulation (+2 semitones)
 
 
 def S(t):
@@ -233,25 +233,26 @@ HOOK = [  # (beat, midi, beats) over 16 beats, B minor
 ]
 
 # Section flags per bar (36 bars of 2 s)
+# The cut (32 bars of 2 s): hook 0-1, logo 2, how 3-6, receipt 7-8, jokers 9-11, shop 12-13,
+# finish 14-15, boss 16-19, drop 20-23, drop2 24-27, end 28-31. The machine breaks at 3.75 s.
+SECTIONS = [(0, "hook"), (2, "logo"), (3, "how"), (7, "receipt"), (9, "jokers"), (12, "shop"), (14, "finish"),
+            (16, "boss"), (20, "drop"), (24, "drop2"), (28, "end")]
+BREAK_T = 3.75
+
+
 def section(bar):
-    if bar < 4: return "hook"
-    if bar < 6: return "logo"
-    if bar < 10: return "how"
-    if bar < 12: return "receipt"
-    if bar < 16: return "jokers"
-    if bar < 18: return "shop"
-    if bar < 20: return "finish"
-    if bar < 24: return "boss"
-    if bar < 28: return "drop"
-    if bar < 32: return "drop2"
-    return "end"
+    return [n for b0, n in SECTIONS if bar >= b0][-1]
+
+
+def sec_start(bar):
+    return [b0 for b0, n in SECTIONS if bar >= b0][-1]
 
 
 def build():
     drums, bassb, stabs, padb, leadb, arpb, voxb, fxb, sfxb = (Bus() for _ in range(9))
     kicks = []
 
-    for bar in range(36):
+    for bar in range(32):
         sec = section(bar)
         t0 = bar * BAR
         tr = 2 if sec == "drop2" else 0
@@ -260,15 +261,15 @@ def build():
         notes = [n + tr for n in notes]; root += tr
 
         # ---- drums
-        if sec in ("hook", "how", "receipt", "jokers", "shop", "finish", "drop", "drop2") or (sec == "logo" and bar == 5):
+        if sec in ("hook", "how", "receipt", "jokers", "shop", "finish", "drop", "drop2"):
             for b in range(4):
                 tk = t0 + b * BEAT
-                if sec == "hook" and bar == 3 and b >= 3:
-                    continue  # the machine breaks on beat 4 of bar 3
+                if t0 + b * BEAT >= BREAK_T and sec == "hook":
+                    continue  # the machine breaks at 3.75 s
                 drums.add(kick(1.0 if b == 0 else 0.92), tk, db(-3)); kicks.append(tk)
             for b in range(8):
                 th = t0 + b * BEAT / 2
-                if sec == "hook" and bar == 3 and th >= 7.5:
+                if sec == "hook" and th >= BREAK_T:
                     continue
                 if b % 2 == 1:
                     drums.add(hat(0.55, True, seed=b), th, db(-15), pan=0.2)
@@ -277,13 +278,13 @@ def build():
             if sec in ("hook", "jokers", "drop", "drop2", "receipt", "shop"):
                 for b in (1, 3):
                     tc = t0 + b * BEAT
-                    if sec == "hook" and bar == 3 and b == 3:
+                    if sec == "hook" and tc >= BREAK_T:
                         continue
                     drums.add(clap(0.9, seed=bar * 4 + b), tc, db(-7))
             if sec in ("drop", "drop2"):  # 16th shaker drive
                 for b in range(16):
                     drums.add(dsp.shaker(0.35 + 0.25 * (b % 4 == 2), seed=b), t0 + b * BEAT / 4, db(-18), pan=0.35)
-        if sec == "logo" and bar == 4:
+        if sec == "logo":
             drums.add(kick(1.0), t0, db(-2)); kicks.append(t0)
             for b in range(8):
                 drums.add(hat(0.3, False, seed=b), t0 + 1.0 + b * 0.125, db(-20))
@@ -296,32 +297,32 @@ def build():
             for b in range(8):
                 drums.add(hat(0.3, False, seed=b), t0 + b * 0.25, db(-21), pan=0.3)
         # snare rolls into the big moments
-        if bar in (3, 19, 27):
-            start = 0.0 if bar == 19 else (1.0 if bar == 27 else 0.0)
-            end_t = 3.5 if bar == 3 else 4.0
+        if bar in (1, 15, 23):
+            start = 0.0 if bar == 15 else (1.0 if bar == 23 else 0.0)
+            end_t = 3.5 if bar == 1 else 4.0
             n = 0
             b = start
             while b < end_t:
                 step = 0.5 if b < 2 else 0.25 if b < 3 else 0.125
-                if bar == 3 and b >= 3.0:
+                if bar == 1 and b >= 3.5:
                     break
                 drums.add(snare(0.35 + 0.6 * (b / 4), seed=n), t0 + b * BEAT, db(-12 + 6 * b / 4)); n += 1
                 b += step
 
         # ---- bass
-        if sec in ("hook", "how", "receipt", "jokers", "shop", "finish", "drop", "drop2") or (sec == "logo" and bar == 5):
+        if sec in ("hook", "how", "receipt", "jokers", "shop", "finish", "drop", "drop2"):
             patt = [(0, 0), (0.5, 12), (1, 0), (1.5, 12), (2, 0), (2.5, 12), (3, 0), (3.5, 7)]
             if sec in ("how", "shop"):
                 patt = [(0, 0), (0.75, 0), (1.5, 12), (2, 0), (2.75, 0), (3.5, 7)]
             for b, iv in patt:
                 tb = t0 + b * BEAT
-                if sec == "hook" and bar == 3 and b >= 3:
+                if sec == "hook" and tb >= BREAK_T:
                     continue
                 bassb.add(bass(root + 12 + iv, 0.22), tb, db(-6))
         if sec == "boss":
             drone = bass(root + 12, BAR - 0.02, 1.0, cutoff=500)
             bassb.add(highpass(saturate(drone * 1.5, 2.5), 70, 2), t0, db(-13))
-        if sec == "logo" and bar == 4:
+        if sec == "logo":
             bassb.add(bass(root + 12, 1.9, 1.0, 400), t0, db(-5))
 
         # ---- chords
@@ -331,13 +332,13 @@ def build():
                 offs = [0.5, 1.25, 1.5, 2.5, 3.25, 3.5]
             for b in offs:
                 tb = t0 + b * BEAT
-                if sec == "hook" and bar == 3 and b >= 3:
+                if sec == "hook" and tb >= BREAK_T:
                     continue
                 v = 0.45 if sec in ("how", "shop") else 0.7
                 stabs.add(supersaw([n + 12 for n in notes], 0.2, 3800 if sec != "how" else 2400, v, seed=bar * 8 + int(b * 4)), tb, db(-9))
         if sec == "finish":  # a stab on every beat, brighter each time (finish swaps)
             for b in range(4):
-                k = (bar - 18) * 4 + b
+                k = (bar - 14) * 4 + b
                 stabs.add(supersaw([n + 12 for n in notes], 0.3, 1500 + k * 450, 0.8, seed=k), t0 + b * BEAT, db(-8))
         if sec in ("logo", "end", "boss", "how", "drop", "drop2"):
             pv = {"logo": -10, "end": -9, "boss": -12, "how": -17, "drop": -16, "drop2": -15}[sec]
@@ -345,23 +346,23 @@ def build():
 
         # ---- lead hook (4-bar phrase)
         if sec in ("hook", "jokers", "drop", "drop2"):
-            ph = bar % 4
+            ph = (bar - sec_start(bar)) % 4
             for (b, m, d) in HOOK:
                 if ph * 4 <= b < ph * 4 + 4:
                     tb = t0 + (b - ph * 4) * BEAT
-                    if sec == "hook" and bar == 3 and b - ph * 4 >= 3:
+                    if sec == "hook" and tb >= BREAK_T:
                         continue
                     oct_ = 12 if sec == "drop2" else 0
                     leadb.add(lead(m + tr + oct_, d * BEAT, 0.75), tb, db(-8))
                     if sec in ("drop", "drop2"):
                         leadb.add(lead(m + tr + oct_ - 12, d * BEAT, 0.5, 2500), tb, db(-14))
         if sec == "shop":  # the hook on a music box
-            ph = bar % 4
+            ph = (bar - sec_start(bar)) % 4
             for (b, m, d) in HOOK:
                 if ph * 4 <= b < ph * 4 + 4:
                     leadb.add(bell(m + 12, 0.8, 0.6), t0 + (b - ph * 4) * BEAT, db(-6))
-        if sec == "end" and bar >= 33:
-            ph = (bar - 33) % 4
+        if sec == "end" and bar >= 29:
+            ph = (bar - 29) % 4
             for (b, m, d) in HOOK[:13]:
                 if ph * 4 <= b < ph * 4 + 4:
                     leadb.add(bell(m + 12, 1.4, 0.45), t0 + (b - ph * 4) * BEAT, db(-9))
@@ -377,36 +378,36 @@ def build():
                 arpb.add(bell(seq[b % 4] + 12, 0.5, 0.3), t0 + b * BEAT / 2, db(-17), pan=(-0.3 if b % 2 else 0.3))
 
     # ---- one-off moments
-    # machine break in the hook: bitcrushed descending blips, silence, then the impact at 8.0
+    # machine break in the hook: bitcrushed descending blips, silence, then the impact at 4.0
     for i in range(6):
-        fxb.add(chip(83 - i * 3, 0.07, 0.6), 7.5 + i * 0.06, db(-12))
-    fxb.add(riser(1.5, 0.6), 6.0, db(-12))
-    fxb.add(impact(1.0), 8.0, db(-4))
+        fxb.add(chip(83 - i * 3, 0.05, 0.6), BREAK_T + i * 0.04, db(-12))
+    fxb.add(riser(1.75, 0.6), 2.0, db(-12))
+    fxb.add(impact(1.0), 4.0, db(-4))
     # logo chant BLOCK-MA-NI-A (B A F# B), echoed at the drop and the end card
     CH = [("o", 71, 0.4), ("a", 69, 0.4), ("i", 66, 0.4), ("a", 71, 0.9)]
-    for when, g, tr in ((8.0, -6, 0), (48.0, -9, 0), (66.0, -11, 0)):
+    for when, g, tr in ((4.0, -6, 0), (40.0, -9, 0), (58.0, -11, 0)):
         for i, (v, m, d) in enumerate(CH):
             c = chant(v, m + tr, d, 0.9, seed=i)
             voxb.add(reverb(c, mix=0.25, t60=1.8), when + i * BEAT, db(g))
             voxb.add(chant(v, m + tr + 12, d, 0.5, seed=i + 4), when + i * BEAT, db(g - 9), pan=0.3)
-    # boss: siren and the big hits, riser into the drop, silence before it
-    fxb.add(siren(8.0, 0.35), 40.0, db(-17))
-    for t in (40.0, 42.0, 44.0):
+    # boss: siren and the big hits, riser into the drop
+    fxb.add(siren(8.0, 0.35), 32.0, db(-17))
+    for t in (32.0, 34.0, 36.0):
         fxb.add(impact(0.8, seed=int(t)), t, db(-8))
         padb.add(supersaw([n for n in CHORDS["Bm"][0]] + [47], 0.8, 1200, 1.0, release=0.4), t, db(-7))
     for i in range(12):  # rising pips with the run track
-        fxb.add(chip(59 + [0, 2, 3, 5, 7, 8, 10, 12, 14, 15, 17, 19][i], 0.1, 0.6), 46.0 + i * 0.125, db(-10))
-    fxb.add(riser(1.75, 0.7), 46.0, db(-10))
-    fxb.add(impact(1.2), 48.0, db(-3))
+        fxb.add(chip(59 + [0, 2, 3, 5, 7, 8, 10, 12, 14, 15, 17, 19][i], 0.1, 0.6), 38.0 + i * 0.125, db(-10))
+    fxb.add(riser(1.75, 0.7), 38.0, db(-10))
+    fxb.add(impact(1.2), 40.0, db(-3))
     # finishes build riser
-    fxb.add(riser(4.0, 0.5, seed=3), 36.0, db(-16))
+    fxb.add(riser(4.0, 0.5, seed=3), 28.0, db(-16))
     # feature bars clear, milestones
-    fxb.add(riser(2.0, 0.5, seed=5), 53.5, db(-15))
-    for t in (56.0, 58.0, 60.0, 62.0):
+    fxb.add(riser(2.0, 0.5, seed=5), 45.5, db(-15))
+    for t in (48.0, 50.0, 52.0, 54.0):
         fxb.add(impact(1.0, seed=int(t)), t, db(-5))
-    fxb.add(riser(1.0, 0.6, seed=8), 62.0, db(-12))
-    fxb.add(impact(1.3, seed=99, tail=2.5), 66.0, db(-6))
-    fxb.add(downlifter(0.8, 0.5), 11.75, db(-14))
+    fxb.add(riser(1.0, 0.6, seed=8), 54.0, db(-12))
+    fxb.add(impact(1.3, seed=99, tail=2.5), 58.0, db(-6))
+    fxb.add(downlifter(0.5, 0.5), 5.78, db(-14))
 
     # ---- sidechain (kick ducks the music)
     g = np.ones(N)
@@ -433,7 +434,7 @@ def build():
     padb.x = highpass(padb.x, 140, 2)
     stabs.x = highpass(stabs.x, 180, 2)
     buses = {"drums": drums, "bass": bassb, "stabs": stabs, "pad": padb, "lead": leadb, "arp": arpb, "vox": voxb, "fx": fxb}
-    SEC = [(0, 8, "hook"), (12, 20, "how"), (24, 32, "jokers"), (40, 48, "boss"), (48, 56, "drop"), (56, 63, "miles")]
+    SEC = [(0, 4, "hook"), (6, 14, "how"), (18, 24, "jokers"), (32, 40, "boss"), (40, 48, "drop"), (48, 55, "miles")]
     print("stem RMS dB per section: " + "  ".join(f"{n:>6s}" for _, _, n in SEC))
     for name, b in buses.items():
         kx = dsp.peaking(highpass(b.x, 60, 2), 3000, 4, 0.7)  # rough K-weighting
@@ -441,26 +442,26 @@ def build():
         print(f"  {name:6s} " + "  ".join(f"{v:6.1f}" for v in row))
     music = drums.x * db(-2) + bassb.x * db(3) + stabs.x * db(9) + padb.x * db(5) + leadb.x * db(4) + arpb.x * db(9) + voxb.x + fxb.x
     # section dynamics: (time, gain dB) breakpoints, linear in dB
-    AUTO = [(0, 0), (8, 0), (11.9, 0), (12.0, -5), (19.9, -5), (20.0, -4), (23.9, -3.5), (24.0, -1.5), (31.9, -1.5),
-            (32.0, -4.5), (35.9, -4.5), (36.0, -4), (39.9, -1), (40.0, -3.5), (47.9, -3), (48.0, 1.0), (55.9, 1.0),
-            (56.0, 1.5), (72, 1.5)]
+    AUTO = [(0, 0), (5.9, 0), (6.0, -5), (13.9, -5), (14.0, -4), (17.9, -3.5), (18.0, -1.5), (23.9, -1.5),
+            (24.0, -4.5), (27.9, -4.5), (28.0, -4), (31.9, -1), (32.0, -3.5), (39.9, -3), (40.0, 1.0), (47.9, 1.0),
+            (48.0, 1.5), (64, 1.5)]
     ta, ga = zip(*AUTO)
     gain = db(np.interp(np.arange(N) / SR, ta, ga))
     music *= gain[:, None]
 
-    # machine break at 7.5: music cut (only fx/sfx remain) until 8.0
-    music[S(7.5):S(8.0)] *= 0.0
-    # tape stop at 63.0 -> 63.55, then silence until 64.6
-    a, T = S(63.0), 0.55
+    # machine break at 3.75: music cut (only fx/sfx remain) until 4.0
+    music[S(BREAK_T):S(4.0)] *= 0.0
+    # tape stop at 55.0 -> 55.55, then silence until 56.6
+    a, T = S(55.0), 0.55
     n = S(T)
     tau = np.arange(n) / SR
     pos = a + (tau - tau ** 2 / (2 * T)) * SR
     seg = np.stack([np.interp(pos, np.arange(N), music[:, c]) for c in range(2)], 1)
     seg *= np.linspace(1, 0.3, n)[:, None]
     music[a:a + n] = dsp.bitcrush(seg, 8)
-    music[a + n:S(64.6)] = 0.0
-    # END: only pad/bells/vox/fx after 64.6 (already arranged), fade the tail
-    fade_s, fade_e = S(70.0), S(72.0)
+    music[a + n:S(56.6)] = 0.0
+    # END: only pad/bells/vox/fx after 56.6 (already arranged), fade the tail
+    fade_s, fade_e = S(62.0), S(64.0)
     music[fade_s:fade_e] *= np.linspace(1, 0, fade_e - fade_s)[:, None]
     music[fade_e:] = 0
 
@@ -493,7 +494,7 @@ def build():
         "clear_3": [("clear_3", -6), ("combo_3", -11)], "coin": [("coin_1", -8)], "stamp": [("stamp", -4), ("jingle_win", -14)],
         "print": [("print_tick", 4)], "receipt_total": [("feat", -8)], "score_big": [("record_new", -8)],
         "cascade": [("reel_spin", -10)], "legendary": [("legendary_reveal", -14)],
-        "awning": [("modal_open", -6)], "card_drop": [("deal", -6)], "buy": [("buy", -6)], "lever": [("lever_pull", -4)],
+        "awning": [("modal_open", -6)], "card_drop": [("deal", -6)], "buy": [("buy", -6)], "lever": [("lever_pull", -4)], "reroll": [("reroll", -4)],
         "finish": [("fin_{fin}_place", -4)], "boss_slam": [("boss_slam", -3), ("boss_alarm", -10)], "boss_hit": [("boss_slam", -7)],
         "mk2": [("mk2_stamp", -3)], "pip": [], "drop_impact": [("clear_3", -8)], "bar": [("stamp", -9)],
         "milestone": [("overtime", -8)], "crt_off": [("tool_cancel", -6)], "pops_hi": [("pops_hi", -4)],

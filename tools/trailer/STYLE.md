@@ -106,24 +106,29 @@ brings everything back and ends in the bit-crushed `machine_break`, then silence
 card. Mastered to about -14 LUFS with a -1 dBTP ceiling (Steam downmixes to stereo, and we are
 already stereo).
 
-## Shot plan (bar = 2 s, beat = 0.5 s; b = beat index from 0)
+## Shot plan (v2 cut, 64 s; bar = 2 s, beat = 0.5 s)
 
-| Beats | Time | Section | Picture | Type |
-|---|---|---|---|---|
-| 0–4 | 0–2 | HOOK 1 | SUN slab. A red L piece is already falling at frame 0 and slams into a giant 4-cell stack; dust, shake. | BLOCKTYPE "PLACE" |
-| 4–8 | 2–4 | HOOK 2 | INK. One full-width row of eight 240 px blocks fills on 8th notes, then clears in a white flash. | MEGA "CLEAR" |
-| 8–12 | 4–6 | HOOK 3 | PINK. Joker stickers slam in on each beat, ×Mult pills fly. | MEGA "×MULT" |
-| 12–16 | 6–8 | HOOK 4 | The score odometer rolls from 144 to a quadrillion; digits crop the frame, glitch. | "BREAK THE MACHINE." |
-| 16–24 | 8–12 | LOGO | The BLOCKMANIA blocktype logo drops letter by letter over the swirl. | "THE BLOCK PUZZLE ROGUELIKE" + tagline |
-| 24–40 | 12–20 | HOW | Board on the right, a cursor drags pieces from the tray, ghost preview, double clear, target bar, ROUND CLEARED stamp. | HEAD lines at left: "8×8 BOARD" / "3 PIECES" / "FILL A ROW OR COLUMN" / "BEAT THE TARGET" |
-| 40–48 | 20–24 | RECEIPT | The receipt tape prints line by line; the equation builds. | "CHIPS × MULT" + SUB "Every point itemized." |
-| 48–64 | 24–32 | JOKERS | A wall of 69 portraits in a diagonal wave, then four featured cards trigger in order. | MEGA "69 JOKERS", SUB "Grow them. Copy them. Double everything." |
-| 64–72 | 32–36 | SHOP | Awning stripes, cards drop with prices, coins. | "THE TOYBOX" + SUB "Buy Jokers. Build your bag." |
-| 72–80 | 36–40 | FINISHES | A full board of animated finishes; the material swaps on every beat. | MEGA per beat: GOLD / NEON / LAVA / PRISM / CHROME / ICE / STARFALL / AURORA |
-| 80–96 | 40–48 | BOSS | Hazard tape, WARNING marquee, red swirl. Boss names, MK II stamp. Half time. | "THE WARDEN" / "THE LOCKDOWN MK II" / "THE LAST CALL" + SUB "12 rounds. 3 acts. Every boss rewrites a rule." |
-| 96–112 | 48–56 | CLIMAX 1 | A chain-reaction board, clears on every beat, the counter racing. Then feature pills stack. | per beat: COMBO / TRIPLE! / OVERKILL, then pills |
-| 112–128 | 56–64 | CLIMAX 2 | Milestones 1 MILLION → 1 BILLION → 1 TRILLION → 1 QUADRILLION; the machine breaks and the CRT collapses. | MEGA numbers |
-| 128–144 | 64–72 | END | Silence, then POPS asks "ONE MORE RUN?", logo, call to action. | "WISHLIST ON STEAM" |
+Owner feedback on v1 (2026-09-25): the first 12 s were too long, so gameplay now starts at 6 s.
+The Legendaries live inside the Joker wall, the shop reroll matches the game (the REROLL button
+replaces all five offers and its price rises by 1), and the end card carries a pixel Steam mark.
+Scenes after the hook keep their v1 clocks through `shift` (see `scene()` in `scenes.js`).
+
+| Time | Section | Picture | Type |
+|---|---|---|---|
+| 0–1 | PLACE | Block letters land on 16ths, and a 2×2 full stop slams. | BLOCKTYPE "PLACE." |
+| 1–2 | CLEAR | A full-width row fills on 32nds and clears in a white flash. | MEGA "CLEAR" |
+| 2–3 | ×MULT | Four Joker stickers slam on 8th notes, and ×Mult pills fly out. | MEGA "×MULT" |
+| 3–4 | BREAK | The counter runs from 144 to a quadrillion, and the glass cracks. | "BREAK THE MACHINE." |
+| 4–6 | LOGO | The block logo drops, then clears. | "THE BLOCK PUZZLE ROGUELIKE" |
+| 6–14 | HOW | Board, tray, drag, ghost, double clear, target, ROUND CLEARED. | 01–04 steps |
+| 14–18 | RECEIPT | The receipt prints and the equation builds. | "CHIPS × MULT = POINTS" |
+| 18–24 | JOKERS | The wall of 70 lights up with the Legendaries glowing and a rarity row, then four featured cards. | "70 JOKERS", GROW / COPY / STACK / DOUBLE |
+| 24–28 | SHOP | A card is bought, then REROLL replaces every offer. | "THE TOYBOX" |
+| 28–32 | FINISHES | The material swaps on every beat. | GOLD … AURORA |
+| 32–40 | BOSS | Hazard tape, names, MK II, round track. | boss names |
+| 40–48 | CLIMAX | Chain board, then feature bars with in-game screenshots. | COMBO … / features |
+| 48–56 | MILESTONES | 1 million to 1 quadrillion, then MACHINE BROKEN and the CRT turns off. | MEGA numbers |
+| 56–64 | END | POPS asks "ONE MORE RUN?", then the logo and the Steam wishlist button. | "WISHLIST ON STEAM" |
 
 ## Checks before calling it done
 

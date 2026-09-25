@@ -137,31 +137,32 @@ function blockWord(str, t, o) {
 
 // ============================================================================ SCENES
 const SCENES = [];
-function scene(b0, b1, def) { SCENES.push(Object.assign({ b0, b1, t0: b2t(b0), t1: b2t(b1) }, def)); }
+function scene(b0, b1, def) { SCENES.push(Object.assign({ b0, b1, t0: b2t(b0), t1: b2t(b1), shift: 0 }, def)); }
 
 // ---------------------------------------------------------------- HOOK 1: PLACE (b0-4)
 {
-  const LAND = (li) => li * 0.25; // P lands on the downbeat at t=0
-  scene(0, 4, {
+  const LAND = (li) => li * 0.1; // P lands on the downbeat at t=0
+  const TDOT = 0.5;
+  scene(0, 2, {
     init() {
       for (let i = 0; i < 5; i++) cue(LAND(i), 'place', { shake: 6 + i * 2, vel: 0.9, var: i });
-      cue(1.25, 'place_big', { shake: 22, shock: 0.4 });
+      cue(TDOT, 'place_big', { shake: 22, shock: 0.4 });
     },
     draw(t) {
       slab(PAL.ink);
       emptyGrid(120, 0.22);
-      const lay = blockWord('PLACE', t, { fitW: 1640, cx: W / 2 - 50, cy: 540, land: LAND, color: (li) => [0, 1, 2, 3, 4][li] });
+      const lay = blockWord('PLACE', t, { fitW: 1640, cx: W / 2 - 50, cy: 540, fall: 0.14, land: LAND, color: (li) => [0, 1, 2, 3, 4][li] });
       // the full stop: a 2x2 piece slams on beat 2.5
       const s = lay.w / lay.g.w, bx = lay.x0 + lay.w + s * 0.8, by = lay.y0 + lay.h - 2 * s;
-      const d = drop(t, 1.25 - 0.18, 0.18);
+      const d = drop(t, TDOT - 0.14, 0.14);
       if (d.on) {
         for (const [ox, oy] of [[0, 0], [1, 0], [0, 1], [1, 1]]) block(5, bx + ox * s, by + oy * s + d.y * 900, s * 11 / 12, { sx: d.sx, sy: d.sy });
-        dust(t, 1.25, bx, by + 2 * s, 2 * s, { n: 8, size: 24 });
+        dust(t, TDOT, bx, by + 2 * s, 2 * s, { n: 8, size: 24 });
       }
       for (let i = 0; i < 5; i++) dust(t, LAND(i), lay.x0 + i * lay.w / 5, lay.y0 + lay.h, lay.w / 5, { seed: i + 2, size: 16 });
       // caption tag
-      if (t > 1.5) {
-        const k = E.outExpo(inv(1.5, 1.7, t));
+      if (t > 0.55) {
+        const k = E.outExpo(inv(0.55, 0.7, t));
         pill('01', 150, 150 - (1 - k) * 60, 40, PAL.sun, PAL.ink);
       }
     },
@@ -170,10 +171,10 @@ function scene(b0, b1, def) { SCENES.push(Object.assign({ b0, b1, t0: b2t(b0), t
 
 // ---------------------------------------------------------------- HOOK 2: CLEAR (b4-8)
 {
-  const T0 = 2.0, TC = 3.0;
-  scene(4, 8, {
+  const T0 = 1.0, TC = 1.5, STEP = 0.0625;
+  scene(2, 4, {
     init() {
-      for (let i = 0; i < 8; i++) cue(T0 + i * 0.125, 'tick', { var: i, shake: 3 });
+      for (let i = 0; i < 8; i++) cue(T0 + i * STEP, 'tick', { var: i, shake: 3 });
       cue(TC, 'clear_big', { shake: 26, shock: 0.8, flash: 0.35 });
     },
     draw(t) {
@@ -193,8 +194,8 @@ function scene(b0, b1, def) { SCENES.push(Object.assign({ b0, b1, t0: b2t(b0), t
         scaled(W / 2, 540, k, () => mega('CLEAR', 0, 115, 330, PAL.mint, '#15704a', 26, { align: 'center' }));
       }
       for (let i = 0; i < 8; i++) {
-        const tp = T0 + i * 0.125;
-        const d = drop(t, tp - 0.12, 0.12);
+        const tp = T0 + i * STEP;
+        const d = drop(t, tp - 0.08, 0.08);
         if (!d.on) continue;
         const tc = TC + Math.abs(i - 3.5) * 0.03;
         let white = 0, sc = 1;
@@ -211,7 +212,7 @@ function scene(b0, b1, def) { SCENES.push(Object.assign({ b0, b1, t0: b2t(b0), t
         const tc = TC + Math.abs(i - 3.5) * 0.03;
         burst(t, tc + 0.07, X0 + i * s + 110, y + 110, { n: 16, seed: 40 + i, speed: 1500, grav: 3000, size: 22, colors: [HUE[i % 6], PAL.cream, '#fff'], life: 0.8 });
       }
-      if (t > 3.3) pill('02', 150, 150, 40, PAL.mint, PAL.ink);
+      if (t > 1.6) pill('02', 150, 150, 40, PAL.mint, PAL.ink);
     },
   });
 }
@@ -224,12 +225,12 @@ function scene(b0, b1, def) { SCENES.push(Object.assign({ b0, b1, t0: b2t(b0), t
     { id: 'hot_hand', p: '×1.5 MULT', x: 1150, y: 540, r: 0.04 },
     { id: 'hall_of_mirrors', p: 'TWICE!', x: 1500, y: 570, r: -0.05 },
   ];
-  const TB = (i) => 4.0 + i * 0.5;
+  const TB = (i) => 2.0 + i * 0.25, TP = 0.12;
   const MV = [1, 5, 9.5, 14.25, 28.5];
-  scene(8, 12, {
+  scene(4, 6, {
     init() {
-      cue(4.0, 'slab', { shake: 10 });
-      SL.forEach((s, i) => { cue(TB(i), 'joker', { var: i, shake: 12, shock: 0.25 }); cue(TB(i) + 0.25, 'mult', { var: i }); });
+      cue(2.0, 'slab', { shake: 10 });
+      SL.forEach((s, i) => { cue(TB(i), 'joker', { var: i, shake: 12, shock: 0.25 }); cue(TB(i) + TP, 'mult', { var: i }); });
     },
     draw(t) {
       slab(PAL.pink);
@@ -239,13 +240,13 @@ function scene(b0, b1, def) { SCENES.push(Object.assign({ b0, b1, t0: b2t(b0), t
       ctx.globalAlpha = 1;
       rect(0, 0, 1060, H, PAL.pink);
       // MEGA ×MULT
-      const k = slam(t, 4.0, 0.2, 1.4);
+      const k = slam(t, 2.0, 0.14, 1.4);
       scaled(90, 600, k, () => mega('×MULT', 0, 0, 250, PAL.cream, PAL.ink, 24));
       // rolling multiplier
       let m = MV[0];
-      for (let i = 0; i < SL.length; i++) if (t >= TB(i) + 0.25) m = MV[i + 1];
-      const lastI = SL.findIndex((_, i) => t < TB(i) + 0.25);
-      const bump = lastI < 0 ? t - (TB(3) + 0.25) : 1;
+      let lastT = -9;
+      for (let i = 0; i < SL.length; i++) if (t >= TB(i) + TP) { m = MV[i + 1]; lastT = TB(i) + TP; }
+      const bump = t - lastT;
       const ms = '×' + (Math.round(m * 100) / 100).toString();
       scaled(100, 820, 1 + 0.2 * Math.exp(-bump * 12), () => text(ms, 0, 0, 120, PAL.sun, { shadow: 10 }));
       text('TOTAL MULT', 104, 690, 30, PAL.ink);
@@ -253,38 +254,38 @@ function scene(b0, b1, def) { SCENES.push(Object.assign({ b0, b1, t0: b2t(b0), t
       SL.forEach((s, i) => {
         const tb = TB(i);
         if (t < tb) return;
-        const sc = slam(t, tb, 0.16, 2.2);
+        const sc = slam(t, tb, 0.12, 2.0);
         const j = jok(s.id);
         card(s.x, s.y, 300, 400, j, t, { rot: s.r, scale: sc, noText: true, ps: 10, shadow: 18 });
         // pill flies out on the half beat
-        const tp = tb + 0.25;
+        const tp = tb + TP;
         if (t >= tp) {
-          const kk = E.outBack(inv(tp, tp + 0.2, t));
+          const kk = E.outBack(inv(tp, tp + 0.12, t));
           const py = s.y + 360 + (1 - kk) * 40;
           ctx.save(); ctx.translate(s.x + 150, py); ctx.rotate(-s.r * 1.5); ctx.scale(kk, kk);
           pill(s.p, 0, 0, 40, PAL.ink, PAL.pinkL, { align: 'center', shadow: 8 });
           ctx.restore();
         }
       });
-      if (t > 4.3) pill('03', 150, 150, 40, PAL.ink, PAL.sun);
+      if (t > 2.15) pill('03', 150, 150, 40, PAL.ink, PAL.sun);
     },
   });
 }
 
 // ---------------------------------------------------------------- HOOK 4: BREAK THE MACHINE (b12-16)
 {
-  const T0 = 6.0, T1 = 7.5, CAP = 1e15;
-  const val = (t) => { const k = inv(T0 + 0.1, T1, t); return k >= 1 ? CAP : 144 * Math.pow(CAP / 144, Math.pow(k, 1.7)); };
-  const WORDS = [['BREAK', 6.5], ['THE', 7.0], ['MACHINE.', 7.5]];
-  scene(12, 16, {
+  const T0 = 3.0, T1 = 3.75, CAP = 1e15;
+  const val = (t) => { const k = inv(T0 + 0.05, T1, t); return k >= 1 ? CAP : 144 * Math.pow(CAP / 144, Math.pow(k, 1.7)); };
+  const WORDS = [['BREAK', 3.25], ['THE', 3.5], ['MACHINE.', 3.75]];
+  scene(6, 8, {
     init() {
-      cue(6.0, 'counter_start', { shake: 6 });
-      cue(6.5, 'word', { shake: 10, shock: 0.2 });
-      cue(7.0, 'word', { shake: 12, shock: 0.3 });
-      cue(7.5, 'machine_break', { shake: 34, shock: 1.0, flash: 0.3 });
-      cue(7.95, 'whoosh', { flash: 1.0 });
+      cue(3.0, 'counter_start', { shake: 6 });
+      cue(3.25, 'word', { shake: 10, shock: 0.2 });
+      cue(3.5, 'word', { shake: 12, shock: 0.3 });
+      cue(3.75, 'machine_break', { shake: 34, shock: 1.0, flash: 0.3 });
+      cue(3.96, 'whoosh', { flash: 1.0 });
     },
-    post(t) { return { glitch: t > 7.5 ? 0.35 + 0.5 * Math.sin((t - 7.5) * 40) ** 2 : 0 }; },
+    post(t) { return { glitch: t > 3.75 ? 0.35 + 0.5 * Math.sin((t - 3.75) * 40) ** 2 : 0 }; },
     draw(t) {
       slab(PAL.ink);
       emptyGrid(120, 0.1);
@@ -296,7 +297,7 @@ function scene(b0, b1, def) { SCENES.push(Object.assign({ b0, b1, t0: b2t(b0), t
       const fit = Math.min(1.9, 1760 / w);
       const hot = inv(1e6, 1e14, v);
       const col = hot < 0.5 ? PAL.sun : hot < 0.95 ? PAL.pinkL : PAL.cream;
-      const jit = t > T0 + 0.1 && t < T1 ? (rnd(Math.floor(t * 60), 1) - 0.5) * 8 * hot : 0;
+      const jit = t > T0 + 0.05 && t < T1 ? (rnd(Math.floor(t * 60), 1) - 0.5) * 8 * hot : 0;
       scaled(W / 2 + jit, 470, fit, () => text(s, 0, 40, size, col, { align: 'center', shadow: 8, shadowColor: PAL.pinkD }));
       pill('SCORE', 160, 250, 40, PAL.sun, PAL.ink);
       // words
@@ -304,7 +305,7 @@ function scene(b0, b1, def) { SCENES.push(Object.assign({ b0, b1, t0: b2t(b0), t
       for (const [wd, tw] of WORDS) {
         const ww = textW(wd + ' ', 110);
         if (t >= tw) {
-          const k = slam(t, tw, 0.14, 1.6);
+          const k = slam(t, tw, 0.1, 1.5);
           const c = wd === 'MACHINE.' ? PAL.pink : PAL.cream;
           scaled(x + ww / 2, 790, k, () => text(wd, 0, 40, 110, c, { align: 'center', shadow: 10 }));
         }
@@ -314,7 +315,7 @@ function scene(b0, b1, def) { SCENES.push(Object.assign({ b0, b1, t0: b2t(b0), t
         ctx.strokeStyle = PAL.cream; ctx.lineWidth = 4;
         for (let i = 0; i < 9; i++) {
           const a = rnd(88, i) * Math.PI * 2, L = 300 + rnd(89, i) * 700;
-          const k = E.outExpo(inv(T1, T1 + 0.12, t));
+          const k = E.outExpo(inv(T1, T1 + 0.08, t));
           ctx.beginPath(); ctx.moveTo(W / 2, 470);
           const mx = W / 2 + Math.cos(a + 0.2) * L * 0.4 * k, my = 470 + Math.sin(a + 0.2) * L * 0.4 * k;
           ctx.lineTo(mx, my); ctx.lineTo(W / 2 + Math.cos(a) * L * k, 470 + Math.sin(a) * L * k); ctx.stroke();
@@ -326,36 +327,36 @@ function scene(b0, b1, def) { SCENES.push(Object.assign({ b0, b1, t0: b2t(b0), t
 
 // ---------------------------------------------------------------- LOGO (b16-24)
 {
-  const T0 = 8.0;
-  const LAND = (li) => T0 + 0.05 + li * 0.1;
+  const T0 = 4.0;
+  const LAND = (li) => T0 + 0.04 + li * 0.05;
   const LOGO_C = [0, 1, 2, 3, 4, 5, 0, 1, 2, 3];
-  const TC = 11.72;
-  scene(16, 24, {
+  const TC = 5.78, TW = 4.75;
+  scene(8, 12, {
     bg: () => bgp('plum'),
     init() {
       for (let i = 0; i < 10; i++) cue(LAND(i), 'place', { var: i, vel: 0.7, shake: 4 });
       cue(T0, 'impact', { shake: 20, shock: 0.5 });
-      ['THE', 'BLOCK PUZZLE', 'ROGUELIKE'].forEach((w, i) => cue(10.0 + i * 0.25, 'word', { var: i, shake: 4 }));
+      ['THE', 'BLOCK PUZZLE', 'ROGUELIKE'].forEach((w, i) => cue(TW + i * 0.125, 'word', { var: i, shake: 4 }));
       cue(TC, 'clear_big', { shake: 18, shock: 0.5 });
     },
     draw(t) {
-      const lay = blockWord('BLOCKMANIA', t, { cell: 26, cy: 400, land: LAND, color: (li) => LOGO_C[li], clearAt: TC, clearWave: (c) => c.x * 0.004 });
+      const lay = blockWord('BLOCKMANIA', t, { cell: 26, cy: 400, fall: 0.14, land: LAND, color: (li) => LOGO_C[li], clearAt: TC, clearWave: (c) => c.x * 0.004 });
       const words = [['THE ', PAL.cream], ['BLOCK PUZZLE ', PAL.sun], ['ROGUELIKE', PAL.cream]];
       const size = 70;
       const full = words.map((w) => w[0]).join('');
       let x = W / 2 - textW(full, size) / 2;
       words.forEach(([w, c], i) => {
-        const tw = 10.0 + i * 0.25;
+        const tw = TW + i * 0.125;
         const ww = textW(w, size);
         if (t >= tw && t < TC + 0.1) {
-          const k = E.outExpo(inv(tw, tw + 0.15, t));
+          const k = E.outExpo(inv(tw, tw + 0.1, t));
           text(w, x, 700 + (1 - k) * 40, size, c, { shadow: 8 });
         }
         x += ww;
       });
-      if (t >= 10.9 && t < TC + 0.1) {
+      if (t >= 5.1 && t < TC + 0.1) {
         const s = 'tricks, jokers and one very full board';
-        text(reveal(s, t, 10.9, 0.4), W / 2, 790, 40, PAL.dim, { align: 'center', bold: false });
+        text(reveal(s, t, 5.1, 0.25), W / 2, 790, 40, PAL.dim, { align: 'center', bold: false });
       }
     },
   });
@@ -382,7 +383,8 @@ function scene(b0, b1, def) { SCENES.push(Object.assign({ b0, b1, t0: b2t(b0), t
   ];
   const SCORE = [[12, 0], [13.5, 30], [15.6, 160], [17.6, 1480]];
   const scoreAt = (t) => { let v = 0; for (const [tt, vv] of SCORE) if (t >= tt) v = vv; return v; };
-  scene(24, 40, {
+  scene(12, 28, {
+    shift: 6,
     bg: () => bgp('plum', { dark: 0.75, focusX: 0.4 }),
     init() {
       cue(12.0, 'whoosh', { shake: 4 });
@@ -530,7 +532,8 @@ function scene(b0, b1, def) { SCENES.push(Object.assign({ b0, b1, t0: b2t(b0), t
   ];
   const TL = (i) => 20.2 + i * 0.2;
   const TT = TL(LINES.length) + 0.1;
-  scene(40, 48, {
+  scene(28, 36, {
+    shift: 6,
     bg: () => bgp('plum', { dark: 0.55 }),
     init() {
       LINES.forEach((_, i) => cue(TL(i), 'print', { var: i }));
@@ -601,14 +604,14 @@ function scene(b0, b1, def) { SCENES.push(Object.assign({ b0, b1, t0: b2t(b0), t
     { id: 'jackpot_window', head: 'STACK THEM.', p: '×5 MULT', t: 28.0 },
     { id: 'hall_of_mirrors', head: 'DOUBLE EVERYTHING.', p: 'EVERY JOKER ×2', t: 29.0 },
   ];
-  const LEG = ['hall_of_mirrors', 'avalanche', 'philosophers_stone', 'supernova'];
-  scene(48, 64, {
+  scene(36, 48, {
+    shift: 6,
     bg: (t) => (t < 26 ? bgp('plum', { dark: 0.5 }) : bgp('plum', { dark: 0.8, pulse: 0.2 })),
     init() {
       cue(24.0, 'cascade');
       cue(25.0, 'slab_big', { shake: 24, shock: 0.6 });
       FEAT.forEach((f, i) => { cue(f.t, 'joker', { var: i, shake: 14, shock: 0.25 }); cue(f.t + 0.5, 'mult', { var: i }); });
-      LEG.forEach((_, i) => cue(30.0 + i * 0.5, 'legendary', { var: i, shake: 16, shock: 0.35 }));
+      cue(25.5, 'legendary', { shake: 10, shock: 0.3 });
     },
     draw(t) {
       if (t < 26.0) { // the wall
@@ -618,9 +621,12 @@ function scene(b0, b1, def) { SCENES.push(Object.assign({ b0, b1, t0: b2t(b0), t
           const c = i % cols, r = Math.floor(i / cols);
           const ta = 24.0 + (c + r) * 0.035;
           if (t < ta) return;
-          const k = slam(t, ta, 0.14, 0.6);
+          let k = slam(t, ta, 0.14, 0.6);
+          const legend = j.rarity === 'legendary';
+          if (legend && t >= 25.5) k *= slam(t, 25.5 + i * 0.06, 0.14, 1.9) * 1.12;
           const x = x0 + c * (tile + gap), y = y0 + r * (tile + gap);
           ctx.save(); ctx.translate(x + tile / 2, y + tile / 2); ctx.scale(k, k);
+          if (legend && t >= 25.5) { ctx.globalAlpha = 0.5 + 0.3 * Math.sin(t * 12); pxRect(-tile / 2 - 12, -tile / 2 - 12, tile + 24, tile + 24, PAL.lilac, { notch: 8 }); ctx.globalAlpha = 1; }
           pxRect(-tile / 2, -tile / 2, tile, tile, RARITY[j.rarity], { shadow: 8, notch: 6 });
           pxRect(-tile / 2 + 6, -tile / 2 + 6, tile - 12, tile - 12, PAL.cream, { notch: 4 });
           portrait('jokers', j.id, -56, -56, 7, glint(t, i * 13 + 5));
@@ -631,11 +637,27 @@ function scene(b0, b1, def) { SCENES.push(Object.assign({ b0, b1, t0: b2t(b0), t
           const hh = 330 * k;
           rect(0, 540 - hh / 2, W, hh, PAL.ink);
           rect(0, 540 - hh / 2 - 12, W, 12, PAL.sun); rect(0, 540 + hh / 2, W, 12, PAL.sun);
-          if (k > 0.6) scaled(W / 2, 540, slam(t, 25.05, 0.16, 1.6), () => mega('70 JOKERS', 0, 95, 260, PAL.sun, PAL.pinkD, 22, { align: 'center' }));
+          if (k > 0.6) scaled(W / 2, 520, slam(t, 25.05, 0.16, 1.6), () => mega('70 JOKERS', 0, 95, 250, PAL.sun, PAL.pinkD, 22, { align: 'center' }));
+        }
+        if (t >= 25.5) { // the four Legendaries in the first row
+          const tags = ['4 LEGENDARY', '15 RARE', '27 UNCOMMON', '24 COMMON'];
+          const cols = [PAL.lilac, PAL.pink, PAL.sky, RARITY.common];
+          const ws = tags.map((s2) => textW(s2, 26) + 26 * 0.9);
+          let px = W / 2 - (ws.reduce((a, b) => a + b, 0) + 3 * 24) / 2;
+          tags.forEach((s2, i) => {
+            const ta = 25.5 + i * 0.07;
+            if (t >= ta) {
+              const kk = E.outBack(inv(ta, ta + 0.15, t));
+              ctx.save(); ctx.translate(px + ws[i] / 2, 648); ctx.scale(kk, kk);
+              pill(s2, 0, 0, 26, cols[i], PAL.ink, { align: 'center', shadow: 5 });
+              ctx.restore();
+            }
+            px += ws[i] + 24;
+          });
         }
         return;
       }
-      if (t < 30.0) { // featured
+      { // featured
         const cx0 = 800, cw = 400, ch = 580;
         FEAT.forEach((f, i) => {
           if (t < f.t) return;
@@ -669,29 +691,6 @@ function scene(b0, b1, def) { SCENES.push(Object.assign({ b0, b1, t0: b2t(b0), t
         });
         return;
       }
-      // legendaries
-      slab(PAL.ink);
-      ctx.fillStyle = '#2a1846';
-      for (let i = 0; i < 14; i++) ctx.fillRect(0, i * 80 + ((t * 120) % 80) - 80, W, 36);
-      const k0 = E.outExpo(inv(30.0, 30.2, t));
-      text('4 LEGENDARIES', W / 2, 150 - (1 - k0) * 80, 90, PAL.lilac, { align: 'center', shadow: 8, shadowColor: '#5b2ea6' });
-      LEG.forEach((id, i) => {
-        const ta = 30.0 + i * 0.5;
-        if (t < ta) return;
-        const k = slam(t, ta, 0.15, 2.2);
-        const x = 300 + i * 440, y = 520;
-        ctx.save(); ctx.translate(x, y); ctx.scale(k, k); ctx.rotate([-0.04, 0.03, -0.02, 0.04][i]);
-        pxRect(-136, -136, 272, 272, PAL.lilac, { shadow: 16, notch: 10 });
-        pxRect(-124, -124, 248, 248, PAL.cream, { notch: 6 });
-        portrait('jokers', id, -112, -112, 14, glint(t, i * 3 + 1));
-        ctx.restore();
-        const kk = E.outExpo(inv(ta + 0.1, ta + 0.3, t));
-        ctx.globalAlpha = kk;
-        const nm = jok(id).name.toUpperCase();
-        text(nm, x, 740, textW(nm, 30) > 400 ? 20 : 30, PAL.cream, { align: 'center', shadow: 4 });
-        ctx.globalAlpha = 1;
-      });
-      subtitle('Gravity, mirrors, alchemy and a supernova.', t, 31.0, 32.0, { y: 900, accent: PAL.lilac });
     },
   });
 }
@@ -708,10 +707,12 @@ function scene(b0, b1, def) { SCENES.push(Object.assign({ b0, b1, t0: b2t(b0), t
   const OFF2 = [
     { k: 'jokers', id: 'compound_interest', price: 7 },
     { k: 'jokers', id: 'color_cycle', price: 5 },
-    { k: 'items', id: 'emergency_brick', price: 4 },
     { k: 'jokers', id: 'neon_sign', price: 4 },
+    { k: 'items', id: 'emergency_brick', price: 4 },
+    { k: 'items', id: 'spark', price: 3 },
   ];
-  const TD = (i) => 32.25 + i * 0.125, TBUY = 33.5, TRR = 34.5;
+  // Reroll (BMRun.reroll_shop): costs 2, replaces every offer, next reroll costs 3.
+  const TD = (i) => 32.25 + i * 0.125, TBUY = 33.5, TRR = 34.5, OUT = (i) => TRR + 0.04 + i * 0.05, IN = (i) => TRR + 0.2 + i * 0.07;
   const def = (o) => (o.k === 'jokers' ? jok(o.id) : Object.assign({ rarity: 'item' }, ITEMS.find((x) => x.id === o.id)));
   function offer(o, x, y, t, flip, pressed) {
     const d = def(o);
@@ -734,14 +735,15 @@ function scene(b0, b1, def) { SCENES.push(Object.assign({ b0, b1, t0: b2t(b0), t
     text(pressed ? 'BOUGHT!' : 'BUY ' + o.price, 0, by + 38, 30, PAL.ink, { align: 'center' });
     ctx.restore();
   }
-  scene(64, 72, {
+  scene(48, 56, {
+    shift: 8,
     bg: () => bgp('teal', { dark: 0.9 }),
     init() {
       cue(32.0, 'awning', { shake: 14 });
       OFF.forEach((_, i) => cue(TD(i), 'card_drop', { var: i, shake: 3 }));
       cue(TBUY, 'buy', { shake: 8 });
-      cue(TRR, 'lever', { shake: 10 });
-      OFF2.forEach((_, i) => cue(TRR + 0.25 + i * 0.1, 'card_drop', { var: i }));
+      cue(TRR, 'reroll', { shake: 8 });
+      OFF2.forEach((_, i) => cue(IN(i), 'card_drop', { var: i }));
       cue(35.5, 'coin');
     },
     draw(t) {
@@ -760,14 +762,15 @@ function scene(b0, b1, def) { SCENES.push(Object.assign({ b0, b1, t0: b2t(b0), t
       mega('THE TOYBOX', 0, 42, 110, PAL.sun, PAL.pinkD, 10, { align: 'center' });
       ctx.restore();
       // credits
-      const credits = t < TBUY ? 23 : t < TBUY + 0.3 ? Math.round(lerp(23, 18, inv(TBUY, TBUY + 0.3, t))) : 18;
+      let credits = t < TBUY ? 23 : t < TBUY + 0.3 ? Math.round(lerp(23, 18, inv(TBUY, TBUY + 0.3, t))) : 18;
+      if (t >= TRR) credits = t < TRR + 0.2 ? Math.round(lerp(18, 16, inv(TRR, TRR + 0.2, t))) : 16;
       pxRect(1380, ay + 110, 400, 110, PAL.ink, { shadow: 10, border: 5, borderColor: PAL.sun });
       sprite('coin', 1410, ay + 132, 1.5);
       text(String(credits), 1500, ay + 198, 80, PAL.sun, { shadow: 6 });
       text('CREDITS', 1760, ay + 198, 30, PAL.dim, { align: 'right' });
       // shelf
       rect(0, 800, W, 30, PAL.ink); rect(0, 830, W, 16, '#0006');
-      const flipOut = (t0) => Math.cos(Math.PI / 2 * clamp((t - t0) / 0.12));
+      const flipOut = (t0) => Math.cos(Math.PI / 2 * clamp((t - t0) / 0.1));
       OFF.forEach((o, i) => {
         const x = 60 + i * 318, y = 360;
         const d = drop(t, TD(i) - 0.14, 0.14);
@@ -779,24 +782,29 @@ function scene(b0, b1, def) { SCENES.push(Object.assign({ b0, b1, t0: b2t(b0), t
           offer(o, x, y, t, 1, true); ctx.restore();
           return;
         }
-        if (t >= TRR && i !== 1) {
-          const f = flipOut(TRR);
-          if (f > 0.02) offer(o, x, y, t, f, false);
+        if (t >= OUT(i)) { // flip out on the reroll
+          const f = flipOut(OUT(i));
+          if (f > 0.02) offer(o, x, y, t, f, i === 1);
           return;
         }
         offer(o, x, y + d.y * 600, t, 1, i === 1 && t >= TBUY);
       });
       OFF2.forEach((o, i) => {
-        const slotI = [0, 2, 3, 4][i];
-        const ta = TRR + 0.25 + i * 0.1;
-        if (t < ta - 0.12) return;
-        const f = Math.sin(Math.PI / 2 * clamp((t - (ta - 0.12)) / 0.12));
-        offer(o, 60 + slotI * 318, 360, t, f, false);
+        const ta = IN(i);
+        if (t < ta - 0.1) return;
+        const f = Math.sin(Math.PI / 2 * clamp((t - (ta - 0.1)) / 0.1));
+        offer(o, 60 + i * 318, 360, t, f, false);
       });
-      // lever (sheet: 8 frames of 164px)
-      const lf = t < TRR ? 0 : Math.min(7, Math.floor((t - TRR) / 0.05));
-      sprite('lever', 1660, 400, 1.5, lf * 164, 0, 164, 176);
-      text('REROLL', 1783, 700, 30, PAL.cream, { align: 'center', shadow: 4 });
+      // the REROLL button (sky, refresh icon, price) and the cursor that presses it
+      const pressed = t >= TRR && t < TRR + 0.12;
+      const bx = 1540, by = ay + 250, bw = 300, bh = 84;
+      pxRect(bx, by + (pressed ? 6 : 0), bw, bh, pressed ? '#2f7fcc' : PAL.sky, { notch: 8, border: 5, borderColor: PAL.ink, shadow: pressed ? 0 : 8, shadowColor: '#1f4f80' });
+      sprite('refresh', bx + 22, by + 20 + (pressed ? 6 : 0), 1);
+      text('REROLL  ' + (t >= TRR ? 3 : 2), bx + 84, by + 56 + (pressed ? 6 : 0), 30, PAL.ink);
+      if (t >= TRR - 0.45 && t < TRR + 0.5) {
+        const k = E.inOutCubic(inv(TRR - 0.45, TRR - 0.05, t));
+        sprite('cursor_hand', lerp(1500, bx + 150, k), lerp(760, by + 50, k), 5);
+      }
       subtitle('Spend Credits. Reroll. Build your bag.', t, 33.0, 36.0, { y: 900, accent: PAL.mint });
     },
   });
@@ -807,7 +815,8 @@ function scene(b0, b1, def) { SCENES.push(Object.assign({ b0, b1, t0: b2t(b0), t
   const LIST = [['gold', 'GOLD', PAL.sun], ['neon', 'NEON', PAL.sky], ['lava', 'LAVA', PAL.pink], ['prism', 'PRISM', PAL.lilac],
     ['chrome', 'CHROME', PAL.cream], ['ice', 'ICE', PAL.skyL], ['starfall', 'STARFALL', PAL.sun], ['aurora', 'AURORA', PAL.mint]];
   const TS = (i) => 36.0 + i * 0.5;
-  scene(72, 80, {
+  scene(56, 64, {
+    shift: 8,
     init() { LIST.forEach((_, i) => cue(TS(i), 'finish', { var: i, shake: 6, shock: 0.15, fin: LIST[i][0] })); },
     draw(t) {
       slab(PAL.ink);
@@ -848,7 +857,8 @@ function scene(b0, b1, def) { SCENES.push(Object.assign({ b0, b1, t0: b2t(b0), t
     ['THE LAST CALL', 'Only 12 placements. Make them count.', 44.0],
   ];
   const TMK = 43.0, TR = 46.0;
-  scene(80, 96, {
+  scene(64, 80, {
+    shift: 8,
     bg: (t) => bgp('boss', { swirl: 3.2, dark: t > 47.7 ? 0 : 0.9, pulse: 0.1 }),
     post(t) { let g = 0; for (const tt of [42.0, 44.0]) if (t >= tt - 0.04 && t < tt + 0.1) g = 0.8; return { glitch: g }; },
     init() {
@@ -994,7 +1004,8 @@ function scene(b0, b1, def) { SCENES.push(Object.assign({ b0, b1, t0: b2t(b0), t
   const WORDS = ['CLEAR!', 'DOUBLE!', 'COMBO ×3', 'DOUBLE!', 'TRIPLE!', 'OVERKILL', 'COMBO ×8', 'ROW + COLUMN ×4'];
   const RACK = ['snowball', 'jackpot_window', 'hall_of_mirrors', 'mimic', 'supernova'];
   const scoreAt = (t) => 349267 * Math.pow(250, clamp((t - T0) / 4));
-  scene(96, 104, {
+  scene(80, 88, {
+    shift: 8,
     bg: (t) => bgp('party', { pulse: 0.5 + 0.5 * Math.exp(-((t - T0) % 0.5) * 6), swirl: 3.0 }),
     init() {
       cue(T0, 'drop_impact', { shake: 36, shock: 1.0, flash: 0.35 });
@@ -1053,7 +1064,8 @@ function scene(b0, b1, def) { SCENES.push(Object.assign({ b0, b1, t0: b2t(b0), t
   ];
   const TA = (i) => 52.0 + i * 0.5;
   const TCL = 55.5;
-  scene(104, 112, {
+  scene(88, 96, {
+    shift: 8,
     bg: () => bgp('party', { dark: 0.6 }),
     init() {
       BARS.forEach((_, i) => cue(TA(i), 'bar', { var: i, shake: 10, shock: 0.15 }));
@@ -1115,7 +1127,8 @@ function scene(b0, b1, def) { SCENES.push(Object.assign({ b0, b1, t0: b2t(b0), t
     for (let i = 0; i < 3; i++) if (t < MS[i + 1][0]) { const k = inv(MS[i][0] + 0.5, MS[i + 1][0], t); return MS[i][3] * Math.pow(1000, Math.pow(k, 1.6)); }
     return 1e15;
   };
-  scene(112, 128, {
+  scene(96, 112, {
+    shift: 8,
     bg: (t) => bgp('party', { pulse: 0.3 + 0.7 * Math.exp(-((t - T0) % 0.5) * 5), swirl: 2.4 + (t - T0) * 0.3, dark: t > TBRK ? 0.6 : 1 }),
     post(t) {
       const glitch = t >= TBRK ? 0.4 + 0.6 * inv(TBRK, 63.5, t) : (t >= TCAP && t < TCAP + 0.15 ? 0.6 : 0);
@@ -1183,7 +1196,8 @@ function scene(b0, b1, def) { SCENES.push(Object.assign({ b0, b1, t0: b2t(b0), t
 {
   const TP = 64.6, TL = 66.0;
   const LOGO_C = [0, 1, 2, 3, 4, 5, 0, 1, 2, 3];
-  scene(128, 144, {
+  scene(112, 128, {
+    shift: 8,
     bg: (t) => (t < TL ? bgp('plum', { dark: 0 }) : bgp('plum', { dark: E.outCubic(inv(TL, TL + 0.4, t)) })),
     init() {
       cue(TP, 'pops_hi');
@@ -1218,9 +1232,10 @@ function scene(b0, b1, def) { SCENES.push(Object.assign({ b0, b1, t0: b2t(b0), t
         const k = slam(t, 67.0, 0.16, 1.6);
         const pulse = 1 + 0.03 * Math.max(0, Math.sin((t - 67.0) * Math.PI * 2));
         ctx.save(); ctx.translate(W / 2, 730); ctx.scale(k * pulse, k * pulse);
-        pxRect(-420, -70, 840, 150, PAL.sunD, { notch: 12, border: 7, borderColor: PAL.ink, shadow: 12 });
-        pxRect(-413, -63, 826, 124, PAL.sun, { notch: 8 });
-        text('WISHLIST ON STEAM', 0, 28, 70, PAL.ink, { align: 'center' });
+        pxRect(-490, -70, 980, 150, PAL.sunD, { notch: 12, border: 7, borderColor: PAL.ink, shadow: 12 });
+        pxRect(-483, -63, 966, 124, PAL.sun, { notch: 8 });
+        sprite('steam', -455, -48, 4);
+        text('WISHLIST ON STEAM', 50, 28, 70, PAL.ink, { align: 'center' });
         ctx.restore();
       }
       if (t >= 67.5) {

@@ -18,7 +18,7 @@ d = ImageDraw.Draw(canvas); font = ImageFont.truetype('C:/Windows/Fonts/arial.tt
 for hz in (50, 100, 200, 500, 1000, 2000, 5000, 10000):
     y = H - 1 - np.argmin(np.abs(fb - hz)); d.text((4, y - 7), f'{hz}', fill='white', font=font)
 dur = len(m) / sr
-sec = [(0,'HOOK'),(8,'LOGO'),(12,'HOW'),(20,'RCPT'),(24,'JOKERS'),(32,'SHOP'),(36,'FIN'),(40,'BOSS'),(48,'DROP'),(52,'BARS'),(56,'MILES'),(64,'END')]
+sec = [(0,'HOOK'),(4,'LOGO'),(6,'HOW'),(14,'RCPT'),(18,'JOKERS'),(24,'SHOP'),(28,'FIN'),(32,'BOSS'),(40,'DROP'),(44,'BARS'),(48,'MILES'),(56,'END')]
 for s, n in sec:
     X = 60 + s / dur * W; d.line([(X, 0), (X, H + 250)], fill=(255, 204, 61)); d.text((X + 3, H + 4), n, fill=(255, 204, 61), font=font)
 # short-term loudness (400ms RMS, K-ish weighting approx via highpass)

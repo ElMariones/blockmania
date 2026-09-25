@@ -20,7 +20,7 @@
   <canvas id="out" width="1920" height="1080"></canvas>
   <div id="ui">
     <button id="play">play</button>
-    <input id="scrub" type="range" min="0" max="72" step="0.0166667" value="0">
+    <input id="scrub" type="range" min="0" max="64" step="0.0166667" value="0">
     <span id="tc">0.00</span>
   </div>
 </div>
@@ -34,10 +34,11 @@ function render(t) {
   ctx.clearRect(0, 0, W, H);
   ctx.globalAlpha = 1;
   const sc = SCENES.find((s) => t >= s.t0 && t < s.t1) || SCENES[SCENES.length - 1];
-  sc.draw(t, t - sc.t0);
+  const st = t + (sc.shift || 0); // scene-local clock (v1 timeline for shifted scenes)
+  sc.draw(st, t - sc.t0);
   const im = impactsAt(t);
-  const extra = sc.post ? sc.post(t) : {};
-  const bg = sc.bg ? sc.bg(t) : bgp('plum');
+  const extra = sc.post ? sc.post(st) : {};
+  const bg = sc.bg ? sc.bg(st) : bgp('plum');
   present(t, bg, {
     sx: im.sx, sy: im.sy, zoom: 1 + im.shock * 0.012,
     shock: im.shock, flash: im.flash, glitch: extra.glitch || 0, collapse: extra.collapse || 0,
@@ -46,7 +47,8 @@ function render(t) {
 }
 window.READY = loadAll().then(() => {
   initGL(document.getElementById('out'));
-  for (const s of SCENES) s.init && s.init();
+  for (const s of SCENES) { CUE_OFF = -(s.shift || 0); s.init && s.init(); }
+  CUE_OFF = 0;
   CUES.sort((a, b) => a.t - b.t);
   window.CUES_JSON = JSON.stringify({ bpm: BPM, dur: DUR, cues: CUES });
   if (new URLSearchParams(location.search).has('capture')) document.body.classList.add('capture');

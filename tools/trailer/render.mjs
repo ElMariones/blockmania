@@ -17,7 +17,7 @@ const ROOT = path.resolve(HERE, '../..');
 const OUT = path.join(HERE, 'build');
 fs.mkdirSync(OUT, { recursive: true });
 const CHROME = process.env.CHROME || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
-const FPS = 60, DUR = 72;
+const FPS = 60, DUR = 64;
 
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.png': 'image/png', '.json': 'application/json', '.ttf': 'font/ttf', '.wav': 'audio/wav' };
 function serve() {

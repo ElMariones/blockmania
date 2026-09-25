@@ -4,7 +4,7 @@
 'use strict';
 
 // Canvas size: the trailer is 1920x1080; tools/store/capsules.html sets CANVAS_W/H before loading.
-const W = self.CANVAS_W || 1920, H = self.CANVAS_H || 1080, FPS = 60, BPM = 120, BEAT = 60 / BPM, DUR = 72;
+const W = self.CANVAS_W || 1920, H = self.CANVAS_H || 1080, FPS = 60, BPM = 120, BEAT = 60 / BPM, DUR = 64;
 const b2t = (b) => b * BEAT;
 
 const PAL = {
@@ -30,6 +30,7 @@ const IMG_LIST = {
   chip: 'ui/icon_chip.png', mult: 'ui/icon_mult.png', trophy: 'ui/icon_trophy.png', star: 'ui/icon_star.png',
   lock: 'ui/icon_padlock.png', crate: 'ui/crate_big.png', crate_open: 'ui/crate_big_open.png',
   studio: 'brand/buru_arcade_logo.png', stamp_encore: 'ui/stamp_encore.png',
+  steam: '../tools/trailer/steam_icon.png', refresh: 'ui/icon_refresh.png',
 };
 const SHOTS = ['kits', 'boss_round', 'title', 'endless', 'won', 'trophies', 'round'];
 const SHOT_BASE = '../../docs/media/';
@@ -113,7 +114,9 @@ function bigCommas(v) { // v may exceed 2^53: use BigInt path for digits
 
 // ------------------------------------------------------------------ cue timeline (shared with audio)
 const CUES = [];
-function cue(t, sfx, o = {}) { CUES.push(Object.assign({ t, sfx }, o)); }
+// Scenes authored on the v1 timeline register cues in their own time; CUE_OFF maps them to the cut.
+let CUE_OFF = 0;
+function cue(t, sfx, o = {}) { CUES.push(Object.assign({ t: t + CUE_OFF, sfx }, o)); }
 
 function impactsAt(t) {
   let shake = 0, shock = 0, flash = 0, sx = 0, sy = 0;
