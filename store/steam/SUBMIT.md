@@ -27,8 +27,9 @@ The app came with one depot, **5328811**. Add two more, so there is one per OS:
 | 5328812 | BLOCKMANIA macOS | macOS | (any) | All languages |
 | 5328813 | BLOCKMANIA Linux | Linux + SteamOS | 64-bit only | All languages |
 
-If Steam gives different ids, pass them to the upload: `DEPOT_WINDOWS=... DEPOT_MACOS=... DEPOT_LINUX=...`
-(or change the defaults at the top of `tools/steam/upload_steam.sh`). Click **Save**.
+If Steam gives different ids, set them as GitHub repository **variables** (Settings > Secrets and variables > Actions >
+**Variables**: `DEPOT_WINDOWS`, `DEPOT_MACOS`, `DEPOT_LINUX`), or pass them locally: `DEPOT_MACOS=... tools/steam/upload_steam.sh`.
+Click **Save**, then **Publish** (A4): an unpublished depot makes the upload fail with "Access Denied".
 
 ### A2. Launch options ✋ (App Admin > Installation > General Installation)
 

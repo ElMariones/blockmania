@@ -68,6 +68,10 @@ jobs:
           STEAM_USER: ${{ secrets.STEAM_USERNAME }}
           BRANCH: ${{ github.event.inputs.branch }}
           DESC: ${{ github.event.inputs.desc }}
+          # Optional repository variables (Settings > Secrets and variables > Actions > Variables); empty = defaults 5328811/12/13
+          DEPOT_WINDOWS: ${{ vars.DEPOT_WINDOWS }}
+          DEPOT_MACOS: ${{ vars.DEPOT_MACOS }}
+          DEPOT_LINUX: ${{ vars.DEPOT_LINUX }}
         run: STEAMCMD="$HOME/steamcmd/steamcmd.sh" bash tools/steam/upload_steam.sh
 
       - name: Keep the SteamPipe log
