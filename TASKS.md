@@ -3,7 +3,7 @@
 Living backlog. Update it in the same commit as the work. Milestones follow GDD §12.
 Legend: `[x]` done · `[~]` partial · `[ ]` open · **(owner)** needs a project-owner decision.
 
-_Last updated: 2026-09-24 — Plan items from the review (campaign Hold, round cards, Mk II bosses, Heat 0–5, Joker unlocks, Daily, run history, milestones, tips), boss cinematic and mood shader, 6 new songs, settings/menu redesign (GDD §22). Earlier: persona playtest review (docs/playtests), engine update (interest, overkill, multi-line Mult, scaling Jokers, Rack Extender, 13 Jokers, 4 items, 4 Legendary Jokers, Legends achievement page, targets raised). Earlier today: shop menu, card portraits, Overtime, 48 achievements._
+_Last updated: 2026-09-26 — Release playability study (`docs/playtests/2026-09-26_release_study.md`): 4,560 simulated runs; items and Joker repetition confirmed as structural problems; two Warden bugs. Earlier (2026-09-24): Plan items from the review (campaign Hold, round cards, Mk II bosses, Heat 0–5, Joker unlocks, Daily, run history, milestones, tips), boss cinematic and mood shader, 6 new songs, settings/menu redesign (GDD §22). Earlier: persona playtest review (docs/playtests), engine update (interest, overkill, multi-line Mult, scaling Jokers, Rack Extender, 13 Jokers, 4 items, 4 Legendary Jokers, Legends achievement page, targets raised). Earlier today: shop menu, card portraits, Overtime, 48 achievements._
 
 ## M0 — Rules prototype
 
@@ -166,6 +166,19 @@ Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/r
 - [ ] Re-render when content changes: the trailer states 70 Jokers, 14 finishes, 60 achievements, 5 Kits, Heat 0–5 (`data.js` is generated from `game/content`).
 - [ ] README still says "69 Jokers" (the catalog has 70 since Veteran).
 
+## Owner requests, 2026-09-26 (release playability study)
+
+- [x] **Release-style study:** `tools/study.gd` (600 synthetic participants in 5 archetypes with sampled item, shop, round-card and duplicate habits, 3 runs each, plus 23 paired-seed arms × 120 seeds; full ledger of every offer, purchase, item and round) + `tools/study_report.py`. Report: `docs/playtests/2026-09-26_release_study.md`, tables beside it.
+- [ ] **P0 bug:** Tiny Insurance can put its rescue Single into the Warden's barred slot, so the round stays `PLAYING` with no legal move and Concede is refused (soft-lock; reproduced with participant 201, seed 53417, round 8). Fix and add a Warden E2E regression.
+- [ ] **P0 bug / rule (owner):** Warden Mk II never frees its second barred slot (`locked_slot2`); only `locked_slot` is freed on the first clear. Decide the rule, then align the code, HUD text and GDD §22.3.
+- [ ] **(owner) Items rework:** no item habit beats never buying items (79% vs 75–78%, paired). The rescue items answer a no-fit state seen in 0.2% of rounds (95% of losses are "out of placements"); Spark and Polish shrink to 4–8% of a target by act 3. Proposals in report §4 items 3–7 (merge rescue items, scaling boosts, value preview on drag, sell or refund unused items).
+- [ ] **(owner) Shop repetition:** a bought Joker returns in a later shop 33% of the time; one Joker is offered 3+ times in 70–76% of runs; stacking copies loses (85% avoid vs 76% stack, p = 0.02). Not offering owned Jokers is balance-neutral (80% vs 80%); also skipping the last visit's Jokers cuts "3+ offers" to 37%. Proposal: report §4 items 8–11.
+- [ ] **(owner) Round cards are free money:** twists clear as often as Standard (96%), and picking them sensibly lifts wins 79% → 89% (p = 0.03) with 44 Credits banked at the end. Retune (report §4 items 12–13).
+- [ ] Late-game Credit sink, sharper act bosses (5 of 6 cleared 91–98%), rarer Tray Hands more often, first-timer build guidance (report §4 items 14–18).
+- [ ] GDD §22.4 says Compact/Chunky/Tetromino start with 14 placements and Chunky lost its 3×3; code and §6 have Compact 16, Chunky 13, and the Chunky bag still has a Square 3×3. Align.
+- [ ] `scenario_menus` failed once (vsync / show_fps not saved) right after a long simulation batch, then passed twice with the same fingerprint: watch for flakiness.
+- [ ] Human playtest to confirm what the bots cannot judge: Turntable (never bought by bots), Periscope, Card Sharp, Patch Panel, Draftsman, Locksmith, and real item-use friction.
+
 ## M2 — Content complete
 
 - [x] Kit selection screen + unlock tracking (see Round-play proposals).
@@ -192,6 +205,8 @@ Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/r
 - [ ] Steamworks integration (achievements/cloud optional, never required for play). Achievements done (GodotSteam); Steam Cloud via Auto-Cloud, no code (setup in `store/steam/SUBMIT.md` A3b, owner to configure).
 
 ## Balance watch (provisional numbers — do not tune silently)
+
+- 2026-09-26: **release study** (build `292051f`, no Overtime). Population (600 participants, 1,800 runs): first-timer 1% wins (dies ~round 6), casual regular 22%, engaged 78%, expert 85%, item lover 86%. Paired arms (120 seeds): skill casual 2.5% / smart 29% / planner-lite 77% / planner 85%; items never 79% vs 75–78% with any item habit; round cards Standard 79% vs sensible twists 89%; duplicates avoid 85% vs stack 76%; shop without owned re-offers 80% (= current). Bosses: Last Call 84%, others 91–98%. Report: `docs/playtests/2026-09-26_release_study.md`.
 
 - 2026-09-24: **Kit perks + Veteran** (persona playtest, 40 runs each, seeds 1001+; Veteran is in the shop pool): steady (Standard) **35%** wins; planner Standard **80%**, Compact (Thrift) **90%**, High Roller (Compound Interest) **83%**, Chunky (Heavy Lifting, +10 Chips per block on 5+ block pieces, 13 placements) **98%**, Tetromino (Full House) **90%**. Every unlockable Kit still beats Standard for the planner, Chunky most of all: if human play agrees, trim Heavy Lifting to +5 per block or Chunky to 12 placements. A first Chunky draft (2 placements back per cleared line) was dropped: a round could run forever, and with Veteran that is unbounded.
 
