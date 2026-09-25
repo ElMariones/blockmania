@@ -2,6 +2,8 @@
 prelude; STAGE sets up a showcase board through the real run state)."""
 import os
 STAGE = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "stage.gd")).read()
+# Mid round 7, a normal round (a few placements in), where the staged showcase board goes.
+MID7 = "bm_run.round_number == 7 and bm_run.phase == BMRun.Phase.ROUND and bm_run.round_state.placements_made >= 3"
 BUILD = ["hall_of_mirrors", "snowball", "hot_hand", "jackpot_window", "mimic"]
 SHOTS = {
     "title": dict(use_prelude=False, body="""
@@ -13,13 +15,13 @@ for c in m.title_screen.stage.get_children():
 		c.visible = false
 await get_tree().create_timer(2.4).timeout
 """),
-    "round": dict(steps=127, jokers=BUILD, credits=14, body=STAGE + """
+    "round": dict(steps=3000, cond=MID7, jokers=BUILD, credits=14, body=STAGE + """
 m.game_screen._select_by_key(0)
 m.game_screen.key_anchor = plus_anchor
 m.game_screen._show_ghost(plus_anchor)
 await get_tree().create_timer(0.6).timeout
 """),
-    "clear": dict(steps=127, jokers=BUILD, credits=14, body=STAGE + """
+    "clear": dict(steps=3000, cond=MID7, jokers=BUILD, credits=14, body=STAGE + """
 m.game_screen._do_action({"a": "place", "slot": 0, "x": plus_anchor.x, "y": plus_anchor.y})
 await get_tree().create_timer(float(OS.get_environment("BM_T")) if OS.get_environment("BM_T") != "" else 0.08).timeout
 """),
@@ -43,15 +45,15 @@ await get_tree().create_timer(0.6).timeout
 m.shop_screen._show_round_picker()
 await get_tree().create_timer(0.8).timeout
 """),
-    "won": dict(steps=127, jokers=BUILD, credits=14, body=STAGE + """
+    "won": dict(steps=3000, cond=MID7, jokers=BUILD, credits=14, body=STAGE + """
 m.game_screen._do_action({"a": "place", "slot": 0, "x": plus_anchor.x, "y": plus_anchor.y})
 await get_tree().create_timer(2.2).timeout
 """),
-    "bag": dict(steps=127, jokers=BUILD, body=STAGE + """
+    "bag": dict(steps=3000, cond=MID7, jokers=BUILD, body=STAGE + """
 m.game_screen._show_bag()
 await get_tree().create_timer(0.8).timeout
 """),
-    "pause": dict(steps=127, jokers=BUILD, body=STAGE + """
+    "pause": dict(steps=3000, cond=MID7, jokers=BUILD, body=STAGE + """
 m.show_pause()
 await get_tree().create_timer(0.6).timeout
 """),
@@ -126,7 +128,7 @@ def loop(n, extra=""):
     for line in (extra + GRAB).strip("\n").split("\n"):
         body += "\t" + line + "\n"
     return body
-SHOTS["gif_play"] = dict(steps=127, jokers=BUILD, credits=14, body=STAGE + CAPTURE + """
+SHOTS["gif_play"] = dict(steps=3000, cond=MID7, jokers=BUILD, credits=14, body=STAGE + CAPTURE + """
 m.game_screen._select_by_key(0)
 var bm_path := [Vector2i(0, 5), Vector2i(1, 5), Vector2i(1, 4), Vector2i(2, 3), Vector2i(3, 3), Vector2i(3, 2)]
 for bm_a in bm_path:

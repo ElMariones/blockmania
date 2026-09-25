@@ -1,0 +1,1 @@
+A block-puzzle roguelike. Place pieces on an 8×8 board, clear lines and score Chips × Mult. Upgrade your own bag of blocks, collect 70 rule-bending Jokers and beat 12 rounds of bosses, then push into Overtime and try to break the machine.

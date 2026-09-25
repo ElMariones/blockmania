@@ -1,0 +1,1 @@
+Un roguelike de puzle de bloques. Coloca piezas en un tablero de 8×8, limpia líneas y puntúa Fichas × Multi. Mejora tu bolsa de bloques, reúne 70 comodines que rompen las reglas, vence 12 rondas con jefes y sigue en la Prórroga hasta romper la máquina.
