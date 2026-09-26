@@ -66,6 +66,15 @@ const ARMS := {
 	"skill_smart": {"placement": "smart", "shop": "full", "items": "hoarder"},
 	"skill_lite": {"placement": "expert_lite"},
 	"skill_expert": {"placement": "expert"},
+	# E6 Overtime (won runs press KEEP PLAYING until a round is lost or round 80).
+	"ot_smart": {"placement": "smart", "shop": "full", "items": "hoarder", "overtime": true},
+	"ot_lite": {"overtime": true},
+	"ot_expert": {"placement": "expert", "overtime": true},
+	"ot_best": {"placement": "expert", "items": "savvy", "cards": "ev", "dup": "avoid", "rerolls": 3, "overtime": true},
+	"ot_fresh_shop": {"variant": "fresh", "dup": "avoid", "cards": "ev", "overtime": true},
+	# Ceiling probe (not a fair run): three Legendaries and Snowball from round 1.
+	"ot_legend_probe": {"placement": "expert", "cards": "ev", "dup": "avoid", "overtime": true, "favorites": "multi_line",
+		"start_jokers": ["hall_of_mirrors", "supernova", "avalanche", "snowball", "jackpot_window"]},
 }
 
 
@@ -648,12 +657,14 @@ func _init() -> void:
 	var first := int(args[2]) if args.size() > 2 else 1
 	var out := args[3] if args.size() > 3 else "user://study_%s.json" % mode
 	var runs_each := int(args[4]) if args.size() > 4 else 3
+	var population_overtime := args.size() > 5 and args[5] == "overtime"
 	var results: Array = []
 	var started := Time.get_ticks_msec()
 	if mode == "population":
 		for p in count:
 			var pid := first + p
 			var t := sample_participant(pid)
+			t.overtime = population_overtime
 			for k in runs_each:
 				var seed_value := 50000 + pid * 17 + k * 7919
 				var rec := play(t, seed_value)
@@ -753,6 +764,12 @@ func play(t: Dictionary, seed_value: int) -> Dictionary:
 	var bot := Participant.new(t, seed_value)
 	var locked: Array = BMJokers.locked_for({}) if bool(t.get("locked", false)) else []
 	var run := BMRun.new_run(seed_value, String(t.get("kit", "standard")), 0, locked)
+	if t.has("start_jokers"):
+		run.jokers.assign(t.start_jokers)
+	var max_round := 80 if bool(t.get("overtime", false)) else 40
+	# Session cap: deep Overtime rounds can take hundreds of placements; stop a run after this many
+	# (about four hours of play at 5 s per placement) and record it as still alive.
+	var max_placements := 3000
 	var variant := String(t.get("variant", ""))
 	var rec := {"seed": seed_value, "pid": String(t.pid), "archetype": String(t.archetype), "traits": t.duplicate(),
 		"won": false, "round": 0, "end_reason": "", "rounds": [], "shops": [], "placements": 0, "clears": 0,
@@ -773,11 +790,13 @@ func play(t: Dictionary, seed_value: int) -> Dictionary:
 			continue
 		if run.phase in [BMRun.Phase.RUN_LOST, BMRun.Phase.ABANDONED]:
 			break
-		if run.round_number > 40:
+		if run.round_number > max_round or rec.placements >= max_placements:
+			rec.session_capped = rec.placements >= max_placements
 			break
 		# A new round: open its log.
 		if run.phase == BMRun.Phase.ROUND and round_log.is_empty():
 			round_log = {"round": run.round_number, "card": run.round_card, "boss": run.current_boss(),
+				"mk2": run.current_boss() != "" and run.boss_is_mk2(),
 				"clears": 0, "multi": 0, "peak": 0, "big": 0, "streak": 0, "max_dry": 0, "refreshes": 0,
 				"holds": 0, "items": 0, "stuck": 0, "placements": 0}
 		# A new shop visit (or a reroll): log the offers, after the shop variant rewrites them.
@@ -893,6 +912,9 @@ func play(t: Dictionary, seed_value: int) -> Dictionary:
 			round_log.jokers = run.jokers.duplicate()
 			round_log.items_held = run.consumables.duplicate()
 			round_log.credits = run.credits
+			round_log.state = run.joker_state.duplicate()
+			round_log.legendaries = run.jokers.filter(func(id): return BMJokers.is_legendary(id)).size()
+			round_log.slots = run.joker_slots()
 			rec.rounds.append(round_log)
 			bot.last_round_left = float(rs.placements_left) / maxf(1.0, float(rs.placement_cap))
 			for id in run.jokers:
@@ -901,6 +923,12 @@ func play(t: Dictionary, seed_value: int) -> Dictionary:
 			if not won and rec.end_reason == "":
 				rec.end_reason = run.end_reason
 	rec.round = BMRunConfig.ROUND_COUNT if rec.won else run.round_number
+	rec.overtime = run.overtime
+	rec.ot_round = run.round_number if run.overtime else 0
+	rec.broken = run.machine_broken
+	rec.capped = run.round_number > max_round or bool(rec.get("session_capped", false))
+	if rec.capped:
+		rec.end_reason = "Still alive: session cap (%d placements) in round %d." % [rec.placements, run.round_number]
 	if rec.end_reason == "":
 		rec.end_reason = run.end_reason
 	rec.final_jokers = run.jokers.duplicate()

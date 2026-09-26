@@ -177,6 +177,11 @@ Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/r
 - [ ] Late-game Credit sink, sharper act bosses (5 of 6 cleared 91–98%), rarer Tray Hands more often, first-timer build guidance (report §4 items 14–18).
 - [ ] GDD §22.4 says Compact/Chunky/Tetromino start with 14 placements and Chunky lost its 3×3; code and §6 have Compact 16, Chunky 13, and the Chunky bag still has a Square 3×3. Align.
 - [ ] `scenario_menus` failed once (vsync / show_fps not saved) right after a long simulation batch, then passed twice with the same fingerprint: watch for flakiness.
+- [x] **Overtime study** (owner request, 2026-09-26): 1,439 runs continued past round 12 (population + `ot_*` arms + Legendary probe; `tools/overtime_report.py`). Report: `docs/playtests/2026-09-26_overtime_study.md`.
+- [ ] **(owner) Overtime pacing:** Avalanche chain-wave lines refill placements, so deep rounds rarely run out and grind on (medians 36–57 placements, longest 1,359). Proposal: wave lines give no refill, or cap Overtime refills or placements per round (report §4.1).
+- [ ] **(owner) Overtime curve:** targets jump from ~1.3x per round to 1.8–2.2x at rounds 13–16; clear rates 69% / 57% / 47%, median final round 15 for every competent group. Depth depends on Legendaries (deep runs hold 1.5, shallow 0.19). Proposal: gentler first Overtime act or a guaranteed Legendary crate after round 12 (report §4.3).
+- [ ] Color Blind Mk II clears 34% in Overtime (other Mk IIs 51–70%). Hot Streak copies share one value and all reset on a Refresh: document it on the card or soften the reset.
+- [ ] Overtime Credit sink (40–75 Credits unused per shop); decide the role of the machine limit (never reached in ~1,440 runs; targets hit 10^15 at round 55).
 - [ ] Human playtest to confirm what the bots cannot judge: Turntable (never bought by bots), Periscope, Card Sharp, Patch Panel, Draftsman, Locksmith, and real item-use friction.
 
 ## Owner requests, 2026-09-25 (translations)
@@ -217,6 +222,8 @@ Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/r
 - [ ] Steamworks integration (achievements/cloud optional, never required for play). Achievements done (GodotSteam); Steam Cloud via Auto-Cloud, no code (setup in `store/steam/SUBMIT.md` A3b, owner to configure).
 
 ## Balance watch (provisional numbers — do not tune silently)
+
+- 2026-09-26: **Overtime study** (same seeds as the release study): median final round 15 for engaged, expert and all `ot_*` arms; 17% of entrants reach round 17, 6.4% round 20, 1.4% round 30; deepest fair run lost in round 60 (best placement 1.17 × 10^14); machine never broken. Clear rates by round: 13 86%, 14 69%, 15 57%, 16 47%.
 
 - 2026-09-26: **release study** (build `292051f`, no Overtime). Population (600 participants, 1,800 runs): first-timer 1% wins (dies ~round 6), casual regular 22%, engaged 78%, expert 85%, item lover 86%. Paired arms (120 seeds): skill casual 2.5% / smart 29% / planner-lite 77% / planner 85%; items never 79% vs 75–78% with any item habit; round cards Standard 79% vs sensible twists 89%; duplicates avoid 85% vs stack 76%; shop without owned re-offers 80% (= current). Bosses: Last Call 84%, others 91–98%. Report: `docs/playtests/2026-09-26_release_study.md`.
 
