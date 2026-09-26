@@ -76,6 +76,11 @@ static func cost(id: String) -> int:
 	return int(get_def(id).get("cost", 3))
 
 
+## Selling an unused item pays half its price, rounded down, and at least 1 Credit.
+static func sell_value(id: String) -> int:
+	return maxi(1, cost(id) / 2)
+
+
 static func is_implemented(id: String) -> bool:
 	return bool(get_def(id).get("implemented", true))
 

@@ -130,6 +130,14 @@ const SFX := {
 	"pops_next": [["pops_next"], 0.0, 120],
 	"pops_bye": [["pops_bye"], 0.0, 500],
 	"act_start": [["act_start"], 0.0, 800],
+	# The wallet, flying coins and cards bought or sold (tools/audio/gen_sfx_money.py).
+	"coin_flip": [["coin_flip"], 0.04, 40],
+	"coin_catch": [["coin_catch"], 0.0, 40],
+	"coin_collect": [["coin_collect"], 0.0, 35],
+	"coin_out": [["coin_out"], 0.03, 120],
+	"card_land": [["card_land"], 0.03, 120],
+	"card_poof": [["card_poof"], 0.03, 120],
+	"coin_jackpot": [["coin_jackpot"], 0.0, 600],
 }
 
 ## Soundtrack. Order inside a playlist is shuffled (never the same track twice in a row).

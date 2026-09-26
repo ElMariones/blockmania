@@ -194,6 +194,13 @@ Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/r
 - [x] Holo shelf label is just "HOLO SHELF" (owner: no designer-facing subtitles on screen).
 - [x] **Receipt overflow** (owner bug): a long receipt grew the tape past its rect, under the Hold box and cards. The tape now keeps its rect; lines scroll inside it, the newest stays in view, and the player can scroll back up (following resumes at the bottom or on the next placement). E2E `scenario_receipt` (R1–R4; the old tape grew to 416 px of its 292).
 
+## Owner requests, 2026-09-26 (selling items, money feedback)
+
+- [x] **Sell unused items** (GDD §26.1): `sell_item` in the shop and between placements, half the price rounded down (min 1), confirm in the round. E2E `scenario_wallet`.
+- [x] **Sell tab** (owner: the floating hover button "dont look too good"; §26.2): a full-height tab that unfolds from the card's right edge, SELL over coin + value.
+- [x] **Money animations and sounds** (§26.3): `BMWallet` (coins fly in and count up, coins fly out, flashes), bought cards fly into the rack or bag, sold cards spin away into coins, reroll deal-in, round payout line by line, clickable wallet with a coin flip and a ten-click fountain; 7 new sounds.
+- [x] Fixed on the way: item tile names had collapsed to 1 px (only the value showed; the Eraser tile looked empty), and the shop's Joker SELL label skipped translation.
+
 ## Owner requests, 2026-09-25 (translations)
 
 - [x] **Eleven UI languages**: English, Spanish, French, Italian, German, Dutch, Polish, Brazilian Portuguese, Japanese, Simplified and Traditional Chinese (all 1,442 messages; `tools/i18n/check.py` clean). Settings > Game > Language (SYSTEM follows the OS); switching rebuilds the screens in place. Rules text stays English in saves and results and is translated for display (`BMLoc.tf`). Blockhead gained the Latin accents; CJK comes from Fusion Pixel 10 px subsets (OFL). Guide and glossary: [docs/localization.md](docs/localization.md).

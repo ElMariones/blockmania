@@ -553,6 +553,8 @@ func apply_action(a: Dictionary) -> Dictionary:
 			return reroll_shop()
 		"sell":
 			return sell_joker(int(a.i))
+		"sell_item":
+			return sell_item(int(a.i))
 		"move":
 			return move_joker(int(a.from), int(a.to))
 		"leave_shop":
@@ -1112,6 +1114,23 @@ func sell_joker(index: int) -> Dictionary:
 	jokers_sold += 1
 	history.append({"a": "sell", "i": index})
 	var result := {"ok": true, "type": "sell", "item": id, "value": value}
+	if phase == Phase.ROUND:
+		result.merge(_after_round_action(), true)
+	return result
+
+
+## Sells an unused item for BMConsumables.sell_value: in the shop, or between placements.
+func sell_item(index: int) -> Dictionary:
+	if not (phase == Phase.SHOP or can_act_in_round()):
+		return _fail(BMLoc.m("Items can be sold in the shop or between placements."))
+	if index < 0 or index >= consumables.size():
+		return _fail(BMLoc.m("No item in that slot."))
+	var id := consumables[index]
+	var value := BMConsumables.sell_value(id)
+	consumables.remove_at(index)
+	credits = mini(BMRunConfig.CREDIT_CAP, credits + value)
+	history.append({"a": "sell_item", "i": index})
+	var result := {"ok": true, "type": "sell_item", "item": id, "value": value}
 	if phase == Phase.ROUND:
 		result.merge(_after_round_action(), true)
 	return result

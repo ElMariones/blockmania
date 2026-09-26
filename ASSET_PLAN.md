@@ -260,6 +260,16 @@ Original art authored as code (GDD §25). No new sounds: the new actions reuse e
 | Card effects shader: Negative (photographic negative), AGAIN (red with a slow pulse), Holo (chrome-foil rainbow sweep, pixelated); frozen under Reduced Motion, and every trait is also named on the card (NEGATIVE, AGAIN, LV2) | `game/presentation/shaders/card_fx.gdshader`, `BMCard.apply_fx` | In game; verified in shop and round screenshots at 1920×1080 |
 | 2×2 item tiles for 3–4 item slots (Item Pouch) | `game/ui/card.gd`, `game_screen.gd`, `shop_screen.gd` | In game; verified at 1920×1080 |
 
+## 12g. Selling items and the wallet (2026-09-26)
+
+Presentation for GDD §26, authored as code.
+
+| Deliverable | Source | Status |
+|---|---|---|
+| 7 sounds: `coin_flip` (thumb flick + spinning ring), `coin_catch` (palm slap), `coin_collect` (one coin lands, pitched up per coin), `coin_out` (purse snap + falling coins), `card_land` (paper flap + slap + bell), `card_poof` (whoosh + pop + glitter), `coin_jackpot` (rising coin run + chord) | `tools/audio/gen_sfx_money.py` → `assets/audio/sfx/` | In game; human listening pending |
+| Wallet widget (coin flip with shadow, number bounce and flash) | `game/ui/wallet.gd` | In game; verified in screenshots |
+| Flying cards (buy arc, sell spin-away), sell tab | `BMFx.fly_card`, `BMCard.add_sell_button` | In game; verified mid-flight at 1920×1080 |
+
 ## 13. Endless arcade mode (2026-09-23)
 
 The main menu has a code-drawn pixel infinity emblem on the Endless entry (with a game in progress it opens a Continue / New Game popup) and a local high-score view. Its cabinet reuses the original board, tray, block textures, clear waves, CRT option, particles, and existing SFX. The right rail now has a large Hold well with an occupied-shape drawing, recharge state, and drop highlight. The swirl shader has calm teal, tense rose, and celebratory multicolor moods; original tracks are grouped into matching playlists. At x5, a code-synthesized percussion layer joins the current track, with a stronger level at x8. High combos add capped drag trails, board pulse, larger score text, scoreward particles, confetti, and subtle shake. DOUBLE CLEAR, TRIPLE CLEAR, MEGA CLEAR, PERFECT, BLOCKSTORM, and CLEAN BOARD have prominent text feedback; an empty-board clear gets the largest celebration. Reduced motion retains score, Hold state, and callout text. The Endless screen and game-over card are code-built UI; no external media or generated-image art is used. Human comfort/listening review remains open.

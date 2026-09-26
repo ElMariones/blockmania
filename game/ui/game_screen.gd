@@ -28,7 +28,7 @@ var _moves_label: Label
 var _refresh_count: Label
 var _combo_label: Label
 var _combo_icon: TextureRect
-var _credits: BMHud.Counter
+var _wallet: BMWallet
 var _boss_panel: PanelContainer
 var _boss_box: VBoxContainer
 var _receipt: BMHud.Receipt
@@ -181,16 +181,8 @@ func _build() -> void:
 	var sp2 := Control.new()
 	sp2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	misc.add_child(sp2)
-	var cred_row := BMStyle.hbox(6)
-	cred_row.add_child(BMStyle.icon_rect("icon_coin", 0.75))
-	_credits = BMHud.Counter.new()
-	_credits.add_theme_font_override("font", BMStyle.font_bold)
-	_credits.add_theme_font_size_override("font_size", 30)
-	_credits.add_theme_color_override("font_color", BMStyle.SUN)
-	_credits.add_theme_color_override("font_outline_color", BMStyle.INK)
-	_credits.add_theme_constant_override("outline_size", 8)
-	cred_row.add_child(_credits)
-	misc.add_child(cred_row)
+	_wallet = BMWallet.new()
+	misc.add_child(_wallet)
 
 	# --- Left: boss + receipt ---
 	_boss_panel = BMStyle.panel("panel_plate", Vector4(8, 2, 8, 2))
@@ -261,7 +253,7 @@ func bind(new_run: BMRun) -> void:
 	_apply_motion()
 	_cancel_hold()
 	_score.set_target(run.round_state.score, true)
-	_credits.set_target(run.credits, true)
+	_wallet.set_amount(run.credits)
 	_tube.value = 0.0
 	refresh_all()
 	_receipt.print_rows([{"text": BMLoc.t("Round %d. Good luck!") % run.round_number, "color": Color(BMStyle.INK, 0.6)}])
@@ -285,7 +277,7 @@ func _apply_motion() -> void:
 	_marquee.reduced_motion = rm
 	_tube.reduced_motion = rm
 	_score.reduced_motion = rm
-	_credits.reduced_motion = rm
+	_wallet.reduced_motion = rm
 	_receipt.reduced_motion = rm
 	for s in slots:
 		s.reduced_motion = rm
@@ -321,7 +313,8 @@ func refresh_all() -> void:
 		+ ("\n" + BMLoc.t("HANGING ON: clear on your next placement to keep it.") if hanging else "")
 	_combo_icon.modulate = Color.WHITE if rs.combo > 0 else Color(1, 1, 1, 0.35)
 	_combo_label.modulate = Color.WHITE if rs.combo > 0 else Color(1, 1, 1, 0.5)
-	_credits.set_target(run.credits)
+	# A won round's Credits are counted on the result screen, so the rack wallet just takes them.
+	_wallet.sync(run.credits, run.phase != BMRun.Phase.ROUND)
 	board_view.boss_lights = boss != ""
 	board_view.lights_color = BMStyle.SUN if boss != "" and run.boss_is_mk2() else BMStyle.PINK
 	if BMMoodLayer.instance and visible:
@@ -425,10 +418,11 @@ func _refresh_jokers() -> void:
 				if to < _joker_cards.size():
 					BMStyle.focus_later(_joker_cards[to])
 		card.tooltip_body += BMLoc.t("\nDrag onto another Joker to reorder. Alt+Up/Down while focused also moves it.")
-		var ctrl := _joker_controls(i, id, can_edit)
-		card.hover_controls = ctrl
-		ctrl.visible = false
-		card.add_child(ctrl)
+		var loan := id == "loan_shark" and run.loan_debt > 0
+		var why := BMLoc.tf(BMLoc.m("Repay the loan first (%d Credits owed).") % run.loan_debt) if loan else ""
+		if not can_edit:
+			why = BMLoc.tf(BMLoc.m("Jokers can be sold in the shop or between placements."))
+		card.add_sell_button(BMJokers.sell_value(id), func() -> void: _confirm_sell(i), not can_edit or loan, why)
 		_jokers_box.add_child(card)
 		_joker_cards.append(card)
 	for i in maxi(0, run.joker_slots() - run.occupied_slots()):
@@ -439,22 +433,6 @@ func _refresh_jokers() -> void:
 		l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		empty.add_child(l)
 		_jokers_box.add_child(empty)
-
-
-## Floating toolbar shown while hovering a Joker: selling stays a button; drag to reorder.
-func _joker_controls(i: int, id: String, can_edit: bool) -> Control:
-	var wrap := Control.new()
-	wrap.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	wrap.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	var bar := BMStyle.hbox(4)
-	wrap.add_child(bar)
-	var sell := BMStyle.button(BMLoc.t("SELL +%d") % BMJokers.sell_value(id), func() -> void: _confirm_sell(i), "pink", 20)
-	sell.disabled = not can_edit
-	bar.add_child(sell)
-	wrap.resized.connect(func() -> void:
-		bar.reset_size()
-		bar.position = Vector2(wrap.size.x - bar.size.x - 10, wrap.size.y - bar.size.y - 8))
-	return wrap
 
 
 func _refresh_items() -> void:
@@ -476,6 +454,14 @@ func _refresh_items() -> void:
 		card.custom_minimum_size = item_size
 		var box := card.get_child(0) as VBoxContainer
 		var id := run.consumables[i]
+		card.set_meta("item_index", i)
+		card.reduced_motion = main.settings.reduced_motion
+		var sell_why := ""
+		if not run.can_act_in_round():
+			sell_why = BMLoc.tf(BMLoc.m("Items can be sold in the shop or between placements."))
+		elif not _tool.is_empty():
+			sell_why = BMLoc.t("Put the armed item away first.")
+		card.add_sell_button(BMConsumables.sell_value(id), func() -> void: _confirm_sell_item(i), sell_why != "", sell_why, tiles, 0.0 if tiles else 72.0)
 		if tiles:
 			_tile_controls(card, i, id, reason)
 			holder.add_child(card)
@@ -907,6 +893,8 @@ func _place_held(anchor: Vector2i) -> void:
 func _do_action(a: Dictionary) -> Dictionary:
 	if run == null:
 		return {}
+	var src := _card_of(a)
+	_item_from = src.get_global_rect().get_center() if src else _items_box.get_global_rect().get_center()
 	var r: Dictionary = main.act(a)
 	if not r.ok:
 		_set_message(BMLoc.tf(r.error), BMStyle.PINK_L)
@@ -955,23 +943,30 @@ func _do_action(a: Dictionary) -> Dictionary:
 					"double_down":
 						msg = BMLoc.tf_join(r.get("events", []), "  ")
 						sound = "loan_cash" if int(r.get("credits", 0)) > 0 else "deny"
-						if int(r.get("credits", 0)) > 0 and BMFx.instance:
-							BMFx.instance.coins(_items_box.get_global_rect().get_center(), _credits.get_global_rect().get_center(), mini(12, int(r.credits)))
+						if int(r.get("credits", 0)) > 0:
+							_wallet.gain(_item_from, int(r.credits))
 					"overclock":
 						msg = BMLoc.t("TURBO: NEXT PLACEMENT x2 MULT")
 					"coffee_break":
 						msg = BMLoc.t("COFFEE BREAK: +1 REFRESH")
 					"coin_roll":
 						msg = BMLoc.t("COIN ROLL: +%d CREDITS") % int(r.get("credits", 0))
-						if BMFx.instance:
-							BMFx.instance.coins(_items_box.get_global_rect().get_center(), _credits.get_global_rect().get_center(), mini(10, int(r.get("credits", 0))))
+						_wallet.gain(_item_from, int(r.get("credits", 0)))
 				_set_message(msg, BMStyle.MINT_L)
 				BMAudio.sfx(sound)
 			if r.item == "second_tray":
 				_spin_tray(0.1, String(r.get("hand", "")))
-		"sell":
-			_set_message(BMLoc.t("Sold %s for %d Credits.") % [BMJokers.display_name(r.item), r.value], BMStyle.SUN)
-			BMAudio.sfx("sell")
+		"sell", "sell_item":
+			var sold_name := BMJokers.display_name(r.item) if r.type == "sell" else BMConsumables.display_name(r.item)
+			_set_message(BMLoc.t("Sold %s for %d Credits.") % [sold_name, r.value], BMStyle.SUN)
+			var fly := BMFx.instance.fly_card(src, _item_from, "sell") if BMFx.instance and src else 0.0
+			_end_tool(false) # an armed item may have moved to another slot
+			if fly > 0.0:
+				BMAudio.sfx_later("card_poof", 0.1)
+				BMFx.instance.burst(_item_from, [BMStyle.SUN, BMStyle.SUN_L, BMStyle.CREAM], 14, 300.0, 8.0)
+			else:
+				BMAudio.sfx("sell")
+			_wallet.gain(_item_from, int(r.value))
 	var tray_events: Array = r.get("tray_events", [])
 	if tray_events.has("New tray"):
 		_spin_tray(0.3, String(r.get("tray_hand", "")))
@@ -1000,8 +995,9 @@ func _present_placement(r: Dictionary) -> void:
 		var size_px := 40 if r.points < 300 else (60 if r.points < 1200 else 80)
 		fx.pop_text(center + Vector2(0, -30), "+" + BMUI.fmt_score(r.points), BMStyle.SUN if r.lines > 0 else BMStyle.CREAM, size_px, 90.0, 1.0)
 		fx.stream(center, _score.get_global_rect().get_center(), BMStyle.SUN, mini(18, 4 + r.lines * 5))
-		if r.credits_gained > 0:
-			fx.coins(center, _credits.get_global_rect().get_center(), mini(8, r.credits_gained * 2))
+	if int(r.credits_gained) > 0:
+		_wallet.gain(center, int(r.credits_gained))
+	if fx:
 		if r.lines >= 2:
 			var words := ["", "", BMLoc.t("DOUBLE!"), BMLoc.t("TRIPLE!"), BMLoc.t("QUAD!"), BMLoc.t("MEGA!")]
 			fx.pop_text(board_view.get_global_rect().get_center(), words[mini(r.lines, 5)], BMStyle.PINK_L, 80, 40.0, 1.2)
@@ -1123,8 +1119,7 @@ func _play_placement_sounds(r: Dictionary) -> void:
 	if stamp != "" and (stamp != "encore" or r.lines > 0):
 		BMAudio.stamp_sfx(stamp, 0.14)
 	BMAudio.sfx_later("score", 0.35, 1.0 + minf(0.3, r.lines * 0.1))
-	for i in mini(4, int(r.credits_gained)):
-		BMAudio.sfx_later("coin", 0.4 + i * 0.09, 1.0 + i * 0.06)
+	# Credits clink as their coins land on the wallet (BMWallet.gain).
 
 
 ## A new deal spins the tray like three slot reels that stop left to right, then reveals the
@@ -1190,7 +1185,7 @@ func _reveal_hand(hand: String) -> void:
 		BMHands.GRAND_SLAM:
 			fx.confetti(Rect2(Vector2.ZERO, size), 220)
 			for i in 3:
-				fx.coins(slots[i].get_global_rect().get_center(), _credits.get_global_rect().get_center(), 6)
+				fx.coins(slots[i].get_global_rect().get_center(), _wallet.coin_center(), 6)
 			fx.shake(12.0)
 			if BMCrtLayer.instance:
 				BMCrtLayer.instance.shock(0.8)
@@ -1277,6 +1272,14 @@ func _write_receipt(r: Dictionary) -> void:
 	for f in r.get("feats", []):
 		rows.append({"text": BMLoc.t("Feat: %s") % BMLoc.t(BMFeats.get_def(f).name), "color": Color("#a86a00"), "bold": true})
 	_receipt.print_rows(rows)
+
+
+func _confirm_sell_item(index: int) -> void:
+	if index < 0 or index >= run.consumables.size():
+		return
+	var id := run.consumables[index]
+	_show_dialog(BMLoc.t("Sell %s for %d Credits?") % [BMConsumables.display_name(id), BMConsumables.sell_value(id)],
+		[[BMLoc.t("SELL"), "pink", func() -> void: _do_action({"a": "sell_item", "i": index})], [BMLoc.t("KEEP"), "plum", func() -> void: pass]])
 
 
 func _confirm_sell(index: int) -> void:
@@ -1536,8 +1539,6 @@ func _show_round_result() -> void:
 	var res := run.last_round_result
 	var v := _modal("panel_plate", 660)
 	BMAudio.sfx("jingle_win")
-	for i in mini(5, int(res.get("credits_gained", 0))):
-		BMAudio.sfx_later("coin", 0.9 + i * 0.1, 1.0 + i * 0.05)
 	var t := BMStyle.label(BMLoc.t("ROUND %d CLEARED!") % res.round, 60, BMStyle.SUN, true, 14)
 	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	t.add_theme_color_override("font_shadow_color", Color(BMStyle.PINK, 0.7))
@@ -1550,14 +1551,17 @@ func _show_round_result() -> void:
 	var paper := BMStyle.panel("panel_paper", Vector4(16, 8, 16, 14))
 	var pv := BMStyle.vbox(4)
 	paper.add_child(pv)
+	var rows: Array = [] ## [row, value label, Credits]
 	for line in res.credit_lines:
 		var row := BMStyle.hbox(8)
 		var l := BMStyle.label(BMLoc.tf(line.label), 20, BMStyle.INK)
 		l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(l)
-		row.add_child(BMStyle.label("%+d" % line.value, 20, Color("#8a5a00") if int(line.value) >= 0 else Color("#c42848"), true))
+		var val := BMStyle.label("%+d" % line.value, 20, Color("#8a5a00") if int(line.value) >= 0 else Color("#c42848"), true)
+		row.add_child(val)
 		row.add_child(BMStyle.icon_rect("icon_coin", 0.5))
 		pv.add_child(row)
+		rows.append([row, val, int(line.value)])
 	# Total earned (after the Credit cap), then the wallet balance, so the two never get confused.
 	pv.add_child(BMHud.Dashes.new())
 	var trow := BMStyle.hbox(8)
@@ -1575,8 +1579,14 @@ func _show_round_result() -> void:
 	var total := BMStyle.hbox(8)
 	total.alignment = BoxContainer.ALIGNMENT_CENTER
 	total.add_child(BMStyle.label(BMLoc.t("YOU HAVE"), 30, BMStyle.CREAM, true, 8))
-	total.add_child(BMStyle.icon_rect("icon_coin", 1.0))
-	total.add_child(BMStyle.label("%d" % run.credits, 40, BMStyle.SUN, true, 10))
+	var purse := BMWallet.new()
+	purse.name = "ResultWallet"
+	purse.font_size = 40
+	purse.icon_scale = 1.0
+	purse.outline = 10
+	purse.show_pops = false # each line already shows its amount
+	purse.reduced_motion = main.settings.reduced_motion
+	total.add_child(purse)
 	v.add_child(total)
 	var last: bool = res.round >= BMRunConfig.ROUND_COUNT and not run.overtime
 	var b := BMStyle.button(BMLoc.t("FINISH RUN") if last else BMLoc.t("TO THE SHOP"), func() -> void:
@@ -1587,7 +1597,40 @@ func _show_round_result() -> void:
 	BMStyle.focus_later(b)
 	if BMFx.instance:
 		BMFx.instance.confetti(Rect2(Vector2(0, 0), size), 160)
-		BMFx.instance.coins(board_view.get_global_rect().get_center(), _credits.get_global_rect().get_center(), 8)
+	_pay_out(v, purse, rows, trow, run.credits, int(res.credits_gained))
+
+
+## The round's Credits print line by line: each line's coins fly into YOU HAVE, which counts up
+## from what you had. Reduced Motion shows everything at once. The tween belongs to the modal,
+## so closing it early simply stops the show (the run already holds the Credits).
+func _pay_out(modal: Control, purse: BMWallet, rows: Array, total_row: Control, credits: int, gained: int) -> void:
+	if main.settings.reduced_motion:
+		purse.set_amount(credits)
+		return
+	purse.set_amount(credits - gained)
+	for r in rows:
+		(r[0] as Control).modulate.a = 0.0
+	total_row.modulate.a = 0.0
+	var tw := modal.create_tween()
+	tw.tween_interval(0.45)
+	for k in rows.size():
+		var row: Control = rows[k][0]
+		var val: Control = rows[k][1]
+		var amount: int = rows[k][2]
+		tw.tween_callback(func() -> void:
+			row.modulate.a = 1.0
+			BMAudio.sfx("print", 1.0 + 0.05 * k)
+			var from := val.get_global_rect().get_center()
+			if amount > 0:
+				purse.gain(from, amount, mini(amount, 6))
+			elif amount < 0:
+				purse.spend(from, -amount))
+		tw.tween_interval(0.28)
+	tw.tween_interval(0.5)
+	tw.tween_callback(func() -> void:
+		total_row.modulate.a = 1.0
+		BMAudio.sfx("tick")
+		purse.sync(credits))
 
 
 func _show_run_end() -> void:
@@ -2001,6 +2044,22 @@ func _commit_tool(target: Dictionary) -> void:
 var _last_tool := {}
 ## Kits unlocked by the run that just ended (shown on the run-end screen).
 var _new_kits: Array = []
+## Where the card of the current action sat (coins from an item or a sale start there).
+var _item_from := Vector2.ZERO
+
+
+## The rack card an action starts from (an item used or sold, a Joker sold), or null.
+func _card_of(a: Dictionary) -> Control:
+	var i := int(a.get("i", -1))
+	match String(a.get("a", "")):
+		"use", "sell_item":
+			var holder: Container = _items_grid if _items_grid.visible else _items_box
+			if i >= 0 and i < holder.get_child_count() and holder.get_child(i) is BMCard:
+				return holder.get_child(i) as Control
+		"sell":
+			if i >= 0 and i < _joker_cards.size():
+				return _joker_cards[i]
+	return null
 
 
 ## Presentation for a committed item: the tool arrives, then the cells go (state has already

@@ -995,7 +995,7 @@ msgid "Refresh the current tray without spending the round's free Refresh."
 msgstr "Tauscht die aktuelle Auslage, ohne den kostenlosen Tausch der Runde zu verbrauchen."
 
 #. rules text (shown through BMLoc.tf)
-#: game/content/consumables.gd:14 game/run/run.gd:773
+#: game/content/consumables.gd:14 game/run/run.gd:775
 msgid "Second Tray"
 msgstr "Zweite Auslage"
 
@@ -1105,7 +1105,7 @@ msgid "Coffee Break"
 msgstr "Kaffeepause"
 
 #. rules text (shown through BMLoc.tf)
-#: game/content/consumables.gd:32 game/run/run.gd:1403
+#: game/content/consumables.gd:32 game/run/run.gd:1422
 msgid "Cash Out"
 msgstr "Auszahlung"
 
@@ -1121,36 +1121,36 @@ msgstr "Entwurf"
 msgid "Swap one tray piece for a temporary 1-3 cell piece you choose."
 msgstr "Tausche ein Teil der Auslage gegen ein temporäres Teil mit 1-3 Feldern deiner Wahl."
 
-#: game/content/consumables.gd:125
+#: game/content/consumables.gd:130
 #, c-format
 msgid "+%s Chips"
 msgstr "+%s Chips"
 
-#: game/content/consumables.gd:127
+#: game/content/consumables.gd:132
 #, c-format
 msgid "+%s Mult"
 msgstr "+%s Mult"
 
-#: game/content/consumables.gd:129
+#: game/content/consumables.gd:134
 #, c-format
 msgid "+%d Credit"
 msgid_plural "+%d Credits"
 msgstr[0] "+%d Credit"
 msgstr[1] "+%d Credits"
 
-#: game/content/consumables.gd:131
+#: game/content/consumables.gd:136
 #, c-format
 msgid "Win +%d"
 msgstr "Gewinn +%d"
 
-#: game/content/consumables.gd:134
+#: game/content/consumables.gd:139
 #, c-format
 msgid "%d free Joker slot"
 msgid_plural "%d free Joker slots"
 msgstr[0] "%d freier Joker-Platz"
 msgstr[1] "%d freie Joker-Plätze"
 
-#: game/content/consumables.gd:137
+#: game/content/consumables.gd:142
 #, c-format
 msgid "%d unstamped piece"
 msgid_plural "%d unstamped pieces"
@@ -1352,7 +1352,7 @@ msgid "+2 Credits after a round won with at least two placements unused."
 msgstr "+2 Credits nach einer gewonnenen Runde mit mindestens zwei ungenutzten Zügen."
 
 #. rules text (shown through BMLoc.tf)
-#: game/content/jokers.gd:32 game/run/run.gd:1401
+#: game/content/jokers.gd:32 game/run/run.gd:1420
 msgid "Spare Parts"
 msgstr "Ersatzteile"
 
@@ -2036,7 +2036,7 @@ msgstr "Abgeräumt (Runde): %d"
 msgid "Recent: %s"
 msgstr "Zuletzt: %s"
 
-#: game/content/jokers.gd:444 game/content/jokers.gd:460 game/ui/game_screen.gd:1649
+#: game/content/jokers.gd:444 game/content/jokers.gd:460 game/ui/game_screen.gd:1691
 msgid "none"
 msgstr "keine"
 
@@ -3128,7 +3128,7 @@ msgid "BLOCKSTORM"
 msgstr "BLOCKSTURM"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/endless.gd:204 game/run/run.gd:618
+#: game/rules/endless.gd:204 game/run/run.gd:620
 msgid "Hold is available again after a placement."
 msgstr "Halten ist nach einem Zug wieder verfügbar."
 
@@ -3491,7 +3491,7 @@ msgid "%s, AGAIN"
 msgstr "%s, NOCHMAL"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/achievement_store.gd:144 game/ui/game_screen.gd:1638
+#: game/run/achievement_store.gd:144 game/ui/game_screen.gd:1680
 msgid "Best placement"
 msgstr "Bester Zug"
 
@@ -3516,7 +3516,7 @@ msgid "Disabled by The Color Blind: color effects are off this round."
 msgstr "Deaktiviert durch den Farbenblinden: Farbeffekte sind in dieser Runde aus."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:478
+#: game/run/run.gd:478 game/run/run.gd:1127
 msgid "No item in that slot."
 msgstr "Kein Gegenstand auf diesem Platz."
 
@@ -3531,7 +3531,7 @@ msgid "The Lockdown disables tray refreshes."
 msgstr "Die Abriegelung sperrt das Tauschen der Auslage."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:487 game/run/run.gd:496 game/run/run.gd:515 game/run/run.gd:671
+#: game/run/run.gd:487 game/run/run.gd:496 game/run/run.gd:515 game/run/run.gd:673
 msgid "The tray is empty."
 msgstr "Die Auslage ist leer."
 
@@ -3562,7 +3562,7 @@ msgid "You have no Credits to double."
 msgstr "Du hast keine Credits zum Verdoppeln."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:510 game/run/run.gd:667
+#: game/run/run.gd:510 game/run/run.gd:669
 msgid "The Lockdown disables Refresh this round."
 msgstr "Die Abriegelung sperrt in dieser Runde den Tausch."
 
@@ -3582,94 +3582,94 @@ msgid "Only Extra Turn helps when placements are spent."
 msgstr "Ohne Züge hilft nur noch Extrazug."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:581
+#: game/run/run.gd:583
 msgid "Cannot place right now."
 msgstr "Gerade kann nicht gelegt werden."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:583 game/run/run.gd:850
+#: game/run/run.gd:585 game/run/run.gd:852
 msgid "That tray slot is empty."
 msgstr "Dieser Platz der Auslage ist leer."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:585
+#: game/run/run.gd:587
 msgid "The Warden barred this slot. Clear a line to free it."
 msgstr "Der Wärter hat diesen Platz gesperrt. Räume eine Linie ab, um ihn freizugeben."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:587
+#: game/run/run.gd:589
 msgid "The shape does not fit there."
 msgstr "Die Form passt dort nicht hin."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:604
+#: game/run/run.gd:606
 msgid "The Undertaker raised a tombstone"
 msgstr "Der Totengräber hat einen Grabstein errichtet"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:613
+#: game/run/run.gd:615
 msgid "Cannot hold right now."
 msgstr "Halten ist gerade nicht möglich."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:615 game/ui/game_screen.gd:746
+#: game/run/run.gd:617 game/ui/game_screen.gd:732
 msgid "The Lockdown Mk II disables Hold this round."
 msgstr "Die Abriegelung Mk II sperrt in dieser Runde das Halten."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:620
+#: game/run/run.gd:622
 msgid "Choose an open tray slot."
 msgstr "Wähle einen freien Platz der Auslage."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:624
+#: game/run/run.gd:626
 msgid "Nothing to hold."
 msgstr "Nichts zum Halten."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:634 game/run/run.gd:1328
+#: game/run/run.gd:636 game/run/run.gd:1347
 msgid "New tray"
 msgstr "Neue Auslage"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:637
+#: game/run/run.gd:639
 #, c-format
 msgid "Held %s"
 msgstr "Gehalten: %s"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:641
+#: game/run/run.gd:643
 #, c-format
 msgid "Swapped in %s"
 msgstr "Eingetauscht: %s"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:654 game/run/run.gd:942 game/run/run.gd:962 game/run/run.gd:982 game/run/run.gd:1068 game/run/run.gd:1090
+#: game/run/run.gd:656 game/run/run.gd:944 game/run/run.gd:964 game/run/run.gd:984 game/run/run.gd:1070 game/run/run.gd:1092
 msgid "The shop is closed."
 msgstr "Der Laden ist geschlossen."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:657
+#: game/run/run.gd:659
 msgid "No round card there."
 msgstr "Dort ist keine Rundenkarte."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:665
+#: game/run/run.gd:667
 msgid "Cannot refresh right now."
 msgstr "Tauschen ist gerade nicht möglich."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:669
+#: game/run/run.gd:671
 msgid "No Refresh left this round."
 msgstr "In dieser Runde ist kein Tausch mehr übrig."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:674
+#: game/run/run.gd:676
 msgid "Refresh"
 msgstr "Tausch"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:698
+#: game/run/run.gd:700
 #, c-format
 msgid "%s removed %d block"
 msgid_plural "%s removed %d blocks"
@@ -3677,185 +3677,185 @@ msgstr[0] "%s entfernte %d Block"
 msgstr[1] "%s entfernte %d Blöcke"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:731
+#: game/run/run.gd:733
 msgid "Phantom Line: your next clear counts one extra line"
 msgstr "Phantomlinie: Dein nächstes Abräumen zählt eine Linie mehr"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:743
+#: game/run/run.gd:745
 #, c-format
 msgid "Lucky Draw: %s joined your rack!"
 msgstr "Glückslos: %s ist jetzt in deinem Regal!"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:745
+#: game/run/run.gd:747
 msgid "Lucky Draw: no luck this time"
 msgstr "Glückslos: diesmal kein Glück"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:761
+#: game/run/run.gd:763
 #, c-format
 msgid "Mystery Stamp: your %s got a %s"
 msgstr "Wunderstempel: Dein %s bekommt einen %s"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:767
+#: game/run/run.gd:769
 #, c-format
 msgid "Double Down: +%d Credits!"
 msgstr "Alles oder nichts: +%d Credits!"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:770
+#: game/run/run.gd:772
 msgid "Double Down: no luck this time"
 msgstr "Alles oder nichts: diesmal kein Glück"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:813
+#: game/run/run.gd:815
 msgid "Choose blocks on the board."
 msgstr "Wähle Blöcke auf dem Brett."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:817
+#: game/run/run.gd:819
 #, c-format
 msgid "Choose 1 to %d blocks."
 msgstr "Wähle 1 bis %d Blöcke."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:822
+#: game/run/run.gd:824
 msgid "Choose where to hit."
 msgstr "Wähle, wo du zuschlägst."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:828 game/ui/game_screen.gd:1937
+#: game/run/run.gd:830 game/ui/game_screen.gd:1979
 msgid "Nothing to hit there."
 msgstr "Dort ist nichts zum Treffen."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:833 game/run/run.gd:854 game/run/run.gd:1037
+#: game/run/run.gd:835 game/run/run.gd:856 game/run/run.gd:1039
 msgid "Choose a color."
 msgstr "Wähle eine Farbe."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:840
+#: game/run/run.gd:842
 #, c-format
 msgid "No %s blocks on the board."
 msgstr "Keine Blöcke der Farbe %s auf dem Brett."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:845
+#: game/run/run.gd:847
 msgid "Choose a tray slot."
 msgstr "Wähle einen Platz der Auslage."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:848
+#: game/run/run.gd:850
 msgid "The Warden barred that slot."
 msgstr "Der Wärter hat diesen Platz gesperrt."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:856
+#: game/run/run.gd:858
 #, c-format
 msgid "That piece is already %s."
 msgstr "Dieses Teil hat schon die Farbe %s."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:861
+#: game/run/run.gd:863
 msgid "Choose a shape."
 msgstr "Wähle eine Form."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:870
+#: game/run/run.gd:872
 msgid "Cannot patch right now."
 msgstr "Flicken ist gerade nicht möglich."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:872
+#: game/run/run.gd:874
 msgid "Patch Panel is not ready."
 msgstr "Das Flickenfeld ist nicht bereit."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:874
+#: game/run/run.gd:876
 msgid "Choose a block on the board."
 msgstr "Wähle einen Block auf dem Brett."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:880
+#: game/run/run.gd:882
 msgid "Patch Panel removed a block"
 msgstr "Das Flickenfeld hat einen Block entfernt"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:887
+#: game/run/run.gd:889
 msgid "You can only concede when stuck."
 msgstr "Aufgeben kannst du nur, wenn du feststeckst."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:889
+#: game/run/run.gd:891
 msgid "Conceded: no legal placement remained."
 msgstr "Aufgegeben: Kein gültiger Zug war mehr möglich."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:889
+#: game/run/run.gd:891
 msgid "Conceded: out of placements."
 msgstr "Aufgegeben: Keine Züge mehr."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:899
+#: game/run/run.gd:901
 msgid "The run is already over."
 msgstr "Die Partie ist bereits vorbei."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:902
+#: game/run/run.gd:904
 msgid "Run abandoned."
 msgstr "Partie abgebrochen."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:908
+#: game/run/run.gd:910
 msgid "No round result to continue from."
 msgstr "Kein Rundenergebnis zum Fortsetzen."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:912
+#: game/run/run.gd:914
 #, c-format
 msgid "All %d rounds cleared!"
 msgstr "Alle %d Runden geschafft!"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:922
+#: game/run/run.gd:924
 msgid "Overtime starts after winning the final round."
 msgstr "Die Verlängerung beginnt nach dem Sieg in der letzten Runde."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:935
+#: game/run/run.gd:937
 #, c-format
 msgid "You broke the machine in round %d: one placement hit its limit of %s points."
 msgstr "Du hast die Maschine in Runde %d kaputt gemacht: Ein Zug erreichte ihr Limit von %s Punkten."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:944 game/run/run.gd:964 game/run/run.gd:984 game/run/run.gd:1070 game/run/run.gd:1778
+#: game/run/run.gd:946 game/run/run.gd:966 game/run/run.gd:986 game/run/run.gd:1072 game/run/run.gd:1797
 msgid "That offer is gone."
 msgstr "Dieses Angebot ist weg."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:948 game/run/run.gd:968 game/run/run.gd:988 game/run/run.gd:1073 game/run/run.gd:1093 game/run/run.gd:1782
+#: game/run/run.gd:950 game/run/run.gd:970 game/run/run.gd:990 game/run/run.gd:1075 game/run/run.gd:1095 game/run/run.gd:1801
 msgid "Not enough Credits."
 msgstr "Nicht genug Credits."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:950 game/run/run.gd:1540 game/run/run.gd:1694
+#: game/run/run.gd:952 game/run/run.gd:1559 game/run/run.gd:1713
 msgid "Joker slots are full. Sell a Joker first."
 msgstr "Die Joker-Plätze sind voll. Verkauf zuerst einen Joker."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:970 game/run/run.gd:1545 game/ui/shop_screen.gd:599
+#: game/run/run.gd:972 game/run/run.gd:1564 game/ui/shop_screen.gd:759
 msgid "Item slots are full. Use an item first."
 msgstr "Die Gegenstandsplätze sind voll. Benutze zuerst einen Gegenstand."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:995
+#: game/run/run.gd:997
 msgid "This card does not target pieces."
 msgstr "Diese Karte zielt nicht auf Teile."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:997
+#: game/run/run.gd:999
 #, c-format
 msgid "Choose 1 to %d piece."
 msgid_plural "Choose 1 to %d pieces."
@@ -3863,89 +3863,94 @@ msgstr[0] "Wähle 1 bis %d Teil."
 msgstr[1] "Wähle 1 bis %d Teile."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1002
+#: game/run/run.gd:1004
 msgid "That piece is not in your bag."
 msgstr "Dieses Teil ist nicht in deinem Beutel."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1008
+#: game/run/run.gd:1010
 #, c-format
 msgid "A chosen piece is already %s."
 msgstr "Ein gewähltes Teil ist bereits aus %s."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1014
+#: game/run/run.gd:1016
 msgid "That piece already has this stamp."
 msgstr "Dieses Teil hat diesen Stempel schon."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1019 game/run/run.gd:1075
+#: game/run/run.gd:1021 game/run/run.gd:1077
 #, c-format
 msgid "Your bag is full (%d pieces)."
 msgstr "Dein Beutel ist voll (%d Teile)."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1024
+#: game/run/run.gd:1026
 #, c-format
 msgid "Your bag must keep at least %d pieces."
 msgstr "Dein Beutel muss mindestens %d Teile behalten."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1045
+#: game/run/run.gd:1047
 #, c-format
 msgid "Your Joker rack is already at %d slots."
 msgstr "Dein Joker-Regal hat bereits %d Plätze."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1049
+#: game/run/run.gd:1051
 #, c-format
 msgid "You already have %d item slots."
 msgstr "Du hast schon %d Gegenstandsplätze."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1054 game/run/run.gd:1689
+#: game/run/run.gd:1056 game/run/run.gd:1708
 msgid "No scoring Joker can gain a level."
 msgstr "Kein Punkte-Joker kann eine Stufe aufsteigen."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1103
+#: game/run/run.gd:1105 game/ui/game_screen.gd:424
 msgid "Jokers can be sold in the shop or between placements."
 msgstr "Joker kannst du im Laden oder zwischen den Zügen verkaufen."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1105
+#: game/run/run.gd:1107
 msgid "No Joker in that slot."
 msgstr "Kein Joker auf diesem Platz."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1108
+#: game/run/run.gd:1110 game/ui/game_screen.gd:422 game/ui/shop_screen.gd:816
 #, c-format
 msgid "Repay the loan first (%d Credits owed)."
 msgstr "Zahl zuerst den Kredit zurück (%d Credits Schulden)."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1122
+#: game/run/run.gd:1125 game/ui/game_screen.gd:461
+msgid "Items can be sold in the shop or between placements."
+msgstr "Gegenstände kannst du im Laden oder zwischen zwei Zügen verkaufen."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1141
 msgid "Jokers can be reordered in the shop or between placements."
 msgstr "Joker kannst du im Laden oder zwischen den Zügen umsortieren."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1124
+#: game/run/run.gd:1143
 msgid "Invalid Joker move."
 msgstr "Ungültige Joker-Verschiebung."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1285 game/run/run.gd:1331
+#: game/run/run.gd:1304 game/run/run.gd:1350
 msgid "No piece in your bag fits: a temporary Single was dealt"
 msgstr "Kein Teil aus deinem Beutel passt: Ein temporäres Einzel wurde ausgeteilt"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1290
+#: game/run/run.gd:1309
 #, c-format
 msgid "Card Sharp: %s!"
 msgstr "Kartenhai: %s!"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1296
+#: game/run/run.gd:1315
 #, c-format
 msgid "Second Look: +%d placement"
 msgid_plural "Second Look: +%d placements"
@@ -3953,51 +3958,51 @@ msgstr[0] "Zweiter Blick: +%d Zug"
 msgstr[1] "Zweiter Blick: +%d Züge"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1336
+#: game/run/run.gd:1355
 #, c-format
 msgid "Out of placements: %d / %d points."
 msgstr "Keine Züge mehr: %d / %d Punkte."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1359
+#: game/run/run.gd:1378
 msgid "Tiny Insurance: a Single replaced a stuck shape"
 msgstr "Mini-Versicherung: Ein Einzel ersetzte eine festsitzende Form"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1363
+#: game/run/run.gd:1382
 msgid "No offered shape fits and no rescue remains."
 msgstr "Keine angebotene Form passt und es gibt keine Rettung mehr."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1392
+#: game/run/run.gd:1411
 msgid "Round won"
 msgstr "Runde gewonnen"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1395
+#: game/run/run.gd:1414
 #, c-format
 msgid "Unused placements (%d)"
 msgstr "Ungenutzte Züge (%d)"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1397
+#: game/run/run.gd:1416
 msgid "Boss defeated"
 msgstr "Boss besiegt"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1409
+#: game/run/run.gd:1428
 #, c-format
 msgid "Overkill (%s of target)"
 msgstr "Overkill (%s des Ziels)"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1412
+#: game/run/run.gd:1431
 #, c-format
 msgid "%s bonus"
 msgstr "Bonus: %s"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1416
+#: game/run/run.gd:1435
 #, c-format
 msgid "Thrift (%d unused Refresh)"
 msgid_plural "Thrift (%d unused Refreshes)"
@@ -4005,107 +4010,107 @@ msgstr[0] "Sparsam (%d ungenutzter Tausch)"
 msgstr[1] "Sparsam (%d ungenutzte Tausche)"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1421
+#: game/run/run.gd:1440
 #, c-format
 msgid "Interest (%d held)"
 msgstr "Zinsen (%d im Besitz)"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1426
+#: game/run/run.gd:1445
 #, c-format
 msgid "Overachiever grew to +%s Mult"
 msgstr "Streber wuchs auf +%s Mult"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1429
+#: game/run/run.gd:1448
 #, c-format
 msgid "Hot Streak heated up to x%s Mult"
 msgstr "Glückssträhne heizte auf x%s Mult"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1436
+#: game/run/run.gd:1455
 #, c-format
 msgid "Treasure Hunt: found %s"
 msgstr "Schatzsuche: %s gefunden"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1439
+#: game/run/run.gd:1458
 #, c-format
 msgid "Scholarship: %s is now level %d"
 msgstr "Stipendium: %s ist jetzt Stufe %d"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1446
+#: game/run/run.gd:1465
 #, c-format
 msgid "Vending Machine dropped %s"
 msgstr "Der Verkaufsautomat warf %s aus"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1450
+#: game/run/run.gd:1469
 msgid "Loan Shark repayment"
 msgstr "Rate an den Kredithai"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1533
+#: game/run/run.gd:1552
 msgid "Nothing in the crate there."
 msgstr "Dort ist nichts in der Kiste."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1538
+#: game/run/run.gd:1557
 msgid "That offer is empty."
 msgstr "Dieses Angebot ist leer."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1679 game/run/run.gd:1697
+#: game/run/run.gd:1698 game/run/run.gd:1716
 #, c-format
 msgid "Your rack already has %d Negative Jokers."
 msgstr "Dein Regal hat schon %d negative Joker."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1681
+#: game/run/run.gd:1700
 msgid "No Joker to turn Negative."
 msgstr "Kein Joker, der negativ werden kann."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1684
+#: game/run/run.gd:1703
 #, c-format
 msgid "Your rack already has %d AGAIN Jokers."
 msgstr "Dein Regal hat schon %d NOCHMAL-Joker."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1686
+#: game/run/run.gd:1705
 msgid "No scoring Joker without AGAIN."
 msgstr "Kein Punkte-Joker ohne NOCHMAL."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1692
+#: game/run/run.gd:1711
 msgid "You already own that Legendary."
 msgstr "Diesen legendären Joker hast du schon."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1699
+#: game/run/run.gd:1718
 msgid "No Joker to copy."
 msgstr "Kein Joker zum Kopieren."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1701
+#: game/run/run.gd:1720
 msgid "Your rack is full."
 msgstr "Dein Regal ist voll."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1797
+#: game/run/run.gd:1816
 #, c-format
 msgid "%s turned Negative: it takes no slot"
 msgstr "%s wird negativ: belegt keinen Platz"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1806
+#: game/run/run.gd:1825
 #, c-format
 msgid "%s gained AGAIN"
 msgstr "%s erhält NOCHMAL"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1814
+#: game/run/run.gd:1833
 #, c-format
 msgid "%d shape family gained a level"
 msgid_plural "%d shape families gained a level"
@@ -4113,7 +4118,7 @@ msgstr[0] "%d Formfamilie steigt eine Stufe"
 msgstr[1] "%d Formfamilien steigen eine Stufe"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1821
+#: game/run/run.gd:1840
 #, c-format
 msgid "%d Joker gained a level"
 msgid_plural "%d Jokers gained a level"
@@ -4121,13 +4126,13 @@ msgstr[0] "%d Joker steigt eine Stufe"
 msgstr[1] "%d Joker steigen eine Stufe"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1826
+#: game/run/run.gd:1845
 #, c-format
 msgid "%s joined your rack"
 msgstr "%s ist jetzt in deinem Regal"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1835
+#: game/run/run.gd:1854
 #, c-format
 msgid "Hologram: a Negative copy of %s"
 msgstr "Hologramm: eine negative Kopie von %s"
@@ -4136,7 +4141,7 @@ msgstr "Hologramm: eine negative Kopie von %s"
 msgid "ACHIEVEMENT UNLOCKED"
 msgstr "ERFOLG FREIGESCHALTET"
 
-#: game/ui/achievement_toast.gd:68 game/ui/shop_screen.gd:495
+#: game/ui/achievement_toast.gd:68 game/ui/shop_screen.gd:655
 msgid "LEGENDARY!"
 msgstr "LEGENDÄR!"
 
@@ -4201,7 +4206,7 @@ msgstr "wird zurückgemischt, wenn der Nachziehstapel leer ist"
 msgid "(empty)"
 msgstr "(leer)"
 
-#: game/ui/bag_view.gd:128 game/ui/game_screen.gd:230 game/ui/settings_menu.gd:441 game/ui/shop_screen.gd:166
+#: game/ui/bag_view.gd:128 game/ui/game_screen.gd:222 game/ui/settings_menu.gd:441 game/ui/shop_screen.gd:160
 msgid "BAG"
 msgstr "BEUTEL"
 
@@ -4252,102 +4257,114 @@ msgstr "oder klick einen Platz an  |  Rechtsklick zum Abbrechen"
 msgid "GRAB IT AGAIN, OR CLICK A SLOT"
 msgstr "NOCHMAL PACKEN ODER PLATZ ANKLICKEN"
 
-#: game/ui/card.gd:178
+#: game/ui/card.gd:131
+#, c-format
+msgid "SELL +%d"
+msgstr "VERKAUFEN +%d"
+
+#: game/ui/card.gd:136
+#, c-format
+msgid "Sell it for %d Credit."
+msgid_plural "Sell it for %d Credits."
+msgstr[0] "Für %d Credit verkaufen."
+msgstr[1] "Für %d Credits verkaufen."
+
+#: game/ui/card.gd:203
 #, c-format
 msgid "LV%d"
 msgstr "ST%d"
 
-#: game/ui/card.gd:180
+#: game/ui/card.gd:205
 msgid "NEGATIVE"
 msgstr "NEGATIV"
 
-#: game/ui/card.gd:182
+#: game/ui/card.gd:207
 msgid "AGAIN"
 msgstr "NOCHMAL"
 
-#: game/ui/card.gd:190 game/ui/card.gd:425
+#: game/ui/card.gd:215 game/ui/card.gd:450
 msgid "COMMON"
 msgstr "GEWÖHNL."
 
-#: game/ui/card.gd:190 game/ui/card.gd:425
+#: game/ui/card.gd:215 game/ui/card.gd:450
 msgid "LEGEND"
 msgstr "LEGENDÄR"
 
-#: game/ui/card.gd:190 game/ui/card.gd:425
+#: game/ui/card.gd:215 game/ui/card.gd:450
 msgid "RARE"
 msgstr "SELTEN"
 
-#: game/ui/card.gd:190 game/ui/card.gd:425
+#: game/ui/card.gd:215 game/ui/card.gd:450
 msgid "UNCOM."
 msgstr "UNGEW."
 
-#: game/ui/card.gd:215
+#: game/ui/card.gd:240
 msgid "(DISABLED)"
 msgstr "(DEAKTIVIERT)"
 
-#: game/ui/card.gd:218
+#: game/ui/card.gd:243
 #, c-format
 msgid "DISABLED: %s"
 msgstr "DEAKTIVIERT: %s"
 
-#: game/ui/card.gd:229
+#: game/ui/card.gd:254
 #, c-format
 msgid "Level %d: +%d%% effect."
 msgstr "Stufe %d: +%d %% Wirkung."
 
-#: game/ui/card.gd:231
+#: game/ui/card.gd:256
 msgid "NEGATIVE: takes no Joker slot."
 msgstr "NEGATIV: belegt keinen Joker-Platz."
 
-#: game/ui/card.gd:233
+#: game/ui/card.gd:258
 msgid "AGAIN: triggers once more after all your Jokers."
 msgstr "NOCHMAL: löst nach all deinen Jokern noch einmal aus."
 
-#: game/ui/card.gd:313 game/ui/card.gd:342
+#: game/ui/card.gd:338 game/ui/card.gd:367
 #, c-format
 msgid "%s  (Item)"
 msgstr "%s  (Gegenstand)"
 
-#: game/ui/card.gd:378 game/ui/shop_screen.gd:402
+#: game/ui/card.gd:403 game/ui/shop_screen.gd:397
 msgid "ITEM"
 msgstr "GEGENSTAND"
 
-#: game/ui/card.gd:385
+#: game/ui/card.gd:410
 msgid "WORKSHOP"
 msgstr "WERKSTATT"
 
-#: game/ui/card.gd:392
+#: game/ui/card.gd:417
 msgid "PIECE"
 msgstr "TEIL"
 
-#: game/ui/card.gd:399
+#: game/ui/card.gd:424
 msgid "HOLO"
 msgstr "HOLO"
 
-#: game/ui/card.gd:418
+#: game/ui/card.gd:443
 msgid "OWNED"
 msgstr "BESITZT"
 
-#: game/ui/card.gd:430
+#: game/ui/card.gd:455
 #, c-format
 msgid "You own %d of this Joker."
 msgid_plural "You own %d of this Joker."
 msgstr[0] "Du besitzt %d Exemplar dieses Jokers."
 msgstr[1] "Du besitzt %d Exemplare dieses Jokers."
 
-#: game/ui/card.gd:545
+#: game/ui/card.gd:570
 msgid "+1 LV"
 msgstr "+1 ST"
 
-#: game/ui/endless_screen.gd:77 game/ui/game_screen.gd:2379
+#: game/ui/endless_screen.gd:77 game/ui/game_screen.gd:2437
 msgid "HOLD"
 msgstr "HALTEN"
 
-#: game/ui/endless_screen.gd:80 game/ui/game_screen.gd:2386
+#: game/ui/endless_screen.gd:80 game/ui/game_screen.gd:2444
 msgid "EMPTY"
 msgstr "LEER"
 
-#: game/ui/endless_screen.gd:87 game/ui/game_screen.gd:2380
+#: game/ui/endless_screen.gd:87 game/ui/game_screen.gd:2438
 msgid "USED THIS TURN"
 msgstr "DIESEN ZUG BENUTZT"
 
@@ -4375,7 +4392,7 @@ msgstr "Wähle ein Teil und lege es hier ab oder drück H."
 msgid "BLOCK STYLE"
 msgstr "BLOCKSTIL"
 
-#: game/ui/endless_screen.gd:150 game/ui/game_screen.gd:234 game/ui/shop_screen.gd:171
+#: game/ui/endless_screen.gd:150 game/ui/game_screen.gd:226 game/ui/shop_screen.gd:165
 msgid "MENU"
 msgstr "MENÜ"
 
@@ -4384,7 +4401,7 @@ msgstr "MENÜ"
 msgid "BEST  %s"
 msgstr "BESTWERT  %s"
 
-#: game/ui/endless_screen.gd:209 game/ui/game_screen.gd:1010
+#: game/ui/endless_screen.gd:209 game/ui/game_screen.gd:1006
 #, c-format
 msgid "COMBO x%d"
 msgstr "KOMBO x%d"
@@ -4479,7 +4496,7 @@ msgstr "Freischalten mit Kombo x10."
 msgid "Unlock with a clean board."
 msgstr "Freischalten mit einem leeren Brett."
 
-#: game/ui/endless_screen.gd:543 game/ui/endless_screen.gd:551 game/ui/game_screen.gd:315 game/ui/refresh_lever.gd:173 game/ui/shop_screen.gd:357 game/ui/title_screen.gd:479
+#: game/ui/endless_screen.gd:543 game/ui/endless_screen.gd:551 game/ui/game_screen.gd:307 game/ui/refresh_lever.gd:173 game/ui/shop_screen.gd:352 game/ui/title_screen.gd:479
 msgid "LOCKED"
 msgstr "GESPERRT"
 
@@ -4521,7 +4538,7 @@ msgstr "NOCHMAL SPIELEN"
 msgid "HIGH SCORES"
 msgstr "BESTENLISTE"
 
-#: game/ui/endless_screen.gd:653 game/ui/game_screen.gd:1708
+#: game/ui/endless_screen.gd:653 game/ui/game_screen.gd:1750
 msgid "TITLE"
 msgstr "TITEL"
 
@@ -4628,7 +4645,7 @@ msgstr "Tauschen (R): Ersetzt alle ungelegten Teile der Auslage. Kostet keinen Z
 msgid "SCORE"
 msgstr "PUNKTE"
 
-#: game/ui/game_screen.gd:150 game/ui/game_screen.gd:842
+#: game/ui/game_screen.gd:150 game/ui/game_screen.gd:828
 msgid "Pick up a piece to preview its score"
 msgstr "Nimm ein Teil, um seine Punkte zu sehen"
 
@@ -4636,57 +4653,57 @@ msgstr "Nimm ein Teil, um seine Punkte zu sehen"
 msgid "Placements left this round"
 msgstr "Verbleibende Züge in dieser Runde"
 
-#: game/ui/game_screen.gd:211 game/ui/settings_menu.gd:440 game/ui/shop_screen.gd:91
+#: game/ui/game_screen.gd:203 game/ui/settings_menu.gd:440 game/ui/shop_screen.gd:85
 msgid "JOKERS"
 msgstr "JOKER"
 
-#: game/ui/game_screen.gd:213
+#: game/ui/game_screen.gd:205
 msgid "drag to reorder  |  top first"
 msgstr "ziehen: sortieren | oben zuerst"
 
-#: game/ui/game_screen.gd:221 game/ui/shop_screen.gd:94
+#: game/ui/game_screen.gd:213 game/ui/shop_screen.gd:88
 msgid "ITEMS"
 msgstr "GEGENSTÄNDE"
 
-#: game/ui/game_screen.gd:232
+#: game/ui/game_screen.gd:224
 msgid "See every piece in your bag: draw pile, tray, and discard pile. (B)"
 msgstr "Sieh dir jedes Teil in deinem Beutel an: Nachziehstapel, Auslage und Ablagestapel. (B)"
 
-#: game/ui/game_screen.gd:236
+#: game/ui/game_screen.gd:228
 msgid "Pause, settings and controls (Esc)"
 msgstr "Pause, Einstellungen und Steuerung (Esc)"
 
-#: game/ui/game_screen.gd:267
+#: game/ui/game_screen.gd:259
 #, c-format
 msgid "Round %d. Good luck!"
 msgstr "Runde %d. Viel Glück!"
 
-#: game/ui/game_screen.gd:300 game/ui/settings_menu.gd:461 game/ui/shop_screen.gd:553
+#: game/ui/game_screen.gd:292 game/ui/settings_menu.gd:461 game/ui/shop_screen.gd:713
 #, c-format
 msgid "ROUND %d"
 msgstr "RUNDE %d"
 
-#: game/ui/game_screen.gd:301
+#: game/ui/game_screen.gd:293
 #, c-format
 msgid "ACT %d OF 3"
 msgstr "AKT %d VON 3"
 
-#: game/ui/game_screen.gd:301 game/ui/game_screen.gd:354 game/ui/game_screen.gd:1475
+#: game/ui/game_screen.gd:293 game/ui/game_screen.gd:347 game/ui/game_screen.gd:1478
 #, c-format
 msgid "BOSS: %s"
 msgstr "BOSS: %s"
 
-#: game/ui/game_screen.gd:305
+#: game/ui/game_screen.gd:297
 #, c-format
 msgid "OVERTIME  -  ACT %d"
 msgstr "VERLÄNGERUNG  -  AKT %d"
 
-#: game/ui/game_screen.gd:307
+#: game/ui/game_screen.gd:299
 #, c-format
 msgid "Target: %s points"
 msgstr "Ziel: %s Punkte"
 
-#: game/ui/game_screen.gd:313
+#: game/ui/game_screen.gd:305
 #, c-format
 msgid ""
 "Placements left this round.\n"
@@ -4695,65 +4712,65 @@ msgstr ""
 "Verbleibende Züge in dieser Runde.\n"
 "Jede abgeräumte Linie gibt einen zurück, bis zu %d."
 
-#: game/ui/game_screen.gd:320
+#: game/ui/game_screen.gd:312
 #, c-format
 msgid "Combo: each clearing placement adds 1 (max %d). It survives %d placement without a clear, then resets."
 msgstr "Kombo: Jeder abräumende Zug gibt +1 (max. %d). Sie übersteht %d Zug ohne Abräumen, dann fällt sie zurück."
 
-#: game/ui/game_screen.gd:321
+#: game/ui/game_screen.gd:313
 msgid "HANGING ON: clear on your next placement to keep it."
 msgstr "AUF DER KIPPE: Räum im nächsten Zug ab, um sie zu halten."
 
-#: game/ui/game_screen.gd:355
+#: game/ui/game_screen.gd:348
 #, c-format
 msgid "R%d BOSS: %s"
 msgstr "R%d BOSS: %s"
 
-#: game/ui/game_screen.gd:355
+#: game/ui/game_screen.gd:348
 #, c-format
 msgid "R%d: %s"
 msgstr "R%d: %s"
 
-#: game/ui/game_screen.gd:355
+#: game/ui/game_screen.gd:348
 #, c-format
 msgid "ROUND %d BOSS: %s"
 msgstr "BOSS IN RUNDE %d: %s"
 
-#: game/ui/game_screen.gd:387
+#: game/ui/game_screen.gd:380
 msgid "No legal move is left. Use an item that can help, or pull to concede the round and end the run."
 msgstr "Kein gültiger Zug mehr möglich. Nutze einen Gegenstand, der hilft, oder zieh den Hebel, um aufzugeben und die Partie zu beenden."
 
-#: game/ui/game_screen.gd:397
+#: game/ui/game_screen.gd:390
 msgid "Locked by The Lockdown this round."
 msgstr "In dieser Runde von der Abriegelung gesperrt."
 
-#: game/ui/game_screen.gd:398
+#: game/ui/game_screen.gd:391
 #, c-format
 msgid "%d Refresh left this round."
 msgid_plural "%d Refreshes left this round."
 msgstr[0] "Noch %d Tausch in dieser Runde."
 msgstr[1] "Noch %d Tausche in dieser Runde."
 
-#: game/ui/game_screen.gd:399
+#: game/ui/game_screen.gd:392
 msgid "Refresh (R): pull the lever to replace every unplaced piece in the tray. Costs no placement.\n"
 msgstr "Tauschen (R): Zieh den Hebel, um alle ungelegten Teile der Auslage zu ersetzen. Kostet keinen Zug.\n"
 
-#: game/ui/game_screen.gd:403 game/ui/shop_screen.gd:549
+#: game/ui/game_screen.gd:396 game/ui/shop_screen.gd:709
 #, c-format
 msgid "BAG  %d"
 msgstr "BEUTEL  %d"
 
-#: game/ui/game_screen.gd:405
+#: game/ui/game_screen.gd:398
 #, c-format
 msgid "Your bag: %d pieces. Draw pile %d, discard pile %d. (B)"
 msgstr "Dein Beutel: %d Teile. Nachziehstapel %d, Ablagestapel %d. (B)"
 
-#: game/ui/game_screen.gd:413
+#: game/ui/game_screen.gd:406
 #, c-format
 msgid "JOKERS %d/%d"
 msgstr "JOKER %d/%d"
 
-#: game/ui/game_screen.gd:427 game/ui/shop_screen.gd:653
+#: game/ui/game_screen.gd:420 game/ui/shop_screen.gd:813
 msgid ""
 "\n"
 "Drag onto another Joker to reorder. Alt+Up/Down while focused also moves it."
@@ -4761,380 +4778,379 @@ msgstr ""
 "\n"
 "Auf einen anderen Joker ziehen, um umzusortieren. Mit Fokus verschiebt ihn auch Alt+Hoch/Runter."
 
-#: game/ui/game_screen.gd:437 game/ui/shop_screen.gd:671
+#: game/ui/game_screen.gd:431 game/ui/shop_screen.gd:821
 msgid "empty slot"
 msgstr "leerer Platz"
 
-#: game/ui/game_screen.gd:451
-#, c-format
-msgid "SELL +%d"
-msgstr "VERKAUFEN +%d"
-
-#: game/ui/game_screen.gd:464
+#: game/ui/game_screen.gd:442
 #, c-format
 msgid "ITEMS %d/%d"
 msgstr "GEGENSTÄNDE %d/%d"
 
-#: game/ui/game_screen.gd:487
+#: game/ui/game_screen.gd:463
+msgid "Put the armed item away first."
+msgstr "Steck zuerst den bereiten Gegenstand weg."
+
+#: game/ui/game_screen.gd:473
 msgid "USE"
 msgstr "NUTZEN"
 
-#: game/ui/game_screen.gd:493
+#: game/ui/game_screen.gd:479
 msgid "Use this item now."
 msgstr "Diesen Gegenstand jetzt benutzen."
 
-#: game/ui/game_screen.gd:493
+#: game/ui/game_screen.gd:479
 msgid "Use this item now: you choose where next."
 msgstr "Diesen Gegenstand jetzt benutzen: Danach wählst du das Ziel."
 
-#: game/ui/game_screen.gd:502 game/ui/shop_screen.gd:692
+#: game/ui/game_screen.gd:488 game/ui/shop_screen.gd:845
 msgid "empty"
 msgstr "leer"
 
-#: game/ui/game_screen.gd:522
+#: game/ui/game_screen.gd:508
 msgid "Click to use it."
 msgstr "Klicke, um ihn zu benutzen."
 
-#: game/ui/game_screen.gd:551 game/ui/game_screen.gd:557
+#: game/ui/game_screen.gd:537 game/ui/game_screen.gd:543
 msgid "NOTHING FITS!  HIT REFRESH"
 msgstr "NICHTS PASST!  TAUSCHEN"
 
-#: game/ui/game_screen.gd:553 game/ui/game_screen.gd:557
+#: game/ui/game_screen.gd:539 game/ui/game_screen.gd:543
 msgid "NOTHING FITS!  USE AN ITEM OR CONCEDE"
 msgstr "NICHTS PASST!  GEGENSTAND ODER AUFGEBEN"
 
-#: game/ui/game_screen.gd:555 game/ui/game_screen.gd:557
+#: game/ui/game_screen.gd:541 game/ui/game_screen.gd:543
 msgid "OUT OF PLACEMENTS!  EXTRA TURN OR CONCEDE"
 msgstr "KEINE ZÜGE MEHR!  EXTRAZUG ODER AUFGEBEN"
 
-#: game/ui/game_screen.gd:621
+#: game/ui/game_screen.gd:607
 msgid "That piece doesn't fit there, so it went back to the tray."
 msgstr "Dieses Teil passt dort nicht, also ist es zurück in die Auslage."
 
-#: game/ui/game_screen.gd:639 game/ui/game_screen.gd:711
+#: game/ui/game_screen.gd:625 game/ui/game_screen.gd:697
 msgid "That piece doesn't fit there."
 msgstr "Dieses Teil passt dort nicht."
 
-#: game/ui/game_screen.gd:749
+#: game/ui/game_screen.gd:735
 msgid "Hold is used. Place a piece to recharge it."
 msgstr "Halten ist verbraucht. Leg ein Teil, um es aufzuladen."
 
-#: game/ui/game_screen.gd:753
+#: game/ui/game_screen.gd:739
 msgid "Pick up a tray piece first, then drop it on HOLD (or press H)."
 msgstr "Nimm zuerst ein Teil aus der Auslage und zieh es auf HALTEN (oder drück H)."
 
-#: game/ui/game_screen.gd:760
+#: game/ui/game_screen.gd:746
 msgid "Pick up a tray piece to swap with the stored one."
 msgstr "Nimm ein Teil aus der Auslage, um es mit dem gehaltenen zu tauschen."
 
-#: game/ui/game_screen.gd:837
+#: game/ui/game_screen.gd:823
 msgid "Doesn't fit here"
 msgstr "Passt hier nicht"
 
-#: game/ui/game_screen.gd:842
+#: game/ui/game_screen.gd:828
 msgid "Move over the board"
 msgstr "Über das Brett bewegen"
 
-#: game/ui/game_screen.gd:855
+#: game/ui/game_screen.gd:841
 #, c-format
 msgid "%d LINE"
 msgid_plural "%d LINES"
 msgstr[0] "%d LINIE"
 msgstr[1] "%d LINIEN"
 
-#: game/ui/game_screen.gd:940 game/ui/shop_screen.gd:507
+#: game/ui/game_screen.gd:928 game/ui/shop_screen.gd:667
 #, c-format
 msgid "Used %s."
 msgstr "%s benutzt."
 
-#: game/ui/game_screen.gd:944
+#: game/ui/game_screen.gd:932
 #, c-format
 msgid "POLISH: NEXT PLACEMENT +%s CHIPS"
 msgstr "POLITUR: NÄCHSTER ZUG +%s CHIPS"
 
-#: game/ui/game_screen.gd:946
+#: game/ui/game_screen.gd:934
 #, c-format
 msgid "SPARK: NEXT PLACEMENT +%s MULT"
 msgstr "FUNKE: NÄCHSTER ZUG +%s MULT"
 
-#: game/ui/game_screen.gd:961
+#: game/ui/game_screen.gd:949
 msgid "TURBO: NEXT PLACEMENT x2 MULT"
 msgstr "TURBO: NÄCHSTER ZUG x2 MULT"
 
-#: game/ui/game_screen.gd:963
+#: game/ui/game_screen.gd:951
 msgid "COFFEE BREAK: +1 REFRESH"
 msgstr "KAFFEEPAUSE: +1 TAUSCH"
 
-#: game/ui/game_screen.gd:965
+#: game/ui/game_screen.gd:953
 #, c-format
 msgid "COIN ROLL: +%d CREDITS"
 msgstr "MÜNZROLLE: +%d CREDITS"
 
-#: game/ui/game_screen.gd:973
+#: game/ui/game_screen.gd:961
 #, c-format
 msgid "Sold %s for %d Credits."
 msgstr "%s für %d Credits verkauft."
 
-#: game/ui/game_screen.gd:1006
+#: game/ui/game_screen.gd:1002
 msgid "DOUBLE!"
 msgstr "DOPPELT!"
 
-#: game/ui/game_screen.gd:1006
+#: game/ui/game_screen.gd:1002
 msgid "MEGA!"
 msgstr "MEGA!"
 
-#: game/ui/game_screen.gd:1006
+#: game/ui/game_screen.gd:1002
 msgid "QUAD!"
 msgstr "VIERFACH!"
 
-#: game/ui/game_screen.gd:1006
+#: game/ui/game_screen.gd:1002
 msgid "TRIPLE!"
 msgstr "DREIFACH!"
 
-#: game/ui/game_screen.gd:1034
+#: game/ui/game_screen.gd:1030
 #, c-format
 msgid "+%d STORED"
 msgstr "+%d GESPEICHERT"
 
-#: game/ui/game_screen.gd:1039
+#: game/ui/game_screen.gd:1035
 #, c-format
 msgid "AVALANCHE x%d!"
 msgstr "LAWINE x%d!"
 
-#: game/ui/game_screen.gd:1054
+#: game/ui/game_screen.gd:1050
 #, c-format
 msgid "TRANSMUTED: %s"
 msgstr "VERWANDELT: %s"
 
-#: game/ui/game_screen.gd:1066
+#: game/ui/game_screen.gd:1062
 msgid "HANG ON!"
 msgstr "DURCHHALTEN!"
 
-#: game/ui/game_screen.gd:1086
+#: game/ui/game_screen.gd:1082
 msgid "MILESTONE!"
 msgstr "MEILENSTEIN!"
 
-#: game/ui/game_screen.gd:1095
+#: game/ui/game_screen.gd:1091
 #, c-format
 msgid "MILESTONE: %s IN ONE PLACEMENT"
 msgstr "MEILENSTEIN: %s IN EINEM ZUG"
 
-#: game/ui/game_screen.gd:1229
+#: game/ui/game_screen.gd:1224
 #, c-format
 msgid "+%s MULT"
 msgstr "+%s MULT"
 
-#: game/ui/game_screen.gd:1232
+#: game/ui/game_screen.gd:1227
 #, c-format
 msgid "x%s MULT"
 msgstr "x%s MULT"
 
-#: game/ui/game_screen.gd:1249
+#: game/ui/game_screen.gd:1244
 #, c-format
 msgid "%s  (%d cell)"
 msgid_plural "%s  (%d cells)"
 msgstr[0] "%s  (%d Feld)"
 msgstr[1] "%s  (%d Felder)"
 
-#: game/ui/game_screen.gd:1257
+#: game/ui/game_screen.gd:1252
 #, c-format
 msgid "+%s mult"
 msgstr "+%s Mult"
 
-#: game/ui/game_screen.gd:1259
+#: game/ui/game_screen.gd:1254
 #, c-format
 msgid "x%s mult"
 msgstr "x%s Mult"
 
-#: game/ui/game_screen.gd:1261
+#: game/ui/game_screen.gd:1256
 #, c-format
 msgid "Mirror Maze removed %d cells"
 msgstr "Spiegelkabinett entfernte %d Felder"
 
-#: game/ui/game_screen.gd:1271
+#: game/ui/game_screen.gd:1266
 #, c-format
 msgid "Avalanche wave %d  (x%d chain)"
 msgstr "Lawinenwelle %d  (Kette x%d)"
 
-#: game/ui/game_screen.gd:1272
+#: game/ui/game_screen.gd:1267
 msgid "Total"
 msgstr "Gesamt"
 
-#: game/ui/game_screen.gd:1276
+#: game/ui/game_screen.gd:1271
 #, c-format
 msgid "Combo now x%d"
 msgstr "Kombo jetzt x%d"
 
-#: game/ui/game_screen.gd:1278
+#: game/ui/game_screen.gd:1273
 #, c-format
 msgid "Feat: %s"
 msgstr "Kunststück: %s"
 
-#: game/ui/game_screen.gd:1284
+#: game/ui/game_screen.gd:1281 game/ui/game_screen.gd:1287
 #, c-format
 msgid "Sell %s for %d Credits?"
 msgstr "%s für %d Credits verkaufen?"
 
-#: game/ui/game_screen.gd:1285
+#: game/ui/game_screen.gd:1282 game/ui/game_screen.gd:1288
 msgid "KEEP"
 msgstr "BEHALTEN"
 
-#: game/ui/game_screen.gd:1285
+#: game/ui/game_screen.gd:1282 game/ui/game_screen.gd:1288
 msgid "SELL"
 msgstr "VERKAUFEN"
 
-#: game/ui/game_screen.gd:1289
+#: game/ui/game_screen.gd:1292
 msgid "Concede this round? The run will end."
 msgstr "Diese Runde aufgeben? Die Partie endet dann."
 
-#: game/ui/game_screen.gd:1290 game/ui/game_screen.gd:2201 game/ui/game_screen.gd:2246 game/ui/settings_menu.gd:116 game/ui/title_screen.gd:286 game/ui/title_screen.gd:368
+#: game/ui/game_screen.gd:1293 game/ui/game_screen.gd:2259 game/ui/game_screen.gd:2304 game/ui/settings_menu.gd:116 game/ui/title_screen.gd:286 game/ui/title_screen.gd:368
 msgid "BACK"
 msgstr "ZURÜCK"
 
-#: game/ui/game_screen.gd:1290 game/ui/refresh_lever.gd:170
+#: game/ui/game_screen.gd:1293 game/ui/refresh_lever.gd:170
 msgid "CONCEDE"
 msgstr "AUFGEBEN"
 
-#: game/ui/game_screen.gd:1389 game/ui/shop_screen.gd:891
+#: game/ui/game_screen.gd:1392 game/ui/shop_screen.gd:1044
 msgid "CLOSE  (ESC)"
 msgstr "SCHLIESSEN  (ESC)"
 
-#: game/ui/game_screen.gd:1417
+#: game/ui/game_screen.gd:1420
 #, c-format
 msgid "ROUND %d  -  ACT %d"
 msgstr "RUNDE %d  -  AKT %d"
 
-#: game/ui/game_screen.gd:1419
+#: game/ui/game_screen.gd:1422
 #, c-format
 msgid "ROUND %d  -  OVERTIME"
 msgstr "RUNDE %d  -  VERLÄNGERUNG"
 
-#: game/ui/game_screen.gd:1421
+#: game/ui/game_screen.gd:1424
 msgid "TARGET"
 msgstr "ZIEL"
 
-#: game/ui/game_screen.gd:1425
+#: game/ui/game_screen.gd:1428
 #, c-format
 msgid "%s points"
 msgstr "%s Punkte"
 
-#: game/ui/game_screen.gd:1436
+#: game/ui/game_screen.gd:1439
 #, c-format
 msgid "%d placement, +1 per line"
 msgid_plural "%d placements, +1 per line"
 msgstr[0] "%d Zug, +1 pro Linie"
 msgstr[1] "%d Züge, +1 pro Linie"
 
-#: game/ui/game_screen.gd:1437
+#: game/ui/game_screen.gd:1440
 #, c-format
 msgid "Each line you clear gives one placement back, up to %d."
 msgstr "Jede abgeräumte Linie gibt einen Zug zurück, bis zu %d."
 
-#: game/ui/game_screen.gd:1441
+#: game/ui/game_screen.gd:1444
 #, c-format
 msgid "%d refresh"
 msgid_plural "%d refreshes"
 msgstr[0] "%d Tausch"
 msgstr[1] "%d Tausche"
 
-#: game/ui/game_screen.gd:1448
+#: game/ui/game_screen.gd:1451
 msgid "The board carries over from the last round."
 msgstr "Das Brett bleibt, wie es in der letzten Runde war."
 
-#: game/ui/game_screen.gd:1450
+#: game/ui/game_screen.gd:1453
 #, c-format
 msgid "%d stone block dropped onto it."
 msgid_plural "%d stone blocks dropped onto it."
 msgstr[0] "%d Steinblock ist daraufgefallen."
 msgstr[1] "%d Steinblöcke sind daraufgefallen."
 
-#: game/ui/game_screen.gd:1462
+#: game/ui/game_screen.gd:1465
 #, c-format
 msgid "TWIST: %s"
 msgstr "WENDUNG: %s"
 
-#: game/ui/game_screen.gd:1480
+#: game/ui/game_screen.gd:1483
 #, c-format
 msgid "Tip: %s"
 msgstr "Tipp: %s"
 
-#: game/ui/game_screen.gd:1488
+#: game/ui/game_screen.gd:1491
 #, c-format
 msgid "Disabled this round: %s"
 msgstr "In dieser Runde deaktiviert: %s"
 
-#: game/ui/game_screen.gd:1494
+#: game/ui/game_screen.gd:1497
 msgid "OVERTIME: the targets climb faster every round. How far can you go?"
 msgstr "VERLÄNGERUNG: Die Ziele steigen jede Runde schneller. Wie weit kommst du?"
 
-#: game/ui/game_screen.gd:1505
+#: game/ui/game_screen.gd:1508
 #, c-format
 msgid "ACT BOSS, ROUND %d:  %s"
 msgstr "AKT-BOSS, RUNDE %d:  %s"
 
-#: game/ui/game_screen.gd:1514
+#: game/ui/game_screen.gd:1517
 msgid "START ROUND"
 msgstr "RUNDE STARTEN"
 
-#: game/ui/game_screen.gd:1530
+#: game/ui/game_screen.gd:1533
 #, c-format
 msgid "THE WARDEN BARRED SLOTS %d AND %d: EACH CLEAR FREES ONE"
 msgstr "DER WÄRTER HAT PLÄTZE %d UND %d GESPERRT: JEDES ABRÄUMEN GIBT EINEN FREI"
 
-#: game/ui/game_screen.gd:1532
+#: game/ui/game_screen.gd:1535
 #, c-format
 msgid "THE WARDEN BARRED SLOT %d: CLEAR A LINE TO FREE IT"
 msgstr "DER WÄRTER HAT PLATZ %d GESPERRT: RÄUM EINE LINIE AB, UM IHN FREIZUGEBEN"
 
-#: game/ui/game_screen.gd:1541
+#: game/ui/game_screen.gd:1542
 #, c-format
 msgid "ROUND %d CLEARED!"
 msgstr "RUNDE %d GESCHAFFT!"
 
-#: game/ui/game_screen.gd:1547
+#: game/ui/game_screen.gd:1548
 #, c-format
 msgid "%s / %s points   -   %d placement unused"
 msgid_plural "%s / %s points   -   %d placements unused"
 msgstr[0] "%s / %s Punkte   -   %d Zug übrig"
 msgstr[1] "%s / %s Punkte   -   %d Züge übrig"
 
-#: game/ui/game_screen.gd:1564
+#: game/ui/game_screen.gd:1568
 msgid "Earned"
 msgstr "Verdient"
 
-#: game/ui/game_screen.gd:1577
+#: game/ui/game_screen.gd:1581
 msgid "YOU HAVE"
 msgstr "DU HAST"
 
-#: game/ui/game_screen.gd:1582
+#: game/ui/game_screen.gd:1591
 msgid "FINISH RUN"
 msgstr "PARTIE BEENDEN"
 
-#: game/ui/game_screen.gd:1582
+#: game/ui/game_screen.gd:1591
 msgid "TO THE SHOP"
 msgstr "ZUM LADEN"
 
-#: game/ui/game_screen.gd:1605
+#: game/ui/game_screen.gd:1647
 msgid "GAME OVER"
 msgstr "GAME OVER"
 
-#: game/ui/game_screen.gd:1605
+#: game/ui/game_screen.gd:1647
 msgid "RUN ABANDONED"
 msgstr "PARTIE ABGEBROCHEN"
 
-#: game/ui/game_screen.gd:1605
+#: game/ui/game_screen.gd:1647
 msgid "YOU WIN!"
 msgstr "GEWONNEN!"
 
-#: game/ui/game_screen.gd:1607
+#: game/ui/game_screen.gd:1649
 msgid "MACHINE BROKEN!"
 msgstr "MASCHINE KAPUTT!"
 
-#: game/ui/game_screen.gd:1609
+#: game/ui/game_screen.gd:1651
 msgid "OVERTIME OVER"
 msgstr "VERLÄNGERUNG VORBEI"
 
-#: game/ui/game_screen.gd:1619
+#: game/ui/game_screen.gd:1661
 #, c-format
 msgid ""
 "Your run was already a win. Overtime ended in round %d.\n"
@@ -5143,275 +5159,275 @@ msgstr ""
 "Deine Partie war schon gewonnen. Die Verlängerung endete in Runde %d.\n"
 "%s"
 
-#: game/ui/game_screen.gd:1636
+#: game/ui/game_screen.gd:1678
 #, c-format
 msgid "%d  (OVERTIME +%d)"
 msgstr "%d  (VERLÄNGERUNG +%d)"
 
-#: game/ui/game_screen.gd:1637
+#: game/ui/game_screen.gd:1679
 msgid "Lines cleared"
 msgstr "Abgeräumte Linien"
 
-#: game/ui/game_screen.gd:1637
+#: game/ui/game_screen.gd:1679
 msgid "Round"
 msgstr "Runde"
 
-#: game/ui/game_screen.gd:1638
+#: game/ui/game_screen.gd:1680
 msgid "Last score"
 msgstr "Letzte Punktzahl"
 
-#: game/ui/game_screen.gd:1639
+#: game/ui/game_screen.gd:1681
 msgid "Bag size"
 msgstr "Beutelgröße"
 
-#: game/ui/game_screen.gd:1639
+#: game/ui/game_screen.gd:1681
 msgid "Highest combo"
 msgstr "Höchste Kombo"
 
-#: game/ui/game_screen.gd:1649
+#: game/ui/game_screen.gd:1691
 #, c-format
 msgid "Jokers: %s"
 msgstr "Joker: %s"
 
-#: game/ui/game_screen.gd:1652
+#: game/ui/game_screen.gd:1694
 #, c-format
 msgid "Seed %d  -  %s"
 msgstr "Seed %d  -  %s"
 
-#: game/ui/game_screen.gd:1653
+#: game/ui/game_screen.gd:1695
 msgid "  -  practice seed: no achievements, records or unlocks"
 msgstr "  -  Übungs-Seed: keine Erfolge, Rekorde oder Freischaltungen"
 
-#: game/ui/game_screen.gd:1663
+#: game/ui/game_screen.gd:1705
 #, c-format
 msgid "NEW RECORD!  %s: %s"
 msgstr "NEUER REKORD!  %s: %s"
 
-#: game/ui/game_screen.gd:1665
+#: game/ui/game_screen.gd:1707
 #, c-format
 msgid "  (was %s)"
 msgstr "  (vorher %s)"
 
-#: game/ui/game_screen.gd:1673
+#: game/ui/game_screen.gd:1715
 #, c-format
 msgid "NEW KIT UNLOCKED: %s!"
 msgstr "NEUES KIT FREIGESCHALTET: %s!"
 
-#: game/ui/game_screen.gd:1685
+#: game/ui/game_screen.gd:1727
 msgid "THE ARCADE STAYS OPEN..."
 msgstr "DIE SPIELHALLE BLEIBT OFFEN..."
 
-#: game/ui/game_screen.gd:1688
+#: game/ui/game_screen.gd:1730
 #, c-format
 msgid "Keep this build and play on: round 13 needs %s, and every target after climbs faster. A boss every fourth round. Your win is already saved."
 msgstr "Behalte dieses Build und spiel weiter: Runde 13 verlangt %s, und jedes weitere Ziel steigt schneller. Alle vier Runden ein Boss. Dein Sieg ist schon gespeichert."
 
-#: game/ui/game_screen.gd:1692
+#: game/ui/game_screen.gd:1734
 msgid "KEEP PLAYING: OVERTIME  >"
 msgstr "WEITERSPIELEN: VERLÄNGERUNG  >"
 
-#: game/ui/game_screen.gd:1696
+#: game/ui/game_screen.gd:1738
 msgid "Rounds 13 and beyond. How far can your build go before the machine gives up?"
 msgstr "Runde 13 und weiter. Wie weit kommt dein Build, bevor die Maschine aufgibt?"
 
-#: game/ui/game_screen.gd:1702 game/ui/title_screen.gd:85
+#: game/ui/game_screen.gd:1744 game/ui/title_screen.gd:85
 msgid "NEW RUN"
 msgstr "NEUE PARTIE"
 
-#: game/ui/game_screen.gd:1705
+#: game/ui/game_screen.gd:1747
 msgid "SAME SEED"
 msgstr "GLEICHER SEED"
 
-#: game/ui/game_screen.gd:1740
+#: game/ui/game_screen.gd:1782
 msgid "ERASER: click up to 2 blocks to rub out"
 msgstr "RADIERGUMMI: Klick bis zu 2 Blöcke an, um sie wegzuradieren"
 
-#: game/ui/game_screen.gd:1741
+#: game/ui/game_screen.gd:1783
 msgid "PUNCH: click where to smash (plus shape)"
 msgstr "FAUSTSCHLAG: Klick, wo du zuschlägst (kreuzförmig)"
 
-#: game/ui/game_screen.gd:1742
+#: game/ui/game_screen.gd:1784
 msgid "COLOR PURGE: click a block to remove its whole color"
 msgstr "FARBSÄUBERUNG: Klick einen Block an, um seine ganze Farbe zu entfernen"
 
-#: game/ui/game_screen.gd:1743
+#: game/ui/game_screen.gd:1785
 msgid "LUCKY PAINT: click a tray piece to repaint"
 msgstr "GLÜCKSFARBE: Klick ein Teil der Auslage zum Umfärben an"
 
-#: game/ui/game_screen.gd:1744
+#: game/ui/game_screen.gd:1786
 msgid "BLUEPRINT: click a tray piece to swap"
 msgstr "ENTWURF: Klick ein Teil der Auslage zum Tauschen an"
 
-#: game/ui/game_screen.gd:1745
+#: game/ui/game_screen.gd:1787
 msgid "BRICK: throw it at a tray slot, or click one"
 msgstr "ZIEGEL: Wirf ihn auf einen Platz der Auslage oder klick einen an"
 
-#: game/ui/game_screen.gd:1746
+#: game/ui/game_screen.gd:1788
 msgid "PATCH PANEL: click one block to remove"
 msgstr "FLICKENFELD: Klick einen Block zum Entfernen an"
 
-#: game/ui/game_screen.gd:1747
+#: game/ui/game_screen.gd:1789
 msgid "TUNE-UP: click a tray piece to level up its family"
 msgstr "TUNING: Klick ein Teil der Auslage an, um seine Familie aufzuwerten"
 
-#: game/ui/game_screen.gd:1761
+#: game/ui/game_screen.gd:1803
 msgid "Right-click or Esc to cancel"
 msgstr "Rechtsklick oder Esc zum Abbrechen"
 
-#: game/ui/game_screen.gd:1803
+#: game/ui/game_screen.gd:1845
 #, c-format
 msgid "ERASE %d"
 msgstr "RADIEREN %d"
 
-#: game/ui/game_screen.gd:1806
+#: game/ui/game_screen.gd:1848
 msgid "CANCEL"
 msgstr "ABBRECHEN"
 
-#: game/ui/game_screen.gd:1808
+#: game/ui/game_screen.gd:1850
 msgid "Put the item away (right-click or Esc)."
 msgstr "Gegenstand wegstecken (Rechtsklick oder Esc)."
 
-#: game/ui/game_screen.gd:1816
+#: game/ui/game_screen.gd:1858
 #, c-format
 msgid "%s (Joker)"
 msgstr "%s (Joker)"
 
-#: game/ui/game_screen.gd:1835
+#: game/ui/game_screen.gd:1877
 msgid "Remove one block of your choice."
 msgstr "Entferne einen Block deiner Wahl."
 
-#: game/ui/game_screen.gd:1843
+#: game/ui/game_screen.gd:1885
 msgid "PATCH"
 msgstr "FLICKEN"
 
-#: game/ui/game_screen.gd:1917 game/ui/game_screen.gd:1948
+#: game/ui/game_screen.gd:1959 game/ui/game_screen.gd:1990
 msgid "Pick a block, not an empty cell."
 msgstr "Wähle einen Block, kein leeres Feld."
 
-#: game/ui/game_screen.gd:1929
+#: game/ui/game_screen.gd:1971
 #, c-format
 msgid "%d OF 2 CHOSEN: PICK ANOTHER, OR PRESS ERASE"
 msgstr "%d VON 2 GEWÄHLT: WÄHLE NOCH EINEN ODER DRÜCK RADIEREN"
 
-#: game/ui/game_screen.gd:1942
+#: game/ui/game_screen.gd:1984
 msgid "Pick a colored block (stone is immune)."
 msgstr "Wähle einen farbigen Block (Stein ist immun)."
 
-#: game/ui/game_screen.gd:1959 game/ui/game_screen.gd:1964
+#: game/ui/game_screen.gd:2001 game/ui/game_screen.gd:2006
 msgid "That slot is empty."
 msgstr "Dieser Platz ist leer."
 
-#: game/ui/game_screen.gd:2020
+#: game/ui/game_screen.gd:2078
 #, c-format
 msgid "RUBBED OUT %d BLOCK"
 msgid_plural "RUBBED OUT %d BLOCKS"
 msgstr[0] "%d BLOCK WEGRADIERT"
 msgstr[1] "%d BLÖCKE WEGRADIERT"
 
-#: game/ui/game_screen.gd:2033 game/ui/game_screen.gd:2101
+#: game/ui/game_screen.gd:2091 game/ui/game_screen.gd:2159
 msgid "SMASH!"
 msgstr "WUMMS!"
 
-#: game/ui/game_screen.gd:2036
+#: game/ui/game_screen.gd:2094
 #, c-format
 msgid "PUNCHED OUT %d BLOCK"
 msgid_plural "PUNCHED OUT %d BLOCKS"
 msgstr[0] "%d BLOCK WEGGEHAUEN"
 msgstr[1] "%d BLÖCKE WEGGEHAUEN"
 
-#: game/ui/game_screen.gd:2051
+#: game/ui/game_screen.gd:2109
 #, c-format
 msgid "PURGED %d BLOCK: %s"
 msgid_plural "PURGED %d BLOCKS: %s"
 msgstr[0] "%d BLOCK ENTFERNT: %s"
 msgstr[1] "%d BLÖCKE ENTFERNT: %s"
 
-#: game/ui/game_screen.gd:2060
+#: game/ui/game_screen.gd:2118
 msgid "SPLASH!"
 msgstr "PLATSCH!"
 
-#: game/ui/game_screen.gd:2061
+#: game/ui/game_screen.gd:2119
 #, c-format
 msgid "REPAINTED %s"
 msgstr "UMGEFÄRBT: %s"
 
-#: game/ui/game_screen.gd:2070
+#: game/ui/game_screen.gd:2128
 msgid "BLUEPRINT: A FRESH PIECE, DRAFTED"
 msgstr "ENTWURF: EIN FRISCHES TEIL, GERADE GEZEICHNET"
 
-#: game/ui/game_screen.gd:2080
+#: game/ui/game_screen.gd:2138
 #, c-format
 msgid "LV %d!"
 msgstr "STUFE %d!"
 
-#: game/ui/game_screen.gd:2081
+#: game/ui/game_screen.gd:2139
 #, c-format
 msgid "TUNE-UP: %s IS NOW LEVEL %d"
 msgstr "TUNING: %s IST JETZT STUFE %d"
 
-#: game/ui/game_screen.gd:2103
+#: game/ui/game_screen.gd:2161
 msgid "BRICK!"
 msgstr "ZIEGEL!"
 
-#: game/ui/game_screen.gd:2108
+#: game/ui/game_screen.gd:2166
 msgid "BRICK IN THE TRAY"
 msgstr "ZIEGEL IN DER AUSLAGE"
 
-#: game/ui/game_screen.gd:2108
+#: game/ui/game_screen.gd:2166
 #, c-format
 msgid "SMASHED %s!"
 msgstr "ZERTRÜMMERT: %s!"
 
-#: game/ui/game_screen.gd:2178
+#: game/ui/game_screen.gd:2236
 msgid "PAINT IT WHICH COLOR?"
 msgstr "WELCHE FARBE SOLL ES SEIN?"
 
-#: game/ui/game_screen.gd:2197
+#: game/ui/game_screen.gd:2255
 msgid "Already this color."
 msgstr "Hat schon diese Farbe."
 
-#: game/ui/game_screen.gd:2213
+#: game/ui/game_screen.gd:2271
 msgid "DRAFT A NEW PIECE"
 msgstr "ZEICHNE EIN NEUES TEIL"
 
-#: game/ui/game_screen.gd:2333
+#: game/ui/game_screen.gd:2391
 msgid "INSURANCE CLAIMED!"
 msgstr "VERSICHERUNG AUSGEZAHLT!"
 
-#: game/ui/game_screen.gd:2336
+#: game/ui/game_screen.gd:2394
 #, c-format
 msgid "Your policy paid out. Round %d starts over from an empty board, without the free Refresh. The Insurance Policy card is used up."
 msgstr "Deine Police hat gezahlt. Runde %d beginnt neu auf einem leeren Brett, ohne kostenlosen Tausch. Die Karte Versicherung ist verbraucht."
 
-#: game/ui/game_screen.gd:2340
+#: game/ui/game_screen.gd:2398
 msgid "TRY AGAIN"
 msgstr "NOCHMAL"
 
-#: game/ui/game_screen.gd:2357
+#: game/ui/game_screen.gd:2415
 msgid "FREE!"
 msgstr "GRATIS!"
 
-#: game/ui/game_screen.gd:2371
+#: game/ui/game_screen.gd:2429
 msgid "HOLD (H): store a tray piece; its slot draws a new one. Later, swap it back in or click here to return it to an empty slot. Once between placements."
 msgstr "HALTEN (H): Heb ein Teil der Auslage auf; sein Platz bekommt ein neues. Später tauschst du es zurück oder klickst hier, um es auf einen leeren Platz zu legen. Einmal zwischen zwei Zügen."
 
-#: game/ui/game_screen.gd:2380
+#: game/ui/game_screen.gd:2438
 msgid "DROP IT HERE"
 msgstr "HIER ABLEGEN"
 
-#: game/ui/game_screen.gd:2380
+#: game/ui/game_screen.gd:2438
 msgid "LOCKED BY BOSS"
 msgstr "VOM BOSS GESPERRT"
 
-#: game/ui/game_screen.gd:2380
+#: game/ui/game_screen.gd:2438
 msgid "PRESS H OR DROP"
 msgstr "H ODER ABLEGEN"
 
-#: game/ui/game_screen.gd:2383
+#: game/ui/game_screen.gd:2441
 msgid "Store a piece, swap later."
 msgstr "Teil für später parken."
 
-#: game/ui/game_screen.gd:2384
+#: game/ui/game_screen.gd:2442
 msgid "Once per placement."
 msgstr "Einmal pro Zug."
 
@@ -5978,7 +5994,7 @@ msgstr "(Standard)"
 msgid "HEAT"
 msgstr "HITZE"
 
-#: game/ui/settings_menu.gd:439 game/ui/shop_screen.gd:403
+#: game/ui/settings_menu.gd:439 game/ui/shop_screen.gd:398
 msgid "CREDITS"
 msgstr "CREDITS"
 
@@ -6051,31 +6067,31 @@ msgstr "VERLÄNGERUNG"
 msgid "You beat the game and kept playing. Targets climb faster every round."
 msgstr "Du hast das Spiel geschlagen und weitergespielt. Die Ziele steigen jede Runde schneller."
 
-#: game/ui/shop_screen.gd:85
+#: game/ui/shop_screen.gd:79
 msgid "Replace every offer in the shop. The price rises by 1 each reroll."
 msgstr "Ersetzt jedes Angebot im Laden. Der Preis steigt mit jedem Neuwürfeln um 1."
 
-#: game/ui/shop_screen.gd:97
+#: game/ui/shop_screen.gd:91
 msgid "WORKSHOP  -  edit your bag"
 msgstr "WERKSTATT  -  Beutel bearbeiten"
 
-#: game/ui/shop_screen.gd:100
+#: game/ui/shop_screen.gd:94
 msgid "PIECES FOR YOUR BAG"
 msgstr "TEILE FÜR DEINEN BEUTEL"
 
-#: game/ui/shop_screen.gd:103
+#: game/ui/shop_screen.gd:97
 msgid "HOLO SHELF"
 msgstr "HOLO-REGAL"
 
-#: game/ui/shop_screen.gd:118
+#: game/ui/shop_screen.gd:112
 msgid "BOSS"
 msgstr "BOSS"
 
-#: game/ui/shop_screen.gd:142
+#: game/ui/shop_screen.gd:136
 msgid "NEXT ROUND  >"
 msgstr "NÄCHSTE RUNDE  >"
 
-#: game/ui/shop_screen.gd:146
+#: game/ui/shop_screen.gd:140
 msgid ""
 "BOSS\n"
 "CRATE"
@@ -6083,261 +6099,261 @@ msgstr ""
 "BOSS-\n"
 "KISTE"
 
-#: game/ui/shop_screen.gd:148
+#: game/ui/shop_screen.gd:142
 msgid "Your free Boss Crate is still closed. Open it before you leave."
 msgstr "Deine kostenlose Boss-Kiste ist noch zu. Öffne sie, bevor du gehst."
 
-#: game/ui/shop_screen.gd:154
+#: game/ui/shop_screen.gd:148
 msgid "YOUR JOKERS"
 msgstr "DEINE JOKER"
 
-#: game/ui/shop_screen.gd:158
+#: game/ui/shop_screen.gd:152
 msgid "YOUR ITEMS"
 msgstr "DEINE GEGENSTÄNDE"
 
-#: game/ui/shop_screen.gd:168
+#: game/ui/shop_screen.gd:162
 msgid "Every piece in your bag (B)"
 msgstr "Jedes Teil in deinem Beutel (B)"
 
-#: game/ui/shop_screen.gd:174
+#: game/ui/shop_screen.gd:168
 msgid "Pause, settings, Save & Quit to the main menu (Esc)"
 msgstr "Pause, Einstellungen, Speichern & Beenden zum Hauptmenü (Esc)"
 
-#: game/ui/shop_screen.gd:230
+#: game/ui/shop_screen.gd:224
 msgid "BOSS CRATE!"
 msgstr "BOSS-KISTE!"
 
-#: game/ui/shop_screen.gd:235
+#: game/ui/shop_screen.gd:229
 msgid "You beat the boss. Open it and take one thing for free."
 msgstr "Du hast den Boss besiegt. Öffne sie und nimm dir eine Sache umsonst."
 
-#: game/ui/shop_screen.gd:250
+#: game/ui/shop_screen.gd:244
 msgid "Open the crate"
 msgstr "Kiste öffnen"
 
-#: game/ui/shop_screen.gd:253
+#: game/ui/shop_screen.gd:247
 msgid "CLICK TO OPEN"
 msgstr "KLICKEN ZUM ÖFFNEN"
 
-#: game/ui/shop_screen.gd:287 game/ui/shop_screen.gd:296
+#: game/ui/shop_screen.gd:281 game/ui/shop_screen.gd:290
 msgid "TAKE IT"
 msgstr "NEHMEN"
 
-#: game/ui/shop_screen.gd:295
+#: game/ui/shop_screen.gd:289
 #, c-format
 msgid "From the crate: %s."
 msgstr "Aus der Kiste: %s."
 
-#: game/ui/shop_screen.gd:309 game/ui/shop_screen.gd:355
+#: game/ui/shop_screen.gd:303 game/ui/shop_screen.gd:350
 msgid "sell a Joker"
 msgstr "verkauf einen Joker"
 
-#: game/ui/shop_screen.gd:309 game/ui/shop_screen.gd:355
+#: game/ui/shop_screen.gd:303 game/ui/shop_screen.gd:350
 msgid "use an item"
 msgstr "benutze einen Gegenstand"
 
-#: game/ui/shop_screen.gd:323
+#: game/ui/shop_screen.gd:318
 msgid "LATER"
 msgstr "SPÄTER"
 
-#: game/ui/shop_screen.gd:324
+#: game/ui/shop_screen.gd:319
 msgid "Close the crate for now: the BOSS CRATE button reopens it until you leave the shop."
 msgstr "Kiste vorerst schließen: Der BOSS-KISTE-Knopf öffnet sie wieder, bis du den Laden verlässt."
 
-#: game/ui/shop_screen.gd:328
+#: game/ui/shop_screen.gd:323
 msgid " or "
 msgstr " oder "
 
-#: game/ui/shop_screen.gd:328
+#: game/ui/shop_screen.gd:323
 #, c-format
 msgid "Slots full? Press LATER, %s, then reopen the crate."
 msgstr "Plätze voll? Drück SPÄTER, %s, und öffne die Kiste dann erneut."
 
-#: game/ui/shop_screen.gd:345
+#: game/ui/shop_screen.gd:340
 msgid "Joker slots are full"
 msgstr "Die Joker-Plätze sind voll"
 
-#: game/ui/shop_screen.gd:348
+#: game/ui/shop_screen.gd:343
 msgid "Item slots are full"
 msgstr "Die Gegenstandsplätze sind voll"
 
-#: game/ui/shop_screen.gd:361
+#: game/ui/shop_screen.gd:356
 #, c-format
 msgid "%s. Press LATER, %s, then reopen the crate with the BOSS CRATE button."
 msgstr "%s. Drück SPÄTER, %s, und öffne die Kiste dann mit dem BOSS-KISTE-Knopf erneut."
 
-#: game/ui/shop_screen.gd:362
+#: game/ui/shop_screen.gd:357
 #, c-format
 msgid "LOCKED: %s. Press LATER, %s, then reopen the crate."
 msgstr "GESPERRT: %s. Drück SPÄTER, %s, und öffne die Kiste dann erneut."
 
-#: game/ui/shop_screen.gd:380
+#: game/ui/shop_screen.gd:375
 msgid "SLOTS FULL"
 msgstr "PLÄTZE VOLL"
 
-#: game/ui/shop_screen.gd:390
+#: game/ui/shop_screen.gd:385
 #, c-format
 msgid "%d Credit"
 msgid_plural "%d Credits"
 msgstr[0] "%d Credit"
 msgstr[1] "%d Credits"
 
-#: game/ui/shop_screen.gd:395
+#: game/ui/shop_screen.gd:390
 #, c-format
 msgid "%d Credit, straight into your wallet."
 msgid_plural "%d Credits, straight into your wallet."
 msgstr[0] "%d Credit, direkt in deinen Geldbeutel."
 msgstr[1] "%d Credits, direkt in deinen Geldbeutel."
 
-#: game/ui/shop_screen.gd:399
+#: game/ui/shop_screen.gd:394
 #, c-format
 msgid "%d CREDIT"
 msgid_plural "%d CREDITS"
 msgstr[0] "%d CREDIT"
 msgstr[1] "%d CREDITS"
 
-#: game/ui/shop_screen.gd:401
+#: game/ui/shop_screen.gd:396
 msgid "Straight into your wallet."
 msgstr "Direkt in deinen Geldbeutel."
 
-#: game/ui/shop_screen.gd:432
+#: game/ui/shop_screen.gd:429
 #, c-format
 msgid "Sold for %d Credits."
 msgstr "Für %d Credits verkauft."
 
-#: game/ui/shop_screen.gd:505
+#: game/ui/shop_screen.gd:665
 #, c-format
 msgid "Added %s to your bag (%d pieces)."
 msgstr "%s zu deinem Beutel hinzugefügt (%d Teile)."
 
-#: game/ui/shop_screen.gd:510
+#: game/ui/shop_screen.gd:670
 #, c-format
 msgid "Loan Shark lent you %d Credits. It takes %d back after each won round."
 msgstr "Der Kredithai hat dir %d Credits geliehen. Nach jeder gewonnenen Runde holt er sich %d zurück."
 
-#: game/ui/shop_screen.gd:511
+#: game/ui/shop_screen.gd:671
 #, c-format
 msgid "%s joined your rack!"
 msgstr "%s ist jetzt in deinem Regal!"
 
-#: game/ui/shop_screen.gd:513
+#: game/ui/shop_screen.gd:673
 #, c-format
 msgid "Bought %s."
 msgstr "%s gekauft."
 
-#: game/ui/shop_screen.gd:546
+#: game/ui/shop_screen.gd:706
 #, c-format
 msgid "REROLL  %d"
 msgstr "NEU WÜRFELN  %d"
 
-#: game/ui/shop_screen.gd:559
+#: game/ui/shop_screen.gd:719
 #, c-format
 msgid "Score target for round %d: %s points"
 msgstr "Punkteziel für Runde %d: %s Punkte"
 
-#: game/ui/shop_screen.gd:560
+#: game/ui/shop_screen.gd:720
 msgid "Overtime: targets climb faster every round."
 msgstr "Verlängerung: Die Ziele steigen jede Runde schneller."
 
-#: game/ui/shop_screen.gd:567
+#: game/ui/shop_screen.gd:727
 #, c-format
 msgid "%s  (ROUND %d)"
 msgstr "%s  (RUNDE %d)"
 
-#: game/ui/shop_screen.gd:569
+#: game/ui/shop_screen.gd:729
 #, c-format
 msgid "Round %d boss: %s"
 msgstr "Boss in Runde %d: %s"
 
-#: game/ui/shop_screen.gd:587
+#: game/ui/shop_screen.gd:747
 msgid "Joker slots are full. Sell one first."
 msgstr "Die Joker-Plätze sind voll. Verkauf zuerst einen."
 
-#: game/ui/shop_screen.gd:610
+#: game/ui/shop_screen.gd:770
 #, c-format
 msgid "PICK %d"
 msgstr "WÄHLEN %d"
 
-#: game/ui/shop_screen.gd:636
+#: game/ui/shop_screen.gd:796
 msgid "Your bag is full."
 msgstr "Dein Beutel ist voll."
 
-#: game/ui/shop_screen.gd:640
+#: game/ui/shop_screen.gd:800
 #, c-format
 msgid "YOUR JOKERS %d/%d"
 msgstr "DEINE JOKER %d/%d"
 
-#: game/ui/shop_screen.gd:723
+#: game/ui/shop_screen.gd:876
 #, c-format
 msgid "BUY %d"
 msgstr "KAUFEN %d"
 
-#: game/ui/shop_screen.gd:739
+#: game/ui/shop_screen.gd:892
 msgid "SOLD OUT"
 msgstr "AUSVERKAUFT"
 
-#: game/ui/shop_screen.gd:778
+#: game/ui/shop_screen.gd:931
 #, c-format
 msgid "CHOOSE ROUND %d"
 msgstr "WÄHLE RUNDE %d"
 
-#: game/ui/shop_screen.gd:784
+#: game/ui/shop_screen.gd:937
 msgid "Play it straight, or take a twist for a reward. Keys 1-3 choose, Esc goes back."
 msgstr "Spiel sie normal oder nimm eine Wendung für eine Belohnung. Tasten 1-3 wählen, Esc geht zurück."
 
-#: game/ui/shop_screen.gd:801
+#: game/ui/shop_screen.gd:954
 msgid "STANDARD"
 msgstr "STANDARD"
 
-#: game/ui/shop_screen.gd:801
+#: game/ui/shop_screen.gd:954
 msgid "TWIST"
 msgstr "WENDUNG"
 
-#: game/ui/shop_screen.gd:823
+#: game/ui/shop_screen.gd:976
 #, c-format
 msgid "+%d IF YOU WIN"
 msgstr "+%d BEI SIEG"
 
-#: game/ui/shop_screen.gd:826
+#: game/ui/shop_screen.gd:979
 #, c-format
 msgid "PLAY  %d"
 msgstr "SPIELEN  %d"
 
-#: game/ui/shop_screen.gd:838
+#: game/ui/shop_screen.gd:991
 msgid "BACK TO THE SHOP"
 msgstr "ZURÜCK ZUM LADEN"
 
-#: game/ui/shop_screen.gd:912
+#: game/ui/shop_screen.gd:1065
 #, c-format
 msgid "%s  -  %d CREDITS"
 msgstr "%s  -  %d CREDITS"
 
-#: game/ui/shop_screen.gd:916
+#: game/ui/shop_screen.gd:1069
 #, c-format
 msgid "Choose up to %d piece."
 msgid_plural "Choose up to %d pieces."
 msgstr[0] "Wähle bis zu %d Teil."
 msgstr[1] "Wähle bis zu %d Teile."
 
-#: game/ui/shop_screen.gd:919
+#: game/ui/shop_screen.gd:1072
 msgid "CONFIRM PURCHASE"
 msgstr "KAUF BESTÄTIGEN"
 
-#: game/ui/shop_screen.gd:925
+#: game/ui/shop_screen.gd:1078
 #, c-format
 msgid "%d of %d chosen"
 msgstr "%d von %d gewählt"
 
-#: game/ui/shop_screen.gd:927
+#: game/ui/shop_screen.gd:1080
 #, c-format
 msgid "   -   color: %s"
 msgstr "   -   Farbe: %s"
 
-#: game/ui/shop_screen.gd:927
+#: game/ui/shop_screen.gd:1080
 msgid "pick one"
 msgstr "wähl eine"
 
-#: game/ui/shop_screen.gd:968
+#: game/ui/shop_screen.gd:1121
 msgid "CANCEL  (ESC)"
 msgstr "ABBRECHEN  (ESC)"
 
@@ -6874,4 +6890,8 @@ msgstr "Gewinne die Runde"
 #: game/ui/tutorial.gd:368
 msgid "Press NEXT ROUND"
 msgstr "Drück NÄCHSTE RUNDE"
+
+#: game/ui/wallet.gd:45
+msgid "Your Credits: spend them in the shop."
+msgstr "Deine Credits: gib sie im Laden aus."
 

@@ -120,6 +120,78 @@ func _make_custom_tooltip(_for_text: String) -> Object:
 	return l
 
 
+## The sell tab: while the card is hovered, a pink tab slides out of its right edge, full
+## height, with SELL over the coin and the value (one line, "SELL +N", on a short card). It
+## sits on the card like a drawer instead of floating over the text. The Button is named "Sell".
+## `bottom_room` keeps the bottom of the card free (a round item card's USE button).
+func add_sell_button(value: int, callback: Callable, disabled: bool = false, why: String = "", _small: bool = false, bottom_room: float = 0.0) -> Button:
+	var wrap := Control.new()
+	wrap.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	wrap.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var tab := BMStyle.button("", callback, "pink", 20)
+	tab.name = "Sell"
+	tab.disabled = disabled
+	tab.tooltip_text = why if why != "" else BMLoc.tn("Sell it for %d Credit.", "Sell it for %d Credits.", value) % value
+	tab.clip_contents = true
+	wrap.add_child(tab)
+	# Two lines: SELL, then coin + value. Labels ignore the mouse so the tab gets every click.
+	var stack := BMStyle.vbox(0)
+	stack.alignment = BoxContainer.ALIGNMENT_CENTER
+	stack.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stack.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	var word := BMStyle.label(BMLoc.t("SELL"), 20, BMStyle.CREAM, true, 6)
+	word.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	stack.add_child(word)
+	var price := BMStyle.hbox(4)
+	price.alignment = BoxContainer.ALIGNMENT_CENTER
+	price.add_child(BMStyle.icon_rect("icon_coin", 0.5))
+	price.add_child(BMStyle.label("+%d" % value, 20, BMStyle.SUN_L, true, 6))
+	stack.add_child(price)
+	var line := BMStyle.label(BMLoc.t("SELL +%d") % value, 20, BMStyle.CREAM, true, 6)
+	line.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	line.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	line.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	for n: Control in [stack, word, price, line]:
+		n.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	for n in price.get_children():
+		(n as Control).mouse_filter = Control.MOUSE_FILTER_IGNORE
+	tab.add_child(stack)
+	tab.add_child(line)
+	if disabled:
+		stack.modulate = Color(1, 1, 1, 0.5)
+		line.modulate = Color(1, 1, 1, 0.5)
+	var font := BMStyle.font_bold
+	var two_w := maxf(font.get_string_size(word.text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x, 26.0 + font.get_string_size("+%d" % value, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x)
+	var one_w := font.get_string_size(line.text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x
+	# Placed from the card's own rect: the panel's padding offsets the hover layer.
+	var layout := func() -> void:
+		var h := size.y - bottom_room - 12.0
+		var two := h >= 62.0
+		stack.visible = two
+		line.visible = not two
+		var w := (two_w if two else one_w) + 36.0
+		tab.size = Vector2(maxf(w, 96.0), h)
+		tab.position = Vector2(size.x - tab.size.x - 6.0, 6.0) - wrap.position
+	wrap.resized.connect(layout)
+	# The slide: the tab unfolds out of the card's right edge each time it shows.
+	wrap.visibility_changed.connect(func() -> void:
+		if not wrap.visible:
+			return
+		layout.call()
+		if reduced_motion:
+			return
+		tab.pivot_offset = Vector2(tab.size.x, tab.size.y / 2.0)
+		tab.scale = Vector2(0.4, 1.0)
+		tab.modulate.a = 0.0
+		var tw := tab.create_tween().set_parallel()
+		tw.tween_property(tab, "scale", Vector2.ONE, 0.14).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		tw.tween_property(tab, "modulate:a", 1.0, 0.08))
+	wrap.visible = false
+	hover_controls = wrap
+	add_child(wrap)
+	return tab
+
+
 ## Trigger feedback: bounce, glow, and a pop label above the card.
 func pulse(text: String = "", color: Color = BMStyle.SUN) -> void:
 	if not reduced_motion:
@@ -302,6 +374,10 @@ static func item_rack(id: String, run: BMRun = null, layout: String = "full", bo
 			if BMStyle.font_bold.get_string_size(word, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x > room:
 				n.autowrap_mode = TextServer.AUTOWRAP_OFF
 				n.max_lines_visible = -1
+		# A clipped, wrapping label reports a 1-px minimum height: give it its lines.
+		var name_w := BMStyle.font_bold.get_string_size(BMConsumables.display_name(id), HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x
+		var name_lines := 1 if n.max_lines_visible == 1 or n.autowrap_mode == TextServer.AUTOWRAP_OFF or name_w <= room else 2
+		n.custom_minimum_size.y = (BMStyle.font_bold.get_height(20) + 4.0) * name_lines # + line spacing
 		info.add_child(n)
 		if tile_live and live != "":
 			var tl := BMStyle.label(live, 20, Color("#1f63b8"), true)

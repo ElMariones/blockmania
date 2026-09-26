@@ -16,7 +16,7 @@ var main: Node
 var run: BMRun
 var stage: Control
 
-var _credits: BMHud.Counter
+var _wallet: BMWallet
 var _reroll_button: Button
 var _jokers_row: HBoxContainer
 var _items_row: HBoxContainer
@@ -68,17 +68,11 @@ func _ready() -> void:
 	_overtime_pill.tooltip_text = BMLoc.t("You beat the game and kept playing. Targets climb faster every round.")
 	_put(_overtime_pill, Vector2(652, 34), Vector2(0, 0))
 	var cred := BMStyle.panel("panel_inset", Vector4(10, 0, 12, 0))
-	var ch := BMStyle.hbox(8)
-	cred.add_child(ch)
-	ch.add_child(BMStyle.icon_rect("icon_coin", 1.0))
-	_credits = BMHud.Counter.new()
-	_credits.add_theme_font_override("font", BMStyle.font_bold)
-	_credits.add_theme_font_size_override("font_size", 40)
-	_credits.add_theme_color_override("font_color", BMStyle.SUN)
-	_credits.add_theme_color_override("font_outline_color", BMStyle.INK)
-	_credits.add_theme_constant_override("outline_size", 10)
-	_credits.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	ch.add_child(_credits)
+	_wallet = BMWallet.new()
+	_wallet.font_size = 40
+	_wallet.icon_scale = 1.0
+	_wallet.outline = 10
+	cred.add_child(_wallet)
 	_put(cred, Vector2(820, 22), Vector2(250, 68))
 	_reroll_button = BMStyle.button("REROLL", func() -> void: _act({"a": "reroll"}), "sky", 30)
 	_reroll_button.icon = BMStyle.tex("icon_refresh")
@@ -309,6 +303,7 @@ func _crate_offers(dim: Control) -> void:
 			locked.append(BMLoc.t("sell a Joker") if String(o.kind) == "joker" else BMLoc.t("use an item"))
 		elif first_take == null:
 			first_take = take
+		card.set_meta("crate_index", i)
 		row.add_child(card)
 		cards.append(card)
 	row.reset_size()
@@ -408,7 +403,8 @@ func bind(new_run: BMRun) -> void:
 	_center_stage()
 	_message.text = ""
 	BMUI.clear_children(_overlay)
-	_credits.set_target(run.credits, true)
+	_wallet.reduced_motion = main.settings.reduced_motion
+	_wallet.set_amount(run.credits)
 	refresh_all()
 	var leave := find_child("LeaveButton", true, false) as Button
 	if leave:
@@ -419,19 +415,18 @@ func bind(new_run: BMRun) -> void:
 
 func _act(a: Dictionary) -> Dictionary:
 	var before := run.credits
+	var src := _source_of(a)
 	var r: Dictionary = main.act(a)
 	_play_result_sound(a, r)
+	var flying: Control = null
+	if r.ok:
+		flying = _animate_money(a, r, before, src)
 	if r.ok and a.a in ["buy_tool", "buy_piece", "buy_joker", "buy_consumable", "buy_holo"]:
 		_message.add_theme_color_override("font_color", BMStyle.MINT_L)
 		_message.text = _purchase_text(r)
-		if BMFx.instance:
-			BMFx.instance.stars(_credits.get_global_rect().get_center(), 6, 60)
-			BMFx.instance.pop_text(_credits.get_global_rect().get_center() + Vector2(0, 50), "-%d" % (before - run.credits), BMStyle.PINK_L, 30)
-	elif r.ok and a.a == "sell":
+	elif r.ok and a.a in ["sell", "sell_item"]:
 		_message.add_theme_color_override("font_color", BMStyle.SUN)
 		_message.text = BMLoc.t("Sold for %d Credits.") % r.value
-		if BMFx.instance:
-			BMFx.instance.pop_text(_credits.get_global_rect().get_center() + Vector2(0, 50), "+%d" % r.value, BMStyle.SUN, 30)
 	elif not r.ok:
 		_message.add_theme_color_override("font_color", BMStyle.PINK_L)
 		_message.text = BMLoc.tf(r.error)
@@ -439,7 +434,176 @@ func _act(a: Dictionary) -> Dictionary:
 		_message.text = ""
 	if run.phase == BMRun.Phase.SHOP:
 		refresh_all()
+		if r.ok and String(a.a) == "reroll":
+			_deal_in([_jokers_row, _items_row, _tools_row, _pieces_row])
+		if flying != null:
+			var kind := String(a.a)
+			if kind == "crate":
+				kind = "crate_" + String(Dictionary(r.get("offer", {})).get("kind", ""))
+			_land_bought(flying, kind)
+	elif flying != null:
+		flying.queue_free()
 	return r
+
+
+# --- Money and cards in motion (presentation only) ---------------------------------------------
+
+## The card (or button) an action starts from, found before the action rebuilds the shelves.
+func _source_of(a: Dictionary) -> Control:
+	var i := int(a.get("i", -1))
+	var row: Container = null
+	match String(a.get("a", "")):
+		"buy_joker":
+			row = _jokers_row
+		"buy_consumable":
+			row = _items_row
+		"buy_tool":
+			row = _tools_row
+		"buy_holo":
+			row = _pieces_row
+		"buy_piece":
+			row = _pieces_row
+			i += Array(run.shop.get("holo", [])).size()
+		"sell":
+			row = _owned_box
+		"sell_item":
+			row = _owned_grid if _owned_grid.visible else _owned_items
+		"reroll":
+			return _reroll_button
+		"crate":
+			for c in _overlay.find_children("*", "", true, false):
+				if c is BMCard and int(c.get_meta("crate_index", -1)) == i:
+					return c as Control
+			return null
+	if row == null or i < 0 or i >= row.get_child_count():
+		return null
+	return row.get_child(i) as Control
+
+
+## Coins between the wallet and the card; a sold card spins away, a bought one is lifted off
+## its shelf. Returns the bought card on its way to the rack (it lands after the rebuild).
+func _animate_money(a: Dictionary, r: Dictionary, before: int, src: Control) -> Control:
+	var at := src.get_global_rect().get_center() if src else get_global_rect().get_center()
+	match String(a.a):
+		"sell", "sell_item":
+			var fly := BMFx.instance.fly_card(src, at, "sell") if BMFx.instance and src else 0.0
+			if fly > 0.0:
+				BMAudio.sfx_later("card_poof", 0.1)
+				if BMFx.instance:
+					BMFx.instance.burst(at, [BMStyle.SUN, BMStyle.SUN_L, BMStyle.CREAM], 14, 300.0, 8.0)
+			else:
+				BMAudio.sfx("sell")
+			_wallet.gain(at, int(r.value))
+		"reroll":
+			_wallet.spend(at, before - run.credits)
+		"crate":
+			var o: Dictionary = r.get("offer", {})
+			if run.credits > before:
+				_wallet.gain(at, run.credits - before)
+			elif src and String(o.get("kind", "")) in ["joker", "item"]:
+				return _launch(src)
+		"buy_joker", "buy_consumable", "buy_tool", "buy_piece", "buy_holo":
+			var loan := String(r.get("item", "")) == "loan_shark"
+			_wallet.spend(at, BMJokers.cost("loan_shark") if loan else before - run.credits)
+			if loan:
+				_wallet.gain(get_global_rect().get_center(), BMJokers.LOAN_CREDITS)
+			if src is BMCard:
+				return _launch(src)
+	return null
+
+
+## Lifts the bought card off its shelf onto the effects layer (same place on screen) before the
+## shelves are rebuilt. Null with Reduced Motion (the rack just shows the new card).
+func _launch(src: Control) -> Control:
+	if BMFx.instance == null or main.settings.reduced_motion or not src.is_visible_in_tree():
+		return null
+	var at := src.global_position
+	var sz := src.size
+	src.set_meta("flying", true)
+	if src is BMCard:
+		(src as BMCard).reduced_motion = true
+	BMFx._ignore_mouse(src)
+	src.reparent(BMFx.instance, false)
+	src.global_position = at
+	src.size = sz
+	return src
+
+
+## Where a bought card goes: a Joker or item to its new place in your rack, a piece or Workshop
+## card into the bag, a Holo card onto the whole rack. The new rack card shows as it lands.
+func _land_bought(card: Control, kind: String) -> void:
+	var target: Control = null
+	var reveal: Control = null
+	match kind:
+		"buy_joker", "crate_joker":
+			if run.jokers.size() - 1 < _owned_box.get_child_count():
+				reveal = _owned_box.get_child(run.jokers.size() - 1) as Control
+		"buy_consumable", "crate_item":
+			var holder: Container = _owned_grid if _owned_grid.visible else _owned_items
+			if run.consumables.size() - 1 < holder.get_child_count():
+				reveal = holder.get_child(run.consumables.size() - 1) as Control
+		"buy_tool", "buy_piece":
+			target = _bag_button
+		_:
+			target = _owned_box
+	if reveal:
+		target = reveal
+		reveal.modulate.a = 0.0 # shows as the card lands
+	if target == null or BMFx.instance == null:
+		card.queue_free()
+		return
+	# The rebuilt rack is laid out on the next frame; then the card knows where to go.
+	var target_ref: WeakRef = weakref(target)
+	await get_tree().process_frame
+	target = target_ref.get_ref() as Control
+	if not is_instance_valid(card):
+		return
+	if target == null or run == null or run.phase != BMRun.Phase.SHOP:
+		card.queue_free()
+		if target:
+			target.modulate = Color.WHITE
+		return
+	var t := BMFx.instance.fly_card(card, target.get_global_rect().get_center(), "buy")
+	if t <= 0.0:
+		card.queue_free()
+		target.modulate = Color.WHITE
+		return
+	var is_card := reveal != null
+	get_tree().create_timer(t).timeout.connect(func() -> void:
+		var tgt := target_ref.get_ref() as Control
+		BMAudio.sfx("card_land")
+		if tgt == null:
+			return
+		tgt.pivot_offset = tgt.size / 2.0
+		var tw := tgt.create_tween()
+		if is_card:
+			tgt.modulate = Color(1.7, 1.6, 1.2, 1.0)
+			tw.tween_property(tgt, "scale", Vector2(1.06, 1.06), 0.07).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+			tw.tween_property(tgt, "scale", Vector2.ONE, 0.16)
+			tw.parallel().tween_property(tgt, "modulate", Color.WHITE, 0.35)
+		else:
+			tw.tween_property(tgt, "scale", Vector2(1.1, 0.92), 0.07)
+			tw.tween_property(tgt, "scale", Vector2.ONE, 0.3).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
+		if BMFx.instance:
+			var c := tgt.get_global_rect().get_center()
+			BMFx.instance.stars(c, 5, 70.0)
+			BMFx.instance.ring(c, BMStyle.SUN_L, 60.0))
+
+
+## New offers after a reroll fade in one after another, a soft deal tick each.
+func _deal_in(rows: Array) -> void:
+	if main.settings.reduced_motion:
+		return
+	var k := 0
+	for row: Container in rows:
+		for c in row.get_children():
+			var card := c as Control
+			card.modulate.a = 0.0
+			var tw := card.create_tween()
+			tw.tween_interval(0.05 * k)
+			tw.tween_property(card, "modulate:a", 1.0, 0.16)
+			BMAudio.sfx_later("deal", 0.05 * k, 1.0 + 0.03 * k)
+			k += 1
 
 
 func _play_result_sound(a: Dictionary, r: Dictionary) -> void:
@@ -458,10 +622,6 @@ func _play_result_sound(a: Dictionary, r: Dictionary) -> void:
 				_legendary_fanfare(String(r.item))
 			if r.get("item", "") == "loan_shark":
 				BMAudio.sfx_later("loan_cash", 0.15)
-				if BMFx.instance:
-					BMFx.instance.coins(get_global_rect().get_center(), Vector2(160, 60), 10)
-		"sell":
-			BMAudio.sfx("sell")
 		"reroll":
 			BMAudio.sfx("reroll")
 		"move":
@@ -541,7 +701,7 @@ func refresh_all() -> void:
 		_crate_button.visible = run != null and run.has_crate()
 	if run == null or run.phase != BMRun.Phase.SHOP:
 		return
-	_credits.set_target(run.credits)
+	_wallet.sync(run.credits)
 	_overtime_pill.visible = run.overtime
 	_reroll_button.text = BMLoc.t("REROLL  %d") % int(run.shop.reroll_cost)
 	_reroll_button.disabled = run.credits < int(run.shop.reroll_cost)
@@ -651,19 +811,9 @@ func refresh_all() -> void:
 				if to < _owned_box.get_child_count():
 					BMStyle.focus_later(_owned_box.get_child(to) as Control)
 		card.tooltip_body += BMLoc.t("\nDrag onto another Joker to reorder. Alt+Up/Down while focused also moves it.")
-		var wrap := Control.new()
-		wrap.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-		wrap.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		var bar := BMStyle.hbox(4)
-		wrap.add_child(bar)
-		var sell := BMStyle.button("SELL +%d" % BMJokers.sell_value(id), func() -> void: _act({"a": "sell", "i": i}), "pink", 20)
-		bar.add_child(sell)
-		wrap.resized.connect(func() -> void:
-			bar.reset_size()
-			bar.position = Vector2(wrap.size.x - bar.size.x - 10, wrap.size.y - bar.size.y - 8))
-		wrap.visible = false
-		card.hover_controls = wrap
-		card.add_child(wrap)
+		var loan := id == "loan_shark" and run.loan_debt > 0
+		card.add_sell_button(BMJokers.sell_value(id), func() -> void: _act({"a": "sell", "i": i}), loan,
+			BMLoc.tf(BMLoc.m("Repay the loan first (%d Credits owed).") % run.loan_debt) if loan else "")
 		_owned_box.add_child(card)
 	for i in maxi(0, run.joker_slots() - run.occupied_slots()):
 		var empty := BMStyle.panel("panel_inset", Vector4.ZERO)
@@ -682,9 +832,12 @@ func refresh_all() -> void:
 	_owned_grid.visible = itiles
 	var iholder: Container = _owned_grid if itiles else _owned_items
 	var isize := Vector2(204, 76) if itiles else Vector2(204, 132)
-	for id in run.consumables:
+	for i in run.consumables.size():
+		var id := run.consumables[i]
 		var c := BMCard.item_rack(id, run, ilayout, 2, false)
 		c.custom_minimum_size = isize
+		c.reduced_motion = main.settings.reduced_motion
+		c.add_sell_button(BMConsumables.sell_value(id), func() -> void: _act({"a": "sell_item", "i": i}), false, "", itiles)
 		iholder.add_child(c)
 	for i in range(run.consumables.size(), islots):
 		var empty := BMStyle.panel("panel_inset", Vector4.ZERO)

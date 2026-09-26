@@ -159,8 +159,69 @@ func coins(from: Vector2, to: Vector2, count: int = 6) -> void:
 		return
 	for i in count:
 		var mid := from.lerp(to, 0.5) + Vector2(randf_range(-120, 120), randf_range(-220, -80))
-		_add({"pos": from, "from": from, "mid": mid, "to": to, "life": 0.7 + i * 0.06, "size": 8.0,
+		_add({"pos": from, "from": from, "mid": mid, "to": to, "life": coin_flight(i), "size": 8.0,
 			"color": BMStyle.SUN, "kind": "coin", "grav": 0.0, "vel": Vector2.ZERO})
+
+
+## Seconds the i-th coin of a `coins` shower takes to arrive (BMWallet counts on landing).
+static func coin_flight(i: int) -> float:
+	return 0.7 + i * 0.06
+
+
+## A card leaves its shelf or rack: it is moved onto this layer (same place on screen), takes
+## no input, flies, and is freed. "buy" arcs to `to` and shrinks into it; "sell" pops up, spins
+## away and vanishes (the caller sends its coins). Returns the flight time (0 when skipped).
+func fly_card(card: Control, to: Vector2, mode: String = "buy") -> float:
+	if card == null or not is_instance_valid(card):
+		return 0.0
+	if reduced_motion or not card.is_visible_in_tree():
+		return 0.0
+	var at := card.global_position
+	var sz := card.size
+	card.set_meta("flying", true)
+	if card is BMCard:
+		(card as BMCard).reduced_motion = true # no hover tweens mid-flight
+		if (card as BMCard).hover_controls:
+			(card as BMCard).hover_controls.visible = false
+	_ignore_mouse(card)
+	card.reparent(self, false)
+	card.global_position = at
+	card.size = sz
+	card.pivot_offset = sz / 2.0
+	card.z_index = 5
+	var tw := card.create_tween()
+	var dur := 0.0
+	if mode == "sell":
+		dur = 0.34
+		tw.tween_property(card, "scale", Vector2(1.12, 1.12), 0.08).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		tw.tween_property(card, "position:y", card.position.y - 40.0, 0.26).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tw.parallel().tween_property(card, "rotation", randf_range(0.35, 0.6) * (1 if randf() < 0.5 else -1), 0.26)
+		tw.parallel().tween_property(card, "scale", Vector2(0.1, 0.1), 0.26).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+		tw.parallel().tween_property(card, "modulate", Color(2.0, 1.8, 1.0, 0.0), 0.26).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	else:
+		dur = 0.55
+		var start := card.position
+		var end := to - sz / 2.0
+		var peak := start.lerp(end, 0.5) + Vector2(0, -120)
+		var tilt := 0.18 if end.x > start.x else -0.18
+		tw.tween_property(card, "scale", Vector2(1.08, 1.08), 0.08).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		tw.tween_method(func(t: float) -> void:
+			var a := start.lerp(peak, t)
+			var b := peak.lerp(end, t)
+			card.position = a.lerp(b, t)
+			card.rotation = tilt * sin(t * PI)
+			card.scale = Vector2.ONE * lerpf(1.08, 0.35, t * t), 0.0, 1.0, dur - 0.08).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		tw.parallel().tween_property(card, "modulate:a", 0.0, 0.12).set_delay(dur - 0.2)
+	tw.tween_callback(card.queue_free)
+	return dur
+
+
+static func _ignore_mouse(n: Node) -> void:
+	if n is Control:
+		(n as Control).mouse_filter = Control.MOUSE_FILTER_IGNORE
+		(n as Control).focus_mode = Control.FOCUS_NONE
+	for c in n.get_children():
+		_ignore_mouse(c)
 
 
 func shards(at: Vector2, count: int = 14, color: Color = Color(0.85, 0.97, 1.0, 0.9)) -> void:

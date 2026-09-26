@@ -191,7 +191,7 @@ The same boss modifier must never silently make a Joker text false. Disabled or 
 - A shop appears after every won round except round 12. It contains three Joker offers, two consumable offers, two Workshop cards (bag edits), and two pieces for the bag (§16.4–16.5). Prices and descriptions are visible before purchase. Reroll replaces every offer.
 - Jokers cost 3/5/8 Credits for common/uncommon/rare. Consumables cost 3–5 Credits. The first shop reroll costs 2 Credits, then rises by 1 each reroll within that shop. Leaving resets the reroll price.
 - Five Joker slots and two consumable slots. A purchase at capacity requires selling or using an item first; the UI never discards an item automatically.
-- Selling a Joker returns half its printed cost, rounded up. Consumables cannot be sold. Credits carry through the run and are capped at 99.
+- Selling a Joker returns half its printed cost, rounded up. An unused item sells for half its price, rounded down, at least 1 Credit (§26). Credits carry through the run and are capped at 99.
 - Shop rarity weights begin at 65% common, 30% uncommon, 5% rare, shifting to 40/40/19 plus 1% Legendary by Act 3 (Overtime acts 34/40/23/3). No duplicate unique Joker offer if already owned. Offer generation is deterministic from the run seed.
 
 ### Starting Kits
@@ -994,3 +994,32 @@ Schema 9: run `joker_mods`, `extra_item_slots`, `holo_bought` and the `items` ra
 ### 25.10 Verification
 
 E2E: `scenario_warden` (W1–W7), `scenario_receipt` (R1–R4), `scenario_late_game` (items, shop, Holo, round cards, bosses, dead trays, color and form Jokers, schema 8 → 9; failure modes written first), the campaign invariant "a PLAYING round always has a legal move", and two late-game stops in `scenario_languages`. Balance: `tools/study.gd` arms, summarized in TASKS.md (balance watch).
+
+## 26. Selling items and the wallet (owner request, 2026-09-26)
+
+Owner request: "add the selling unused items option, add animations when buying, selling, getting money ... make clicking in your money reactive with a fun sound and effect ... care about details."
+
+### 26.1 Selling items (rule)
+
+- `sell_item` is a run command, allowed where selling a Joker is: in the shop and between placements. It pays `BMConsumables.sell_value`: half the item's price, rounded down, at least 1 (Polish, Spark, Coin Roll 3 → 1; Eraser, Brick 4 → 2; Turbo 5 → 2). Credits stay capped at 99. The sale is in the run history (replay) and the save; no schema change.
+- Selling in the round asks first (SELL / KEEP), like a Joker, and puts away an item that was armed for targeting (its slot may move). Selling the last rescue can still lose a stuck round: that is the player's call.
+- A free item (crate, Treasure Hunt, Vending Machine) is worth a Credit or two: a small, bounded liquidity outlet, never a profit loop (it can only be bought back at double).
+
+### 26.2 Sell tab
+
+Hovering an owned Joker or item unfolds a pink **sell tab** out of the card's right edge: full card height, SELL over the coin and the value (one line, "SELL +N", on short cards). It sits on the card like a drawer instead of floating over the text; on a round item card it stops above the USE button. Disabled with the reason in its tooltip (armed item, loan owed, not between placements).
+
+### 26.3 Money in motion (presentation only)
+
+- **The wallet** (`BMWallet`, shop and round screen) draws the coin and the number itself. Arriving Credits fly in as coins and the number counts up coin by coin with a rising clink; spent Credits leave as coins toward what they paid for; any other change still flashes (mint up, pink down) and rolls. It never reads or writes rules state beyond showing `run.credits`.
+- **Buying:** the card is lifted off its shelf and arcs into its new rack place (a Joker or item) or into the BAG button (pieces, Workshop cards); the new rack card appears as it lands (card slap, stars). Coins leave the wallet for the shelf at the same time.
+- **Selling:** the card winds up, spins away and bursts; its coins fly to the wallet.
+- **Rerolls:** coins fly to the REROLL button; the new offers deal in one by one.
+- **Round win:** the Credit lines print one at a time; each line's coins fly into YOU HAVE, which counts up from what you had. Placement Credits, Coin Roll, Double Down, crate Credits and the Loan Shark use the same coins.
+- **Clicking the wallet** flicks the coin into the air (it spins, lands, sparkles); clicks in quick succession climb in pitch, and ten in a row spill a little coin fountain. Purely cosmetic.
+- **Reduced Motion:** no flying cards or coins, no hop or bounce; the number jumps to the real value and the sounds still play.
+- Sounds (`tools/audio/gen_sfx_money.py`): `coin_flip`, `coin_catch`, `coin_collect`, `coin_out`, `card_land`, `card_poof`, `coin_jackpot`.
+
+### 26.4 Verification
+
+E2E `scenario_wallet` (failure modes written first: S1–S7 selling, M1–M5 wallet and flying cards): SELL on every owned card (shop cards and tiles, round cards and tiles), sale values and the cap, the right item leaves, no sale outside the shop and placements, no tool left armed, history and resume, confirm/KEEP in the round, the wallet settles on the real Credits after sales, purchases and wins, flying cards take no input and leave nothing behind, the landed rack card is fully shown, wallet clicks change nothing, Reduced Motion. Visual checks at 1920×1080 (shop hover, round cards and tiles, a sale and a purchase mid-flight, the wallet flip and fountain, the round payout).
