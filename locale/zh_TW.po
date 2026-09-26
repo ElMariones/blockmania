@@ -917,8 +917,8 @@ msgid "One tray slot starts barred: its piece can't be played until you clear a 
 msgstr "一個托盤欄位開局被封鎖:在你消除一條線之前,其中的拼塊無法放置。發牌會跳過被封鎖的欄位。"
 
 #: game/content/bosses.gd:30
-msgid "Two tray slots start barred until you clear a line. Deals skip barred slots."
-msgstr "兩個托盤欄位被封鎖,直到你消除一條線。發牌會跳過被封鎖的欄位。"
+msgid "Two tray slots start barred. Each clearing placement frees one. Deals skip barred slots."
+msgstr "兩個托盤欄位開局被封鎖。每次消除線的放置會解放一個。發牌會跳過被封鎖的欄位。"
 
 #: game/content/bosses.gd:31
 msgid "Open with a quick clear using the other two slots."
@@ -1024,7 +1024,7 @@ msgid "Swap one tray piece for a temporary 1-3 cell piece you choose."
 msgstr "把托盤中的一個拼塊換成你選擇的1-3格臨時拼塊。"
 
 #. rules text (shown through BMLoc.tf)
-#: game/content/consumables.gd:18 game/run/run.gd:1186
+#: game/content/consumables.gd:18 game/run/run.gd:1194
 msgid "Cash Out"
 msgstr "兌現"
 
@@ -1230,7 +1230,7 @@ msgid "+2 Credits after a round won with at least two placements unused."
 msgstr "以至少兩次未用放置贏下回合後,+2代幣。"
 
 #. rules text (shown through BMLoc.tf)
-#: game/content/jokers.gd:32 game/run/run.gd:1184
+#: game/content/jokers.gd:32 game/run/run.gd:1192
 msgid "Spare Parts"
 msgstr "備用零件"
 
@@ -1730,7 +1730,7 @@ msgstr "本回合消除:%d"
 msgid "Recent: %s"
 msgstr "最近:%s"
 
-#: game/content/jokers.gd:379 game/content/jokers.gd:395 game/ui/game_screen.gd:1561
+#: game/content/jokers.gd:379 game/content/jokers.gd:395 game/ui/game_screen.gd:1571
 msgid "none"
 msgstr "無"
 
@@ -2627,11 +2627,11 @@ msgstr "想逛多久都行。準備好了,下一回合在這裡:你甚至可以�
 msgid "You're a natural! Every fourth round a boss shows up, so read its rule. Have fun!"
 msgstr "你很有天分!每四個回合會出現一個首領,記得看它的規則。玩得開心!"
 
-#: game/main.gd:602
+#: game/main.gd:606
 msgid "SOUND OFF  (M)"
 msgstr "聲音關  (M)"
 
-#: game/main.gd:602
+#: game/main.gd:606
 msgid "SOUND ON  (M)"
 msgstr "聲音開  (M)"
 
@@ -3081,81 +3081,81 @@ msgid "Draftsman: item slots full"
 msgstr "繪圖員:道具欄位已滿"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:402
+#: game/rules/resolver.gd:408
 #, c-format
 msgid "The Warden's bars break: slot %d is free"
 msgstr "典獄長的鐵欄斷了:欄位%d已解放"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:405
+#: game/rules/resolver.gd:411
 msgid "Patch Panel ready: remove one block"
 msgstr "補丁面板就緒:移除一個方塊"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:410
+#: game/rules/resolver.gd:416
 msgid "Memory Stamp: gained a Spark"
 msgstr "記憶印章:獲得一個火花"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:412
+#: game/rules/resolver.gd:418
 msgid "Memory Stamp: item slots full"
 msgstr "記憶印章:道具欄位已滿"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:415
+#: game/rules/resolver.gd:421
 #, c-format
 msgid "Snowball grew to x%s Mult"
 msgstr "雪球成長到x%s倍率"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:422
+#: game/rules/resolver.gd:428
 #, c-format
 msgid "Veteran: this piece now scores +%d Chips"
 msgstr "老兵:這個拼塊現在提供+%d籌碼"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:431
+#: game/rules/resolver.gd:437
 #, c-format
 msgid "Philosopher's Stone: it turned %s"
 msgstr "賢者之石:它變成了%s"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:441
+#: game/rules/resolver.gd:447
 #, c-format
 msgid "Glass %s shattered and left your bag"
 msgstr "玻璃拼塊%s碎裂,離開了你的袋子"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:444
+#: game/rules/resolver.gd:450
 msgid "Breakage Bonus: +2 Credits"
 msgstr "破損獎金:+2代幣"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:446
+#: game/rules/resolver.gd:452
 #, c-format
 msgid "Glass %s cracked but held (bag at minimum size)"
 msgstr "玻璃拼塊%s出現裂痕但撐住了(袋子已是最小數量)"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:525
+#: game/rules/resolver.gd:531
 #, c-format
 msgid "Mimic (%s)"
 msgstr "模仿者(%s)"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:527
+#: game/rules/resolver.gd:533
 #, c-format
 msgid "Mimic (%s), mirrored"
 msgstr "模仿者(%s),鏡像"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:531
+#: game/rules/resolver.gd:537
 #, c-format
 msgid "%s, mirrored"
 msgstr "%s,鏡像"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/achievement_store.gd:144 game/ui/game_screen.gd:1550
+#: game/run/achievement_store.gd:144 game/ui/game_screen.gd:1560
 msgid "Best placement"
 msgstr "最佳單次放置"
 
@@ -3340,7 +3340,7 @@ msgid "Choose where to hit."
 msgstr "選擇要打擊的位置。"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:666 game/ui/game_screen.gd:1831
+#: game/run/run.gd:666 game/ui/game_screen.gd:1841
 msgid "Nothing to hit there."
 msgstr "那裡沒有可以打的東西。"
 
@@ -3454,12 +3454,12 @@ msgid "Not enough Credits."
 msgstr "代幣不足。"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:788 game/run/run.gd:1323
+#: game/run/run.gd:788 game/run/run.gd:1331
 msgid "Joker slots are full. Sell a Joker first."
 msgstr "小丑牌欄位已滿。先賣掉一張小丑牌。"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:810 game/run/run.gd:1330 game/ui/shop_screen.gd:565
+#: game/run/run.gd:810 game/run/run.gd:1338 game/ui/shop_screen.gd:565
 msgid "Item slots are full. Use an item first."
 msgstr "道具欄位已滿。先使用一個道具。"
 
@@ -3570,88 +3570,88 @@ msgid "No offered shape fits and no rescue remains."
 msgstr "沒有能放下的形狀,也沒有補救手段了。"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1175
+#: game/run/run.gd:1183
 msgid "Round won"
 msgstr "贏下回合"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1178
+#: game/run/run.gd:1186
 #, c-format
 msgid "Unused placements (%d)"
 msgstr "未使用的放置(%d)"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1180
+#: game/run/run.gd:1188
 msgid "Boss defeated"
 msgstr "擊敗首領"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1192
+#: game/run/run.gd:1200
 #, c-format
 msgid "Overkill (%s of target)"
 msgstr "殺雞用牛刀(目標的%s)"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1195
+#: game/run/run.gd:1203
 #, c-format
 msgid "%s bonus"
 msgstr "%s獎勵"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1199
+#: game/run/run.gd:1207
 #, c-format
 msgid "Thrift (%d unused Refresh)"
 msgid_plural "Thrift (%d unused Refreshes)"
 msgstr[0] "節儉(未使用的刷新%d次)"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1204
+#: game/run/run.gd:1212
 #, c-format
 msgid "Interest (%d held)"
 msgstr "利息(持有%d)"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1209
+#: game/run/run.gd:1217
 #, c-format
 msgid "Overachiever grew to +%s Mult"
 msgstr "優等生成長到+%s倍率"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1212
+#: game/run/run.gd:1220
 #, c-format
 msgid "Hot Streak heated up to x%s Mult"
 msgstr "連勝氣勢升溫到x%s倍率"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1219
+#: game/run/run.gd:1227
 #, c-format
 msgid "Treasure Hunt: found %s"
 msgstr "尋寶:找到了%s"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1222
+#: game/run/run.gd:1230
 #, c-format
 msgid "Scholarship: %s is now level %d"
 msgstr "獎學金:%s升到%d級"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1229
+#: game/run/run.gd:1237
 #, c-format
 msgid "Vending Machine dropped %s"
 msgstr "自動販賣機掉出了%s"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1233
+#: game/run/run.gd:1241
 msgid "Loan Shark repayment"
 msgstr "償還高利貸"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1316
+#: game/run/run.gd:1324
 msgid "Nothing in the crate there."
 msgstr "箱子裡那個位置什麼都沒有。"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1321
+#: game/run/run.gd:1329
 msgid "That offer is empty."
 msgstr "這件商品是空的。"
 
@@ -3820,15 +3820,15 @@ msgstr "拼塊"
 msgid "+1 LV"
 msgstr "+1級"
 
-#: game/ui/endless_screen.gd:77 game/ui/game_screen.gd:2273
+#: game/ui/endless_screen.gd:77 game/ui/game_screen.gd:2283
 msgid "HOLD"
 msgstr "暫存"
 
-#: game/ui/endless_screen.gd:80 game/ui/game_screen.gd:2280
+#: game/ui/endless_screen.gd:80 game/ui/game_screen.gd:2290
 msgid "EMPTY"
 msgstr "空"
 
-#: game/ui/endless_screen.gd:87 game/ui/game_screen.gd:2274
+#: game/ui/endless_screen.gd:87 game/ui/game_screen.gd:2284
 msgid "USED THIS TURN"
 msgstr "本回合已使用"
 
@@ -4001,7 +4001,7 @@ msgstr "再玩一次"
 msgid "HIGH SCORES"
 msgstr "最高分"
 
-#: game/ui/endless_screen.gd:653 game/ui/game_screen.gd:1620
+#: game/ui/endless_screen.gd:653 game/ui/game_screen.gd:1630
 msgid "TITLE"
 msgstr "標題"
 
@@ -4448,7 +4448,7 @@ msgstr "賣出"
 msgid "Concede this round? The run will end."
 msgstr "要在本回合認輸嗎?本局將會結束。"
 
-#: game/ui/game_screen.gd:1224 game/ui/game_screen.gd:2095 game/ui/game_screen.gd:2140 game/ui/settings_menu.gd:116 game/ui/title_screen.gd:286 game/ui/title_screen.gd:368
+#: game/ui/game_screen.gd:1224 game/ui/game_screen.gd:2105 game/ui/game_screen.gd:2150 game/ui/settings_menu.gd:116 game/ui/title_screen.gd:286 game/ui/title_screen.gd:368
 msgid "BACK"
 msgstr "返回"
 
@@ -4524,59 +4524,64 @@ msgstr "本幕首領,第%d回合:  %s"
 msgid "START ROUND"
 msgstr "開始回合"
 
-#: game/ui/game_screen.gd:1441
+#: game/ui/game_screen.gd:1452
+#, c-format
+msgid "THE WARDEN BARRED SLOTS %d AND %d: EACH CLEAR FREES ONE"
+msgstr "典獄長封鎖了欄位%d和%d:每消除一次解放一個"
+
+#: game/ui/game_screen.gd:1454
 #, c-format
 msgid "THE WARDEN BARRED SLOT %d: CLEAR A LINE TO FREE IT"
 msgstr "典獄長封鎖了欄位%d:消除一條線即可解放"
 
-#: game/ui/game_screen.gd:1453
+#: game/ui/game_screen.gd:1463
 #, c-format
 msgid "ROUND %d CLEARED!"
 msgstr "第%d回合通過!"
 
-#: game/ui/game_screen.gd:1459
+#: game/ui/game_screen.gd:1469
 #, c-format
 msgid "%s / %s points   -   %d placement unused"
 msgid_plural "%s / %s points   -   %d placements unused"
 msgstr[0] "%s / %s分   -   %d次放置未使用"
 
-#: game/ui/game_screen.gd:1476
+#: game/ui/game_screen.gd:1486
 msgid "Earned"
 msgstr "獲得"
 
-#: game/ui/game_screen.gd:1489
+#: game/ui/game_screen.gd:1499
 msgid "YOU HAVE"
 msgstr "你擁有"
 
-#: game/ui/game_screen.gd:1494
+#: game/ui/game_screen.gd:1504
 msgid "FINISH RUN"
 msgstr "結束本局"
 
-#: game/ui/game_screen.gd:1494
+#: game/ui/game_screen.gd:1504
 msgid "TO THE SHOP"
 msgstr "前往商店"
 
-#: game/ui/game_screen.gd:1517
+#: game/ui/game_screen.gd:1527
 msgid "GAME OVER"
 msgstr "遊戲結束"
 
-#: game/ui/game_screen.gd:1517
+#: game/ui/game_screen.gd:1527
 msgid "RUN ABANDONED"
 msgstr "已放棄本局"
 
-#: game/ui/game_screen.gd:1517
+#: game/ui/game_screen.gd:1527
 msgid "YOU WIN!"
 msgstr "你贏了!"
 
-#: game/ui/game_screen.gd:1519
+#: game/ui/game_screen.gd:1529
 msgid "MACHINE BROKEN!"
 msgstr "機器被玩壞了!"
 
-#: game/ui/game_screen.gd:1521
+#: game/ui/game_screen.gd:1531
 msgid "OVERTIME OVER"
 msgstr "延長賽結束"
 
-#: game/ui/game_screen.gd:1531
+#: game/ui/game_screen.gd:1541
 #, c-format
 msgid ""
 "Your run was already a win. Overtime ended in round %d.\n"
@@ -4585,276 +4590,276 @@ msgstr ""
 "你的這一局已經獲勝。延長賽在第%d回合結束。\n"
 "%s"
 
-#: game/ui/game_screen.gd:1548
+#: game/ui/game_screen.gd:1558
 #, c-format
 msgid "%d  (OVERTIME +%d)"
 msgstr "%d  (延長賽 +%d)"
 
-#: game/ui/game_screen.gd:1549
+#: game/ui/game_screen.gd:1559
 msgid "Lines cleared"
 msgstr "消除的線"
 
-#: game/ui/game_screen.gd:1549
+#: game/ui/game_screen.gd:1559
 msgid "Round"
 msgstr "回合"
 
-#: game/ui/game_screen.gd:1550
+#: game/ui/game_screen.gd:1560
 msgid "Last score"
 msgstr "最後得分"
 
-#: game/ui/game_screen.gd:1551
+#: game/ui/game_screen.gd:1561
 msgid "Bag size"
 msgstr "袋子大小"
 
-#: game/ui/game_screen.gd:1551
+#: game/ui/game_screen.gd:1561
 msgid "Highest combo"
 msgstr "最高連擊"
 
-#: game/ui/game_screen.gd:1561
+#: game/ui/game_screen.gd:1571
 #, c-format
 msgid "Jokers: %s"
 msgstr "小丑牌:%s"
 
-#: game/ui/game_screen.gd:1564
+#: game/ui/game_screen.gd:1574
 #, c-format
 msgid "Seed %d  -  %s"
 msgstr "種子 %d  -  %s"
 
-#: game/ui/game_screen.gd:1565
+#: game/ui/game_screen.gd:1575
 msgid "  -  practice seed: no achievements, records or unlocks"
 msgstr "  -  練習種子:不計成就、紀錄和解鎖"
 
-#: game/ui/game_screen.gd:1575
+#: game/ui/game_screen.gd:1585
 #, c-format
 msgid "NEW RECORD!  %s: %s"
 msgstr "新紀錄!  %s:%s"
 
-#: game/ui/game_screen.gd:1577
+#: game/ui/game_screen.gd:1587
 #, c-format
 msgid "  (was %s)"
 msgstr "  (之前 %s)"
 
-#: game/ui/game_screen.gd:1585
+#: game/ui/game_screen.gd:1595
 #, c-format
 msgid "NEW KIT UNLOCKED: %s!"
 msgstr "新套裝解鎖:%s!"
 
-#: game/ui/game_screen.gd:1597
+#: game/ui/game_screen.gd:1607
 msgid "THE ARCADE STAYS OPEN..."
 msgstr "遊樂場還沒打烊……"
 
-#: game/ui/game_screen.gd:1600
+#: game/ui/game_screen.gd:1610
 #, c-format
 msgid "Keep this build and play on: round 13 needs %s, and every target after climbs faster. A boss every fourth round. Your win is already saved."
 msgstr "保留這套構築繼續玩:第13回合需要%s,之後每個目標漲得更快。每四回合一個首領。你的勝利已經儲存。"
 
-#: game/ui/game_screen.gd:1604
+#: game/ui/game_screen.gd:1614
 msgid "KEEP PLAYING: OVERTIME  >"
 msgstr "繼續遊戲:延長賽  >"
 
-#: game/ui/game_screen.gd:1608
+#: game/ui/game_screen.gd:1618
 msgid "Rounds 13 and beyond. How far can your build go before the machine gives up?"
 msgstr "第13回合及以後。在機器認輸之前,你的構築能走多遠?"
 
-#: game/ui/game_screen.gd:1614 game/ui/title_screen.gd:85
+#: game/ui/game_screen.gd:1624 game/ui/title_screen.gd:85
 msgid "NEW RUN"
 msgstr "新的一局"
 
-#: game/ui/game_screen.gd:1617
+#: game/ui/game_screen.gd:1627
 msgid "SAME SEED"
 msgstr "相同種子"
 
-#: game/ui/game_screen.gd:1652
+#: game/ui/game_screen.gd:1662
 msgid "ERASER: click up to 2 blocks to rub out"
 msgstr "橡皮擦:點擊最多2個方塊將其擦除"
 
-#: game/ui/game_screen.gd:1653
+#: game/ui/game_screen.gd:1663
 msgid "PUNCH: click where to smash (plus shape)"
 msgstr "重拳:點擊要打擊的位置(十字形)"
 
-#: game/ui/game_screen.gd:1654
+#: game/ui/game_screen.gd:1664
 msgid "COLOR PURGE: click a block to remove its whole color"
 msgstr "顏色清洗:點擊一個方塊,移除它的整種顏色"
 
-#: game/ui/game_screen.gd:1655
+#: game/ui/game_screen.gd:1665
 msgid "LUCKY PAINT: click a tray piece to repaint"
 msgstr "幸運油漆:點擊托盤中要重新上色的拼塊"
 
-#: game/ui/game_screen.gd:1656
+#: game/ui/game_screen.gd:1666
 msgid "BLUEPRINT: click a tray piece to swap"
 msgstr "藍圖:點擊托盤中要替換的拼塊"
 
-#: game/ui/game_screen.gd:1657
+#: game/ui/game_screen.gd:1667
 msgid "BRICK: throw it at a tray slot, or click one"
 msgstr "磚塊:丟向一個托盤欄位,或點擊其中一個"
 
-#: game/ui/game_screen.gd:1658
+#: game/ui/game_screen.gd:1668
 msgid "PATCH PANEL: click one block to remove"
 msgstr "補丁面板:點擊要移除的方塊"
 
-#: game/ui/game_screen.gd:1659
+#: game/ui/game_screen.gd:1669
 msgid "TUNE-UP: click a tray piece to level up its family"
 msgstr "調校:點擊托盤中的拼塊,提升其家族等級"
 
-#: game/ui/game_screen.gd:1673
+#: game/ui/game_screen.gd:1683
 msgid "Right-click or Esc to cancel"
 msgstr "右鍵或Esc取消"
 
-#: game/ui/game_screen.gd:1715
+#: game/ui/game_screen.gd:1725
 #, c-format
 msgid "ERASE %d"
 msgstr "擦除 %d"
 
-#: game/ui/game_screen.gd:1718
+#: game/ui/game_screen.gd:1728
 msgid "CANCEL"
 msgstr "取消"
 
-#: game/ui/game_screen.gd:1720
+#: game/ui/game_screen.gd:1730
 msgid "Put the item away (right-click or Esc)."
 msgstr "收起道具(右鍵或Esc)。"
 
-#: game/ui/game_screen.gd:1728
+#: game/ui/game_screen.gd:1738
 #, c-format
 msgid "%s (Joker)"
 msgstr "%s(小丑牌)"
 
-#: game/ui/game_screen.gd:1731
+#: game/ui/game_screen.gd:1741
 msgid "Remove one block of your choice."
 msgstr "移除一個你選擇的方塊。"
 
-#: game/ui/game_screen.gd:1737
+#: game/ui/game_screen.gd:1747
 msgid "PATCH"
 msgstr "修補"
 
-#: game/ui/game_screen.gd:1811 game/ui/game_screen.gd:1842
+#: game/ui/game_screen.gd:1821 game/ui/game_screen.gd:1852
 msgid "Pick a block, not an empty cell."
 msgstr "請選擇方塊,而不是空格。"
 
-#: game/ui/game_screen.gd:1823
+#: game/ui/game_screen.gd:1833
 #, c-format
 msgid "%d OF 2 CHOSEN: PICK ANOTHER, OR PRESS ERASE"
 msgstr "已選%d/2:再選一個,或按擦除"
 
-#: game/ui/game_screen.gd:1836
+#: game/ui/game_screen.gd:1846
 msgid "Pick a colored block (stone is immune)."
 msgstr "請選擇有顏色的方塊(石頭免疫)。"
 
-#: game/ui/game_screen.gd:1853 game/ui/game_screen.gd:1858
+#: game/ui/game_screen.gd:1863 game/ui/game_screen.gd:1868
 msgid "That slot is empty."
 msgstr "這個欄位是空的。"
 
-#: game/ui/game_screen.gd:1914
+#: game/ui/game_screen.gd:1924
 #, c-format
 msgid "RUBBED OUT %d BLOCK"
 msgid_plural "RUBBED OUT %d BLOCKS"
 msgstr[0] "擦掉了%d個方塊"
 
-#: game/ui/game_screen.gd:1927 game/ui/game_screen.gd:1995
+#: game/ui/game_screen.gd:1937 game/ui/game_screen.gd:2005
 msgid "SMASH!"
 msgstr "砰!"
 
-#: game/ui/game_screen.gd:1930
+#: game/ui/game_screen.gd:1940
 #, c-format
 msgid "PUNCHED OUT %d BLOCK"
 msgid_plural "PUNCHED OUT %d BLOCKS"
 msgstr[0] "打飛了%d個方塊"
 
-#: game/ui/game_screen.gd:1945
+#: game/ui/game_screen.gd:1955
 #, c-format
 msgid "PURGED %d BLOCK: %s"
 msgid_plural "PURGED %d BLOCKS: %s"
 msgstr[0] "清除了%d個方塊:%s"
 
-#: game/ui/game_screen.gd:1954
+#: game/ui/game_screen.gd:1964
 msgid "SPLASH!"
 msgstr "啪嗒!"
 
-#: game/ui/game_screen.gd:1955
+#: game/ui/game_screen.gd:1965
 #, c-format
 msgid "REPAINTED %s"
 msgstr "重新塗成%s"
 
-#: game/ui/game_screen.gd:1964
+#: game/ui/game_screen.gd:1974
 msgid "BLUEPRINT: A FRESH PIECE, DRAFTED"
 msgstr "藍圖:新拼塊,剛剛畫好"
 
-#: game/ui/game_screen.gd:1974
+#: game/ui/game_screen.gd:1984
 #, c-format
 msgid "LV %d!"
 msgstr "%d級!"
 
-#: game/ui/game_screen.gd:1975
+#: game/ui/game_screen.gd:1985
 #, c-format
 msgid "TUNE-UP: %s IS NOW LEVEL %d"
 msgstr "調校:%s現在是%d級"
 
-#: game/ui/game_screen.gd:1997
+#: game/ui/game_screen.gd:2007
 msgid "BRICK!"
 msgstr "磚塊!"
 
-#: game/ui/game_screen.gd:2002
+#: game/ui/game_screen.gd:2012
 msgid "BRICK IN THE TRAY"
 msgstr "磚塊進了托盤"
 
-#: game/ui/game_screen.gd:2002
+#: game/ui/game_screen.gd:2012
 #, c-format
 msgid "SMASHED %s!"
 msgstr "砸碎了%s!"
 
-#: game/ui/game_screen.gd:2072
+#: game/ui/game_screen.gd:2082
 msgid "PAINT IT WHICH COLOR?"
 msgstr "塗成什麼顏色?"
 
-#: game/ui/game_screen.gd:2091
+#: game/ui/game_screen.gd:2101
 msgid "Already this color."
 msgstr "已經是這個顏色了。"
 
-#: game/ui/game_screen.gd:2107
+#: game/ui/game_screen.gd:2117
 msgid "DRAFT A NEW PIECE"
 msgstr "畫一個新拼塊"
 
-#: game/ui/game_screen.gd:2227
+#: game/ui/game_screen.gd:2237
 msgid "INSURANCE CLAIMED!"
 msgstr "保險理賠!"
 
-#: game/ui/game_screen.gd:2230
+#: game/ui/game_screen.gd:2240
 #, c-format
 msgid "Your policy paid out. Round %d starts over from an empty board, without the free Refresh. The Insurance Policy card is used up."
 msgstr "你的保險生效了。第%d回合從空棋盤重新開始,沒有免費刷新。保險單已用掉。"
 
-#: game/ui/game_screen.gd:2234
+#: game/ui/game_screen.gd:2244
 msgid "TRY AGAIN"
 msgstr "再試一次"
 
-#: game/ui/game_screen.gd:2251
+#: game/ui/game_screen.gd:2261
 msgid "FREE!"
 msgstr "免費!"
 
-#: game/ui/game_screen.gd:2265
+#: game/ui/game_screen.gd:2275
 msgid "HOLD (H): store a tray piece; its slot draws a new one. Later, swap it back in or click here to return it to an empty slot. Once between placements."
 msgstr "暫存(H):存下托盤中的一個拼塊,它的欄位會補發一個新的。之後可以換回來,或點擊這裡把它放回空欄位。每兩次放置之間一次。"
 
-#: game/ui/game_screen.gd:2274
+#: game/ui/game_screen.gd:2284
 msgid "DROP IT HERE"
 msgstr "放在這裡"
 
-#: game/ui/game_screen.gd:2274
+#: game/ui/game_screen.gd:2284
 msgid "LOCKED BY BOSS"
 msgstr "被首領鎖定"
 
-#: game/ui/game_screen.gd:2274
+#: game/ui/game_screen.gd:2284
 msgid "PRESS H OR DROP"
 msgstr "按H或拖放"
 
-#: game/ui/game_screen.gd:2277
+#: game/ui/game_screen.gd:2287
 msgid "Store a piece, swap later."
 msgstr "存下拼塊,之後再換。"
 
-#: game/ui/game_screen.gd:2278
+#: game/ui/game_screen.gd:2288
 msgid "Once per placement."
 msgstr "每次放置一次。"
 
-#: game/ui/hud.gd:228
+#: game/ui/hud.gd:233
 msgid "RECEIPT"
 msgstr "收據"
 

@@ -395,10 +395,16 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 		if not rs.feats_seen.has(f):
 			rs.feats_seen.append(f)
 		run.stats["feats"] = int(run.stats.get("feats", 0)) + 1
+	# The Warden: each clearing placement breaks one set of bars (Mk II bars two slots, so it
+	# takes two clears to free both).
 	var unlocked := -1
 	if is_clearing and rs.locked_slot >= 0:
 		unlocked = rs.locked_slot
 		rs.locked_slot = -1
+	elif is_clearing and rs.locked_slot2 >= 0:
+		unlocked = rs.locked_slot2
+		rs.locked_slot2 = -1
+	if unlocked >= 0:
 		events.append(BMLoc.m("The Warden's bars break: slot %d is free") % (unlocked + 1))
 	if is_clearing and not rs.patch_used and not rs.patch_ready and run.has_active_joker("patch_panel"):
 		rs.patch_ready = true

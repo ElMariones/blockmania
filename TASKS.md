@@ -169,13 +169,13 @@ Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/r
 ## Owner requests, 2026-09-26 (release playability study)
 
 - [x] **Release-style study:** `tools/study.gd` (600 synthetic participants in 5 archetypes with sampled item, shop, round-card and duplicate habits, 3 runs each, plus 23 paired-seed arms × 120 seeds; full ledger of every offer, purchase, item and round) + `tools/study_report.py`. Report: `docs/playtests/2026-09-26_release_study.md`, tables beside it.
-- [ ] **P0 bug:** Tiny Insurance can put its rescue Single into the Warden's barred slot, so the round stays `PLAYING` with no legal move and Concede is refused (soft-lock; reproduced with participant 201, seed 53417, round 8). Fix and add a Warden E2E regression.
-- [ ] **P0 bug / rule (owner):** Warden Mk II never frees its second barred slot (`locked_slot2`); only `locked_slot` is freed on the first clear. Decide the rule, then align the code, HUD text and GDD §22.3.
+- [x] **P0 bug:** Tiny Insurance can put its rescue Single into the Warden's barred slot, so the round stays `PLAYING` with no legal move and Concede is refused (soft-lock; reproduced with participant 201, seed 53417, round 8). Fixed (2026-09-26): the Single goes into the first unbarred slot (`BMRun._insurance_slot`). E2E `scenario_warden` (W1–W7) and a new campaign invariant: a `PLAYING` round always has a legal move.
+- [x] **P0 bug / rule:** Warden Mk II never freed its second barred slot. Decided (owner delegated, 2026-09-26): **each clearing placement frees one barred slot**. Code, Mk II rule text, round-start message ("BARRED SLOTS %d AND %d") and GDD §22.3 aligned; `scenario_warden` W3–W7.
 - [ ] **(owner) Items rework:** no item habit beats never buying items (79% vs 75–78%, paired). The rescue items answer a no-fit state seen in 0.2% of rounds (95% of losses are "out of placements"); Spark and Polish shrink to 4–8% of a target by act 3. Proposals in report §4 items 3–7 (merge rescue items, scaling boosts, value preview on drag, sell or refund unused items).
 - [ ] **(owner) Shop repetition:** a bought Joker returns in a later shop 33% of the time; one Joker is offered 3+ times in 70–76% of runs; stacking copies loses (85% avoid vs 76% stack, p = 0.02). Not offering owned Jokers is balance-neutral (80% vs 80%); also skipping the last visit's Jokers cuts "3+ offers" to 37%. Proposal: report §4 items 8–11.
 - [ ] **(owner) Round cards are free money:** twists clear as often as Standard (96%), and picking them sensibly lifts wins 79% → 89% (p = 0.03) with 44 Credits banked at the end. Retune (report §4 items 12–13).
 - [ ] Late-game Credit sink, sharper act bosses (5 of 6 cleared 91–98%), rarer Tray Hands more often, first-timer build guidance (report §4 items 14–18).
-- [ ] GDD §22.4 says Compact/Chunky/Tetromino start with 14 placements and Chunky lost its 3×3; code and §6 have Compact 16, Chunky 13, and the Chunky bag still has a Square 3×3. Align.
+- [x] GDD §22.4 said Compact/Chunky/Tetromino start with 14 placements and Chunky lost its 3×3; aligned to the code and §6 (Compact 16, Chunky 13 with its 3×3). §6 rarity text now says 40/40/19/1.
 - [ ] `scenario_menus` failed once (vsync / show_fps not saved) right after a long simulation batch, then passed twice with the same fingerprint: watch for flakiness.
 - [x] **Overtime study** (owner request, 2026-09-26): 1,439 runs continued past round 12 (population + `ot_*` arms + Legendary probe; `tools/overtime_report.py`). Report: `docs/playtests/2026-09-26_overtime_study.md`.
 - [ ] **(owner) Overtime pacing:** Avalanche chain-wave lines refill placements, so deep rounds rarely run out and grind on (medians 36–57 placements, longest 1,359). Proposal: wave lines give no refill, or cap Overtime refills or placements per round (report §4.1).
@@ -183,6 +183,10 @@ Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/r
 - [ ] Color Blind Mk II clears 34% in Overtime (other Mk IIs 51–70%). Hot Streak copies share one value and all reset on a Refresh: document it on the card or soften the reset.
 - [ ] Overtime Credit sink (40–75 Credits unused per shop); decide the role of the machine limit (never reached in ~1,440 runs; targets hit 10^15 at round 55).
 - [ ] Human playtest to confirm what the bots cannot judge: Turntable (never bought by bots), Periscope, Card Sharp, Patch Panel, Draftsman, Locksmith, and real item-use friction.
+
+## Owner requests, 2026-09-26 (study follow-up)
+
+- [x] **Receipt overflow** (owner bug): a long receipt grew the tape past its rect, under the Hold box and cards. The tape now keeps its rect; lines scroll inside it, the newest stays in view, and the player can scroll back up (following resumes at the bottom or on the next placement). E2E `scenario_receipt` (R1–R4; the old tape grew to 416 px of its 292).
 
 ## Owner requests, 2026-09-25 (translations)
 

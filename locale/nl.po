@@ -917,8 +917,8 @@ msgid "One tray slot starts barred: its piece can't be played until you clear a 
 msgstr "Eén vak van het bakje begint vergrendeld: het stuk is pas speelbaar na een weggespeelde lijn. Het delen slaat dat vak over."
 
 #: game/content/bosses.gd:30
-msgid "Two tray slots start barred until you clear a line. Deals skip barred slots."
-msgstr "Twee vakken van het bakje beginnen vergrendeld tot je een lijn wegspeelt. Bij het delen worden ze overgeslagen."
+msgid "Two tray slots start barred. Each clearing placement frees one. Deals skip barred slots."
+msgstr "Twee vakken van het bakje beginnen vergrendeld. Elke zet die een lijn wegspeelt maakt er één vrij. Bij het delen worden ze overgeslagen."
 
 #: game/content/bosses.gd:31
 msgid "Open with a quick clear using the other two slots."
@@ -1024,7 +1024,7 @@ msgid "Swap one tray piece for a temporary 1-3 cell piece you choose."
 msgstr "Ruil een stuk in je bakje voor een tijdelijk stuk van 1-3 vakjes naar keuze."
 
 #. rules text (shown through BMLoc.tf)
-#: game/content/consumables.gd:18 game/run/run.gd:1186
+#: game/content/consumables.gd:18 game/run/run.gd:1194
 msgid "Cash Out"
 msgstr "Uitbetaling"
 
@@ -1230,7 +1230,7 @@ msgid "+2 Credits after a round won with at least two placements unused."
 msgstr "+2 credits na een gewonnen ronde met minstens twee ongebruikte zetten."
 
 #. rules text (shown through BMLoc.tf)
-#: game/content/jokers.gd:32 game/run/run.gd:1184
+#: game/content/jokers.gd:32 game/run/run.gd:1192
 msgid "Spare Parts"
 msgstr "Reservedelen"
 
@@ -1731,7 +1731,7 @@ msgstr "Weggespeeld (ronde): %d"
 msgid "Recent: %s"
 msgstr "Recent: %s"
 
-#: game/content/jokers.gd:379 game/content/jokers.gd:395 game/ui/game_screen.gd:1561
+#: game/content/jokers.gd:379 game/content/jokers.gd:395 game/ui/game_screen.gd:1571
 msgid "none"
 msgstr "geen"
 
@@ -2632,11 +2632,11 @@ msgstr "Winkel zo lang je wilt. Klaar? VOLGENDE RONDE zit hier: je kiest zelfs h
 msgid "You're a natural! Every fourth round a boss shows up, so read its rule. Have fun!"
 msgstr "Je bent een natuurtalent! Elke vier rondes komt er een baas, dus lees zijn regel. Veel plezier!"
 
-#: game/main.gd:602
+#: game/main.gd:606
 msgid "SOUND OFF  (M)"
 msgstr "GELUID UIT  (M)"
 
-#: game/main.gd:602
+#: game/main.gd:606
 msgid "SOUND ON  (M)"
 msgstr "GELUID AAN  (M)"
 
@@ -3089,81 +3089,81 @@ msgid "Draftsman: item slots full"
 msgstr "Tekenaar: itemvakken vol"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:402
+#: game/rules/resolver.gd:408
 #, c-format
 msgid "The Warden's bars break: slot %d is free"
 msgstr "De tralies van de Cipier breken: vak %d is vrij"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:405
+#: game/rules/resolver.gd:411
 msgid "Patch Panel ready: remove one block"
 msgstr "Plakpaneel klaar: haal een blok weg"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:410
+#: game/rules/resolver.gd:416
 msgid "Memory Stamp: gained a Spark"
 msgstr "Geheugenstempel: een Vonk gekregen"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:412
+#: game/rules/resolver.gd:418
 msgid "Memory Stamp: item slots full"
 msgstr "Geheugenstempel: itemvakken vol"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:415
+#: game/rules/resolver.gd:421
 #, c-format
 msgid "Snowball grew to x%s Mult"
 msgstr "Sneeuwbal groeide tot x%s Mult"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:422
+#: game/rules/resolver.gd:428
 #, c-format
 msgid "Veteran: this piece now scores +%d Chips"
 msgstr "Veteraan: dit stuk scoort nu +%d chips"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:431
+#: game/rules/resolver.gd:437
 #, c-format
 msgid "Philosopher's Stone: it turned %s"
 msgstr "Steen der wijzen: het werd %s"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:441
+#: game/rules/resolver.gd:447
 #, c-format
 msgid "Glass %s shattered and left your bag"
 msgstr "Glazen stuk %s is gebroken en uit je zak verdwenen"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:444
+#: game/rules/resolver.gd:450
 msgid "Breakage Bonus: +2 Credits"
 msgstr "Breukbonus: +2 credits"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:446
+#: game/rules/resolver.gd:452
 #, c-format
 msgid "Glass %s cracked but held (bag at minimum size)"
 msgstr "Glazen stuk %s is gebarsten maar houdt stand (zak op minimumgrootte)"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:525
+#: game/rules/resolver.gd:531
 #, c-format
 msgid "Mimic (%s)"
 msgstr "Nabootser (%s)"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:527
+#: game/rules/resolver.gd:533
 #, c-format
 msgid "Mimic (%s), mirrored"
 msgstr "Nabootser (%s), gespiegeld"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:531
+#: game/rules/resolver.gd:537
 #, c-format
 msgid "%s, mirrored"
 msgstr "%s, gespiegeld"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/achievement_store.gd:144 game/ui/game_screen.gd:1550
+#: game/run/achievement_store.gd:144 game/ui/game_screen.gd:1560
 msgid "Best placement"
 msgstr "Beste zet"
 
@@ -3349,7 +3349,7 @@ msgid "Choose where to hit."
 msgstr "Kies waar je slaat."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:666 game/ui/game_screen.gd:1831
+#: game/run/run.gd:666 game/ui/game_screen.gd:1841
 msgid "Nothing to hit there."
 msgstr "Daar valt niets te raken."
 
@@ -3463,12 +3463,12 @@ msgid "Not enough Credits."
 msgstr "Niet genoeg credits."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:788 game/run/run.gd:1323
+#: game/run/run.gd:788 game/run/run.gd:1331
 msgid "Joker slots are full. Sell a Joker first."
 msgstr "De Joker-vakken zijn vol. Verkoop eerst een Joker."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:810 game/run/run.gd:1330 game/ui/shop_screen.gd:565
+#: game/run/run.gd:810 game/run/run.gd:1338 game/ui/shop_screen.gd:565
 msgid "Item slots are full. Use an item first."
 msgstr "De itemvakken zijn vol. Gebruik eerst een item."
 
@@ -3581,35 +3581,35 @@ msgid "No offered shape fits and no rescue remains."
 msgstr "Geen aangeboden vorm past en er is geen redding meer."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1175
+#: game/run/run.gd:1183
 msgid "Round won"
 msgstr "Ronde gewonnen"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1178
+#: game/run/run.gd:1186
 #, c-format
 msgid "Unused placements (%d)"
 msgstr "Ongebruikte zetten (%d)"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1180
+#: game/run/run.gd:1188
 msgid "Boss defeated"
 msgstr "Baas verslagen"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1192
+#: game/run/run.gd:1200
 #, c-format
 msgid "Overkill (%s of target)"
 msgstr "Overkill (%s van het doel)"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1195
+#: game/run/run.gd:1203
 #, c-format
 msgid "%s bonus"
 msgstr "Bonus %s"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1199
+#: game/run/run.gd:1207
 #, c-format
 msgid "Thrift (%d unused Refresh)"
 msgid_plural "Thrift (%d unused Refreshes)"
@@ -3617,53 +3617,53 @@ msgstr[0] "Zuinig (%d ongebruikte ruilbeurt)"
 msgstr[1] "Zuinig (%d ongebruikte ruilbeurten)"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1204
+#: game/run/run.gd:1212
 #, c-format
 msgid "Interest (%d held)"
 msgstr "Rente (%d in bezit)"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1209
+#: game/run/run.gd:1217
 #, c-format
 msgid "Overachiever grew to +%s Mult"
 msgstr "Uitblinker groeide tot +%s Mult"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1212
+#: game/run/run.gd:1220
 #, c-format
 msgid "Hot Streak heated up to x%s Mult"
 msgstr "Winnende reeks warmde op tot x%s Mult"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1219
+#: game/run/run.gd:1227
 #, c-format
 msgid "Treasure Hunt: found %s"
 msgstr "Schatzoeken: %s gevonden"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1222
+#: game/run/run.gd:1230
 #, c-format
 msgid "Scholarship: %s is now level %d"
 msgstr "Studiebeurs: %s is nu niveau %d"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1229
+#: game/run/run.gd:1237
 #, c-format
 msgid "Vending Machine dropped %s"
 msgstr "De Snoepautomaat liet %s vallen"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1233
+#: game/run/run.gd:1241
 msgid "Loan Shark repayment"
 msgstr "Aflossing aan de Woekeraar"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1316
+#: game/run/run.gd:1324
 msgid "Nothing in the crate there."
 msgstr "Daar zit niets in de kist."
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1321
+#: game/run/run.gd:1329
 msgid "That offer is empty."
 msgstr "Dat aanbod is leeg."
 
@@ -3833,15 +3833,15 @@ msgstr "STUK"
 msgid "+1 LV"
 msgstr "+1 NIV."
 
-#: game/ui/endless_screen.gd:77 game/ui/game_screen.gd:2273
+#: game/ui/endless_screen.gd:77 game/ui/game_screen.gd:2283
 msgid "HOLD"
 msgstr "BEWAREN"
 
-#: game/ui/endless_screen.gd:80 game/ui/game_screen.gd:2280
+#: game/ui/endless_screen.gd:80 game/ui/game_screen.gd:2290
 msgid "EMPTY"
 msgstr "LEEG"
 
-#: game/ui/endless_screen.gd:87 game/ui/game_screen.gd:2274
+#: game/ui/endless_screen.gd:87 game/ui/game_screen.gd:2284
 msgid "USED THIS TURN"
 msgstr "DEZE BEURT GEBRUIKT"
 
@@ -4015,7 +4015,7 @@ msgstr "OPNIEUW SPELEN"
 msgid "HIGH SCORES"
 msgstr "HIGHSCORES"
 
-#: game/ui/endless_screen.gd:653 game/ui/game_screen.gd:1620
+#: game/ui/endless_screen.gd:653 game/ui/game_screen.gd:1630
 msgid "TITLE"
 msgstr "TITEL"
 
@@ -4467,7 +4467,7 @@ msgstr "VERKOOP"
 msgid "Concede this round? The run will end."
 msgstr "Deze ronde opgeven? De run eindigt dan."
 
-#: game/ui/game_screen.gd:1224 game/ui/game_screen.gd:2095 game/ui/game_screen.gd:2140 game/ui/settings_menu.gd:116 game/ui/title_screen.gd:286 game/ui/title_screen.gd:368
+#: game/ui/game_screen.gd:1224 game/ui/game_screen.gd:2105 game/ui/game_screen.gd:2150 game/ui/settings_menu.gd:116 game/ui/title_screen.gd:286 game/ui/title_screen.gd:368
 msgid "BACK"
 msgstr "TERUG"
 
@@ -4545,60 +4545,65 @@ msgstr "BAAS VAN DE AKTE, RONDE %d:  %s"
 msgid "START ROUND"
 msgstr "START RONDE"
 
-#: game/ui/game_screen.gd:1441
+#: game/ui/game_screen.gd:1452
+#, c-format
+msgid "THE WARDEN BARRED SLOTS %d AND %d: EACH CLEAR FREES ONE"
+msgstr "DE CIPIER HEEFT VAKKEN %d EN %d VERGRENDELD: ELKE LIJN MAAKT ER ÉÉN VRIJ"
+
+#: game/ui/game_screen.gd:1454
 #, c-format
 msgid "THE WARDEN BARRED SLOT %d: CLEAR A LINE TO FREE IT"
 msgstr "DE CIPIER HEEFT VAK %d VERGRENDELD: SPEEL EEN LIJN WEG OM HET VRIJ TE MAKEN"
 
-#: game/ui/game_screen.gd:1453
+#: game/ui/game_screen.gd:1463
 #, c-format
 msgid "ROUND %d CLEARED!"
 msgstr "RONDE %d GEHAALD!"
 
-#: game/ui/game_screen.gd:1459
+#: game/ui/game_screen.gd:1469
 #, c-format
 msgid "%s / %s points   -   %d placement unused"
 msgid_plural "%s / %s points   -   %d placements unused"
 msgstr[0] "%s / %s punten   -   %d zet ongebruikt"
 msgstr[1] "%s / %s punten   -   %d zetten ongebruikt"
 
-#: game/ui/game_screen.gd:1476
+#: game/ui/game_screen.gd:1486
 msgid "Earned"
 msgstr "Verdiend"
 
-#: game/ui/game_screen.gd:1489
+#: game/ui/game_screen.gd:1499
 msgid "YOU HAVE"
 msgstr "JE HEBT"
 
-#: game/ui/game_screen.gd:1494
+#: game/ui/game_screen.gd:1504
 msgid "FINISH RUN"
 msgstr "RUN AFRONDEN"
 
-#: game/ui/game_screen.gd:1494
+#: game/ui/game_screen.gd:1504
 msgid "TO THE SHOP"
 msgstr "NAAR DE WINKEL"
 
-#: game/ui/game_screen.gd:1517
+#: game/ui/game_screen.gd:1527
 msgid "GAME OVER"
 msgstr "GAME OVER"
 
-#: game/ui/game_screen.gd:1517
+#: game/ui/game_screen.gd:1527
 msgid "RUN ABANDONED"
 msgstr "RUN AFGEBROKEN"
 
-#: game/ui/game_screen.gd:1517
+#: game/ui/game_screen.gd:1527
 msgid "YOU WIN!"
 msgstr "GEWONNEN!"
 
-#: game/ui/game_screen.gd:1519
+#: game/ui/game_screen.gd:1529
 msgid "MACHINE BROKEN!"
 msgstr "MACHINE STUK!"
 
-#: game/ui/game_screen.gd:1521
+#: game/ui/game_screen.gd:1531
 msgid "OVERTIME OVER"
 msgstr "VERLENGING VOORBIJ"
 
-#: game/ui/game_screen.gd:1531
+#: game/ui/game_screen.gd:1541
 #, c-format
 msgid ""
 "Your run was already a win. Overtime ended in round %d.\n"
@@ -4607,279 +4612,279 @@ msgstr ""
 "Je run was al gewonnen. De verlenging eindigde in ronde %d.\n"
 "%s"
 
-#: game/ui/game_screen.gd:1548
+#: game/ui/game_screen.gd:1558
 #, c-format
 msgid "%d  (OVERTIME +%d)"
 msgstr "%d  (VERLENGING +%d)"
 
-#: game/ui/game_screen.gd:1549
+#: game/ui/game_screen.gd:1559
 msgid "Lines cleared"
 msgstr "Lijnen weggespeeld"
 
-#: game/ui/game_screen.gd:1549
+#: game/ui/game_screen.gd:1559
 msgid "Round"
 msgstr "Ronde"
 
-#: game/ui/game_screen.gd:1550
+#: game/ui/game_screen.gd:1560
 msgid "Last score"
 msgstr "Laatste score"
 
-#: game/ui/game_screen.gd:1551
+#: game/ui/game_screen.gd:1561
 msgid "Bag size"
 msgstr "Zakgrootte"
 
-#: game/ui/game_screen.gd:1551
+#: game/ui/game_screen.gd:1561
 msgid "Highest combo"
 msgstr "Hoogste combo"
 
-#: game/ui/game_screen.gd:1561
+#: game/ui/game_screen.gd:1571
 #, c-format
 msgid "Jokers: %s"
 msgstr "Jokers: %s"
 
-#: game/ui/game_screen.gd:1564
+#: game/ui/game_screen.gd:1574
 #, c-format
 msgid "Seed %d  -  %s"
 msgstr "Seed %d  -  %s"
 
-#: game/ui/game_screen.gd:1565
+#: game/ui/game_screen.gd:1575
 msgid "  -  practice seed: no achievements, records or unlocks"
 msgstr "  -  oefenseed: geen prestaties, records of ontgrendelingen"
 
-#: game/ui/game_screen.gd:1575
+#: game/ui/game_screen.gd:1585
 #, c-format
 msgid "NEW RECORD!  %s: %s"
 msgstr "NIEUW RECORD!  %s: %s"
 
-#: game/ui/game_screen.gd:1577
+#: game/ui/game_screen.gd:1587
 #, c-format
 msgid "  (was %s)"
 msgstr "  (was %s)"
 
-#: game/ui/game_screen.gd:1585
+#: game/ui/game_screen.gd:1595
 #, c-format
 msgid "NEW KIT UNLOCKED: %s!"
 msgstr "NIEUWE KIT ONTGRENDELD: %s!"
 
-#: game/ui/game_screen.gd:1597
+#: game/ui/game_screen.gd:1607
 msgid "THE ARCADE STAYS OPEN..."
 msgstr "DE SPEELHAL BLIJFT OPEN..."
 
-#: game/ui/game_screen.gd:1600
+#: game/ui/game_screen.gd:1610
 #, c-format
 msgid "Keep this build and play on: round 13 needs %s, and every target after climbs faster. A boss every fourth round. Your win is already saved."
 msgstr "Houd deze build en speel door: ronde 13 vraagt %s, en elk doel daarna stijgt sneller. Elke vierde ronde een baas. Je overwinning is al opgeslagen."
 
-#: game/ui/game_screen.gd:1604
+#: game/ui/game_screen.gd:1614
 msgid "KEEP PLAYING: OVERTIME  >"
 msgstr "DOORSPELEN: VERLENGING  >"
 
-#: game/ui/game_screen.gd:1608
+#: game/ui/game_screen.gd:1618
 msgid "Rounds 13 and beyond. How far can your build go before the machine gives up?"
 msgstr "Ronde 13 en verder. Hoe ver komt je build voordat de machine het opgeeft?"
 
-#: game/ui/game_screen.gd:1614 game/ui/title_screen.gd:85
+#: game/ui/game_screen.gd:1624 game/ui/title_screen.gd:85
 msgid "NEW RUN"
 msgstr "NIEUWE RUN"
 
-#: game/ui/game_screen.gd:1617
+#: game/ui/game_screen.gd:1627
 msgid "SAME SEED"
 msgstr "ZELFDE SEED"
 
-#: game/ui/game_screen.gd:1652
+#: game/ui/game_screen.gd:1662
 msgid "ERASER: click up to 2 blocks to rub out"
 msgstr "GUM: klik op maximaal 2 blokken om uit te gummen"
 
-#: game/ui/game_screen.gd:1653
+#: game/ui/game_screen.gd:1663
 msgid "PUNCH: click where to smash (plus shape)"
 msgstr "STOMP: klik waar je wilt slaan (plusvorm)"
 
-#: game/ui/game_screen.gd:1654
+#: game/ui/game_screen.gd:1664
 msgid "COLOR PURGE: click a block to remove its whole color"
 msgstr "KLEURZUIVERING: klik op een blok om die hele kleur weg te halen"
 
-#: game/ui/game_screen.gd:1655
+#: game/ui/game_screen.gd:1665
 msgid "LUCKY PAINT: click a tray piece to repaint"
 msgstr "GELUKVERF: klik op een stuk in het bakje om het over te verven"
 
-#: game/ui/game_screen.gd:1656
+#: game/ui/game_screen.gd:1666
 msgid "BLUEPRINT: click a tray piece to swap"
 msgstr "SCHETS: klik op een stuk in het bakje om te ruilen"
 
-#: game/ui/game_screen.gd:1657
+#: game/ui/game_screen.gd:1667
 msgid "BRICK: throw it at a tray slot, or click one"
 msgstr "BAKSTEEN: gooi hem naar een vak van het bakje, of klik er een aan"
 
-#: game/ui/game_screen.gd:1658
+#: game/ui/game_screen.gd:1668
 msgid "PATCH PANEL: click one block to remove"
 msgstr "PLAKPANEEL: klik op een blok om weg te halen"
 
-#: game/ui/game_screen.gd:1659
+#: game/ui/game_screen.gd:1669
 msgid "TUNE-UP: click a tray piece to level up its family"
 msgstr "AFSTELBEURT: klik op een stuk in het bakje om zijn familie te verhogen"
 
-#: game/ui/game_screen.gd:1673
+#: game/ui/game_screen.gd:1683
 msgid "Right-click or Esc to cancel"
 msgstr "Rechtsklik of Esc om te annuleren"
 
-#: game/ui/game_screen.gd:1715
+#: game/ui/game_screen.gd:1725
 #, c-format
 msgid "ERASE %d"
 msgstr "WISSEN %d"
 
-#: game/ui/game_screen.gd:1718
+#: game/ui/game_screen.gd:1728
 msgid "CANCEL"
 msgstr "ANNULEREN"
 
-#: game/ui/game_screen.gd:1720
+#: game/ui/game_screen.gd:1730
 msgid "Put the item away (right-click or Esc)."
 msgstr "Berg het item op (rechtsklik of Esc)."
 
-#: game/ui/game_screen.gd:1728
+#: game/ui/game_screen.gd:1738
 #, c-format
 msgid "%s (Joker)"
 msgstr "%s (Joker)"
 
-#: game/ui/game_screen.gd:1731
+#: game/ui/game_screen.gd:1741
 msgid "Remove one block of your choice."
 msgstr "Haal een blok naar keuze weg."
 
-#: game/ui/game_screen.gd:1737
+#: game/ui/game_screen.gd:1747
 msgid "PATCH"
 msgstr "PLAKKEN"
 
-#: game/ui/game_screen.gd:1811 game/ui/game_screen.gd:1842
+#: game/ui/game_screen.gd:1821 game/ui/game_screen.gd:1852
 msgid "Pick a block, not an empty cell."
 msgstr "Kies een blok, geen leeg vakje."
 
-#: game/ui/game_screen.gd:1823
+#: game/ui/game_screen.gd:1833
 #, c-format
 msgid "%d OF 2 CHOSEN: PICK ANOTHER, OR PRESS ERASE"
 msgstr "%d VAN 2 GEKOZEN: KIES ER NOG EEN OF DRUK OP WISSEN"
 
-#: game/ui/game_screen.gd:1836
+#: game/ui/game_screen.gd:1846
 msgid "Pick a colored block (stone is immune)."
 msgstr "Kies een gekleurd blok (steen is immuun)."
 
-#: game/ui/game_screen.gd:1853 game/ui/game_screen.gd:1858
+#: game/ui/game_screen.gd:1863 game/ui/game_screen.gd:1868
 msgid "That slot is empty."
 msgstr "Dat vak is leeg."
 
-#: game/ui/game_screen.gd:1914
+#: game/ui/game_screen.gd:1924
 #, c-format
 msgid "RUBBED OUT %d BLOCK"
 msgid_plural "RUBBED OUT %d BLOCKS"
 msgstr[0] "%d BLOK UITGEGUMD"
 msgstr[1] "%d BLOKKEN UITGEGUMD"
 
-#: game/ui/game_screen.gd:1927 game/ui/game_screen.gd:1995
+#: game/ui/game_screen.gd:1937 game/ui/game_screen.gd:2005
 msgid "SMASH!"
 msgstr "BAM!"
 
-#: game/ui/game_screen.gd:1930
+#: game/ui/game_screen.gd:1940
 #, c-format
 msgid "PUNCHED OUT %d BLOCK"
 msgid_plural "PUNCHED OUT %d BLOCKS"
 msgstr[0] "%d BLOK WEGGESLAGEN"
 msgstr[1] "%d BLOKKEN WEGGESLAGEN"
 
-#: game/ui/game_screen.gd:1945
+#: game/ui/game_screen.gd:1955
 #, c-format
 msgid "PURGED %d BLOCK: %s"
 msgid_plural "PURGED %d BLOCKS: %s"
 msgstr[0] "%d BLOK WEG: %s"
 msgstr[1] "%d BLOKKEN WEG: %s"
 
-#: game/ui/game_screen.gd:1954
+#: game/ui/game_screen.gd:1964
 msgid "SPLASH!"
 msgstr "SPETTER!"
 
-#: game/ui/game_screen.gd:1955
+#: game/ui/game_screen.gd:1965
 #, c-format
 msgid "REPAINTED %s"
 msgstr "OVERGEVERFD: %s"
 
-#: game/ui/game_screen.gd:1964
+#: game/ui/game_screen.gd:1974
 msgid "BLUEPRINT: A FRESH PIECE, DRAFTED"
 msgstr "SCHETS: EEN VERS STUK, NET GETEKEND"
 
-#: game/ui/game_screen.gd:1974
+#: game/ui/game_screen.gd:1984
 #, c-format
 msgid "LV %d!"
 msgstr "NIV. %d!"
 
-#: game/ui/game_screen.gd:1975
+#: game/ui/game_screen.gd:1985
 #, c-format
 msgid "TUNE-UP: %s IS NOW LEVEL %d"
 msgstr "AFSTELBEURT: %s IS NU NIVEAU %d"
 
-#: game/ui/game_screen.gd:1997
+#: game/ui/game_screen.gd:2007
 msgid "BRICK!"
 msgstr "BAKSTEEN!"
 
-#: game/ui/game_screen.gd:2002
+#: game/ui/game_screen.gd:2012
 msgid "BRICK IN THE TRAY"
 msgstr "BAKSTEEN IN HET BAKJE"
 
-#: game/ui/game_screen.gd:2002
+#: game/ui/game_screen.gd:2012
 #, c-format
 msgid "SMASHED %s!"
 msgstr "VERBRIJZELD: %s!"
 
-#: game/ui/game_screen.gd:2072
+#: game/ui/game_screen.gd:2082
 msgid "PAINT IT WHICH COLOR?"
 msgstr "WELKE KLEUR WORDT HET?"
 
-#: game/ui/game_screen.gd:2091
+#: game/ui/game_screen.gd:2101
 msgid "Already this color."
 msgstr "Heeft al deze kleur."
 
-#: game/ui/game_screen.gd:2107
+#: game/ui/game_screen.gd:2117
 msgid "DRAFT A NEW PIECE"
 msgstr "TEKEN EEN NIEUW STUK"
 
-#: game/ui/game_screen.gd:2227
+#: game/ui/game_screen.gd:2237
 msgid "INSURANCE CLAIMED!"
 msgstr "VERZEKERING UITBETAALD!"
 
-#: game/ui/game_screen.gd:2230
+#: game/ui/game_screen.gd:2240
 #, c-format
 msgid "Your policy paid out. Round %d starts over from an empty board, without the free Refresh. The Insurance Policy card is used up."
 msgstr "Je polis heeft uitgekeerd. Ronde %d begint opnieuw op een leeg bord, zonder gratis ruilbeurt. De kaart Verzekeringspolis is opgebruikt."
 
-#: game/ui/game_screen.gd:2234
+#: game/ui/game_screen.gd:2244
 msgid "TRY AGAIN"
 msgstr "OPNIEUW"
 
-#: game/ui/game_screen.gd:2251
+#: game/ui/game_screen.gd:2261
 msgid "FREE!"
 msgstr "GRATIS!"
 
-#: game/ui/game_screen.gd:2265
+#: game/ui/game_screen.gd:2275
 msgid "HOLD (H): store a tray piece; its slot draws a new one. Later, swap it back in or click here to return it to an empty slot. Once between placements."
 msgstr "BEWAREN (H): zet een stuk uit het bakje apart; zijn vak krijgt een nieuw stuk. Later wissel je het terug of klik je hier om het in een leeg vak te leggen. Eén keer per zet."
 
-#: game/ui/game_screen.gd:2274
+#: game/ui/game_screen.gd:2284
 msgid "DROP IT HERE"
 msgstr "LAAT HIER LOS"
 
-#: game/ui/game_screen.gd:2274
+#: game/ui/game_screen.gd:2284
 msgid "LOCKED BY BOSS"
 msgstr "VERGRENDELD DOOR BAAS"
 
-#: game/ui/game_screen.gd:2274
+#: game/ui/game_screen.gd:2284
 msgid "PRESS H OR DROP"
 msgstr "DRUK H OF ZET NEER"
 
-#: game/ui/game_screen.gd:2277
+#: game/ui/game_screen.gd:2287
 msgid "Store a piece, swap later."
 msgstr "Bewaar nu, wissel later."
 
-#: game/ui/game_screen.gd:2278
+#: game/ui/game_screen.gd:2288
 msgid "Once per placement."
 msgstr "Eén keer per zet."
 
-#: game/ui/hud.gd:228
+#: game/ui/hud.gd:233
 msgid "RECEIPT"
 msgstr "BONNETJE"
 

@@ -214,12 +214,17 @@ class Dashes extends Control:
 			x += 16.0
 
 
-## Cream receipt tape. New placements print line by line.
+## Cream receipt tape. New placements print line by line. The tape keeps its rect: lines
+## scroll inside it and the newest one stays in view; the player can scroll back up to read
+## the first lines (following resumes at the bottom or with the next receipt).
 class Receipt extends PanelContainer:
 	var reduced_motion := false
+	var _scroll: ScrollContainer
 	var _lines: VBoxContainer
 	var _queue: Array = []
 	var _timer := 0.0
+	var _follow := true
+	var _auto_scrolling := false
 
 	func _ready() -> void:
 		add_theme_stylebox_override("panel", BMStyle.box("panel_paper", Vector4(10, 6, 10, 10)))
@@ -228,17 +233,67 @@ class Receipt extends PanelContainer:
 		var head := BMStyle.label(BMLoc.t("RECEIPT"), 20, Color(BMStyle.INK, 0.55), true)
 		head.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		v.add_child(head)
+		_scroll = ScrollContainer.new()
+		_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+		_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+		_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		_scroll.custom_minimum_size = Vector2.ZERO
+		v.add_child(_scroll)
+		# A paper-friendly scrollbar: faint ink track, plum thumb.
+		var bar := _scroll.get_v_scroll_bar()
+		var track := StyleBoxFlat.new()
+		track.bg_color = Color(BMStyle.INK, 0.12)
+		track.content_margin_left = 3
+		track.content_margin_right = 3
+		var thumb := StyleBoxFlat.new()
+		thumb.bg_color = Color(BMStyle.INK, 0.45)
+		thumb.content_margin_left = 3
+		thumb.content_margin_right = 3
+		var thumb_hi := thumb.duplicate()
+		thumb_hi.bg_color = Color(BMStyle.INK, 0.7)
+		bar.add_theme_stylebox_override("scroll", track)
+		bar.add_theme_stylebox_override("grabber", thumb)
+		bar.add_theme_stylebox_override("grabber_highlight", thumb_hi)
+		bar.add_theme_stylebox_override("grabber_pressed", thumb_hi)
+		bar.changed.connect(_on_range_changed)
+		bar.value_changed.connect(_on_scrolled)
 		_lines = BMStyle.vbox(2)
-		v.add_child(_lines)
+		_lines.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		_scroll.add_child(_lines)
 
 	## rows: [{text, color, bold, align}] printed top to bottom.
 	func print_rows(rows: Array) -> void:
 		BMUI.clear_children(_lines)
 		_queue = rows.duplicate()
 		_timer = 0.0
+		_follow = true
 		if reduced_motion:
 			while not _queue.is_empty():
 				_emit(_queue.pop_front())
+
+	## Lines printed so far (tests and tools).
+	func line_count() -> int:
+		return _lines.get_child_count()
+
+	## True when the newest line is in view.
+	func at_bottom() -> bool:
+		var bar := _scroll.get_v_scroll_bar()
+		return bar.value >= bar.max_value - bar.page - 1.0
+
+	func _on_range_changed() -> void:
+		if _follow:
+			_to_bottom()
+
+	func _to_bottom() -> void:
+		var bar := _scroll.get_v_scroll_bar()
+		_auto_scrolling = true
+		_scroll.scroll_vertical = int(ceilf(bar.max_value))
+		_auto_scrolling = false
+
+	## The player scrolled: stop following until they are back at the bottom.
+	func _on_scrolled(_value: float) -> void:
+		if not _auto_scrolling:
+			_follow = at_bottom()
 
 	func _process(delta: float) -> void:
 		if _queue.is_empty():

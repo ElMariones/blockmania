@@ -917,8 +917,8 @@ msgid "One tray slot starts barred: its piece can't be played until you clear a 
 msgstr "トレイの枠がひとつ封鎖された状態で始まる:ラインを消すまでそのピースは置けない。配布は封鎖された枠を飛ばす。"
 
 #: game/content/bosses.gd:30
-msgid "Two tray slots start barred until you clear a line. Deals skip barred slots."
-msgstr "ラインを消すまで、トレイの枠が2つ封鎖される。配布は封鎖された枠を飛ばす。"
+msgid "Two tray slots start barred. Each clearing placement frees one. Deals skip barred slots."
+msgstr "トレイの枠が2つ封鎖された状態で始まる。ラインを消す配置のたびに1つ解放される。配布は封鎖された枠を飛ばす。"
 
 #: game/content/bosses.gd:31
 msgid "Open with a quick clear using the other two slots."
@@ -1024,7 +1024,7 @@ msgid "Swap one tray piece for a temporary 1-3 cell piece you choose."
 msgstr "トレイのピース1つを、選んだ1〜3マスの一時ピースと入れ替える。"
 
 #. rules text (shown through BMLoc.tf)
-#: game/content/consumables.gd:18 game/run/run.gd:1186
+#: game/content/consumables.gd:18 game/run/run.gd:1194
 msgid "Cash Out"
 msgstr "換金"
 
@@ -1230,7 +1230,7 @@ msgid "+2 Credits after a round won with at least two placements unused."
 msgstr "配置を2回以上残してラウンドに勝つと+2クレジット。"
 
 #. rules text (shown through BMLoc.tf)
-#: game/content/jokers.gd:32 game/run/run.gd:1184
+#: game/content/jokers.gd:32 game/run/run.gd:1192
 msgid "Spare Parts"
 msgstr "予備部品"
 
@@ -1730,7 +1730,7 @@ msgstr "このラウンドの消去:%d"
 msgid "Recent: %s"
 msgstr "直近:%s"
 
-#: game/content/jokers.gd:379 game/content/jokers.gd:395 game/ui/game_screen.gd:1561
+#: game/content/jokers.gd:379 game/content/jokers.gd:395 game/ui/game_screen.gd:1571
 msgid "none"
 msgstr "なし"
 
@@ -2627,11 +2627,11 @@ msgstr "好きなだけ買い物していいよ。準備ができたら、次の
 msgid "You're a natural! Every fourth round a boss shows up, so read its rule. Have fun!"
 msgstr "筋がいいね!4ラウンドごとにボスが出るから、ルールをよく読むんじゃよ。楽しんで!"
 
-#: game/main.gd:602
+#: game/main.gd:606
 msgid "SOUND OFF  (M)"
 msgstr "サウンドオフ  (M)"
 
-#: game/main.gd:602
+#: game/main.gd:606
 msgid "SOUND ON  (M)"
 msgstr "サウンドオン  (M)"
 
@@ -3081,81 +3081,81 @@ msgid "Draftsman: item slots full"
 msgstr "製図家:アイテム枠がいっぱい"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:402
+#: game/rules/resolver.gd:408
 #, c-format
 msgid "The Warden's bars break: slot %d is free"
 msgstr "看守の鉄格子が壊れた:枠%dが解放"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:405
+#: game/rules/resolver.gd:411
 msgid "Patch Panel ready: remove one block"
 msgstr "パッチパネル準備完了:ブロックを1つ取り除こう"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:410
+#: game/rules/resolver.gd:416
 msgid "Memory Stamp: gained a Spark"
 msgstr "メモリースタンプ:スパークを手に入れた"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:412
+#: game/rules/resolver.gd:418
 msgid "Memory Stamp: item slots full"
 msgstr "メモリースタンプ:アイテム枠がいっぱい"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:415
+#: game/rules/resolver.gd:421
 #, c-format
 msgid "Snowball grew to x%s Mult"
 msgstr "スノーボールが倍率x%sに成長"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:422
+#: game/rules/resolver.gd:428
 #, c-format
 msgid "Veteran: this piece now scores +%d Chips"
 msgstr "ベテラン:このピースは+%dチップになった"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:431
+#: game/rules/resolver.gd:437
 #, c-format
 msgid "Philosopher's Stone: it turned %s"
 msgstr "賢者の石:%sに変化した"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:441
+#: game/rules/resolver.gd:447
 #, c-format
 msgid "Glass %s shattered and left your bag"
 msgstr "ガラスの%sが割れ、バッグからなくなった"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:444
+#: game/rules/resolver.gd:450
 msgid "Breakage Bonus: +2 Credits"
 msgstr "破損ボーナス:+2クレジット"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:446
+#: game/rules/resolver.gd:452
 #, c-format
 msgid "Glass %s cracked but held (bag at minimum size)"
 msgstr "ガラスの%sにひびが入ったが持ちこたえた(バッグが最小サイズ)"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:525
+#: game/rules/resolver.gd:531
 #, c-format
 msgid "Mimic (%s)"
 msgstr "ミミック(%s)"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:527
+#: game/rules/resolver.gd:533
 #, c-format
 msgid "Mimic (%s), mirrored"
 msgstr "ミミック(%s)、鏡写し"
 
 #. rules text (shown through BMLoc.tf)
-#: game/rules/resolver.gd:531
+#: game/rules/resolver.gd:537
 #, c-format
 msgid "%s, mirrored"
 msgstr "%s、鏡写し"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/achievement_store.gd:144 game/ui/game_screen.gd:1550
+#: game/run/achievement_store.gd:144 game/ui/game_screen.gd:1560
 msgid "Best placement"
 msgstr "最高の配置"
 
@@ -3340,7 +3340,7 @@ msgid "Choose where to hit."
 msgstr "叩く場所を選んでください。"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:666 game/ui/game_screen.gd:1831
+#: game/run/run.gd:666 game/ui/game_screen.gd:1841
 msgid "Nothing to hit there."
 msgstr "そこには叩くものがありません。"
 
@@ -3454,12 +3454,12 @@ msgid "Not enough Credits."
 msgstr "クレジットが足りません。"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:788 game/run/run.gd:1323
+#: game/run/run.gd:788 game/run/run.gd:1331
 msgid "Joker slots are full. Sell a Joker first."
 msgstr "ジョーカー枠がいっぱいです。先にジョーカーを売ってください。"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:810 game/run/run.gd:1330 game/ui/shop_screen.gd:565
+#: game/run/run.gd:810 game/run/run.gd:1338 game/ui/shop_screen.gd:565
 msgid "Item slots are full. Use an item first."
 msgstr "アイテム枠がいっぱいです。先にアイテムを使ってください。"
 
@@ -3570,88 +3570,88 @@ msgid "No offered shape fits and no rescue remains."
 msgstr "置ける形がなく、救済手段も残っていない。"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1175
+#: game/run/run.gd:1183
 msgid "Round won"
 msgstr "ラウンド勝利"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1178
+#: game/run/run.gd:1186
 #, c-format
 msgid "Unused placements (%d)"
 msgstr "未使用の配置(%d)"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1180
+#: game/run/run.gd:1188
 msgid "Boss defeated"
 msgstr "ボス撃破"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1192
+#: game/run/run.gd:1200
 #, c-format
 msgid "Overkill (%s of target)"
 msgstr "オーバーキル(目標の%s)"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1195
+#: game/run/run.gd:1203
 #, c-format
 msgid "%s bonus"
 msgstr "%sボーナス"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1199
+#: game/run/run.gd:1207
 #, c-format
 msgid "Thrift (%d unused Refresh)"
 msgid_plural "Thrift (%d unused Refreshes)"
 msgstr[0] "倹約(未使用のリフレッシュ%d回)"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1204
+#: game/run/run.gd:1212
 #, c-format
 msgid "Interest (%d held)"
 msgstr "利子(所持%d)"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1209
+#: game/run/run.gd:1217
 #, c-format
 msgid "Overachiever grew to +%s Mult"
 msgstr "優等生が倍率+%sに成長"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1212
+#: game/run/run.gd:1220
 #, c-format
 msgid "Hot Streak heated up to x%s Mult"
 msgstr "連勝街道が倍率x%sまで過熱"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1219
+#: game/run/run.gd:1227
 #, c-format
 msgid "Treasure Hunt: found %s"
 msgstr "宝探し:%sを見つけた"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1222
+#: game/run/run.gd:1230
 #, c-format
 msgid "Scholarship: %s is now level %d"
 msgstr "奨学金:%sがレベル%dになった"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1229
+#: game/run/run.gd:1237
 #, c-format
 msgid "Vending Machine dropped %s"
 msgstr "自販機が%sを落とした"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1233
+#: game/run/run.gd:1241
 msgid "Loan Shark repayment"
 msgstr "高利貸しへの返済"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1316
+#: game/run/run.gd:1324
 msgid "Nothing in the crate there."
 msgstr "そこのクレートには何もありません。"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:1321
+#: game/run/run.gd:1329
 msgid "That offer is empty."
 msgstr "そのオファーは空です。"
 
@@ -3820,15 +3820,15 @@ msgstr "ピース"
 msgid "+1 LV"
 msgstr "+1 LV"
 
-#: game/ui/endless_screen.gd:77 game/ui/game_screen.gd:2273
+#: game/ui/endless_screen.gd:77 game/ui/game_screen.gd:2283
 msgid "HOLD"
 msgstr "ホールド"
 
-#: game/ui/endless_screen.gd:80 game/ui/game_screen.gd:2280
+#: game/ui/endless_screen.gd:80 game/ui/game_screen.gd:2290
 msgid "EMPTY"
 msgstr "空"
 
-#: game/ui/endless_screen.gd:87 game/ui/game_screen.gd:2274
+#: game/ui/endless_screen.gd:87 game/ui/game_screen.gd:2284
 msgid "USED THIS TURN"
 msgstr "このターンは使用済み"
 
@@ -4001,7 +4001,7 @@ msgstr "もう一度プレイ"
 msgid "HIGH SCORES"
 msgstr "ハイスコア"
 
-#: game/ui/endless_screen.gd:653 game/ui/game_screen.gd:1620
+#: game/ui/endless_screen.gd:653 game/ui/game_screen.gd:1630
 msgid "TITLE"
 msgstr "タイトル"
 
@@ -4448,7 +4448,7 @@ msgstr "売る"
 msgid "Concede this round? The run will end."
 msgstr "このラウンドを降参する?ランは終了する。"
 
-#: game/ui/game_screen.gd:1224 game/ui/game_screen.gd:2095 game/ui/game_screen.gd:2140 game/ui/settings_menu.gd:116 game/ui/title_screen.gd:286 game/ui/title_screen.gd:368
+#: game/ui/game_screen.gd:1224 game/ui/game_screen.gd:2105 game/ui/game_screen.gd:2150 game/ui/settings_menu.gd:116 game/ui/title_screen.gd:286 game/ui/title_screen.gd:368
 msgid "BACK"
 msgstr "戻る"
 
@@ -4524,59 +4524,64 @@ msgstr "幕のボス、ラウンド%d:  %s"
 msgid "START ROUND"
 msgstr "ラウンド開始"
 
-#: game/ui/game_screen.gd:1441
+#: game/ui/game_screen.gd:1452
+#, c-format
+msgid "THE WARDEN BARRED SLOTS %d AND %d: EACH CLEAR FREES ONE"
+msgstr "看守が枠%dと%dを封鎖:ラインを消すたびに1つ解放"
+
+#: game/ui/game_screen.gd:1454
 #, c-format
 msgid "THE WARDEN BARRED SLOT %d: CLEAR A LINE TO FREE IT"
 msgstr "看守が枠%dを封鎖:ラインを消して解放しよう"
 
-#: game/ui/game_screen.gd:1453
+#: game/ui/game_screen.gd:1463
 #, c-format
 msgid "ROUND %d CLEARED!"
 msgstr "ラウンド%dクリア!"
 
-#: game/ui/game_screen.gd:1459
+#: game/ui/game_screen.gd:1469
 #, c-format
 msgid "%s / %s points   -   %d placement unused"
 msgid_plural "%s / %s points   -   %d placements unused"
 msgstr[0] "%s / %s点   -   未使用の配置%d回"
 
-#: game/ui/game_screen.gd:1476
+#: game/ui/game_screen.gd:1486
 msgid "Earned"
 msgstr "獲得"
 
-#: game/ui/game_screen.gd:1489
+#: game/ui/game_screen.gd:1499
 msgid "YOU HAVE"
 msgstr "所持"
 
-#: game/ui/game_screen.gd:1494
+#: game/ui/game_screen.gd:1504
 msgid "FINISH RUN"
 msgstr "ランを終える"
 
-#: game/ui/game_screen.gd:1494
+#: game/ui/game_screen.gd:1504
 msgid "TO THE SHOP"
 msgstr "ショップへ"
 
-#: game/ui/game_screen.gd:1517
+#: game/ui/game_screen.gd:1527
 msgid "GAME OVER"
 msgstr "ゲームオーバー"
 
-#: game/ui/game_screen.gd:1517
+#: game/ui/game_screen.gd:1527
 msgid "RUN ABANDONED"
 msgstr "ランを放棄"
 
-#: game/ui/game_screen.gd:1517
+#: game/ui/game_screen.gd:1527
 msgid "YOU WIN!"
 msgstr "勝利!"
 
-#: game/ui/game_screen.gd:1519
+#: game/ui/game_screen.gd:1529
 msgid "MACHINE BROKEN!"
 msgstr "マシン破壊!"
 
-#: game/ui/game_screen.gd:1521
+#: game/ui/game_screen.gd:1531
 msgid "OVERTIME OVER"
 msgstr "延長戦終了"
 
-#: game/ui/game_screen.gd:1531
+#: game/ui/game_screen.gd:1541
 #, c-format
 msgid ""
 "Your run was already a win. Overtime ended in round %d.\n"
@@ -4585,276 +4590,276 @@ msgstr ""
 "このランはすでに勝利済み。延長戦はラウンド%dで終わった。\n"
 "%s"
 
-#: game/ui/game_screen.gd:1548
+#: game/ui/game_screen.gd:1558
 #, c-format
 msgid "%d  (OVERTIME +%d)"
 msgstr "%d (延長戦 +%d)"
 
-#: game/ui/game_screen.gd:1549
+#: game/ui/game_screen.gd:1559
 msgid "Lines cleared"
 msgstr "消したライン"
 
-#: game/ui/game_screen.gd:1549
+#: game/ui/game_screen.gd:1559
 msgid "Round"
 msgstr "ラウンド"
 
-#: game/ui/game_screen.gd:1550
+#: game/ui/game_screen.gd:1560
 msgid "Last score"
 msgstr "最後のスコア"
 
-#: game/ui/game_screen.gd:1551
+#: game/ui/game_screen.gd:1561
 msgid "Bag size"
 msgstr "バッグのサイズ"
 
-#: game/ui/game_screen.gd:1551
+#: game/ui/game_screen.gd:1561
 msgid "Highest combo"
 msgstr "最高コンボ"
 
-#: game/ui/game_screen.gd:1561
+#: game/ui/game_screen.gd:1571
 #, c-format
 msgid "Jokers: %s"
 msgstr "ジョーカー:%s"
 
-#: game/ui/game_screen.gd:1564
+#: game/ui/game_screen.gd:1574
 #, c-format
 msgid "Seed %d  -  %s"
 msgstr "シード %d  -  %s"
 
-#: game/ui/game_screen.gd:1565
+#: game/ui/game_screen.gd:1575
 msgid "  -  practice seed: no achievements, records or unlocks"
 msgstr "  -  練習シード:実績・記録・解放なし"
 
-#: game/ui/game_screen.gd:1575
+#: game/ui/game_screen.gd:1585
 #, c-format
 msgid "NEW RECORD!  %s: %s"
 msgstr "新記録!  %s:%s"
 
-#: game/ui/game_screen.gd:1577
+#: game/ui/game_screen.gd:1587
 #, c-format
 msgid "  (was %s)"
 msgstr "(以前は%s)"
 
-#: game/ui/game_screen.gd:1585
+#: game/ui/game_screen.gd:1595
 #, c-format
 msgid "NEW KIT UNLOCKED: %s!"
 msgstr "新キット解放:%s!"
 
-#: game/ui/game_screen.gd:1597
+#: game/ui/game_screen.gd:1607
 msgid "THE ARCADE STAYS OPEN..."
 msgstr "ゲーセンはまだ閉まらない..."
 
-#: game/ui/game_screen.gd:1600
+#: game/ui/game_screen.gd:1610
 #, c-format
 msgid "Keep this build and play on: round 13 needs %s, and every target after climbs faster. A boss every fourth round. Your win is already saved."
 msgstr "このビルドのまま続けよう:ラウンド13の目標は%s、その後の目標はさらに急上昇。4ラウンドごとにボス。きみの勝利はもう保存済み。"
 
-#: game/ui/game_screen.gd:1604
+#: game/ui/game_screen.gd:1614
 msgid "KEEP PLAYING: OVERTIME  >"
 msgstr "続ける:延長戦  >"
 
-#: game/ui/game_screen.gd:1608
+#: game/ui/game_screen.gd:1618
 msgid "Rounds 13 and beyond. How far can your build go before the machine gives up?"
 msgstr "ラウンド13以降。マシンが音を上げるまで、きみのビルドはどこまで行ける?"
 
-#: game/ui/game_screen.gd:1614 game/ui/title_screen.gd:85
+#: game/ui/game_screen.gd:1624 game/ui/title_screen.gd:85
 msgid "NEW RUN"
 msgstr "新しいラン"
 
-#: game/ui/game_screen.gd:1617
+#: game/ui/game_screen.gd:1627
 msgid "SAME SEED"
 msgstr "同じシード"
 
-#: game/ui/game_screen.gd:1652
+#: game/ui/game_screen.gd:1662
 msgid "ERASER: click up to 2 blocks to rub out"
 msgstr "消しゴム:消したいブロックを2つまでクリック"
 
-#: game/ui/game_screen.gd:1653
+#: game/ui/game_screen.gd:1663
 msgid "PUNCH: click where to smash (plus shape)"
 msgstr "パンチ:叩く場所をクリック(十字形)"
 
-#: game/ui/game_screen.gd:1654
+#: game/ui/game_screen.gd:1664
 msgid "COLOR PURGE: click a block to remove its whole color"
 msgstr "カラーパージ:ブロックをクリックしてその色を全部消す"
 
-#: game/ui/game_screen.gd:1655
+#: game/ui/game_screen.gd:1665
 msgid "LUCKY PAINT: click a tray piece to repaint"
 msgstr "ラッキーペイント:塗り替えるトレイのピースをクリック"
 
-#: game/ui/game_screen.gd:1656
+#: game/ui/game_screen.gd:1666
 msgid "BLUEPRINT: click a tray piece to swap"
 msgstr "青写真:入れ替えるトレイのピースをクリック"
 
-#: game/ui/game_screen.gd:1657
+#: game/ui/game_screen.gd:1667
 msgid "BRICK: throw it at a tray slot, or click one"
 msgstr "レンガ:トレイの枠に投げるか、枠をクリック"
 
-#: game/ui/game_screen.gd:1658
+#: game/ui/game_screen.gd:1668
 msgid "PATCH PANEL: click one block to remove"
 msgstr "パッチパネル:取り除くブロックをクリック"
 
-#: game/ui/game_screen.gd:1659
+#: game/ui/game_screen.gd:1669
 msgid "TUNE-UP: click a tray piece to level up its family"
 msgstr "チューンアップ:トレイのピースをクリックしてファミリーをレベルアップ"
 
-#: game/ui/game_screen.gd:1673
+#: game/ui/game_screen.gd:1683
 msgid "Right-click or Esc to cancel"
 msgstr "右クリックかEscでキャンセル"
 
-#: game/ui/game_screen.gd:1715
+#: game/ui/game_screen.gd:1725
 #, c-format
 msgid "ERASE %d"
 msgstr "消す %d"
 
-#: game/ui/game_screen.gd:1718
+#: game/ui/game_screen.gd:1728
 msgid "CANCEL"
 msgstr "キャンセル"
 
-#: game/ui/game_screen.gd:1720
+#: game/ui/game_screen.gd:1730
 msgid "Put the item away (right-click or Esc)."
 msgstr "アイテムをしまう(右クリックかEsc)。"
 
-#: game/ui/game_screen.gd:1728
+#: game/ui/game_screen.gd:1738
 #, c-format
 msgid "%s (Joker)"
 msgstr "%s(ジョーカー)"
 
-#: game/ui/game_screen.gd:1731
+#: game/ui/game_screen.gd:1741
 msgid "Remove one block of your choice."
 msgstr "好きなブロックを1つ取り除く。"
 
-#: game/ui/game_screen.gd:1737
+#: game/ui/game_screen.gd:1747
 msgid "PATCH"
 msgstr "パッチ"
 
-#: game/ui/game_screen.gd:1811 game/ui/game_screen.gd:1842
+#: game/ui/game_screen.gd:1821 game/ui/game_screen.gd:1852
 msgid "Pick a block, not an empty cell."
 msgstr "空きマスではなくブロックを選んでください。"
 
-#: game/ui/game_screen.gd:1823
+#: game/ui/game_screen.gd:1833
 #, c-format
 msgid "%d OF 2 CHOSEN: PICK ANOTHER, OR PRESS ERASE"
 msgstr "%d/2を選択:もう1つ選ぶか「消す」を押そう"
 
-#: game/ui/game_screen.gd:1836
+#: game/ui/game_screen.gd:1846
 msgid "Pick a colored block (stone is immune)."
 msgstr "色付きのブロックを選んでください(石は対象外)。"
 
-#: game/ui/game_screen.gd:1853 game/ui/game_screen.gd:1858
+#: game/ui/game_screen.gd:1863 game/ui/game_screen.gd:1868
 msgid "That slot is empty."
 msgstr "その枠は空です。"
 
-#: game/ui/game_screen.gd:1914
+#: game/ui/game_screen.gd:1924
 #, c-format
 msgid "RUBBED OUT %d BLOCK"
 msgid_plural "RUBBED OUT %d BLOCKS"
 msgstr[0] "ブロックを%d個消した"
 
-#: game/ui/game_screen.gd:1927 game/ui/game_screen.gd:1995
+#: game/ui/game_screen.gd:1937 game/ui/game_screen.gd:2005
 msgid "SMASH!"
 msgstr "ドカン!"
 
-#: game/ui/game_screen.gd:1930
+#: game/ui/game_screen.gd:1940
 #, c-format
 msgid "PUNCHED OUT %d BLOCK"
 msgid_plural "PUNCHED OUT %d BLOCKS"
 msgstr[0] "ブロックを%d個ぶっ飛ばした"
 
-#: game/ui/game_screen.gd:1945
+#: game/ui/game_screen.gd:1955
 #, c-format
 msgid "PURGED %d BLOCK: %s"
 msgid_plural "PURGED %d BLOCKS: %s"
 msgstr[0] "ブロックを%d個パージ:%s"
 
-#: game/ui/game_screen.gd:1954
+#: game/ui/game_screen.gd:1964
 msgid "SPLASH!"
 msgstr "バシャッ!"
 
-#: game/ui/game_screen.gd:1955
+#: game/ui/game_screen.gd:1965
 #, c-format
 msgid "REPAINTED %s"
 msgstr "%sに塗り替えた"
 
-#: game/ui/game_screen.gd:1964
+#: game/ui/game_screen.gd:1974
 msgid "BLUEPRINT: A FRESH PIECE, DRAFTED"
 msgstr "青写真:新しいピースを描き上げた"
 
-#: game/ui/game_screen.gd:1974
+#: game/ui/game_screen.gd:1984
 #, c-format
 msgid "LV %d!"
 msgstr "LV %d!"
 
-#: game/ui/game_screen.gd:1975
+#: game/ui/game_screen.gd:1985
 #, c-format
 msgid "TUNE-UP: %s IS NOW LEVEL %d"
 msgstr "チューンアップ:%sがレベル%dになった"
 
-#: game/ui/game_screen.gd:1997
+#: game/ui/game_screen.gd:2007
 msgid "BRICK!"
 msgstr "レンガ!"
 
-#: game/ui/game_screen.gd:2002
+#: game/ui/game_screen.gd:2012
 msgid "BRICK IN THE TRAY"
 msgstr "トレイにレンガ"
 
-#: game/ui/game_screen.gd:2002
+#: game/ui/game_screen.gd:2012
 #, c-format
 msgid "SMASHED %s!"
 msgstr "%sを粉砕!"
 
-#: game/ui/game_screen.gd:2072
+#: game/ui/game_screen.gd:2082
 msgid "PAINT IT WHICH COLOR?"
 msgstr "何色に塗る?"
 
-#: game/ui/game_screen.gd:2091
+#: game/ui/game_screen.gd:2101
 msgid "Already this color."
 msgstr "すでにこの色です。"
 
-#: game/ui/game_screen.gd:2107
+#: game/ui/game_screen.gd:2117
 msgid "DRAFT A NEW PIECE"
 msgstr "新しいピースを描く"
 
-#: game/ui/game_screen.gd:2227
+#: game/ui/game_screen.gd:2237
 msgid "INSURANCE CLAIMED!"
 msgstr "保険金が下りた!"
 
-#: game/ui/game_screen.gd:2230
+#: game/ui/game_screen.gd:2240
 #, c-format
 msgid "Your policy paid out. Round %d starts over from an empty board, without the free Refresh. The Insurance Policy card is used up."
 msgstr "保険が支払われた。ラウンド%dは空の盤面から、無料リフレッシュなしでやり直し。保険証書のカードは使い切った。"
 
-#: game/ui/game_screen.gd:2234
+#: game/ui/game_screen.gd:2244
 msgid "TRY AGAIN"
 msgstr "リトライ"
 
-#: game/ui/game_screen.gd:2251
+#: game/ui/game_screen.gd:2261
 msgid "FREE!"
 msgstr "無料!"
 
-#: game/ui/game_screen.gd:2265
+#: game/ui/game_screen.gd:2275
 msgid "HOLD (H): store a tray piece; its slot draws a new one. Later, swap it back in or click here to return it to an empty slot. Once between placements."
 msgstr "ホールド(H):トレイのピースを1つ取っておく。その枠には新しいピースが入る。あとで入れ替えるか、ここをクリックして空き枠に戻せる。配置の合間に1回。"
 
-#: game/ui/game_screen.gd:2274
+#: game/ui/game_screen.gd:2284
 msgid "DROP IT HERE"
 msgstr "ここに置いて"
 
-#: game/ui/game_screen.gd:2274
+#: game/ui/game_screen.gd:2284
 msgid "LOCKED BY BOSS"
 msgstr "ボスが封鎖中"
 
-#: game/ui/game_screen.gd:2274
+#: game/ui/game_screen.gd:2284
 msgid "PRESS H OR DROP"
 msgstr "Hを押すか置く"
 
-#: game/ui/game_screen.gd:2277
+#: game/ui/game_screen.gd:2287
 msgid "Store a piece, swap later."
 msgstr "ピースを保管、あとで交換。"
 
-#: game/ui/game_screen.gd:2278
+#: game/ui/game_screen.gd:2288
 msgid "Once per placement."
 msgstr "配置ごとに1回。"
 
-#: game/ui/hud.gd:228
+#: game/ui/hud.gd:233
 msgid "RECEIPT"
 msgstr "レシート"
 

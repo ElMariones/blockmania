@@ -1433,15 +1433,25 @@ func _show_round_intro() -> void:
 	var gap := Control.new()
 	gap.custom_minimum_size.y = 6
 	v.add_child(gap)
-	var b := BMStyle.button(BMLoc.t("START ROUND"), func() -> void:
-		close_overlay()
-		_spin_tray(0.05, _tray_hand())
-		if run.round_state.locked_slot >= 0:
-			BMAudio.sfx_later("warden_lock", 0.75)
-			_set_message(BMLoc.t("THE WARDEN BARRED SLOT %d: CLEAR A LINE TO FREE IT") % (run.round_state.locked_slot + 1), BMStyle.PINK_L, 3.5), "sun", 40)
+	var b := BMStyle.button(BMLoc.t("START ROUND"), _start_round_pressed, "sun", 40)
 	b.custom_minimum_size = Vector2(0, 88)
 	v.add_child(b)
 	BMStyle.focus_later(b)
+
+
+func _start_round_pressed() -> void:
+	close_overlay()
+	_spin_tray(0.05, _tray_hand())
+	var rs := run.round_state
+	if rs.locked_slot < 0 and rs.locked_slot2 < 0:
+		return
+	BMAudio.sfx_later("warden_lock", 0.75)
+	if rs.locked_slot >= 0 and rs.locked_slot2 >= 0:
+		var s1 := mini(rs.locked_slot, rs.locked_slot2) + 1
+		var s2 := maxi(rs.locked_slot, rs.locked_slot2) + 1
+		_set_message(BMLoc.t("THE WARDEN BARRED SLOTS %d AND %d: EACH CLEAR FREES ONE") % [s1, s2], BMStyle.PINK_L, 3.5)
+	else:
+		_set_message(BMLoc.t("THE WARDEN BARRED SLOT %d: CLEAR A LINE TO FREE IT") % (maxi(rs.locked_slot, rs.locked_slot2) + 1), BMStyle.PINK_L, 3.5)
 
 
 func _show_round_result() -> void:

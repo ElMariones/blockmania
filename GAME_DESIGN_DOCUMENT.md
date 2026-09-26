@@ -192,7 +192,7 @@ The same boss modifier must never silently make a Joker text false. Disabled or 
 - Jokers cost 3/5/8 Credits for common/uncommon/rare. Consumables cost 3–5 Credits. The first shop reroll costs 2 Credits, then rises by 1 each reroll within that shop. Leaving resets the reroll price.
 - Five Joker slots and two consumable slots. A purchase at capacity requires selling or using an item first; the UI never discards an item automatically.
 - Selling a Joker returns half its printed cost, rounded up. Consumables cannot be sold. Credits carry through the run and are capped at 99.
-- Shop rarity weights begin at 65% common, 30% uncommon, 5% rare, shifting toward 40/40/20 by Act 3. No duplicate unique Joker offer if already owned. Offer generation is deterministic from the run seed.
+- Shop rarity weights begin at 65% common, 30% uncommon, 5% rare, shifting to 40/40/19 plus 1% Legendary by Act 3 (Overtime acts 34/40/23/3). No duplicate unique Joker offer if already owned. Offer generation is deterministic from the run seed.
 
 ### Starting Kits
 
@@ -234,7 +234,7 @@ Jokers are passive, visible, orderable modifiers. The table below is the origina
 | Common | **Blue Mood** | Blue shapes gain +2 additive Mult. *(was +1)* |
 | Common | **Chain Link** | +1 additive Mult per current combo level on clearing placements. *(was +0.5)* |
 | Common | **Spare Parts** | +2 Credits after a round won with at least two placements unused. *(was +1 with three)* |
-| Common | **Tiny Insurance** | Once per round, when no offered shape fits and no tray Refresh is available, replace one unplaced shape with a single-cell piece before defeat is checked. |
+| Common | **Tiny Insurance** | Once per round, when no offered shape fits and no tray Refresh is available, replace one unplaced shape with a single-cell piece before defeat is checked. The Single never goes into a slot the Warden has barred (2026-09-26 fix: that left a round with no legal move and no Concede). |
 | Common | **Second Look** | First Refresh each round additionally grants +1 placement. |
 | Uncommon | **Wide Awake** | +3 additive Mult when two or more lines clear in a placement. *(was +2)* |
 | Uncommon | **Hollow Point** | +0.5 additive Mult when the board has at least 44 empty cells before placement. *(was +1.5 at 32)* |
@@ -413,7 +413,7 @@ Where this document left room for interpretation, the prototype chose the readin
 | Chain Link | Uses the combo level shown before the placement (the same level that gives combo Chips). |
 | Fire Sale | Counts every Joker sold this run, including sales made before Fire Sale was bought. |
 | Shop reroll | Refills every offer (Jokers, items, Workshop, pieces), including slots already bought. |
-| Shop rarity by act | Uses the act of the next round: 65/30/5, 53/35/12, then 40/40/20. |
+| Shop rarity by act | Uses the act of the next round: 65/30/5, 53/35/12, then 40/40/19/1 (Legendary); Overtime 34/40/23/3. |
 | Selling and reordering | Allowed in the shop and between placements during a round. |
 | Standard Kit | Starts with 0 Credits (High Roller starts with 4). |
 | Withheld content | Patch Panel, Eraser, Lucky Paint, and Blueprint need target-picking UI and are not offered yet. The Echo Chamber is withheld (§13 item 6). |
@@ -440,7 +440,7 @@ Where this document left room for interpretation, the prototype chose the readin
   1. If none of the tray's pieces fits, the last dealt slot is swapped with the first fitting piece in the draw pile. The swapped-out piece takes its place in the pile, so nothing is lost or duplicated.
   2. If no piece in the draw pile fits, the discard pile is searched the same way.
   3. If no owned piece fits anywhere, a **temporary Single** is dealt. It is marked "Temporary" in the tray tooltip and never enters the bag. The piece it replaced returns to the bottom of the draw pile.
-- **Tiny Insurance** also produces a temporary Single. The piece it replaces goes to the discard pile.
+- **Tiny Insurance** also produces a temporary Single. The piece it replaces goes to the discard pile. It replaces the first piece in a slot the player can use, never one in a Warden-barred slot.
 - The old "no identical consecutive trays" rule is retired: with a real bag, repeated trays can only come from the player's own bag composition.
 - **Visibility:** the Bag view (key **B** in a round, **View Bag** in the shop) lists the draw pile, the tray, and the discard pile, sorted by family so draw order is never revealed. Schematic levels are listed too. Each piece has a tooltip with its full text.
 
@@ -789,14 +789,14 @@ From act 2, act bosses are **Mk II**: a harder version of the same rule. At Heat
 | Taxman | First line 60 Chips | First line 30 Chips, multi-line Mult halved |
 | Color Blind | Color effects off | ...and two fewer placements |
 | Lockdown | No Refresh or Second Tray | ...and no Coffee Break or Hold |
-| Warden | One barred slot until the first clear | Two barred slots |
+| Warden | One barred slot until the first clear | Two barred slots; each clearing placement frees one (decided 2026-09-26: the second bar used to stay all round) |
 | Undertaker | A tombstone every 4th placement | Every 3rd placement |
 | Last Call | 12 placements, +50 Chips per multi-line placement | 10 placements |
 
 ### 22.4 Tray Hands and Kits rebalanced
 
 - Twins now give **+1 Mult** per placement (was Chips). Triplets: +2 Mult and **x1.5**, +1 Refresh. Monochrome: **x2**. Grand Slam: **x2 and +2 Mult**, +1 Refresh, +3 Credits. Staircase unchanged (+1 placement).
-- Compact, Chunky and Tetromino Kits start with **14 placements** (Standard 15). Chunky's bag loses its 3x3 square (19 pieces). Reason: every unlockable Kit beat Standard in the persona playtest.
+- Unlockable Kits start with fewer placements than Standard (15): High Roller and Tetromino **14**, Chunky **13**; Compact keeps **16** with 2 Refreshes and 4 Joker slots. Chunky's bag has 19 pieces, including its Square 3×3. Reason: every unlockable Kit beat Standard in the persona playtest. *(Corrected 2026-09-26: an earlier draft of this line said 14 for Compact and Chunky and no 3×3; §6 and `BMRunConfig.KITS` were right.)*
 
 ### 22.5 Heat (stakes after a win)
 

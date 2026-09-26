@@ -27,7 +27,7 @@ const CATALOG := [ # i18n: name, short, rule, rule2, counter
 		"counter": "Plan tray order and preserve board space."},
 	{"id": "warden", "short": "Warden", "name": "The Warden", "final": false,
 		"rule": "One tray slot starts barred: its piece can't be played until you clear a line. Deals skip the barred slot.",
-		"rule2": "Two tray slots start barred until you clear a line. Deals skip barred slots.",
+		"rule2": "Two tray slots start barred. Each clearing placement frees one. Deals skip barred slots.",
 		"counter": "Open with a quick clear using the other two slots."},
 	{"id": "undertaker", "short": "Undertaker", "name": "The Undertaker", "final": false,
 		"rule": "After every 4th placement, a tombstone rises on an empty cell. It clears with its line like any block.",

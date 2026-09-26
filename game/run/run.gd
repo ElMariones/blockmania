@@ -1138,14 +1138,14 @@ func _evaluate_round() -> Dictionary:
 		rs.status = PLAYING
 	elif refreshes_available() > 0:
 		rs.status = STUCK
-	elif has_active_joker("tiny_insurance") and not rs.tiny_insurance_used and board.empty_count() > 0:
+	elif has_active_joker("tiny_insurance") and not rs.tiny_insurance_used and board.empty_count() > 0 			and _insurance_slot() >= 0:
+		# The Single goes into a slot the player can use: never the Warden's barred one (a
+		# Single there left the round PLAYING with no legal move and no Concede).
 		rs.tiny_insurance_used = true
-		for i in tray.size():
-			if not tray[i].is_empty():
-				var color := int(tray[i].color)
-				BMBag.discard(self, tray[i])
-				tray[i] = BMPieces.temporary_single(color)
-				break
+		var slot := _insurance_slot()
+		var color := int(tray[slot].color)
+		BMBag.discard(self, tray[slot])
+		tray[slot] = BMPieces.temporary_single(color)
 		rs.status = PLAYING
 		events.append(BMLoc.m("Tiny Insurance: a Single replaced a stuck shape"))
 	elif _has_rescue_consumable():
@@ -1153,6 +1153,14 @@ func _evaluate_round() -> Dictionary:
 	else:
 		_lose(BMLoc.m("No offered shape fits and no rescue remains."))
 	return {"status": rs.status, "phase": phase, "tray_events": events, "tray_hand": hand}
+
+
+## Tiny Insurance's slot: the first unbarred tray slot holding a piece, or -1.
+func _insurance_slot() -> int:
+	for i in tray.size():
+		if not tray[i].is_empty() and not slot_locked(i):
+			return i
+	return -1
 
 
 func _has_rescue_consumable() -> bool:

@@ -112,6 +112,9 @@ func _play(seed_value: int, kit: String, heat: int) -> void:
 		# Piles are rebuilt when a round starts; the invariant holds throughout rounds.
 		if r.phase == BMRun.Phase.ROUND and not check(bag_accounted(r), "%s: bag accounting after %s" % [tag, str(a)]):
 			break
+		# Never a soft-lock: a round that is still PLAYING always has a legal move.
+		if r.phase == BMRun.Phase.ROUND and r.round_state.status == BMRun.PLAYING:
+			check(has_legal_move(r), "%s: PLAYING with a legal move after %s" % [tag, str(a)])
 		check(r.round_state.score <= BMRunConfig.SCORE_CAP, tag + ": score within the machine's limit")
 		check(r.credits >= 0 and r.credits <= BMRunConfig.CREDIT_CAP, tag + ": credits within 0..cap")
 		if r.phase == BMRun.Phase.SHOP:

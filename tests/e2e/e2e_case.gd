@@ -73,6 +73,16 @@ static func bag_accounted(r: BMRun) -> bool:
 	return true
 
 
+## True when the player has a legal placement: an open slot whose piece fits, or a stored piece
+## that fits and can be swapped in now.
+static func has_legal_move(r: BMRun) -> bool:
+	for i in r.tray.size():
+		if r.slot_fits(i):
+			return true
+	var held: Dictionary = r.round_state.held
+	return not held.is_empty() and not r.round_state.hold_used and not r.hold_blocked() and r.board.fits_anywhere(held.cells)
+
+
 ## Saves a PNG of the current frame when a real display is present (skipped headless).
 func screenshot(name: String) -> void:
 	if DisplayServer.get_name() == "headless":
