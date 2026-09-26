@@ -5,7 +5,7 @@ extends RefCounted
 ## settings ("tips_seen"), so they survive runs; Settings > Game > Tips turns them off and
 ## RESET TIPS shows them again. Presentation only: tips never touch the run.
 
-const CATALOG := [
+const CATALOG := [ # i18n: title, text
 	{"id": "welcome", "title": "Place a piece",
 		"text": "Drag a piece from the tray onto the board, or click it and then a cell. Fill a whole row or column to clear it: clears are where the points are."},
 	{"id": "score", "title": "Chips x Mult",

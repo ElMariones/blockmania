@@ -141,8 +141,8 @@ static func record_run(run: BMRun) -> Array:
 
 
 static func record_label(key: String) -> String:
-	return {"furthest_round": "Furthest round", "best_placement": "Best placement",
-		"best_round_score": "Best round score", "machine_broken": "Machine broken in round"}.get(key, key)
+	return {"furthest_round": BMLoc.m("Furthest round"), "best_placement": BMLoc.m("Best placement"),
+		"best_round_score": BMLoc.m("Best round score"), "machine_broken": BMLoc.m("Machine broken in round")}.get(key, key)
 
 
 ## Trophy Case "NEW!" tags: unlocked but not yet shown there.

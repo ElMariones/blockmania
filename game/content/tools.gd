@@ -4,7 +4,7 @@ extends RefCounted
 ## to pieces chosen from the bag. `max_targets` 0 = no piece target (Schematic).
 ## `kind`: material | stamp | copy | remove | rotate | repaint | schematic | slot. Values provisional.
 
-const CATALOG := [
+const CATALOG := [ # i18n: name, text
 	{"id": "chrome_plating", "name": "Chrome Plating", "cost": 3, "kind": "material", "value": "chrome", "max_targets": 2, "text": "Give up to 2 pieces the Chrome material."},
 	{"id": "neon_tubing", "name": "Neon Tubing", "cost": 3, "kind": "material", "value": "neon", "max_targets": 2, "text": "Give up to 2 pieces the Neon material."},
 	{"id": "gold_leaf", "name": "Gold Leaf", "cost": 4, "kind": "material", "value": "gold", "max_targets": 1, "text": "Give 1 piece the Gold material."},
@@ -43,19 +43,19 @@ static func get_def(id: String) -> Dictionary:
 static func offer_name(offer: Dictionary) -> String:
 	var def := get_def(offer.id)
 	if def.kind == "schematic":
-		return "Schematic: %s" % BMShapes.family(offer.family).name
-	return def.name
+		return BMLoc.t("Schematic: %s") % BMShapes.family_name(offer.family)
+	return BMLoc.t(def.name)
 
 
 static func offer_text(offer: Dictionary, run: BMRun = null) -> String:
 	var def := get_def(offer.id)
 	if def.kind == "schematic":
 		var lvl := 0 if run == null else run.family_level(offer.family)
-		return "Level up %s pieces (now Lv %d): +%d Chips and +%s Mult per level when placed." % [
-			BMShapes.family(offer.family).name, lvl, BMPieces.LEVEL_CHIPS, str(BMPieces.LEVEL_MULT)]
-	var text: String = def.text
+		return BMLoc.t("Level up %s pieces (now Lv %d): +%d Chips and +%s Mult per level when placed.") % [
+			BMShapes.family_name(offer.family), lvl, BMPieces.LEVEL_CHIPS, str(BMPieces.LEVEL_MULT)]
+	var text := BMLoc.t(def.text)
 	if def.kind == "material":
-		text += "\n" + BMPieces.MATERIAL_DEFS[def.value].text
+		text += "\n" + BMLoc.t(BMPieces.MATERIAL_DEFS[def.value].text)
 	elif def.kind == "stamp":
-		text += "\n" + BMPieces.STAMP_DEFS[def.value].text
+		text += "\n" + BMLoc.t(BMPieces.STAMP_DEFS[def.value].text)
 	return text

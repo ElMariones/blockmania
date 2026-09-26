@@ -13,11 +13,11 @@ const COLOR_PURPLE := 5
 ## Boss-placed fixed cells (The Cramped Cabinet). Never offered in the tray.
 const COLOR_STONE := 6
 const OFFER_COLOR_COUNT := 6
-const COLOR_NAMES := ["Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Stone"]
+const COLOR_NAMES := ["Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Stone"] # i18n
 
 ## Family definitions. `weight` (percent) now only weights random piece offers in the shop;
 ## trays are dealt from the player's bag (BMBag). `min_round` is kept for reference only.
-const FAMILIES := [
+const FAMILIES := [ # i18n: name
 	{"id": &"single", "name": "Single", "weight": 8, "min_round": 1, "cells": [[0, 0]]},
 	{"id": &"bar2", "name": "Bar 2", "weight": 12, "min_round": 1, "cells": [[0, 0], [1, 0]]},
 	{"id": &"bar3", "name": "Bar 3", "weight": 14, "min_round": 1, "cells": [[0, 0], [1, 0], [2, 0]]},
@@ -43,6 +43,15 @@ static func family(id: StringName) -> Dictionary:
 			return f
 	push_error("Unknown shape family %s" % id)
 	return {}
+
+
+## Translated names for display (the catalogs keep the English source).
+static func family_name(id: StringName) -> String:
+	return BMLoc.t(String(family(id).get("name", id)))
+
+
+static func color_name(color: int) -> String:
+	return BMLoc.t(COLOR_NAMES[clampi(color, 0, COLOR_NAMES.size() - 1)])
 
 
 static func normalize(cells: Array[Vector2i]) -> Array[Vector2i]:

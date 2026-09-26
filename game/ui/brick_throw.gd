@@ -244,10 +244,10 @@ func _draw() -> void:
 	draw_brick(self, HALF)
 	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 	if state == "hover":
-		_hint("GRAB & THROW IT!", pos + Vector2(0, -62))
-		_hint("or click a tray slot  |  right-click to cancel", pos + Vector2(0, 58), 20, BMStyle.TEXT_DIM)
+		_hint(BMLoc.t("GRAB & THROW IT!"), pos + Vector2(0, -62))
+		_hint(BMLoc.t("or click a tray slot  |  right-click to cancel"), pos + Vector2(0, 58), 20, BMStyle.TEXT_DIM)
 	elif state == "resting":
-		_hint("GRAB IT AGAIN, OR CLICK A SLOT", pos + Vector2(0, -58))
+		_hint(BMLoc.t("GRAB IT AGAIN, OR CLICK A SLOT"), pos + Vector2(0, -58))
 
 
 ## Chunky pixel brick centered on the canvas origin: ink outline, bevel, staggered mortar

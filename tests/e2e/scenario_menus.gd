@@ -40,6 +40,8 @@ func run() -> void:
 			key = key.substr(0, key.rfind("_"))
 			if key == "fullscreen":
 				continue # a real window mode change; not meaningful headless
+			if String(b.name).begins_with("Setting_language_"):
+				continue # rebuilds every screen; scenario_languages covers it
 			b.pressed.emit()
 			await frames(1)
 			clicked += 1

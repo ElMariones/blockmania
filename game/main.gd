@@ -39,6 +39,9 @@ var _window_focused := true
 func _ready() -> void:
 	_register_input_actions()
 	settings = BMSaveStore.load_settings()
+	# Every text is translated explicitly (BMLoc), never by matching a Label's text.
+	auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	BMLoc.apply(language_pref())
 	audio = BMAudio.new()
 	add_child(audio)
 	audio.apply_settings(settings)
@@ -411,6 +414,88 @@ func set_setting(key: String, value: Variant) -> void:
 	_apply_settings()
 
 
+## The language setting, or `-- --lang=<code>` on the command line (screenshots, tests; not
+## saved).
+func language_pref() -> String:
+	for a in OS.get_cmdline_user_args():
+		if a.begins_with("--lang="):
+			return a.trim_prefix("--lang=")
+	return String(settings.get("language", "auto"))
+
+
+## Settings > Game > Language: saves the choice, switches the text and fonts and rebuilds every
+## screen in place (the run, the shop and the Endless game are untouched), then reopens the menu.
+func set_language(code: String) -> void:
+	settings.language = code
+	BMSaveStore.save_settings(settings)
+	BMLoc.apply(code)
+	var menu_context := ""
+	var menu_in_run := false
+	var menu_open := false
+	for m in _pause.get_children():
+		if m is BMSettingsMenu:
+			menu_open = true
+			menu_in_run = m.in_run
+			menu_context = m.context
+	BMUI.clear_children(_pause)
+	rebuild_screens()
+	if menu_open:
+		var menu := BMSettingsMenu.new()
+		menu.main = self
+		menu.in_run = menu_in_run
+		menu.context = menu_context
+		_pause.add_child(menu)
+
+
+## Replaces the four screens with fresh ones built in the current language and shows the
+## same place again. Presentation only: no command is sent and nothing is saved.
+func rebuild_screens() -> void:
+	var where := "title"
+	if game_screen.visible:
+		where = "game"
+	elif shop_screen.visible:
+		where = "shop"
+	elif endless_screen.visible:
+		where = "endless"
+	var intro_for: int = game_screen._intro_shown_for
+	var endless_game: BMEndless = endless_screen.game
+	clear_tips()
+	var fresh := [BMTitleScreen.new(), BMGameScreen.new(), BMShopScreen.new(), BMEndlessScreen.new()]
+	var old := [title_screen, game_screen, shop_screen, endless_screen]
+	for i in old.size():
+		var at: int = old[i].get_index()
+		fresh[i].main = self
+		remove_child(old[i])
+		old[i].queue_free()
+		add_child(fresh[i])
+		move_child(fresh[i], at)
+	title_screen = fresh[0]
+	game_screen = fresh[1]
+	shop_screen = fresh[2]
+	endless_screen = fresh[3]
+	game_screen._intro_shown_for = intro_for
+	for s in fresh:
+		s.visible = false
+		s.process_mode = Node.PROCESS_MODE_DISABLED
+	match where:
+		"game":
+			_show(game_screen)
+			game_screen.bind(run)
+		"shop":
+			_show(shop_screen)
+			shop_screen.bind(run)
+		"endless":
+			endless_screen.bind(endless_game)
+			_show(endless_screen)
+		_:
+			_show(title_screen)
+			title_screen.refresh()
+	if tutorial != null:
+		tutorial.relocalize()
+	if toasts != null:
+		toasts.relocalize()
+
+
 func save_and_quit() -> void:
 	if endless_screen.visible:
 		BMEndlessStore.record(endless_screen.game)
@@ -513,7 +598,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		for m in _pause.get_children():
 			if m is BMSettingsMenu:
 				m.refresh_values()
-		fx.pop_text(Vector2(size.x / 2.0, 90), "SOUND OFF  (M)" if settings.muted else "SOUND ON  (M)", BMStyle.CREAM, 30, 30.0, 1.2)
+		fx.pop_text(Vector2(size.x / 2.0, 90), BMLoc.t("SOUND OFF  (M)") if settings.muted else BMLoc.t("SOUND ON  (M)"), BMStyle.CREAM, 30, 30.0, 1.2)
 		get_viewport().set_input_as_handled()
 
 

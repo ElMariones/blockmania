@@ -9,14 +9,14 @@ extends RefCounted
 ## `page`: Trophy Case page (0-4), twelve badges each, in catalog order.
 
 const TIERS := ["bronze", "silver", "gold", "legend"]
-const TIER_NAMES := {"bronze": "Bronze", "silver": "Silver", "gold": "Gold", "legend": "Legendary"}
-const PAGE_TITLES := ["THE CAMPAIGN", "THE BAG & THE SHOP", "THE SCOREBOARD", "ARCADE & SECRETS", "LEGENDS"]
+const TIER_NAMES := {"bronze": "Bronze", "silver": "Silver", "gold": "Gold", "legend": "Legendary"} # i18n ctx=tier
+const PAGE_TITLES := ["THE CAMPAIGN", "THE BAG & THE SHOP", "THE SCOREBOARD", "ARCADE & SECRETS", "LEGENDS"] # i18n
 const PER_PAGE := 12
 
 const BLUE := 4 ## BMShapes color index
 const RECORD_KEYS := ["furthest_round", "best_placement", "best_round_score", "machine_broken"]
 
-const CATALOG := [
+const CATALOG := [ # i18n: name, text, flavor, hint
 	# --- Page 1: the campaign ---
 	{"id": "first_line", "page": 0, "tier": "bronze", "name": "First Crack", "text": "Clear your first line.", "flavor": "It's a start. A very satisfying start."},
 	{"id": "first_round", "page": 0, "tier": "bronze", "name": "Warmed Up", "text": "Win a round.", "flavor": "The target never stood a chance."},
@@ -85,6 +85,14 @@ const CATALOG := [
 ]
 
 static var _by_id := {}
+
+
+static func tier_name(tier: String) -> String:
+	return BMLoc.t(String(TIER_NAMES.get(tier, tier)), &"tier")
+
+
+static func page_title(page: int) -> String:
+	return BMLoc.t(PAGE_TITLES[clampi(page, 0, PAGE_TITLES.size() - 1)])
 
 
 static func get_def(id: String) -> Dictionary:

@@ -4,7 +4,7 @@ extends RefCounted
 ## seeded twists, and the player picks one. The choice is a run command (`pick_round`), saved
 ## with the shop, and applied when the round starts. Values are provisional.
 
-const CATALOG := [
+const CATALOG := [ # i18n: name, text
 	{"id": "standard", "name": "Standard", "reward": 0,
 		"text": "No twist."},
 	{"id": "gold_rush", "name": "Gold Rush", "reward": 2,

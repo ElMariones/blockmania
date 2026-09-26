@@ -90,7 +90,9 @@ static func default_settings() -> Dictionary:
 		# Pointer: "custom" (BMCursor: pixel arrow, POPS's glove, click effects) or "system".
 		"cursor": "custom",
 		# Accessibility: shake and flash strength.
-		"shake": "full", "flashes": "full"}
+		"shake": "full", "flashes": "full",
+		# UI language (BMLoc): "auto" follows the OS language, else a BMLoc.LANGUAGES code.
+		"language": "auto"}
 
 
 static func load_settings() -> Dictionary:

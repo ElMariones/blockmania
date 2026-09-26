@@ -59,13 +59,15 @@ class Marquee extends Control:
 			draw_string_outline(f, Vector2((size.x - mw) / 2.0, my), message, HORIZONTAL_ALIGNMENT_LEFT, -1, ms, 8, BMStyle.INK)
 			draw_string(f, Vector2((size.x - mw) / 2.0, my), message, HORIZONTAL_ALIGNMENT_LEFT, -1, ms, message_color)
 			return
-		var size_px := 40
-		var tw := f.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, size_px).x
 		var sw := f.get_string_size(sub, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x if sub != "" else 0.0
 		var icon_width := 68.0 if icon != null else 0.0
-		var total := tw + (sw + 24 if sub != "" else 0.0) + (icon_width + 12 if icon != null else 0.0)
+		var rest := (sw + 24 if sub != "" else 0.0) + (icon_width + 12 if icon != null else 0.0)
+		# A longer translation steps the title down (40, 30, 20) to keep it inside the frame.
+		var size_px := BMUI.fit_size(text, f, 40, inner.size.x - 40 - rest)
+		var tw := f.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, size_px).x
+		var total := tw + rest
 		var x0 := (size.x - total) / 2.0
-		var base_y := inner.get_center().y + 14
+		var base_y: float = inner.get_center().y + {40: 14, 30: 11, 20: 7}[size_px]
 		if icon != null:
 			draw_texture_rect(icon, Rect2(Vector2(x0, base_y - 36), Vector2(68, 36)), false)
 			x0 += icon_width + 12
@@ -223,7 +225,7 @@ class Receipt extends PanelContainer:
 		add_theme_stylebox_override("panel", BMStyle.box("panel_paper", Vector4(10, 6, 10, 10)))
 		var v := BMStyle.vbox(2)
 		add_child(v)
-		var head := BMStyle.label("RECEIPT", 20, Color(BMStyle.INK, 0.55), true)
+		var head := BMStyle.label(BMLoc.t("RECEIPT"), 20, Color(BMStyle.INK, 0.55), true)
 		head.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		v.add_child(head)
 		_lines = BMStyle.vbox(2)

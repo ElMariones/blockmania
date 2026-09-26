@@ -3,7 +3,7 @@
 Living backlog. Update it in the same commit as the work. Milestones follow GDD §12.
 Legend: `[x]` done · `[~]` partial · `[ ]` open · **(owner)** needs a project-owner decision.
 
-_Last updated: 2026-09-26 — Release playability study (`docs/playtests/2026-09-26_release_study.md`): 4,560 simulated runs; items and Joker repetition confirmed as structural problems; two Warden bugs. Earlier (2026-09-24): Plan items from the review (campaign Hold, round cards, Mk II bosses, Heat 0–5, Joker unlocks, Daily, run history, milestones, tips), boss cinematic and mood shader, 6 new songs, settings/menu redesign (GDD §22). Earlier: persona playtest review (docs/playtests), engine update (interest, overkill, multi-line Mult, scaling Jokers, Rack Extender, 13 Jokers, 4 items, 4 Legendary Jokers, Legends achievement page, targets raised). Earlier today: shop menu, card portraits, Overtime, 48 achievements._
+_Last updated: 2026-09-26 — Release playability study (`docs/playtests/2026-09-26_release_study.md`): 4,560 simulated runs; items and Joker repetition confirmed as structural problems; two Warden bugs. Earlier (2026-09-25): translations, ten more UI languages and the languages layout scenario (Owner requests, 2026-09-25 (translations)). Earlier (2026-09-24): Plan items from the review (campaign Hold, round cards, Mk II bosses, Heat 0–5, Joker unlocks, Daily, run history, milestones, tips), boss cinematic and mood shader, 6 new songs, settings/menu redesign (GDD §22). Earlier: persona playtest review (docs/playtests), engine update (interest, overkill, multi-line Mult, scaling Jokers, Rack Extender, 13 Jokers, 4 items, 4 Legendary Jokers, Legends achievement page, targets raised). Earlier today: shop menu, card portraits, Overtime, 48 achievements._
 
 ## M0 — Rules prototype
 
@@ -178,6 +178,16 @@ Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/r
 - [ ] GDD §22.4 says Compact/Chunky/Tetromino start with 14 placements and Chunky lost its 3×3; code and §6 have Compact 16, Chunky 13, and the Chunky bag still has a Square 3×3. Align.
 - [ ] `scenario_menus` failed once (vsync / show_fps not saved) right after a long simulation batch, then passed twice with the same fingerprint: watch for flakiness.
 - [ ] Human playtest to confirm what the bots cannot judge: Turntable (never bought by bots), Periscope, Card Sharp, Patch Panel, Draftsman, Locksmith, and real item-use friction.
+
+## Owner requests, 2026-09-25 (translations)
+
+- [x] **Eleven UI languages**: English, Spanish, French, Italian, German, Dutch, Polish, Brazilian Portuguese, Japanese, Simplified and Traditional Chinese (all 1,442 messages; `tools/i18n/check.py` clean). Settings > Game > Language (SYSTEM follows the OS); switching rebuilds the screens in place. Rules text stays English in saves and results and is translated for display (`BMLoc.tf`). Blockhead gained the Latin accents; CJK comes from Fusion Pixel 10 px subsets (OFL). Guide and glossary: [docs/localization.md](docs/localization.md).
+- [x] **No broken UI in any language**: `tests/e2e/scenario_languages.gd` visits 30 screens and overlays (title popups, every Options tab, Kit picker, trophies, tutorial, round intro, round, bag, pause, round result, shop, round picker, boss intro and cinematic, crate, run end, history, Endless and its style picker and game over) in all eleven languages and fails on missing glyphs, text escaping its panel, controls grown past their rect, cut text without a tooltip, untranslated text and drawn text that does not fit. Fixes: text-measured buttons (RESET PAGE, COPY SEED, Heat/Seed labels, language grid), `BMUI.draw_fit` for code-drawn text, two-line Kit facts and Bag tile labels, fitted price buttons, taller boss panel (+12 px, receipt −12 px), Joker rack text on two lines when there is room, shorter translations where they ran long. Achievement toasts on screen re-show in the new language. Later passes: title menu buttons keep their text clear of the icon, POPS's bubble is really `DIALOG_W` wide and stays on screen (it used to hang 56 px past the right edge in every language), tutorial buttons fit, the Endless block-style button falls back to the style name, bag and reroll buttons step down, no word is split mid-line (Fiskus, Rückgabestempel, Versnipperaar).
+- [x] E2E sandbox is per checkout (`user://e2e_sandbox_<hash>`): worktrees share `user://`, and a suite in another checkout was wiping this one's saves mid-run.
+- [x] Untranslated text found by the scenario: feat banners, item rack bodies (round and shop), the Legendary Joker pop.
+- [ ] Native-speaker review of all ten translations (machine-assisted; terms are consistent with the glossary but unreviewed by native players). **(owner)**
+- [ ] Localized Steam store text and capsules for the languages beyond English, Spanish and Chinese, if the store should list them.
+- [ ] Fixed-size cards still shorten some longer translations with an ellipsis (full text in the tooltip); the scenario counts them (`shortened_with_tooltip`). Trim the translations further if playtests show players miss them.
 
 ## M2 — Content complete
 

@@ -2,7 +2,7 @@ class_name BMPieceTile
 extends Control
 ## One bag piece as a small selectable tile: the piece with its material and stamp, a short
 ## text line (never color-only), and a full-description tooltip. Selected tiles get a sun rim,
-## a lift, and a "PICKED" tag.
+## a lift, and a BMLoc.t("PICKED") tag.
 
 signal toggled_piece(uid: int)
 
@@ -52,31 +52,45 @@ func _draw() -> void:
 		draw_rect(r.grow(-2), BMStyle.SKY, false, 4.0)
 	if piece.is_empty():
 		return
-	var dims := Vector2(BMShapes.shape_size(piece))
-	var cell := floorf(minf(24.0, minf((size.x - 24) / dims.x, (size.y - 52) / dims.y)))
-	var origin := (Vector2((size.x - dims.x * cell) / 2.0, r.position.y + 10 + (size.y - 56 - dims.y * cell) / 2.0)).round()
-	BMBlockPainter.draw_shape(self, piece, origin, cell, 0.4 if dimmed else 1.0)
 	var f := BMStyle.font
-	var text := short_label(piece)
-	var w := f.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x
+	var lines := label_lines(piece, f, size.x - 8)
+	var label_h := 24.0 * (lines.size() - 1)
+	var dims := Vector2(BMShapes.shape_size(piece))
+	var cell := floorf(minf(24.0, minf((size.x - 24) / dims.x, (size.y - 52 - label_h) / dims.y)))
+	var origin := (Vector2((size.x - dims.x * cell) / 2.0, r.position.y + 10 + (size.y - 56 - label_h - dims.y * cell) / 2.0)).round()
+	BMBlockPainter.draw_shape(self, piece, origin, cell, 0.4 if dimmed else 1.0)
 	var col := BMStyle.CREAM if BMPieces.is_upgraded(piece) else BMStyle.TEXT_DIM
-	draw_string(f, Vector2((size.x - minf(w, size.x - 8)) / 2.0, r.end.y - 12), text, HORIZONTAL_ALIGNMENT_LEFT, size.x - 8, 20, col)
+	for i in lines.size():
+		BMUI.draw_fit(self, f, Vector2(4, r.end.y - 12 - label_h + i * 24), lines[i], HORIZONTAL_ALIGNMENT_CENTER, size.x - 8, 20, col, size.x - 8)
 	if selected:
 		# Tag sized to its text, centered on the top edge and inside the tile (scroll areas clip).
-		var tw := BMStyle.font_bold.get_string_size("PICKED", HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x
+		var tw := BMStyle.font_bold.get_string_size(BMLoc.t("PICKED"), HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x
 		var tag := Rect2(Vector2((size.x - tw - 20) / 2.0, r.position.y - 2), Vector2(tw + 20, 30))
 		draw_style_box(BMStyle.box("pill_sun", Vector4.ZERO), tag)
-		draw_string(BMStyle.font_bold, tag.position + Vector2(10, 22), "PICKED", HORIZONTAL_ALIGNMENT_LEFT, -1, 20, BMStyle.INK)
+		draw_string(BMStyle.font_bold, tag.position + Vector2(10, 22), BMLoc.t("PICKED"), HORIZONTAL_ALIGNMENT_LEFT, -1, 20, BMStyle.INK)
+
+
+## short_label in one line, or two when it is too wide for the tile: material / +stamp. A
+## shape name drops its size ("Square 2x2" -> "Square"), which the drawing above shows.
+static func label_lines(p: Dictionary, font: Font, width: float) -> PackedStringArray:
+	var text := short_label(p)
+	if font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x <= width:
+		return PackedStringArray([text])
+	var plus := text.find("+")
+	if plus > 0:
+		return PackedStringArray([text.left(plus), text.substr(plus)])
+	var space := text.rfind(" ")
+	return PackedStringArray([text.left(space) if space > 0 else text])
 
 
 static func short_label(p: Dictionary) -> String:
 	var parts := PackedStringArray()
 	var m := String(p.get("material", ""))
 	if m != "":
-		parts.append(BMPieces.MATERIAL_DEFS[m].name)
+		parts.append(BMLoc.t(BMPieces.MATERIAL_DEFS[m].name))
 	var s := String(p.get("stamp", ""))
 	if s != "":
-		parts.append(BMPieces.STAMP_DEFS[s].name.replace(" Stamp", ""))
+		parts.append(BMLoc.t(BMPieces.STAMP_DEFS[s].short_name))
 	if parts.is_empty():
-		return BMShapes.family(p.family).name
+		return BMShapes.family_name(p.family)
 	return "+".join(parts)

@@ -50,6 +50,52 @@ static func load_fonts() -> void:
 		return
 	font = _pixel_font("res://assets/fonts/blockhead.ttf")
 	font_bold = _pixel_font("res://assets/fonts/blockhead_bold.ttf")
+	apply_language(BMLoc.current)
+
+
+## CJK glyphs come from Fusion Pixel (OFL, 10 px like Blockhead's em) subset to the characters
+## the translations use (tools/art/gen_cjk_fonts.py). One file per language, because Japanese,
+## Simplified and Traditional Chinese draw some shared characters differently.
+static var _cjk := {}
+static var _lang_fonts := {}
+
+
+static func cjk_font(code: String) -> FontFile:
+	if not code in BMLoc.CJK:
+		code = "zh_CN"
+	if not _cjk.has(code):
+		var path := "res://assets/fonts/cjk_%s.ttf" % code.to_lower()
+		_cjk[code] = _pixel_font(path) if ResourceLoader.exists(path) else null
+	return _cjk[code]
+
+
+## Points Blockhead's fallback at the CJK font for `code` (Latin languages keep a Simplified
+## Chinese fallback for stray characters; the language list uses font_for_language).
+static func apply_language(code: String) -> void:
+	if font == null:
+		return
+	var cjk := cjk_font(code)
+	var fb: Array[Font] = []
+	if cjk != null:
+		fb.append(cjk)
+	font.fallbacks = fb
+	font_bold.fallbacks = fb
+
+
+## Blockhead with the CJK fallback of one language, for text shown in that language whatever
+## the current one is (the language names in Settings).
+static func font_for_language(code: String, bold: bool = false) -> Font:
+	load_fonts()
+	var key := code + ("_b" if bold else "")
+	if not _lang_fonts.has(key):
+		var f: FontFile = (font_bold if bold else font).duplicate()
+		var cjk := cjk_font(code)
+		var fb: Array[Font] = []
+		if cjk != null:
+			fb.append(cjk)
+		f.fallbacks = fb
+		_lang_fonts[key] = f
+	return _lang_fonts[key]
 
 
 static func _pixel_font(path: String) -> FontFile:

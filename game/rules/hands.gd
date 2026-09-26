@@ -13,7 +13,7 @@ const TRIPLETS := "triplets"
 const GRAND_SLAM := "grand_slam"
 
 ## Highest rank first. `short` is the badge text; `text` the full rule for tooltips.
-const DEFS := {
+const DEFS := { # i18n: name, badge, short, text
 	GRAND_SLAM: {"name": "Grand Slam", "badge": "SLAM!", "short": "x2 MULT, +2 MULT, +1 REFRESH, +3 CREDITS",
 		"text": "Three pieces of the same family and the same color. Every placement from this tray gets +2 Mult and x2 Mult; you gain +1 Refresh this round and 3 Credits."},
 	TRIPLETS: {"name": "Triplets", "badge": "TRIPLETS", "short": "+2 MULT, x1.5 MULT EACH, +1 REFRESH",

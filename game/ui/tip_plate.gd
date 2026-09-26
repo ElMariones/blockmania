@@ -22,20 +22,20 @@ func _ready() -> void:
 	add_child(v)
 	var head := BMStyle.hbox(12)
 	v.add_child(head)
-	head.add_child(BMStyle.pill("TIP", "sun", 20))
-	var title := BMStyle.label(String(def.get("title", "")).to_upper(), 30, BMStyle.SUN_L, true, 6)
+	head.add_child(BMStyle.pill(BMLoc.t("TIP"), "sun", 20))
+	var title := BMStyle.label(BMLoc.t(String(def.get("title", ""))).to_upper(), 30, BMStyle.SUN_L, true, 6)
 	head.add_child(title)
-	var body := BMStyle.label(String(def.get("text", "")), 20, BMStyle.CREAM)
+	var body := BMStyle.label(BMLoc.t(String(def.get("text", ""))), 20, BMStyle.CREAM)
 	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	body.custom_minimum_size.x = maxf(300.0, custom_minimum_size.x - 40.0)
 	v.add_child(body)
 	var foot := BMStyle.hbox(10)
 	v.add_child(foot)
-	var off := BMStyle.label("Turn tips off in Options.", 20, BMStyle.TEXT_DIM)
+	var off := BMStyle.label(BMLoc.t("Turn tips off in Options."), 20, BMStyle.TEXT_DIM)
 	off.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	off.clip_text = true
 	foot.add_child(off)
-	var ok := BMStyle.button("GOT IT", close, "sun", 20)
+	var ok := BMStyle.button(BMLoc.t("GOT IT"), close, "sun", 20)
 	ok.custom_minimum_size = Vector2(130, 48)
 	ok.focus_mode = Control.FOCUS_NONE
 	foot.add_child(ok)

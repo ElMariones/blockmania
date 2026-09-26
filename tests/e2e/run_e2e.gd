@@ -10,7 +10,9 @@ extends SceneTree
 ## The fingerprint is a hash of each scenario's seeded facts: run it twice on the same build
 ## and it must not change. Runtime engine/script errors fail a scenario.
 
-const SANDBOX := "user://e2e_sandbox"
+## One sandbox per checkout: worktrees share user:// (same project name), and a suite running
+## in another checkout must not wipe this one's saves mid-run.
+var SANDBOX := "user://e2e_sandbox_%x" % absi(ProjectSettings.globalize_path("res://").hash())
 
 
 func _init() -> void:
@@ -101,3 +103,7 @@ func _sandbox() -> void:
 	BMAchievementStore.forget_cache()
 	BMEndlessStore.game_path = SANDBOX + "/endless.json"
 	BMEndlessStore.scores_path = SANDBOX + "/endless_scores.json"
+	# Scenarios read English text; the OS language must not leak in ("auto" is the default).
+	var cfg := ConfigFile.new()
+	cfg.set_value("settings", "language", "en")
+	cfg.save(BMSaveStore.settings_path)

@@ -1,0 +1,6294 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: BLOCKMANIA\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: game/content/achievements.gd:12
+msgctxt "tier"
+msgid "Bronze"
+msgstr "ブロンズ"
+
+#: game/content/achievements.gd:12
+msgctxt "tier"
+msgid "Gold"
+msgstr "ゴールド"
+
+#: game/content/achievements.gd:12
+msgctxt "tier"
+msgid "Legendary"
+msgstr "レジェンド"
+
+#: game/content/achievements.gd:12
+msgctxt "tier"
+msgid "Silver"
+msgstr "シルバー"
+
+#: game/content/achievements.gd:13
+msgid "ARCADE & SECRETS"
+msgstr "アーケードと秘密"
+
+#: game/content/achievements.gd:13
+msgid "LEGENDS"
+msgstr "伝説"
+
+#: game/content/achievements.gd:13
+msgid "THE BAG & THE SHOP"
+msgstr "バッグとショップ"
+
+#: game/content/achievements.gd:13
+msgid "THE CAMPAIGN"
+msgstr "キャンペーン"
+
+#: game/content/achievements.gd:13
+msgid "THE SCOREBOARD"
+msgstr "スコアボード"
+
+#: game/content/achievements.gd:21
+msgid "Clear your first line."
+msgstr "はじめてラインを消す。"
+
+#: game/content/achievements.gd:21
+msgid "First Crack"
+msgstr "最初のひび"
+
+#: game/content/achievements.gd:21
+msgid "It's a start. A very satisfying start."
+msgstr "はじまりだ。とても気持ちいいはじまり。"
+
+#: game/content/achievements.gd:22
+msgid "The target never stood a chance."
+msgstr "目標には勝ち目がなかった。"
+
+#: game/content/achievements.gd:22
+msgid "Warmed Up"
+msgstr "ウォーミングアップ"
+
+#: game/content/achievements.gd:22
+msgid "Win a round."
+msgstr "ラウンドに勝つ。"
+
+#: game/content/achievements.gd:23
+msgid "Boss Buster"
+msgstr "ボスバスター"
+
+#: game/content/achievements.gd:23
+msgid "Defeat a boss."
+msgstr "ボスを倒す。"
+
+#: game/content/achievements.gd:23
+msgid "They always look bigger on the poster."
+msgstr "ポスターではいつも大きく見える。"
+
+#: game/content/achievements.gd:24
+msgid "Intermission is over. Back to your seats."
+msgstr "休憩は終わり。席に戻ってください。"
+
+#: game/content/achievements.gd:24
+msgid "Reach Act 2 (round 5)."
+msgstr "第2幕(ラウンド5)に到達する。"
+
+#: game/content/achievements.gd:24
+msgid "Second Act"
+msgstr "第二幕"
+
+#: game/content/achievements.gd:25
+msgid "Final Act"
+msgstr "最終幕"
+
+#: game/content/achievements.gd:25
+msgid "Reach Act 3 (round 9)."
+msgstr "第3幕(ラウンド9)に到達する。"
+
+#: game/content/achievements.gd:25
+msgid "The curtain is starting to twitch."
+msgstr "幕がぴくぴくし始めた。"
+
+#: game/content/achievements.gd:26
+msgid "Blink and you missed it."
+msgstr "まばたきしたら見逃すよ。"
+
+#: game/content/achievements.gd:26
+msgid "Speedrunner"
+msgstr "スピードランナー"
+
+#: game/content/achievements.gd:26
+msgid "Win a round in five placements or fewer."
+msgstr "5回以下の配置でラウンドに勝つ。"
+
+#: game/content/achievements.gd:27
+msgid "BLOCKMANIA!"
+msgstr "BLOCKMANIA!"
+
+#: game/content/achievements.gd:27
+msgid "Beat the game: win round 12."
+msgstr "ゲームをクリアする:ラウンド12に勝つ。"
+
+#: game/content/achievements.gd:27
+msgid "Twelve rounds, three bosses, one very full board."
+msgstr "12ラウンド、3体のボス、ぎっしりの盤面。"
+
+#: game/content/achievements.gd:28
+msgid "A good builder never blames the Kit."
+msgstr "腕のいい職人はキットのせいにしない。"
+
+#: game/content/achievements.gd:28
+msgid "Beat the game with any Kit other than the Standard Kit."
+msgstr "スタンダードキット以外のキットでゲームをクリアする。"
+
+#: game/content/achievements.gd:28
+msgid "Different Tools"
+msgstr "ちがう道具"
+
+#: game/content/achievements.gd:29 game/content/tips.gd:33
+msgid "Overtime"
+msgstr "延長戦"
+
+#: game/content/achievements.gd:29
+msgid "The arcade was supposed to close an hour ago."
+msgstr "ゲームセンターは1時間前に閉まるはずだった。"
+
+#: game/content/achievements.gd:29
+msgid "Win a round in Overtime (after beating the game, keep playing)."
+msgstr "延長戦でラウンドに勝つ(クリア後もそのまま続ける)。"
+
+#: game/content/achievements.gd:30
+msgid "Every target is a cliff now."
+msgstr "どの目標も、もはや断崖絶壁。"
+
+#: game/content/achievements.gd:30
+msgid "Reach round 20 in Overtime."
+msgstr "延長戦でラウンド20に到達する。"
+
+#: game/content/achievements.gd:30
+msgid "Sudden Death"
+msgstr "サドンデス"
+
+#: game/content/achievements.gd:31
+msgid "No Off Switch"
+msgstr "電源スイッチなし"
+
+#: game/content/achievements.gd:31
+msgid "Reach round 30 in Overtime."
+msgstr "延長戦でラウンド30に到達する。"
+
+#: game/content/achievements.gd:31
+msgid "Somebody unplug this thing."
+msgstr "だれかコンセントを抜いてくれ。"
+
+#: game/content/achievements.gd:32
+msgid "Broke the Machine"
+msgstr "マシン破壊"
+
+#: game/content/achievements.gd:32
+msgid "ERR ERR ERR. Please insert more digits."
+msgstr "ERR ERR ERR。桁をもっと入れてください。"
+
+#: game/content/achievements.gd:32
+msgid "Score a single placement past the machine's limit (1,000,000,000,000,000 points)."
+msgstr "1回の配置でマシンの限界(1,000,000,000,000,000点)を超える。"
+
+#: game/content/achievements.gd:32
+msgid "Some scores are too big for any machine."
+msgstr "どんなマシンにも大きすぎるスコアがある。"
+
+#: game/content/achievements.gd:34
+msgid "Blue Period"
+msgstr "青の時代"
+
+#: game/content/achievements.gd:34
+msgid "Feeling a little blue? Feeling VERY blue."
+msgstr "ちょっとブルー?いいえ、とことん青。"
+
+#: game/content/achievements.gd:34
+msgid "Have 10 or more blue pieces in your bag."
+msgstr "バッグに青いピースを10個以上入れる。"
+
+#: game/content/achievements.gd:35
+msgid "Have 10 or more Square pieces (2x2 or 3x3) in your bag."
+msgstr "バッグにスクエアのピース(2x2か3x3)を10個以上入れる。"
+
+#: game/content/achievements.gd:35
+msgid "Square Dance"
+msgstr "スクエアダンス"
+
+#: game/content/achievements.gd:35
+msgid "Swing your partner, stack your blocks."
+msgstr "パートナーを回して、ブロックを積もう。"
+
+#: game/content/achievements.gd:36
+msgid "Full Spectrum"
+msgstr "フルスペクトル"
+
+#: game/content/achievements.gd:36
+msgid "Have at least five pieces of every color in your bag."
+msgstr "バッグに全色のピースをそれぞれ5個以上入れる。"
+
+#: game/content/achievements.gd:36
+msgid "Taste the whole toybox."
+msgstr "おもちゃ箱をまるごと味わおう。"
+
+#: game/content/achievements.gd:37
+msgid "Have 40 or more pieces in your bag."
+msgstr "バッグにピースを40個以上入れる。"
+
+#: game/content/achievements.gd:37
+msgid "Packrat"
+msgstr "ため込み屋"
+
+#: game/content/achievements.gd:37
+msgid "You never know when you'll need a spare T."
+msgstr "予備のTがいつ必要になるかわからない。"
+
+#: game/content/achievements.gd:38
+msgid "Only the essentials."
+msgstr "必要なものだけ。"
+
+#: game/content/achievements.gd:38
+msgid "Shrink your bag to 14 pieces or fewer."
+msgstr "バッグを14個以下に減らす。"
+
+#: game/content/achievements.gd:38
+msgid "Travel Light"
+msgstr "身軽な旅"
+
+#: game/content/achievements.gd:39
+msgid "Alchemist"
+msgstr "錬金術師"
+
+#: game/content/achievements.gd:39
+msgid "Own pieces of all five materials at once: Chrome, Neon, Gold, Glass and Prism."
+msgstr "5種類の素材すべてのピースを同時に持つ:クローム、ネオン、ゴールド、ガラス、プリズム。"
+
+#: game/content/achievements.gd:39
+msgid "Plastic into gold, gold into glass."
+msgstr "プラスチックを金に、金をガラスに。"
+
+#: game/content/achievements.gd:40
+msgid "Own pieces with all four stamps at once: Encore, Refund, Tip and Memory."
+msgstr "4種類のスタンプすべてのピースを同時に持つ:アンコール、払い戻し、おひねり、メモリー。"
+
+#: game/content/achievements.gd:40
+msgid "Signed, sealed, stamped four times."
+msgstr "署名して封をして、スタンプを4回。"
+
+#: game/content/achievements.gd:40
+msgid "Special Delivery"
+msgstr "速達便"
+
+#: game/content/achievements.gd:41
+msgid "Fill every Joker slot."
+msgstr "ジョーカー枠をすべて埋める。"
+
+#: game/content/achievements.gd:41
+msgid "Full House"
+msgstr "満室"
+
+#: game/content/achievements.gd:41
+msgid "No vacancies at the Joker hotel."
+msgstr "ジョーカーホテルは満室です。"
+
+#: game/content/achievements.gd:42
+msgid "Hold three Rare Jokers at the same time."
+msgstr "レアジョーカーを同時に3枚持つ。"
+
+#: game/content/achievements.gd:42
+msgid "Only the finest cardboard."
+msgstr "最高級の厚紙だけ。"
+
+#: game/content/achievements.gd:42
+msgid "Rare Taste"
+msgstr "レアな趣味"
+
+#: game/content/achievements.gd:43
+msgid "Master Plan"
+msgstr "マスタープラン"
+
+#: game/content/achievements.gd:43
+msgid "Raise a shape family to Schematic level 3."
+msgstr "形状ファミリーの設計図レベルを3にする。"
+
+#: game/content/achievements.gd:43
+msgid "The blueprints have blueprints."
+msgstr "設計図の設計図がある。"
+
+#: game/content/achievements.gd:44
+msgid "Hold 50 or more Credits."
+msgstr "クレジットを50以上持つ。"
+
+#: game/content/achievements.gd:44
+msgid "Oink."
+msgstr "ブー。"
+
+#: game/content/achievements.gd:44
+msgid "Piggy Bank"
+msgstr "ブタの貯金箱"
+
+#: game/content/achievements.gd:45
+msgid "Even a wallet has a limit."
+msgstr "財布にも限界がある。"
+
+#: game/content/achievements.gd:45
+msgid "Hold the maximum 99 Credits."
+msgstr "上限の99クレジットを持つ。"
+
+#: game/content/achievements.gd:45
+msgid "Scrooge"
+msgstr "守銭奴"
+
+#: game/content/achievements.gd:45
+msgid "Swimming in coins is harder than it looks."
+msgstr "コインの海で泳ぐのは見た目より難しい。"
+
+#: game/content/achievements.gd:47
+msgid "Big Hit"
+msgstr "ビッグヒット"
+
+#: game/content/achievements.gd:47
+msgid "Ka-chunk."
+msgstr "ガッチャン。"
+
+#: game/content/achievements.gd:47
+msgid "Score 1,000 points with one placement."
+msgstr "1回の配置で1,000点を取る。"
+
+#: game/content/achievements.gd:48
+msgid "Mega Hit"
+msgstr "メガヒット"
+
+#: game/content/achievements.gd:48
+msgid "Score 10,000 points with one placement."
+msgstr "1回の配置で10,000点を取る。"
+
+#: game/content/achievements.gd:48
+msgid "The receipt printer is sweating."
+msgstr "レシートプリンターが汗をかいている。"
+
+#: game/content/achievements.gd:49
+msgid "Giga Hit"
+msgstr "ギガヒット"
+
+#: game/content/achievements.gd:49
+msgid "Score 1,000,000 points with one placement."
+msgstr "1回の配置で1,000,000点を取る。"
+
+#: game/content/achievements.gd:49
+msgid "That's a lot of zeros for one little piece."
+msgstr "小さなピースひとつにしては、ゼロが多すぎる。"
+
+#: game/content/achievements.gd:50
+msgid "Clear three lines with one placement."
+msgstr "1回の配置で3ラインを消す。"
+
+#: game/content/achievements.gd:50
+msgid "Stacked high and cleared clean."
+msgstr "高く積んで、きれいに消す。"
+
+#: game/content/achievements.gd:50
+msgid "Triple Decker"
+msgstr "三段重ね"
+
+#: game/content/achievements.gd:51
+msgid "Clear four or more lines with one placement."
+msgstr "1回の配置で4ライン以上を消す。"
+
+#: game/content/achievements.gd:51
+msgid "Four-Alarm Fire"
+msgstr "大火災警報"
+
+#: game/content/achievements.gd:51
+msgid "Somebody call the block brigade."
+msgstr "だれかブロック消防隊を呼んで。"
+
+#: game/content/achievements.gd:52
+msgid "Clear a row and a column with one placement."
+msgstr "1回の配置で行と列を同時に消す。"
+
+#: game/content/achievements.gd:52
+msgid "Crossroads"
+msgstr "十字路"
+
+#: game/content/achievements.gd:52
+msgid "X marks the spot."
+msgstr "Xが目印。"
+
+#: game/content/achievements.gd:53
+msgid "Don't touch the board, it's hot."
+msgstr "盤面にさわらないで、熱いよ。"
+
+#: game/content/achievements.gd:53
+msgid "Reach the maximum combo (x4)."
+msgstr "最大コンボ(x4)に到達する。"
+
+#: game/content/achievements.gd:53
+msgid "Red Hot"
+msgstr "真っ赤に燃えて"
+
+#: game/content/achievements.gd:54
+msgid "Finish a round with at least three times its target."
+msgstr "目標の3倍以上のスコアでラウンドを終える。"
+
+#: game/content/achievements.gd:54
+msgid "Overkill"
+msgstr "オーバーキル"
+
+#: game/content/achievements.gd:54
+msgid "The target asked for a little. You gave a lot."
+msgstr "目標はちょっとで良かったのに、どっさり出した。"
+
+#: game/content/achievements.gd:55
+msgid "By a Thread"
+msgstr "首の皮一枚"
+
+#: game/content/achievements.gd:55
+msgid "Close. So close. Close enough!"
+msgstr "惜しい。本当に惜しい。いや、セーフ!"
+
+#: game/content/achievements.gd:55
+msgid "Win a round with your very last placement."
+msgstr "最後の配置でラウンドに勝つ。"
+
+#: game/content/achievements.gd:56
+msgid "Leave the board completely empty after a clear (campaign)."
+msgstr "消去後に盤面を完全に空にする(キャンペーン)。"
+
+#: game/content/achievements.gd:56
+msgid "Spotless"
+msgstr "ピカピカ"
+
+#: game/content/achievements.gd:56
+msgid "You could eat off this board."
+msgstr "この盤面なら食事もできそう。"
+
+#: game/content/achievements.gd:57
+msgid "Get dealt a Grand Slam Tray Hand."
+msgstr "トレイ役「グランドスラム」を配られる。"
+
+#: game/content/achievements.gd:57 game/rules/hands.gd:17
+msgid "Grand Slam"
+msgstr "グランドスラム"
+
+#: game/content/achievements.gd:57
+msgid "Three of a kind, one color, all the lights."
+msgstr "同じ形が3つ、色はひとつ、ライトは全開。"
+
+#: game/content/achievements.gd:58
+msgid "Full Deck"
+msgstr "フルデッキ"
+
+#: game/content/achievements.gd:58
+msgid "See all five Tray Hands (across any runs)."
+msgstr "5つのトレイ役をすべて見る(どのランでも可)。"
+
+#: game/content/achievements.gd:58
+msgid "Twins, Staircase, Monochrome, Triplets, Grand Slam. Collected."
+msgstr "ツインズ、階段、モノクロ、トリプレット、グランドスラム。コンプリート。"
+
+#: game/content/achievements.gd:60
+msgid "Arcade Rookie"
+msgstr "ゲーセン新人"
+
+#: game/content/achievements.gd:60
+msgid "Put your initials in. Go on."
+msgstr "イニシャルを入れて。さあ。"
+
+#: game/content/achievements.gd:60
+msgid "Score 5,000 points in one Endless game."
+msgstr "エンドレス1回で5,000点を取る。"
+
+#: game/content/achievements.gd:61
+msgid "Arcade Regular"
+msgstr "ゲーセン常連"
+
+#: game/content/achievements.gd:61
+msgid "Score 25,000 points in one Endless game."
+msgstr "エンドレス1回で25,000点を取る。"
+
+#: game/content/achievements.gd:61
+msgid "The cabinet knows your name."
+msgstr "筐体はきみの名前を覚えている。"
+
+#: game/content/achievements.gd:62
+msgid "Arcade Legend"
+msgstr "ゲーセンの伝説"
+
+#: game/content/achievements.gd:62
+msgid "Score 100,000 points in one Endless game."
+msgstr "エンドレス1回で100,000点を取る。"
+
+#: game/content/achievements.gd:62
+msgid "They're going to name the cabinet after you."
+msgstr "筐体にきみの名前がつくだろう。"
+
+#: game/content/achievements.gd:63
+msgid "Blockstorm"
+msgstr "ブロックストーム"
+
+#: game/content/achievements.gd:63
+msgid "Reach the x10 combo in Endless."
+msgstr "エンドレスでx10コンボに到達する。"
+
+#: game/content/achievements.gd:63
+msgid "Ten out of ten. No notes."
+msgstr "10点満点。文句なし。"
+
+#: game/content/achievements.gd:64
+msgid "Ahh. That new-board smell."
+msgstr "ああ、新しい盤面のにおい。"
+
+#: game/content/achievements.gd:64
+msgid "Clear the whole board in Endless."
+msgstr "エンドレスで盤面を全部消す。"
+
+#: game/content/achievements.gd:64
+msgid "Fresh Start"
+msgstr "再スタート"
+
+#: game/content/achievements.gd:65
+msgid "BL...CKM...NIA? Where did everything go?"
+msgstr "BL...CKM...NIA?全部どこへ行った?"
+
+#: game/content/achievements.gd:65
+msgid "Have every letter of the BLOCKMANIA logo blown up at once."
+msgstr "BLOCKMANIAロゴの文字を全部同時に吹き飛ばす。"
+
+#: game/content/achievements.gd:65
+msgid "The title looks awfully fragile."
+msgstr "タイトルがやけに壊れやすそうだ。"
+
+#: game/content/achievements.gd:65
+msgid "Vandal"
+msgstr "破壊者"
+
+#: game/content/achievements.gd:66
+msgid "Night Shift"
+msgstr "夜勤"
+
+#: game/content/achievements.gd:66
+msgid "Place a piece between midnight and 5 AM."
+msgstr "深夜0時から朝5時の間にピースを置く。"
+
+#: game/content/achievements.gd:66
+msgid "Some players only come out after dark."
+msgstr "暗くなってから現れるプレイヤーもいる。"
+
+#: game/content/achievements.gd:66
+msgid "The blocks glow brighter at night. Probably."
+msgstr "夜のブロックはいつもより明るく光る。たぶん。"
+
+#: game/content/achievements.gd:67
+msgid "Look Ma, No Lines"
+msgstr "見て、ライン消してないよ"
+
+#: game/content/achievements.gd:67
+msgid "Technically, the rules never said you HAD to."
+msgstr "厳密には、ルールは「消さなきゃダメ」とは言っていない。"
+
+#: game/content/achievements.gd:67
+msgid "Who needs lines anyway?"
+msgstr "ラインなんて必要?"
+
+#: game/content/achievements.gd:67
+msgid "Win a campaign round without clearing a single line."
+msgstr "ラインを1本も消さずにキャンペーンのラウンドに勝つ。"
+
+#: game/content/achievements.gd:68
+msgid "Butterfingers"
+msgstr "おっちょこちょい"
+
+#: game/content/achievements.gd:68
+msgid "Handle with care."
+msgstr "取り扱い注意。"
+
+#: game/content/achievements.gd:68
+msgid "Shatter a Glass piece."
+msgstr "ガラスのピースを割る。"
+
+#: game/content/achievements.gd:68
+msgid "That one's coming out of your allowance."
+msgstr "それはおこづかいから引いておくね。"
+
+#: game/content/achievements.gd:69
+msgid "In case of emergency, break something."
+msgstr "緊急時には何かを壊すこと。"
+
+#: game/content/achievements.gd:69
+msgid "Through the Window"
+msgstr "窓から"
+
+#: game/content/achievements.gd:69
+msgid "Throw an Emergency Brick."
+msgstr "非常用レンガを投げる。"
+
+#: game/content/achievements.gd:69
+msgid "Who's paying for that?"
+msgstr "だれが弁償するの?"
+
+#: game/content/achievements.gd:70
+msgid "Always read the small text."
+msgstr "小さな字は必ず読むこと。"
+
+#: game/content/achievements.gd:70
+msgid "Get a lost round replayed by Insurance Policy."
+msgstr "保険証書で負けたラウンドをやり直す。"
+
+#: game/content/achievements.gd:70
+msgid "Terms and conditions apply. Luckily, they applied to you."
+msgstr "利用規約が適用されます。運よく、きみに適用された。"
+
+#: game/content/achievements.gd:70
+msgid "The Fine Print"
+msgstr "小さな字"
+
+#: game/content/achievements.gd:71
+msgid "Block Maniac"
+msgstr "ブロックマニアック"
+
+#: game/content/achievements.gd:71
+msgid "The whole trophy case. Every last shelf. Take a bow."
+msgstr "トロフィー棚まるごと。最後の一段まで。おじぎをどうぞ。"
+
+#: game/content/achievements.gd:71
+msgid "Unlock every other achievement."
+msgstr "ほかの実績をすべて解除する。"
+
+#: game/content/achievements.gd:73
+msgid "It hums a little when you hold it."
+msgstr "持つと少しうなる。"
+
+#: game/content/achievements.gd:73
+msgid "Once Upon a Legend"
+msgstr "むかしむかし、伝説が"
+
+#: game/content/achievements.gd:73
+msgid "Own a Legendary Joker."
+msgstr "レジェンドのジョーカーを持つ。"
+
+#: game/content/achievements.gd:74
+msgid "Double Legend"
+msgstr "ダブルレジェンド"
+
+#: game/content/achievements.gd:74
+msgid "One legend is a story. Two is a problem."
+msgstr "伝説がひとつなら物語。ふたつなら大問題。"
+
+#: game/content/achievements.gd:74
+msgid "Own two Legendary Jokers at the same time."
+msgstr "レジェンドのジョーカーを同時に2枚持つ。"
+
+#: game/content/achievements.gd:74
+msgid "The rack has never looked so smug."
+msgstr "ラックがこんなに得意げだったことはない。"
+
+#: game/content/achievements.gd:75
+msgid "Own each of the four Legendary Jokers (across any runs)."
+msgstr "4枚のレジェンドジョーカーをそれぞれ手に入れる(どのランでも可)。"
+
+#: game/content/achievements.gd:75
+msgid "Pantheon"
+msgstr "パンテオン"
+
+#: game/content/achievements.gd:75
+msgid "The Avalanche, the Mirrors, the Stone and the Star. All accounted for."
+msgstr "アバランチ、鏡、石、そして星。全員集合。"
+
+#: game/content/achievements.gd:76
+msgid "Chain Reaction"
+msgstr "連鎖反応"
+
+#: game/content/achievements.gd:76
+msgid "Chain three clear waves in one placement with The Avalanche."
+msgstr "アバランチで1回の配置に3回の消去ウェーブを連鎖させる。"
+
+#: game/content/achievements.gd:76
+msgid "Nobody touch anything. Let it fall."
+msgstr "だれも何もさわらないで。落ちるに任せて。"
+
+#: game/content/achievements.gd:77
+msgid "How many of you are in there?"
+msgstr "そこに何人のきみがいるの?"
+
+#: game/content/achievements.gd:77
+msgid "Mirror World"
+msgstr "鏡の世界"
+
+#: game/content/achievements.gd:77
+msgid "Score a placement where Hall of Mirrors doubles four other Jokers."
+msgstr "鏡の間がほかのジョーカー4枚を倍にする配置で得点する。"
+
+#: game/content/achievements.gd:78
+msgid "Chrome, neon, gold and glass. Very little plastic left."
+msgstr "クローム、ネオン、ゴールド、ガラス。プラスチックはほとんど残っていない。"
+
+#: game/content/achievements.gd:78
+msgid "Have 15 or more pieces with a material in your bag."
+msgstr "バッグに素材付きのピースを15個以上入れる。"
+
+#: game/content/achievements.gd:78
+msgid "Heavy Metal"
+msgstr "ヘヴィメタル"
+
+#: game/content/achievements.gd:79
+msgid "Eighteen lines and one very bright star."
+msgstr "18本のラインと、とびきり明るい星ひとつ。"
+
+#: game/content/achievements.gd:79
+msgid "Going Nova"
+msgstr "ノヴァへ"
+
+#: game/content/achievements.gd:79
+msgid "Score with Supernova at x10 Mult or more."
+msgstr "スーパーノヴァの倍率x10以上で得点する。"
+
+#: game/content/achievements.gd:80
+msgid "Grow Snowball to x2 Mult or more."
+msgstr "スノーボールを倍率x2以上に育てる。"
+
+#: game/content/achievements.gd:80
+msgid "It started as a pebble of snow."
+msgstr "はじまりは小さな雪のひとかけら。"
+
+#: game/content/achievements.gd:80
+msgid "Snowed In"
+msgstr "雪ごもり"
+
+#: game/content/achievements.gd:81
+msgid "Compound Growth"
+msgstr "複利成長"
+
+#: game/content/achievements.gd:81
+msgid "Earn the maximum interest (+5 Credits) after a round."
+msgstr "ラウンド後に最大の利子(+5クレジット)を得る。"
+
+#: game/content/achievements.gd:81
+msgid "Your Credits have been working harder than you."
+msgstr "クレジットのほうがきみより働いている。"
+
+#: game/content/achievements.gd:82
+msgid "Have seven Joker slots."
+msgstr "ジョーカー枠を7つにする。"
+
+#: game/content/achievements.gd:82
+msgid "Two Rack Extenders and a lot of shelf brackets."
+msgstr "ラック拡張2つと、棚受けをたくさん。"
+
+#: game/content/achievements.gd:82
+msgid "Wide Rack"
+msgstr "ワイドラック"
+
+#: game/content/achievements.gd:83
+msgid "Billionaire"
+msgstr "億万長者"
+
+#: game/content/achievements.gd:83
+msgid "Nine zeros. The counter had to borrow some."
+msgstr "ゼロが9つ。カウンターが少し借りてきた。"
+
+#: game/content/achievements.gd:83
+msgid "Score 1,000,000,000 points with one placement."
+msgstr "1回の配置で1,000,000,000点を取る。"
+
+#: game/content/achievements.gd:84
+msgid "Even legends have bad days."
+msgstr "伝説にも調子の悪い日はある。"
+
+#: game/content/achievements.gd:84
+msgid "Fallen Hero"
+msgstr "倒れた英雄"
+
+#: game/content/achievements.gd:84
+msgid "Lose a run while owning a Legendary Joker."
+msgstr "レジェンドのジョーカーを持ったままランに負ける。"
+
+#: game/content/achievements.gd:84
+msgid "They'll write songs about it. Sad ones."
+msgstr "歌になるだろう。悲しい歌に。"
+
+#: game/content/bosses.gd:7
+msgid "Cramped Cabinet"
+msgstr "窮屈キャビネット"
+
+#: game/content/bosses.gd:7
+msgid "The Cramped Cabinet"
+msgstr "窮屈キャビネット"
+
+#: game/content/bosses.gd:8
+msgid "The round begins with four fixed occupied cells. They clear normally and score no placement Chips."
+msgstr "ラウンド開始時に、固定の埋まったマスが4つある。通常どおり消えるが、配置チップは入らない。"
+
+#: game/content/bosses.gd:9
+msgid "The round begins with seven fixed occupied cells. They clear normally and score no placement Chips."
+msgstr "ラウンド開始時に、固定の埋まったマスが7つある。通常どおり消えるが、配置チップは入らない。"
+
+#: game/content/bosses.gd:10
+msgid "Favor small shapes or board-clearing tools."
+msgstr "小さい形や、盤面を空ける道具を使おう。"
+
+#: game/content/bosses.gd:11
+msgid "Taxman"
+msgstr "徴税人"
+
+#: game/content/bosses.gd:11
+msgid "The Taxman"
+msgstr "徴税人"
+
+#: game/content/bosses.gd:12
+msgid "The first line cleared by each placement grants 60 instead of 100 base Chips."
+msgstr "各配置で最初に消したラインの基本チップが100ではなく60になる。"
+
+#: game/content/bosses.gd:13
+msgid "The first line cleared by each placement grants 30 instead of 100 base Chips, and multi-line Mult is halved."
+msgstr "各配置で最初に消したラインの基本チップが100ではなく30になり、複数ラインの倍率が半分になる。"
+
+#: game/content/bosses.gd:14
+msgid "Pursue double clears and flat Chip Jokers."
+msgstr "ダブル消去と固定チップのジョーカーを狙おう。"
+
+#: game/content/bosses.gd:15
+msgid "Color Blind"
+msgstr "カラーブラインド"
+
+#: game/content/bosses.gd:15
+msgid "The Color Blind"
+msgstr "カラーブラインド"
+
+#: game/content/bosses.gd:16
+msgid "Effects that name a block color are disabled this round."
+msgstr "ブロックの色を指定する効果が、このラウンドは無効になる。"
+
+#: game/content/bosses.gd:17
+msgid "Effects that name a block color are disabled, and you have two fewer placements."
+msgstr "ブロックの色を指定する効果が無効になり、配置回数が2回減る。"
+
+#: game/content/bosses.gd:18
+msgid "Diversify beyond color-dependent scoring."
+msgstr "色に頼らない得点源を用意しよう。"
+
+#: game/content/bosses.gd:21
+msgid "Echo Chamber"
+msgstr "エコーチェンバー"
+
+#: game/content/bosses.gd:21
+msgid "The Echo Chamber"
+msgstr "エコーチェンバー"
+
+#: game/content/bosses.gd:22
+msgid "Extra clear waves after the first score half Chips before Jokers."
+msgstr "最初以降の追加消去ウェーブは、ジョーカーの前にチップが半分になる。"
+
+#: game/content/bosses.gd:23
+msgid "Prefer immediate clears over chained board effects."
+msgstr "連鎖効果より、すぐに消すほうを選ぼう。"
+
+#: game/content/bosses.gd:24
+msgid "Lockdown"
+msgstr "ロックダウン"
+
+#: game/content/bosses.gd:24
+msgid "The Lockdown"
+msgstr "ロックダウン"
+
+#: game/content/bosses.gd:25
+msgid "The free Refresh and Second Tray are unavailable this round."
+msgstr "無料リフレッシュとセカンドトレイがこのラウンドは使えない。"
+
+#: game/content/bosses.gd:26
+msgid "Refresh, Second Tray, Coffee Break and Hold are all unavailable this round."
+msgstr "リフレッシュ、セカンドトレイ、コーヒーブレイク、ホールドがこのラウンドはすべて使えない。"
+
+#: game/content/bosses.gd:27
+msgid "Plan tray order and preserve board space."
+msgstr "トレイの順番を計画し、盤面の空きを残そう。"
+
+#: game/content/bosses.gd:28
+msgid "The Warden"
+msgstr "看守"
+
+#: game/content/bosses.gd:28
+msgid "Warden"
+msgstr "看守"
+
+#: game/content/bosses.gd:29
+msgid "One tray slot starts barred: its piece can't be played until you clear a line. Deals skip the barred slot."
+msgstr "トレイの枠がひとつ封鎖された状態で始まる:ラインを消すまでそのピースは置けない。配布は封鎖された枠を飛ばす。"
+
+#: game/content/bosses.gd:30
+msgid "Two tray slots start barred until you clear a line. Deals skip barred slots."
+msgstr "ラインを消すまで、トレイの枠が2つ封鎖される。配布は封鎖された枠を飛ばす。"
+
+#: game/content/bosses.gd:31
+msgid "Open with a quick clear using the other two slots."
+msgstr "残りの2枠ですばやくラインを消そう。"
+
+#: game/content/bosses.gd:32
+msgid "The Undertaker"
+msgstr "墓守"
+
+#: game/content/bosses.gd:32
+msgid "Undertaker"
+msgstr "墓守"
+
+#: game/content/bosses.gd:33
+msgid "After every 4th placement, a tombstone rises on an empty cell. It clears with its line like any block."
+msgstr "4回配置するごとに、空きマスに墓石が現れる。ほかのブロックと同じくラインで消える。"
+
+#: game/content/bosses.gd:34
+msgid "After every 3rd placement, a tombstone rises on an empty cell. It clears with its line like any block."
+msgstr "3回配置するごとに、空きマスに墓石が現れる。ほかのブロックと同じくラインで消える。"
+
+#: game/content/bosses.gd:35
+msgid "Clear often and keep lanes open."
+msgstr "こまめに消して、通り道を空けておこう。"
+
+#: game/content/bosses.gd:36
+msgid "Last Call"
+msgstr "ラストコール"
+
+#: game/content/bosses.gd:36
+msgid "The Last Call"
+msgstr "ラストコール"
+
+#: game/content/bosses.gd:37
+msgid "Only 12 placements. Each multi-line placement gains +50 Chips."
+msgstr "配置は12回だけ。複数ラインを消す配置は+50チップ。"
+
+#: game/content/bosses.gd:38
+msgid "Only 10 placements. Each multi-line placement gains +50 Chips."
+msgstr "配置は10回だけ。複数ラインを消す配置は+50チップ。"
+
+#: game/content/bosses.gd:39
+msgid "Prepare efficient shapes and simultaneous clears."
+msgstr "効率のいい形と同時消しを準備しよう。"
+
+#: game/content/consumables.gd:11
+msgid "Add +100 Chips to the next placement this round."
+msgstr "このラウンドの次の配置に+100チップ。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/content/consumables.gd:11 game/rules/resolver.gd:214
+msgid "Polish"
+msgstr "つや出し"
+
+#: game/content/consumables.gd:12
+msgid "Add +1 Mult to the next placement this round."
+msgstr "このラウンドの次の配置に倍率+1。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/content/consumables.gd:12 game/rules/resolver.gd:245
+msgid "Spark"
+msgstr "スパーク"
+
+#: game/content/consumables.gd:13
+msgid "Eraser"
+msgstr "消しゴム"
+
+#: game/content/consumables.gd:13
+msgid "Remove up to two blocks of your choice from the board."
+msgstr "盤面から好きなブロックを2つまで取り除く。"
+
+#: game/content/consumables.gd:14
+msgid "Refresh the current tray without spending the round's free Refresh."
+msgstr "ラウンドの無料リフレッシュを使わずに、今のトレイをリフレッシュする。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/content/consumables.gd:14 game/run/run.gd:611
+msgid "Second Tray"
+msgstr "セカンドトレイ"
+
+#: game/content/consumables.gd:15
+msgid "Extra Turn"
+msgstr "エクストラターン"
+
+#: game/content/consumables.gd:15
+msgid "Gain two placements this round (maximum 20 remaining)."
+msgstr "このラウンドの配置回数+2(残り最大20)。"
+
+#: game/content/consumables.gd:16
+msgid "Lucky Paint"
+msgstr "ラッキーペイント"
+
+#: game/content/consumables.gd:16
+msgid "Recolor one tray piece to a color of your choice. Its shape is unchanged."
+msgstr "トレイのピース1つを好きな色に塗り替える。形は変わらない。"
+
+#: game/content/consumables.gd:17
+msgid "Blueprint"
+msgstr "青写真"
+
+#: game/content/consumables.gd:17
+msgid "Swap one tray piece for a temporary 1-3 cell piece you choose."
+msgstr "トレイのピース1つを、選んだ1〜3マスの一時ピースと入れ替える。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/content/consumables.gd:18 game/run/run.gd:1186
+msgid "Cash Out"
+msgstr "換金"
+
+#: game/content/consumables.gd:18
+msgid "Gain 4 Credits after this round if it is won."
+msgstr "このラウンドに勝てば、終了後に4クレジット。"
+
+#: game/content/consumables.gd:19
+msgid "Punch"
+msgstr "パンチ"
+
+#: game/content/consumables.gd:19
+msgid "Smash a plus-shaped area: remove up to 5 blocks around the cell you hit."
+msgstr "十字形の範囲を叩く:狙ったマスの周りのブロックを5つまで取り除く。"
+
+#: game/content/consumables.gd:20
+msgid "Color Purge"
+msgstr "カラーパージ"
+
+#: game/content/consumables.gd:20
+msgid "Remove every block of one color from the board. Stone is immune."
+msgstr "盤面から1色のブロックをすべて取り除く。石には効かない。"
+
+#: game/content/consumables.gd:21
+msgid "Emergency Brick"
+msgstr "非常用レンガ"
+
+#: game/content/consumables.gd:21
+msgid "Throw a brick at a tray slot: it becomes a temporary one-block piece. A piece it hits goes to the discard pile."
+msgstr "トレイの枠にレンガを投げる:1ブロックの一時ピースになる。当たったピースは捨て札へ。"
+
+#: game/content/consumables.gd:23
+msgid "The next placement this round gets x2 Mult."
+msgstr "このラウンドの次の配置は倍率x2。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/content/consumables.gd:23 game/rules/resolver.gd:267
+msgid "Turbo"
+msgstr "ターボ"
+
+#: game/content/consumables.gd:24
+msgid "Level up the shape family of a tray piece, like a Schematic (+25 Chips, +0.25 Mult per level)."
+msgstr "トレイのピースの形状ファミリーを設計図のようにレベルアップ(レベルごとに+25チップ、倍率+0.25)。"
+
+#: game/content/consumables.gd:24
+msgid "Tune-Up"
+msgstr "チューンアップ"
+
+#: game/content/consumables.gd:25
+msgid "+1 Refresh this round."
+msgstr "このラウンドのリフレッシュ+1。"
+
+#: game/content/consumables.gd:25
+msgid "Coffee Break"
+msgstr "コーヒーブレイク"
+
+#: game/content/consumables.gd:26
+msgid "Coin Roll"
+msgstr "棒金"
+
+#: game/content/consumables.gd:26
+msgid "Gain Credits equal to the round number (max 12)."
+msgstr "ラウンド数と同じだけクレジットを得る(最大12)。"
+
+#: game/content/feats.gd:8
+msgid "Clear a row and a column in the same placement."
+msgstr "同じ配置で行と列を消す。"
+
+#: game/content/feats.gd:8
+msgid "Crossfire"
+msgstr "クロスファイア"
+
+#: game/content/feats.gd:9
+msgid "Clear lines on two placements in a row."
+msgstr "2回続けてラインを消す。"
+
+#: game/content/feats.gd:9
+msgid "Double Tap"
+msgstr "ダブルタップ"
+
+#: game/content/feats.gd:10
+msgid "Clear three or more lines in one placement."
+msgstr "1回の配置で3ライン以上を消す。"
+
+#: game/content/feats.gd:10
+msgid "Hat Trick"
+msgstr "ハットトリック"
+
+#: game/content/feats.gd:11
+msgid "Clean Board"
+msgstr "クリーンボード"
+
+#: game/content/feats.gd:11
+msgid "Leave the board completely empty."
+msgstr "盤面を完全に空にする。"
+
+#: game/content/feats.gd:12
+msgid "Fill a one-block hole (closed on all four sides) and clear a line with it."
+msgstr "1マスの穴(四方がふさがった穴)を埋めて、そのままラインを消す。"
+
+#: game/content/feats.gd:12
+msgid "Needle Threader"
+msgstr "針の穴通し"
+
+#: game/content/feats.gd:13
+msgid "Clear a line with your last placement."
+msgstr "最後の配置でラインを消す。"
+
+#: game/content/feats.gd:13
+msgid "Last Breath"
+msgstr "最後の一息"
+
+#: game/content/jokers.gd:17
+msgid "Common"
+msgstr "コモン"
+
+#: game/content/jokers.gd:17
+msgid "Legendary"
+msgstr "レジェンド"
+
+#: game/content/jokers.gd:17
+msgid "Rare"
+msgstr "レア"
+
+#: game/content/jokers.gd:17
+msgid "Uncommon"
+msgstr "アンコモン"
+
+#: game/content/jokers.gd:23
+msgid "+50 Chips when exactly one line clears."
+msgstr "ちょうど1ライン消えたとき+50チップ。"
+
+#: game/content/jokers.gd:23
+msgid "Clean Sweep"
+msgstr "一掃"
+
+#: game/content/jokers.gd:24
+msgid "+100 Chips when two or more lines clear together; +100 more if they cross (a row and a column)."
+msgstr "2ライン以上同時に消えると+100チップ。交差していれば(行と列)さらに+100。"
+
+#: game/content/jokers.gd:24
+msgid "Crossbar"
+msgstr "クロスバー"
+
+#: game/content/jokers.gd:25
+msgid "+15 Chips per placed cell when placing a shape of 1-3 cells."
+msgstr "1〜3マスの形を置くとき、置いたマス1つにつき+15チップ。"
+
+#: game/content/jokers.gd:25
+msgid "Small Change"
+msgstr "小銭"
+
+#: game/content/jokers.gd:26
+msgid "+100 Chips when placing a shape of 5 or more cells."
+msgstr "5マス以上の形を置くと+100チップ。"
+
+#: game/content/jokers.gd:26
+msgid "Heavy Hand"
+msgstr "重い手"
+
+#: game/content/jokers.gd:27
+msgid "First Strike"
+msgstr "先制攻撃"
+
+#: game/content/jokers.gd:27
+msgid "The first clearing placement each round gains +150 Chips."
+msgstr "各ラウンドで最初にラインを消した配置は+150チップ。"
+
+#: game/content/jokers.gd:28
+msgid "+40 Chips if the placed shape touches no occupied cell diagonally (checked before placement)."
+msgstr "置いた形が埋まったマスに斜めで触れていなければ+40チップ(配置前に判定)。"
+
+#: game/content/jokers.gd:28
+msgid "Neat Freak"
+msgstr "潔癖"
+
+#: game/content/jokers.gd:29
+msgid "+60 Chips if any placed cell occupies a board corner."
+msgstr "置いたマスのどれかが盤面の角にあれば+60チップ。"
+
+#: game/content/jokers.gd:29
+msgid "Corner Office"
+msgstr "角部屋"
+
+#: game/content/jokers.gd:30
+msgid "Blue Mood"
+msgstr "ブルームード"
+
+#: game/content/jokers.gd:30
+msgid "Blue shapes gain +2 Mult."
+msgstr "青い形は倍率+2。"
+
+#: game/content/jokers.gd:31
+msgid "+1 Mult per current combo level on clearing placements."
+msgstr "消去する配置で、現在のコンボレベル1につき倍率+1。"
+
+#: game/content/jokers.gd:31
+msgid "Chain Link"
+msgstr "鎖の輪"
+
+#: game/content/jokers.gd:32
+msgid "+2 Credits after a round won with at least two placements unused."
+msgstr "配置を2回以上残してラウンドに勝つと+2クレジット。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/content/jokers.gd:32 game/run/run.gd:1184
+msgid "Spare Parts"
+msgstr "予備部品"
+
+#: game/content/jokers.gd:33
+msgid "Once per round, when no offered shape fits and no tray Refresh is available, replace one unplaced shape with a Single before defeat is checked."
+msgstr "ラウンドに1回、置ける形がなくリフレッシュも残っていないとき、敗北判定の前に未配置の形を1つシングルに変える。"
+
+#: game/content/jokers.gd:33
+msgid "Tiny Insurance"
+msgstr "ミニ保険"
+
+#: game/content/jokers.gd:34
+msgid "Second Look"
+msgstr "二度見"
+
+#: game/content/jokers.gd:34
+msgid "The first Refresh each round also grants +1 placement."
+msgstr "各ラウンド最初のリフレッシュで配置回数も+1。"
+
+#: game/content/jokers.gd:35
+msgid "+2 Mult on every clearing placement; +3 more when two or more lines clear."
+msgstr "消去する配置ごとに倍率+2。2ライン以上消えるとさらに+3。"
+
+#: game/content/jokers.gd:35
+msgid "Wide Awake"
+msgstr "ぱっちり覚醒"
+
+#: game/content/jokers.gd:36
+msgid "+0.5 Mult when the board has at least 44 empty cells before placement."
+msgstr "配置前の盤面に空きマスが44以上あれば倍率+0.5。"
+
+#: game/content/jokers.gd:36
+msgid "Hollow Point"
+msgstr "ホローポイント"
+
+#: game/content/jokers.gd:37
+msgid "+0.5 Mult for every eight occupied cells before placement (max +2)."
+msgstr "配置前の埋まったマス8つごとに倍率+0.5(最大+2)。"
+
+#: game/content/jokers.gd:37
+msgid "Pressure Cooker"
+msgstr "圧力鍋"
+
+#: game/content/jokers.gd:38
+msgid "Every third placed shape in a round gets x1.5 Mult."
+msgstr "ラウンド中、3つ目ごとに置いた形は倍率x1.5。"
+
+#: game/content/jokers.gd:38
+msgid "Golden Ratio"
+msgstr "黄金比"
+
+#: game/content/jokers.gd:39
+msgid "Color Cycle"
+msgstr "カラーサイクル"
+
+#: game/content/jokers.gd:39
+msgid "When the last three placed shapes this round all have different colors, the third gains x1.75 Mult."
+msgstr "このラウンドで最後に置いた3つの形の色がすべて違えば、3つ目は倍率x1.75。"
+
+#: game/content/jokers.gd:40
+msgid "After the first clear each round, remove one block of your choice (use it from the Items row). The removal scores nothing."
+msgstr "各ラウンド最初の消去のあと、好きなブロックを1つ取り除ける(アイテム欄から使う)。取り除いても得点はない。"
+
+#: game/content/jokers.gd:40
+msgid "Patch Panel"
+msgstr "パッチパネル"
+
+#: game/content/jokers.gd:41
+msgid "+1 placement per round. The first placement of each round gains no cell Chips."
+msgstr "ラウンドごとの配置回数+1。各ラウンド最初の配置はマスのチップが入らない。"
+
+#: game/content/jokers.gd:41
+msgid "Long Game"
+msgstr "長期戦"
+
+#: game/content/jokers.gd:42
+msgid "+0.25 Mult for each Joker sold this run (max +2). Selling this card ends its bonus."
+msgstr "このランで売ったジョーカー1枚につき倍率+0.25(最大+2)。このカードを売るとボーナスは終わる。"
+
+#: game/content/jokers.gd:42
+msgid "Fire Sale"
+msgstr "在庫一掃セール"
+
+#: game/content/jokers.gd:43
+msgid "Jackpot Window"
+msgstr "ジャックポット窓口"
+
+#: game/content/jokers.gd:43
+msgid "x2.5 Mult when two lines clear in one placement; x5 Mult for three or more."
+msgstr "1回の配置で2ライン消えると倍率x2.5、3ライン以上なら倍率x5。"
+
+#: game/content/jokers.gd:44
+msgid "Mirror Maze"
+msgstr "ミラーメイズ"
+
+#: game/content/jokers.gd:44
+msgid "The first row clear each round also clears the mirrored row's occupied cells for +50 Chips. The mirrored removal cannot chain."
+msgstr "各ラウンド最初に行を消したとき、鏡写しの行の埋まったマスも消えて+50チップ。鏡写しの消去は連鎖しない。"
+
+#: game/content/jokers.gd:45
+msgid "Compound Interest"
+msgstr "複利"
+
+#: game/content/jokers.gd:45
+msgid "Every second clearing placement in a round gets x1.75 Mult."
+msgstr "ラウンド中、2回目ごとの消去する配置は倍率x1.75。"
+
+#: game/content/jokers.gd:46
+msgid "Last Stand"
+msgstr "背水の陣"
+
+#: game/content/jokers.gd:46
+msgid "Placements made with four or fewer placements left gain x2.5 Mult."
+msgstr "残り配置が4回以下のときの配置は倍率x2.5。"
+
+#: game/content/jokers.gd:48
+msgid "+1 Chip for each piece in your bag."
+msgstr "バッグのピース1つにつき+1チップ。"
+
+#: game/content/jokers.gd:48
+msgid "Hoarder"
+msgstr "買い占め屋"
+
+#: game/content/jokers.gd:49
+msgid "+60 Chips when placing an L 3 or L 4 piece."
+msgstr "L3かL4のピースを置くと+60チップ。"
+
+#: game/content/jokers.gd:49
+msgid "Architect"
+msgstr "建築家"
+
+#: game/content/jokers.gd:50
+msgid "+15 Chips per cell when placing a Bar piece."
+msgstr "バーのピースを置くと、1マスにつき+15チップ。"
+
+#: game/content/jokers.gd:50
+msgid "Straight Edge"
+msgstr "定規"
+
+#: game/content/jokers.gd:51
+msgid "+2 Mult when placing a Square piece."
+msgstr "スクエアのピースを置くと倍率+2。"
+
+#: game/content/jokers.gd:51
+msgid "Square Deal"
+msgstr "公正取引"
+
+#: game/content/jokers.gd:52
+msgid "+80 Chips when this placement empties the tray."
+msgstr "この配置でトレイが空になると+80チップ。"
+
+#: game/content/jokers.gd:52
+msgid "Last Piece"
+msgstr "ラストピース"
+
+#: game/content/jokers.gd:53
+msgid "+40 Chips when placing a stamped piece."
+msgstr "スタンプ付きのピースを置くと+40チップ。"
+
+#: game/content/jokers.gd:53
+msgid "Postmaster"
+msgstr "郵便局長"
+
+#: game/content/jokers.gd:54
+msgid "+0.25 Mult for each piece your bag has below 24 (max +3)."
+msgstr "バッグのピースが24個より1つ少ないごとに倍率+0.25(最大+3)。"
+
+#: game/content/jokers.gd:54
+msgid "Lean Bag"
+msgstr "スリムバッグ"
+
+#: game/content/jokers.gd:55
+msgid "+5 Chips for each upgraded piece (material or stamp) in your bag."
+msgstr "バッグの強化済みピース(素材かスタンプ)1つにつき+5チップ。"
+
+#: game/content/jokers.gd:55
+msgid "Foundry"
+msgstr "鋳造所"
+
+#: game/content/jokers.gd:56
+msgid "Neon Sign"
+msgstr "ネオンサイン"
+
+#: game/content/jokers.gd:56
+msgid "Neon cells cleared give an extra +0.5 Mult each."
+msgstr "消えたネオンのマス1つにつき、さらに倍率+0.5。"
+
+#: game/content/jokers.gd:57
+msgid "+0.5 Mult per Schematic level of the placed piece's family."
+msgstr "置いたピースのファミリーの設計図レベル1につき倍率+0.5。"
+
+#: game/content/jokers.gd:57
+msgid "Specialist"
+msgstr "スペシャリスト"
+
+#: game/content/jokers.gd:58
+msgid "+0.1 Mult for each piece in the discard pile before placement (max +1)."
+msgstr "配置前の捨て札のピース1つにつき倍率+0.1(最大+1)。"
+
+#: game/content/jokers.gd:58
+msgid "Recycler"
+msgstr "リサイクラー"
+
+#: game/content/jokers.gd:59
+msgid "Glass Cannon"
+msgstr "ガラスの大砲"
+
+#: game/content/jokers.gd:59
+msgid "x0.3 Mult for each Glass piece in your bag (x1 + 0.3 each, max x4)."
+msgstr "バッグのガラスのピース1つにつき倍率x0.3(x1+0.3ずつ、最大x4)。"
+
+#: game/content/jokers.gd:60
+msgid "Collector"
+msgstr "コレクター"
+
+#: game/content/jokers.gd:60
+msgid "x0.1 Mult for each different shape family in your bag beyond 6 (x1.4 with 10 families)."
+msgstr "バッグの形状ファミリーが6種類を超えるごとに倍率x0.1(10種類でx1.4)。"
+
+#: game/content/jokers.gd:61
+msgid "Copies the scoring effect of the Joker directly below it."
+msgstr "すぐ下にあるジョーカーの得点効果をコピーする。"
+
+#: game/content/jokers.gd:61
+msgid "Mimic"
+msgstr "ミミック"
+
+#: game/content/jokers.gd:63
+msgid "Hot Hand"
+msgstr "ホットハンド"
+
+#: game/content/jokers.gd:63
+msgid "x1.5 Mult on placements from a tray that formed a Hand."
+msgstr "役ができたトレイからの配置は倍率x1.5。"
+
+#: game/content/jokers.gd:64
+msgid "A full tray dealt by a Refresh or Second Tray can form a Hand."
+msgstr "リフレッシュやセカンドトレイで配られたトレイでも役ができる。"
+
+#: game/content/jokers.gd:64
+msgid "Card Sharp"
+msgstr "イカサマ師"
+
+#: game/content/jokers.gd:65
+msgid "Each placement that clears nothing stores +40 Chips (max +200). The next clearing placement adds them and resets."
+msgstr "何も消さない配置ごとに+40チップをためる(最大+200)。次に消去した配置でまとめて加算し、リセット。"
+
+#: game/content/jokers.gd:65
+msgid "Patience"
+msgstr "忍耐"
+
+#: game/content/jokers.gd:66
+msgid "+1 Mult when the placed piece fills a one-block hole closed on all four sides; +75 Chips more if it also clears a line."
+msgstr "置いたピースが四方をふさがれた1マスの穴を埋めると倍率+1。さらにラインも消せば+75チップ。"
+
+#: game/content/jokers.gd:66
+msgid "Locksmith"
+msgstr "錠前師"
+
+#: game/content/jokers.gd:67
+msgid "Countdown"
+msgstr "カウントダウン"
+
+#: game/content/jokers.gd:67
+msgid "x1.5 Mult on the third of three placements in a row with fewer blocks each time (like 5, 4, 3)."
+msgstr "ブロック数が毎回減る3連続の配置(5、4、3など)の3回目は倍率x1.5。"
+
+#: game/content/jokers.gd:68
+msgid "+2 Credits whenever one of your Glass pieces shatters."
+msgstr "ガラスのピースが割れるたびに+2クレジット。"
+
+#: game/content/jokers.gd:68
+msgid "Breakage Bonus"
+msgstr "破損ボーナス"
+
+#: game/content/jokers.gd:69
+msgid "Insurance Policy"
+msgstr "保険証書"
+
+#: game/content/jokers.gd:69
+msgid "Once: when you would lose a round, replay it from the start with no free Refresh. Then this card is destroyed."
+msgstr "1回だけ:ラウンドに負けそうになったら、無料リフレッシュなしで最初からやり直す。その後このカードは壊れる。"
+
+#: game/content/jokers.gd:70
+msgid "+2 Mult for each Feat you earn for the first time this round."
+msgstr "このラウンドで初めて達成した妙技1つにつき倍率+2。"
+
+#: game/content/jokers.gd:70
+msgid "Showboat"
+msgstr "目立ちたがり"
+
+#: game/content/jokers.gd:71
+msgid "+2 Mult when you place while your placements are at their refill cap."
+msgstr "配置回数が回復上限にあるときに置くと倍率+2。"
+
+#: game/content/jokers.gd:71
+msgid "Full Tank"
+msgstr "満タン"
+
+#: game/content/jokers.gd:72
+msgid "Overflow"
+msgstr "オーバーフロー"
+
+#: game/content/jokers.gd:72
+msgid "When a line clear would refill past your cap, each wasted refill gives +1 Credit (max 3 per round)."
+msgstr "ライン消去の回復が上限を超えるとき、あふれた回復1回につき+1クレジット(ラウンドごとに最大3)。"
+
+#: game/content/jokers.gd:73
+msgid "Keystone"
+msgstr "要石"
+
+#: game/content/jokers.gd:73
+msgid "x2 Mult when a piece of 1 to 3 blocks clears a line; x4 if it clears two or more."
+msgstr "1〜3ブロックのピースでラインを消すと倍率x2、2ライン以上ならx4。"
+
+#: game/content/jokers.gd:74
+msgid "Clearing a row and a column in the same placement gives you an Eraser (if an item slot is free)."
+msgstr "同じ配置で行と列を消すと消しゴムがもらえる(アイテム枠に空きがあれば)。"
+
+#: game/content/jokers.gd:74
+msgid "Draftsman"
+msgstr "製図家"
+
+#: game/content/jokers.gd:75
+msgid "Periscope"
+msgstr "潜望鏡"
+
+#: game/content/jokers.gd:75
+msgid "Shows the next three pieces in your draw pile."
+msgstr "山札の次の3ピースを表示する。"
+
+#: game/content/jokers.gd:76
+msgid "Costs 0. When bought: +6 Credits. After each won round, 2 Credits go to repay the loan until 8 are repaid. Cannot be sold until then."
+msgstr "コスト0。購入時:+6クレジット。ラウンドに勝つたびに2クレジットを返済し、8返すまで続く。それまで売却不可。"
+
+#: game/content/jokers.gd:76
+msgid "Loan Shark"
+msgstr "高利貸し"
+
+#: game/content/jokers.gd:79
+msgid "Gains x0.15 Mult every time two or more lines clear at once. Never resets."
+msgstr "2ライン以上を同時に消すたびに倍率x0.15成長。リセットされない。"
+
+#: game/content/jokers.gd:79
+msgid "Snowball"
+msgstr "スノーボール"
+
+#: game/content/jokers.gd:80
+msgid "+4 Chips for every line you have cleared this run."
+msgstr "このランで消したライン1本につき+4チップ。"
+
+#: game/content/jokers.gd:80
+msgid "Tally Counter"
+msgstr "数取器"
+
+#: game/content/jokers.gd:81
+msgid "+0.35 Mult for every round won this run."
+msgstr "このランで勝ったラウンド1つにつき倍率+0.35。"
+
+#: game/content/jokers.gd:81
+msgid "Bonsai"
+msgstr "盆栽"
+
+#: game/content/jokers.gd:82
+msgid "+0.1 Mult for every Credit you hold (max +5)."
+msgstr "所持クレジット1につき倍率+0.1(最大+5)。"
+
+#: game/content/jokers.gd:82
+msgid "Coin Pusher"
+msgstr "コインプッシャー"
+
+#: game/content/jokers.gd:83
+msgid "Gains x0.3 Mult for each round won without a Refresh or Second Tray. Using one resets it to x1."
+msgstr "リフレッシュもセカンドトレイも使わずに勝ったラウンドごとに倍率x0.3成長。どちらかを使うとx1に戻る。"
+
+#: game/content/jokers.gd:83
+msgid "Hot Streak"
+msgstr "連勝街道"
+
+#: game/content/jokers.gd:84
+msgid "+1 Mult for each block over 4 in the placed piece."
+msgstr "置いたピースの4を超えるブロック1つにつき倍率+1。"
+
+#: game/content/jokers.gd:84
+msgid "Big Game Hunter"
+msgstr "大物ハンター"
+
+#: game/content/jokers.gd:85
+msgid "Rainbow Road"
+msgstr "虹の道"
+
+#: game/content/jokers.gd:85
+msgid "x1.75 Mult when the board holds all six block colors before the placement."
+msgstr "配置前の盤面にブロックの6色がすべてあれば倍率x1.75。"
+
+#: game/content/jokers.gd:86
+msgid "Solo Act"
+msgstr "ソロ公演"
+
+#: game/content/jokers.gd:86
+msgid "x1 Mult plus x0.75 for each empty Joker slot."
+msgstr "倍率x1、さらに空いているジョーカー枠1つにつきx0.75。"
+
+#: game/content/jokers.gd:87
+msgid "Double Stamp"
+msgstr "ダブルスタンプ"
+
+#: game/content/jokers.gd:87
+msgid "Stamps trigger twice: Encore x4, Tip +4 Credits, Refund +2 placements, Memory two Sparks."
+msgstr "スタンプが2回発動する:アンコールx4、おひねり+4クレジット、払い戻し+2配置、メモリーでスパーク2つ。"
+
+#: game/content/jokers.gd:88
+msgid "After each round won, drops a random item into a free item slot."
+msgstr "ラウンドに勝つたびに、空いたアイテム枠へランダムなアイテムを落とす。"
+
+#: game/content/jokers.gd:88
+msgid "Vending Machine"
+msgstr "自販機"
+
+#: game/content/jokers.gd:89
+msgid "+15 Chips for every block cleared by the placement."
+msgstr "配置で消えたブロック1つにつき+15チップ。"
+
+#: game/content/jokers.gd:89
+msgid "Demolition Crew"
+msgstr "解体業者"
+
+#: game/content/jokers.gd:90
+msgid "Gains +1 Mult whenever a round ends at 1.5 times its target or more. Never resets."
+msgstr "ラウンドが目標の1.5倍以上で終わるたびに倍率+1成長。リセットされない。"
+
+#: game/content/jokers.gd:90
+msgid "Overachiever"
+msgstr "優等生"
+
+#: game/content/jokers.gd:91
+msgid "+1.5 Mult for each item you hold."
+msgstr "所持アイテム1つにつき倍率+1.5。"
+
+#: game/content/jokers.gd:91
+msgid "Full Pockets"
+msgstr "ポケットいっぱい"
+
+#: game/content/jokers.gd:92
+msgid "Each time a piece completes a line, that exact piece permanently gains +5 Chips. The Chips stay on the piece (and on its Copier copies) even if you sell Veteran."
+msgstr "ピースがラインを完成させるたびに、そのピース自身に+5チップが永久に加わる。ベテランを売っても、チップはピース(とコピー機で作ったコピー)に残る。"
+
+#: game/content/jokers.gd:92
+msgid "Veteran"
+msgstr "ベテラン"
+
+#: game/content/jokers.gd:94
+msgid "After a clear, blocks fall down their columns. New full lines clear as chain waves, each scoring double the last (x2, x4, x8...)."
+msgstr "消去のあと、ブロックが列に沿って落ちる。新しくそろったラインは連鎖ウェーブで消え、前のウェーブの2倍の得点になる(x2、x4、x8...)。"
+
+#: game/content/jokers.gd:94
+msgid "The Avalanche"
+msgstr "アバランチ"
+
+#: game/content/jokers.gd:95
+msgid "Every other Joker's scoring effect triggers twice (Chips and Mult add twice, xMult applies twice)."
+msgstr "ほかのジョーカーの得点効果がすべて2回発動する(チップと倍率は2回加算、倍率xは2回適用)。"
+
+#: game/content/jokers.gd:95
+msgid "Hall of Mirrors"
+msgstr "鏡の間"
+
+#: game/content/jokers.gd:96
+msgid "Material effects are doubled. Every piece you place without a material gains a random one for good."
+msgstr "素材の効果が2倍になる。素材なしで置いたピースは、ランダムな素材を永久に得る。"
+
+#: game/content/jokers.gd:96
+msgid "Philosopher's Stone"
+msgstr "賢者の石"
+
+#: game/content/jokers.gd:97
+msgid "Supernova"
+msgstr "スーパーノヴァ"
+
+#: game/content/jokers.gd:97
+msgid "x1 Mult plus x0.5 for every line cleared earlier this round."
+msgstr "倍率x1、さらにこのラウンドでそれまでに消したライン1本につきx0.5。"
+
+#: game/content/jokers.gd:371
+#, c-format
+msgid "Triggers in %d placement"
+msgid_plural "Triggers in %d placements"
+msgstr[0] "あと%d回の配置で発動"
+
+#: game/content/jokers.gd:373
+#, c-format
+msgid "Clears this round: %d"
+msgstr "このラウンドの消去:%d"
+
+#: game/content/jokers.gd:379
+#, c-format
+msgid "Recent: %s"
+msgstr "直近:%s"
+
+#: game/content/jokers.gd:379 game/content/jokers.gd:395 game/ui/game_screen.gd:1560
+msgid "none"
+msgstr "なし"
+
+#: game/content/jokers.gd:381
+#, c-format
+msgid "Jokers sold: %d"
+msgstr "売ったジョーカー:%d"
+
+#: game/content/jokers.gd:383 game/content/jokers.gd:385 game/content/jokers.gd:387
+msgid "Ready"
+msgstr "準備完了"
+
+#: game/content/jokers.gd:383 game/content/jokers.gd:385 game/content/jokers.gd:387 game/content/jokers.gd:417
+msgid "Used this round"
+msgstr "このラウンドは使用済み"
+
+#: game/content/jokers.gd:389
+#, c-format
+msgid "Stored: +%d Chips"
+msgstr "ためたチップ:+%d"
+
+#: game/content/jokers.gd:395
+#, c-format
+msgid "Recent sizes: %s"
+msgstr "直近のサイズ:%s"
+
+#: game/content/jokers.gd:397
+#, c-format
+msgid "Feats this round: %d"
+msgstr "このラウンドの妙技:%d"
+
+#: game/content/jokers.gd:399
+#, c-format
+msgid "Placements %d / %d"
+msgstr "配置 %d / %d"
+
+#: game/content/jokers.gd:401
+#, c-format
+msgid "Paid this round: %d / %d"
+msgstr "このラウンドの支払い:%d / %d"
+
+#: game/content/jokers.gd:403
+#, c-format
+msgid "Owed: %d Credits"
+msgstr "借金:%dクレジット"
+
+#: game/content/jokers.gd:403
+msgid "Repaid"
+msgstr "返済済み"
+
+#: game/content/jokers.gd:405
+msgid "Unused: saves one lost round"
+msgstr "未使用:負けたラウンドを1回救う"
+
+#: game/content/jokers.gd:412
+msgid "reshuffle"
+msgstr "シャッフル"
+
+#: game/content/jokers.gd:413
+#, c-format
+msgid "Next: %s"
+msgstr "次:%s"
+
+#: game/content/jokers.gd:416
+msgid "Ready: remove a block"
+msgstr "準備完了:ブロックを1つ取り除く"
+
+#: game/content/jokers.gd:417
+msgid "Waiting for the first clear"
+msgstr "最初の消去を待っています"
+
+#: game/content/jokers.gd:419
+#, c-format
+msgid "%d pieces: +%d Chips"
+msgstr "%dピース:+%dチップ"
+
+#: game/content/jokers.gd:421
+#, c-format
+msgid "%d pieces: +%s Mult"
+msgstr "%dピース:倍率+%s"
+
+#: game/content/jokers.gd:423
+#, c-format
+msgid "%d upgraded: +%d Chips"
+msgstr "強化済み%d:+%dチップ"
+
+#: game/content/jokers.gd:426
+#, c-format
+msgid "%d families: x%s Mult"
+msgstr "%dファミリー:倍率x%s"
+
+#: game/content/jokers.gd:428
+#, c-format
+msgid "Discard pile: %d"
+msgstr "捨て札:%d"
+
+#: game/content/jokers.gd:430 game/content/jokers.gd:432
+#, c-format
+msgid "Now x%s Mult"
+msgstr "現在 倍率x%s"
+
+#: game/content/jokers.gd:434
+#, c-format
+msgid "Now +%s Mult"
+msgstr "現在 倍率+%s"
+
+#: game/content/jokers.gd:436
+#, c-format
+msgid "%d lines: +%d Chips"
+msgstr "%dライン:+%dチップ"
+
+#: game/content/jokers.gd:438
+#, c-format
+msgid "%d rounds won: +%s Mult"
+msgstr "%dラウンド勝利:倍率+%s"
+
+#: game/content/jokers.gd:440
+#, c-format
+msgid "%d Credits: +%s Mult"
+msgstr "%dクレジット:倍率+%s"
+
+#: game/content/jokers.gd:443
+#, c-format
+msgid "%d empty slot: x%s Mult"
+msgid_plural "%d empty slots: x%s Mult"
+msgstr[0] "空き枠%d:倍率x%s"
+
+#: game/content/jokers.gd:446
+#, c-format
+msgid "%d item: +%s Mult"
+msgid_plural "%d items: +%s Mult"
+msgstr[0] "アイテム%d:倍率+%s"
+
+#: game/content/jokers.gd:449
+#, c-format
+msgid "%d Glass piece: x%s Mult"
+msgid_plural "%d Glass pieces: x%s Mult"
+msgstr[0] "ガラスのピース%d:倍率x%s"
+
+#: game/content/jokers.gd:451
+#, c-format
+msgid "Lines this round: %d (x%s)"
+msgstr "このラウンドのライン:%d(x%s)"
+
+#: game/content/jokers.gd:453
+#, c-format
+msgid "Transmuted this run: %d"
+msgstr "このランで変化:%d"
+
+#: game/content/jokers.gd:456
+#, c-format
+msgid "Best chain: %d wave"
+msgid_plural "Best chain: %d waves"
+msgstr[0] "最高連鎖:%dウェーブ"
+
+#: game/content/jokers.gd:460
+#, c-format
+msgid "Copying: %s"
+msgstr "コピー中:%s"
+
+#: game/content/jokers.gd:461
+msgid "Copying: nothing below"
+msgstr "コピー中:下に何もない"
+
+#: game/content/pieces.gd:19
+msgid "+20 Chips per cell"
+msgstr "1マスにつき+20チップ"
+
+#: game/content/pieces.gd:19
+msgid "Chrome"
+msgstr "クローム"
+
+#: game/content/pieces.gd:19
+msgid "Each cell scores +20 Chips when placed."
+msgstr "置いたとき、各マスが+20チップを得る。"
+
+#: game/content/pieces.gd:20
+msgid "+0.5 Mult per cell cleared"
+msgstr "消えたマス1つにつき倍率+0.5"
+
+#: game/content/pieces.gd:20
+msgid "Each Neon cell cleared gives +0.5 Mult to that placement."
+msgstr "消えたネオンのマス1つにつき、その配置の倍率+0.5。"
+
+#: game/content/pieces.gd:20
+msgid "Neon"
+msgstr "ネオン"
+
+#: game/content/pieces.gd:21
+msgid "+1 Credit per cell cleared"
+msgstr "消えたマス1つにつき+1クレジット"
+
+#: game/content/pieces.gd:21
+msgid "Each Gold cell cleared gives +1 Credit."
+msgstr "消えたゴールドのマス1つにつき+1クレジット。"
+
+#: game/content/pieces.gd:21
+msgid "Gold"
+msgstr "ゴールド"
+
+#: game/content/pieces.gd:22
+msgid "Glass"
+msgstr "ガラス"
+
+#: game/content/pieces.gd:22
+msgid "x1.5 Mult on clear, may shatter"
+msgstr "消去で倍率x1.5、割れることがある"
+
+#: game/content/pieces.gd:22
+msgid "x1.5 Mult when a placement clears any Glass cell. A Glass piece with a cleared cell has a 1 in 4 chance to shatter and leave your bag."
+msgstr "ガラスのマスを消した配置は倍率x1.5。消えたマスのあるガラスのピースは4分の1の確率で割れ、バッグからなくなる。"
+
+#: game/content/pieces.gd:23
+msgid "Counts as every color for Joker effects."
+msgstr "ジョーカーの効果ではすべての色として扱う。"
+
+#: game/content/pieces.gd:23
+msgid "Prism"
+msgstr "プリズム"
+
+#: game/content/pieces.gd:23
+msgid "counts as every color"
+msgstr "すべての色として扱う"
+
+#: game/content/pieces.gd:32
+msgid "Encore"
+msgstr "アンコール"
+
+#. rules text (shown through BMLoc.tf)
+#: game/content/pieces.gd:32 game/content/tools.gd:13 game/rules/resolver.gd:260
+msgid "Encore Stamp"
+msgstr "アンコールスタンプ"
+
+#: game/content/pieces.gd:32
+msgid "If this piece clears a line, x2 Mult."
+msgstr "このピースでラインを消すと倍率x2。"
+
+#: game/content/pieces.gd:32
+msgid "x2 Mult on clear"
+msgstr "消去で倍率x2"
+
+#: game/content/pieces.gd:33
+msgid "Placing this piece does not use up a placement."
+msgstr "このピースを置いても配置回数を消費しない。"
+
+#: game/content/pieces.gd:33
+msgid "Refund"
+msgstr "払い戻し"
+
+#: game/content/pieces.gd:33 game/content/tools.gd:14
+msgid "Refund Stamp"
+msgstr "払い戻しスタンプ"
+
+#: game/content/pieces.gd:33
+msgid "placing it is free"
+msgstr "置いても無料"
+
+#: game/content/pieces.gd:34
+msgid "+2 Credits when placed"
+msgstr "置くと+2クレジット"
+
+#: game/content/pieces.gd:34
+msgid "+2 Credits whenever this piece is placed."
+msgstr "このピースを置くたびに+2クレジット。"
+
+#: game/content/pieces.gd:34
+msgid "Tip"
+msgstr "おひねり"
+
+#: game/content/pieces.gd:34 game/content/tools.gd:15
+msgid "Tip Stamp"
+msgstr "おひねりスタンプ"
+
+#: game/content/pieces.gd:35
+msgid "Memory"
+msgstr "メモリー"
+
+#: game/content/pieces.gd:35 game/content/tools.gd:16
+msgid "Memory Stamp"
+msgstr "メモリースタンプ"
+
+#: game/content/pieces.gd:35
+msgid "Spark when placed"
+msgstr "置くとスパーク"
+
+#: game/content/pieces.gd:35
+msgid "Whenever this piece is placed, gain a Spark item (needs a free item slot)."
+msgstr "このピースを置くたびに、アイテム「スパーク」を得る(アイテム枠の空きが必要)。"
+
+#: game/content/pieces.gd:167
+msgid "{color} {shape}"
+msgstr "{color}の{shape}"
+
+#: game/content/pieces.gd:180
+msgid "Brick"
+msgstr "レンガ"
+
+#: game/content/pieces.gd:188
+#, c-format
+msgid "Veteran: +%d Chips whenever this piece is placed."
+msgstr "ベテラン:このピースを置くたびに+%dチップ。"
+
+#: game/content/pieces.gd:190
+msgid "Emergency Brick: a temporary block. It does not stay in your bag."
+msgstr "非常用レンガ:一時的なブロック。バッグには残らない。"
+
+#: game/content/pieces.gd:192
+msgid "Temporary: it does not stay in your bag."
+msgstr "一時ピース:バッグには残らない。"
+
+#: game/content/pieces.gd:206
+#, c-format
+msgid "Veteran: +%d Chips"
+msgstr "ベテラン:+%dチップ"
+
+#: game/content/pieces.gd:207
+msgid "No upgrades."
+msgstr "強化なし。"
+
+#: game/content/round_cards.gd:8 game/content/run_config.gd:82
+msgid "Standard"
+msgstr "スタンダード"
+
+#: game/content/round_cards.gd:9
+msgid "No twist."
+msgstr "ひねりなし。"
+
+#: game/content/round_cards.gd:10
+msgid "Gold Rush"
+msgstr "ゴールドラッシュ"
+
+#: game/content/round_cards.gd:11
+msgid "Six Gold blocks start on the board (+1 Credit per Gold cell cleared). +2 Credits if you win."
+msgstr "ゴールドのブロック6つが盤面に置かれた状態で始まる(消えたゴールドのマス1つにつき+1クレジット)。勝てば+2クレジット。"
+
+#: game/content/round_cards.gd:12
+msgid "Tight Budget"
+msgstr "緊縮予算"
+
+#: game/content/round_cards.gd:13
+msgid "Three fewer placements. +4 Credits if you win."
+msgstr "配置回数が3回少ない。勝てば+4クレジット。"
+
+#: game/content/round_cards.gd:14
+msgid "Rush Hour"
+msgstr "ラッシュアワー"
+
+#: game/content/round_cards.gd:15
+msgid "Target x0.8, but no Refresh this round."
+msgstr "目標x0.8。ただしこのラウンドはリフレッシュなし。"
+
+#: game/content/round_cards.gd:16
+msgid "Double or Nothing"
+msgstr "ダブルオアナッシング"
+
+#: game/content/round_cards.gd:17
+msgid "Target x1.4. +6 Credits if you win."
+msgstr "目標x1.4。勝てば+6クレジット。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/content/round_cards.gd:18 game/rules/resolver.gd:232
+msgid "Mult Fever"
+msgstr "倍率フィーバー"
+
+#: game/content/round_cards.gd:19
+msgid "Every placement gets +1 Mult. Target x1.3."
+msgstr "すべての配置が倍率+1。目標x1.3。"
+
+#: game/content/round_cards.gd:20
+msgid "Treasure Hunt"
+msgstr "宝探し"
+
+#: game/content/round_cards.gd:21
+msgid "Win to find a random item (needs a free item slot). Target x1.15."
+msgstr "勝つとランダムなアイテムが見つかる(アイテム枠の空きが必要)。目標x1.15。"
+
+#: game/content/round_cards.gd:22
+msgid "Scholarship"
+msgstr "奨学金"
+
+#: game/content/round_cards.gd:23
+msgid "Win to level up the family of the last piece you place. Target x1.2."
+msgstr "勝つと、最後に置いたピースのファミリーがレベルアップ。目標x1.2。"
+
+#: game/content/run_config.gd:82
+msgid "Standard Kit"
+msgstr "スタンダードキット"
+
+#: game/content/run_config.gd:83
+msgid "CLASSIC"
+msgstr "クラシック"
+
+#: game/content/run_config.gd:83
+msgid "No twist: the rules as designed. The best Kit to learn with."
+msgstr "ひねりなし:設計どおりのルール。覚えるのに一番いいキット。"
+
+#: game/content/run_config.gd:84
+msgid "The 24-piece starter bag: a bit of every shape."
+msgstr "24ピースのスターターバッグ:どの形も少しずつ。"
+
+#: game/content/run_config.gd:85
+msgid "Compact"
+msgstr "コンパクト"
+
+#: game/content/run_config.gd:85
+msgid "Compact Kit"
+msgstr "コンパクトキット"
+
+#: game/content/run_config.gd:86
+msgid "+1 Credit for every Refresh you did not use when you win a round."
+msgstr "ラウンドに勝ったとき、使わなかったリフレッシュ1回につき+1クレジット。"
+
+#: game/content/run_config.gd:86
+msgid "THRIFT"
+msgstr "倹約"
+
+#: game/content/run_config.gd:87
+msgid "An 18-piece bag of small pieces: Singles, Bars, little Ls and Squares. Only 4 Joker slots."
+msgstr "小さいピース18個のバッグ:シングル、バー、小さいL、スクエア。ジョーカー枠は4つだけ。"
+
+#: game/content/run_config.gd:87
+msgid "Clear 100 lines across runs."
+msgstr "ラン通算で100ラインを消す。"
+
+#: game/content/run_config.gd:88
+msgid "High Roller"
+msgstr "ハイローラー"
+
+#: game/content/run_config.gd:88
+msgid "High Roller Kit"
+msgstr "ハイローラーキット"
+
+#: game/content/run_config.gd:89
+msgid "COMPOUND INTEREST"
+msgstr "複利"
+
+#: game/content/run_config.gd:89
+msgid "Interest can pay up to +3 more Credits each round."
+msgstr "利子が毎ラウンド最大+3クレジット多くもらえる。"
+
+#: game/content/run_config.gd:90
+msgid "Start with 4 Credits. The standard bag, 14 placements per round."
+msgstr "4クレジットで開始。スタンダードのバッグで、ラウンドごとの配置は14回。"
+
+#: game/content/run_config.gd:90
+msgid "Win a standard run."
+msgstr "スタンダードのランに勝つ。"
+
+#: game/content/run_config.gd:91
+msgid "Chunky"
+msgstr "どっしり"
+
+#: game/content/run_config.gd:91
+msgid "Chunky Kit"
+msgstr "どっしりキット"
+
+#: game/content/run_config.gd:92
+msgid "HEAVY LIFTING"
+msgstr "力仕事"
+
+#: game/content/run_config.gd:92
+msgid "Pieces of 5 or more blocks score +10 Chips per block."
+msgstr "5ブロック以上のピースは、1ブロックにつき+10チップ。"
+
+#: game/content/run_config.gd:93
+msgid "A 19-piece bag of big, plump shapes: squares, Ts, pluses, a Bar 5 and a 3x3. Only 13 placements."
+msgstr "大きくてずんぐりした形19個のバッグ:スクエア、T、プラス、バー5、3x3。配置は13回だけ。"
+
+#: game/content/run_config.gd:93
+msgid "Defeat 3 bosses across runs."
+msgstr "ラン通算でボスを3体倒す。"
+
+#: game/content/run_config.gd:94
+msgid "Tetromino"
+msgstr "テトロミノ"
+
+#: game/content/run_config.gd:94
+msgid "Tetromino Kit"
+msgstr "テトロミノキット"
+
+#: game/content/run_config.gd:95
+msgid "+1 Credit every time a Tray Hand forms."
+msgstr "トレイ役ができるたびに+1クレジット。"
+
+#: game/content/run_config.gd:95
+msgid "FULL HOUSE"
+msgstr "フルハウス"
+
+#: game/content/run_config.gd:96
+msgid "Form 25 Tray Hands across runs."
+msgstr "ラン通算でトレイ役を25回作る。"
+
+#: game/content/run_config.gd:96
+msgid "Only four-block pieces: 20 of them, so Twins and Triplets come often."
+msgstr "4ブロックのピースだけ20個。ツインズやトリプレットがよくできる。"
+
+#: game/content/run_config.gd:103
+msgid "Heat 0"
+msgstr "ヒート0"
+
+#: game/content/run_config.gd:103
+msgid "Standard rules."
+msgstr "標準ルール。"
+
+#: game/content/run_config.gd:104
+msgid "Heat 1"
+msgstr "ヒート1"
+
+#: game/content/run_config.gd:104
+#, c-format
+msgid "Targets +15%."
+msgstr "目標+15%。"
+
+#: game/content/run_config.gd:105
+msgid "Heat 2"
+msgstr "ヒート2"
+
+#: game/content/run_config.gd:105
+msgid "One fewer placement every round."
+msgstr "毎ラウンドの配置回数が1回少ない。"
+
+#: game/content/run_config.gd:106
+msgid "Heat 3"
+msgstr "ヒート3"
+
+#: game/content/run_config.gd:106
+msgid "Interest pays at most +3; rerolls start at 3."
+msgstr "利子は最大+3、リロールは3から。"
+
+#: game/content/run_config.gd:107
+msgid "Every boss is its Mk II version."
+msgstr "すべてのボスがMk II版になる。"
+
+#: game/content/run_config.gd:107
+msgid "Heat 4"
+msgstr "ヒート4"
+
+#: game/content/run_config.gd:108
+msgid "Heat 5"
+msgstr "ヒート5"
+
+#: game/content/run_config.gd:108
+#, c-format
+msgid "Targets +35% and one fewer Refresh."
+msgstr "目標+35%、リフレッシュが1回少ない。"
+
+#: game/content/shapes.gd:16
+msgid "Blue"
+msgstr "青"
+
+#: game/content/shapes.gd:16
+msgid "Green"
+msgstr "緑"
+
+#: game/content/shapes.gd:16
+msgid "Orange"
+msgstr "オレンジ"
+
+#: game/content/shapes.gd:16
+msgid "Purple"
+msgstr "紫"
+
+#: game/content/shapes.gd:16
+msgid "Red"
+msgstr "赤"
+
+#: game/content/shapes.gd:16
+msgid "Stone"
+msgstr "石"
+
+#: game/content/shapes.gd:16
+msgid "Yellow"
+msgstr "黄"
+
+#: game/content/shapes.gd:21
+msgid "Single"
+msgstr "シングル"
+
+#: game/content/shapes.gd:22
+msgid "Bar 2"
+msgstr "バー2"
+
+#: game/content/shapes.gd:23
+msgid "Bar 3"
+msgstr "バー3"
+
+#: game/content/shapes.gd:24
+msgid "L 3"
+msgstr "L3"
+
+#: game/content/shapes.gd:25
+msgid "Square 2x2"
+msgstr "スクエア2x2"
+
+#: game/content/shapes.gd:26
+msgid "Bar 4"
+msgstr "バー4"
+
+#: game/content/shapes.gd:27
+msgid "L 4"
+msgstr "L4"
+
+#: game/content/shapes.gd:28
+msgid "T 4"
+msgstr "T4"
+
+#: game/content/shapes.gd:29
+msgid "Zigzag 4"
+msgstr "ジグザグ4"
+
+#: game/content/shapes.gd:30
+msgid "Plus 5"
+msgstr "プラス5"
+
+#: game/content/shapes.gd:31
+msgid "Bar 5"
+msgstr "バー5"
+
+#: game/content/shapes.gd:32
+msgid "Square 3x3"
+msgstr "スクエア3x3"
+
+#: game/content/shapes.gd:34
+msgid "Rectangle 2x3"
+msgstr "長方形2x3"
+
+#: game/content/tips.gd:9 game/ui/tutorial.gd:366
+msgid "Place a piece"
+msgstr "ピースを置こう"
+
+#: game/content/tips.gd:10
+msgid "Drag a piece from the tray onto the board, or click it and then a cell. Fill a whole row or column to clear it: clears are where the points are."
+msgstr "トレイのピースを盤面へドラッグするか、クリックしてからマスをクリック。行か列を全部埋めると消える:点数はそこで稼ぐ。"
+
+#: game/content/tips.gd:11
+msgid "Chips x Mult"
+msgstr "チップ×倍率"
+
+#: game/content/tips.gd:12
+msgid "Every placement scores Chips x Mult. Cells and cleared lines give Chips; Jokers, combos and Tray Hands add Mult. The receipt shows the math."
+msgstr "配置ごとの得点はチップ×倍率。マスと消えたラインでチップ、ジョーカーやコンボやトレイ役で倍率が増える。計算はレシートに出る。"
+
+#: game/content/tips.gd:13
+msgid "Hold"
+msgstr "ホールド"
+
+#: game/content/tips.gd:14
+msgid "Press H or drop a piece on HOLD to keep it for later; it deals a new one. You can hold or swap once between placements."
+msgstr "Hを押すか、ピースをHOLDに置くと後に取っておける。代わりに新しいピースが配られる。ホールドや入れ替えは配置の間に1回。"
+
+#: game/content/tips.gd:15
+msgid "Nothing fits"
+msgstr "置ける場所がない"
+
+#: game/content/tips.gd:16
+msgid "No piece fits the board. REFRESH (R) swaps the whole tray for new pieces. If nothing fits and neither a Refresh nor your held piece helps, the round is lost."
+msgstr "どのピースも盤面に置けない。リフレッシュ(R)でトレイを丸ごと新しいピースに替えられる。置けるものがなく、リフレッシュもホールドのピースも役に立たなければ、ラウンドは負け。"
+
+#: game/content/tips.gd:17
+msgid "Combo"
+msgstr "コンボ"
+
+#: game/content/tips.gd:18
+msgid "Clearing on placement after placement builds a combo that adds Mult. A few placements without a clear break it."
+msgstr "配置のたびにラインを消し続けるとコンボになり、倍率が増える。消さない配置が数回続くと途切れる。"
+
+#: game/content/tips.gd:19
+msgid "Tray Hand"
+msgstr "トレイ役"
+
+#: game/content/tips.gd:20
+msgid "The three dealt pieces form a Hand (same family, same color, a staircase...). The tag on each piece says what it adds while you place them."
+msgstr "配られた3つのピースで役ができる(同じファミリー、同じ色、階段など)。各ピースのタグに、置いたときの効果が書いてある。"
+
+#: game/content/tips.gd:21
+msgid "Boss round"
+msgstr "ボスラウンド"
+
+#: game/content/tips.gd:22
+msgid "Each act ends with a boss that bends one rule for this round. Its rule is on the left panel; hover it any time."
+msgstr "各幕の最後に、このラウンドのルールをひとつ曲げるボスが出る。ルールは左のパネルにある。いつでもカーソルを合わせて確認できる。"
+
+#: game/content/tips.gd:23
+msgid "Heat"
+msgstr "ヒート"
+
+#: game/content/tips.gd:24
+msgid "Heat makes every run harder: bigger targets, fewer placements, Mk II bosses. Each Heat you win unlocks the next."
+msgstr "ヒートはランを難しくする:目標が大きく、配置が少なく、ボスはMk II。勝ったヒートごとに次が解放される。"
+
+#: game/content/tips.gd:25
+msgid "The Toybox"
+msgstr "おもちゃ箱"
+
+#: game/content/tips.gd:26
+msgid "Spend Credits here. Jokers score for you every placement, items are one-use tools, and Workshop cards change the pieces in your bag."
+msgstr "ここでクレジットを使おう。ジョーカーは配置のたびに得点してくれる。アイテムは使い切りの道具、工房カードはバッグのピースを変える。"
+
+#: game/content/tips.gd:27
+msgid "Interest"
+msgstr "利子"
+
+#: game/content/tips.gd:28
+msgid "Unspent Credits earn interest after each round: +1 for every 5 you hold, up to +5 (less at Heat 3+). Saving can pay off."
+msgstr "使わなかったクレジットには毎ラウンド利子がつく:5ごとに+1、最大+5(ヒート3以上では少なめ)。貯金は得になることも。"
+
+#: game/content/tips.gd:29
+msgid "Choose the next round"
+msgstr "次のラウンドを選ぶ"
+
+#: game/content/tips.gd:30
+msgid "Standard, or a twist: a harder target or a special rule for a bigger reward. Boss rounds never offer a choice."
+msgstr "スタンダードか、ひねり:難しい目標や特別ルールの代わりに大きな報酬。ボスラウンドは選べない。"
+
+#: game/content/tips.gd:31
+msgid "Your bag"
+msgstr "きみのバッグ"
+
+#: game/content/tips.gd:32
+msgid "B (or the BAG button) shows every piece you own and what is still to draw. The tray is dealt from this bag, not at random."
+msgstr "B(またはBAGボタン)で、持っているピースとまだ引いていないピースがすべて見られる。トレイはランダムではなく、このバッグから配られる。"
+
+#: game/content/tips.gd:34
+msgid "Targets keep growing and a new boss arrives every four rounds. How far can the machine go?"
+msgstr "目標はどんどん上がり、4ラウンドごとに新しいボスが来る。マシンはどこまで耐えられる?"
+
+#: game/content/tools.gd:8
+msgid "Chrome Plating"
+msgstr "クロームめっき"
+
+#: game/content/tools.gd:8
+msgid "Give up to 2 pieces the Chrome material."
+msgstr "ピース2つまでに素材「クローム」をつける。"
+
+#: game/content/tools.gd:9
+msgid "Give up to 2 pieces the Neon material."
+msgstr "ピース2つまでに素材「ネオン」をつける。"
+
+#: game/content/tools.gd:9
+msgid "Neon Tubing"
+msgstr "ネオン管"
+
+#: game/content/tools.gd:10
+msgid "Give 1 piece the Gold material."
+msgstr "ピース1つに素材「ゴールド」をつける。"
+
+#: game/content/tools.gd:10
+msgid "Gold Leaf"
+msgstr "金箔"
+
+#: game/content/tools.gd:11
+msgid "Give up to 2 pieces the Glass material."
+msgstr "ピース2つまでに素材「ガラス」をつける。"
+
+#: game/content/tools.gd:11
+msgid "Glassworks"
+msgstr "ガラス工房"
+
+#: game/content/tools.gd:12
+msgid "Give up to 2 pieces the Prism material."
+msgstr "ピース2つまでに素材「プリズム」をつける。"
+
+#: game/content/tools.gd:12
+msgid "Prism Coat"
+msgstr "プリズム塗装"
+
+#: game/content/tools.gd:13
+msgid "Stamp up to 2 pieces with Encore."
+msgstr "ピース2つまでにアンコールのスタンプを押す。"
+
+#: game/content/tools.gd:14
+msgid "Stamp up to 2 pieces with Refund."
+msgstr "ピース2つまでに払い戻しのスタンプを押す。"
+
+#: game/content/tools.gd:15
+msgid "Stamp up to 2 pieces with Tip."
+msgstr "ピース2つまでにおひねりのスタンプを押す。"
+
+#: game/content/tools.gd:16
+msgid "Stamp up to 2 pieces with Memory."
+msgstr "ピース2つまでにメモリーのスタンプを押す。"
+
+#: game/content/tools.gd:17
+msgid "Add an exact copy of 1 piece (with its material and stamp) to your bag."
+msgstr "ピース1つの完全なコピー(素材とスタンプ付き)をバッグに加える。"
+
+#: game/content/tools.gd:17
+msgid "Copier"
+msgstr "コピー機"
+
+#: game/content/tools.gd:18
+msgid "Remove up to 2 pieces from your bag (the bag keeps at least 12)."
+msgstr "バッグからピースを2つまで取り除く(バッグは最低12個を保つ)。"
+
+#: game/content/tools.gd:18
+msgid "Shredder"
+msgstr "シュレッダー"
+
+#: game/content/tools.gd:19
+msgid "Rotate up to 2 pieces 90 degrees clockwise."
+msgstr "ピース2つまでを時計回りに90度回す。"
+
+#: game/content/tools.gd:19
+msgid "Turntable"
+msgstr "ターンテーブル"
+
+#: game/content/tools.gd:20
+msgid "Repaint"
+msgstr "塗り直し"
+
+#: game/content/tools.gd:20
+msgid "Repaint up to 3 pieces to a color of your choice."
+msgstr "ピース3つまでを好きな色に塗り直す。"
+
+#: game/content/tools.gd:21
+msgid "Level up a shape family: its pieces gain +25 Chips and +0.25 Mult per level when placed."
+msgstr "形状ファミリーをレベルアップ:そのピースは置いたとき、レベルごとに+25チップと倍率+0.25。"
+
+#: game/content/tools.gd:21
+msgid "Schematic"
+msgstr "設計図"
+
+#: game/content/tools.gd:22
+msgid "+1 Joker slot for the rest of the run (up to 7)."
+msgstr "このランの残りの間、ジョーカー枠+1(最大7)。"
+
+#: game/content/tools.gd:22
+msgid "Rack Extender"
+msgstr "ラック拡張"
+
+#: game/content/tools.gd:46
+#, c-format
+msgid "Schematic: %s"
+msgstr "設計図:%s"
+
+#: game/content/tools.gd:54
+#, c-format
+msgid "Level up %s pieces (now Lv %d): +%d Chips and +%s Mult per level when placed."
+msgstr "%sのピースをレベルアップ(現在Lv %d):置いたとき、レベルごとに+%dチップと倍率+%s。"
+
+#: game/content/tutorial_steps.gd:23
+msgid "Well hello there! I'm POPS. I've kept this arcade running since blocks were square. Want the grand tour?"
+msgstr "やあ、いらっしゃい!わしはPOPS。ブロックが四角かった頃から、このゲーセンを切り盛りしとる。ひとつ案内しようか?"
+
+#: game/content/tutorial_steps.gd:25
+msgid "These three are your tray: pieces drawn from your very own bag."
+msgstr "この3つがきみのトレイじゃ。きみ専用のバッグから引いたピースだよ。"
+
+#: game/content/tutorial_steps.gd:27
+msgid "Drag one onto the board, or click it and then a cell. Go on, place a piece!"
+msgstr "どれかを盤面へドラッグするか、クリックしてからマスをクリック。さあ、ピースを置いてみて!"
+
+#: game/content/tutorial_steps.gd:29
+msgid "Nice! Every placement scores CHIPS x MULT, and the receipt shows the sums. No secrets here."
+msgstr "いいね!配置ごとの得点はチップ×倍率。計算はレシートに出る。隠しごとはなしじゃ。"
+
+#: game/content/tutorial_steps.gd:31
+msgid "Now fill a whole row or column. It clears, pays big, and gives you a placement back!"
+msgstr "次は行か列を丸ごと埋めよう。消えて大きく稼げるうえ、配置が1回戻ってくる!"
+
+#: game/content/tutorial_steps.gd:33
+msgid "Reach the target up here before the lamps run out. Each lamp is one placement."
+msgstr "ランプが消える前に、ここの目標まで届かせよう。ランプ1つが配置1回だ。"
+
+#: game/content/tutorial_steps.gd:35
+msgid "Bad tray? REFRESH swaps all three pieces. Only once a round, so pick your moment."
+msgstr "トレイが悪い?リフレッシュで3つとも入れ替えられる。1ラウンドに1回だけ、使いどころを選ぼう。"
+
+#: game/content/tutorial_steps.gd:37
+msgid "HOLD keeps one piece for later. Drop a piece on it, or press H."
+msgstr "ホールドはピースを1つ取っておける。ピースをここに置くか、Hを押そう。"
+
+#: game/content/tutorial_steps.gd:39
+msgid "Jokers live here. They add Chips and Mult to every placement. You buy them in the shop."
+msgstr "ジョーカーはここに住んでいる。配置のたびにチップと倍率を足してくれる。ショップで買えるよ。"
+
+#: game/content/tutorial_steps.gd:41
+msgid "That's the basics! Hit the target and I'll meet you in the shop."
+msgstr "基本はこれでおしまい!目標を達成したら、ショップで会おう。"
+
+#: game/content/tutorial_steps.gd:44
+msgid "Welcome to the Toybox! Spend your Credits on Jokers here."
+msgstr "おもちゃ箱へようこそ!ここでクレジットを使ってジョーカーを買おう。"
+
+#: game/content/tutorial_steps.gd:46
+msgid "Workshop cards change the pieces in your bag: paint them, copy them, make them shiny."
+msgstr "工房カードはバッグのピースを変える:塗ったり、コピーしたり、ピカピカにしたり。"
+
+#: game/content/tutorial_steps.gd:48
+msgid "Shop as long as you like. When you're ready, NEXT ROUND is here: you even pick how hard it is."
+msgstr "好きなだけ買い物していいよ。準備ができたら、次のラウンドはここ。難しさも自分で選べる。"
+
+#: game/content/tutorial_steps.gd:51
+msgid "You're a natural! Every fourth round a boss shows up, so read its rule. Have fun!"
+msgstr "筋がいいね!4ラウンドごとにボスが出るから、ルールをよく読むんじゃよ。楽しんで!"
+
+#: game/main.gd:598
+msgid "SOUND OFF  (M)"
+msgstr "サウンドオフ  (M)"
+
+#: game/main.gd:598
+msgid "SOUND ON  (M)"
+msgstr "サウンドオン  (M)"
+
+#: game/presentation/finishes.gd:22
+msgid "Bright toy plastic. The original."
+msgstr "鮮やかなおもちゃのプラスチック。元祖。"
+
+#: game/presentation/finishes.gd:22
+msgid "CLASSIC PLASTIC"
+msgstr "クラシックプラスチック"
+
+#: game/presentation/finishes.gd:24
+msgid "Lead-lined jewel panes. Light rolls through them."
+msgstr "鉛で縁取った宝石のようなガラス。光が流れる。"
+
+#: game/presentation/finishes.gd:24
+msgid "STAINED GLASS"
+msgstr "ステンドグラス"
+
+#: game/presentation/finishes.gd:26
+msgid "CRYSTAL"
+msgstr "クリスタル"
+
+#: game/presentation/finishes.gd:26
+msgid "Step-cut gems with twinkling facets."
+msgstr "きらめくファセットの段カット宝石。"
+
+#: game/presentation/finishes.gd:28
+msgid "Buzzing glass tubes on a black sign."
+msgstr "黒い看板でうなるガラス管。"
+
+#: game/presentation/finishes.gd:28
+msgid "NEON"
+msgstr "ネオン"
+
+#: game/presentation/finishes.gd:30
+msgid "GOLD"
+msgstr "ゴールド"
+
+#: game/presentation/finishes.gd:30
+msgid "Gilded bullion, enamel jewel, rolling shine."
+msgstr "金の延べ棒、エナメルの宝石、流れる輝き。"
+
+#: game/presentation/finishes.gd:32
+msgid "MARBLE"
+msgstr "大理石"
+
+#: game/presentation/finishes.gd:32
+msgid "Polished stone veined with color."
+msgstr "色の筋が走る磨かれた石。"
+
+#: game/presentation/finishes.gd:34
+msgid "CYBERPUNK"
+msgstr "サイバーパンク"
+
+#: game/presentation/finishes.gd:34
+msgid "Circuit boards pulsing with data."
+msgstr "データが脈打つ回路基板。"
+
+#: game/presentation/finishes.gd:36
+msgid "Painted maple blocks with carved rings."
+msgstr "年輪を彫った、色付きのカエデの積み木。"
+
+#: game/presentation/finishes.gd:36
+msgid "TOY WOOD"
+msgstr "木のおもちゃ"
+
+#: game/presentation/finishes.gd:38
+msgid "CANDY"
+msgstr "キャンディ"
+
+#: game/presentation/finishes.gd:38
+msgid "Glossy pinwheels that slowly turn."
+msgstr "ゆっくり回るつやつやの風車。"
+
+#: game/presentation/finishes.gd:40
+msgid "Basalt plates over pulsing magma."
+msgstr "脈打つマグマの上の玄武岩。"
+
+#: game/presentation/finishes.gd:40
+msgid "LAVA"
+msgstr "溶岩"
+
+#: game/presentation/finishes.gd:42
+msgid "Frosted cubes with trapped bubbles."
+msgstr "泡を閉じ込めた霜付きのキューブ。"
+
+#: game/presentation/finishes.gd:42
+msgid "ICE"
+msgstr "氷"
+
+#: game/presentation/finishes.gd:44
+msgid "CHROME"
+msgstr "クローム"
+
+#: game/presentation/finishes.gd:44
+msgid "Mirror polish. A glint races across."
+msgstr "鏡面仕上げ。きらめきが駆け抜ける。"
+
+#: game/presentation/finishes.gd:46
+msgid "Holographic foil in every color at once."
+msgstr "全色が一度に浮かぶホログラムフィルム。"
+
+#: game/presentation/finishes.gd:46
+msgid "PRISM"
+msgstr "プリズム"
+
+#: game/presentation/finishes.gd:48
+msgid "AURORA"
+msgstr "オーロラ"
+
+#: game/presentation/finishes.gd:48
+msgid "Northern lights over tiny mountains."
+msgstr "小さな山々の上のオーロラ。"
+
+#: game/presentation/finishes.gd:50
+msgid "Nebulae, twinkles and shooting stars."
+msgstr "星雲、またたき、流れ星。"
+
+#: game/presentation/finishes.gd:50
+msgid "STARFALL"
+msgstr "流星群"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/endless.gd:98
+msgid "Game over."
+msgstr "ゲームオーバー。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/endless.gd:114
+msgid "Pick an offered piece."
+msgstr "提示されたピースを選んでください。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/endless.gd:117
+msgid "That piece does not fit."
+msgstr "そのピースは置けません。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/endless.gd:139
+msgid "DOUBLE CLEAR"
+msgstr "ダブルクリア"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/endless.gd:141
+msgid "TRIPLE CLEAR"
+msgstr "トリプルクリア"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/endless.gd:143
+msgid "MEGA CLEAR"
+msgstr "メガクリア"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/endless.gd:147
+msgid "PERFECT"
+msgstr "パーフェクト"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/endless.gd:148
+msgid "CLEAN BOARD"
+msgstr "クリーンボード"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/endless.gd:150
+msgid "BLOCKSTORM"
+msgstr "ブロックストーム"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/endless.gd:204 game/run/run.gd:503
+msgid "Hold is available again after a placement."
+msgstr "ホールドは配置のあとで再び使えます。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/endless.gd:206
+msgid "Select a piece to hold."
+msgstr "ホールドするピースを選んでください。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/endless.gd:229
+msgid "That swap leaves no playable piece."
+msgstr "その入れ替えでは置けるピースがなくなります。"
+
+#: game/rules/hands.gd:17
+msgid "SLAM!"
+msgstr "スラム!"
+
+#: game/rules/hands.gd:17
+msgid "x2 MULT, +2 MULT, +1 REFRESH, +3 CREDITS"
+msgstr "倍率x2、倍率+2、リフレッシュ+1、+3クレジット"
+
+#: game/rules/hands.gd:18
+msgid "Three pieces of the same family and the same color. Every placement from this tray gets +2 Mult and x2 Mult; you gain +1 Refresh this round and 3 Credits."
+msgstr "同じファミリーで同じ色のピースが3つ。このトレイからの配置は倍率+2と倍率x2。さらにこのラウンドのリフレッシュ+1と3クレジット。"
+
+#: game/rules/hands.gd:19
+msgid "+2 MULT, x1.5 MULT EACH, +1 REFRESH"
+msgstr "倍率+2、それぞれ倍率x1.5、リフレッシュ+1"
+
+#: game/rules/hands.gd:19
+msgid "TRIPLETS"
+msgstr "トリプレット"
+
+#: game/rules/hands.gd:19
+msgid "Triplets"
+msgstr "トリプレット"
+
+#: game/rules/hands.gd:20
+msgid "Three pieces of the same family. Every placement from this tray gets +2 Mult and x1.5 Mult, and you gain +1 Refresh this round."
+msgstr "同じファミリーのピースが3つ。このトレイからの配置は倍率+2と倍率x1.5。さらにこのラウンドのリフレッシュ+1。"
+
+#: game/rules/hands.gd:21
+msgid "MONO"
+msgstr "モノクロ"
+
+#: game/rules/hands.gd:21
+msgid "Monochrome"
+msgstr "モノクロ"
+
+#: game/rules/hands.gd:21
+msgid "x2 MULT EACH"
+msgstr "それぞれ倍率x2"
+
+#: game/rules/hands.gd:22
+msgid "Three pieces of the same color (Prism counts as any color). Every placement from this tray gets x2 Mult."
+msgstr "同じ色のピースが3つ(プリズムはどの色としても扱う)。このトレイからの配置は倍率x2。"
+
+#: game/rules/hands.gd:23
+msgid "+1 PLACEMENT"
+msgstr "配置+1"
+
+#: game/rules/hands.gd:23
+msgid "STAIRS"
+msgstr "階段"
+
+#: game/rules/hands.gd:23
+msgid "Staircase"
+msgstr "階段"
+
+#: game/rules/hands.gd:24
+msgid "Cell counts in a row, like 2-3-4. You gain +1 placement (it can go above your refill cap)."
+msgstr "マス数が2-3-4のように連続。配置+1(回復上限を超えてもよい)。"
+
+#: game/rules/hands.gd:25
+msgid "+1 MULT EACH"
+msgstr "それぞれ倍率+1"
+
+#: game/rules/hands.gd:25
+msgid "TWINS"
+msgstr "ツインズ"
+
+#: game/rules/hands.gd:25
+msgid "Twins"
+msgstr "ツインズ"
+
+#: game/rules/hands.gd:26
+msgid "Exactly two pieces of the same family. Every placement from this tray gets +1 Mult."
+msgstr "同じファミリーのピースがちょうど2つ。このトレイからの配置は倍率+1。"
+
+#: game/rules/resolver.gd:27
+msgid "BILLION-POINT BLOCK"
+msgstr "10億点ブロック"
+
+#: game/rules/resolver.gd:27
+msgid "SEVEN DIGITS"
+msgstr "7桁の大台"
+
+#: game/rules/resolver.gd:27
+msgid "TRILLION TERRITORY"
+msgstr "1兆の領域"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:168
+#, c-format
+msgid "Cells x%d (Long Game: no cell Chips)"
+msgstr "マス x%d(長期戦:マスのチップなし)"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:170
+#, c-format
+msgid "Cells x%d"
+msgstr "マス x%d"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:174
+#, c-format
+msgid "Chrome cells x%d"
+msgstr "クロームのマス x%d"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:174
+#, c-format
+msgid "Chrome cells x%d (Stone: doubled)"
+msgstr "クロームのマス x%d(石:2倍)"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:178
+msgid "Veteran training"
+msgstr "ベテランの特訓"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:183
+#, c-format
+msgid "Heavy Lifting x%d"
+msgstr "力仕事 x%d"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:187 game/rules/resolver.gd:226
+#, c-format
+msgid "%s Lv %d"
+msgstr "%s Lv %d"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:191
+#, c-format
+msgid "Lines x%d"
+msgstr "ライン x%d"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:195
+#, c-format
+msgid "Lines x%d (Taxman: first line %d)"
+msgstr "ライン x%d(徴税人:1本目は%d)"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:200
+msgid "Multi-line bonus"
+msgstr "複数ラインボーナス"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:204
+#, c-format
+msgid "Combo %d"
+msgstr "コンボ %d"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:207
+msgid "Last Call multi-line"
+msgstr "ラストコール:複数ライン"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:229
+msgid "Twins hand"
+msgstr "ツインズの役"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:238
+#, c-format
+msgid "Multi-line Mult (%d lines)"
+msgstr "複数ラインの倍率(%dライン)"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:242
+#, c-format
+msgid "Neon cells cleared x%d"
+msgstr "消えたネオンのマス x%d"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:248 game/rules/resolver.gd:270
+#, c-format
+msgid "%s hand"
+msgstr "%sの役"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:260
+msgid "Encore Stamp (Double Stamp)"
+msgstr "アンコールスタンプ(ダブルスタンプ)"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:264
+msgid "Glass cleared"
+msgstr "ガラス消去"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:264
+msgid "Glass cleared (Stone: doubled)"
+msgstr "ガラス消去(石:2倍)"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:273
+msgid "Triplets hand"
+msgstr "トリプレットの役"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:320
+#, c-format
+msgid "Avalanche wave %d: lines x%d"
+msgstr "アバランチのウェーブ%d:ライン x%d"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:323
+#, c-format
+msgid "Avalanche wave %d: lines x%d (Echo Chamber: half)"
+msgstr "アバランチのウェーブ%d:ライン x%d(エコーチェンバー:半分)"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:334
+#, c-format
+msgid "Chain x%d"
+msgstr "チェイン x%d"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:366
+#, c-format
+msgid "Gold: +%d Credit"
+msgid_plural "Gold: +%d Credits"
+msgstr[0] "ゴールド:+%dクレジット"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:369
+#, c-format
+msgid "Tip Stamp: +%d Credits"
+msgstr "おひねりスタンプ:+%dクレジット"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:372
+msgid "Refund Stamp: this placement was free"
+msgstr "払い戻しスタンプ:この配置は無料"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:372
+msgid "Refund Stamp: this placement was free (+1 more)"
+msgstr "払い戻しスタンプ:この配置は無料(さらに+1)"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:378
+#, c-format
+msgid "Lines cleared: +%d placement"
+msgid_plural "Lines cleared: +%d placements"
+msgstr[0] "ライン消去:配置+%d"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:385
+#, c-format
+msgid "Overflow: +%d Credit"
+msgid_plural "Overflow: +%d Credits"
+msgstr[0] "オーバーフロー:+%dクレジット"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:391
+msgid "Draftsman: gained an Eraser"
+msgstr "製図家:消しゴムを手に入れた"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:393
+msgid "Draftsman: item slots full"
+msgstr "製図家:アイテム枠がいっぱい"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:402
+#, c-format
+msgid "The Warden's bars break: slot %d is free"
+msgstr "看守の鉄格子が壊れた:枠%dが解放"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:405
+msgid "Patch Panel ready: remove one block"
+msgstr "パッチパネル準備完了:ブロックを1つ取り除こう"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:410
+msgid "Memory Stamp: gained a Spark"
+msgstr "メモリースタンプ:スパークを手に入れた"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:412
+msgid "Memory Stamp: item slots full"
+msgstr "メモリースタンプ:アイテム枠がいっぱい"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:415
+#, c-format
+msgid "Snowball grew to x%s Mult"
+msgstr "スノーボールが倍率x%sに成長"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:422
+#, c-format
+msgid "Veteran: this piece now scores +%d Chips"
+msgstr "ベテラン:このピースは+%dチップになった"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:431
+#, c-format
+msgid "Philosopher's Stone: it turned %s"
+msgstr "賢者の石:%sに変化した"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:441
+#, c-format
+msgid "Glass %s shattered and left your bag"
+msgstr "ガラスの%sが割れ、バッグからなくなった"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:444
+msgid "Breakage Bonus: +2 Credits"
+msgstr "破損ボーナス:+2クレジット"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:446
+#, c-format
+msgid "Glass %s cracked but held (bag at minimum size)"
+msgstr "ガラスの%sにひびが入ったが持ちこたえた(バッグが最小サイズ)"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:525
+#, c-format
+msgid "Mimic (%s)"
+msgstr "ミミック(%s)"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:527
+#, c-format
+msgid "Mimic (%s), mirrored"
+msgstr "ミミック(%s)、鏡写し"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:531
+#, c-format
+msgid "%s, mirrored"
+msgstr "%s、鏡写し"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/achievement_store.gd:144 game/ui/game_screen.gd:1549
+msgid "Best placement"
+msgstr "最高の配置"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/achievement_store.gd:144
+msgid "Furthest round"
+msgstr "最高到達ラウンド"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/achievement_store.gd:145
+msgid "Best round score"
+msgstr "ラウンド最高スコア"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/achievement_store.gd:145
+msgid "Machine broken in round"
+msgstr "マシンを壊したラウンド"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:323
+msgid "Disabled by The Color Blind: color effects are off this round."
+msgstr "カラーブラインドにより無効:このラウンドは色の効果が働かない。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:374
+msgid "No item in that slot."
+msgstr "その枠にアイテムはありません。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:376
+msgid "Items can be used during a round, between placements."
+msgstr "アイテムはラウンド中、配置の合間に使えます。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:381
+msgid "The Lockdown disables tray refreshes."
+msgstr "ロックダウンでトレイのリフレッシュが使えません。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:383 game/run/run.gd:392 game/run/run.gd:402 game/run/run.gd:555
+msgid "The tray is empty."
+msgstr "トレイが空です。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:386
+#, c-format
+msgid "Already at %d placements."
+msgstr "すでに配置が%d回あります。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:389
+msgid "The board is empty."
+msgstr "盤面が空です。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:397 game/run/run.gd:551
+msgid "The Lockdown disables Refresh this round."
+msgstr "ロックダウンでこのラウンドはリフレッシュが使えません。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:399
+msgid "Rush Hour: no Refresh this round."
+msgstr "ラッシュアワー:このラウンドはリフレッシュなし。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:405
+msgid "Not usable yet in this build."
+msgstr "このバージョンではまだ使えません。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:407
+msgid "Only Extra Turn helps when placements are spent."
+msgstr "配置が尽きたら、役に立つのはエクストラターンだけ。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:466
+msgid "Cannot place right now."
+msgstr "今は置けません。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:468 game/run/run.gd:688
+msgid "That tray slot is empty."
+msgstr "そのトレイ枠は空です。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:470
+msgid "The Warden barred this slot. Clear a line to free it."
+msgstr "看守がこの枠を封鎖した。ラインを消せば解放される。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:472
+msgid "The shape does not fit there."
+msgstr "その形はそこに置けません。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:489
+msgid "The Undertaker raised a tombstone"
+msgstr "墓守が墓石を立てた"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:498
+msgid "Cannot hold right now."
+msgstr "今はホールドできません。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:500 game/ui/game_screen.gd:697
+msgid "The Lockdown Mk II disables Hold this round."
+msgstr "ロックダウンMk IIでこのラウンドはホールドが使えません。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:505
+msgid "Choose an open tray slot."
+msgstr "空いているトレイ枠を選んでください。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:509
+msgid "Nothing to hold."
+msgstr "ホールドするものがありません。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:518 game/run/run.gd:1119
+msgid "New tray"
+msgstr "新しいトレイ"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:521
+#, c-format
+msgid "Held %s"
+msgstr "ホールド:%s"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:525
+#, c-format
+msgid "Swapped in %s"
+msgstr "入れ替え:%s"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:538 game/run/run.gd:780 game/run/run.gd:802 game/run/run.gd:822 game/run/run.gd:896 game/run/run.gd:918
+msgid "The shop is closed."
+msgstr "ショップは閉まっています。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:541
+msgid "No round card there."
+msgstr "そこにラウンドカードはありません。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:549
+msgid "Cannot refresh right now."
+msgstr "今はリフレッシュできません。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:553
+msgid "No Refresh left this round."
+msgstr "このラウンドのリフレッシュは残っていません。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:558
+msgid "Refresh"
+msgstr "リフレッシュ"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:582
+#, c-format
+msgid "%s removed %d block"
+msgid_plural "%s removed %d blocks"
+msgstr[0] "%sがブロックを%d個取り除いた"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:651
+msgid "Choose blocks on the board."
+msgstr "盤面のブロックを選んでください。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:655
+msgid "Choose 1 or 2 blocks."
+msgstr "ブロックを1つか2つ選んでください。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:660
+msgid "Choose where to hit."
+msgstr "叩く場所を選んでください。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:666 game/ui/game_screen.gd:1830
+msgid "Nothing to hit there."
+msgstr "そこには叩くものがありません。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:671 game/run/run.gd:692 game/run/run.gd:877
+msgid "Choose a color."
+msgstr "色を選んでください。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:678
+#, c-format
+msgid "No %s blocks on the board."
+msgstr "盤面に%sのブロックがありません。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:683
+msgid "Choose a tray slot."
+msgstr "トレイ枠を選んでください。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:686
+msgid "The Warden barred that slot."
+msgstr "看守がその枠を封鎖しています。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:694
+#, c-format
+msgid "That piece is already %s."
+msgstr "そのピースはすでに%sです。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:699
+msgid "Choose a shape."
+msgstr "形を選んでください。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:708
+msgid "Cannot patch right now."
+msgstr "今はパッチできません。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:710
+msgid "Patch Panel is not ready."
+msgstr "パッチパネルの準備ができていません。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:712
+msgid "Choose a block on the board."
+msgstr "盤面のブロックを選んでください。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:718
+msgid "Patch Panel removed a block"
+msgstr "パッチパネルがブロックを1つ取り除いた"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:725
+msgid "You can only concede when stuck."
+msgstr "降参できるのは詰まったときだけです。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:727
+msgid "Conceded: no legal placement remained."
+msgstr "降参:置ける場所が残っていなかった。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:727
+msgid "Conceded: out of placements."
+msgstr "降参:配置回数が尽きた。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:737
+msgid "The run is already over."
+msgstr "ランはすでに終わっています。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:740
+msgid "Run abandoned."
+msgstr "ランを放棄した。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:746
+msgid "No round result to continue from."
+msgstr "続きを始めるラウンド結果がありません。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:750
+#, c-format
+msgid "All %d rounds cleared!"
+msgstr "全%dラウンドをクリア!"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:760
+msgid "Overtime starts after winning the final round."
+msgstr "延長戦は最終ラウンドに勝ってから始まります。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:773
+#, c-format
+msgid "You broke the machine in round %d: one placement hit its limit of %s points."
+msgstr "ラウンド%dでマシンを壊した:1回の配置が限界の%s点に達した。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:782 game/run/run.gd:804 game/run/run.gd:824 game/run/run.gd:898
+msgid "That offer is gone."
+msgstr "そのオファーはもうありません。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:786 game/run/run.gd:808 game/run/run.gd:828 game/run/run.gd:901 game/run/run.gd:921 game/ui/shop_screen.gd:674
+msgid "Not enough Credits."
+msgstr "クレジットが足りません。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:788 game/run/run.gd:1323
+msgid "Joker slots are full. Sell a Joker first."
+msgstr "ジョーカー枠がいっぱいです。先にジョーカーを売ってください。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:810 game/run/run.gd:1330 game/ui/shop_screen.gd:560
+msgid "Item slots are full. Use an item first."
+msgstr "アイテム枠がいっぱいです。先にアイテムを使ってください。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:835
+msgid "This card does not target pieces."
+msgstr "このカードはピースを対象にしません。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:837
+#, c-format
+msgid "Choose 1 to %d piece."
+msgid_plural "Choose 1 to %d pieces."
+msgstr[0] "ピースを1〜%d個選んでください。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:842
+msgid "That piece is not in your bag."
+msgstr "そのピースはバッグにありません。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:848
+#, c-format
+msgid "A chosen piece is already %s."
+msgstr "選んだピースの1つはすでに%sです。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:854
+msgid "That piece already has this stamp."
+msgstr "そのピースにはすでにこのスタンプがあります。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:859 game/run/run.gd:903
+#, c-format
+msgid "Your bag is full (%d pieces)."
+msgstr "バッグがいっぱいです(%dピース)。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:864
+#, c-format
+msgid "Your bag must keep at least %d pieces."
+msgstr "バッグには最低%dピース必要です。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:885
+#, c-format
+msgid "Your Joker rack is already at %d slots."
+msgstr "ジョーカーラックはすでに%d枠です。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:931
+msgid "Jokers can be sold in the shop or between placements."
+msgstr "ジョーカーはショップか、配置の合間に売れます。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:933
+msgid "No Joker in that slot."
+msgstr "その枠にジョーカーはいません。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:936
+#, c-format
+msgid "Repay the loan first (%d Credits owed)."
+msgstr "先に借金を返してください(%dクレジット)。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:952
+msgid "Jokers can be reordered in the shop or between placements."
+msgstr "ジョーカーの並べ替えはショップか、配置の合間にできます。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:954
+msgid "Invalid Joker move."
+msgstr "無効なジョーカーの移動です。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1076 game/run/run.gd:1122
+msgid "No piece in your bag fits: a temporary Single was dealt"
+msgstr "バッグのどのピースも置けない:一時的なシングルが配られた"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1081
+#, c-format
+msgid "Card Sharp: %s!"
+msgstr "イカサマ師:%s!"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1087
+#, c-format
+msgid "Second Look: +%d placement"
+msgid_plural "Second Look: +%d placements"
+msgstr[0] "二度見:配置+%d"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1127
+#, c-format
+msgid "Out of placements: %d / %d points."
+msgstr "配置が尽きた:%d / %d点。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1150
+msgid "Tiny Insurance: a Single replaced a stuck shape"
+msgstr "ミニ保険:詰まった形をシングルに替えた"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1154
+msgid "No offered shape fits and no rescue remains."
+msgstr "置ける形がなく、救済手段も残っていない。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1175
+msgid "Round won"
+msgstr "ラウンド勝利"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1178
+#, c-format
+msgid "Unused placements (%d)"
+msgstr "未使用の配置(%d)"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1180
+msgid "Boss defeated"
+msgstr "ボス撃破"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1192
+#, c-format
+msgid "Overkill (%s of target)"
+msgstr "オーバーキル(目標の%s)"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1195
+#, c-format
+msgid "%s bonus"
+msgstr "%sボーナス"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1199
+#, c-format
+msgid "Thrift (%d unused Refresh)"
+msgid_plural "Thrift (%d unused Refreshes)"
+msgstr[0] "倹約(未使用のリフレッシュ%d回)"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1204
+#, c-format
+msgid "Interest (%d held)"
+msgstr "利子(所持%d)"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1209
+#, c-format
+msgid "Overachiever grew to +%s Mult"
+msgstr "優等生が倍率+%sに成長"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1212
+#, c-format
+msgid "Hot Streak heated up to x%s Mult"
+msgstr "連勝街道が倍率x%sまで過熱"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1219
+#, c-format
+msgid "Treasure Hunt: found %s"
+msgstr "宝探し:%sを見つけた"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1222
+#, c-format
+msgid "Scholarship: %s is now level %d"
+msgstr "奨学金:%sがレベル%dになった"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1229
+#, c-format
+msgid "Vending Machine dropped %s"
+msgstr "自販機が%sを落とした"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1233
+msgid "Loan Shark repayment"
+msgstr "高利貸しへの返済"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1316
+msgid "Nothing in the crate there."
+msgstr "そこのクレートには何もありません。"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1321
+msgid "That offer is empty."
+msgstr "そのオファーは空です。"
+
+#: game/ui/achievement_toast.gd:68
+msgid "ACHIEVEMENT UNLOCKED"
+msgstr "実績解除"
+
+#: game/ui/achievement_toast.gd:68 game/ui/shop_screen.gd:463
+msgid "LEGENDARY!"
+msgstr "レジェンド!"
+
+#: game/ui/achievement_toast.gd:68
+msgid "SECRET UNLOCKED!"
+msgstr "シークレット解除!"
+
+#: game/ui/achievement_toast.gd:124
+msgid "NEW JOKER UNLOCKED"
+msgstr "新ジョーカー解放"
+
+#: game/ui/achievement_toast.gd:127
+#, c-format
+msgid "Now in the shop pool. %s"
+msgstr "ショップに並ぶようになった。%s"
+
+#: game/ui/bag_view.gd:40
+#, c-format
+msgid "YOUR BAG  %d PIECE"
+msgid_plural "YOUR BAG  %d PIECES"
+msgstr[0] "きみのバッグ  %dピース"
+
+#: game/ui/bag_view.gd:41
+#, c-format
+msgid "min %d  -  max %d"
+msgstr "最少%d  -  最大%d"
+
+#: game/ui/bag_view.gd:50
+msgid "SCHEMATICS"
+msgstr "設計図"
+
+#: game/ui/bag_view.gd:52
+#, c-format
+msgid "%s LV %d"
+msgstr "%s LV %d"
+
+#: game/ui/bag_view.gd:59
+#, c-format
+msgid "DRAW PILE  %d"
+msgstr "山札  %d"
+
+#: game/ui/bag_view.gd:59
+msgid "order hidden"
+msgstr "順番は非公開"
+
+#: game/ui/bag_view.gd:60
+#, c-format
+msgid "IN TRAY  %d"
+msgstr "トレイ  %d"
+
+#: game/ui/bag_view.gd:61
+#, c-format
+msgid "DISCARD PILE  %d"
+msgstr "捨て札  %d"
+
+#: game/ui/bag_view.gd:61
+msgid "shuffled back in when the draw pile runs out"
+msgstr "山札がなくなるとシャッフルして戻る"
+
+#: game/ui/bag_view.gd:96
+msgid "(empty)"
+msgstr "(空)"
+
+#: game/ui/bag_view.gd:128 game/ui/game_screen.gd:223 game/ui/settings_menu.gd:438 game/ui/shop_screen.gd:153
+msgid "BAG"
+msgstr "バッグ"
+
+#: game/ui/bag_view.gd:129
+#, c-format
+msgid "%d FAMILIES"
+msgstr "%dファミリー"
+
+#: game/ui/bag_view.gd:130
+#, c-format
+msgid "%d COLORS"
+msgstr "%d色"
+
+#: game/ui/bag_view.gd:131
+#, c-format
+msgid "%d UPGRADED"
+msgstr "強化済み%d"
+
+#: game/ui/bag_view.gd:137
+msgid "HAND ODDS PER DEAL"
+msgstr "配布ごとの役の確率"
+
+#: game/ui/bag_view.gd:138
+msgid "Chance that a fresh three-piece deal forms each Tray Hand, from your whole bag."
+msgstr "新しく3ピース配られたときに各トレイ役ができる確率(バッグ全体から計算)。"
+
+#: game/ui/boss_intro.gd:107
+msgid "WARNING"
+msgstr "警告"
+
+#: game/ui/boss_intro.gd:108
+msgid "BOSS ROUND"
+msgstr "ボスラウンド"
+
+#: game/ui/boss_intro.gd:156
+msgid "CLICK OR PRESS ANY KEY"
+msgstr "クリックかキーを押してください"
+
+#: game/ui/brick_throw.gd:247
+msgid "GRAB & THROW IT!"
+msgstr "つかんで投げろ!"
+
+#: game/ui/brick_throw.gd:248
+msgid "or click a tray slot  |  right-click to cancel"
+msgstr "またはトレイ枠をクリック  |  右クリックでキャンセル"
+
+#: game/ui/brick_throw.gd:250
+msgid "GRAB IT AGAIN, OR CLICK A SLOT"
+msgstr "もう一度つかむか、枠をクリック"
+
+#: game/ui/card.gd:171
+msgid "COMMON"
+msgstr "コモン"
+
+#: game/ui/card.gd:171
+msgid "LEGEND"
+msgstr "レジェンド"
+
+#: game/ui/card.gd:171
+msgid "RARE"
+msgstr "レア"
+
+#: game/ui/card.gd:171
+msgid "UNCOM."
+msgstr "アンコモン"
+
+#: game/ui/card.gd:196
+msgid "(DISABLED)"
+msgstr "(無効)"
+
+#: game/ui/card.gd:199
+#, c-format
+msgid "DISABLED: %s"
+msgstr "無効:%s"
+
+#: game/ui/card.gd:226
+#, c-format
+msgid "%s  (Item)"
+msgstr "%s(アイテム)"
+
+#: game/ui/card.gd:256 game/ui/shop_screen.gd:389
+msgid "ITEM"
+msgstr "アイテム"
+
+#: game/ui/card.gd:263
+msgid "WORKSHOP"
+msgstr "工房"
+
+#: game/ui/card.gd:270
+msgid "PIECE"
+msgstr "ピース"
+
+#: game/ui/card.gd:378
+msgid "+1 LV"
+msgstr "+1 LV"
+
+#: game/ui/endless_screen.gd:77 game/ui/game_screen.gd:2272
+msgid "HOLD"
+msgstr "ホールド"
+
+#: game/ui/endless_screen.gd:80 game/ui/game_screen.gd:2279
+msgid "EMPTY"
+msgstr "空"
+
+#: game/ui/endless_screen.gd:87 game/ui/game_screen.gd:2273
+msgid "USED THIS TURN"
+msgstr "このターンは使用済み"
+
+#: game/ui/endless_screen.gd:100 game/ui/settings_menu.gd:396 game/ui/title_screen.gd:95 game/ui/title_screen.gd:220
+msgid "ENDLESS"
+msgstr "エンドレス"
+
+#: game/ui/endless_screen.gd:101
+msgid "ONE MORE CLEAR"
+msgstr "あと一回消そう"
+
+#: game/ui/endless_screen.gd:114
+msgid "ARCADE SCORE"
+msgstr "アーケードスコア"
+
+#: game/ui/endless_screen.gd:134
+msgid "HOLD  •  ONCE PER PLACEMENT"
+msgstr "ホールド  •  配置ごとに1回"
+
+#: game/ui/endless_screen.gd:139
+msgid "Select a piece, then drop it here or press H."
+msgstr "ピースを選んでここに置くか、Hを押そう。"
+
+#: game/ui/endless_screen.gd:147
+msgid "BLOCK STYLE"
+msgstr "ブロックスタイル"
+
+#: game/ui/endless_screen.gd:150 game/ui/game_screen.gd:227 game/ui/shop_screen.gd:158
+msgid "MENU"
+msgstr "ポーズ"
+
+#: game/ui/endless_screen.gd:208
+#, c-format
+msgid "BEST  %s"
+msgstr "ベスト  %s"
+
+#: game/ui/endless_screen.gd:209 game/ui/game_screen.gd:943
+#, c-format
+msgid "COMBO x%d"
+msgstr "コンボ x%d"
+
+#: game/ui/endless_screen.gd:211
+#, c-format
+msgid "Placements %d   •   Lines %d"
+msgstr "配置 %d   •   ライン %d"
+
+#: game/ui/endless_screen.gd:212
+#, c-format
+msgid "%d more miss before combo resets"
+msgid_plural "%d more misses before combo resets"
+msgstr[0] "あと%d回ミスするとコンボがリセット"
+
+#: game/ui/endless_screen.gd:213
+msgid "Clear lines to climb the combo ladder"
+msgstr "ラインを消してコンボの階段を上ろう"
+
+#: game/ui/endless_screen.gd:217
+msgid "HOLD USED — place a piece to recharge"
+msgstr "ホールド使用済み:ピースを置くと回復"
+
+#: game/ui/endless_screen.gd:217
+msgid "Select a piece, then drop it here or press H"
+msgstr "ピースを選んでここに置くか、Hを押そう"
+
+#: game/ui/endless_screen.gd:218
+#, c-format
+msgid "BLOCK STYLE:  %s"
+msgstr "ブロックスタイル:  %s"
+
+#: game/ui/endless_screen.gd:221
+msgid "No board fit. Select this piece to use Hold."
+msgstr "盤面に置けない。このピースを選んでホールドを使おう。"
+
+#: game/ui/endless_screen.gd:242
+msgid "FRESH BOARD"
+msgstr "まっさらな盤面"
+
+#: game/ui/endless_screen.gd:244
+msgid "A perfect clear. Enjoy the open space!"
+msgstr "パーフェクトクリア。広い空間を楽しもう!"
+
+#: game/ui/endless_screen.gd:246
+msgid "COLOR PARADE"
+msgstr "カラーパレード"
+
+#: game/ui/endless_screen.gd:248
+#, c-format
+msgid "Your x%d chain is alive. Keep clearing!"
+msgstr "x%dの連鎖は続いている。消し続けよう!"
+
+#: game/ui/endless_screen.gd:250
+msgid "THE BOARD IS HEATING UP"
+msgstr "盤面が熱くなってきた"
+
+#: game/ui/endless_screen.gd:252
+msgid "The spaces are shrinking. Find the next opening."
+msgstr "空きが減ってきた。次の隙間を探そう。"
+
+#: game/ui/endless_screen.gd:254
+msgid "EASY DOES IT"
+msgstr "のんびりいこう"
+
+#: game/ui/endless_screen.gd:256
+msgid "Find a rhythm. There is no timer and no target."
+msgstr "自分のリズムで。タイマーも目標もない。"
+
+#: game/ui/endless_screen.gd:387
+msgid "NEW TRIO  •  PIECE HELD"
+msgstr "新しいトリオ  •  ピースをホールド"
+
+#: game/ui/endless_screen.gd:387
+msgid "PIECE HELD  •  PLACE TO RECHARGE"
+msgstr "ピースをホールド  •  置くと回復"
+
+#: game/ui/endless_screen.gd:522
+msgid "BLOCK STYLES"
+msgstr "ブロックスタイル"
+
+#: game/ui/endless_screen.gd:524
+msgid "Pick a look. Styles change art, effects and sound, never the rules."
+msgstr "見た目を選ぼう。スタイルで変わるのは絵と演出と音だけ。ルールは変わらない。"
+
+#: game/ui/endless_screen.gd:534
+msgid "Unlock at combo x10."
+msgstr "コンボx10で解放。"
+
+#: game/ui/endless_screen.gd:534
+msgid "Unlock with a clean board."
+msgstr "盤面を全部消すと解放。"
+
+#: game/ui/endless_screen.gd:539 game/ui/endless_screen.gd:547 game/ui/game_screen.gd:308 game/ui/refresh_lever.gd:173 game/ui/shop_screen.gd:344 game/ui/title_screen.gd:432
+msgid "LOCKED"
+msgstr "ロック中"
+
+#: game/ui/endless_screen.gd:551
+msgid "BACK TO GAME"
+msgstr "ゲームに戻る"
+
+#: game/ui/endless_screen.gd:588
+#, c-format
+msgid "NEW STYLE: %s"
+msgstr "新スタイル:%s"
+
+#: game/ui/endless_screen.gd:621
+msgid "ENDLESS RUN"
+msgstr "エンドレスラン"
+
+#: game/ui/endless_screen.gd:623
+msgid ""
+"NO ROOM\n"
+"LEFT"
+msgstr ""
+"置く場所が\n"
+"ない"
+
+#: game/ui/endless_screen.gd:631
+#, c-format
+msgid "HIGH SCORE  #%02d"
+msgstr "ハイスコア  #%02d"
+
+#: game/ui/endless_screen.gd:631
+msgid "RUN COMPLETE"
+msgstr "ラン完了"
+
+#: game/ui/endless_screen.gd:640
+msgid "PLAY AGAIN"
+msgstr "もう一度プレイ"
+
+#: game/ui/endless_screen.gd:644
+msgid "HIGH SCORES"
+msgstr "ハイスコア"
+
+#: game/ui/endless_screen.gd:649 game/ui/game_screen.gd:1619
+msgid "TITLE"
+msgstr "タイトル"
+
+#: game/ui/endless_stats_panel.gd:16
+msgid "NO SCORE HISTORY FOR THIS RUN"
+msgstr "このランのスコア履歴はありません"
+
+#: game/ui/endless_stats_panel.gd:31
+msgid "0 PLACEMENTS"
+msgstr "0配置"
+
+#: game/ui/endless_stats_panel.gd:32 game/ui/title_screen.gd:780
+#, c-format
+msgid "%d PLACEMENT"
+msgid_plural "%d PLACEMENTS"
+msgstr[0] "%d配置"
+
+#: game/ui/endless_stats_panel.gd:38
+msgid "RUN BREAKDOWN"
+msgstr "ランの内訳"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/endless_stats_panel.gd:45
+msgid "LINES CLEARED"
+msgstr "消したライン"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/endless_stats_panel.gd:46
+msgid "BLOCKS PLACED"
+msgstr "置いたブロック"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/endless_stats_panel.gd:47
+msgid "HIGHEST COMBO"
+msgstr "最高コンボ"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/endless_stats_panel.gd:48
+msgid "PERFECT CLEARS"
+msgstr "パーフェクトクリア"
+
+#: game/ui/endless_stats_panel.gd:49
+#, c-format
+msgid "%d line"
+msgid_plural "%d lines"
+msgstr[0] "%dライン"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/endless_stats_panel.gd:49
+msgid "LARGEST CLEAR"
+msgstr "最大の消去"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/endless_stats_panel.gd:50
+msgid "RUN DURATION"
+msgstr "プレイ時間"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/endless_stats_panel.gd:51
+msgid "BOARD COVERAGE PEAK"
+msgstr "盤面の最大占有率"
+
+#: game/ui/endless_stats_panel.gd:52
+#, c-format
+msgid "%.1f sec"
+msgstr "%.1f秒"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/endless_stats_panel.gd:52
+msgid "AVERAGE PLACEMENT"
+msgstr "平均配置時間"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/endless_stats_panel.gd:53
+msgid "SCORE / PLACEMENT"
+msgstr "スコア / 配置"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/endless_stats_panel.gd:54
+msgid "BEST STREAK"
+msgstr "最高連続記録"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/endless_stats_panel.gd:55 game/ui/title_screen.gd:491 game/ui/title_screen.gd:702
+msgid "SEED"
+msgstr "シード"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/endless_stats_panel.gd:56
+msgid "DATE"
+msgstr "日付"
+
+#: game/ui/endless_stats_panel.gd:70
+msgid "SCORE PROGRESSION"
+msgstr "スコアの推移"
+
+#: game/ui/game_screen.gd:106
+msgid "Refresh (R): replace every unplaced piece in the tray. Costs no placement."
+msgstr "リフレッシュ(R):トレイの未配置のピースをすべて入れ替える。配置回数は減らない。"
+
+#: game/ui/game_screen.gd:116
+msgid "SCORE"
+msgstr "スコア"
+
+#: game/ui/game_screen.gd:148 game/ui/game_screen.gd:793
+msgid "Pick up a piece to preview its score"
+msgstr "ピースを持つと得点をプレビューできる"
+
+#: game/ui/game_screen.gd:160
+msgid "Placements left this round"
+msgstr "このラウンドの残り配置回数"
+
+#: game/ui/game_screen.gd:209 game/ui/settings_menu.gd:437 game/ui/shop_screen.gd:88
+msgid "JOKERS"
+msgstr "ジョーカー"
+
+#: game/ui/game_screen.gd:211
+msgid "drag to reorder  |  top first"
+msgstr "ドラッグで並べ替え | 上が先"
+
+#: game/ui/game_screen.gd:219 game/ui/shop_screen.gd:91
+msgid "ITEMS"
+msgstr "アイテム"
+
+#: game/ui/game_screen.gd:225
+msgid "See every piece in your bag: draw pile, tray, and discard pile. (B)"
+msgstr "バッグのピースをすべて見る:山札、トレイ、捨て札。(B)"
+
+#: game/ui/game_screen.gd:229
+msgid "Pause, settings and controls (Esc)"
+msgstr "ポーズ、設定、操作方法(Esc)"
+
+#: game/ui/game_screen.gd:260
+#, c-format
+msgid "Round %d. Good luck!"
+msgstr "ラウンド%d。幸運を!"
+
+#: game/ui/game_screen.gd:293 game/ui/settings_menu.gd:458 game/ui/shop_screen.gd:517
+#, c-format
+msgid "ROUND %d"
+msgstr "ラウンド%d"
+
+#: game/ui/game_screen.gd:294
+#, c-format
+msgid "ACT %d OF 3"
+msgstr "第%d幕 / 3"
+
+#: game/ui/game_screen.gd:294 game/ui/game_screen.gd:347 game/ui/game_screen.gd:1396
+#, c-format
+msgid "BOSS: %s"
+msgstr "ボス:%s"
+
+#: game/ui/game_screen.gd:298
+#, c-format
+msgid "OVERTIME  -  ACT %d"
+msgstr "延長戦  -  第%d幕"
+
+#: game/ui/game_screen.gd:300
+#, c-format
+msgid "Target: %s points"
+msgstr "目標:%s点"
+
+#: game/ui/game_screen.gd:306
+#, c-format
+msgid ""
+"Placements left this round.\n"
+"Each line you clear gives one back, up to %d."
+msgstr ""
+"このラウンドの残り配置回数。\n"
+"ラインを1本消すごとに1回戻る(最大%d)。"
+
+#: game/ui/game_screen.gd:313
+#, c-format
+msgid "Combo: each clearing placement adds 1 (max %d). It survives %d placement without a clear, then resets."
+msgstr "コンボ:消去する配置ごとに+1(最大%d)。消さない配置が%d回までなら持ちこたえ、その後リセット。"
+
+#: game/ui/game_screen.gd:314
+msgid "HANGING ON: clear on your next placement to keep it."
+msgstr "ギリギリ:次の配置で消せばコンボ継続。"
+
+#: game/ui/game_screen.gd:348
+#, c-format
+msgid "R%d BOSS: %s"
+msgstr "R%d ボス:%s"
+
+#: game/ui/game_screen.gd:348
+#, c-format
+msgid "R%d: %s"
+msgstr "R%d:%s"
+
+#: game/ui/game_screen.gd:348
+#, c-format
+msgid "ROUND %d BOSS: %s"
+msgstr "ラウンド%dのボス:%s"
+
+#: game/ui/game_screen.gd:380
+msgid "No legal move is left. Use an item that can help, or pull to concede the round and end the run."
+msgstr "置ける手がもうない。役立つアイテムを使うか、レバーを引いて降参し、ランを終えよう。"
+
+#: game/ui/game_screen.gd:390
+msgid "Locked by The Lockdown this round."
+msgstr "このラウンドはロックダウンで封鎖中。"
+
+#: game/ui/game_screen.gd:391
+#, c-format
+msgid "%d Refresh left this round."
+msgid_plural "%d Refreshes left this round."
+msgstr[0] "このラウンドのリフレッシュ残り%d回。"
+
+#: game/ui/game_screen.gd:392
+msgid "Refresh (R): pull the lever to replace every unplaced piece in the tray. Costs no placement.\n"
+msgstr "リフレッシュ(R):レバーを引いて、トレイの未配置ピースをすべて入れ替える。配置回数は減らない。\n"
+
+#: game/ui/game_screen.gd:396 game/ui/shop_screen.gd:514
+#, c-format
+msgid "BAG  %d"
+msgstr "バッグ  %d"
+
+#: game/ui/game_screen.gd:397
+#, c-format
+msgid "Your bag: %d pieces. Draw pile %d, discard pile %d. (B)"
+msgstr "バッグ:%dピース。山札%d、捨て札%d。(B)"
+
+#: game/ui/game_screen.gd:405
+#, c-format
+msgid "JOKERS %d/%d"
+msgstr "ジョーカー %d/%d"
+
+#: game/ui/game_screen.gd:418 game/ui/shop_screen.gd:599
+msgid ""
+"\n"
+"Drag onto another Joker to reorder. Alt+Up/Down while focused also moves it."
+msgstr ""
+"\n"
+"別のジョーカーの上にドラッグして並べ替え。フォーカス中はAlt+上/下でも移動できる。"
+
+#: game/ui/game_screen.gd:428 game/ui/shop_screen.gd:617
+msgid "empty slot"
+msgstr "空き枠"
+
+#: game/ui/game_screen.gd:442
+#, c-format
+msgid "SELL +%d"
+msgstr "売却 +%d"
+
+#: game/ui/game_screen.gd:453
+#, c-format
+msgid "ITEMS %d/%d"
+msgstr "アイテム %d/%d"
+
+#: game/ui/game_screen.gd:469
+msgid "USE"
+msgstr "使う"
+
+#: game/ui/game_screen.gd:475
+msgid "Use this item now."
+msgstr "このアイテムを今すぐ使う。"
+
+#: game/ui/game_screen.gd:475
+msgid "Use this item now: you choose where next."
+msgstr "このアイテムを今すぐ使う:次に対象を選ぶ。"
+
+#: game/ui/game_screen.gd:484 game/ui/shop_screen.gd:635
+msgid "empty"
+msgstr "空き"
+
+#: game/ui/game_screen.gd:502 game/ui/game_screen.gd:508
+msgid "NOTHING FITS!  HIT REFRESH"
+msgstr "置けない!リフレッシュして"
+
+#: game/ui/game_screen.gd:504 game/ui/game_screen.gd:508
+msgid "NOTHING FITS!  USE AN ITEM OR CONCEDE"
+msgstr "置けない!アイテムか降参を"
+
+#: game/ui/game_screen.gd:506 game/ui/game_screen.gd:508
+msgid "OUT OF PLACEMENTS!  EXTRA TURN OR CONCEDE"
+msgstr "配置切れ!エクストラターンか降参を"
+
+#: game/ui/game_screen.gd:572
+msgid "That piece doesn't fit there, so it went back to the tray."
+msgstr "そこには置けないので、ピースはトレイに戻った。"
+
+#: game/ui/game_screen.gd:590 game/ui/game_screen.gd:662
+msgid "That piece doesn't fit there."
+msgstr "そこには置けない。"
+
+#: game/ui/game_screen.gd:700
+msgid "Hold is used. Place a piece to recharge it."
+msgstr "ホールドは使用済み。ピースを置くと回復する。"
+
+#: game/ui/game_screen.gd:704
+msgid "Pick up a tray piece first, then drop it on HOLD (or press H)."
+msgstr "まずトレイのピースを持って、HOLDに置こう(またはHを押す)。"
+
+#: game/ui/game_screen.gd:711
+msgid "Pick up a tray piece to swap with the stored one."
+msgstr "トレイのピースを持つと、ホールド中のピースと入れ替えられる。"
+
+#: game/ui/game_screen.gd:788
+msgid "Doesn't fit here"
+msgstr "ここには置けない"
+
+#: game/ui/game_screen.gd:793
+msgid "Move over the board"
+msgstr "盤面の上に動かそう"
+
+#: game/ui/game_screen.gd:806
+#, c-format
+msgid "%d LINE"
+msgid_plural "%d LINES"
+msgstr[0] "%dライン"
+
+#: game/ui/game_screen.gd:891 game/ui/shop_screen.gd:475
+#, c-format
+msgid "Used %s."
+msgstr "%sを使った。"
+
+#: game/ui/game_screen.gd:894
+msgid "TURBO: NEXT PLACEMENT x2 MULT"
+msgstr "ターボ:次の配置は倍率x2"
+
+#: game/ui/game_screen.gd:896
+msgid "COFFEE BREAK: +1 REFRESH"
+msgstr "コーヒーブレイク:リフレッシュ+1"
+
+#: game/ui/game_screen.gd:898
+#, c-format
+msgid "COIN ROLL: +%d CREDITS"
+msgstr "棒金:+%dクレジット"
+
+#: game/ui/game_screen.gd:906
+#, c-format
+msgid "Sold %s for %d Credits."
+msgstr "%sを%dクレジットで売った。"
+
+#: game/ui/game_screen.gd:939
+msgid "DOUBLE!"
+msgstr "ダブル!"
+
+#: game/ui/game_screen.gd:939
+msgid "MEGA!"
+msgstr "メガ!"
+
+#: game/ui/game_screen.gd:939
+msgid "QUAD!"
+msgstr "クアッド!"
+
+#: game/ui/game_screen.gd:939
+msgid "TRIPLE!"
+msgstr "トリプル!"
+
+#: game/ui/game_screen.gd:967
+#, c-format
+msgid "+%d STORED"
+msgstr "+%dためた"
+
+#: game/ui/game_screen.gd:972
+#, c-format
+msgid "AVALANCHE x%d!"
+msgstr "アバランチ x%d!"
+
+#: game/ui/game_screen.gd:987
+#, c-format
+msgid "TRANSMUTED: %s"
+msgstr "変化:%s"
+
+#: game/ui/game_screen.gd:999
+msgid "HANG ON!"
+msgstr "踏んばれ!"
+
+#: game/ui/game_screen.gd:1019
+msgid "MILESTONE!"
+msgstr "大台突破!"
+
+#: game/ui/game_screen.gd:1028
+#, c-format
+msgid "MILESTONE: %s IN ONE PLACEMENT"
+msgstr "大台突破:1回の配置で%s"
+
+#: game/ui/game_screen.gd:1162
+#, c-format
+msgid "+%s MULT"
+msgstr "倍率+%s"
+
+#: game/ui/game_screen.gd:1165
+#, c-format
+msgid "x%s MULT"
+msgstr "倍率x%s"
+
+#: game/ui/game_screen.gd:1182
+#, c-format
+msgid "%s  (%d cell)"
+msgid_plural "%s  (%d cells)"
+msgstr[0] "%s (%dマス)"
+
+#: game/ui/game_screen.gd:1190
+#, c-format
+msgid "+%s mult"
+msgstr "倍率+%s"
+
+#: game/ui/game_screen.gd:1192
+#, c-format
+msgid "x%s mult"
+msgstr "倍率x%s"
+
+#: game/ui/game_screen.gd:1194
+#, c-format
+msgid "Mirror Maze removed %d cells"
+msgstr "ミラーメイズが%dマスを消した"
+
+#: game/ui/game_screen.gd:1204
+#, c-format
+msgid "Avalanche wave %d  (x%d chain)"
+msgstr "アバランチのウェーブ%d (チェインx%d)"
+
+#: game/ui/game_screen.gd:1205
+msgid "Total"
+msgstr "合計"
+
+#: game/ui/game_screen.gd:1209
+#, c-format
+msgid "Combo now x%d"
+msgstr "現在のコンボ x%d"
+
+#: game/ui/game_screen.gd:1211
+#, c-format
+msgid "Feat: %s"
+msgstr "妙技:%s"
+
+#: game/ui/game_screen.gd:1217
+#, c-format
+msgid "Sell %s for %d Credits?"
+msgstr "%sを%dクレジットで売る?"
+
+#: game/ui/game_screen.gd:1218
+msgid "KEEP"
+msgstr "残す"
+
+#: game/ui/game_screen.gd:1218
+msgid "SELL"
+msgstr "売る"
+
+#: game/ui/game_screen.gd:1222
+msgid "Concede this round? The run will end."
+msgstr "このラウンドを降参する?ランは終了する。"
+
+#: game/ui/game_screen.gd:1223 game/ui/game_screen.gd:2094 game/ui/game_screen.gd:2139 game/ui/settings_menu.gd:116 game/ui/title_screen.gd:239 game/ui/title_screen.gd:321
+msgid "BACK"
+msgstr "戻る"
+
+#: game/ui/game_screen.gd:1223 game/ui/refresh_lever.gd:170
+msgid "CONCEDE"
+msgstr "降参"
+
+#: game/ui/game_screen.gd:1322 game/ui/shop_screen.gd:833
+msgid "CLOSE  (ESC)"
+msgstr "閉じる  (ESC)"
+
+#: game/ui/game_screen.gd:1350
+#, c-format
+msgid "ROUND %d  -  ACT %d"
+msgstr "ラウンド%d  -  第%d幕"
+
+#: game/ui/game_screen.gd:1352
+#, c-format
+msgid "ROUND %d  -  OVERTIME"
+msgstr "ラウンド%d  -  延長戦"
+
+#: game/ui/game_screen.gd:1354
+msgid "TARGET"
+msgstr "目標"
+
+#: game/ui/game_screen.gd:1358
+#, c-format
+msgid "%s points"
+msgstr "%s点"
+
+#: game/ui/game_screen.gd:1369
+#, c-format
+msgid "%d placement, +1 per line"
+msgid_plural "%d placements, +1 per line"
+msgstr[0] "配置%d回、ライン1本につき+1"
+
+#: game/ui/game_screen.gd:1370
+#, c-format
+msgid "Each line you clear gives one placement back, up to %d."
+msgstr "ラインを1本消すごとに配置が1回戻る(最大%d)。"
+
+#: game/ui/game_screen.gd:1374
+#, c-format
+msgid "%d refresh"
+msgid_plural "%d refreshes"
+msgstr[0] "リフレッシュ%d回"
+
+#: game/ui/game_screen.gd:1383
+#, c-format
+msgid "TWIST: %s"
+msgstr "ひねり:%s"
+
+#: game/ui/game_screen.gd:1401
+#, c-format
+msgid "Tip: %s"
+msgstr "ヒント:%s"
+
+#: game/ui/game_screen.gd:1409
+#, c-format
+msgid "Disabled this round: %s"
+msgstr "このラウンドは無効:%s"
+
+#: game/ui/game_screen.gd:1415
+msgid "OVERTIME: the targets climb faster every round. How far can you go?"
+msgstr "延長戦:目標はラウンドごとに急上昇。どこまで行ける?"
+
+#: game/ui/game_screen.gd:1426
+#, c-format
+msgid "ACT BOSS, ROUND %d:  %s"
+msgstr "幕のボス、ラウンド%d:  %s"
+
+#: game/ui/game_screen.gd:1435
+msgid "START ROUND"
+msgstr "ラウンド開始"
+
+#: game/ui/game_screen.gd:1440
+#, c-format
+msgid "THE WARDEN BARRED SLOT %d: CLEAR A LINE TO FREE IT"
+msgstr "看守が枠%dを封鎖:ラインを消して解放しよう"
+
+#: game/ui/game_screen.gd:1452
+#, c-format
+msgid "ROUND %d CLEARED!"
+msgstr "ラウンド%dクリア!"
+
+#: game/ui/game_screen.gd:1458
+#, c-format
+msgid "%s / %s points   -   %d placement unused"
+msgid_plural "%s / %s points   -   %d placements unused"
+msgstr[0] "%s / %s点   -   未使用の配置%d回"
+
+#: game/ui/game_screen.gd:1475
+msgid "Earned"
+msgstr "獲得"
+
+#: game/ui/game_screen.gd:1488
+msgid "YOU HAVE"
+msgstr "所持"
+
+#: game/ui/game_screen.gd:1493
+msgid "FINISH RUN"
+msgstr "ランを終える"
+
+#: game/ui/game_screen.gd:1493
+msgid "TO THE SHOP"
+msgstr "ショップへ"
+
+#: game/ui/game_screen.gd:1516
+msgid "GAME OVER"
+msgstr "ゲームオーバー"
+
+#: game/ui/game_screen.gd:1516
+msgid "RUN ABANDONED"
+msgstr "ランを放棄"
+
+#: game/ui/game_screen.gd:1516
+msgid "YOU WIN!"
+msgstr "勝利!"
+
+#: game/ui/game_screen.gd:1518
+msgid "MACHINE BROKEN!"
+msgstr "マシン破壊!"
+
+#: game/ui/game_screen.gd:1520
+msgid "OVERTIME OVER"
+msgstr "延長戦終了"
+
+#: game/ui/game_screen.gd:1530
+#, c-format
+msgid ""
+"Your run was already a win. Overtime ended in round %d.\n"
+"%s"
+msgstr ""
+"このランはすでに勝利済み。延長戦はラウンド%dで終わった。\n"
+"%s"
+
+#: game/ui/game_screen.gd:1547
+#, c-format
+msgid "%d  (OVERTIME +%d)"
+msgstr "%d (延長戦 +%d)"
+
+#: game/ui/game_screen.gd:1548
+msgid "Lines cleared"
+msgstr "消したライン"
+
+#: game/ui/game_screen.gd:1548
+msgid "Round"
+msgstr "ラウンド"
+
+#: game/ui/game_screen.gd:1549
+msgid "Last score"
+msgstr "最後のスコア"
+
+#: game/ui/game_screen.gd:1550
+msgid "Bag size"
+msgstr "バッグのサイズ"
+
+#: game/ui/game_screen.gd:1550
+msgid "Highest combo"
+msgstr "最高コンボ"
+
+#: game/ui/game_screen.gd:1560
+#, c-format
+msgid "Jokers: %s"
+msgstr "ジョーカー:%s"
+
+#: game/ui/game_screen.gd:1563
+#, c-format
+msgid "Seed %d  -  %s"
+msgstr "シード %d  -  %s"
+
+#: game/ui/game_screen.gd:1564
+msgid "  -  practice seed: no achievements, records or unlocks"
+msgstr "  -  練習シード:実績・記録・解放なし"
+
+#: game/ui/game_screen.gd:1574
+#, c-format
+msgid "NEW RECORD!  %s: %s"
+msgstr "新記録!  %s:%s"
+
+#: game/ui/game_screen.gd:1576
+#, c-format
+msgid "  (was %s)"
+msgstr "(以前は%s)"
+
+#: game/ui/game_screen.gd:1584
+#, c-format
+msgid "NEW KIT UNLOCKED: %s!"
+msgstr "新キット解放:%s!"
+
+#: game/ui/game_screen.gd:1596
+msgid "THE ARCADE STAYS OPEN..."
+msgstr "ゲーセンはまだ閉まらない..."
+
+#: game/ui/game_screen.gd:1599
+#, c-format
+msgid "Keep this build and play on: round 13 needs %s, and every target after climbs faster. A boss every fourth round. Your win is already saved."
+msgstr "このビルドのまま続けよう:ラウンド13の目標は%s、その後の目標はさらに急上昇。4ラウンドごとにボス。きみの勝利はもう保存済み。"
+
+#: game/ui/game_screen.gd:1603
+msgid "KEEP PLAYING: OVERTIME  >"
+msgstr "続ける:延長戦  >"
+
+#: game/ui/game_screen.gd:1607
+msgid "Rounds 13 and beyond. How far can your build go before the machine gives up?"
+msgstr "ラウンド13以降。マシンが音を上げるまで、きみのビルドはどこまで行ける?"
+
+#: game/ui/game_screen.gd:1613 game/ui/title_screen.gd:84
+msgid "NEW RUN"
+msgstr "新しいラン"
+
+#: game/ui/game_screen.gd:1616
+msgid "SAME SEED"
+msgstr "同じシード"
+
+#: game/ui/game_screen.gd:1651
+msgid "ERASER: click up to 2 blocks to rub out"
+msgstr "消しゴム:消したいブロックを2つまでクリック"
+
+#: game/ui/game_screen.gd:1652
+msgid "PUNCH: click where to smash (plus shape)"
+msgstr "パンチ:叩く場所をクリック(十字形)"
+
+#: game/ui/game_screen.gd:1653
+msgid "COLOR PURGE: click a block to remove its whole color"
+msgstr "カラーパージ:ブロックをクリックしてその色を全部消す"
+
+#: game/ui/game_screen.gd:1654
+msgid "LUCKY PAINT: click a tray piece to repaint"
+msgstr "ラッキーペイント:塗り替えるトレイのピースをクリック"
+
+#: game/ui/game_screen.gd:1655
+msgid "BLUEPRINT: click a tray piece to swap"
+msgstr "青写真:入れ替えるトレイのピースをクリック"
+
+#: game/ui/game_screen.gd:1656
+msgid "BRICK: throw it at a tray slot, or click one"
+msgstr "レンガ:トレイの枠に投げるか、枠をクリック"
+
+#: game/ui/game_screen.gd:1657
+msgid "PATCH PANEL: click one block to remove"
+msgstr "パッチパネル:取り除くブロックをクリック"
+
+#: game/ui/game_screen.gd:1658
+msgid "TUNE-UP: click a tray piece to level up its family"
+msgstr "チューンアップ:トレイのピースをクリックしてファミリーをレベルアップ"
+
+#: game/ui/game_screen.gd:1672
+msgid "Right-click or Esc to cancel"
+msgstr "右クリックかEscでキャンセル"
+
+#: game/ui/game_screen.gd:1714
+#, c-format
+msgid "ERASE %d"
+msgstr "消す %d"
+
+#: game/ui/game_screen.gd:1717
+msgid "CANCEL"
+msgstr "キャンセル"
+
+#: game/ui/game_screen.gd:1719
+msgid "Put the item away (right-click or Esc)."
+msgstr "アイテムをしまう(右クリックかEsc)。"
+
+#: game/ui/game_screen.gd:1727
+#, c-format
+msgid "%s (Joker)"
+msgstr "%s(ジョーカー)"
+
+#: game/ui/game_screen.gd:1730
+msgid "Remove one block of your choice."
+msgstr "好きなブロックを1つ取り除く。"
+
+#: game/ui/game_screen.gd:1736
+msgid "PATCH"
+msgstr "パッチ"
+
+#: game/ui/game_screen.gd:1810 game/ui/game_screen.gd:1841
+msgid "Pick a block, not an empty cell."
+msgstr "空きマスではなくブロックを選んでください。"
+
+#: game/ui/game_screen.gd:1822
+#, c-format
+msgid "%d OF 2 CHOSEN: PICK ANOTHER, OR PRESS ERASE"
+msgstr "%d/2を選択:もう1つ選ぶか「消す」を押そう"
+
+#: game/ui/game_screen.gd:1835
+msgid "Pick a colored block (stone is immune)."
+msgstr "色付きのブロックを選んでください(石は対象外)。"
+
+#: game/ui/game_screen.gd:1852 game/ui/game_screen.gd:1857
+msgid "That slot is empty."
+msgstr "その枠は空です。"
+
+#: game/ui/game_screen.gd:1913
+#, c-format
+msgid "RUBBED OUT %d BLOCK"
+msgid_plural "RUBBED OUT %d BLOCKS"
+msgstr[0] "ブロックを%d個消した"
+
+#: game/ui/game_screen.gd:1926 game/ui/game_screen.gd:1994
+msgid "SMASH!"
+msgstr "ドカン!"
+
+#: game/ui/game_screen.gd:1929
+#, c-format
+msgid "PUNCHED OUT %d BLOCK"
+msgid_plural "PUNCHED OUT %d BLOCKS"
+msgstr[0] "ブロックを%d個ぶっ飛ばした"
+
+#: game/ui/game_screen.gd:1944
+#, c-format
+msgid "PURGED %d BLOCK: %s"
+msgid_plural "PURGED %d BLOCKS: %s"
+msgstr[0] "ブロックを%d個パージ:%s"
+
+#: game/ui/game_screen.gd:1953
+msgid "SPLASH!"
+msgstr "バシャッ!"
+
+#: game/ui/game_screen.gd:1954
+#, c-format
+msgid "REPAINTED %s"
+msgstr "%sに塗り替えた"
+
+#: game/ui/game_screen.gd:1963
+msgid "BLUEPRINT: A FRESH PIECE, DRAFTED"
+msgstr "青写真:新しいピースを描き上げた"
+
+#: game/ui/game_screen.gd:1973
+#, c-format
+msgid "LV %d!"
+msgstr "LV %d!"
+
+#: game/ui/game_screen.gd:1974
+#, c-format
+msgid "TUNE-UP: %s IS NOW LEVEL %d"
+msgstr "チューンアップ:%sがレベル%dになった"
+
+#: game/ui/game_screen.gd:1996
+msgid "BRICK!"
+msgstr "レンガ!"
+
+#: game/ui/game_screen.gd:2001
+msgid "BRICK IN THE TRAY"
+msgstr "トレイにレンガ"
+
+#: game/ui/game_screen.gd:2001
+#, c-format
+msgid "SMASHED %s!"
+msgstr "%sを粉砕!"
+
+#: game/ui/game_screen.gd:2071
+msgid "PAINT IT WHICH COLOR?"
+msgstr "何色に塗る?"
+
+#: game/ui/game_screen.gd:2090
+msgid "Already this color."
+msgstr "すでにこの色です。"
+
+#: game/ui/game_screen.gd:2106
+msgid "DRAFT A NEW PIECE"
+msgstr "新しいピースを描く"
+
+#: game/ui/game_screen.gd:2226
+msgid "INSURANCE CLAIMED!"
+msgstr "保険金が下りた!"
+
+#: game/ui/game_screen.gd:2229
+#, c-format
+msgid "Your policy paid out. Round %d starts over from an empty board, without the free Refresh. The Insurance Policy card is used up."
+msgstr "保険が支払われた。ラウンド%dは空の盤面から、無料リフレッシュなしでやり直し。保険証書のカードは使い切った。"
+
+#: game/ui/game_screen.gd:2233
+msgid "TRY AGAIN"
+msgstr "リトライ"
+
+#: game/ui/game_screen.gd:2250
+msgid "FREE!"
+msgstr "無料!"
+
+#: game/ui/game_screen.gd:2264
+msgid "HOLD (H): store a tray piece; its slot draws a new one. Later, swap it back in or click here to return it to an empty slot. Once between placements."
+msgstr "ホールド(H):トレイのピースを1つ取っておく。その枠には新しいピースが入る。あとで入れ替えるか、ここをクリックして空き枠に戻せる。配置の合間に1回。"
+
+#: game/ui/game_screen.gd:2273
+msgid "DROP IT HERE"
+msgstr "ここに置いて"
+
+#: game/ui/game_screen.gd:2273
+msgid "LOCKED BY BOSS"
+msgstr "ボスが封鎖中"
+
+#: game/ui/game_screen.gd:2273
+msgid "PRESS H OR DROP"
+msgstr "Hを押すか置く"
+
+#: game/ui/game_screen.gd:2276
+msgid "Store a piece, swap later."
+msgstr "ピースを保管、あとで交換。"
+
+#: game/ui/game_screen.gd:2277
+msgid "Once per placement."
+msgstr "配置ごとに1回。"
+
+#: game/ui/hud.gd:228
+msgid "RECEIPT"
+msgstr "レシート"
+
+#: game/ui/piece_tile.gd:5 game/ui/piece_tile.gd:67 game/ui/piece_tile.gd:70
+msgid "PICKED"
+msgstr "選択中"
+
+#: game/ui/refresh_lever.gd:166
+msgid "REFRESH"
+msgstr "リフレッシュ"
+
+#: game/ui/settings_menu.gd:14
+msgid "AUDIO"
+msgstr "サウンド"
+
+#: game/ui/settings_menu.gd:14
+msgid "DISPLAY"
+msgstr "画面"
+
+#: game/ui/settings_menu.gd:14
+msgid "GAME"
+msgstr "ゲーム"
+
+#: game/ui/settings_menu.gd:14
+msgid "RUN"
+msgstr "ラン"
+
+#: game/ui/settings_menu.gd:15
+msgid "ACCESSIBILITY"
+msgstr "アクセシビリティ"
+
+#: game/ui/settings_menu.gd:15
+msgid "CONTROLS"
+msgstr "操作"
+
+#: game/ui/settings_menu.gd:78 game/ui/title_screen.gd:118
+msgid "OPTIONS"
+msgstr "オプション"
+
+#: game/ui/settings_menu.gd:78
+msgid "PAUSED"
+msgstr "ポーズ"
+
+#: game/ui/settings_menu.gd:97
+msgid "RESUME"
+msgstr "再開"
+
+#: game/ui/settings_menu.gd:99
+msgid "SAVE & QUIT"
+msgstr "保存して終了"
+
+#: game/ui/settings_menu.gd:100
+msgid "Save and go back to the main menu. CONTINUE picks it up exactly here."
+msgstr "保存してメインメニューへ。「つづきから」でここから再開できる。"
+
+#: game/ui/settings_menu.gd:101
+msgid "Save and go back to the main menu. ENDLESS offers to continue this game."
+msgstr "保存してメインメニューへ。「エンドレス」でこのゲームの続きを選べる。"
+
+#: game/ui/settings_menu.gd:104 game/ui/settings_menu.gd:108 game/ui/settings_menu.gd:113
+msgid "ABANDON RUN..."
+msgstr "ランを放棄..."
+
+#: game/ui/settings_menu.gd:106
+msgid "End this run now. It counts as a loss and cannot be continued."
+msgstr "このランを今すぐ終える。負けとして扱われ、続けられない。"
+
+#: game/ui/settings_menu.gd:109
+msgid "CLICK AGAIN TO ABANDON"
+msgstr "もう一度クリックで放棄"
+
+#: game/ui/settings_menu.gd:130
+#, c-format
+msgid "Q / E  switch page    ESC  %s"
+msgstr "Q / E  ページ切替    ESC  %s"
+
+#: game/ui/settings_menu.gd:130
+msgid "back"
+msgstr "戻る"
+
+#: game/ui/settings_menu.gd:130
+msgid "resume"
+msgstr "再開"
+
+#: game/ui/settings_menu.gd:132
+msgid "RESET PAGE"
+msgstr "ページを初期化"
+
+#: game/ui/settings_menu.gd:134
+msgid "Put this page's settings back to their defaults."
+msgstr "このページの設定を初期値に戻す。"
+
+#: game/ui/settings_menu.gd:149
+#, c-format
+msgid "OVERTIME ROUND %d"
+msgstr "延長戦ラウンド%d"
+
+#: game/ui/settings_menu.gd:150
+#, c-format
+msgid "ROUND %d OF %d  -  ACT %d"
+msgstr "ラウンド%d / %d  -  第%d幕"
+
+#: game/ui/settings_menu.gd:152
+#, c-format
+msgid "THE TOYBOX, AFTER ROUND %d"
+msgstr "おもちゃ箱、ラウンド%dのあと"
+
+#: game/ui/settings_menu.gd:155
+#, c-format
+msgid "%s  -  HEAT %d"
+msgstr "%s  -  ヒート%d"
+
+#: game/ui/settings_menu.gd:155
+#, c-format
+msgid "DAILY %s"
+msgstr "デイリー %s"
+
+#: game/ui/settings_menu.gd:157
+msgid "  -  PRACTICE SEED"
+msgstr "  -  練習シード"
+
+#: game/ui/settings_menu.gd:158
+#, c-format
+msgid "  -  SEED %d"
+msgstr "  -  シード %d"
+
+#: game/ui/settings_menu.gd:160
+#, c-format
+msgid "ENDLESS  -  %s POINTS"
+msgstr "エンドレス  -  %s点"
+
+#: game/ui/settings_menu.gd:161
+#, c-format
+msgid "SEED %d"
+msgstr "シード %d"
+
+#: game/ui/settings_menu.gd:163
+msgid "SETTINGS ARE SAVED AS YOU CHANGE THEM"
+msgstr "設定は変更するとすぐ保存されます"
+
+#: game/ui/settings_menu.gd:171 game/ui/settings_menu.gd:180
+msgid "COPIED!"
+msgstr "コピーした!"
+
+#: game/ui/settings_menu.gd:174
+msgid "COPY SEED"
+msgstr "シードをコピー"
+
+#: game/ui/settings_menu.gd:177
+msgid "Copy the seed to the clipboard. Type it on the Kit screen to replay this run's draws."
+msgstr "シードをクリップボードにコピー。キット画面で入力すると、このランの配布を再現できる。"
+
+#: game/ui/settings_menu.gd:251
+msgid "Game speed"
+msgstr "ゲーム速度"
+
+#: game/ui/settings_menu.gd:251
+msgid "Speeds up scoring, clears and round animations. Results are identical at every speed."
+msgstr "得点、消去、ラウンドの演出を速くする。どの速度でも結果は同じ。"
+
+#: game/ui/settings_menu.gd:252
+msgid "FAST"
+msgstr "速い"
+
+#: game/ui/settings_menu.gd:252
+msgid "NORMAL"
+msgstr "ふつう"
+
+#: game/ui/settings_menu.gd:252
+msgid "TURBO"
+msgstr "ターボ"
+
+#: game/ui/settings_menu.gd:253
+msgid "A short hint the first time something new shows up: Hold, bosses, round cards, Heat..."
+msgstr "新しい要素が初めて出たときに短いヒントを表示:ホールド、ボス、ラウンドカード、ヒートなど。"
+
+#: game/ui/settings_menu.gd:253
+msgid "Tips"
+msgstr "ヒント"
+
+#: game/ui/settings_menu.gd:254 game/ui/settings_menu.gd:319 game/ui/settings_menu.gd:320 game/ui/settings_menu.gd:322 game/ui/settings_menu.gd:323 game/ui/settings_menu.gd:338
+msgid "OFF"
+msgstr "オフ"
+
+#: game/ui/settings_menu.gd:254 game/ui/settings_menu.gd:319 game/ui/settings_menu.gd:320 game/ui/settings_menu.gd:322 game/ui/settings_menu.gd:323 game/ui/settings_menu.gd:338
+msgid "ON"
+msgstr "オン"
+
+#: game/ui/settings_menu.gd:255
+msgid "RESET TIPS"
+msgstr "ヒントを初期化"
+
+#: game/ui/settings_menu.gd:255
+msgid "Replay tips"
+msgstr "ヒントを再表示"
+
+#: game/ui/settings_menu.gd:255
+msgid "Show every tip again, as if this were your first run."
+msgstr "初めてのランのように、ヒントをすべてもう一度表示する。"
+
+#: game/ui/settings_menu.gd:260
+msgid "DONE!"
+msgstr "完了!"
+
+#: game/ui/settings_menu.gd:261 game/ui/settings_menu.gd:357
+msgid "Boss intros"
+msgstr "ボス登場演出"
+
+#: game/ui/settings_menu.gd:261
+msgid "CINEMATIC plays the warning, the name slam and the rule. QUICK goes straight to the rule card."
+msgstr "シネマティックは警告、名前の登場、ルールを表示。クイックはすぐにルールカードを出す。"
+
+#: game/ui/settings_menu.gd:262 game/ui/settings_menu.gd:358
+msgid "CINEMATIC"
+msgstr "シネマティック"
+
+#: game/ui/settings_menu.gd:262 game/ui/settings_menu.gd:358
+msgid "QUICK"
+msgstr "クイック"
+
+#: game/ui/settings_menu.gd:263
+msgid "POPS shows you around again the next time a run starts."
+msgstr "次にランを始めるとき、POPSがもう一度案内する。"
+
+#: game/ui/settings_menu.gd:263
+msgid "REPLAY TUTORIAL"
+msgstr "チュートリアルを再生"
+
+#: game/ui/settings_menu.gd:263
+msgid "Tutorial"
+msgstr "チュートリアル"
+
+#: game/ui/settings_menu.gd:266
+msgid "READY!"
+msgstr "準備OK!"
+
+#: game/ui/settings_menu.gd:274
+msgid "Language"
+msgstr "言語"
+
+#: game/ui/settings_menu.gd:277
+msgid "Menus, cards and tips. Names like BLOCKMANIA and POPS stay the same."
+msgstr "メニュー、カード、ヒント。BLOCKMANIAやPOPSなどの名前はそのまま。"
+
+#: game/ui/settings_menu.gd:307 game/ui/settings_menu.gd:345
+msgid "SYSTEM"
+msgstr "システム"
+
+#: game/ui/settings_menu.gd:309
+#, c-format
+msgid "Follow the computer's language (%s)."
+msgstr "コンピューターの言語に合わせる(%s)。"
+
+#: game/ui/settings_menu.gd:316
+msgid "Everything at once."
+msgstr "すべての音をまとめて。"
+
+#: game/ui/settings_menu.gd:316
+msgid "Master volume"
+msgstr "全体の音量"
+
+#: game/ui/settings_menu.gd:317
+msgid "Music volume"
+msgstr "音楽の音量"
+
+#: game/ui/settings_menu.gd:317
+msgid "The soundtrack. Each part of the game has its own songs."
+msgstr "サウンドトラック。ゲームの場面ごとに曲がある。"
+
+#: game/ui/settings_menu.gd:318
+msgid "Clicks, clears, Jokers and fanfares."
+msgstr "クリック、消去、ジョーカー、ファンファーレ。"
+
+#: game/ui/settings_menu.gd:318
+msgid "Effects volume"
+msgstr "効果音の音量"
+
+#: game/ui/settings_menu.gd:319
+msgid "Sound"
+msgstr "サウンド"
+
+#: game/ui/settings_menu.gd:319
+msgid "Turns every sound on or off. M toggles it anywhere."
+msgstr "すべての音をオン/オフ。Mでどこでも切り替え。"
+
+#: game/ui/settings_menu.gd:320
+msgid "Keep the effects but switch the songs off."
+msgstr "効果音は残して、曲だけ止める。"
+
+#: game/ui/settings_menu.gd:320
+msgid "Soundtrack"
+msgstr "サウンドトラック"
+
+#: game/ui/settings_menu.gd:321
+msgid "A soft heartbeat when three or fewer placements are left and the target is not met."
+msgstr "残り配置が3回以下で目標未達のとき、静かな心音が鳴る。"
+
+#: game/ui/settings_menu.gd:321
+msgid "Danger heartbeat"
+msgstr "ピンチの心音"
+
+#: game/ui/settings_menu.gd:323
+msgid "Mute in background"
+msgstr "バックグラウンドで消音"
+
+#: game/ui/settings_menu.gd:323
+msgid "Silence the game while its window is not focused."
+msgstr "ウィンドウが非アクティブのとき音を消す。"
+
+#: game/ui/settings_menu.gd:324
+msgid "Now playing"
+msgstr "再生中"
+
+#: game/ui/settings_menu.gd:329
+msgid "NEXT SONG  >"
+msgstr "次の曲  >"
+
+#: game/ui/settings_menu.gd:330
+msgid "Play another song from this part of the game."
+msgstr "この場面の別の曲を流す。"
+
+#: game/ui/settings_menu.gd:336
+msgid "Fullscreen uses your desktop resolution. The board always stays square."
+msgstr "フルスクリーンはデスクトップの解像度を使う。盤面は常に正方形。"
+
+#: game/ui/settings_menu.gd:336
+msgid "Window"
+msgstr "ウィンドウ"
+
+#: game/ui/settings_menu.gd:337
+msgid "FULLSCREEN"
+msgstr "フルスクリーン"
+
+#: game/ui/settings_menu.gd:337
+msgid "WINDOWED"
+msgstr "ウィンドウ"
+
+#: game/ui/settings_menu.gd:338
+msgid "Locks the frame rate to your screen and removes tearing."
+msgstr "フレームレートを画面に合わせ、ティアリングを防ぐ。"
+
+#: game/ui/settings_menu.gd:338
+msgid "V-Sync"
+msgstr "垂直同期"
+
+#: game/ui/settings_menu.gd:339
+msgid "CRT filter"
+msgstr "CRTフィルター"
+
+#: game/ui/settings_menu.gd:339
+msgid "Scanlines and a curved-glass glow. SOFT keeps text sharpest."
+msgstr "走査線と曲面ガラスの光。ソフトが一番文字がくっきり見える。"
+
+#: game/ui/settings_menu.gd:340 game/ui/settings_menu.gd:342 game/ui/settings_menu.gd:350 game/ui/settings_menu.gd:352 game/ui/settings_menu.gd:354
+msgid "FULL"
+msgstr "フル"
+
+#: game/ui/settings_menu.gd:340 game/ui/settings_menu.gd:342 game/ui/settings_menu.gd:354
+msgid "SOFT"
+msgstr "ソフト"
+
+#: game/ui/settings_menu.gd:341
+msgid "Hazard frame on boss rounds, the danger vignette and heat haze at the screen's edges."
+msgstr "ボスラウンドの警告枠、ピンチの暗がり、画面端の陽炎。"
+
+#: game/ui/settings_menu.gd:341
+msgid "Screen effects"
+msgstr "画面効果"
+
+#: game/ui/settings_menu.gd:343
+msgid "FPS counter"
+msgstr "FPS表示"
+
+#: game/ui/settings_menu.gd:343
+msgid "Frames per second in the top-left corner."
+msgstr "左上にフレームレートを表示する。"
+
+#: game/ui/settings_menu.gd:344
+msgid "CUSTOM: a pixel arrow, POPS's glove over buttons and little click sparks. SYSTEM: your normal pointer."
+msgstr "カスタム:ピクセルの矢印、ボタン上ではPOPSの手袋、クリックで小さな火花。システム:いつものポインター。"
+
+#: game/ui/settings_menu.gd:344
+msgid "Mouse cursor"
+msgstr "マウスカーソル"
+
+#: game/ui/settings_menu.gd:345
+msgid "CUSTOM"
+msgstr "カスタム"
+
+#: game/ui/settings_menu.gd:349
+msgid "Motion"
+msgstr "モーション"
+
+#: game/ui/settings_menu.gd:349
+msgid "REDUCED stops background motion, bobbing and fly-ins. Every number and effect is still shown."
+msgstr "減らすは背景の動き、揺れ、飛び込み演出を止める。数値と効果はすべて表示される。"
+
+#: game/ui/settings_menu.gd:350
+msgid "REDUCED"
+msgstr "減らす"
+
+#: game/ui/settings_menu.gd:351
+msgid "How hard big clears, slams and bosses shake the screen."
+msgstr "大きな消去や衝撃、ボスで画面がどれだけ揺れるか。"
+
+#: game/ui/settings_menu.gd:351
+msgid "Screen shake"
+msgstr "画面の揺れ"
+
+#: game/ui/settings_menu.gd:352
+msgid "LOW"
+msgstr "弱"
+
+#: game/ui/settings_menu.gd:353
+msgid "Bright full-screen flashes and CRT jolts on slams and bosses. OFF removes them all."
+msgstr "衝撃やボスでの全画面フラッシュとCRTの揺らぎ。オフですべて消える。"
+
+#: game/ui/settings_menu.gd:353
+msgid "Flashes"
+msgstr "フラッシュ"
+
+#: game/ui/settings_menu.gd:355
+msgid "Block patterns"
+msgstr "ブロックの模様"
+
+#: game/ui/settings_menu.gd:355
+msgid "Every block color also gets its own pattern, so colors never have to be told apart by hue."
+msgstr "ブロックの色ごとに模様もつけ、色味だけで見分けなくてすむようにする。"
+
+#: game/ui/settings_menu.gd:357
+msgid "QUICK skips the flashing warning cinematic before boss rounds."
+msgstr "クイックはボスラウンド前の点滅する警告演出を飛ばす。"
+
+#: game/ui/settings_menu.gd:365 game/ui/settings_menu.gd:378
+msgid "Drag a piece, or click it, then a cell"
+msgstr "ピースをドラッグ、またはクリックしてからマスをクリック"
+
+#: game/ui/settings_menu.gd:365 game/ui/settings_menu.gd:378
+msgid "MOUSE"
+msgstr "マウス"
+
+#: game/ui/settings_menu.gd:366
+msgid "Put the carried piece back"
+msgstr "持っているピースを戻す"
+
+#: game/ui/settings_menu.gd:366
+msgid "RIGHT CLICK"
+msgstr "右クリック"
+
+#: game/ui/settings_menu.gd:367 game/ui/settings_menu.gd:379
+msgid "1  2  3"
+msgstr "1  2  3"
+
+#: game/ui/settings_menu.gd:367 game/ui/settings_menu.gd:379
+msgid "Pick up a tray piece"
+msgstr "トレイのピースを持つ"
+
+#: game/ui/settings_menu.gd:368 game/ui/settings_menu.gd:380
+msgid "ARROWS / WASD"
+msgstr "矢印キー / WASD"
+
+#: game/ui/settings_menu.gd:368 game/ui/settings_menu.gd:380
+msgid "Move the carried piece"
+msgstr "持っているピースを動かす"
+
+#: game/ui/settings_menu.gd:369 game/ui/settings_menu.gd:381
+msgid "ENTER / SPACE"
+msgstr "ENTER / SPACE"
+
+#: game/ui/settings_menu.gd:369 game/ui/settings_menu.gd:381
+msgid "Place it"
+msgstr "置く"
+
+#: game/ui/settings_menu.gd:370
+msgid "Hold or swap a piece"
+msgstr "ピースをホールド/入れ替え"
+
+#: game/ui/settings_menu.gd:371
+msgid "Refresh the tray"
+msgstr "トレイをリフレッシュ"
+
+#: game/ui/settings_menu.gd:372
+msgid "Open your bag"
+msgstr "バッグを開く"
+
+#: game/ui/settings_menu.gd:373
+msgid "ALT + UP / DOWN"
+msgstr "ALT + 上 / 下"
+
+#: game/ui/settings_menu.gd:373
+msgid "Move a focused Joker"
+msgstr "選択中のジョーカーを移動"
+
+#: game/ui/settings_menu.gd:374 game/ui/settings_menu.gd:383
+msgid "Sound on / off"
+msgstr "サウンドのオン/オフ"
+
+#: game/ui/settings_menu.gd:375 game/ui/settings_menu.gd:384 game/ui/settings_menu.gd:387
+msgid "ESC"
+msgstr "ESC"
+
+#: game/ui/settings_menu.gd:375 game/ui/settings_menu.gd:384
+msgid "Pause, or put a piece back"
+msgstr "ポーズ、またはピースを戻す"
+
+#: game/ui/settings_menu.gd:382
+msgid "Hold or swap the piece"
+msgstr "ピースをホールド/入れ替え"
+
+#: game/ui/settings_menu.gd:386
+msgid "ENTER"
+msgstr "ENTER"
+
+#: game/ui/settings_menu.gd:386
+msgid "Move between buttons"
+msgstr "ボタン間を移動"
+
+#: game/ui/settings_menu.gd:386
+msgid "Press the focused button"
+msgstr "選択中のボタンを押す"
+
+#: game/ui/settings_menu.gd:386
+msgid "TAB / ARROWS"
+msgstr "TAB / 矢印キー"
+
+#: game/ui/settings_menu.gd:387
+msgid "Close a window"
+msgstr "ウィンドウを閉じる"
+
+#: game/ui/settings_menu.gd:387
+msgid "Q  E"
+msgstr "Q  E"
+
+#: game/ui/settings_menu.gd:387
+msgid "Switch pages in this menu"
+msgstr "このメニューのページを切り替える"
+
+#: game/ui/settings_menu.gd:391
+msgid "CAMPAIGN"
+msgstr "キャンペーン"
+
+#: game/ui/settings_menu.gd:398
+msgid "MENUS"
+msgstr "メニュー"
+
+#: game/ui/settings_menu.gd:434
+msgid "KIT"
+msgstr "キット"
+
+#: game/ui/settings_menu.gd:435
+msgid "(standard)"
+msgstr "(標準)"
+
+#: game/ui/settings_menu.gd:435 game/ui/title_screen.gd:451
+msgid "HEAT"
+msgstr "ヒート"
+
+#: game/ui/settings_menu.gd:436 game/ui/shop_screen.gd:390
+msgid "CREDITS"
+msgstr "クレジット"
+
+#: game/ui/settings_menu.gd:438
+#, c-format
+msgid "%d piece"
+msgid_plural "%d pieces"
+msgstr[0] "%dピース"
+
+#: game/ui/settings_menu.gd:439
+msgid "LINES"
+msgstr "ライン"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/settings_menu.gd:440 game/ui/title_screen.gd:703 game/ui/trophy_case.gd:149
+msgid "BEST PLACEMENT"
+msgstr "最高の配置"
+
+#: game/ui/settings_menu.gd:441
+msgid "BOSSES BEATEN"
+msgstr "倒したボス"
+
+#: game/ui/settings_menu.gd:451
+#, c-format
+msgid "HEAT %d RULES"
+msgstr "ヒート%dのルール"
+
+#: game/ui/settings_menu.gd:458 game/ui/settings_menu.gd:619
+msgid "NOW"
+msgstr "現在"
+
+#: game/ui/settings_menu.gd:459
+#, c-format
+msgid "ACT %d BOSS  -  %s  (%s)"
+msgstr "第%d幕のボス  -  %s  (%s)"
+
+#: game/ui/settings_menu.gd:462
+#, c-format
+msgid "THIS ROUND  -  %s"
+msgstr "このラウンド  -  %s"
+
+#: game/ui/settings_menu.gd:582
+msgid "(silence between songs)"
+msgstr "(曲間の静けさ)"
+
+#: game/ui/settings_menu.gd:619
+msgid "NEXT"
+msgstr "次"
+
+#: game/ui/settings_menu.gd:622
+#, c-format
+msgid "ACT %d"
+msgstr "第%d幕"
+
+#: game/ui/settings_menu.gd:625
+#, c-format
+msgid "OVERTIME  -  ROUND %d  (%d PAST THE FINAL BOSS)"
+msgstr "延長戦  -  ラウンド%d  (最終ボスから%d)"
+
+#: game/ui/shop_screen.gd:57 game/ui/shop_screen.gd:58
+msgid "THE TOYBOX"
+msgstr "おもちゃ箱"
+
+#: game/ui/shop_screen.gd:64
+msgid "OVERTIME"
+msgstr "延長戦"
+
+#: game/ui/shop_screen.gd:65
+msgid "You beat the game and kept playing. Targets climb faster every round."
+msgstr "ゲームをクリアしてプレイを続けている。目標はラウンドごとに急上昇する。"
+
+#: game/ui/shop_screen.gd:82
+msgid "Replace every offer in the shop. The price rises by 1 each reroll."
+msgstr "ショップの品をすべて入れ替える。リロールするたびに値段が1上がる。"
+
+#: game/ui/shop_screen.gd:94
+msgid "WORKSHOP  -  edit your bag"
+msgstr "工房  -  バッグを編集"
+
+#: game/ui/shop_screen.gd:97
+msgid "PIECES FOR YOUR BAG"
+msgstr "バッグ用のピース"
+
+#: game/ui/shop_screen.gd:110
+msgid "BOSS"
+msgstr "ボス"
+
+#: game/ui/shop_screen.gd:134
+msgid "NEXT ROUND  >"
+msgstr "次のラウンド  >"
+
+#: game/ui/shop_screen.gd:138
+msgid ""
+"BOSS\n"
+"CRATE"
+msgstr ""
+"ボスの\n"
+"クレート"
+
+#: game/ui/shop_screen.gd:140
+msgid "Your free Boss Crate is still closed. Open it before you leave."
+msgstr "無料のボスのクレートがまだ閉じている。出る前に開けよう。"
+
+#: game/ui/shop_screen.gd:146
+msgid "YOUR JOKERS"
+msgstr "きみのジョーカー"
+
+#: game/ui/shop_screen.gd:150
+msgid "YOUR ITEMS"
+msgstr "きみのアイテム"
+
+#: game/ui/shop_screen.gd:155
+msgid "Every piece in your bag (B)"
+msgstr "バッグのピースすべて(B)"
+
+#: game/ui/shop_screen.gd:161
+msgid "Pause, settings, Save & Quit to the main menu (Esc)"
+msgstr "ポーズ、設定、保存してメインメニューへ(Esc)"
+
+#: game/ui/shop_screen.gd:217
+msgid "BOSS CRATE!"
+msgstr "ボスのクレート!"
+
+#: game/ui/shop_screen.gd:222
+msgid "You beat the boss. Open it and take one thing for free."
+msgstr "ボスを倒した。開けて、ひとつ無料で持っていこう。"
+
+#: game/ui/shop_screen.gd:237
+msgid "Open the crate"
+msgstr "クレートを開ける"
+
+#: game/ui/shop_screen.gd:240
+msgid "CLICK TO OPEN"
+msgstr "クリックで開ける"
+
+#: game/ui/shop_screen.gd:274 game/ui/shop_screen.gd:283
+msgid "TAKE IT"
+msgstr "もらう"
+
+#: game/ui/shop_screen.gd:282
+#, c-format
+msgid "From the crate: %s."
+msgstr "クレートから:%s。"
+
+#: game/ui/shop_screen.gd:296 game/ui/shop_screen.gd:342
+msgid "sell a Joker"
+msgstr "ジョーカーを売る"
+
+#: game/ui/shop_screen.gd:296 game/ui/shop_screen.gd:342
+msgid "use an item"
+msgstr "アイテムを使う"
+
+#: game/ui/shop_screen.gd:310
+msgid "LATER"
+msgstr "あとで"
+
+#: game/ui/shop_screen.gd:311
+msgid "Close the crate for now: the BOSS CRATE button reopens it until you leave the shop."
+msgstr "クレートをいったん閉じる:ショップを出るまで、ボスのクレートボタンで再び開ける。"
+
+#: game/ui/shop_screen.gd:315
+msgid " or "
+msgstr "か、"
+
+#: game/ui/shop_screen.gd:315
+#, c-format
+msgid "Slots full? Press LATER, %s, then reopen the crate."
+msgstr "枠がいっぱい?「あとで」を押して%s。そのあとクレートを開け直そう。"
+
+#: game/ui/shop_screen.gd:332
+msgid "Joker slots are full"
+msgstr "ジョーカー枠がいっぱい"
+
+#: game/ui/shop_screen.gd:335
+msgid "Item slots are full"
+msgstr "アイテム枠がいっぱい"
+
+#: game/ui/shop_screen.gd:348
+#, c-format
+msgid "%s. Press LATER, %s, then reopen the crate with the BOSS CRATE button."
+msgstr "%s。「あとで」を押して%s。そのあとボスのクレートボタンで開け直そう。"
+
+#: game/ui/shop_screen.gd:349
+#, c-format
+msgid "LOCKED: %s. Press LATER, %s, then reopen the crate."
+msgstr "ロック中:%s。「あとで」を押して%s。そのあとクレートを開け直そう。"
+
+#: game/ui/shop_screen.gd:367
+msgid "SLOTS FULL"
+msgstr "枠がいっぱい"
+
+#: game/ui/shop_screen.gd:377
+#, c-format
+msgid "%d Credit"
+msgid_plural "%d Credits"
+msgstr[0] "%dクレジット"
+
+#: game/ui/shop_screen.gd:382
+#, c-format
+msgid "%d Credit, straight into your wallet."
+msgid_plural "%d Credits, straight into your wallet."
+msgstr[0] "%dクレジット、そのまま財布へ。"
+
+#: game/ui/shop_screen.gd:386
+#, c-format
+msgid "%d CREDIT"
+msgid_plural "%d CREDITS"
+msgstr[0] "%dクレジット"
+
+#: game/ui/shop_screen.gd:388
+msgid "Straight into your wallet."
+msgstr "そのまま財布へ。"
+
+#: game/ui/shop_screen.gd:419
+#, c-format
+msgid "Sold for %d Credits."
+msgstr "%dクレジットで売った。"
+
+#: game/ui/shop_screen.gd:473
+#, c-format
+msgid "Added %s to your bag (%d pieces)."
+msgstr "%sをバッグに加えた(%dピース)。"
+
+#: game/ui/shop_screen.gd:478
+#, c-format
+msgid "Loan Shark lent you %d Credits. It takes %d back after each won round."
+msgstr "高利貸しが%dクレジットを貸してくれた。ラウンドに勝つたびに%dずつ取り立てる。"
+
+#: game/ui/shop_screen.gd:479
+#, c-format
+msgid "%s joined your rack!"
+msgstr "%sがラックに加わった!"
+
+#: game/ui/shop_screen.gd:481
+#, c-format
+msgid "Bought %s."
+msgstr "%sを買った。"
+
+#: game/ui/shop_screen.gd:512
+#, c-format
+msgid "REROLL  %d"
+msgstr "リロール  %d"
+
+#: game/ui/shop_screen.gd:523
+#, c-format
+msgid "Score target for round %d: %s points"
+msgstr "ラウンド%dの目標スコア:%s点"
+
+#: game/ui/shop_screen.gd:524
+msgid "Overtime: targets climb faster every round."
+msgstr "延長戦:目標はラウンドごとに急上昇する。"
+
+#: game/ui/shop_screen.gd:531
+#, c-format
+msgid "%s  (ROUND %d)"
+msgstr "%s  (ラウンド%d)"
+
+#: game/ui/shop_screen.gd:533
+#, c-format
+msgid "Round %d boss: %s"
+msgstr "ラウンド%dのボス:%s"
+
+#: game/ui/shop_screen.gd:548
+msgid "Joker slots are full. Sell one first."
+msgstr "ジョーカー枠がいっぱいです。先に1枚売ってください。"
+
+#: game/ui/shop_screen.gd:571
+#, c-format
+msgid "PICK %d"
+msgstr "選ぶ %d"
+
+#: game/ui/shop_screen.gd:583
+msgid "Your bag is full."
+msgstr "バッグがいっぱいです。"
+
+#: game/ui/shop_screen.gd:587
+#, c-format
+msgid "YOUR JOKERS %d/%d"
+msgstr "きみのジョーカー %d/%d"
+
+#: game/ui/shop_screen.gd:666
+#, c-format
+msgid "BUY %d"
+msgstr "購入 %d"
+
+#: game/ui/shop_screen.gd:681
+msgid "SOLD OUT"
+msgstr "売り切れ"
+
+#: game/ui/shop_screen.gd:720
+#, c-format
+msgid "CHOOSE ROUND %d"
+msgstr "ラウンド%dを選ぶ"
+
+#: game/ui/shop_screen.gd:726
+msgid "Play it straight, or take a twist for a reward. Keys 1-3 choose, Esc goes back."
+msgstr "そのまま遊ぶか、報酬と引き換えにひねりを選ぼう。1〜3キーで選択、Escで戻る。"
+
+#: game/ui/shop_screen.gd:743
+msgid "STANDARD"
+msgstr "スタンダード"
+
+#: game/ui/shop_screen.gd:743
+msgid "TWIST"
+msgstr "ひねり"
+
+#: game/ui/shop_screen.gd:765
+#, c-format
+msgid "+%d IF YOU WIN"
+msgstr "勝てば+%d"
+
+#: game/ui/shop_screen.gd:768
+#, c-format
+msgid "PLAY  %d"
+msgstr "プレイ  %d"
+
+#: game/ui/shop_screen.gd:780
+msgid "BACK TO THE SHOP"
+msgstr "ショップに戻る"
+
+#: game/ui/shop_screen.gd:854
+#, c-format
+msgid "%s  -  %d CREDITS"
+msgstr "%s  -  %dクレジット"
+
+#: game/ui/shop_screen.gd:858
+#, c-format
+msgid "Choose up to %d piece."
+msgid_plural "Choose up to %d pieces."
+msgstr[0] "ピースを%d個まで選んでください。"
+
+#: game/ui/shop_screen.gd:861
+msgid "CONFIRM PURCHASE"
+msgstr "購入を確定"
+
+#: game/ui/shop_screen.gd:867
+#, c-format
+msgid "%d of %d chosen"
+msgstr "%d / %d 選択中"
+
+#: game/ui/shop_screen.gd:869
+#, c-format
+msgid "   -   color: %s"
+msgstr "   -   色:%s"
+
+#: game/ui/shop_screen.gd:869
+msgid "pick one"
+msgstr "1色選ぶ"
+
+#: game/ui/shop_screen.gd:910
+msgid "CANCEL  (ESC)"
+msgstr "キャンセル  (ESC)"
+
+#: game/ui/tip_plate.gd:25
+msgid "TIP"
+msgstr "ヒント"
+
+#: game/ui/tip_plate.gd:34
+msgid "Turn tips off in Options."
+msgstr "ヒントはオプションでオフにできます。"
+
+#: game/ui/tip_plate.gd:38
+msgid "GOT IT"
+msgstr "わかった"
+
+#: game/ui/title_screen.gd:69
+msgid "a toy-block roguelike of tricks, jokers and one very full board"
+msgstr "トリックとジョーカーと、ぎっしりの盤面で遊ぶ、おもちゃブロックのローグライク"
+
+#: game/ui/title_screen.gd:81
+msgid "CONTINUE RUN"
+msgstr "ランの続きから"
+
+#: game/ui/title_screen.gd:86
+msgid "Pick a Kit and a Heat level, then twelve rounds and three bosses."
+msgstr "キットとヒートを選び、12ラウンドと3体のボスに挑もう。"
+
+#: game/ui/title_screen.gd:90 game/ui/title_screen.gd:165 game/ui/title_screen.gd:655
+msgid "DAILY"
+msgstr "デイリー"
+
+#: game/ui/title_screen.gd:93 game/ui/title_screen.gd:166
+msgid "Today's run: the same seed for everyone, Standard Kit, Heat 0."
+msgstr "今日のラン:全員同じシード、スタンダードキット、ヒート0。"
+
+#: game/ui/title_screen.gd:98
+msgid "Relaxed block placement. Clear rows and columns, build a combo, and chase your best score."
+msgstr "のんびりブロック配置。行と列を消し、コンボをつなげて自己ベストを目指そう。"
+
+#: game/ui/title_screen.gd:102
+msgid "TROPHIES"
+msgstr "トロフィー"
+
+#: game/ui/title_screen.gd:106
+msgid "HISTORY"
+msgstr "履歴"
+
+#: game/ui/title_screen.gd:109
+#, c-format
+msgid "Your last %d campaign runs: Kit, Heat, seed, how far you got and your Jokers."
+msgstr "直近%d回のキャンペーンラン:キット、ヒート、シード、到達ラウンド、ジョーカー。"
+
+#: game/ui/title_screen.gd:111
+msgid "SCORES"
+msgstr "スコア"
+
+#: game/ui/title_screen.gd:114
+msgid "Endless high scores"
+msgstr "エンドレスのハイスコア"
+
+#: game/ui/title_screen.gd:122
+msgid "QUIT"
+msgstr "終了"
+
+#: game/ui/title_screen.gd:127
+msgid "prototype build"
+msgstr "プロトタイプ版"
+
+#: game/ui/title_screen.gd:165
+msgid "DAILY  *"
+msgstr "デイリー  *"
+
+#: game/ui/title_screen.gd:167
+#, c-format
+msgid ""
+"\n"
+"Today: %s"
+msgstr ""
+"\n"
+"今日:%s"
+
+#: game/ui/title_screen.gd:167
+#, c-format
+msgid "reached round %d"
+msgstr "ラウンド%dまで到達"
+
+#: game/ui/title_screen.gd:167
+msgid "won!"
+msgstr "勝利!"
+
+#: game/ui/title_screen.gd:222
+#, c-format
+msgid "You have a game in progress:  %s points."
+msgstr "進行中のゲームがあります:  %s点。"
+
+#: game/ui/title_screen.gd:225
+msgid "CONTINUE"
+msgstr "つづきから"
+
+#: game/ui/title_screen.gd:230
+msgid "NEW GAME"
+msgstr "新しいゲーム"
+
+#: game/ui/title_screen.gd:234
+msgid "Start over. The game in progress is discarded (it was not finished, so it is not a high score)."
+msgstr "最初からやり直す。進行中のゲームは破棄される(終わっていないのでハイスコアにはならない)。"
+
+#: game/ui/title_screen.gd:236
+msgid "A new game replaces the one in progress."
+msgstr "新しいゲームは進行中のゲームを置き換えます。"
+
+#: game/ui/title_screen.gd:272
+#, c-format
+msgid "Trophy Case: %d of %d achievements, and your personal records.%s"
+msgstr "トロフィー棚:実績%d / %d と自己記録。%s"
+
+#: game/ui/title_screen.gd:273
+#, c-format
+msgid ""
+"\n"
+"%d new since your last visit!"
+msgstr ""
+"\n"
+"前回から%d個の新着!"
+
+#: game/ui/title_screen.gd:301
+msgid "ENDLESS HIGH SCORES"
+msgstr "エンドレスのハイスコア"
+
+#: game/ui/title_screen.gd:307
+msgid "NO SAVED SCORES YET"
+msgstr "保存されたスコアはまだありません"
+
+#: game/ui/title_screen.gd:307
+msgid ""
+"NO SCORES YET\n"
+"FINISH A GAME TO START"
+msgstr ""
+"スコアはまだありません\n"
+"ゲームを1回終えると記録されます"
+
+#: game/ui/title_screen.gd:314
+#, c-format
+msgid "%d lines  •  x%d combo  •  %s"
+msgstr "%dライン  •  x%dコンボ  •  %s"
+
+#: game/ui/title_screen.gd:390
+#, c-format
+msgid "Starting replaces your saved run (round %d, %s)."
+msgstr "開始すると保存中のランが置き換わります(ラウンド%d、%s)。"
+
+#: game/ui/title_screen.gd:405
+msgid "CHOOSE YOUR KIT"
+msgstr "キットを選ぼう"
+
+#: game/ui/title_screen.gd:432
+msgid "PLAY"
+msgstr "プレイ"
+
+#: game/ui/title_screen.gd:437
+msgid "Locked: "
+msgstr "ロック中:"
+
+#: game/ui/title_screen.gd:475 game/ui/title_screen.gd:482
+#, c-format
+msgid "Heat %d:  %s"
+msgstr "ヒート%d:  %s"
+
+#: game/ui/title_screen.gd:475 game/ui/title_screen.gd:482
+msgid "Heat 0: standard rules."
+msgstr "ヒート0:標準ルール。"
+
+#: game/ui/title_screen.gd:475
+msgid "Standard rules. Win a run to unlock Heat 1."
+msgstr "標準ルール。ランに勝つとヒート1が解放される。"
+
+#: game/ui/title_screen.gd:484
+#, c-format
+msgid ""
+"\n"
+"Locked: win a run at Heat %d first."
+msgstr ""
+"\n"
+"ロック中:先にヒート%dでランに勝とう。"
+
+#: game/ui/title_screen.gd:500
+msgid "random"
+msgstr "ランダム"
+
+#: game/ui/title_screen.gd:504
+msgid ""
+"Leave empty for a random run. The same seed deals the same pieces, shops and bosses.\n"
+"A run on a seed you choose is practice: it earns no achievements, records or unlocks."
+msgstr ""
+"空欄ならランダムなラン。同じシードなら同じピース、ショップ、ボスが出る。\n"
+"自分で選んだシードのランは練習扱い:実績・記録・解放はなし。"
+
+#: game/ui/title_screen.gd:506
+msgid "Chosen seeds are practice: no achievements or unlocks."
+msgstr "選んだシードは練習扱い:実績も解放もなし。"
+
+#: game/ui/title_screen.gd:531
+msgid "DAILY RUN"
+msgstr "デイリーラン"
+
+#: game/ui/title_screen.gd:534
+#, c-format
+msgid "%s   -   SEED %d"
+msgstr "%s   -   シード %d"
+
+#: game/ui/title_screen.gd:537
+msgid "Standard Kit, Heat 0, every Joker in the pool."
+msgstr "スタンダードキット、ヒート0、すべてのジョーカーが登場。"
+
+#: game/ui/title_screen.gd:538
+msgid "Everyone gets the same pieces, shops and bosses today."
+msgstr "今日は全員が同じピース、ショップ、ボスに挑む。"
+
+#: game/ui/title_screen.gd:539
+msgid "A new Daily starts at midnight."
+msgstr "新しいデイリーは深夜0時に始まる。"
+
+#: game/ui/title_screen.gd:543
+msgid "Not played yet today."
+msgstr "今日はまだプレイしていません。"
+
+#: game/ui/title_screen.gd:545
+msgid "Today's best:  WON!"
+msgstr "今日のベスト:  勝利!"
+
+#: game/ui/title_screen.gd:545
+#, c-format
+msgid "Today's best:  reached round %d."
+msgstr "今日のベスト:  ラウンド%dまで到達。"
+
+#: game/ui/title_screen.gd:554
+msgid "PLAY TODAY'S RUN"
+msgstr "今日のランをプレイ"
+
+#: game/ui/title_screen.gd:601
+msgid "RUN HISTORY"
+msgstr "ランの履歴"
+
+#: game/ui/title_screen.gd:605
+#, c-format
+msgid "%d run"
+msgid_plural "%d runs"
+msgstr[0] "%d回のラン"
+
+#: game/ui/title_screen.gd:605
+#, c-format
+msgid "%d won"
+msgid_plural "%d won"
+msgstr[0] "%d勝"
+
+#: game/ui/title_screen.gd:614
+msgid ""
+"NO RUNS YET\n"
+"FINISH A CAMPAIGN RUN TO START YOUR HISTORY"
+msgstr ""
+"まだランがありません\n"
+"キャンペーンのランを終えると履歴が始まります"
+
+#: game/ui/title_screen.gd:642
+msgid "BROKE THE MACHINE"
+msgstr "マシン破壊"
+
+#: game/ui/title_screen.gd:645
+msgid "WON"
+msgstr "勝利"
+
+#: game/ui/title_screen.gd:645
+#, c-format
+msgid "WON  +%d OVERTIME"
+msgstr "勝利  延長+%d"
+
+#: game/ui/title_screen.gd:647
+#, c-format
+msgid "ABANDONED  R%d"
+msgstr "放棄  R%d"
+
+#: game/ui/title_screen.gd:648
+#, c-format
+msgid "LOST  ROUND %d"
+msgstr "敗北  ラウンド%d"
+
+#: game/ui/title_screen.gd:655
+#, c-format
+msgid "HEAT %d"
+msgstr "ヒート%d"
+
+#: game/ui/title_screen.gd:657
+#, c-format
+msgid "%s  -  %s  -  %s  -  seed %d"
+msgstr "%s  -  %s  -  %s  -  シード %d"
+
+#: game/ui/title_screen.gd:701
+#, c-format
+msgid "%s  -  Heat %d"
+msgstr "%s  -  ヒート%d"
+
+#: game/ui/title_screen.gd:701
+msgid "Daily "
+msgstr "デイリー"
+
+#: game/ui/title_screen.gd:701
+msgid "MODE"
+msgstr "モード"
+
+#: game/ui/title_screen.gd:701
+msgid "PLAYED"
+msgstr "プレイ日時"
+
+#: game/ui/title_screen.gd:702
+msgid "ROUND REACHED"
+msgstr "到達ラウンド"
+
+#: game/ui/title_screen.gd:703
+msgid "TOTAL SCORE"
+msgstr "合計スコア"
+
+#: game/ui/title_screen.gd:708
+#, c-format
+msgid "JOKERS  (%d)"
+msgstr "ジョーカー  (%d)"
+
+#: game/ui/title_screen.gd:722
+msgid "No Jokers at the end of this run."
+msgstr "このランの最後にはジョーカーがいなかった。"
+
+#: game/ui/title_screen.gd:728
+msgid "PLAY THIS SEED"
+msgstr "このシードで遊ぶ"
+
+#: game/ui/title_screen.gd:729
+msgid "Open the Kit screen with this seed filled in."
+msgstr "このシードを入力した状態でキット画面を開く。"
+
+#: game/ui/title_screen.gd:749
+msgid "Locked. "
+msgstr "ロック中。"
+
+#: game/ui/title_screen.gd:777
+#, c-format
+msgid "%d JOKER"
+msgid_plural "%d JOKERS"
+msgstr[0] "ジョーカー%d枠"
+
+#: game/ui/title_screen.gd:778
+#, c-format
+msgid "%d REFRESH"
+msgid_plural "%d REFRESHES"
+msgstr[0] "リフレッシュ%d回"
+
+#: game/ui/title_screen.gd:785
+#, c-format
+msgid "+%d STARTING CREDIT"
+msgid_plural "+%d STARTING CREDITS"
+msgstr[0] "初期クレジット+%d"
+
+#: game/ui/title_screen.gd:814
+#, c-format
+msgid "%d PIECE"
+msgid_plural "%d PIECES"
+msgstr[0] "%dピース"
+
+#: game/ui/title_screen.gd:823
+msgid "? JOKERS  -  ? REFRESHES"
+msgstr "ジョーカー?  -  リフレッシュ?"
+
+#: game/ui/title_screen.gd:824
+msgid "? PLACEMENTS"
+msgstr "配置?回"
+
+#: game/ui/title_screen.gd:849
+msgid "TO UNLOCK"
+msgstr "解放条件"
+
+#: game/ui/tray_slot.gd:4 game/ui/tray_slot.gd:158
+msgid "HOLDING"
+msgstr "ホールド中"
+
+#: game/ui/tray_slot.gd:4 game/ui/tray_slot.gd:160
+msgid "NO ROOM"
+msgstr "置けない"
+
+#: game/ui/tray_slot.gd:126
+msgid "placed"
+msgstr "配置済み"
+
+#: game/ui/tray_slot.gd:162
+msgid "BRICK: 1 BLOCK"
+msgstr "レンガ:1ブロック"
+
+#: game/ui/tray_slot.gd:164
+msgid "TEMPORARY"
+msgstr "一時的"
+
+#: game/ui/trophy_case.gd:47
+msgid "Previous page (Q)"
+msgstr "前のページ(Q)"
+
+#: game/ui/trophy_case.gd:52
+msgid "Next page (E)"
+msgstr "次のページ(E)"
+
+#: game/ui/trophy_case.gd:80
+msgid "TROPHY CASE"
+msgstr "トロフィー棚"
+
+#: game/ui/trophy_case.gd:101
+#, c-format
+msgid "%d / %d UNLOCKED  -  %d%%"
+msgstr "%d / %d 解除  -  %d%%"
+
+#: game/ui/trophy_case.gd:113
+#, c-format
+msgid "%s badges unlocked"
+msgstr "%sのバッジを解除"
+
+#: game/ui/trophy_case.gd:141
+msgid "PERSONAL RECORDS"
+msgstr "自己記録"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/trophy_case.gd:148
+msgid "FURTHEST ROUND"
+msgstr "最高到達ラウンド"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/trophy_case.gd:150
+msgid "BEST ROUND"
+msgstr "最高ラウンド"
+
+#: game/ui/trophy_case.gd:151
+#, c-format
+msgid "BROKEN IN ROUND %d"
+msgstr "ラウンド%dで破壊"
+
+#: game/ui/trophy_case.gd:151
+msgid "STILL IN ONE PIECE"
+msgstr "まだ無傷"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/trophy_case.gd:151
+msgid "THE MACHINE"
+msgstr "マシン"
+
+#: game/ui/trophy_case.gd:313
+msgid "SECRET"
+msgstr "シークレット"
+
+#: game/ui/trophy_case.gd:319
+#, c-format
+msgid "LOCKED  -  %s"
+msgstr "ロック中  -  %s"
+
+#: game/ui/trophy_case.gd:383
+msgid "NEW!"
+msgstr "NEW!"
+
+#: game/ui/trophy_case.gd:404
+msgid "  -  SECRET"
+msgstr "  -  シークレット"
+
+#: game/ui/trophy_case.gd:406
+#, c-format
+msgid "Hint: %s"
+msgstr "ヒント:%s"
+
+#: game/ui/trophy_case.gd:417
+#, c-format
+msgid "Unlocked Joker: %s"
+msgid_plural "Unlocked Jokers: %s"
+msgstr[0] "解放されたジョーカー:%s"
+
+#: game/ui/trophy_case.gd:418
+#, c-format
+msgid "Unlocks Joker: %s"
+msgid_plural "Unlocks Jokers: %s"
+msgstr[0] "解放するジョーカー:%s"
+
+#: game/ui/trophy_case.gd:423
+#, c-format
+msgid "\"%s\""
+msgstr "「%s」"
+
+#: game/ui/trophy_case.gd:428
+#, c-format
+msgid "Unlocked %s"
+msgstr "%sに解除"
+
+#: game/ui/trophy_case.gd:432
+#, c-format
+msgid "Progress: %s / %s"
+msgstr "進捗:%s / %s"
+
+#: game/ui/trophy_case.gd:433
+msgid "Locked"
+msgstr "ロック中"
+
+#: game/ui/tutorial.gd:116 game/ui/tutorial.gd:375
+msgid "SKIP TUTORIAL"
+msgstr "スキップ"
+
+#: game/ui/tutorial.gd:125 game/ui/tutorial.gd:365
+msgid "NEXT  >"
+msgstr "次へ  >"
+
+#: game/ui/tutorial.gd:365
+msgid "BYE!"
+msgstr "またね!"
+
+#: game/ui/tutorial.gd:365
+msgid "SHOW ME!"
+msgstr "見せて!"
+
+#: game/ui/tutorial.gd:366
+msgid "Clear a line"
+msgstr "ラインを消そう"
+
+#: game/ui/tutorial.gd:366
+msgid "Win the round"
+msgstr "ラウンドに勝とう"
+
+#: game/ui/tutorial.gd:367
+msgid "Press NEXT ROUND"
+msgstr "「次のラウンド」を押そう"
+

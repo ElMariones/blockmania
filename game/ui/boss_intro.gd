@@ -104,7 +104,9 @@ func _draw() -> void:
 			x += 72.0
 	# WARNING text marching across both bars.
 	if bar > 90.0:
-		var words := "WARNING   BOSS ROUND   WARNING   BOSS ROUND   " if not mk2 else "WARNING   MK II   WARNING   MK II   "
+		var warn := BMLoc.t("WARNING")
+		var what := BMLoc.t("BOSS ROUND") if not mk2 else "MK II"
+		var words := "%s   %s   %s   %s   " % [warn, what, warn, what]
 		var tile := BMStyle.font_bold.get_string_size(words, HORIZONTAL_ALIGNMENT_LEFT, -1, 40).x
 		var off := 0.0 if reduced_motion else fmod(_t * 160.0, tile)
 		for row in [[46.0, 1.0], [h - 88.0, -1.0]]:
@@ -119,7 +121,7 @@ func _draw() -> void:
 	var ts := _t - 0.55
 	var s := 1.0 if reduced_motion else (1.0 + 1.4 * exp(-ts * 9.0) * absf(cos(ts * 10.0)))
 	var name := BMBosses.title(boss, false).to_upper()
-	var fs := 80
+	var fs := BMUI.fit_size(name, BMStyle.font_bold, 80, w - 120)
 	var tw := BMStyle.font_bold.get_string_size(name, HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x
 	var jitter := Vector2.ZERO if reduced_motion or ts > 0.4 else Vector2(randf_range(-6, 6), randf_range(-4, 4))
 	var c := size / 2.0 + Vector2(0, -40) + jitter
@@ -134,7 +136,10 @@ func _draw() -> void:
 	var rule := BMBosses.rule_text(boss, mk2)
 	var shown := rule.substr(0, int(_rule_chars)) if not reduced_motion else rule
 	var rw := 1100.0
-	draw_multiline_string(BMStyle.font, Vector2(c.x - rw / 2.0, c.y + 90), shown, HORIZONTAL_ALIGNMENT_CENTER, rw, 30, 3, Color(BMStyle.CREAM, 0.95 * (1.0 - out)))
+	var rs := 30 if BMUI.wrap_lines(rule, BMStyle.font, 30, rw).size() <= 3 else 20
+	if BMUI.wrap_lines(rule, BMStyle.font, rs, rw).size() > 4:
+		BMUI.fit_size(rule, BMStyle.font, 20, rw * 4.0) # logged: too long for the band
+	draw_multiline_string(BMStyle.font, Vector2(c.x - rw / 2.0, c.y + 90), shown, HORIZONTAL_ALIGNMENT_CENTER, rw, rs, 4, Color(BMStyle.CREAM, 0.95 * (1.0 - out)))
 	# Mk II: a riveted metal plate stamped at an angle.
 	if mk2 and (_stamped or reduced_motion):
 		var st := 1.0 if reduced_motion else maxf(1.0, 3.0 - (_t - 1.25) * 14.0)
@@ -148,4 +153,4 @@ func _draw() -> void:
 			draw_rect(Rect2(p - Vector2(5, 5), Vector2(10, 10)), BMStyle.SUN_DD)
 		draw_string(BMStyle.font_bold, Vector2(-90, 22), "MK II", HORIZONTAL_ALIGNMENT_CENTER, 180, 60, BMStyle.INK)
 		draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
-	draw_string(BMStyle.font_bold, Vector2(0, h - 20), "CLICK OR PRESS ANY KEY", HORIZONTAL_ALIGNMENT_CENTER, w, 20, Color(BMStyle.TEXT_DIM, 0.7 * (1.0 - out)))
+	BMUI.draw_fit(self, BMStyle.font_bold, Vector2(0, h - 20), BMLoc.t("CLICK OR PRESS ANY KEY"), HORIZONTAL_ALIGNMENT_CENTER, w, 20, Color(BMStyle.TEXT_DIM, 0.7 * (1.0 - out)))

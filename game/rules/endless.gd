@@ -95,7 +95,7 @@ func _check_game_over() -> void:
 
 func apply_action(action: Dictionary) -> Dictionary:
 	if over:
-		return {"ok": false, "error": "Game over."}
+		return {"ok": false, "error": BMLoc.m("Game over.")}
 	if action.get("a", "") == "clock":
 		_track_time(int(action.get("ms", 0)))
 		history.append({"a": "clock", "ms": int(action.get("ms", 0))})
@@ -111,10 +111,10 @@ func apply_action(action: Dictionary) -> Dictionary:
 	var index := int(action.get("i", -1))
 	var anchor := Vector2i(int(action.get("x", -1)), int(action.get("y", -1)))
 	if index < 0 or index >= 3 or tray[index].is_empty():
-		return {"ok": false, "error": "Pick an offered piece."}
+		return {"ok": false, "error": BMLoc.m("Pick an offered piece.")}
 	var shape: Dictionary = tray[index]
 	if not board.can_place(shape.cells, anchor):
-		return {"ok": false, "error": "That piece does not fit."}
+		return {"ok": false, "error": BMLoc.m("That piece does not fit.")}
 	_track_time(int(action.get("ms", 0)))
 	var placed := board.place(shape.cells, anchor, int(shape.color))
 	coverage_peak = maxi(coverage_peak, board.occupied_count())
@@ -136,18 +136,18 @@ func apply_action(action: Dictionary) -> Dictionary:
 		earned += 100 * line_count * combo
 		lines += line_count
 		if line_count == 2:
-			callouts.append("DOUBLE CLEAR")
+			callouts.append(BMLoc.m("DOUBLE CLEAR"))
 		elif line_count == 3:
-			callouts.append("TRIPLE CLEAR")
+			callouts.append(BMLoc.m("TRIPLE CLEAR"))
 		elif line_count >= 4:
-			callouts.append("MEGA CLEAR")
+			callouts.append(BMLoc.m("MEGA CLEAR"))
 		if clean_board:
 			perfect_clears += 1
 			earned += CLEAN_BOARD_BONUS * combo
-			callouts.append("PERFECT")
-			callouts.append("CLEAN BOARD")
+			callouts.append(BMLoc.m("PERFECT"))
+			callouts.append(BMLoc.m("CLEAN BOARD"))
 		if combo == 10 and clear_chain == 6:
-			callouts.append("BLOCKSTORM")
+			callouts.append(BMLoc.m("BLOCKSTORM"))
 	else:
 		consecutive_clears = 0
 		misses += 1
@@ -201,9 +201,9 @@ func summary() -> Dictionary:
 
 func _hold_piece(index: int) -> Dictionary:
 	if hold_used:
-		return {"ok": false, "error": "Hold is available again after a placement."}
+		return {"ok": false, "error": BMLoc.m("Hold is available again after a placement.")}
 	if index < 0 or index >= 3 or tray[index].is_empty():
-		return {"ok": false, "error": "Select a piece to hold."}
+		return {"ok": false, "error": BMLoc.m("Select a piece to hold.")}
 	var outgoing: Dictionary = tray[index]
 	var incoming: Dictionary = held
 	var new_trio := false
@@ -226,7 +226,7 @@ func _hold_piece(index: int) -> Dictionary:
 		tray[index] = incoming
 		if not _any_tray_fits():
 			tray[index] = outgoing
-			return {"ok": false, "error": "That swap leaves no playable piece."}
+			return {"ok": false, "error": BMLoc.m("That swap leaves no playable piece.")}
 		held = outgoing
 		hold_used = true
 		_check_game_over()

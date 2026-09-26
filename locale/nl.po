@@ -1,0 +1,6332 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: BLOCKMANIA\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: game/content/achievements.gd:12
+msgctxt "tier"
+msgid "Bronze"
+msgstr "Brons"
+
+#: game/content/achievements.gd:12
+msgctxt "tier"
+msgid "Gold"
+msgstr "Goud"
+
+#: game/content/achievements.gd:12
+msgctxt "tier"
+msgid "Legendary"
+msgstr "Legendarisch"
+
+#: game/content/achievements.gd:12
+msgctxt "tier"
+msgid "Silver"
+msgstr "Zilver"
+
+#: game/content/achievements.gd:13
+msgid "ARCADE & SECRETS"
+msgstr "ARCADE & GEHEIMEN"
+
+#: game/content/achievements.gd:13
+msgid "LEGENDS"
+msgstr "LEGENDES"
+
+#: game/content/achievements.gd:13
+msgid "THE BAG & THE SHOP"
+msgstr "DE ZAK & DE WINKEL"
+
+#: game/content/achievements.gd:13
+msgid "THE CAMPAIGN"
+msgstr "DE CAMPAGNE"
+
+#: game/content/achievements.gd:13
+msgid "THE SCOREBOARD"
+msgstr "HET SCOREBORD"
+
+#: game/content/achievements.gd:21
+msgid "Clear your first line."
+msgstr "Speel je eerste lijn weg."
+
+#: game/content/achievements.gd:21
+msgid "First Crack"
+msgstr "Eerste barst"
+
+#: game/content/achievements.gd:21
+msgid "It's a start. A very satisfying start."
+msgstr "Het is een begin. Een heel bevredigend begin."
+
+#: game/content/achievements.gd:22
+msgid "The target never stood a chance."
+msgstr "Het doel had geen schijn van kans."
+
+#: game/content/achievements.gd:22
+msgid "Warmed Up"
+msgstr "Opgewarmd"
+
+#: game/content/achievements.gd:22
+msgid "Win a round."
+msgstr "Win een ronde."
+
+#: game/content/achievements.gd:23
+msgid "Boss Buster"
+msgstr "Baasbreker"
+
+#: game/content/achievements.gd:23
+msgid "Defeat a boss."
+msgstr "Versla een baas."
+
+#: game/content/achievements.gd:23
+msgid "They always look bigger on the poster."
+msgstr "Op de poster lijken ze altijd groter."
+
+#: game/content/achievements.gd:24
+msgid "Intermission is over. Back to your seats."
+msgstr "De pauze is voorbij. Terug naar je plaats."
+
+#: game/content/achievements.gd:24
+msgid "Reach Act 2 (round 5)."
+msgstr "Bereik akte 2 (ronde 5)."
+
+#: game/content/achievements.gd:24
+msgid "Second Act"
+msgstr "Tweede akte"
+
+#: game/content/achievements.gd:25
+msgid "Final Act"
+msgstr "Laatste akte"
+
+#: game/content/achievements.gd:25
+msgid "Reach Act 3 (round 9)."
+msgstr "Bereik akte 3 (ronde 9)."
+
+#: game/content/achievements.gd:25
+msgid "The curtain is starting to twitch."
+msgstr "Het doek begint te trillen."
+
+#: game/content/achievements.gd:26
+msgid "Blink and you missed it."
+msgstr "Even knipperen en je hebt het gemist."
+
+#: game/content/achievements.gd:26
+msgid "Speedrunner"
+msgstr "Speedrunner"
+
+#: game/content/achievements.gd:26
+msgid "Win a round in five placements or fewer."
+msgstr "Win een ronde in vijf zetten of minder."
+
+#: game/content/achievements.gd:27
+msgid "BLOCKMANIA!"
+msgstr "BLOCKMANIA!"
+
+#: game/content/achievements.gd:27
+msgid "Beat the game: win round 12."
+msgstr "Speel het spel uit: win ronde 12."
+
+#: game/content/achievements.gd:27
+msgid "Twelve rounds, three bosses, one very full board."
+msgstr "Twaalf rondes, drie bazen en één heel vol bord."
+
+#: game/content/achievements.gd:28
+msgid "A good builder never blames the Kit."
+msgstr "Een goede bouwer geeft nooit de kit de schuld."
+
+#: game/content/achievements.gd:28
+msgid "Beat the game with any Kit other than the Standard Kit."
+msgstr "Speel het spel uit met een andere kit dan de standaardkit."
+
+#: game/content/achievements.gd:28
+msgid "Different Tools"
+msgstr "Ander gereedschap"
+
+#: game/content/achievements.gd:29 game/content/tips.gd:33
+msgid "Overtime"
+msgstr "Verlenging"
+
+#: game/content/achievements.gd:29
+msgid "The arcade was supposed to close an hour ago."
+msgstr "De speelhal had een uur geleden al dicht moeten gaan."
+
+#: game/content/achievements.gd:29
+msgid "Win a round in Overtime (after beating the game, keep playing)."
+msgstr "Win een ronde in de verlenging (speel na het uitspelen gewoon door)."
+
+#: game/content/achievements.gd:30
+msgid "Every target is a cliff now."
+msgstr "Elk doel is nu een steile wand."
+
+#: game/content/achievements.gd:30
+msgid "Reach round 20 in Overtime."
+msgstr "Bereik ronde 20 in de verlenging."
+
+#: game/content/achievements.gd:30
+msgid "Sudden Death"
+msgstr "Sudden death"
+
+#: game/content/achievements.gd:31
+msgid "No Off Switch"
+msgstr "Geen uitknop"
+
+#: game/content/achievements.gd:31
+msgid "Reach round 30 in Overtime."
+msgstr "Bereik ronde 30 in de verlenging."
+
+#: game/content/achievements.gd:31
+msgid "Somebody unplug this thing."
+msgstr "Kan iemand de stekker eruit trekken?"
+
+#: game/content/achievements.gd:32
+msgid "Broke the Machine"
+msgstr "Machine stuk"
+
+#: game/content/achievements.gd:32
+msgid "ERR ERR ERR. Please insert more digits."
+msgstr "ERR ERR ERR. Werp meer cijfers in."
+
+#: game/content/achievements.gd:32
+msgid "Score a single placement past the machine's limit (1,000,000,000,000,000 points)."
+msgstr "Ga met één enkele zet over de limiet van de machine (1 000 000 000 000 000 punten)."
+
+#: game/content/achievements.gd:32
+msgid "Some scores are too big for any machine."
+msgstr "Sommige scores zijn te groot voor elke machine."
+
+#: game/content/achievements.gd:34
+msgid "Blue Period"
+msgstr "Blauwe periode"
+
+#: game/content/achievements.gd:34
+msgid "Feeling a little blue? Feeling VERY blue."
+msgstr "Een beetje somber? Nee: HEEL blauw."
+
+#: game/content/achievements.gd:34
+msgid "Have 10 or more blue pieces in your bag."
+msgstr "Heb 10 of meer blauwe stukken in je zak."
+
+#: game/content/achievements.gd:35
+msgid "Have 10 or more Square pieces (2x2 or 3x3) in your bag."
+msgstr "Heb 10 of meer Vierkant-stukken (2x2 of 3x3) in je zak."
+
+#: game/content/achievements.gd:35
+msgid "Square Dance"
+msgstr "Vierkantsdans"
+
+#: game/content/achievements.gd:35
+msgid "Swing your partner, stack your blocks."
+msgstr "Draai je partner rond, stapel je blokken."
+
+#: game/content/achievements.gd:36
+msgid "Full Spectrum"
+msgstr "Volledig spectrum"
+
+#: game/content/achievements.gd:36
+msgid "Have at least five pieces of every color in your bag."
+msgstr "Heb minstens vijf stukken van elke kleur in je zak."
+
+#: game/content/achievements.gd:36
+msgid "Taste the whole toybox."
+msgstr "Proef de hele speelgoedkist."
+
+#: game/content/achievements.gd:37
+msgid "Have 40 or more pieces in your bag."
+msgstr "Heb 40 of meer stukken in je zak."
+
+#: game/content/achievements.gd:37
+msgid "Packrat"
+msgstr "Hamsteraar"
+
+#: game/content/achievements.gd:37
+msgid "You never know when you'll need a spare T."
+msgstr "Je weet nooit wanneer je een reserve-T nodig hebt."
+
+#: game/content/achievements.gd:38
+msgid "Only the essentials."
+msgstr "Alleen het hoognodige."
+
+#: game/content/achievements.gd:38
+msgid "Shrink your bag to 14 pieces or fewer."
+msgstr "Maak je zak kleiner tot 14 stukken of minder."
+
+#: game/content/achievements.gd:38
+msgid "Travel Light"
+msgstr "Licht bepakt"
+
+#: game/content/achievements.gd:39
+msgid "Alchemist"
+msgstr "Alchemist"
+
+#: game/content/achievements.gd:39
+msgid "Own pieces of all five materials at once: Chrome, Neon, Gold, Glass and Prism."
+msgstr "Bezit tegelijk stukken van alle vijf materialen: chroom, neon, goud, glas en prisma."
+
+#: game/content/achievements.gd:39
+msgid "Plastic into gold, gold into glass."
+msgstr "Van plastic naar goud, van goud naar glas."
+
+#: game/content/achievements.gd:40
+msgid "Own pieces with all four stamps at once: Encore, Refund, Tip and Memory."
+msgstr "Bezit tegelijk stukken met alle vier stempels: Toegift, Teruggave, Fooi en Geheugen."
+
+#: game/content/achievements.gd:40
+msgid "Signed, sealed, stamped four times."
+msgstr "Getekend, verzegeld en vier keer gestempeld."
+
+#: game/content/achievements.gd:40
+msgid "Special Delivery"
+msgstr "Speciale levering"
+
+#: game/content/achievements.gd:41
+msgid "Fill every Joker slot."
+msgstr "Vul elk Joker-vak."
+
+#: game/content/achievements.gd:41
+msgid "Full House"
+msgstr "Volgeboekt"
+
+#: game/content/achievements.gd:41
+msgid "No vacancies at the Joker hotel."
+msgstr "Geen kamers meer vrij in het Joker-hotel."
+
+#: game/content/achievements.gd:42
+msgid "Hold three Rare Jokers at the same time."
+msgstr "Heb drie zeldzame Jokers tegelijk."
+
+#: game/content/achievements.gd:42
+msgid "Only the finest cardboard."
+msgstr "Alleen het fijnste karton."
+
+#: game/content/achievements.gd:42
+msgid "Rare Taste"
+msgstr "Verfijnde smaak"
+
+#: game/content/achievements.gd:43
+msgid "Master Plan"
+msgstr "Meesterplan"
+
+#: game/content/achievements.gd:43
+msgid "Raise a shape family to Schematic level 3."
+msgstr "Breng een vormfamilie naar bouwtekeningniveau 3."
+
+#: game/content/achievements.gd:43
+msgid "The blueprints have blueprints."
+msgstr "De bouwtekeningen hebben bouwtekeningen."
+
+#: game/content/achievements.gd:44
+msgid "Hold 50 or more Credits."
+msgstr "Heb 50 of meer credits."
+
+#: game/content/achievements.gd:44
+msgid "Oink."
+msgstr "Knor."
+
+#: game/content/achievements.gd:44
+msgid "Piggy Bank"
+msgstr "Spaarvarken"
+
+#: game/content/achievements.gd:45
+msgid "Even a wallet has a limit."
+msgstr "Zelfs een portemonnee heeft een grens."
+
+#: game/content/achievements.gd:45
+msgid "Hold the maximum 99 Credits."
+msgstr "Heb het maximum van 99 credits."
+
+#: game/content/achievements.gd:45
+msgid "Scrooge"
+msgstr "Vrek"
+
+#: game/content/achievements.gd:45
+msgid "Swimming in coins is harder than it looks."
+msgstr "Zwemmen in munten is lastiger dan het lijkt."
+
+#: game/content/achievements.gd:47
+msgid "Big Hit"
+msgstr "Voltreffer"
+
+#: game/content/achievements.gd:47
+msgid "Ka-chunk."
+msgstr "Ka-tsjonk."
+
+#: game/content/achievements.gd:47
+msgid "Score 1,000 points with one placement."
+msgstr "Scoor 1 000 punten met één zet."
+
+#: game/content/achievements.gd:48
+msgid "Mega Hit"
+msgstr "Megatreffer"
+
+#: game/content/achievements.gd:48
+msgid "Score 10,000 points with one placement."
+msgstr "Scoor 10 000 punten met één zet."
+
+#: game/content/achievements.gd:48
+msgid "The receipt printer is sweating."
+msgstr "De bonnetjesprinter zweet."
+
+#: game/content/achievements.gd:49
+msgid "Giga Hit"
+msgstr "Gigatreffer"
+
+#: game/content/achievements.gd:49
+msgid "Score 1,000,000 points with one placement."
+msgstr "Scoor 1 000 000 punten met één zet."
+
+#: game/content/achievements.gd:49
+msgid "That's a lot of zeros for one little piece."
+msgstr "Dat zijn veel nullen voor zo'n klein stukje."
+
+#: game/content/achievements.gd:50
+msgid "Clear three lines with one placement."
+msgstr "Speel drie lijnen weg met één zet."
+
+#: game/content/achievements.gd:50
+msgid "Stacked high and cleared clean."
+msgstr "Hoog gestapeld, schoon weggespeeld."
+
+#: game/content/achievements.gd:50
+msgid "Triple Decker"
+msgstr "Driedekker"
+
+#: game/content/achievements.gd:51
+msgid "Clear four or more lines with one placement."
+msgstr "Speel vier of meer lijnen weg met één zet."
+
+#: game/content/achievements.gd:51
+msgid "Four-Alarm Fire"
+msgstr "Groot alarm"
+
+#: game/content/achievements.gd:51
+msgid "Somebody call the block brigade."
+msgstr "Bel de blokkenbrandweer!"
+
+#: game/content/achievements.gd:52
+msgid "Clear a row and a column with one placement."
+msgstr "Speel een rij en een kolom weg met één zet."
+
+#: game/content/achievements.gd:52
+msgid "Crossroads"
+msgstr "Kruispunt"
+
+#: game/content/achievements.gd:52
+msgid "X marks the spot."
+msgstr "X markeert de plek."
+
+#: game/content/achievements.gd:53
+msgid "Don't touch the board, it's hot."
+msgstr "Niet aan het bord zitten, het is heet."
+
+#: game/content/achievements.gd:53
+msgid "Reach the maximum combo (x4)."
+msgstr "Bereik de maximale combo (x4)."
+
+#: game/content/achievements.gd:53
+msgid "Red Hot"
+msgstr "Gloeiend heet"
+
+#: game/content/achievements.gd:54
+msgid "Finish a round with at least three times its target."
+msgstr "Eindig een ronde met minstens drie keer het doel."
+
+#: game/content/achievements.gd:54
+msgid "Overkill"
+msgstr "Overkill"
+
+#: game/content/achievements.gd:54
+msgid "The target asked for a little. You gave a lot."
+msgstr "Het doel vroeg om een beetje. Jij gaf heel veel."
+
+#: game/content/achievements.gd:55
+msgid "By a Thread"
+msgstr "Op het nippertje"
+
+#: game/content/achievements.gd:55
+msgid "Close. So close. Close enough!"
+msgstr "Dichtbij. Heel dichtbij. Dichtbij genoeg!"
+
+#: game/content/achievements.gd:55
+msgid "Win a round with your very last placement."
+msgstr "Win een ronde met je allerlaatste zet."
+
+#: game/content/achievements.gd:56
+msgid "Leave the board completely empty after a clear (campaign)."
+msgstr "Laat het bord na het wegspelen helemaal leeg achter (campagne)."
+
+#: game/content/achievements.gd:56
+msgid "Spotless"
+msgstr "Brandschoon"
+
+#: game/content/achievements.gd:56
+msgid "You could eat off this board."
+msgstr "Van dit bord kun je eten."
+
+#: game/content/achievements.gd:57
+msgid "Get dealt a Grand Slam Tray Hand."
+msgstr "Krijg een Grand Slam-hand in je bakje."
+
+#: game/content/achievements.gd:57 game/rules/hands.gd:17
+msgid "Grand Slam"
+msgstr "Grand Slam"
+
+#: game/content/achievements.gd:57
+msgid "Three of a kind, one color, all the lights."
+msgstr "Drie dezelfde, één kleur, alle lichten aan."
+
+#: game/content/achievements.gd:58
+msgid "Full Deck"
+msgstr "Compleet spel"
+
+#: game/content/achievements.gd:58
+msgid "See all five Tray Hands (across any runs)."
+msgstr "Zie alle vijf handen van het bakje (over alle runs)."
+
+#: game/content/achievements.gd:58
+msgid "Twins, Staircase, Monochrome, Triplets, Grand Slam. Collected."
+msgstr "Tweeling, Trap, Monochroom, Drieling, Grand Slam. Verzameld."
+
+#: game/content/achievements.gd:60
+msgid "Arcade Rookie"
+msgstr "Nieuweling in de speelhal"
+
+#: game/content/achievements.gd:60
+msgid "Put your initials in. Go on."
+msgstr "Vul je initialen in. Kom op."
+
+#: game/content/achievements.gd:60
+msgid "Score 5,000 points in one Endless game."
+msgstr "Scoor 5 000 punten in één Eindeloos-potje."
+
+#: game/content/achievements.gd:61
+msgid "Arcade Regular"
+msgstr "Vaste gast in de speelhal"
+
+#: game/content/achievements.gd:61
+msgid "Score 25,000 points in one Endless game."
+msgstr "Scoor 25 000 punten in één Eindeloos-potje."
+
+#: game/content/achievements.gd:61
+msgid "The cabinet knows your name."
+msgstr "De kast kent je naam."
+
+#: game/content/achievements.gd:62
+msgid "Arcade Legend"
+msgstr "Legende van de speelhal"
+
+#: game/content/achievements.gd:62
+msgid "Score 100,000 points in one Endless game."
+msgstr "Scoor 100 000 punten in één Eindeloos-potje."
+
+#: game/content/achievements.gd:62
+msgid "They're going to name the cabinet after you."
+msgstr "Ze gaan de kast naar jou vernoemen."
+
+#: game/content/achievements.gd:63
+msgid "Blockstorm"
+msgstr "Blokkenstorm"
+
+#: game/content/achievements.gd:63
+msgid "Reach the x10 combo in Endless."
+msgstr "Bereik de x10-combo in Eindeloos."
+
+#: game/content/achievements.gd:63
+msgid "Ten out of ten. No notes."
+msgstr "Tien uit tien. Geen opmerkingen."
+
+#: game/content/achievements.gd:64
+msgid "Ahh. That new-board smell."
+msgstr "Ahh. Die geur van een nieuw bord."
+
+#: game/content/achievements.gd:64
+msgid "Clear the whole board in Endless."
+msgstr "Speel in Eindeloos het hele bord leeg."
+
+#: game/content/achievements.gd:64
+msgid "Fresh Start"
+msgstr "Frisse start"
+
+#: game/content/achievements.gd:65
+msgid "BL...CKM...NIA? Where did everything go?"
+msgstr "BL...CKM...NIA? Waar is alles gebleven?"
+
+#: game/content/achievements.gd:65
+msgid "Have every letter of the BLOCKMANIA logo blown up at once."
+msgstr "Laat alle letters van het BLOCKMANIA-logo tegelijk ontploffen."
+
+#: game/content/achievements.gd:65
+msgid "The title looks awfully fragile."
+msgstr "De titel ziet er vreselijk breekbaar uit."
+
+#: game/content/achievements.gd:65
+msgid "Vandal"
+msgstr "Vandaal"
+
+#: game/content/achievements.gd:66
+msgid "Night Shift"
+msgstr "Nachtdienst"
+
+#: game/content/achievements.gd:66
+msgid "Place a piece between midnight and 5 AM."
+msgstr "Leg een stuk tussen middernacht en 5 uur 's ochtends."
+
+#: game/content/achievements.gd:66
+msgid "Some players only come out after dark."
+msgstr "Sommige spelers komen pas na zonsondergang tevoorschijn."
+
+#: game/content/achievements.gd:66
+msgid "The blocks glow brighter at night. Probably."
+msgstr "'S nachts gloeien de blokken feller. Waarschijnlijk."
+
+#: game/content/achievements.gd:67
+msgid "Look Ma, No Lines"
+msgstr "Kijk mam, zonder lijnen"
+
+#: game/content/achievements.gd:67
+msgid "Technically, the rules never said you HAD to."
+msgstr "Technisch gezien zeiden de regels nooit dat het MOEST."
+
+#: game/content/achievements.gd:67
+msgid "Who needs lines anyway?"
+msgstr "Wie heeft er nou lijnen nodig?"
+
+#: game/content/achievements.gd:67
+msgid "Win a campaign round without clearing a single line."
+msgstr "Win een campagneronde zonder ook maar één lijn weg te spelen."
+
+#: game/content/achievements.gd:68
+msgid "Butterfingers"
+msgstr "Boterhanden"
+
+#: game/content/achievements.gd:68
+msgid "Handle with care."
+msgstr "Voorzichtig, breekbaar."
+
+#: game/content/achievements.gd:68
+msgid "Shatter a Glass piece."
+msgstr "Laat een glazen stuk breken."
+
+#: game/content/achievements.gd:68
+msgid "That one's coming out of your allowance."
+msgstr "Die gaat van je zakgeld af."
+
+#: game/content/achievements.gd:69
+msgid "In case of emergency, break something."
+msgstr "Breek in geval van nood iets kapot."
+
+#: game/content/achievements.gd:69
+msgid "Through the Window"
+msgstr "Door het raam"
+
+#: game/content/achievements.gd:69
+msgid "Throw an Emergency Brick."
+msgstr "Gooi een noodbaksteen."
+
+#: game/content/achievements.gd:69
+msgid "Who's paying for that?"
+msgstr "Wie gaat dat betalen?"
+
+#: game/content/achievements.gd:70
+msgid "Always read the small text."
+msgstr "Lees altijd de kleine lettertjes."
+
+#: game/content/achievements.gd:70
+msgid "Get a lost round replayed by Insurance Policy."
+msgstr "Laat de Verzekeringspolis een verloren ronde opnieuw spelen."
+
+#: game/content/achievements.gd:70
+msgid "Terms and conditions apply. Luckily, they applied to you."
+msgstr "Er gelden voorwaarden. Gelukkig golden ze voor jou."
+
+#: game/content/achievements.gd:70
+msgid "The Fine Print"
+msgstr "De kleine lettertjes"
+
+#: game/content/achievements.gd:71
+msgid "Block Maniac"
+msgstr "Blokmaniak"
+
+#: game/content/achievements.gd:71
+msgid "The whole trophy case. Every last shelf. Take a bow."
+msgstr "De hele vitrine. Tot het laatste plankje. Maak een buiging."
+
+#: game/content/achievements.gd:71
+msgid "Unlock every other achievement."
+msgstr "Ontgrendel alle andere prestaties."
+
+#: game/content/achievements.gd:73
+msgid "It hums a little when you hold it."
+msgstr "Hij zoemt een beetje als je hem vasthoudt."
+
+#: game/content/achievements.gd:73
+msgid "Once Upon a Legend"
+msgstr "Er was eens een legende"
+
+#: game/content/achievements.gd:73
+msgid "Own a Legendary Joker."
+msgstr "Bezit een legendarische Joker."
+
+#: game/content/achievements.gd:74
+msgid "Double Legend"
+msgstr "Dubbele legende"
+
+#: game/content/achievements.gd:74
+msgid "One legend is a story. Two is a problem."
+msgstr "Eén legende is een verhaal. Twee is een probleem."
+
+#: game/content/achievements.gd:74
+msgid "Own two Legendary Jokers at the same time."
+msgstr "Bezit twee legendarische Jokers tegelijk."
+
+#: game/content/achievements.gd:74
+msgid "The rack has never looked so smug."
+msgstr "Het rek heeft er nog nooit zo zelfvoldaan uitgezien."
+
+#: game/content/achievements.gd:75
+msgid "Own each of the four Legendary Jokers (across any runs)."
+msgstr "Bezit elk van de vier legendarische Jokers (over alle runs)."
+
+#: game/content/achievements.gd:75
+msgid "Pantheon"
+msgstr "Pantheon"
+
+#: game/content/achievements.gd:75
+msgid "The Avalanche, the Mirrors, the Stone and the Star. All accounted for."
+msgstr "De Lawine, de Spiegels, de Steen en de Ster. Allemaal binnen."
+
+#: game/content/achievements.gd:76
+msgid "Chain Reaction"
+msgstr "Kettingreactie"
+
+#: game/content/achievements.gd:76
+msgid "Chain three clear waves in one placement with The Avalanche."
+msgstr "Rijg met De Lawine drie wegspeelgolven aan elkaar in één zet."
+
+#: game/content/achievements.gd:76
+msgid "Nobody touch anything. Let it fall."
+msgstr "Niemand iets aanraken. Laat het vallen."
+
+#: game/content/achievements.gd:77
+msgid "How many of you are in there?"
+msgstr "Hoeveel van jou zitten daar?"
+
+#: game/content/achievements.gd:77
+msgid "Mirror World"
+msgstr "Spiegelwereld"
+
+#: game/content/achievements.gd:77
+msgid "Score a placement where Hall of Mirrors doubles four other Jokers."
+msgstr "Scoor een zet waarbij de Spiegelzaal vier andere Jokers verdubbelt."
+
+#: game/content/achievements.gd:78
+msgid "Chrome, neon, gold and glass. Very little plastic left."
+msgstr "Chroom, neon, goud en glas. Er is bijna geen plastic meer over."
+
+#: game/content/achievements.gd:78
+msgid "Have 15 or more pieces with a material in your bag."
+msgstr "Heb 15 of meer stukken met een materiaal in je zak."
+
+#: game/content/achievements.gd:78
+msgid "Heavy Metal"
+msgstr "Heavy metal"
+
+#: game/content/achievements.gd:79
+msgid "Eighteen lines and one very bright star."
+msgstr "Achttien lijnen en één heel felle ster."
+
+#: game/content/achievements.gd:79
+msgid "Going Nova"
+msgstr "Op weg naar nova"
+
+#: game/content/achievements.gd:79
+msgid "Score with Supernova at x10 Mult or more."
+msgstr "Scoor met Supernova op x10 Mult of meer."
+
+#: game/content/achievements.gd:80
+msgid "Grow Snowball to x2 Mult or more."
+msgstr "Laat Sneeuwbal groeien tot x2 Mult of meer."
+
+#: game/content/achievements.gd:80
+msgid "It started as a pebble of snow."
+msgstr "Het begon als een vlokje sneeuw."
+
+#: game/content/achievements.gd:80
+msgid "Snowed In"
+msgstr "Ingesneeuwd"
+
+#: game/content/achievements.gd:81
+msgid "Compound Growth"
+msgstr "Samengestelde groei"
+
+#: game/content/achievements.gd:81
+msgid "Earn the maximum interest (+5 Credits) after a round."
+msgstr "Verdien na een ronde de maximale rente (+5 credits)."
+
+#: game/content/achievements.gd:81
+msgid "Your Credits have been working harder than you."
+msgstr "Je credits hebben harder gewerkt dan jij."
+
+#: game/content/achievements.gd:82
+msgid "Have seven Joker slots."
+msgstr "Heb zeven Joker-vakken."
+
+#: game/content/achievements.gd:82
+msgid "Two Rack Extenders and a lot of shelf brackets."
+msgstr "Twee rekverlengers en een hoop plankdragers."
+
+#: game/content/achievements.gd:82
+msgid "Wide Rack"
+msgstr "Breed rek"
+
+#: game/content/achievements.gd:83
+msgid "Billionaire"
+msgstr "Miljardair"
+
+#: game/content/achievements.gd:83
+msgid "Nine zeros. The counter had to borrow some."
+msgstr "Negen nullen. De teller moest er een paar lenen."
+
+#: game/content/achievements.gd:83
+msgid "Score 1,000,000,000 points with one placement."
+msgstr "Scoor 1 000 000 000 punten met één zet."
+
+#: game/content/achievements.gd:84
+msgid "Even legends have bad days."
+msgstr "Ook legendes hebben slechte dagen."
+
+#: game/content/achievements.gd:84
+msgid "Fallen Hero"
+msgstr "Gevallen held"
+
+#: game/content/achievements.gd:84
+msgid "Lose a run while owning a Legendary Joker."
+msgstr "Verlies een run terwijl je een legendarische Joker bezit."
+
+#: game/content/achievements.gd:84
+msgid "They'll write songs about it. Sad ones."
+msgstr "Er komen liedjes over. Treurige."
+
+#: game/content/bosses.gd:7
+msgid "Cramped Cabinet"
+msgstr "Krappe Kast"
+
+#: game/content/bosses.gd:7
+msgid "The Cramped Cabinet"
+msgstr "De Krappe Kast"
+
+#: game/content/bosses.gd:8
+msgid "The round begins with four fixed occupied cells. They clear normally and score no placement Chips."
+msgstr "De ronde begint met vier vaste bezette vakjes. Ze worden normaal weggespeeld en leveren geen zetchips op."
+
+#: game/content/bosses.gd:9
+msgid "The round begins with seven fixed occupied cells. They clear normally and score no placement Chips."
+msgstr "De ronde begint met zeven vaste bezette vakjes. Ze worden normaal weggespeeld en leveren geen zetchips op."
+
+#: game/content/bosses.gd:10
+msgid "Favor small shapes or board-clearing tools."
+msgstr "Kies kleine vormen of hulpmiddelen die het bord vrijmaken."
+
+#: game/content/bosses.gd:11
+msgid "Taxman"
+msgstr "Belastinginner"
+
+#: game/content/bosses.gd:11
+msgid "The Taxman"
+msgstr "De Belastinginner"
+
+#: game/content/bosses.gd:12
+msgid "The first line cleared by each placement grants 60 instead of 100 base Chips."
+msgstr "De eerste lijn die elke zet wegspeelt, levert 60 in plaats van 100 basischips op."
+
+#: game/content/bosses.gd:13
+msgid "The first line cleared by each placement grants 30 instead of 100 base Chips, and multi-line Mult is halved."
+msgstr "De eerste lijn die elke zet wegspeelt, levert 30 in plaats van 100 basischips op, en de meerlijns-Mult wordt gehalveerd."
+
+#: game/content/bosses.gd:14
+msgid "Pursue double clears and flat Chip Jokers."
+msgstr "Ga voor dubbele lijnen en Jokers met vaste chips."
+
+#: game/content/bosses.gd:15
+msgid "Color Blind"
+msgstr "Kleurenblinde"
+
+#: game/content/bosses.gd:15
+msgid "The Color Blind"
+msgstr "De Kleurenblinde"
+
+#: game/content/bosses.gd:16
+msgid "Effects that name a block color are disabled this round."
+msgstr "Effecten die een blokkleur noemen, werken deze ronde niet."
+
+#: game/content/bosses.gd:17
+msgid "Effects that name a block color are disabled, and you have two fewer placements."
+msgstr "Effecten die een blokkleur noemen, werken niet, en je hebt twee zetten minder."
+
+#: game/content/bosses.gd:18
+msgid "Diversify beyond color-dependent scoring."
+msgstr "Scoor niet alleen op kleur."
+
+#: game/content/bosses.gd:21
+msgid "Echo Chamber"
+msgstr "Echokamer"
+
+#: game/content/bosses.gd:21
+msgid "The Echo Chamber"
+msgstr "De Echokamer"
+
+#: game/content/bosses.gd:22
+msgid "Extra clear waves after the first score half Chips before Jokers."
+msgstr "Extra wegspeelgolven na de eerste leveren de helft aan chips op, vóór de Jokers."
+
+#: game/content/bosses.gd:23
+msgid "Prefer immediate clears over chained board effects."
+msgstr "Speel liever meteen weg dan op kettingeffecten te gokken."
+
+#: game/content/bosses.gd:24
+msgid "Lockdown"
+msgstr "Lockdown"
+
+#: game/content/bosses.gd:24
+msgid "The Lockdown"
+msgstr "De Lockdown"
+
+#: game/content/bosses.gd:25
+msgid "The free Refresh and Second Tray are unavailable this round."
+msgstr "De gratis ruilbeurt en Tweede bakje zijn deze ronde niet beschikbaar."
+
+#: game/content/bosses.gd:26
+msgid "Refresh, Second Tray, Coffee Break and Hold are all unavailable this round."
+msgstr "Ruilen, Tweede bakje, Koffiepauze en Bewaren zijn deze ronde allemaal niet beschikbaar."
+
+#: game/content/bosses.gd:27
+msgid "Plan tray order and preserve board space."
+msgstr "Plan de volgorde van je bakje en houd ruimte vrij op het bord."
+
+#: game/content/bosses.gd:28
+msgid "The Warden"
+msgstr "De Cipier"
+
+#: game/content/bosses.gd:28
+msgid "Warden"
+msgstr "Cipier"
+
+#: game/content/bosses.gd:29
+msgid "One tray slot starts barred: its piece can't be played until you clear a line. Deals skip the barred slot."
+msgstr "Eén vak van het bakje begint vergrendeld: het stuk is pas speelbaar na een weggespeelde lijn. Het delen slaat dat vak over."
+
+#: game/content/bosses.gd:30
+msgid "Two tray slots start barred until you clear a line. Deals skip barred slots."
+msgstr "Twee vakken van het bakje beginnen vergrendeld tot je een lijn wegspeelt. Bij het delen worden ze overgeslagen."
+
+#: game/content/bosses.gd:31
+msgid "Open with a quick clear using the other two slots."
+msgstr "Open met een snelle lijn met de andere twee vakken."
+
+#: game/content/bosses.gd:32
+msgid "The Undertaker"
+msgstr "De Doodgraver"
+
+#: game/content/bosses.gd:32
+msgid "Undertaker"
+msgstr "Doodgraver"
+
+#: game/content/bosses.gd:33
+msgid "After every 4th placement, a tombstone rises on an empty cell. It clears with its line like any block."
+msgstr "Na elke 4e zet verrijst een grafsteen op een leeg vakje. Hij wordt met zijn lijn weggespeeld zoals elk blok."
+
+#: game/content/bosses.gd:34
+msgid "After every 3rd placement, a tombstone rises on an empty cell. It clears with its line like any block."
+msgstr "Na elke 3e zet verrijst een grafsteen op een leeg vakje. Hij wordt met zijn lijn weggespeeld zoals elk blok."
+
+#: game/content/bosses.gd:35
+msgid "Clear often and keep lanes open."
+msgstr "Speel vaak weg en houd banen open."
+
+#: game/content/bosses.gd:36
+msgid "Last Call"
+msgstr "Laatste Ronde"
+
+#: game/content/bosses.gd:36
+msgid "The Last Call"
+msgstr "De Laatste Ronde"
+
+#: game/content/bosses.gd:37
+msgid "Only 12 placements. Each multi-line placement gains +50 Chips."
+msgstr "Maar 12 zetten. Elke zet met meerdere lijnen krijgt +50 chips."
+
+#: game/content/bosses.gd:38
+msgid "Only 10 placements. Each multi-line placement gains +50 Chips."
+msgstr "Maar 10 zetten. Elke zet met meerdere lijnen krijgt +50 chips."
+
+#: game/content/bosses.gd:39
+msgid "Prepare efficient shapes and simultaneous clears."
+msgstr "Bereid efficiënte vormen en gelijktijdige lijnen voor."
+
+#: game/content/consumables.gd:11
+msgid "Add +100 Chips to the next placement this round."
+msgstr "Geeft de volgende zet van deze ronde +100 chips."
+
+#. rules text (shown through BMLoc.tf)
+#: game/content/consumables.gd:11 game/rules/resolver.gd:214
+msgid "Polish"
+msgstr "Poetsmiddel"
+
+#: game/content/consumables.gd:12
+msgid "Add +1 Mult to the next placement this round."
+msgstr "Geeft de volgende zet van deze ronde +1 Mult."
+
+#. rules text (shown through BMLoc.tf)
+#: game/content/consumables.gd:12 game/rules/resolver.gd:245
+msgid "Spark"
+msgstr "Vonk"
+
+#: game/content/consumables.gd:13
+msgid "Eraser"
+msgstr "Gum"
+
+#: game/content/consumables.gd:13
+msgid "Remove up to two blocks of your choice from the board."
+msgstr "Haal tot twee blokken naar keuze van het bord."
+
+#: game/content/consumables.gd:14
+msgid "Refresh the current tray without spending the round's free Refresh."
+msgstr "Ruilt het huidige bakje zonder de gratis ruilbeurt van de ronde te gebruiken."
+
+#. rules text (shown through BMLoc.tf)
+#: game/content/consumables.gd:14 game/run/run.gd:611
+msgid "Second Tray"
+msgstr "Tweede bakje"
+
+#: game/content/consumables.gd:15
+msgid "Extra Turn"
+msgstr "Extra beurt"
+
+#: game/content/consumables.gd:15
+msgid "Gain two placements this round (maximum 20 remaining)."
+msgstr "Krijg deze ronde twee zetten erbij (maximaal 20 over)."
+
+#: game/content/consumables.gd:16
+msgid "Lucky Paint"
+msgstr "Gelukverf"
+
+#: game/content/consumables.gd:16
+msgid "Recolor one tray piece to a color of your choice. Its shape is unchanged."
+msgstr "Geef een stuk in je bakje een kleur naar keuze. De vorm blijft hetzelfde."
+
+#: game/content/consumables.gd:17
+msgid "Blueprint"
+msgstr "Schets"
+
+#: game/content/consumables.gd:17
+msgid "Swap one tray piece for a temporary 1-3 cell piece you choose."
+msgstr "Ruil een stuk in je bakje voor een tijdelijk stuk van 1-3 vakjes naar keuze."
+
+#. rules text (shown through BMLoc.tf)
+#: game/content/consumables.gd:18 game/run/run.gd:1186
+msgid "Cash Out"
+msgstr "Uitbetaling"
+
+#: game/content/consumables.gd:18
+msgid "Gain 4 Credits after this round if it is won."
+msgstr "Krijg na deze ronde 4 credits als je hem wint."
+
+#: game/content/consumables.gd:19
+msgid "Punch"
+msgstr "Stomp"
+
+#: game/content/consumables.gd:19
+msgid "Smash a plus-shaped area: remove up to 5 blocks around the cell you hit."
+msgstr "Sla een plusvormig gebied: haalt tot 5 blokken weg rond het geraakte vakje."
+
+#: game/content/consumables.gd:20
+msgid "Color Purge"
+msgstr "Kleurzuivering"
+
+#: game/content/consumables.gd:20
+msgid "Remove every block of one color from the board. Stone is immune."
+msgstr "Haal alle blokken van één kleur van het bord. Steen is immuun."
+
+#: game/content/consumables.gd:21
+msgid "Emergency Brick"
+msgstr "Noodbaksteen"
+
+#: game/content/consumables.gd:21
+msgid "Throw a brick at a tray slot: it becomes a temporary one-block piece. A piece it hits goes to the discard pile."
+msgstr "Gooi een baksteen naar een vak van het bakje: het wordt een tijdelijk stuk van één blok. Een geraakt stuk gaat naar de aflegstapel."
+
+#: game/content/consumables.gd:23
+msgid "The next placement this round gets x2 Mult."
+msgstr "De volgende zet van deze ronde krijgt x2 Mult."
+
+#. rules text (shown through BMLoc.tf)
+#: game/content/consumables.gd:23 game/rules/resolver.gd:267
+msgid "Turbo"
+msgstr "Turbo"
+
+#: game/content/consumables.gd:24
+msgid "Level up the shape family of a tray piece, like a Schematic (+25 Chips, +0.25 Mult per level)."
+msgstr "Verhoogt het niveau van de vormfamilie van een stuk in het bakje, zoals een Bouwtekening (+25 chips, +0.25 Mult per niveau)."
+
+#: game/content/consumables.gd:24
+msgid "Tune-Up"
+msgstr "Afstelbeurt"
+
+#: game/content/consumables.gd:25
+msgid "+1 Refresh this round."
+msgstr "+1 ruilbeurt deze ronde."
+
+#: game/content/consumables.gd:25
+msgid "Coffee Break"
+msgstr "Koffiepauze"
+
+#: game/content/consumables.gd:26
+msgid "Coin Roll"
+msgstr "Muntrol"
+
+#: game/content/consumables.gd:26
+msgid "Gain Credits equal to the round number (max 12)."
+msgstr "Krijg evenveel credits als het rondenummer (max. 12)."
+
+#: game/content/feats.gd:8
+msgid "Clear a row and a column in the same placement."
+msgstr "Speel in dezelfde zet een rij en een kolom weg."
+
+#: game/content/feats.gd:8
+msgid "Crossfire"
+msgstr "Kruisvuur"
+
+#: game/content/feats.gd:9
+msgid "Clear lines on two placements in a row."
+msgstr "Speel lijnen weg in twee zetten achter elkaar."
+
+#: game/content/feats.gd:9
+msgid "Double Tap"
+msgstr "Dubbele tik"
+
+#: game/content/feats.gd:10
+msgid "Clear three or more lines in one placement."
+msgstr "Speel drie of meer lijnen weg in één zet."
+
+#: game/content/feats.gd:10
+msgid "Hat Trick"
+msgstr "Hattrick"
+
+#: game/content/feats.gd:11
+msgid "Clean Board"
+msgstr "Schoon bord"
+
+#: game/content/feats.gd:11
+msgid "Leave the board completely empty."
+msgstr "Laat het bord helemaal leeg achter."
+
+#: game/content/feats.gd:12
+msgid "Fill a one-block hole (closed on all four sides) and clear a line with it."
+msgstr "Vul een gat van één blok (aan vier kanten dicht) en speel er een lijn mee weg."
+
+#: game/content/feats.gd:12
+msgid "Needle Threader"
+msgstr "Draadinsteker"
+
+#: game/content/feats.gd:13
+msgid "Clear a line with your last placement."
+msgstr "Speel een lijn weg met je laatste zet."
+
+#: game/content/feats.gd:13
+msgid "Last Breath"
+msgstr "Laatste adem"
+
+#: game/content/jokers.gd:17
+msgid "Common"
+msgstr "Gewoon"
+
+#: game/content/jokers.gd:17
+msgid "Legendary"
+msgstr "Legendarisch"
+
+#: game/content/jokers.gd:17
+msgid "Rare"
+msgstr "Zeldzaam"
+
+#: game/content/jokers.gd:17
+msgid "Uncommon"
+msgstr "Ongewoon"
+
+#: game/content/jokers.gd:23
+msgid "+50 Chips when exactly one line clears."
+msgstr "+50 chips als er precies één lijn wordt weggespeeld."
+
+#: game/content/jokers.gd:23
+msgid "Clean Sweep"
+msgstr "Schoon schip"
+
+#: game/content/jokers.gd:24
+msgid "+100 Chips when two or more lines clear together; +100 more if they cross (a row and a column)."
+msgstr "+100 chips als twee of meer lijnen samen worden weggespeeld; +100 extra als ze elkaar kruisen (een rij en een kolom)."
+
+#: game/content/jokers.gd:24
+msgid "Crossbar"
+msgstr "Lat"
+
+#: game/content/jokers.gd:25
+msgid "+15 Chips per placed cell when placing a shape of 1-3 cells."
+msgstr "+15 chips per gelegd vakje bij het leggen van een vorm van 1-3 vakjes."
+
+#: game/content/jokers.gd:25
+msgid "Small Change"
+msgstr "Kleingeld"
+
+#: game/content/jokers.gd:26
+msgid "+100 Chips when placing a shape of 5 or more cells."
+msgstr "+100 chips bij het leggen van een vorm van 5 of meer vakjes."
+
+#: game/content/jokers.gd:26
+msgid "Heavy Hand"
+msgstr "Zware hand"
+
+#: game/content/jokers.gd:27
+msgid "First Strike"
+msgstr "Eerste slag"
+
+#: game/content/jokers.gd:27
+msgid "The first clearing placement each round gains +150 Chips."
+msgstr "De eerste zet die in elke ronde een lijn wegspeelt, krijgt +150 chips."
+
+#: game/content/jokers.gd:28
+msgid "+40 Chips if the placed shape touches no occupied cell diagonally (checked before placement)."
+msgstr "+40 chips als de gelegde vorm geen bezet vakje diagonaal raakt (gecontroleerd vóór het leggen)."
+
+#: game/content/jokers.gd:28
+msgid "Neat Freak"
+msgstr "Netheidsfreak"
+
+#: game/content/jokers.gd:29
+msgid "+60 Chips if any placed cell occupies a board corner."
+msgstr "+60 chips als een gelegd vakje een hoek van het bord bezet."
+
+#: game/content/jokers.gd:29
+msgid "Corner Office"
+msgstr "Hoekkantoor"
+
+#: game/content/jokers.gd:30
+msgid "Blue Mood"
+msgstr "Blauwe bui"
+
+#: game/content/jokers.gd:30
+msgid "Blue shapes gain +2 Mult."
+msgstr "Blauwe vormen krijgen +2 Mult."
+
+#: game/content/jokers.gd:31
+msgid "+1 Mult per current combo level on clearing placements."
+msgstr "+1 Mult per huidig comboniveau bij zetten die wegspelen."
+
+#: game/content/jokers.gd:31
+msgid "Chain Link"
+msgstr "Schakel"
+
+#: game/content/jokers.gd:32
+msgid "+2 Credits after a round won with at least two placements unused."
+msgstr "+2 credits na een gewonnen ronde met minstens twee ongebruikte zetten."
+
+#. rules text (shown through BMLoc.tf)
+#: game/content/jokers.gd:32 game/run/run.gd:1184
+msgid "Spare Parts"
+msgstr "Reservedelen"
+
+#: game/content/jokers.gd:33
+msgid "Once per round, when no offered shape fits and no tray Refresh is available, replace one unplaced shape with a Single before defeat is checked."
+msgstr "Eén keer per ronde: als geen aangeboden vorm past en er geen ruilbeurt meer is, wordt een ongelegde vorm vervangen door een Enkel voordat verlies wordt gecontroleerd."
+
+#: game/content/jokers.gd:33
+msgid "Tiny Insurance"
+msgstr "Mini-verzekering"
+
+#: game/content/jokers.gd:34
+msgid "Second Look"
+msgstr "Tweede blik"
+
+#: game/content/jokers.gd:34
+msgid "The first Refresh each round also grants +1 placement."
+msgstr "De eerste ruilbeurt van elke ronde geeft ook +1 zet."
+
+#: game/content/jokers.gd:35
+msgid "+2 Mult on every clearing placement; +3 more when two or more lines clear."
+msgstr "+2 Mult bij elke zet die wegspeelt; +3 extra als twee of meer lijnen worden weggespeeld."
+
+#: game/content/jokers.gd:35
+msgid "Wide Awake"
+msgstr "Klaarwakker"
+
+#: game/content/jokers.gd:36
+msgid "+0.5 Mult when the board has at least 44 empty cells before placement."
+msgstr "+0.5 Mult als het bord vóór de zet minstens 44 lege vakjes heeft."
+
+#: game/content/jokers.gd:36
+msgid "Hollow Point"
+msgstr "Holle punt"
+
+#: game/content/jokers.gd:37
+msgid "+0.5 Mult for every eight occupied cells before placement (max +2)."
+msgstr "+0.5 Mult per acht bezette vakjes vóór de zet (max. +2)."
+
+#: game/content/jokers.gd:37
+msgid "Pressure Cooker"
+msgstr "Snelkookpan"
+
+#: game/content/jokers.gd:38
+msgid "Every third placed shape in a round gets x1.5 Mult."
+msgstr "Elke derde gelegde vorm in een ronde krijgt x1.5 Mult."
+
+#: game/content/jokers.gd:38
+msgid "Golden Ratio"
+msgstr "Gulden snede"
+
+#: game/content/jokers.gd:39
+msgid "Color Cycle"
+msgstr "Kleurcyclus"
+
+#: game/content/jokers.gd:39
+msgid "When the last three placed shapes this round all have different colors, the third gains x1.75 Mult."
+msgstr "Als de laatste drie gelegde vormen van deze ronde allemaal een andere kleur hebben, krijgt de derde x1.75 Mult."
+
+#: game/content/jokers.gd:40
+msgid "After the first clear each round, remove one block of your choice (use it from the Items row). The removal scores nothing."
+msgstr "Na het eerste wegspelen van elke ronde haal je een blok naar keuze weg (gebruik het vanuit de itemrij). Het weghalen levert niets op."
+
+#: game/content/jokers.gd:40
+msgid "Patch Panel"
+msgstr "Plakpaneel"
+
+#: game/content/jokers.gd:41
+msgid "+1 placement per round. The first placement of each round gains no cell Chips."
+msgstr "+1 zet per ronde. De eerste zet van elke ronde levert geen vakjeschips op."
+
+#: game/content/jokers.gd:41
+msgid "Long Game"
+msgstr "Lange adem"
+
+#: game/content/jokers.gd:42
+msgid "+0.25 Mult for each Joker sold this run (max +2). Selling this card ends its bonus."
+msgstr "+0.25 Mult voor elke Joker die je deze run verkocht hebt (max. +2). Als je deze kaart verkoopt, stopt de bonus."
+
+#: game/content/jokers.gd:42
+msgid "Fire Sale"
+msgstr "Uitverkoop"
+
+#: game/content/jokers.gd:43
+msgid "Jackpot Window"
+msgstr "Jackpotloket"
+
+#: game/content/jokers.gd:43
+msgid "x2.5 Mult when two lines clear in one placement; x5 Mult for three or more."
+msgstr "x2.5 Mult als twee lijnen in één zet worden weggespeeld; x5 Mult bij drie of meer."
+
+#: game/content/jokers.gd:44
+msgid "Mirror Maze"
+msgstr "Spiegeldoolhof"
+
+#: game/content/jokers.gd:44
+msgid "The first row clear each round also clears the mirrored row's occupied cells for +50 Chips. The mirrored removal cannot chain."
+msgstr "De eerste rij die elke ronde wordt weggespeeld, speelt ook de bezette vakjes van de gespiegelde rij weg, voor +50 chips. Die spiegeling kan geen ketting starten."
+
+#: game/content/jokers.gd:45
+msgid "Compound Interest"
+msgstr "Samengestelde rente"
+
+#: game/content/jokers.gd:45
+msgid "Every second clearing placement in a round gets x1.75 Mult."
+msgstr "Elke tweede zet die in een ronde wegspeelt, krijgt x1.75 Mult."
+
+#: game/content/jokers.gd:46
+msgid "Last Stand"
+msgstr "Laatste stelling"
+
+#: game/content/jokers.gd:46
+msgid "Placements made with four or fewer placements left gain x2.5 Mult."
+msgstr "Zetten met nog vier of minder zetten over krijgen x2.5 Mult."
+
+#: game/content/jokers.gd:48
+msgid "+1 Chip for each piece in your bag."
+msgstr "+1 chip voor elk stuk in je zak."
+
+#: game/content/jokers.gd:48
+msgid "Hoarder"
+msgstr "Oppotter"
+
+#: game/content/jokers.gd:49
+msgid "+60 Chips when placing an L 3 or L 4 piece."
+msgstr "+60 chips bij het leggen van een L 3- of L 4-stuk."
+
+#: game/content/jokers.gd:49
+msgid "Architect"
+msgstr "Architect"
+
+#: game/content/jokers.gd:50
+msgid "+15 Chips per cell when placing a Bar piece."
+msgstr "+15 chips per vakje bij het leggen van een Balk-stuk."
+
+#: game/content/jokers.gd:50
+msgid "Straight Edge"
+msgstr "Liniaal"
+
+#: game/content/jokers.gd:51
+msgid "+2 Mult when placing a Square piece."
+msgstr "+2 Mult bij het leggen van een Vierkant-stuk."
+
+#: game/content/jokers.gd:51
+msgid "Square Deal"
+msgstr "Eerlijke deal"
+
+#: game/content/jokers.gd:52
+msgid "+80 Chips when this placement empties the tray."
+msgstr "+80 chips als deze zet het bakje leegmaakt."
+
+#: game/content/jokers.gd:52
+msgid "Last Piece"
+msgstr "Laatste stuk"
+
+#: game/content/jokers.gd:53
+msgid "+40 Chips when placing a stamped piece."
+msgstr "+40 chips bij het leggen van een gestempeld stuk."
+
+#: game/content/jokers.gd:53
+msgid "Postmaster"
+msgstr "Postmeester"
+
+#: game/content/jokers.gd:54
+msgid "+0.25 Mult for each piece your bag has below 24 (max +3)."
+msgstr "+0.25 Mult voor elk stuk dat je zak onder de 24 zit (max. +3)."
+
+#: game/content/jokers.gd:54
+msgid "Lean Bag"
+msgstr "Slanke zak"
+
+#: game/content/jokers.gd:55
+msgid "+5 Chips for each upgraded piece (material or stamp) in your bag."
+msgstr "+5 chips voor elk verbeterd stuk (materiaal of stempel) in je zak."
+
+#: game/content/jokers.gd:55
+msgid "Foundry"
+msgstr "Gieterij"
+
+#: game/content/jokers.gd:56
+msgid "Neon Sign"
+msgstr "Neonreclame"
+
+#: game/content/jokers.gd:56
+msgid "Neon cells cleared give an extra +0.5 Mult each."
+msgstr "Elk weggespeeld neonvakje geeft +0.5 Mult extra."
+
+#: game/content/jokers.gd:57
+msgid "+0.5 Mult per Schematic level of the placed piece's family."
+msgstr "+0.5 Mult per bouwtekeningniveau van de familie van het gelegde stuk."
+
+#: game/content/jokers.gd:57
+msgid "Specialist"
+msgstr "Specialist"
+
+#: game/content/jokers.gd:58
+msgid "+0.1 Mult for each piece in the discard pile before placement (max +1)."
+msgstr "+0.1 Mult voor elk stuk op de aflegstapel vóór de zet (max. +1)."
+
+#: game/content/jokers.gd:58
+msgid "Recycler"
+msgstr "Recycler"
+
+#: game/content/jokers.gd:59
+msgid "Glass Cannon"
+msgstr "Glazen kanon"
+
+#: game/content/jokers.gd:59
+msgid "x0.3 Mult for each Glass piece in your bag (x1 + 0.3 each, max x4)."
+msgstr "x0.3 Mult voor elk glazen stuk in je zak (x1 + 0.3 per stuk, max. x4)."
+
+#: game/content/jokers.gd:60
+msgid "Collector"
+msgstr "Verzamelaar"
+
+#: game/content/jokers.gd:60
+msgid "x0.1 Mult for each different shape family in your bag beyond 6 (x1.4 with 10 families)."
+msgstr "x0.1 Mult voor elke verschillende vormfamilie in je zak boven de 6 (x1.4 bij 10 families)."
+
+#: game/content/jokers.gd:61
+msgid "Copies the scoring effect of the Joker directly below it."
+msgstr "Kopieert het score-effect van de Joker direct eronder."
+
+#: game/content/jokers.gd:61
+msgid "Mimic"
+msgstr "Nabootser"
+
+#: game/content/jokers.gd:63
+msgid "Hot Hand"
+msgstr "Hete hand"
+
+#: game/content/jokers.gd:63
+msgid "x1.5 Mult on placements from a tray that formed a Hand."
+msgstr "x1.5 Mult op zetten uit een bakje dat een hand vormde."
+
+#: game/content/jokers.gd:64
+msgid "A full tray dealt by a Refresh or Second Tray can form a Hand."
+msgstr "Een vol bakje uit een ruilbeurt of Tweede bakje kan een hand vormen."
+
+#: game/content/jokers.gd:64
+msgid "Card Sharp"
+msgstr "Kaarthaai"
+
+#: game/content/jokers.gd:65
+msgid "Each placement that clears nothing stores +40 Chips (max +200). The next clearing placement adds them and resets."
+msgstr "Elke zet die niets wegspeelt, spaart +40 chips op (max. +200). De volgende zet die wegspeelt, telt ze op en zet het terug op nul."
+
+#: game/content/jokers.gd:65
+msgid "Patience"
+msgstr "Geduld"
+
+#: game/content/jokers.gd:66
+msgid "+1 Mult when the placed piece fills a one-block hole closed on all four sides; +75 Chips more if it also clears a line."
+msgstr "+1 Mult als het gelegde stuk een gat van één blok vult dat aan alle vier kanten dicht is; +75 chips extra als het ook een lijn wegspeelt."
+
+#: game/content/jokers.gd:66
+msgid "Locksmith"
+msgstr "Slotenmaker"
+
+#: game/content/jokers.gd:67
+msgid "Countdown"
+msgstr "Aftellen"
+
+#: game/content/jokers.gd:67
+msgid "x1.5 Mult on the third of three placements in a row with fewer blocks each time (like 5, 4, 3)."
+msgstr "x1.5 Mult op de derde van drie zetten achter elkaar met telkens minder blokken (zoals 5, 4, 3)."
+
+#: game/content/jokers.gd:68
+msgid "+2 Credits whenever one of your Glass pieces shatters."
+msgstr "+2 credits telkens als een van je glazen stukken breekt."
+
+#: game/content/jokers.gd:68
+msgid "Breakage Bonus"
+msgstr "Breukbonus"
+
+#: game/content/jokers.gd:69
+msgid "Insurance Policy"
+msgstr "Verzekeringspolis"
+
+#: game/content/jokers.gd:69
+msgid "Once: when you would lose a round, replay it from the start with no free Refresh. Then this card is destroyed."
+msgstr "Eén keer: als je een ronde zou verliezen, speel je hem opnieuw vanaf het begin, zonder gratis ruilbeurt. Daarna wordt deze kaart vernietigd."
+
+#: game/content/jokers.gd:70
+msgid "+2 Mult for each Feat you earn for the first time this round."
+msgstr "+2 Mult voor elke stunt die je deze ronde voor het eerst haalt."
+
+#: game/content/jokers.gd:70
+msgid "Showboat"
+msgstr "Uitslover"
+
+#: game/content/jokers.gd:71
+msgid "+2 Mult when you place while your placements are at their refill cap."
+msgstr "+2 Mult als je legt terwijl je zetten op hun aanvulgrens zitten."
+
+#: game/content/jokers.gd:71
+msgid "Full Tank"
+msgstr "Volle tank"
+
+#: game/content/jokers.gd:72
+msgid "Overflow"
+msgstr "Overloop"
+
+#: game/content/jokers.gd:72
+msgid "When a line clear would refill past your cap, each wasted refill gives +1 Credit (max 3 per round)."
+msgstr "Als een lijn je boven je grens zou aanvullen, geeft elke verspilde aanvulling +1 credit (max. 3 per ronde)."
+
+#: game/content/jokers.gd:73
+msgid "Keystone"
+msgstr "Sluitsteen"
+
+#: game/content/jokers.gd:73
+msgid "x2 Mult when a piece of 1 to 3 blocks clears a line; x4 if it clears two or more."
+msgstr "x2 Mult als een stuk van 1 tot 3 blokken een lijn wegspeelt; x4 als het er twee of meer wegspeelt."
+
+#: game/content/jokers.gd:74
+msgid "Clearing a row and a column in the same placement gives you an Eraser (if an item slot is free)."
+msgstr "Een rij en een kolom in dezelfde zet wegspelen geeft je een Gum (als er een itemvak vrij is)."
+
+#: game/content/jokers.gd:74
+msgid "Draftsman"
+msgstr "Tekenaar"
+
+#: game/content/jokers.gd:75
+msgid "Periscope"
+msgstr "Periscoop"
+
+#: game/content/jokers.gd:75
+msgid "Shows the next three pieces in your draw pile."
+msgstr "Toont de volgende drie stukken op je trekstapel."
+
+#: game/content/jokers.gd:76
+msgid "Costs 0. When bought: +6 Credits. After each won round, 2 Credits go to repay the loan until 8 are repaid. Cannot be sold until then."
+msgstr "Kost 0. Bij aankoop: +6 credits. Na elke gewonnen ronde gaan 2 credits naar het aflossen van de lening, tot er 8 zijn terugbetaald. Tot die tijd niet te verkopen."
+
+#: game/content/jokers.gd:76
+msgid "Loan Shark"
+msgstr "Woekeraar"
+
+#: game/content/jokers.gd:79
+msgid "Gains x0.15 Mult every time two or more lines clear at once. Never resets."
+msgstr "Krijgt x0.15 Mult elke keer dat twee of meer lijnen tegelijk worden weggespeeld. Wordt nooit gereset."
+
+#: game/content/jokers.gd:79
+msgid "Snowball"
+msgstr "Sneeuwbal"
+
+#: game/content/jokers.gd:80
+msgid "+4 Chips for every line you have cleared this run."
+msgstr "+4 chips voor elke lijn die je deze run hebt weggespeeld."
+
+#: game/content/jokers.gd:80
+msgid "Tally Counter"
+msgstr "Turfteller"
+
+#: game/content/jokers.gd:81
+msgid "+0.35 Mult for every round won this run."
+msgstr "+0.35 Mult voor elke ronde die je deze run hebt gewonnen."
+
+#: game/content/jokers.gd:81
+msgid "Bonsai"
+msgstr "Bonsai"
+
+#: game/content/jokers.gd:82
+msgid "+0.1 Mult for every Credit you hold (max +5)."
+msgstr "+0.1 Mult voor elke credit die je hebt (max. +5)."
+
+#: game/content/jokers.gd:82
+msgid "Coin Pusher"
+msgstr "Muntenschuiver"
+
+#: game/content/jokers.gd:83
+msgid "Gains x0.3 Mult for each round won without a Refresh or Second Tray. Using one resets it to x1."
+msgstr "Krijgt x0.3 Mult voor elke ronde die je wint zonder ruilbeurt of Tweede bakje. Er een gebruiken zet hem terug op x1."
+
+#: game/content/jokers.gd:83
+msgid "Hot Streak"
+msgstr "Winnende reeks"
+
+#: game/content/jokers.gd:84
+msgid "+1 Mult for each block over 4 in the placed piece."
+msgstr "+1 Mult voor elk blok boven de 4 in het gelegde stuk."
+
+#: game/content/jokers.gd:84
+msgid "Big Game Hunter"
+msgstr "Grootwildjager"
+
+#: game/content/jokers.gd:85
+msgid "Rainbow Road"
+msgstr "Regenboogweg"
+
+#: game/content/jokers.gd:85
+msgid "x1.75 Mult when the board holds all six block colors before the placement."
+msgstr "x1.75 Mult als het bord vóór de zet alle zes blokkleuren bevat."
+
+#: game/content/jokers.gd:86
+msgid "Solo Act"
+msgstr "Solo-act"
+
+#: game/content/jokers.gd:86
+msgid "x1 Mult plus x0.75 for each empty Joker slot."
+msgstr "x1 Mult plus x0.75 voor elk leeg Joker-vak."
+
+#: game/content/jokers.gd:87
+msgid "Double Stamp"
+msgstr "Dubbele stempel"
+
+#: game/content/jokers.gd:87
+msgid "Stamps trigger twice: Encore x4, Tip +4 Credits, Refund +2 placements, Memory two Sparks."
+msgstr "Stempels werken twee keer: Toegift x4, Fooi +4 credits, Teruggave +2 zetten, Geheugen twee Vonken."
+
+#: game/content/jokers.gd:88
+msgid "After each round won, drops a random item into a free item slot."
+msgstr "Laat na elke gewonnen ronde een willekeurig item in een vrij itemvak vallen."
+
+#: game/content/jokers.gd:88
+msgid "Vending Machine"
+msgstr "Snoepautomaat"
+
+#: game/content/jokers.gd:89
+msgid "+15 Chips for every block cleared by the placement."
+msgstr "+15 chips voor elk blok dat de zet wegspeelt."
+
+#: game/content/jokers.gd:89
+msgid "Demolition Crew"
+msgstr "Sloopploeg"
+
+#: game/content/jokers.gd:90
+msgid "Gains +1 Mult whenever a round ends at 1.5 times its target or more. Never resets."
+msgstr "Krijgt +1 Mult telkens als een ronde eindigt op 1.5 keer het doel of meer. Wordt nooit gereset."
+
+#: game/content/jokers.gd:90
+msgid "Overachiever"
+msgstr "Uitblinker"
+
+#: game/content/jokers.gd:91
+msgid "+1.5 Mult for each item you hold."
+msgstr "+1.5 Mult voor elk item dat je hebt."
+
+#: game/content/jokers.gd:91
+msgid "Full Pockets"
+msgstr "Volle zakken"
+
+#: game/content/jokers.gd:92
+msgid "Each time a piece completes a line, that exact piece permanently gains +5 Chips. The Chips stay on the piece (and on its Copier copies) even if you sell Veteran."
+msgstr "Elke keer dat een stuk een lijn afmaakt, krijgt precies dat stuk voorgoed +5 chips. De chips blijven op het stuk (en op zijn kopieën van de Kopieerder), ook als je Veteraan verkoopt."
+
+#: game/content/jokers.gd:92
+msgid "Veteran"
+msgstr "Veteraan"
+
+#: game/content/jokers.gd:94
+msgid "After a clear, blocks fall down their columns. New full lines clear as chain waves, each scoring double the last (x2, x4, x8...)."
+msgstr "Na het wegspelen vallen de blokken omlaag in hun kolom. Nieuwe volle lijnen worden weggespeeld als kettinggolven, elk goed voor het dubbele van de vorige (x2, x4, x8...)."
+
+#: game/content/jokers.gd:94
+msgid "The Avalanche"
+msgstr "De Lawine"
+
+#: game/content/jokers.gd:95
+msgid "Every other Joker's scoring effect triggers twice (Chips and Mult add twice, xMult applies twice)."
+msgstr "Het score-effect van elke andere Joker werkt twee keer (chips en Mult tellen dubbel, xMult werkt dubbel)."
+
+#: game/content/jokers.gd:95
+msgid "Hall of Mirrors"
+msgstr "Spiegelzaal"
+
+#: game/content/jokers.gd:96
+msgid "Material effects are doubled. Every piece you place without a material gains a random one for good."
+msgstr "Materiaaleffecten worden verdubbeld. Elk stuk zonder materiaal dat je legt, krijgt voorgoed een willekeurig materiaal."
+
+#: game/content/jokers.gd:96
+msgid "Philosopher's Stone"
+msgstr "Steen der wijzen"
+
+#: game/content/jokers.gd:97
+msgid "Supernova"
+msgstr "Supernova"
+
+#: game/content/jokers.gd:97
+msgid "x1 Mult plus x0.5 for every line cleared earlier this round."
+msgstr "x1 Mult plus x0.5 voor elke lijn die eerder deze ronde is weggespeeld."
+
+#: game/content/jokers.gd:371
+#, c-format
+msgid "Triggers in %d placement"
+msgid_plural "Triggers in %d placements"
+msgstr[0] "Werkt over %d zet"
+msgstr[1] "Werkt over %d zetten"
+
+#: game/content/jokers.gd:373
+#, c-format
+msgid "Clears this round: %d"
+msgstr "Weggespeeld (ronde): %d"
+
+#: game/content/jokers.gd:379
+#, c-format
+msgid "Recent: %s"
+msgstr "Recent: %s"
+
+#: game/content/jokers.gd:379 game/content/jokers.gd:395 game/ui/game_screen.gd:1560
+msgid "none"
+msgstr "geen"
+
+#: game/content/jokers.gd:381
+#, c-format
+msgid "Jokers sold: %d"
+msgstr "Jokers verkocht: %d"
+
+#: game/content/jokers.gd:383 game/content/jokers.gd:385 game/content/jokers.gd:387
+msgid "Ready"
+msgstr "Klaar"
+
+#: game/content/jokers.gd:383 game/content/jokers.gd:385 game/content/jokers.gd:387 game/content/jokers.gd:417
+msgid "Used this round"
+msgstr "Deze ronde gebruikt"
+
+#: game/content/jokers.gd:389
+#, c-format
+msgid "Stored: +%d Chips"
+msgstr "Opgespaard: +%d chips"
+
+#: game/content/jokers.gd:395
+#, c-format
+msgid "Recent sizes: %s"
+msgstr "Recente formaten: %s"
+
+#: game/content/jokers.gd:397
+#, c-format
+msgid "Feats this round: %d"
+msgstr "Stunts deze ronde: %d"
+
+#: game/content/jokers.gd:399
+#, c-format
+msgid "Placements %d / %d"
+msgstr "Zetten %d / %d"
+
+#: game/content/jokers.gd:401
+#, c-format
+msgid "Paid this round: %d / %d"
+msgstr "Betaald (ronde): %d / %d"
+
+#: game/content/jokers.gd:403
+#, c-format
+msgid "Owed: %d Credits"
+msgstr "Schuld: %d credits"
+
+#: game/content/jokers.gd:403
+msgid "Repaid"
+msgstr "Afgelost"
+
+#: game/content/jokers.gd:405
+msgid "Unused: saves one lost round"
+msgstr "Ongebruikt: redt 1 ronde"
+
+#: game/content/jokers.gd:412
+msgid "reshuffle"
+msgstr "schudden"
+
+#: game/content/jokers.gd:413
+#, c-format
+msgid "Next: %s"
+msgstr "Volgende: %s"
+
+#: game/content/jokers.gd:416
+msgid "Ready: remove a block"
+msgstr "Klaar: haal een blok weg"
+
+#: game/content/jokers.gd:417
+msgid "Waiting for the first clear"
+msgstr "Wacht op 1e wegspelen"
+
+#: game/content/jokers.gd:419
+#, c-format
+msgid "%d pieces: +%d Chips"
+msgstr "%d stukken: +%d chips"
+
+#: game/content/jokers.gd:421
+#, c-format
+msgid "%d pieces: +%s Mult"
+msgstr "%d stukken: +%s Mult"
+
+#: game/content/jokers.gd:423
+#, c-format
+msgid "%d upgraded: +%d Chips"
+msgstr "%d verbeterd: +%d chips"
+
+#: game/content/jokers.gd:426
+#, c-format
+msgid "%d families: x%s Mult"
+msgstr "%d families: x%s Mult"
+
+#: game/content/jokers.gd:428
+#, c-format
+msgid "Discard pile: %d"
+msgstr "Aflegstapel: %d"
+
+#: game/content/jokers.gd:430 game/content/jokers.gd:432
+#, c-format
+msgid "Now x%s Mult"
+msgstr "Nu x%s Mult"
+
+#: game/content/jokers.gd:434
+#, c-format
+msgid "Now +%s Mult"
+msgstr "Nu +%s Mult"
+
+#: game/content/jokers.gd:436
+#, c-format
+msgid "%d lines: +%d Chips"
+msgstr "%d lijnen: +%d chips"
+
+#: game/content/jokers.gd:438
+#, c-format
+msgid "%d rounds won: +%s Mult"
+msgstr "%d gewonnen: +%s Mult"
+
+#: game/content/jokers.gd:440
+#, c-format
+msgid "%d Credits: +%s Mult"
+msgstr "%d credits: +%s Mult"
+
+#: game/content/jokers.gd:443
+#, c-format
+msgid "%d empty slot: x%s Mult"
+msgid_plural "%d empty slots: x%s Mult"
+msgstr[0] "%d leeg vak: x%s Mult"
+msgstr[1] "%d lege vakken: x%s Mult"
+
+#: game/content/jokers.gd:446
+#, c-format
+msgid "%d item: +%s Mult"
+msgid_plural "%d items: +%s Mult"
+msgstr[0] "%d item: +%s Mult"
+msgstr[1] "%d items: +%s Mult"
+
+#: game/content/jokers.gd:449
+#, c-format
+msgid "%d Glass piece: x%s Mult"
+msgid_plural "%d Glass pieces: x%s Mult"
+msgstr[0] "%d glazen: x%s Mult"
+msgstr[1] "%d glazen: x%s Mult"
+
+#: game/content/jokers.gd:451
+#, c-format
+msgid "Lines this round: %d (x%s)"
+msgstr "Lijnen (ronde): %d (x%s)"
+
+#: game/content/jokers.gd:453
+#, c-format
+msgid "Transmuted this run: %d"
+msgstr "Getransmuteerd: %d"
+
+#: game/content/jokers.gd:456
+#, c-format
+msgid "Best chain: %d wave"
+msgid_plural "Best chain: %d waves"
+msgstr[0] "Beste ketting: %d golf"
+msgstr[1] "Beste ketting: %d golven"
+
+#: game/content/jokers.gd:460
+#, c-format
+msgid "Copying: %s"
+msgstr "Kopieert: %s"
+
+#: game/content/jokers.gd:461
+msgid "Copying: nothing below"
+msgstr "Kopieert: niets eronder"
+
+#: game/content/pieces.gd:19
+msgid "+20 Chips per cell"
+msgstr "+20 chips per vakje"
+
+#: game/content/pieces.gd:19
+msgid "Chrome"
+msgstr "Chroom"
+
+#: game/content/pieces.gd:19
+msgid "Each cell scores +20 Chips when placed."
+msgstr "Elk vakje levert bij het leggen +20 chips op."
+
+#: game/content/pieces.gd:20
+msgid "+0.5 Mult per cell cleared"
+msgstr "+0.5 Mult per weggespeeld vakje"
+
+#: game/content/pieces.gd:20
+msgid "Each Neon cell cleared gives +0.5 Mult to that placement."
+msgstr "Elk weggespeeld neonvakje geeft die zet +0.5 Mult."
+
+#: game/content/pieces.gd:20
+msgid "Neon"
+msgstr "Neon"
+
+#: game/content/pieces.gd:21
+msgid "+1 Credit per cell cleared"
+msgstr "+1 credit per weggespeeld vakje"
+
+#: game/content/pieces.gd:21
+msgid "Each Gold cell cleared gives +1 Credit."
+msgstr "Elk weggespeeld goudvakje geeft +1 credit."
+
+#: game/content/pieces.gd:21
+msgid "Gold"
+msgstr "Goud"
+
+#: game/content/pieces.gd:22
+msgid "Glass"
+msgstr "Glas"
+
+#: game/content/pieces.gd:22
+msgid "x1.5 Mult on clear, may shatter"
+msgstr "x1.5 Mult bij wegspelen, kan breken"
+
+#: game/content/pieces.gd:22
+msgid "x1.5 Mult when a placement clears any Glass cell. A Glass piece with a cleared cell has a 1 in 4 chance to shatter and leave your bag."
+msgstr "x1.5 Mult als een zet een glazen vakje wegspeelt. Een glazen stuk met een weggespeeld vakje heeft 1 op 4 kans om te breken en je zak te verlaten."
+
+#: game/content/pieces.gd:23
+msgid "Counts as every color for Joker effects."
+msgstr "Telt voor Joker-effecten als elke kleur."
+
+#: game/content/pieces.gd:23
+msgid "Prism"
+msgstr "Prisma"
+
+#: game/content/pieces.gd:23
+msgid "counts as every color"
+msgstr "telt als elke kleur"
+
+#: game/content/pieces.gd:32
+msgid "Encore"
+msgstr "Toegift"
+
+#. rules text (shown through BMLoc.tf)
+#: game/content/pieces.gd:32 game/content/tools.gd:13 game/rules/resolver.gd:260
+msgid "Encore Stamp"
+msgstr "Toegift-stempel"
+
+#: game/content/pieces.gd:32
+msgid "If this piece clears a line, x2 Mult."
+msgstr "Als dit stuk een lijn wegspeelt: x2 Mult."
+
+#: game/content/pieces.gd:32
+msgid "x2 Mult on clear"
+msgstr "x2 Mult bij wegspelen"
+
+#: game/content/pieces.gd:33
+msgid "Placing this piece does not use up a placement."
+msgstr "Dit stuk leggen kost geen zet."
+
+#: game/content/pieces.gd:33
+msgid "Refund"
+msgstr "Teruggave"
+
+#: game/content/pieces.gd:33 game/content/tools.gd:14
+msgid "Refund Stamp"
+msgstr "Teruggavestempel"
+
+#: game/content/pieces.gd:33
+msgid "placing it is free"
+msgstr "leggen is gratis"
+
+#: game/content/pieces.gd:34
+msgid "+2 Credits when placed"
+msgstr "+2 credits bij leggen"
+
+#: game/content/pieces.gd:34
+msgid "+2 Credits whenever this piece is placed."
+msgstr "+2 credits telkens als dit stuk wordt gelegd."
+
+#: game/content/pieces.gd:34
+msgid "Tip"
+msgstr "Fooi"
+
+#: game/content/pieces.gd:34 game/content/tools.gd:15
+msgid "Tip Stamp"
+msgstr "Fooistempel"
+
+#: game/content/pieces.gd:35
+msgid "Memory"
+msgstr "Geheugen"
+
+#: game/content/pieces.gd:35 game/content/tools.gd:16
+msgid "Memory Stamp"
+msgstr "Geheugenstempel"
+
+#: game/content/pieces.gd:35
+msgid "Spark when placed"
+msgstr "Vonk bij leggen"
+
+#: game/content/pieces.gd:35
+msgid "Whenever this piece is placed, gain a Spark item (needs a free item slot)."
+msgstr "Telkens als dit stuk wordt gelegd, krijg je een Vonk (vereist een vrij itemvak)."
+
+#: game/content/pieces.gd:167
+msgid "{color} {shape}"
+msgstr "{shape} ({color})"
+
+#: game/content/pieces.gd:180
+msgid "Brick"
+msgstr "Baksteen"
+
+#: game/content/pieces.gd:188
+#, c-format
+msgid "Veteran: +%d Chips whenever this piece is placed."
+msgstr "Veteraan: +%d chips telkens als dit stuk wordt gelegd."
+
+#: game/content/pieces.gd:190
+msgid "Emergency Brick: a temporary block. It does not stay in your bag."
+msgstr "Noodbaksteen: een tijdelijk blok. Het blijft niet in je zak."
+
+#: game/content/pieces.gd:192
+msgid "Temporary: it does not stay in your bag."
+msgstr "Tijdelijk: blijft niet in je zak."
+
+#: game/content/pieces.gd:206
+#, c-format
+msgid "Veteran: +%d Chips"
+msgstr "Veteraan: +%d chips"
+
+#: game/content/pieces.gd:207
+msgid "No upgrades."
+msgstr "Geen verbeteringen."
+
+#: game/content/round_cards.gd:8 game/content/run_config.gd:82
+msgid "Standard"
+msgstr "Standaard"
+
+#: game/content/round_cards.gd:9
+msgid "No twist."
+msgstr "Geen variant."
+
+#: game/content/round_cards.gd:10
+msgid "Gold Rush"
+msgstr "Goudkoorts"
+
+#: game/content/round_cards.gd:11
+msgid "Six Gold blocks start on the board (+1 Credit per Gold cell cleared). +2 Credits if you win."
+msgstr "Zes gouden blokken liggen bij de start op het bord (+1 credit per weggespeeld goudvakje). +2 credits als je wint."
+
+#: game/content/round_cards.gd:12
+msgid "Tight Budget"
+msgstr "Krap budget"
+
+#: game/content/round_cards.gd:13
+msgid "Three fewer placements. +4 Credits if you win."
+msgstr "Drie zetten minder. +4 credits als je wint."
+
+#: game/content/round_cards.gd:14
+msgid "Rush Hour"
+msgstr "Spitsuur"
+
+#: game/content/round_cards.gd:15
+msgid "Target x0.8, but no Refresh this round."
+msgstr "Doel x0.8, maar deze ronde geen ruilbeurt."
+
+#: game/content/round_cards.gd:16
+msgid "Double or Nothing"
+msgstr "Dubbel of niks"
+
+#: game/content/round_cards.gd:17
+msgid "Target x1.4. +6 Credits if you win."
+msgstr "Doel x1.4. +6 credits als je wint."
+
+#. rules text (shown through BMLoc.tf)
+#: game/content/round_cards.gd:18 game/rules/resolver.gd:232
+msgid "Mult Fever"
+msgstr "Multkoorts"
+
+#: game/content/round_cards.gd:19
+msgid "Every placement gets +1 Mult. Target x1.3."
+msgstr "Elke zet krijgt +1 Mult. Doel x1.3."
+
+#: game/content/round_cards.gd:20
+msgid "Treasure Hunt"
+msgstr "Schatzoeken"
+
+#: game/content/round_cards.gd:21
+msgid "Win to find a random item (needs a free item slot). Target x1.15."
+msgstr "Win om een willekeurig item te vinden (vereist een vrij itemvak). Doel x1.15."
+
+#: game/content/round_cards.gd:22
+msgid "Scholarship"
+msgstr "Studiebeurs"
+
+#: game/content/round_cards.gd:23
+msgid "Win to level up the family of the last piece you place. Target x1.2."
+msgstr "Win om de familie van je laatst gelegde stuk een niveau te verhogen. Doel x1.2."
+
+#: game/content/run_config.gd:82
+msgid "Standard Kit"
+msgstr "Standaardkit"
+
+#: game/content/run_config.gd:83
+msgid "CLASSIC"
+msgstr "KLASSIEK"
+
+#: game/content/run_config.gd:83
+msgid "No twist: the rules as designed. The best Kit to learn with."
+msgstr "Geen variant: de regels zoals bedoeld. De beste kit om mee te leren."
+
+#: game/content/run_config.gd:84
+msgid "The 24-piece starter bag: a bit of every shape."
+msgstr "De startzak met 24 stukken: van elke vorm een beetje."
+
+#: game/content/run_config.gd:85
+msgid "Compact"
+msgstr "Compact"
+
+#: game/content/run_config.gd:85
+msgid "Compact Kit"
+msgstr "Compacte kit"
+
+#: game/content/run_config.gd:86
+msgid "+1 Credit for every Refresh you did not use when you win a round."
+msgstr "+1 credit voor elke ongebruikte ruilbeurt als je een ronde wint."
+
+#: game/content/run_config.gd:86
+msgid "THRIFT"
+msgstr "ZUINIG"
+
+#: game/content/run_config.gd:87
+msgid "An 18-piece bag of small pieces: Singles, Bars, little Ls and Squares. Only 4 Joker slots."
+msgstr "Een zak met 18 kleine stukken: Enkels, Balken, kleine L's en Vierkanten. Maar 4 Joker-vakken."
+
+#: game/content/run_config.gd:87
+msgid "Clear 100 lines across runs."
+msgstr "Speel in totaal 100 lijnen weg over alle runs."
+
+#: game/content/run_config.gd:88
+msgid "High Roller"
+msgstr "High roller"
+
+#: game/content/run_config.gd:88
+msgid "High Roller Kit"
+msgstr "High-roller-kit"
+
+#: game/content/run_config.gd:89
+msgid "COMPOUND INTEREST"
+msgstr "SAMENGESTELDE RENTE"
+
+#: game/content/run_config.gd:89
+msgid "Interest can pay up to +3 more Credits each round."
+msgstr "Rente kan elke ronde tot +3 credits meer opleveren."
+
+#: game/content/run_config.gd:90
+msgid "Start with 4 Credits. The standard bag, 14 placements per round."
+msgstr "Begin met 4 credits. De standaardzak, 14 zetten per ronde."
+
+#: game/content/run_config.gd:90
+msgid "Win a standard run."
+msgstr "Win een standaardrun."
+
+#: game/content/run_config.gd:91
+msgid "Chunky"
+msgstr "Kloek"
+
+#: game/content/run_config.gd:91
+msgid "Chunky Kit"
+msgstr "Kloeke kit"
+
+#: game/content/run_config.gd:92
+msgid "HEAVY LIFTING"
+msgstr "ZWAAR TILWERK"
+
+#: game/content/run_config.gd:92
+msgid "Pieces of 5 or more blocks score +10 Chips per block."
+msgstr "Stukken van 5 of meer blokken leveren +10 chips per blok op."
+
+#: game/content/run_config.gd:93
+msgid "A 19-piece bag of big, plump shapes: squares, Ts, pluses, a Bar 5 and a 3x3. Only 13 placements."
+msgstr "Een zak met 19 grote, dikke vormen: vierkanten, T's, plussen, een Balk 5 en een 3x3. Maar 13 zetten."
+
+#: game/content/run_config.gd:93
+msgid "Defeat 3 bosses across runs."
+msgstr "Versla in totaal 3 bazen over alle runs."
+
+#: game/content/run_config.gd:94
+msgid "Tetromino"
+msgstr "Tetromino"
+
+#: game/content/run_config.gd:94
+msgid "Tetromino Kit"
+msgstr "Tetromino-kit"
+
+#: game/content/run_config.gd:95
+msgid "+1 Credit every time a Tray Hand forms."
+msgstr "+1 credit elke keer dat er een hand in het bakje ontstaat."
+
+#: game/content/run_config.gd:95
+msgid "FULL HOUSE"
+msgstr "FULL HOUSE"
+
+#: game/content/run_config.gd:96
+msgid "Form 25 Tray Hands across runs."
+msgstr "Vorm in totaal 25 handen over alle runs."
+
+#: game/content/run_config.gd:96
+msgid "Only four-block pieces: 20 of them, so Twins and Triplets come often."
+msgstr "Alleen stukken van vier blokken: 20 stuks, dus Tweeling en Drieling komen vaak voor."
+
+#: game/content/run_config.gd:103
+msgid "Heat 0"
+msgstr "Hitte 0"
+
+#: game/content/run_config.gd:103
+msgid "Standard rules."
+msgstr "Standaardregels."
+
+#: game/content/run_config.gd:104
+msgid "Heat 1"
+msgstr "Hitte 1"
+
+#: game/content/run_config.gd:104
+#, c-format
+msgid "Targets +15%."
+msgstr "Doelen +15%."
+
+#: game/content/run_config.gd:105
+msgid "Heat 2"
+msgstr "Hitte 2"
+
+#: game/content/run_config.gd:105
+msgid "One fewer placement every round."
+msgstr "Elke ronde één zet minder."
+
+#: game/content/run_config.gd:106
+msgid "Heat 3"
+msgstr "Hitte 3"
+
+#: game/content/run_config.gd:106
+msgid "Interest pays at most +3; rerolls start at 3."
+msgstr "Rente levert hoogstens +3 op; vernieuwen begint bij 3."
+
+#: game/content/run_config.gd:107
+msgid "Every boss is its Mk II version."
+msgstr "Elke baas is zijn Mk II-versie."
+
+#: game/content/run_config.gd:107
+msgid "Heat 4"
+msgstr "Hitte 4"
+
+#: game/content/run_config.gd:108
+msgid "Heat 5"
+msgstr "Hitte 5"
+
+#: game/content/run_config.gd:108
+#, c-format
+msgid "Targets +35% and one fewer Refresh."
+msgstr "Doelen +35% en één ruilbeurt minder."
+
+#: game/content/shapes.gd:16
+msgid "Blue"
+msgstr "Blauw"
+
+#: game/content/shapes.gd:16
+msgid "Green"
+msgstr "Groen"
+
+#: game/content/shapes.gd:16
+msgid "Orange"
+msgstr "Oranje"
+
+#: game/content/shapes.gd:16
+msgid "Purple"
+msgstr "Paars"
+
+#: game/content/shapes.gd:16
+msgid "Red"
+msgstr "Rood"
+
+#: game/content/shapes.gd:16
+msgid "Stone"
+msgstr "Steen"
+
+#: game/content/shapes.gd:16
+msgid "Yellow"
+msgstr "Geel"
+
+#: game/content/shapes.gd:21
+msgid "Single"
+msgstr "Enkel"
+
+#: game/content/shapes.gd:22
+msgid "Bar 2"
+msgstr "Balk 2"
+
+#: game/content/shapes.gd:23
+msgid "Bar 3"
+msgstr "Balk 3"
+
+#: game/content/shapes.gd:24
+msgid "L 3"
+msgstr "L 3"
+
+#: game/content/shapes.gd:25
+msgid "Square 2x2"
+msgstr "Vierkant 2x2"
+
+#: game/content/shapes.gd:26
+msgid "Bar 4"
+msgstr "Balk 4"
+
+#: game/content/shapes.gd:27
+msgid "L 4"
+msgstr "L 4"
+
+#: game/content/shapes.gd:28
+msgid "T 4"
+msgstr "T 4"
+
+#: game/content/shapes.gd:29
+msgid "Zigzag 4"
+msgstr "Zigzag 4"
+
+#: game/content/shapes.gd:30
+msgid "Plus 5"
+msgstr "Plus 5"
+
+#: game/content/shapes.gd:31
+msgid "Bar 5"
+msgstr "Balk 5"
+
+#: game/content/shapes.gd:32
+msgid "Square 3x3"
+msgstr "Vierkant 3x3"
+
+#: game/content/shapes.gd:34
+msgid "Rectangle 2x3"
+msgstr "Rechthoek 2x3"
+
+#: game/content/tips.gd:9 game/ui/tutorial.gd:366
+msgid "Place a piece"
+msgstr "Leg een stuk"
+
+#: game/content/tips.gd:10
+msgid "Drag a piece from the tray onto the board, or click it and then a cell. Fill a whole row or column to clear it: clears are where the points are."
+msgstr "Sleep een stuk uit het bakje naar het bord, of klik erop en dan op een vakje. Vul een hele rij of kolom om hem weg te spelen: daar zitten de punten."
+
+#: game/content/tips.gd:11
+msgid "Chips x Mult"
+msgstr "Chips x Mult"
+
+#: game/content/tips.gd:12
+msgid "Every placement scores Chips x Mult. Cells and cleared lines give Chips; Jokers, combos and Tray Hands add Mult. The receipt shows the math."
+msgstr "Elke zet scoort chips x Mult. Vakjes en weggespeelde lijnen geven chips; Jokers, combo's en handen geven Mult erbij. Het bonnetje toont de berekening."
+
+#: game/content/tips.gd:13
+msgid "Hold"
+msgstr "Bewaren"
+
+#: game/content/tips.gd:14
+msgid "Press H or drop a piece on HOLD to keep it for later; it deals a new one. You can hold or swap once between placements."
+msgstr "Druk op H of zet een stuk op BEWAREN om het voor later te houden; er komt een nieuw stuk. Je kunt één keer per zet bewaren of wisselen."
+
+#: game/content/tips.gd:15
+msgid "Nothing fits"
+msgstr "Niets past"
+
+#: game/content/tips.gd:16
+msgid "No piece fits the board. REFRESH (R) swaps the whole tray for new pieces. If nothing fits and neither a Refresh nor your held piece helps, the round is lost."
+msgstr "Geen enkel stuk past op het bord. RUILEN (R) vervangt het hele bakje door nieuwe stukken. Past er niets en helpt geen ruilbeurt of bewaard stuk, dan is de ronde verloren."
+
+#: game/content/tips.gd:17
+msgid "Combo"
+msgstr "Combo"
+
+#: game/content/tips.gd:18
+msgid "Clearing on placement after placement builds a combo that adds Mult. A few placements without a clear break it."
+msgstr "Zet na zet wegspelen bouwt een combo op die Mult geeft. Een paar zetten zonder wegspelen breken hem."
+
+#: game/content/tips.gd:19
+msgid "Tray Hand"
+msgstr "Hand in het bakje"
+
+#: game/content/tips.gd:20
+msgid "The three dealt pieces form a Hand (same family, same color, a staircase...). The tag on each piece says what it adds while you place them."
+msgstr "De drie gedeelde stukken vormen een hand (zelfde familie, zelfde kleur, een trap...). Het label op elk stuk zegt wat het oplevert terwijl je ze legt."
+
+#: game/content/tips.gd:21
+msgid "Boss round"
+msgstr "Baasronde"
+
+#: game/content/tips.gd:22
+msgid "Each act ends with a boss that bends one rule for this round. Its rule is on the left panel; hover it any time."
+msgstr "Elke akte eindigt met een baas die deze ronde één regel verbuigt. Zijn regel staat in het linkerpaneel; beweeg er gerust met de muis overheen."
+
+#: game/content/tips.gd:23
+msgid "Heat"
+msgstr "Hitte"
+
+#: game/content/tips.gd:24
+msgid "Heat makes every run harder: bigger targets, fewer placements, Mk II bosses. Each Heat you win unlocks the next."
+msgstr "Hitte maakt elke run moeilijker: hogere doelen, minder zetten, Mk II-bazen. Elk hitteniveau dat je wint, ontgrendelt het volgende."
+
+#: game/content/tips.gd:25
+msgid "The Toybox"
+msgstr "De Speelgoedkist"
+
+#: game/content/tips.gd:26
+msgid "Spend Credits here. Jokers score for you every placement, items are one-use tools, and Workshop cards change the pieces in your bag."
+msgstr "Geef hier je credits uit. Jokers scoren bij elke zet voor je, items zijn gereedschap voor eenmalig gebruik en werkplaatskaarten veranderen de stukken in je zak."
+
+#: game/content/tips.gd:27
+msgid "Interest"
+msgstr "Rente"
+
+#: game/content/tips.gd:28
+msgid "Unspent Credits earn interest after each round: +1 for every 5 you hold, up to +5 (less at Heat 3+). Saving can pay off."
+msgstr "Niet uitgegeven credits leveren na elke ronde rente op: +1 per 5 die je hebt, tot +5 (minder vanaf Hitte 3). Sparen kan lonen."
+
+#: game/content/tips.gd:29
+msgid "Choose the next round"
+msgstr "Kies de volgende ronde"
+
+#: game/content/tips.gd:30
+msgid "Standard, or a twist: a harder target or a special rule for a bigger reward. Boss rounds never offer a choice."
+msgstr "Standaard, of een variant: een zwaarder doel of een speciale regel voor een grotere beloning. Baasrondes bieden nooit een keuze."
+
+#: game/content/tips.gd:31
+msgid "Your bag"
+msgstr "Je zak"
+
+#: game/content/tips.gd:32
+msgid "B (or the BAG button) shows every piece you own and what is still to draw. The tray is dealt from this bag, not at random."
+msgstr "B (of de knop ZAK) toont al je stukken en wat er nog getrokken moet worden. Het bakje wordt uit deze zak gedeeld, niet willekeurig."
+
+#: game/content/tips.gd:34
+msgid "Targets keep growing and a new boss arrives every four rounds. How far can the machine go?"
+msgstr "De doelen blijven groeien en elke vier rondes komt er een nieuwe baas. Hoe ver gaat de machine?"
+
+#: game/content/tools.gd:8
+msgid "Chrome Plating"
+msgstr "Verchroming"
+
+#: game/content/tools.gd:8
+msgid "Give up to 2 pieces the Chrome material."
+msgstr "Geef tot 2 stukken het materiaal Chroom."
+
+#: game/content/tools.gd:9
+msgid "Give up to 2 pieces the Neon material."
+msgstr "Geef tot 2 stukken het materiaal Neon."
+
+#: game/content/tools.gd:9
+msgid "Neon Tubing"
+msgstr "Neonbuis"
+
+#: game/content/tools.gd:10
+msgid "Give 1 piece the Gold material."
+msgstr "Geef 1 stuk het materiaal Goud."
+
+#: game/content/tools.gd:10
+msgid "Gold Leaf"
+msgstr "Bladgoud"
+
+#: game/content/tools.gd:11
+msgid "Give up to 2 pieces the Glass material."
+msgstr "Geef tot 2 stukken het materiaal Glas."
+
+#: game/content/tools.gd:11
+msgid "Glassworks"
+msgstr "Glasblazerij"
+
+#: game/content/tools.gd:12
+msgid "Give up to 2 pieces the Prism material."
+msgstr "Geef tot 2 stukken het materiaal Prisma."
+
+#: game/content/tools.gd:12
+msgid "Prism Coat"
+msgstr "Prismalak"
+
+#: game/content/tools.gd:13
+msgid "Stamp up to 2 pieces with Encore."
+msgstr "Stempel tot 2 stukken met Toegift."
+
+#: game/content/tools.gd:14
+msgid "Stamp up to 2 pieces with Refund."
+msgstr "Stempel tot 2 stukken met Teruggave."
+
+#: game/content/tools.gd:15
+msgid "Stamp up to 2 pieces with Tip."
+msgstr "Stempel tot 2 stukken met Fooi."
+
+#: game/content/tools.gd:16
+msgid "Stamp up to 2 pieces with Memory."
+msgstr "Stempel tot 2 stukken met Geheugen."
+
+#: game/content/tools.gd:17
+msgid "Add an exact copy of 1 piece (with its material and stamp) to your bag."
+msgstr "Voeg een exacte kopie van 1 stuk (met materiaal en stempel) aan je zak toe."
+
+#: game/content/tools.gd:17
+msgid "Copier"
+msgstr "Kopieerder"
+
+#: game/content/tools.gd:18
+msgid "Remove up to 2 pieces from your bag (the bag keeps at least 12)."
+msgstr "Haal tot 2 stukken uit je zak (de zak houdt er minstens 12)."
+
+#: game/content/tools.gd:18
+msgid "Shredder"
+msgstr "Versnipperaar"
+
+#: game/content/tools.gd:19
+msgid "Rotate up to 2 pieces 90 degrees clockwise."
+msgstr "Draai tot 2 stukken 90 graden met de klok mee."
+
+#: game/content/tools.gd:19
+msgid "Turntable"
+msgstr "Draaischijf"
+
+#: game/content/tools.gd:20
+msgid "Repaint"
+msgstr "Overschilderen"
+
+#: game/content/tools.gd:20
+msgid "Repaint up to 3 pieces to a color of your choice."
+msgstr "Schilder tot 3 stukken over in een kleur naar keuze."
+
+#: game/content/tools.gd:21
+msgid "Level up a shape family: its pieces gain +25 Chips and +0.25 Mult per level when placed."
+msgstr "Verhoog het niveau van een vormfamilie: de stukken krijgen per niveau +25 chips en +0.25 Mult als ze worden gelegd."
+
+#: game/content/tools.gd:21
+msgid "Schematic"
+msgstr "Bouwtekening"
+
+#: game/content/tools.gd:22
+msgid "+1 Joker slot for the rest of the run (up to 7)."
+msgstr "+1 Joker-vak voor de rest van de run (tot 7)."
+
+#: game/content/tools.gd:22
+msgid "Rack Extender"
+msgstr "Rekverlenger"
+
+#: game/content/tools.gd:46
+#, c-format
+msgid "Schematic: %s"
+msgstr "Bouwtekening: %s"
+
+#: game/content/tools.gd:54
+#, c-format
+msgid "Level up %s pieces (now Lv %d): +%d Chips and +%s Mult per level when placed."
+msgstr "Verhoog %s-stukken een niveau (nu niv. %d): +%d chips en +%s Mult per niveau bij leggen."
+
+#: game/content/tutorial_steps.gd:23
+msgid "Well hello there! I'm POPS. I've kept this arcade running since blocks were square. Want the grand tour?"
+msgstr "Nou, hallo daar! Ik ben POPS. Ik houd deze speelhal draaiende sinds de blokken vierkant zijn. Zin in een rondleiding?"
+
+#: game/content/tutorial_steps.gd:25
+msgid "These three are your tray: pieces drawn from your very own bag."
+msgstr "Deze drie vormen je bakje: stukken uit je eigen zak."
+
+#: game/content/tutorial_steps.gd:27
+msgid "Drag one onto the board, or click it and then a cell. Go on, place a piece!"
+msgstr "Sleep er een naar het bord, of klik erop en dan op een vakje. Kom op, leg een stuk!"
+
+#: game/content/tutorial_steps.gd:29
+msgid "Nice! Every placement scores CHIPS x MULT, and the receipt shows the sums. No secrets here."
+msgstr "Mooi! Elke zet scoort CHIPS x MULT, en het bonnetje toont de som. Geen geheimen hier."
+
+#: game/content/tutorial_steps.gd:31
+msgid "Now fill a whole row or column. It clears, pays big, and gives you a placement back!"
+msgstr "Vul nu een hele rij of kolom. Die wordt weggespeeld, levert flink wat op en geeft je een zet terug!"
+
+#: game/content/tutorial_steps.gd:33
+msgid "Reach the target up here before the lamps run out. Each lamp is one placement."
+msgstr "Haal het doel hierboven voordat de lampjes op zijn. Elk lampje is één zet."
+
+#: game/content/tutorial_steps.gd:35
+msgid "Bad tray? REFRESH swaps all three pieces. Only once a round, so pick your moment."
+msgstr "Slecht bakje? RUILEN vervangt alle drie de stukken. Maar één keer per ronde, dus kies je moment."
+
+#: game/content/tutorial_steps.gd:37
+msgid "HOLD keeps one piece for later. Drop a piece on it, or press H."
+msgstr "BEWAREN houdt één stuk apart voor later. Zet er een stuk op, of druk op H."
+
+#: game/content/tutorial_steps.gd:39
+msgid "Jokers live here. They add Chips and Mult to every placement. You buy them in the shop."
+msgstr "Hier wonen de Jokers. Ze geven elke zet chips en Mult erbij. Je koopt ze in de winkel."
+
+#: game/content/tutorial_steps.gd:41
+msgid "That's the basics! Hit the target and I'll meet you in the shop."
+msgstr "Dat zijn de basics! Haal het doel en ik zie je in de winkel."
+
+#: game/content/tutorial_steps.gd:44
+msgid "Welcome to the Toybox! Spend your Credits on Jokers here."
+msgstr "Welkom in de Speelgoedkist! Geef hier je credits uit aan Jokers."
+
+#: game/content/tutorial_steps.gd:46
+msgid "Workshop cards change the pieces in your bag: paint them, copy them, make them shiny."
+msgstr "Werkplaatskaarten veranderen de stukken in je zak: verf ze, kopieer ze, laat ze glimmen."
+
+#: game/content/tutorial_steps.gd:48
+msgid "Shop as long as you like. When you're ready, NEXT ROUND is here: you even pick how hard it is."
+msgstr "Winkel zo lang je wilt. Klaar? VOLGENDE RONDE zit hier: je kiest zelfs hoe moeilijk die wordt."
+
+#: game/content/tutorial_steps.gd:51
+msgid "You're a natural! Every fourth round a boss shows up, so read its rule. Have fun!"
+msgstr "Je bent een natuurtalent! Elke vier rondes komt er een baas, dus lees zijn regel. Veel plezier!"
+
+#: game/main.gd:598
+msgid "SOUND OFF  (M)"
+msgstr "GELUID UIT  (M)"
+
+#: game/main.gd:598
+msgid "SOUND ON  (M)"
+msgstr "GELUID AAN  (M)"
+
+#: game/presentation/finishes.gd:22
+msgid "Bright toy plastic. The original."
+msgstr "Glimmend speelgoedplastic. Het origineel."
+
+#: game/presentation/finishes.gd:22
+msgid "CLASSIC PLASTIC"
+msgstr "KLASSIEK PLASTIC"
+
+#: game/presentation/finishes.gd:24
+msgid "Lead-lined jewel panes. Light rolls through them."
+msgstr "Glas-in-lood als juwelen. Het licht rolt erdoorheen."
+
+#: game/presentation/finishes.gd:24
+msgid "STAINED GLASS"
+msgstr "GLAS-IN-LOOD"
+
+#: game/presentation/finishes.gd:26
+msgid "CRYSTAL"
+msgstr "KRISTAL"
+
+#: game/presentation/finishes.gd:26
+msgid "Step-cut gems with twinkling facets."
+msgstr "Getrapt geslepen edelstenen met fonkelende facetten."
+
+#: game/presentation/finishes.gd:28
+msgid "Buzzing glass tubes on a black sign."
+msgstr "Zoemende glazen buizen op een zwart bord."
+
+#: game/presentation/finishes.gd:28
+msgid "NEON"
+msgstr "NEON"
+
+#: game/presentation/finishes.gd:30
+msgid "GOLD"
+msgstr "GOUD"
+
+#: game/presentation/finishes.gd:30
+msgid "Gilded bullion, enamel jewel, rolling shine."
+msgstr "Vergulde baren, emaillen juweel, rollende glans."
+
+#: game/presentation/finishes.gd:32
+msgid "MARBLE"
+msgstr "MARMER"
+
+#: game/presentation/finishes.gd:32
+msgid "Polished stone veined with color."
+msgstr "Gepolijste steen met gekleurde aders."
+
+#: game/presentation/finishes.gd:34
+msgid "CYBERPUNK"
+msgstr "CYBERPUNK"
+
+#: game/presentation/finishes.gd:34
+msgid "Circuit boards pulsing with data."
+msgstr "Printplaten die kloppen van de data."
+
+#: game/presentation/finishes.gd:36
+msgid "Painted maple blocks with carved rings."
+msgstr "Geverfde esdoornblokken met gesneden jaarringen."
+
+#: game/presentation/finishes.gd:36
+msgid "TOY WOOD"
+msgstr "SPEELGOEDHOUT"
+
+#: game/presentation/finishes.gd:38
+msgid "CANDY"
+msgstr "SNOEP"
+
+#: game/presentation/finishes.gd:38
+msgid "Glossy pinwheels that slowly turn."
+msgstr "Glanzende windmolentjes die langzaam draaien."
+
+#: game/presentation/finishes.gd:40
+msgid "Basalt plates over pulsing magma."
+msgstr "Basaltplaten op kloppend magma."
+
+#: game/presentation/finishes.gd:40
+msgid "LAVA"
+msgstr "LAVA"
+
+#: game/presentation/finishes.gd:42
+msgid "Frosted cubes with trapped bubbles."
+msgstr "Berijpte blokjes met ingesloten belletjes."
+
+#: game/presentation/finishes.gd:42
+msgid "ICE"
+msgstr "IJS"
+
+#: game/presentation/finishes.gd:44
+msgid "CHROME"
+msgstr "CHROOM"
+
+#: game/presentation/finishes.gd:44
+msgid "Mirror polish. A glint races across."
+msgstr "Spiegelglans. Er schiet een schittering overheen."
+
+#: game/presentation/finishes.gd:46
+msgid "Holographic foil in every color at once."
+msgstr "Holografische folie in alle kleuren tegelijk."
+
+#: game/presentation/finishes.gd:46
+msgid "PRISM"
+msgstr "PRISMA"
+
+#: game/presentation/finishes.gd:48
+msgid "AURORA"
+msgstr "NOORDERLICHT"
+
+#: game/presentation/finishes.gd:48
+msgid "Northern lights over tiny mountains."
+msgstr "Noorderlicht boven piepkleine bergen."
+
+#: game/presentation/finishes.gd:50
+msgid "Nebulae, twinkles and shooting stars."
+msgstr "Nevels, twinkelingen en vallende sterren."
+
+#: game/presentation/finishes.gd:50
+msgid "STARFALL"
+msgstr "STERRENREGEN"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/endless.gd:98
+msgid "Game over."
+msgstr "Spel voorbij."
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/endless.gd:114
+msgid "Pick an offered piece."
+msgstr "Kies een aangeboden stuk."
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/endless.gd:117
+msgid "That piece does not fit."
+msgstr "Dat stuk past niet."
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/endless.gd:139
+msgid "DOUBLE CLEAR"
+msgstr "DUBBELE LIJN"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/endless.gd:141
+msgid "TRIPLE CLEAR"
+msgstr "DRIEDUBBELE LIJN"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/endless.gd:143
+msgid "MEGA CLEAR"
+msgstr "MEGALIJN"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/endless.gd:147
+msgid "PERFECT"
+msgstr "PERFECT"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/endless.gd:148
+msgid "CLEAN BOARD"
+msgstr "SCHOON BORD"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/endless.gd:150
+msgid "BLOCKSTORM"
+msgstr "BLOKKENSTORM"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/endless.gd:204 game/run/run.gd:503
+msgid "Hold is available again after a placement."
+msgstr "Bewaren kan weer na een zet."
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/endless.gd:206
+msgid "Select a piece to hold."
+msgstr "Kies een stuk om te bewaren."
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/endless.gd:229
+msgid "That swap leaves no playable piece."
+msgstr "Met die wissel blijft er geen speelbaar stuk over."
+
+#: game/rules/hands.gd:17
+msgid "SLAM!"
+msgstr "SLAM!"
+
+#: game/rules/hands.gd:17
+msgid "x2 MULT, +2 MULT, +1 REFRESH, +3 CREDITS"
+msgstr "x2 MULT, +2 MULT, +1 RUILBEURT, +3 CREDITS"
+
+#: game/rules/hands.gd:18
+msgid "Three pieces of the same family and the same color. Every placement from this tray gets +2 Mult and x2 Mult; you gain +1 Refresh this round and 3 Credits."
+msgstr "Drie stukken van dezelfde familie en dezelfde kleur. Elke zet uit dit bakje krijgt +2 Mult en x2 Mult; je krijgt deze ronde +1 ruilbeurt en 3 credits."
+
+#: game/rules/hands.gd:19
+msgid "+2 MULT, x1.5 MULT EACH, +1 REFRESH"
+msgstr "+2 MULT, x1.5 MULT PER STUK, +1 RUILBEURT"
+
+#: game/rules/hands.gd:19
+msgid "TRIPLETS"
+msgstr "DRIELING"
+
+#: game/rules/hands.gd:19
+msgid "Triplets"
+msgstr "Drieling"
+
+#: game/rules/hands.gd:20
+msgid "Three pieces of the same family. Every placement from this tray gets +2 Mult and x1.5 Mult, and you gain +1 Refresh this round."
+msgstr "Drie stukken van dezelfde familie. Elke zet uit dit bakje krijgt +2 Mult en x1.5 Mult, en je krijgt deze ronde +1 ruilbeurt."
+
+#: game/rules/hands.gd:21
+msgid "MONO"
+msgstr "MONO"
+
+#: game/rules/hands.gd:21
+msgid "Monochrome"
+msgstr "Monochroom"
+
+#: game/rules/hands.gd:21
+msgid "x2 MULT EACH"
+msgstr "x2 MULT PER STUK"
+
+#: game/rules/hands.gd:22
+msgid "Three pieces of the same color (Prism counts as any color). Every placement from this tray gets x2 Mult."
+msgstr "Drie stukken van dezelfde kleur (Prisma telt als elke kleur). Elke zet uit dit bakje krijgt x2 Mult."
+
+#: game/rules/hands.gd:23
+msgid "+1 PLACEMENT"
+msgstr "+1 ZET"
+
+#: game/rules/hands.gd:23
+msgid "STAIRS"
+msgstr "TRAP"
+
+#: game/rules/hands.gd:23
+msgid "Staircase"
+msgstr "Trap"
+
+#: game/rules/hands.gd:24
+msgid "Cell counts in a row, like 2-3-4. You gain +1 placement (it can go above your refill cap)."
+msgstr "Opeenvolgende aantallen vakjes, zoals 2-3-4. Je krijgt +1 zet (die boven je aanvulgrens mag gaan)."
+
+#: game/rules/hands.gd:25
+msgid "+1 MULT EACH"
+msgstr "+1 MULT PER STUK"
+
+#: game/rules/hands.gd:25
+msgid "TWINS"
+msgstr "TWEELING"
+
+#: game/rules/hands.gd:25
+msgid "Twins"
+msgstr "Tweeling"
+
+#: game/rules/hands.gd:26
+msgid "Exactly two pieces of the same family. Every placement from this tray gets +1 Mult."
+msgstr "Precies twee stukken van dezelfde familie. Elke zet uit dit bakje krijgt +1 Mult."
+
+#: game/rules/resolver.gd:27
+msgid "BILLION-POINT BLOCK"
+msgstr "MILJARDENBLOK"
+
+#: game/rules/resolver.gd:27
+msgid "SEVEN DIGITS"
+msgstr "ZEVEN CIJFERS"
+
+#: game/rules/resolver.gd:27
+msgid "TRILLION TERRITORY"
+msgstr "BILJOENENLAND"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:168
+#, c-format
+msgid "Cells x%d (Long Game: no cell Chips)"
+msgstr "Vakjes x%d (Lange adem: geen vakjeschips)"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:170
+#, c-format
+msgid "Cells x%d"
+msgstr "Vakjes x%d"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:174
+#, c-format
+msgid "Chrome cells x%d"
+msgstr "Chroomvakjes x%d"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:174
+#, c-format
+msgid "Chrome cells x%d (Stone: doubled)"
+msgstr "Chroomvakjes x%d (Steen: verdubbeld)"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:178
+msgid "Veteran training"
+msgstr "Veteranentraining"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:183
+#, c-format
+msgid "Heavy Lifting x%d"
+msgstr "Zwaar tilwerk x%d"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:187 game/rules/resolver.gd:226
+#, c-format
+msgid "%s Lv %d"
+msgstr "%s niv. %d"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:191
+#, c-format
+msgid "Lines x%d"
+msgstr "Lijnen x%d"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:195
+#, c-format
+msgid "Lines x%d (Taxman: first line %d)"
+msgstr "Lijnen x%d (Belastinginner: eerste lijn %d)"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:200
+msgid "Multi-line bonus"
+msgstr "Meerlijnsbonus"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:204
+#, c-format
+msgid "Combo %d"
+msgstr "Combo %d"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:207
+msgid "Last Call multi-line"
+msgstr "Laatste Ronde: meerdere lijnen"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:229
+msgid "Twins hand"
+msgstr "Hand Tweeling"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:238
+#, c-format
+msgid "Multi-line Mult (%d lines)"
+msgstr "Meerlijns-Mult (%d lijnen)"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:242
+#, c-format
+msgid "Neon cells cleared x%d"
+msgstr "Weggespeelde neonvakjes x%d"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:248 game/rules/resolver.gd:270
+#, c-format
+msgid "%s hand"
+msgstr "Hand %s"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:260
+msgid "Encore Stamp (Double Stamp)"
+msgstr "Toegift-stempel (Dubbele stempel)"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:264
+msgid "Glass cleared"
+msgstr "Glas weggespeeld"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:264
+msgid "Glass cleared (Stone: doubled)"
+msgstr "Glas weggespeeld (Steen: verdubbeld)"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:273
+msgid "Triplets hand"
+msgstr "Hand Drieling"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:320
+#, c-format
+msgid "Avalanche wave %d: lines x%d"
+msgstr "Lawinegolf %d: lijnen x%d"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:323
+#, c-format
+msgid "Avalanche wave %d: lines x%d (Echo Chamber: half)"
+msgstr "Lawinegolf %d: lijnen x%d (Echokamer: half)"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:334
+#, c-format
+msgid "Chain x%d"
+msgstr "Ketting x%d"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:366
+#, c-format
+msgid "Gold: +%d Credit"
+msgid_plural "Gold: +%d Credits"
+msgstr[0] "Goud: +%d credit"
+msgstr[1] "Goud: +%d credits"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:369
+#, c-format
+msgid "Tip Stamp: +%d Credits"
+msgstr "Fooistempel: +%d credits"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:372
+msgid "Refund Stamp: this placement was free"
+msgstr "Teruggavestempel: deze zet was gratis"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:372
+msgid "Refund Stamp: this placement was free (+1 more)"
+msgstr "Teruggavestempel: deze zet was gratis (+1 extra)"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:378
+#, c-format
+msgid "Lines cleared: +%d placement"
+msgid_plural "Lines cleared: +%d placements"
+msgstr[0] "Lijnen weggespeeld: +%d zet"
+msgstr[1] "Lijnen weggespeeld: +%d zetten"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:385
+#, c-format
+msgid "Overflow: +%d Credit"
+msgid_plural "Overflow: +%d Credits"
+msgstr[0] "Overloop: +%d credit"
+msgstr[1] "Overloop: +%d credits"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:391
+msgid "Draftsman: gained an Eraser"
+msgstr "Tekenaar: een Gum gekregen"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:393
+msgid "Draftsman: item slots full"
+msgstr "Tekenaar: itemvakken vol"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:402
+#, c-format
+msgid "The Warden's bars break: slot %d is free"
+msgstr "De tralies van de Cipier breken: vak %d is vrij"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:405
+msgid "Patch Panel ready: remove one block"
+msgstr "Plakpaneel klaar: haal een blok weg"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:410
+msgid "Memory Stamp: gained a Spark"
+msgstr "Geheugenstempel: een Vonk gekregen"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:412
+msgid "Memory Stamp: item slots full"
+msgstr "Geheugenstempel: itemvakken vol"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:415
+#, c-format
+msgid "Snowball grew to x%s Mult"
+msgstr "Sneeuwbal groeide tot x%s Mult"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:422
+#, c-format
+msgid "Veteran: this piece now scores +%d Chips"
+msgstr "Veteraan: dit stuk scoort nu +%d chips"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:431
+#, c-format
+msgid "Philosopher's Stone: it turned %s"
+msgstr "Steen der wijzen: het werd %s"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:441
+#, c-format
+msgid "Glass %s shattered and left your bag"
+msgstr "Glazen stuk %s is gebroken en uit je zak verdwenen"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:444
+msgid "Breakage Bonus: +2 Credits"
+msgstr "Breukbonus: +2 credits"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:446
+#, c-format
+msgid "Glass %s cracked but held (bag at minimum size)"
+msgstr "Glazen stuk %s is gebarsten maar houdt stand (zak op minimumgrootte)"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:525
+#, c-format
+msgid "Mimic (%s)"
+msgstr "Nabootser (%s)"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:527
+#, c-format
+msgid "Mimic (%s), mirrored"
+msgstr "Nabootser (%s), gespiegeld"
+
+#. rules text (shown through BMLoc.tf)
+#: game/rules/resolver.gd:531
+#, c-format
+msgid "%s, mirrored"
+msgstr "%s, gespiegeld"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/achievement_store.gd:144 game/ui/game_screen.gd:1549
+msgid "Best placement"
+msgstr "Beste zet"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/achievement_store.gd:144
+msgid "Furthest round"
+msgstr "Verste ronde"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/achievement_store.gd:145
+msgid "Best round score"
+msgstr "Beste rondescore"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/achievement_store.gd:145
+msgid "Machine broken in round"
+msgstr "Machine stuk in ronde"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:323
+msgid "Disabled by The Color Blind: color effects are off this round."
+msgstr "Uitgeschakeld door De Kleurenblinde: kleureffecten werken deze ronde niet."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:374
+msgid "No item in that slot."
+msgstr "Geen item in dat vak."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:376
+msgid "Items can be used during a round, between placements."
+msgstr "Items gebruik je tijdens een ronde, tussen zetten door."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:381
+msgid "The Lockdown disables tray refreshes."
+msgstr "De Lockdown blokkeert het ruilen van het bakje."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:383 game/run/run.gd:392 game/run/run.gd:402 game/run/run.gd:555
+msgid "The tray is empty."
+msgstr "Het bakje is leeg."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:386
+#, c-format
+msgid "Already at %d placements."
+msgstr "Je hebt al %d zetten."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:389
+msgid "The board is empty."
+msgstr "Het bord is leeg."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:397 game/run/run.gd:551
+msgid "The Lockdown disables Refresh this round."
+msgstr "De Lockdown blokkeert deze ronde het ruilen."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:399
+msgid "Rush Hour: no Refresh this round."
+msgstr "Spitsuur: deze ronde geen ruilbeurt."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:405
+msgid "Not usable yet in this build."
+msgstr "In deze versie nog niet bruikbaar."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:407
+msgid "Only Extra Turn helps when placements are spent."
+msgstr "Zonder zetten helpt alleen Extra beurt."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:466
+msgid "Cannot place right now."
+msgstr "Je kunt nu niet leggen."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:468 game/run/run.gd:688
+msgid "That tray slot is empty."
+msgstr "Dat vak van het bakje is leeg."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:470
+msgid "The Warden barred this slot. Clear a line to free it."
+msgstr "De Cipier heeft dit vak vergrendeld. Speel een lijn weg om het vrij te maken."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:472
+msgid "The shape does not fit there."
+msgstr "De vorm past daar niet."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:489
+msgid "The Undertaker raised a tombstone"
+msgstr "De Doodgraver heeft een grafsteen opgericht"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:498
+msgid "Cannot hold right now."
+msgstr "Je kunt nu niet bewaren."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:500 game/ui/game_screen.gd:697
+msgid "The Lockdown Mk II disables Hold this round."
+msgstr "De Lockdown Mk II blokkeert deze ronde het bewaren."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:505
+msgid "Choose an open tray slot."
+msgstr "Kies een open vak in het bakje."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:509
+msgid "Nothing to hold."
+msgstr "Niets om te bewaren."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:518 game/run/run.gd:1119
+msgid "New tray"
+msgstr "Nieuw bakje"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:521
+#, c-format
+msgid "Held %s"
+msgstr "Bewaard: %s"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:525
+#, c-format
+msgid "Swapped in %s"
+msgstr "Ingewisseld: %s"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:538 game/run/run.gd:780 game/run/run.gd:802 game/run/run.gd:822 game/run/run.gd:896 game/run/run.gd:918
+msgid "The shop is closed."
+msgstr "De winkel is gesloten."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:541
+msgid "No round card there."
+msgstr "Daar ligt geen rondekaart."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:549
+msgid "Cannot refresh right now."
+msgstr "Je kunt nu niet ruilen."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:553
+msgid "No Refresh left this round."
+msgstr "Geen ruilbeurt meer deze ronde."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:558
+msgid "Refresh"
+msgstr "Ruilbeurt"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:582
+#, c-format
+msgid "%s removed %d block"
+msgid_plural "%s removed %d blocks"
+msgstr[0] "%s haalde %d blok weg"
+msgstr[1] "%s haalde %d blokken weg"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:651
+msgid "Choose blocks on the board."
+msgstr "Kies blokken op het bord."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:655
+msgid "Choose 1 or 2 blocks."
+msgstr "Kies 1 of 2 blokken."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:660
+msgid "Choose where to hit."
+msgstr "Kies waar je slaat."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:666 game/ui/game_screen.gd:1830
+msgid "Nothing to hit there."
+msgstr "Daar valt niets te raken."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:671 game/run/run.gd:692 game/run/run.gd:877
+msgid "Choose a color."
+msgstr "Kies een kleur."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:678
+#, c-format
+msgid "No %s blocks on the board."
+msgstr "Geen blokken met de kleur %s op het bord."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:683
+msgid "Choose a tray slot."
+msgstr "Kies een vak in het bakje."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:686
+msgid "The Warden barred that slot."
+msgstr "De Cipier heeft dat vak vergrendeld."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:694
+#, c-format
+msgid "That piece is already %s."
+msgstr "Dat stuk heeft al de kleur %s."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:699
+msgid "Choose a shape."
+msgstr "Kies een vorm."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:708
+msgid "Cannot patch right now."
+msgstr "Plakken kan nu niet."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:710
+msgid "Patch Panel is not ready."
+msgstr "Het Plakpaneel is niet klaar."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:712
+msgid "Choose a block on the board."
+msgstr "Kies een blok op het bord."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:718
+msgid "Patch Panel removed a block"
+msgstr "Het Plakpaneel haalde een blok weg"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:725
+msgid "You can only concede when stuck."
+msgstr "Je kunt alleen opgeven als je vastzit."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:727
+msgid "Conceded: no legal placement remained."
+msgstr "Opgegeven: er was geen geldige zet meer."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:727
+msgid "Conceded: out of placements."
+msgstr "Opgegeven: geen zetten meer."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:737
+msgid "The run is already over."
+msgstr "De run is al voorbij."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:740
+msgid "Run abandoned."
+msgstr "Run afgebroken."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:746
+msgid "No round result to continue from."
+msgstr "Geen rondeuitslag om vanaf verder te gaan."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:750
+#, c-format
+msgid "All %d rounds cleared!"
+msgstr "Alle %d rondes gehaald!"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:760
+msgid "Overtime starts after winning the final round."
+msgstr "De verlenging begint na het winnen van de laatste ronde."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:773
+#, c-format
+msgid "You broke the machine in round %d: one placement hit its limit of %s points."
+msgstr "Je hebt de machine in ronde %d stukgemaakt: één zet bereikte de limiet van %s punten."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:782 game/run/run.gd:804 game/run/run.gd:824 game/run/run.gd:898
+msgid "That offer is gone."
+msgstr "Dat aanbod is weg."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:786 game/run/run.gd:808 game/run/run.gd:828 game/run/run.gd:901 game/run/run.gd:921 game/ui/shop_screen.gd:674
+msgid "Not enough Credits."
+msgstr "Niet genoeg credits."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:788 game/run/run.gd:1323
+msgid "Joker slots are full. Sell a Joker first."
+msgstr "De Joker-vakken zijn vol. Verkoop eerst een Joker."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:810 game/run/run.gd:1330 game/ui/shop_screen.gd:560
+msgid "Item slots are full. Use an item first."
+msgstr "De itemvakken zijn vol. Gebruik eerst een item."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:835
+msgid "This card does not target pieces."
+msgstr "Deze kaart richt zich niet op stukken."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:837
+#, c-format
+msgid "Choose 1 to %d piece."
+msgid_plural "Choose 1 to %d pieces."
+msgstr[0] "Kies 1 tot %d stuk."
+msgstr[1] "Kies 1 tot %d stukken."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:842
+msgid "That piece is not in your bag."
+msgstr "Dat stuk zit niet in je zak."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:848
+#, c-format
+msgid "A chosen piece is already %s."
+msgstr "Een gekozen stuk is al van %s."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:854
+msgid "That piece already has this stamp."
+msgstr "Dat stuk heeft deze stempel al."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:859 game/run/run.gd:903
+#, c-format
+msgid "Your bag is full (%d pieces)."
+msgstr "Je zak is vol (%d stukken)."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:864
+#, c-format
+msgid "Your bag must keep at least %d pieces."
+msgstr "Je zak moet minstens %d stukken houden."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:885
+#, c-format
+msgid "Your Joker rack is already at %d slots."
+msgstr "Je Joker-rek heeft al %d vakken."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:931
+msgid "Jokers can be sold in the shop or between placements."
+msgstr "Jokers verkoop je in de winkel of tussen zetten door."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:933
+msgid "No Joker in that slot."
+msgstr "Geen Joker in dat vak."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:936
+#, c-format
+msgid "Repay the loan first (%d Credits owed)."
+msgstr "Los eerst de lening af (%d credits schuld)."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:952
+msgid "Jokers can be reordered in the shop or between placements."
+msgstr "Jokers orden je in de winkel of tussen zetten door."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:954
+msgid "Invalid Joker move."
+msgstr "Ongeldige Joker-verplaatsing."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1076 game/run/run.gd:1122
+msgid "No piece in your bag fits: a temporary Single was dealt"
+msgstr "Geen stuk uit je zak past: er is een tijdelijke Enkel gedeeld"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1081
+#, c-format
+msgid "Card Sharp: %s!"
+msgstr "Kaarthaai: %s!"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1087
+#, c-format
+msgid "Second Look: +%d placement"
+msgid_plural "Second Look: +%d placements"
+msgstr[0] "Tweede blik: +%d zet"
+msgstr[1] "Tweede blik: +%d zetten"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1127
+#, c-format
+msgid "Out of placements: %d / %d points."
+msgstr "Geen zetten meer: %d / %d punten."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1150
+msgid "Tiny Insurance: a Single replaced a stuck shape"
+msgstr "Mini-verzekering: een Enkel verving een vastzittende vorm"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1154
+msgid "No offered shape fits and no rescue remains."
+msgstr "Geen aangeboden vorm past en er is geen redding meer."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1175
+msgid "Round won"
+msgstr "Ronde gewonnen"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1178
+#, c-format
+msgid "Unused placements (%d)"
+msgstr "Ongebruikte zetten (%d)"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1180
+msgid "Boss defeated"
+msgstr "Baas verslagen"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1192
+#, c-format
+msgid "Overkill (%s of target)"
+msgstr "Overkill (%s van het doel)"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1195
+#, c-format
+msgid "%s bonus"
+msgstr "Bonus %s"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1199
+#, c-format
+msgid "Thrift (%d unused Refresh)"
+msgid_plural "Thrift (%d unused Refreshes)"
+msgstr[0] "Zuinig (%d ongebruikte ruilbeurt)"
+msgstr[1] "Zuinig (%d ongebruikte ruilbeurten)"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1204
+#, c-format
+msgid "Interest (%d held)"
+msgstr "Rente (%d in bezit)"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1209
+#, c-format
+msgid "Overachiever grew to +%s Mult"
+msgstr "Uitblinker groeide tot +%s Mult"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1212
+#, c-format
+msgid "Hot Streak heated up to x%s Mult"
+msgstr "Winnende reeks warmde op tot x%s Mult"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1219
+#, c-format
+msgid "Treasure Hunt: found %s"
+msgstr "Schatzoeken: %s gevonden"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1222
+#, c-format
+msgid "Scholarship: %s is now level %d"
+msgstr "Studiebeurs: %s is nu niveau %d"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1229
+#, c-format
+msgid "Vending Machine dropped %s"
+msgstr "De Snoepautomaat liet %s vallen"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1233
+msgid "Loan Shark repayment"
+msgstr "Aflossing aan de Woekeraar"
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1316
+msgid "Nothing in the crate there."
+msgstr "Daar zit niets in de kist."
+
+#. rules text (shown through BMLoc.tf)
+#: game/run/run.gd:1321
+msgid "That offer is empty."
+msgstr "Dat aanbod is leeg."
+
+#: game/ui/achievement_toast.gd:68
+msgid "ACHIEVEMENT UNLOCKED"
+msgstr "PRESTATIE ONTGRENDELD"
+
+#: game/ui/achievement_toast.gd:68 game/ui/shop_screen.gd:463
+msgid "LEGENDARY!"
+msgstr "LEGENDARISCH!"
+
+#: game/ui/achievement_toast.gd:68
+msgid "SECRET UNLOCKED!"
+msgstr "GEHEIM ONTGRENDELD!"
+
+#: game/ui/achievement_toast.gd:124
+msgid "NEW JOKER UNLOCKED"
+msgstr "NIEUWE JOKER ONTGRENDELD"
+
+#: game/ui/achievement_toast.gd:127
+#, c-format
+msgid "Now in the shop pool. %s"
+msgstr "Nu te koop in de winkel. %s"
+
+#: game/ui/bag_view.gd:40
+#, c-format
+msgid "YOUR BAG  %d PIECE"
+msgid_plural "YOUR BAG  %d PIECES"
+msgstr[0] "JE ZAK  %d STUK"
+msgstr[1] "JE ZAK  %d STUKKEN"
+
+#: game/ui/bag_view.gd:41
+#, c-format
+msgid "min %d  -  max %d"
+msgstr "min. %d  -  max. %d"
+
+#: game/ui/bag_view.gd:50
+msgid "SCHEMATICS"
+msgstr "BOUWTEKENINGEN"
+
+#: game/ui/bag_view.gd:52
+#, c-format
+msgid "%s LV %d"
+msgstr "%s NIV. %d"
+
+#: game/ui/bag_view.gd:59
+#, c-format
+msgid "DRAW PILE  %d"
+msgstr "TREKSTAPEL  %d"
+
+#: game/ui/bag_view.gd:59
+msgid "order hidden"
+msgstr "volgorde verborgen"
+
+#: game/ui/bag_view.gd:60
+#, c-format
+msgid "IN TRAY  %d"
+msgstr "IN HET BAKJE  %d"
+
+#: game/ui/bag_view.gd:61
+#, c-format
+msgid "DISCARD PILE  %d"
+msgstr "AFLEGSTAPEL  %d"
+
+#: game/ui/bag_view.gd:61
+msgid "shuffled back in when the draw pile runs out"
+msgstr "wordt teruggeschud als de trekstapel op is"
+
+#: game/ui/bag_view.gd:96
+msgid "(empty)"
+msgstr "(leeg)"
+
+#: game/ui/bag_view.gd:128 game/ui/game_screen.gd:223 game/ui/settings_menu.gd:438 game/ui/shop_screen.gd:153
+msgid "BAG"
+msgstr "ZAK"
+
+#: game/ui/bag_view.gd:129
+#, c-format
+msgid "%d FAMILIES"
+msgstr "%d FAMILIES"
+
+#: game/ui/bag_view.gd:130
+#, c-format
+msgid "%d COLORS"
+msgstr "%d KLEUREN"
+
+#: game/ui/bag_view.gd:131
+#, c-format
+msgid "%d UPGRADED"
+msgstr "%d VERBETERD"
+
+#: game/ui/bag_view.gd:137
+msgid "HAND ODDS PER DEAL"
+msgstr "HANDKANS PER DEELBEURT"
+
+#: game/ui/bag_view.gd:138
+msgid "Chance that a fresh three-piece deal forms each Tray Hand, from your whole bag."
+msgstr "Kans dat een nieuwe deelbeurt van drie stukken elke hand vormt, op basis van je hele zak."
+
+#: game/ui/boss_intro.gd:107
+msgid "WARNING"
+msgstr "WAARSCHUWING"
+
+#: game/ui/boss_intro.gd:108
+msgid "BOSS ROUND"
+msgstr "BAASRONDE"
+
+#: game/ui/boss_intro.gd:156
+msgid "CLICK OR PRESS ANY KEY"
+msgstr "KLIK OF DRUK OP EEN TOETS"
+
+#: game/ui/brick_throw.gd:247
+msgid "GRAB & THROW IT!"
+msgstr "PAK HEM EN GOOI!"
+
+#: game/ui/brick_throw.gd:248
+msgid "or click a tray slot  |  right-click to cancel"
+msgstr "of klik op een vak  |  rechtsklik om te annuleren"
+
+#: game/ui/brick_throw.gd:250
+msgid "GRAB IT AGAIN, OR CLICK A SLOT"
+msgstr "PAK HEM OPNIEUW OF KLIK OP EEN VAK"
+
+#: game/ui/card.gd:171
+msgid "COMMON"
+msgstr "GEWOON"
+
+#: game/ui/card.gd:171
+msgid "LEGEND"
+msgstr "LEGEND."
+
+#: game/ui/card.gd:171
+msgid "RARE"
+msgstr "ZELDZAAM"
+
+#: game/ui/card.gd:171
+msgid "UNCOM."
+msgstr "ONGEW."
+
+#: game/ui/card.gd:196
+msgid "(DISABLED)"
+msgstr "(UITGESCHAKELD)"
+
+#: game/ui/card.gd:199
+#, c-format
+msgid "DISABLED: %s"
+msgstr "UITGESCHAKELD: %s"
+
+#: game/ui/card.gd:226
+#, c-format
+msgid "%s  (Item)"
+msgstr "%s  (item)"
+
+#: game/ui/card.gd:256 game/ui/shop_screen.gd:389
+msgid "ITEM"
+msgstr "ITEM"
+
+#: game/ui/card.gd:263
+msgid "WORKSHOP"
+msgstr "WERKPLAATS"
+
+#: game/ui/card.gd:270
+msgid "PIECE"
+msgstr "STUK"
+
+#: game/ui/card.gd:378
+msgid "+1 LV"
+msgstr "+1 NIV."
+
+#: game/ui/endless_screen.gd:77 game/ui/game_screen.gd:2272
+msgid "HOLD"
+msgstr "BEWAREN"
+
+#: game/ui/endless_screen.gd:80 game/ui/game_screen.gd:2279
+msgid "EMPTY"
+msgstr "LEEG"
+
+#: game/ui/endless_screen.gd:87 game/ui/game_screen.gd:2273
+msgid "USED THIS TURN"
+msgstr "DEZE BEURT GEBRUIKT"
+
+#: game/ui/endless_screen.gd:100 game/ui/settings_menu.gd:396 game/ui/title_screen.gd:95 game/ui/title_screen.gd:220
+msgid "ENDLESS"
+msgstr "EINDELOOS"
+
+#: game/ui/endless_screen.gd:101
+msgid "ONE MORE CLEAR"
+msgstr "NOG ÉÉN LIJN"
+
+#: game/ui/endless_screen.gd:114
+msgid "ARCADE SCORE"
+msgstr "ARCADESCORE"
+
+#: game/ui/endless_screen.gd:134
+msgid "HOLD  •  ONCE PER PLACEMENT"
+msgstr "BEWAREN  •  ÉÉN KEER PER ZET"
+
+#: game/ui/endless_screen.gd:139
+msgid "Select a piece, then drop it here or press H."
+msgstr "Kies een stuk en zet het hier neer of druk op H."
+
+#: game/ui/endless_screen.gd:147
+msgid "BLOCK STYLE"
+msgstr "BLOKSTIJL"
+
+#: game/ui/endless_screen.gd:150 game/ui/game_screen.gd:227 game/ui/shop_screen.gd:158
+msgid "MENU"
+msgstr "MENU"
+
+#: game/ui/endless_screen.gd:208
+#, c-format
+msgid "BEST  %s"
+msgstr "RECORD  %s"
+
+#: game/ui/endless_screen.gd:209 game/ui/game_screen.gd:943
+#, c-format
+msgid "COMBO x%d"
+msgstr "COMBO x%d"
+
+#: game/ui/endless_screen.gd:211
+#, c-format
+msgid "Placements %d   •   Lines %d"
+msgstr "Zetten %d   •   Lijnen %d"
+
+#: game/ui/endless_screen.gd:212
+#, c-format
+msgid "%d more miss before combo resets"
+msgid_plural "%d more misses before combo resets"
+msgstr[0] "Nog %d misser voordat de combo reset"
+msgstr[1] "Nog %d missers voordat de combo reset"
+
+#: game/ui/endless_screen.gd:213
+msgid "Clear lines to climb the combo ladder"
+msgstr "Speel lijnen weg om de comboladder te beklimmen"
+
+#: game/ui/endless_screen.gd:217
+msgid "HOLD USED — place a piece to recharge"
+msgstr "BEWAREN GEBRUIKT: leg een stuk om op te laden"
+
+#: game/ui/endless_screen.gd:217
+msgid "Select a piece, then drop it here or press H"
+msgstr "Kies een stuk en zet het hier neer of druk op H"
+
+#: game/ui/endless_screen.gd:218
+#, c-format
+msgid "BLOCK STYLE:  %s"
+msgstr "BLOKSTIJL:  %s"
+
+#: game/ui/endless_screen.gd:221
+msgid "No board fit. Select this piece to use Hold."
+msgstr "Past niet op het bord. Kies dit stuk om te bewaren."
+
+#: game/ui/endless_screen.gd:242
+msgid "FRESH BOARD"
+msgstr "FRIS BORD"
+
+#: game/ui/endless_screen.gd:244
+msgid "A perfect clear. Enjoy the open space!"
+msgstr "Een perfecte lijn. Geniet van de ruimte!"
+
+#: game/ui/endless_screen.gd:246
+msgid "COLOR PARADE"
+msgstr "KLEURENPARADE"
+
+#: game/ui/endless_screen.gd:248
+#, c-format
+msgid "Your x%d chain is alive. Keep clearing!"
+msgstr "Je x%d-ketting leeft. Blijf wegspelen!"
+
+#: game/ui/endless_screen.gd:250
+msgid "THE BOARD IS HEATING UP"
+msgstr "HET BORD WORDT HEET"
+
+#: game/ui/endless_screen.gd:252
+msgid "The spaces are shrinking. Find the next opening."
+msgstr "De ruimte krimpt. Zoek de volgende opening."
+
+#: game/ui/endless_screen.gd:254
+msgid "EASY DOES IT"
+msgstr "RUSTIG AAN"
+
+#: game/ui/endless_screen.gd:256
+msgid "Find a rhythm. There is no timer and no target."
+msgstr "Vind je ritme. Er is geen timer en geen doel."
+
+#: game/ui/endless_screen.gd:387
+msgid "NEW TRIO  •  PIECE HELD"
+msgstr "NIEUW TRIO  •  STUK BEWAARD"
+
+#: game/ui/endless_screen.gd:387
+msgid "PIECE HELD  •  PLACE TO RECHARGE"
+msgstr "STUK BEWAARD  •  LEG OM OP TE LADEN"
+
+#: game/ui/endless_screen.gd:522
+msgid "BLOCK STYLES"
+msgstr "BLOKSTIJLEN"
+
+#: game/ui/endless_screen.gd:524
+msgid "Pick a look. Styles change art, effects and sound, never the rules."
+msgstr "Kies een look. Stijlen veranderen de graphics, effecten en geluiden, nooit de regels."
+
+#: game/ui/endless_screen.gd:534
+msgid "Unlock at combo x10."
+msgstr "Ontgrendel met combo x10."
+
+#: game/ui/endless_screen.gd:534
+msgid "Unlock with a clean board."
+msgstr "Ontgrendel met een leeg bord."
+
+#: game/ui/endless_screen.gd:539 game/ui/endless_screen.gd:547 game/ui/game_screen.gd:308 game/ui/refresh_lever.gd:173 game/ui/shop_screen.gd:344 game/ui/title_screen.gd:432
+msgid "LOCKED"
+msgstr "VERGRENDELD"
+
+#: game/ui/endless_screen.gd:551
+msgid "BACK TO GAME"
+msgstr "TERUG NAAR HET SPEL"
+
+#: game/ui/endless_screen.gd:588
+#, c-format
+msgid "NEW STYLE: %s"
+msgstr "NIEUWE STIJL: %s"
+
+#: game/ui/endless_screen.gd:621
+msgid "ENDLESS RUN"
+msgstr "EINDELOZE RUN"
+
+#: game/ui/endless_screen.gd:623
+msgid ""
+"NO ROOM\n"
+"LEFT"
+msgstr ""
+"GEEN RUIMTE\n"
+"MEER"
+
+#: game/ui/endless_screen.gd:631
+#, c-format
+msgid "HIGH SCORE  #%02d"
+msgstr "RECORD  #%02d"
+
+#: game/ui/endless_screen.gd:631
+msgid "RUN COMPLETE"
+msgstr "RUN VOLTOOID"
+
+#: game/ui/endless_screen.gd:640
+msgid "PLAY AGAIN"
+msgstr "OPNIEUW SPELEN"
+
+#: game/ui/endless_screen.gd:644
+msgid "HIGH SCORES"
+msgstr "HIGHSCORES"
+
+#: game/ui/endless_screen.gd:649 game/ui/game_screen.gd:1619
+msgid "TITLE"
+msgstr "TITEL"
+
+#: game/ui/endless_stats_panel.gd:16
+msgid "NO SCORE HISTORY FOR THIS RUN"
+msgstr "GEEN SCOREGESCHIEDENIS VOOR DEZE RUN"
+
+#: game/ui/endless_stats_panel.gd:31
+msgid "0 PLACEMENTS"
+msgstr "0 ZETTEN"
+
+#: game/ui/endless_stats_panel.gd:32 game/ui/title_screen.gd:780
+#, c-format
+msgid "%d PLACEMENT"
+msgid_plural "%d PLACEMENTS"
+msgstr[0] "%d ZET"
+msgstr[1] "%d ZETTEN"
+
+#: game/ui/endless_stats_panel.gd:38
+msgid "RUN BREAKDOWN"
+msgstr "OVERZICHT VAN DE RUN"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/endless_stats_panel.gd:45
+msgid "LINES CLEARED"
+msgstr "LIJNEN WEGGESPEELD"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/endless_stats_panel.gd:46
+msgid "BLOCKS PLACED"
+msgstr "BLOKKEN GELEGD"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/endless_stats_panel.gd:47
+msgid "HIGHEST COMBO"
+msgstr "HOOGSTE COMBO"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/endless_stats_panel.gd:48
+msgid "PERFECT CLEARS"
+msgstr "PERFECTE LIJNEN"
+
+#: game/ui/endless_stats_panel.gd:49
+#, c-format
+msgid "%d line"
+msgid_plural "%d lines"
+msgstr[0] "%d lijn"
+msgstr[1] "%d lijnen"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/endless_stats_panel.gd:49
+msgid "LARGEST CLEAR"
+msgstr "GROOTSTE WEGSPEELBEURT"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/endless_stats_panel.gd:50
+msgid "RUN DURATION"
+msgstr "DUUR"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/endless_stats_panel.gd:51
+msgid "BOARD COVERAGE PEAK"
+msgstr "HOOGSTE BORDBEZETTING"
+
+#: game/ui/endless_stats_panel.gd:52
+#, c-format
+msgid "%.1f sec"
+msgstr "%.1f s"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/endless_stats_panel.gd:52
+msgid "AVERAGE PLACEMENT"
+msgstr "GEMIDDELDE ZET"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/endless_stats_panel.gd:53
+msgid "SCORE / PLACEMENT"
+msgstr "SCORE / ZET"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/endless_stats_panel.gd:54
+msgid "BEST STREAK"
+msgstr "BESTE REEKS"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/endless_stats_panel.gd:55 game/ui/title_screen.gd:491 game/ui/title_screen.gd:702
+msgid "SEED"
+msgstr "SEED"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/endless_stats_panel.gd:56
+msgid "DATE"
+msgstr "DATUM"
+
+#: game/ui/endless_stats_panel.gd:70
+msgid "SCORE PROGRESSION"
+msgstr "SCOREVERLOOP"
+
+#: game/ui/game_screen.gd:106
+msgid "Refresh (R): replace every unplaced piece in the tray. Costs no placement."
+msgstr "Ruilen (R): vervangt alle ongelegde stukken in het bakje. Kost geen zet."
+
+#: game/ui/game_screen.gd:116
+msgid "SCORE"
+msgstr "SCORE"
+
+#: game/ui/game_screen.gd:148 game/ui/game_screen.gd:793
+msgid "Pick up a piece to preview its score"
+msgstr "Pak een stuk op om de score te zien"
+
+#: game/ui/game_screen.gd:160
+msgid "Placements left this round"
+msgstr "Resterende zetten deze ronde"
+
+#: game/ui/game_screen.gd:209 game/ui/settings_menu.gd:437 game/ui/shop_screen.gd:88
+msgid "JOKERS"
+msgstr "JOKERS"
+
+#: game/ui/game_screen.gd:211
+msgid "drag to reorder  |  top first"
+msgstr "sleep: ordenen | boven eerst"
+
+#: game/ui/game_screen.gd:219 game/ui/shop_screen.gd:91
+msgid "ITEMS"
+msgstr "ITEMS"
+
+#: game/ui/game_screen.gd:225
+msgid "See every piece in your bag: draw pile, tray, and discard pile. (B)"
+msgstr "Bekijk elk stuk in je zak: trekstapel, bakje en aflegstapel. (B)"
+
+#: game/ui/game_screen.gd:229
+msgid "Pause, settings and controls (Esc)"
+msgstr "Pauze, instellingen en besturing (Esc)"
+
+#: game/ui/game_screen.gd:260
+#, c-format
+msgid "Round %d. Good luck!"
+msgstr "Ronde %d. Veel succes!"
+
+#: game/ui/game_screen.gd:293 game/ui/settings_menu.gd:458 game/ui/shop_screen.gd:517
+#, c-format
+msgid "ROUND %d"
+msgstr "RONDE %d"
+
+#: game/ui/game_screen.gd:294
+#, c-format
+msgid "ACT %d OF 3"
+msgstr "AKTE %d VAN 3"
+
+#: game/ui/game_screen.gd:294 game/ui/game_screen.gd:347 game/ui/game_screen.gd:1396
+#, c-format
+msgid "BOSS: %s"
+msgstr "BAAS: %s"
+
+#: game/ui/game_screen.gd:298
+#, c-format
+msgid "OVERTIME  -  ACT %d"
+msgstr "VERLENGING  -  AKTE %d"
+
+#: game/ui/game_screen.gd:300
+#, c-format
+msgid "Target: %s points"
+msgstr "Doel: %s punten"
+
+#: game/ui/game_screen.gd:306
+#, c-format
+msgid ""
+"Placements left this round.\n"
+"Each line you clear gives one back, up to %d."
+msgstr ""
+"Resterende zetten deze ronde.\n"
+"Elke weggespeelde lijn geeft er een terug, tot %d."
+
+#: game/ui/game_screen.gd:313
+#, c-format
+msgid "Combo: each clearing placement adds 1 (max %d). It survives %d placement without a clear, then resets."
+msgstr "Combo: elke zet die wegspeelt telt 1 op (max. %d). Hij overleeft %d zet zonder wegspelen en reset dan."
+
+#: game/ui/game_screen.gd:314
+msgid "HANGING ON: clear on your next placement to keep it."
+msgstr "HANGT AAN EEN DRAADJE: speel volgende zet weg om hem te houden."
+
+#: game/ui/game_screen.gd:348
+#, c-format
+msgid "R%d BOSS: %s"
+msgstr "R%d BAAS: %s"
+
+#: game/ui/game_screen.gd:348
+#, c-format
+msgid "R%d: %s"
+msgstr "R%d: %s"
+
+#: game/ui/game_screen.gd:348
+#, c-format
+msgid "ROUND %d BOSS: %s"
+msgstr "BAAS IN RONDE %d: %s"
+
+#: game/ui/game_screen.gd:380
+msgid "No legal move is left. Use an item that can help, or pull to concede the round and end the run."
+msgstr "Er is geen geldige zet meer. Gebruik een item dat helpt, of trek aan de hendel om op te geven en de run te beëindigen."
+
+#: game/ui/game_screen.gd:390
+msgid "Locked by The Lockdown this round."
+msgstr "Deze ronde vergrendeld door De Lockdown."
+
+#: game/ui/game_screen.gd:391
+#, c-format
+msgid "%d Refresh left this round."
+msgid_plural "%d Refreshes left this round."
+msgstr[0] "Nog %d ruilbeurt deze ronde."
+msgstr[1] "Nog %d ruilbeurten deze ronde."
+
+#: game/ui/game_screen.gd:392
+msgid "Refresh (R): pull the lever to replace every unplaced piece in the tray. Costs no placement.\n"
+msgstr "Ruilen (R): trek aan de hendel om alle ongelegde stukken in het bakje te vervangen. Kost geen zet.\n"
+
+#: game/ui/game_screen.gd:396 game/ui/shop_screen.gd:514
+#, c-format
+msgid "BAG  %d"
+msgstr "ZAK  %d"
+
+#: game/ui/game_screen.gd:397
+#, c-format
+msgid "Your bag: %d pieces. Draw pile %d, discard pile %d. (B)"
+msgstr "Je zak: %d stukken. Trekstapel %d, aflegstapel %d. (B)"
+
+#: game/ui/game_screen.gd:405
+#, c-format
+msgid "JOKERS %d/%d"
+msgstr "JOKERS %d/%d"
+
+#: game/ui/game_screen.gd:418 game/ui/shop_screen.gd:599
+msgid ""
+"\n"
+"Drag onto another Joker to reorder. Alt+Up/Down while focused also moves it."
+msgstr ""
+"\n"
+"Sleep hem op een andere Joker om te ordenen. Met focus verplaatst Alt+Omhoog/Omlaag hem ook."
+
+#: game/ui/game_screen.gd:428 game/ui/shop_screen.gd:617
+msgid "empty slot"
+msgstr "leeg vak"
+
+#: game/ui/game_screen.gd:442
+#, c-format
+msgid "SELL +%d"
+msgstr "VERKOOP +%d"
+
+#: game/ui/game_screen.gd:453
+#, c-format
+msgid "ITEMS %d/%d"
+msgstr "ITEMS %d/%d"
+
+#: game/ui/game_screen.gd:469
+msgid "USE"
+msgstr "GEBRUIK"
+
+#: game/ui/game_screen.gd:475
+msgid "Use this item now."
+msgstr "Gebruik dit item nu."
+
+#: game/ui/game_screen.gd:475
+msgid "Use this item now: you choose where next."
+msgstr "Gebruik dit item nu: daarna kies je waar."
+
+#: game/ui/game_screen.gd:484 game/ui/shop_screen.gd:635
+msgid "empty"
+msgstr "leeg"
+
+#: game/ui/game_screen.gd:502 game/ui/game_screen.gd:508
+msgid "NOTHING FITS!  HIT REFRESH"
+msgstr "NIETS PAST!  RUIL"
+
+#: game/ui/game_screen.gd:504 game/ui/game_screen.gd:508
+msgid "NOTHING FITS!  USE AN ITEM OR CONCEDE"
+msgstr "NIETS PAST!  ITEM OF OPGEVEN"
+
+#: game/ui/game_screen.gd:506 game/ui/game_screen.gd:508
+msgid "OUT OF PLACEMENTS!  EXTRA TURN OR CONCEDE"
+msgstr "GEEN ZETTEN MEER!  EXTRA BEURT OF OPGEVEN"
+
+#: game/ui/game_screen.gd:572
+msgid "That piece doesn't fit there, so it went back to the tray."
+msgstr "Dat stuk past daar niet, dus het ging terug naar het bakje."
+
+#: game/ui/game_screen.gd:590 game/ui/game_screen.gd:662
+msgid "That piece doesn't fit there."
+msgstr "Dat stuk past daar niet."
+
+#: game/ui/game_screen.gd:700
+msgid "Hold is used. Place a piece to recharge it."
+msgstr "Bewaren is gebruikt. Leg een stuk om het op te laden."
+
+#: game/ui/game_screen.gd:704
+msgid "Pick up a tray piece first, then drop it on HOLD (or press H)."
+msgstr "Pak eerst een stuk uit het bakje en zet het op BEWAREN (of druk op H)."
+
+#: game/ui/game_screen.gd:711
+msgid "Pick up a tray piece to swap with the stored one."
+msgstr "Pak een stuk uit het bakje om het te wisselen met het bewaarde."
+
+#: game/ui/game_screen.gd:788
+msgid "Doesn't fit here"
+msgstr "Past hier niet"
+
+#: game/ui/game_screen.gd:793
+msgid "Move over the board"
+msgstr "Beweeg over het bord"
+
+#: game/ui/game_screen.gd:806
+#, c-format
+msgid "%d LINE"
+msgid_plural "%d LINES"
+msgstr[0] "%d LIJN"
+msgstr[1] "%d LIJNEN"
+
+#: game/ui/game_screen.gd:891 game/ui/shop_screen.gd:475
+#, c-format
+msgid "Used %s."
+msgstr "%s gebruikt."
+
+#: game/ui/game_screen.gd:894
+msgid "TURBO: NEXT PLACEMENT x2 MULT"
+msgstr "TURBO: VOLGENDE ZET x2 MULT"
+
+#: game/ui/game_screen.gd:896
+msgid "COFFEE BREAK: +1 REFRESH"
+msgstr "KOFFIEPAUZE: +1 RUILBEURT"
+
+#: game/ui/game_screen.gd:898
+#, c-format
+msgid "COIN ROLL: +%d CREDITS"
+msgstr "MUNTROL: +%d CREDITS"
+
+#: game/ui/game_screen.gd:906
+#, c-format
+msgid "Sold %s for %d Credits."
+msgstr "%s verkocht voor %d credits."
+
+#: game/ui/game_screen.gd:939
+msgid "DOUBLE!"
+msgstr "DUBBEL!"
+
+#: game/ui/game_screen.gd:939
+msgid "MEGA!"
+msgstr "MEGA!"
+
+#: game/ui/game_screen.gd:939
+msgid "QUAD!"
+msgstr "VIERDUBBEL!"
+
+#: game/ui/game_screen.gd:939
+msgid "TRIPLE!"
+msgstr "DRIEDUBBEL!"
+
+#: game/ui/game_screen.gd:967
+#, c-format
+msgid "+%d STORED"
+msgstr "+%d OPGESPAARD"
+
+#: game/ui/game_screen.gd:972
+#, c-format
+msgid "AVALANCHE x%d!"
+msgstr "LAWINE x%d!"
+
+#: game/ui/game_screen.gd:987
+#, c-format
+msgid "TRANSMUTED: %s"
+msgstr "GETRANSMUTEERD: %s"
+
+#: game/ui/game_screen.gd:999
+msgid "HANG ON!"
+msgstr "VOLHOUDEN!"
+
+#: game/ui/game_screen.gd:1019
+msgid "MILESTONE!"
+msgstr "MIJLPAAL!"
+
+#: game/ui/game_screen.gd:1028
+#, c-format
+msgid "MILESTONE: %s IN ONE PLACEMENT"
+msgstr "MIJLPAAL: %s IN ÉÉN ZET"
+
+#: game/ui/game_screen.gd:1162
+#, c-format
+msgid "+%s MULT"
+msgstr "+%s MULT"
+
+#: game/ui/game_screen.gd:1165
+#, c-format
+msgid "x%s MULT"
+msgstr "x%s MULT"
+
+#: game/ui/game_screen.gd:1182
+#, c-format
+msgid "%s  (%d cell)"
+msgid_plural "%s  (%d cells)"
+msgstr[0] "%s  (%d vakje)"
+msgstr[1] "%s  (%d vakjes)"
+
+#: game/ui/game_screen.gd:1190
+#, c-format
+msgid "+%s mult"
+msgstr "+%s mult"
+
+#: game/ui/game_screen.gd:1192
+#, c-format
+msgid "x%s mult"
+msgstr "x%s mult"
+
+#: game/ui/game_screen.gd:1194
+#, c-format
+msgid "Mirror Maze removed %d cells"
+msgstr "Spiegeldoolhof haalde %d vakjes weg"
+
+#: game/ui/game_screen.gd:1204
+#, c-format
+msgid "Avalanche wave %d  (x%d chain)"
+msgstr "Lawinegolf %d  (ketting x%d)"
+
+#: game/ui/game_screen.gd:1205
+msgid "Total"
+msgstr "Totaal"
+
+#: game/ui/game_screen.gd:1209
+#, c-format
+msgid "Combo now x%d"
+msgstr "Combo nu x%d"
+
+#: game/ui/game_screen.gd:1211
+#, c-format
+msgid "Feat: %s"
+msgstr "Stunt: %s"
+
+#: game/ui/game_screen.gd:1217
+#, c-format
+msgid "Sell %s for %d Credits?"
+msgstr "%s verkopen voor %d credits?"
+
+#: game/ui/game_screen.gd:1218
+msgid "KEEP"
+msgstr "HOUDEN"
+
+#: game/ui/game_screen.gd:1218
+msgid "SELL"
+msgstr "VERKOOP"
+
+#: game/ui/game_screen.gd:1222
+msgid "Concede this round? The run will end."
+msgstr "Deze ronde opgeven? De run eindigt dan."
+
+#: game/ui/game_screen.gd:1223 game/ui/game_screen.gd:2094 game/ui/game_screen.gd:2139 game/ui/settings_menu.gd:116 game/ui/title_screen.gd:239 game/ui/title_screen.gd:321
+msgid "BACK"
+msgstr "TERUG"
+
+#: game/ui/game_screen.gd:1223 game/ui/refresh_lever.gd:170
+msgid "CONCEDE"
+msgstr "OPGEVEN"
+
+#: game/ui/game_screen.gd:1322 game/ui/shop_screen.gd:833
+msgid "CLOSE  (ESC)"
+msgstr "SLUITEN  (ESC)"
+
+#: game/ui/game_screen.gd:1350
+#, c-format
+msgid "ROUND %d  -  ACT %d"
+msgstr "RONDE %d  -  AKTE %d"
+
+#: game/ui/game_screen.gd:1352
+#, c-format
+msgid "ROUND %d  -  OVERTIME"
+msgstr "RONDE %d  -  VERLENGING"
+
+#: game/ui/game_screen.gd:1354
+msgid "TARGET"
+msgstr "DOEL"
+
+#: game/ui/game_screen.gd:1358
+#, c-format
+msgid "%s points"
+msgstr "%s punten"
+
+#: game/ui/game_screen.gd:1369
+#, c-format
+msgid "%d placement, +1 per line"
+msgid_plural "%d placements, +1 per line"
+msgstr[0] "%d zet, +1 per lijn"
+msgstr[1] "%d zetten, +1 per lijn"
+
+#: game/ui/game_screen.gd:1370
+#, c-format
+msgid "Each line you clear gives one placement back, up to %d."
+msgstr "Elke weggespeelde lijn geeft een zet terug, tot %d."
+
+#: game/ui/game_screen.gd:1374
+#, c-format
+msgid "%d refresh"
+msgid_plural "%d refreshes"
+msgstr[0] "%d ruilbeurt"
+msgstr[1] "%d ruilbeurten"
+
+#: game/ui/game_screen.gd:1383
+#, c-format
+msgid "TWIST: %s"
+msgstr "VARIANT: %s"
+
+#: game/ui/game_screen.gd:1401
+#, c-format
+msgid "Tip: %s"
+msgstr "Tip: %s"
+
+#: game/ui/game_screen.gd:1409
+#, c-format
+msgid "Disabled this round: %s"
+msgstr "Deze ronde uitgeschakeld: %s"
+
+#: game/ui/game_screen.gd:1415
+msgid "OVERTIME: the targets climb faster every round. How far can you go?"
+msgstr "VERLENGING: de doelen stijgen elke ronde sneller. Hoe ver kom jij?"
+
+#: game/ui/game_screen.gd:1426
+#, c-format
+msgid "ACT BOSS, ROUND %d:  %s"
+msgstr "BAAS VAN DE AKTE, RONDE %d:  %s"
+
+#: game/ui/game_screen.gd:1435
+msgid "START ROUND"
+msgstr "START RONDE"
+
+#: game/ui/game_screen.gd:1440
+#, c-format
+msgid "THE WARDEN BARRED SLOT %d: CLEAR A LINE TO FREE IT"
+msgstr "DE CIPIER HEEFT VAK %d VERGRENDELD: SPEEL EEN LIJN WEG OM HET VRIJ TE MAKEN"
+
+#: game/ui/game_screen.gd:1452
+#, c-format
+msgid "ROUND %d CLEARED!"
+msgstr "RONDE %d GEHAALD!"
+
+#: game/ui/game_screen.gd:1458
+#, c-format
+msgid "%s / %s points   -   %d placement unused"
+msgid_plural "%s / %s points   -   %d placements unused"
+msgstr[0] "%s / %s punten   -   %d zet ongebruikt"
+msgstr[1] "%s / %s punten   -   %d zetten ongebruikt"
+
+#: game/ui/game_screen.gd:1475
+msgid "Earned"
+msgstr "Verdiend"
+
+#: game/ui/game_screen.gd:1488
+msgid "YOU HAVE"
+msgstr "JE HEBT"
+
+#: game/ui/game_screen.gd:1493
+msgid "FINISH RUN"
+msgstr "RUN AFRONDEN"
+
+#: game/ui/game_screen.gd:1493
+msgid "TO THE SHOP"
+msgstr "NAAR DE WINKEL"
+
+#: game/ui/game_screen.gd:1516
+msgid "GAME OVER"
+msgstr "GAME OVER"
+
+#: game/ui/game_screen.gd:1516
+msgid "RUN ABANDONED"
+msgstr "RUN AFGEBROKEN"
+
+#: game/ui/game_screen.gd:1516
+msgid "YOU WIN!"
+msgstr "GEWONNEN!"
+
+#: game/ui/game_screen.gd:1518
+msgid "MACHINE BROKEN!"
+msgstr "MACHINE STUK!"
+
+#: game/ui/game_screen.gd:1520
+msgid "OVERTIME OVER"
+msgstr "VERLENGING VOORBIJ"
+
+#: game/ui/game_screen.gd:1530
+#, c-format
+msgid ""
+"Your run was already a win. Overtime ended in round %d.\n"
+"%s"
+msgstr ""
+"Je run was al gewonnen. De verlenging eindigde in ronde %d.\n"
+"%s"
+
+#: game/ui/game_screen.gd:1547
+#, c-format
+msgid "%d  (OVERTIME +%d)"
+msgstr "%d  (VERLENGING +%d)"
+
+#: game/ui/game_screen.gd:1548
+msgid "Lines cleared"
+msgstr "Lijnen weggespeeld"
+
+#: game/ui/game_screen.gd:1548
+msgid "Round"
+msgstr "Ronde"
+
+#: game/ui/game_screen.gd:1549
+msgid "Last score"
+msgstr "Laatste score"
+
+#: game/ui/game_screen.gd:1550
+msgid "Bag size"
+msgstr "Zakgrootte"
+
+#: game/ui/game_screen.gd:1550
+msgid "Highest combo"
+msgstr "Hoogste combo"
+
+#: game/ui/game_screen.gd:1560
+#, c-format
+msgid "Jokers: %s"
+msgstr "Jokers: %s"
+
+#: game/ui/game_screen.gd:1563
+#, c-format
+msgid "Seed %d  -  %s"
+msgstr "Seed %d  -  %s"
+
+#: game/ui/game_screen.gd:1564
+msgid "  -  practice seed: no achievements, records or unlocks"
+msgstr "  -  oefenseed: geen prestaties, records of ontgrendelingen"
+
+#: game/ui/game_screen.gd:1574
+#, c-format
+msgid "NEW RECORD!  %s: %s"
+msgstr "NIEUW RECORD!  %s: %s"
+
+#: game/ui/game_screen.gd:1576
+#, c-format
+msgid "  (was %s)"
+msgstr "  (was %s)"
+
+#: game/ui/game_screen.gd:1584
+#, c-format
+msgid "NEW KIT UNLOCKED: %s!"
+msgstr "NIEUWE KIT ONTGRENDELD: %s!"
+
+#: game/ui/game_screen.gd:1596
+msgid "THE ARCADE STAYS OPEN..."
+msgstr "DE SPEELHAL BLIJFT OPEN..."
+
+#: game/ui/game_screen.gd:1599
+#, c-format
+msgid "Keep this build and play on: round 13 needs %s, and every target after climbs faster. A boss every fourth round. Your win is already saved."
+msgstr "Houd deze build en speel door: ronde 13 vraagt %s, en elk doel daarna stijgt sneller. Elke vierde ronde een baas. Je overwinning is al opgeslagen."
+
+#: game/ui/game_screen.gd:1603
+msgid "KEEP PLAYING: OVERTIME  >"
+msgstr "DOORSPELEN: VERLENGING  >"
+
+#: game/ui/game_screen.gd:1607
+msgid "Rounds 13 and beyond. How far can your build go before the machine gives up?"
+msgstr "Ronde 13 en verder. Hoe ver komt je build voordat de machine het opgeeft?"
+
+#: game/ui/game_screen.gd:1613 game/ui/title_screen.gd:84
+msgid "NEW RUN"
+msgstr "NIEUWE RUN"
+
+#: game/ui/game_screen.gd:1616
+msgid "SAME SEED"
+msgstr "ZELFDE SEED"
+
+#: game/ui/game_screen.gd:1651
+msgid "ERASER: click up to 2 blocks to rub out"
+msgstr "GUM: klik op maximaal 2 blokken om uit te gummen"
+
+#: game/ui/game_screen.gd:1652
+msgid "PUNCH: click where to smash (plus shape)"
+msgstr "STOMP: klik waar je wilt slaan (plusvorm)"
+
+#: game/ui/game_screen.gd:1653
+msgid "COLOR PURGE: click a block to remove its whole color"
+msgstr "KLEURZUIVERING: klik op een blok om die hele kleur weg te halen"
+
+#: game/ui/game_screen.gd:1654
+msgid "LUCKY PAINT: click a tray piece to repaint"
+msgstr "GELUKVERF: klik op een stuk in het bakje om het over te verven"
+
+#: game/ui/game_screen.gd:1655
+msgid "BLUEPRINT: click a tray piece to swap"
+msgstr "SCHETS: klik op een stuk in het bakje om te ruilen"
+
+#: game/ui/game_screen.gd:1656
+msgid "BRICK: throw it at a tray slot, or click one"
+msgstr "BAKSTEEN: gooi hem naar een vak van het bakje, of klik er een aan"
+
+#: game/ui/game_screen.gd:1657
+msgid "PATCH PANEL: click one block to remove"
+msgstr "PLAKPANEEL: klik op een blok om weg te halen"
+
+#: game/ui/game_screen.gd:1658
+msgid "TUNE-UP: click a tray piece to level up its family"
+msgstr "AFSTELBEURT: klik op een stuk in het bakje om zijn familie te verhogen"
+
+#: game/ui/game_screen.gd:1672
+msgid "Right-click or Esc to cancel"
+msgstr "Rechtsklik of Esc om te annuleren"
+
+#: game/ui/game_screen.gd:1714
+#, c-format
+msgid "ERASE %d"
+msgstr "WISSEN %d"
+
+#: game/ui/game_screen.gd:1717
+msgid "CANCEL"
+msgstr "ANNULEREN"
+
+#: game/ui/game_screen.gd:1719
+msgid "Put the item away (right-click or Esc)."
+msgstr "Berg het item op (rechtsklik of Esc)."
+
+#: game/ui/game_screen.gd:1727
+#, c-format
+msgid "%s (Joker)"
+msgstr "%s (Joker)"
+
+#: game/ui/game_screen.gd:1730
+msgid "Remove one block of your choice."
+msgstr "Haal een blok naar keuze weg."
+
+#: game/ui/game_screen.gd:1736
+msgid "PATCH"
+msgstr "PLAKKEN"
+
+#: game/ui/game_screen.gd:1810 game/ui/game_screen.gd:1841
+msgid "Pick a block, not an empty cell."
+msgstr "Kies een blok, geen leeg vakje."
+
+#: game/ui/game_screen.gd:1822
+#, c-format
+msgid "%d OF 2 CHOSEN: PICK ANOTHER, OR PRESS ERASE"
+msgstr "%d VAN 2 GEKOZEN: KIES ER NOG EEN OF DRUK OP WISSEN"
+
+#: game/ui/game_screen.gd:1835
+msgid "Pick a colored block (stone is immune)."
+msgstr "Kies een gekleurd blok (steen is immuun)."
+
+#: game/ui/game_screen.gd:1852 game/ui/game_screen.gd:1857
+msgid "That slot is empty."
+msgstr "Dat vak is leeg."
+
+#: game/ui/game_screen.gd:1913
+#, c-format
+msgid "RUBBED OUT %d BLOCK"
+msgid_plural "RUBBED OUT %d BLOCKS"
+msgstr[0] "%d BLOK UITGEGUMD"
+msgstr[1] "%d BLOKKEN UITGEGUMD"
+
+#: game/ui/game_screen.gd:1926 game/ui/game_screen.gd:1994
+msgid "SMASH!"
+msgstr "BAM!"
+
+#: game/ui/game_screen.gd:1929
+#, c-format
+msgid "PUNCHED OUT %d BLOCK"
+msgid_plural "PUNCHED OUT %d BLOCKS"
+msgstr[0] "%d BLOK WEGGESLAGEN"
+msgstr[1] "%d BLOKKEN WEGGESLAGEN"
+
+#: game/ui/game_screen.gd:1944
+#, c-format
+msgid "PURGED %d BLOCK: %s"
+msgid_plural "PURGED %d BLOCKS: %s"
+msgstr[0] "%d BLOK WEG: %s"
+msgstr[1] "%d BLOKKEN WEG: %s"
+
+#: game/ui/game_screen.gd:1953
+msgid "SPLASH!"
+msgstr "SPETTER!"
+
+#: game/ui/game_screen.gd:1954
+#, c-format
+msgid "REPAINTED %s"
+msgstr "OVERGEVERFD: %s"
+
+#: game/ui/game_screen.gd:1963
+msgid "BLUEPRINT: A FRESH PIECE, DRAFTED"
+msgstr "SCHETS: EEN VERS STUK, NET GETEKEND"
+
+#: game/ui/game_screen.gd:1973
+#, c-format
+msgid "LV %d!"
+msgstr "NIV. %d!"
+
+#: game/ui/game_screen.gd:1974
+#, c-format
+msgid "TUNE-UP: %s IS NOW LEVEL %d"
+msgstr "AFSTELBEURT: %s IS NU NIVEAU %d"
+
+#: game/ui/game_screen.gd:1996
+msgid "BRICK!"
+msgstr "BAKSTEEN!"
+
+#: game/ui/game_screen.gd:2001
+msgid "BRICK IN THE TRAY"
+msgstr "BAKSTEEN IN HET BAKJE"
+
+#: game/ui/game_screen.gd:2001
+#, c-format
+msgid "SMASHED %s!"
+msgstr "VERBRIJZELD: %s!"
+
+#: game/ui/game_screen.gd:2071
+msgid "PAINT IT WHICH COLOR?"
+msgstr "WELKE KLEUR WORDT HET?"
+
+#: game/ui/game_screen.gd:2090
+msgid "Already this color."
+msgstr "Heeft al deze kleur."
+
+#: game/ui/game_screen.gd:2106
+msgid "DRAFT A NEW PIECE"
+msgstr "TEKEN EEN NIEUW STUK"
+
+#: game/ui/game_screen.gd:2226
+msgid "INSURANCE CLAIMED!"
+msgstr "VERZEKERING UITBETAALD!"
+
+#: game/ui/game_screen.gd:2229
+#, c-format
+msgid "Your policy paid out. Round %d starts over from an empty board, without the free Refresh. The Insurance Policy card is used up."
+msgstr "Je polis heeft uitgekeerd. Ronde %d begint opnieuw op een leeg bord, zonder gratis ruilbeurt. De kaart Verzekeringspolis is opgebruikt."
+
+#: game/ui/game_screen.gd:2233
+msgid "TRY AGAIN"
+msgstr "OPNIEUW"
+
+#: game/ui/game_screen.gd:2250
+msgid "FREE!"
+msgstr "GRATIS!"
+
+#: game/ui/game_screen.gd:2264
+msgid "HOLD (H): store a tray piece; its slot draws a new one. Later, swap it back in or click here to return it to an empty slot. Once between placements."
+msgstr "BEWAREN (H): zet een stuk uit het bakje apart; zijn vak krijgt een nieuw stuk. Later wissel je het terug of klik je hier om het in een leeg vak te leggen. Eén keer per zet."
+
+#: game/ui/game_screen.gd:2273
+msgid "DROP IT HERE"
+msgstr "LAAT HIER LOS"
+
+#: game/ui/game_screen.gd:2273
+msgid "LOCKED BY BOSS"
+msgstr "VERGRENDELD DOOR BAAS"
+
+#: game/ui/game_screen.gd:2273
+msgid "PRESS H OR DROP"
+msgstr "DRUK H OF ZET NEER"
+
+#: game/ui/game_screen.gd:2276
+msgid "Store a piece, swap later."
+msgstr "Bewaar nu, wissel later."
+
+#: game/ui/game_screen.gd:2277
+msgid "Once per placement."
+msgstr "Eén keer per zet."
+
+#: game/ui/hud.gd:228
+msgid "RECEIPT"
+msgstr "BONNETJE"
+
+#: game/ui/piece_tile.gd:5 game/ui/piece_tile.gd:67 game/ui/piece_tile.gd:70
+msgid "PICKED"
+msgstr "GEKOZEN"
+
+#: game/ui/refresh_lever.gd:166
+msgid "REFRESH"
+msgstr "RUILEN"
+
+#: game/ui/settings_menu.gd:14
+msgid "AUDIO"
+msgstr "AUDIO"
+
+#: game/ui/settings_menu.gd:14
+msgid "DISPLAY"
+msgstr "BEELD"
+
+#: game/ui/settings_menu.gd:14
+msgid "GAME"
+msgstr "SPEL"
+
+#: game/ui/settings_menu.gd:14
+msgid "RUN"
+msgstr "RUN"
+
+#: game/ui/settings_menu.gd:15
+msgid "ACCESSIBILITY"
+msgstr "TOEGANKELIJK"
+
+#: game/ui/settings_menu.gd:15
+msgid "CONTROLS"
+msgstr "BESTURING"
+
+#: game/ui/settings_menu.gd:78 game/ui/title_screen.gd:118
+msgid "OPTIONS"
+msgstr "OPTIES"
+
+#: game/ui/settings_menu.gd:78
+msgid "PAUSED"
+msgstr "GEPAUZEERD"
+
+#: game/ui/settings_menu.gd:97
+msgid "RESUME"
+msgstr "VERDER"
+
+#: game/ui/settings_menu.gd:99
+msgid "SAVE & QUIT"
+msgstr "OPSLAAN & STOPPEN"
+
+#: game/ui/settings_menu.gd:100
+msgid "Save and go back to the main menu. CONTINUE picks it up exactly here."
+msgstr "Opslaan en terug naar het hoofdmenu. DOORGAAN pakt het precies hier weer op."
+
+#: game/ui/settings_menu.gd:101
+msgid "Save and go back to the main menu. ENDLESS offers to continue this game."
+msgstr "Opslaan en terug naar het hoofdmenu. EINDELOOS biedt aan dit spel voort te zetten."
+
+#: game/ui/settings_menu.gd:104 game/ui/settings_menu.gd:108 game/ui/settings_menu.gd:113
+msgid "ABANDON RUN..."
+msgstr "RUN AFBREKEN..."
+
+#: game/ui/settings_menu.gd:106
+msgid "End this run now. It counts as a loss and cannot be continued."
+msgstr "Beëindig deze run nu. Hij telt als verlies en kan niet worden voortgezet."
+
+#: game/ui/settings_menu.gd:109
+msgid "CLICK AGAIN TO ABANDON"
+msgstr "ZEKER? KLIK NOG EENS"
+
+#: game/ui/settings_menu.gd:130
+#, c-format
+msgid "Q / E  switch page    ESC  %s"
+msgstr "Q / E  pagina wisselen    ESC  %s"
+
+#: game/ui/settings_menu.gd:130
+msgid "back"
+msgstr "terug"
+
+#: game/ui/settings_menu.gd:130
+msgid "resume"
+msgstr "verder"
+
+#: game/ui/settings_menu.gd:132
+msgid "RESET PAGE"
+msgstr "PAGINA RESETTEN"
+
+#: game/ui/settings_menu.gd:134
+msgid "Put this page's settings back to their defaults."
+msgstr "Zet de instellingen op deze pagina terug naar de standaardwaarden."
+
+#: game/ui/settings_menu.gd:149
+#, c-format
+msgid "OVERTIME ROUND %d"
+msgstr "VERLENGING: RONDE %d"
+
+#: game/ui/settings_menu.gd:150
+#, c-format
+msgid "ROUND %d OF %d  -  ACT %d"
+msgstr "RONDE %d VAN %d  -  AKTE %d"
+
+#: game/ui/settings_menu.gd:152
+#, c-format
+msgid "THE TOYBOX, AFTER ROUND %d"
+msgstr "DE SPEELGOEDKIST, NA RONDE %d"
+
+#: game/ui/settings_menu.gd:155
+#, c-format
+msgid "%s  -  HEAT %d"
+msgstr "%s  -  HITTE %d"
+
+#: game/ui/settings_menu.gd:155
+#, c-format
+msgid "DAILY %s"
+msgstr "DAGELIJKS %s"
+
+#: game/ui/settings_menu.gd:157
+msgid "  -  PRACTICE SEED"
+msgstr "  -  OEFENSEED"
+
+#: game/ui/settings_menu.gd:158
+#, c-format
+msgid "  -  SEED %d"
+msgstr "  -  SEED %d"
+
+#: game/ui/settings_menu.gd:160
+#, c-format
+msgid "ENDLESS  -  %s POINTS"
+msgstr "EINDELOOS  -  %s PUNTEN"
+
+#: game/ui/settings_menu.gd:161
+#, c-format
+msgid "SEED %d"
+msgstr "SEED %d"
+
+#: game/ui/settings_menu.gd:163
+msgid "SETTINGS ARE SAVED AS YOU CHANGE THEM"
+msgstr "INSTELLINGEN WORDEN METEEN OPGESLAGEN"
+
+#: game/ui/settings_menu.gd:171 game/ui/settings_menu.gd:180
+msgid "COPIED!"
+msgstr "GEKOPIEERD!"
+
+#: game/ui/settings_menu.gd:174
+msgid "COPY SEED"
+msgstr "SEED KOPIËREN"
+
+#: game/ui/settings_menu.gd:177
+msgid "Copy the seed to the clipboard. Type it on the Kit screen to replay this run's draws."
+msgstr "Kopieer de seed naar het klembord. Typ hem in op het kitscherm om de delingen van deze run opnieuw te spelen."
+
+#: game/ui/settings_menu.gd:251
+msgid "Game speed"
+msgstr "Spelsnelheid"
+
+#: game/ui/settings_menu.gd:251
+msgid "Speeds up scoring, clears and round animations. Results are identical at every speed."
+msgstr "Versnelt score-, wegspeel- en rondeanimaties. De uitkomsten zijn bij elke snelheid gelijk."
+
+#: game/ui/settings_menu.gd:252
+msgid "FAST"
+msgstr "SNEL"
+
+#: game/ui/settings_menu.gd:252
+msgid "NORMAL"
+msgstr "NORMAAL"
+
+#: game/ui/settings_menu.gd:252
+msgid "TURBO"
+msgstr "TURBO"
+
+#: game/ui/settings_menu.gd:253
+msgid "A short hint the first time something new shows up: Hold, bosses, round cards, Heat..."
+msgstr "Een korte hint de eerste keer dat er iets nieuws verschijnt: bewaren, bazen, rondekaarten, Hitte..."
+
+#: game/ui/settings_menu.gd:253
+msgid "Tips"
+msgstr "Tips"
+
+#: game/ui/settings_menu.gd:254 game/ui/settings_menu.gd:319 game/ui/settings_menu.gd:320 game/ui/settings_menu.gd:322 game/ui/settings_menu.gd:323 game/ui/settings_menu.gd:338
+msgid "OFF"
+msgstr "UIT"
+
+#: game/ui/settings_menu.gd:254 game/ui/settings_menu.gd:319 game/ui/settings_menu.gd:320 game/ui/settings_menu.gd:322 game/ui/settings_menu.gd:323 game/ui/settings_menu.gd:338
+msgid "ON"
+msgstr "AAN"
+
+#: game/ui/settings_menu.gd:255
+msgid "RESET TIPS"
+msgstr "TIPS RESETTEN"
+
+#: game/ui/settings_menu.gd:255
+msgid "Replay tips"
+msgstr "Tips opnieuw tonen"
+
+#: game/ui/settings_menu.gd:255
+msgid "Show every tip again, as if this were your first run."
+msgstr "Toont alle tips opnieuw, alsof dit je eerste run is."
+
+#: game/ui/settings_menu.gd:260
+msgid "DONE!"
+msgstr "KLAAR!"
+
+#: game/ui/settings_menu.gd:261 game/ui/settings_menu.gd:357
+msgid "Boss intros"
+msgstr "Baasintro's"
+
+#: game/ui/settings_menu.gd:261
+msgid "CINEMATIC plays the warning, the name slam and the rule. QUICK goes straight to the rule card."
+msgstr "FILMISCH toont de waarschuwing, de grote naam en de regel. SNEL gaat meteen naar de regelkaart."
+
+#: game/ui/settings_menu.gd:262 game/ui/settings_menu.gd:358
+msgid "CINEMATIC"
+msgstr "FILMISCH"
+
+#: game/ui/settings_menu.gd:262 game/ui/settings_menu.gd:358
+msgid "QUICK"
+msgstr "SNEL"
+
+#: game/ui/settings_menu.gd:263
+msgid "POPS shows you around again the next time a run starts."
+msgstr "POPS leidt je opnieuw rond aan het begin van de volgende run."
+
+#: game/ui/settings_menu.gd:263
+msgid "REPLAY TUTORIAL"
+msgstr "TUTORIAL HERHALEN"
+
+#: game/ui/settings_menu.gd:263
+msgid "Tutorial"
+msgstr "Tutorial"
+
+#: game/ui/settings_menu.gd:266
+msgid "READY!"
+msgstr "KLAAR!"
+
+#: game/ui/settings_menu.gd:274
+msgid "Language"
+msgstr "Taal"
+
+#: game/ui/settings_menu.gd:277
+msgid "Menus, cards and tips. Names like BLOCKMANIA and POPS stay the same."
+msgstr "Menu's, kaarten en tips. Namen als BLOCKMANIA en POPS blijven hetzelfde."
+
+#: game/ui/settings_menu.gd:307 game/ui/settings_menu.gd:345
+msgid "SYSTEM"
+msgstr "SYSTEEM"
+
+#: game/ui/settings_menu.gd:309
+#, c-format
+msgid "Follow the computer's language (%s)."
+msgstr "Volg de taal van de computer (%s)."
+
+#: game/ui/settings_menu.gd:316
+msgid "Everything at once."
+msgstr "Alles tegelijk."
+
+#: game/ui/settings_menu.gd:316
+msgid "Master volume"
+msgstr "Hoofdvolume"
+
+#: game/ui/settings_menu.gd:317
+msgid "Music volume"
+msgstr "Muziekvolume"
+
+#: game/ui/settings_menu.gd:317
+msgid "The soundtrack. Each part of the game has its own songs."
+msgstr "De soundtrack. Elk deel van het spel heeft eigen nummers."
+
+#: game/ui/settings_menu.gd:318
+msgid "Clicks, clears, Jokers and fanfares."
+msgstr "Klikjes, lijnen, Jokers en fanfares."
+
+#: game/ui/settings_menu.gd:318
+msgid "Effects volume"
+msgstr "Effectvolume"
+
+#: game/ui/settings_menu.gd:319
+msgid "Sound"
+msgstr "Geluid"
+
+#: game/ui/settings_menu.gd:319
+msgid "Turns every sound on or off. M toggles it anywhere."
+msgstr "Zet alle geluid aan of uit. M schakelt overal om."
+
+#: game/ui/settings_menu.gd:320
+msgid "Keep the effects but switch the songs off."
+msgstr "Houd de effecten, maar zet de nummers uit."
+
+#: game/ui/settings_menu.gd:320
+msgid "Soundtrack"
+msgstr "Soundtrack"
+
+#: game/ui/settings_menu.gd:321
+msgid "A soft heartbeat when three or fewer placements are left and the target is not met."
+msgstr "Een zachte hartslag als er drie of minder zetten over zijn en het doel nog niet gehaald is."
+
+#: game/ui/settings_menu.gd:321
+msgid "Danger heartbeat"
+msgstr "Hartslag bij gevaar"
+
+#: game/ui/settings_menu.gd:323
+msgid "Mute in background"
+msgstr "Dempen op achtergrond"
+
+#: game/ui/settings_menu.gd:323
+msgid "Silence the game while its window is not focused."
+msgstr "Zet het spel stil als het venster niet actief is."
+
+#: game/ui/settings_menu.gd:324
+msgid "Now playing"
+msgstr "Nu speelt"
+
+#: game/ui/settings_menu.gd:329
+msgid "NEXT SONG  >"
+msgstr "VOLGEND NUMMER  >"
+
+#: game/ui/settings_menu.gd:330
+msgid "Play another song from this part of the game."
+msgstr "Speel een ander nummer uit dit deel van het spel."
+
+#: game/ui/settings_menu.gd:336
+msgid "Fullscreen uses your desktop resolution. The board always stays square."
+msgstr "Volledig scherm gebruikt je bureaubladresolutie. Het bord blijft altijd vierkant."
+
+#: game/ui/settings_menu.gd:336
+msgid "Window"
+msgstr "Venster"
+
+#: game/ui/settings_menu.gd:337
+msgid "FULLSCREEN"
+msgstr "VOLLEDIG SCHERM"
+
+#: game/ui/settings_menu.gd:337
+msgid "WINDOWED"
+msgstr "VENSTER"
+
+#: game/ui/settings_menu.gd:338
+msgid "Locks the frame rate to your screen and removes tearing."
+msgstr "Stemt de framerate af op je scherm en voorkomt tearing."
+
+#: game/ui/settings_menu.gd:338
+msgid "V-Sync"
+msgstr "V-Sync"
+
+#: game/ui/settings_menu.gd:339
+msgid "CRT filter"
+msgstr "CRT-filter"
+
+#: game/ui/settings_menu.gd:339
+msgid "Scanlines and a curved-glass glow. SOFT keeps text sharpest."
+msgstr "Scanlines en een gloed van gebogen glas. ZACHT houdt tekst het scherpst."
+
+#: game/ui/settings_menu.gd:340 game/ui/settings_menu.gd:342 game/ui/settings_menu.gd:350 game/ui/settings_menu.gd:352 game/ui/settings_menu.gd:354
+msgid "FULL"
+msgstr "VOL"
+
+#: game/ui/settings_menu.gd:340 game/ui/settings_menu.gd:342 game/ui/settings_menu.gd:354
+msgid "SOFT"
+msgstr "ZACHT"
+
+#: game/ui/settings_menu.gd:341
+msgid "Hazard frame on boss rounds, the danger vignette and heat haze at the screen's edges."
+msgstr "Gevarenkader in baasrondes, gevarenvignet en hittewaas aan de randen van het scherm."
+
+#: game/ui/settings_menu.gd:341
+msgid "Screen effects"
+msgstr "Schermeffecten"
+
+#: game/ui/settings_menu.gd:343
+msgid "FPS counter"
+msgstr "FPS-teller"
+
+#: game/ui/settings_menu.gd:343
+msgid "Frames per second in the top-left corner."
+msgstr "Frames per seconde in de linkerbovenhoek."
+
+#: game/ui/settings_menu.gd:344
+msgid "CUSTOM: a pixel arrow, POPS's glove over buttons and little click sparks. SYSTEM: your normal pointer."
+msgstr "EIGEN: een pixelpijl, POPS' handschoen boven knoppen en kleine klikvonkjes. SYSTEEM: je gewone aanwijzer."
+
+#: game/ui/settings_menu.gd:344
+msgid "Mouse cursor"
+msgstr "Muiscursor"
+
+#: game/ui/settings_menu.gd:345
+msgid "CUSTOM"
+msgstr "EIGEN"
+
+#: game/ui/settings_menu.gd:349
+msgid "Motion"
+msgstr "Beweging"
+
+#: game/ui/settings_menu.gd:349
+msgid "REDUCED stops background motion, bobbing and fly-ins. Every number and effect is still shown."
+msgstr "BEPERKT stopt beweging op de achtergrond, wiebelen en invliegen. Alle getallen en effecten blijven zichtbaar."
+
+#: game/ui/settings_menu.gd:350
+msgid "REDUCED"
+msgstr "BEPERKT"
+
+#: game/ui/settings_menu.gd:351
+msgid "How hard big clears, slams and bosses shake the screen."
+msgstr "Hoe hard grote lijnen, klappen en bazen het scherm laten schudden."
+
+#: game/ui/settings_menu.gd:351
+msgid "Screen shake"
+msgstr "Schermschudden"
+
+#: game/ui/settings_menu.gd:352
+msgid "LOW"
+msgstr "LAAG"
+
+#: game/ui/settings_menu.gd:353
+msgid "Bright full-screen flashes and CRT jolts on slams and bosses. OFF removes them all."
+msgstr "Felle flitsen over het hele scherm en CRT-schokken bij klappen en bazen. UIT haalt ze allemaal weg."
+
+#: game/ui/settings_menu.gd:353
+msgid "Flashes"
+msgstr "Flitsen"
+
+#: game/ui/settings_menu.gd:355
+msgid "Block patterns"
+msgstr "Blokpatronen"
+
+#: game/ui/settings_menu.gd:355
+msgid "Every block color also gets its own pattern, so colors never have to be told apart by hue."
+msgstr "Elke blokkleur krijgt ook een eigen patroon, zodat je kleuren nooit op tint hoeft te onderscheiden."
+
+#: game/ui/settings_menu.gd:357
+msgid "QUICK skips the flashing warning cinematic before boss rounds."
+msgstr "SNEL slaat de knipperende waarschuwingsfilm vóór baasrondes over."
+
+#: game/ui/settings_menu.gd:365 game/ui/settings_menu.gd:378
+msgid "Drag a piece, or click it, then a cell"
+msgstr "Sleep een stuk, of klik erop en dan op een vakje"
+
+#: game/ui/settings_menu.gd:365 game/ui/settings_menu.gd:378
+msgid "MOUSE"
+msgstr "MUIS"
+
+#: game/ui/settings_menu.gd:366
+msgid "Put the carried piece back"
+msgstr "Zet het vastgehouden stuk terug"
+
+#: game/ui/settings_menu.gd:366
+msgid "RIGHT CLICK"
+msgstr "RECHTSKLIK"
+
+#: game/ui/settings_menu.gd:367 game/ui/settings_menu.gd:379
+msgid "1  2  3"
+msgstr "1  2  3"
+
+#: game/ui/settings_menu.gd:367 game/ui/settings_menu.gd:379
+msgid "Pick up a tray piece"
+msgstr "Pak een stuk uit het bakje"
+
+#: game/ui/settings_menu.gd:368 game/ui/settings_menu.gd:380
+msgid "ARROWS / WASD"
+msgstr "PIJLEN / WASD"
+
+#: game/ui/settings_menu.gd:368 game/ui/settings_menu.gd:380
+msgid "Move the carried piece"
+msgstr "Verplaats het vastgehouden stuk"
+
+#: game/ui/settings_menu.gd:369 game/ui/settings_menu.gd:381
+msgid "ENTER / SPACE"
+msgstr "ENTER / SPATIE"
+
+#: game/ui/settings_menu.gd:369 game/ui/settings_menu.gd:381
+msgid "Place it"
+msgstr "Leg het neer"
+
+#: game/ui/settings_menu.gd:370
+msgid "Hold or swap a piece"
+msgstr "Bewaar of wissel een stuk"
+
+#: game/ui/settings_menu.gd:371
+msgid "Refresh the tray"
+msgstr "Ruil het bakje"
+
+#: game/ui/settings_menu.gd:372
+msgid "Open your bag"
+msgstr "Open je zak"
+
+#: game/ui/settings_menu.gd:373
+msgid "ALT + UP / DOWN"
+msgstr "ALT + OMHOOG / OMLAAG"
+
+#: game/ui/settings_menu.gd:373
+msgid "Move a focused Joker"
+msgstr "Verplaats de geselecteerde Joker"
+
+#: game/ui/settings_menu.gd:374 game/ui/settings_menu.gd:383
+msgid "Sound on / off"
+msgstr "Geluid aan / uit"
+
+#: game/ui/settings_menu.gd:375 game/ui/settings_menu.gd:384 game/ui/settings_menu.gd:387
+msgid "ESC"
+msgstr "ESC"
+
+#: game/ui/settings_menu.gd:375 game/ui/settings_menu.gd:384
+msgid "Pause, or put a piece back"
+msgstr "Pauze, of zet een stuk terug"
+
+#: game/ui/settings_menu.gd:382
+msgid "Hold or swap the piece"
+msgstr "Bewaar of wissel het stuk"
+
+#: game/ui/settings_menu.gd:386
+msgid "ENTER"
+msgstr "ENTER"
+
+#: game/ui/settings_menu.gd:386
+msgid "Move between buttons"
+msgstr "Ga tussen knoppen heen en weer"
+
+#: game/ui/settings_menu.gd:386
+msgid "Press the focused button"
+msgstr "Druk op de geselecteerde knop"
+
+#: game/ui/settings_menu.gd:386
+msgid "TAB / ARROWS"
+msgstr "TAB / PIJLEN"
+
+#: game/ui/settings_menu.gd:387
+msgid "Close a window"
+msgstr "Sluit een venster"
+
+#: game/ui/settings_menu.gd:387
+msgid "Q  E"
+msgstr "Q  E"
+
+#: game/ui/settings_menu.gd:387
+msgid "Switch pages in this menu"
+msgstr "Wissel van pagina in dit menu"
+
+#: game/ui/settings_menu.gd:391
+msgid "CAMPAIGN"
+msgstr "CAMPAGNE"
+
+#: game/ui/settings_menu.gd:398
+msgid "MENUS"
+msgstr "MENU'S"
+
+#: game/ui/settings_menu.gd:434
+msgid "KIT"
+msgstr "KIT"
+
+#: game/ui/settings_menu.gd:435
+msgid "(standard)"
+msgstr "(standaard)"
+
+#: game/ui/settings_menu.gd:435 game/ui/title_screen.gd:451
+msgid "HEAT"
+msgstr "HITTE"
+
+#: game/ui/settings_menu.gd:436 game/ui/shop_screen.gd:390
+msgid "CREDITS"
+msgstr "CREDITS"
+
+#: game/ui/settings_menu.gd:438
+#, c-format
+msgid "%d piece"
+msgid_plural "%d pieces"
+msgstr[0] "%d stuk"
+msgstr[1] "%d stukken"
+
+#: game/ui/settings_menu.gd:439
+msgid "LINES"
+msgstr "LIJNEN"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/settings_menu.gd:440 game/ui/title_screen.gd:703 game/ui/trophy_case.gd:149
+msgid "BEST PLACEMENT"
+msgstr "BESTE ZET"
+
+#: game/ui/settings_menu.gd:441
+msgid "BOSSES BEATEN"
+msgstr "BAZEN VERSLAGEN"
+
+#: game/ui/settings_menu.gd:451
+#, c-format
+msgid "HEAT %d RULES"
+msgstr "HITTE %d-REGELS"
+
+#: game/ui/settings_menu.gd:458 game/ui/settings_menu.gd:619
+msgid "NOW"
+msgstr "NU"
+
+#: game/ui/settings_menu.gd:459
+#, c-format
+msgid "ACT %d BOSS  -  %s  (%s)"
+msgstr "BAAS VAN AKTE %d  -  %s  (%s)"
+
+#: game/ui/settings_menu.gd:462
+#, c-format
+msgid "THIS ROUND  -  %s"
+msgstr "DEZE RONDE  -  %s"
+
+#: game/ui/settings_menu.gd:582
+msgid "(silence between songs)"
+msgstr "(stilte tussen nummers)"
+
+#: game/ui/settings_menu.gd:619
+msgid "NEXT"
+msgstr "VOLGENDE"
+
+#: game/ui/settings_menu.gd:622
+#, c-format
+msgid "ACT %d"
+msgstr "AKTE %d"
+
+#: game/ui/settings_menu.gd:625
+#, c-format
+msgid "OVERTIME  -  ROUND %d  (%d PAST THE FINAL BOSS)"
+msgstr "VERLENGING  -  RONDE %d  (%d NA DE EINDBAAS)"
+
+#: game/ui/shop_screen.gd:57 game/ui/shop_screen.gd:58
+msgid "THE TOYBOX"
+msgstr "DE SPEELGOEDKIST"
+
+#: game/ui/shop_screen.gd:64
+msgid "OVERTIME"
+msgstr "VERLENGING"
+
+#: game/ui/shop_screen.gd:65
+msgid "You beat the game and kept playing. Targets climb faster every round."
+msgstr "Je hebt het spel uitgespeeld en bent doorgegaan. De doelen stijgen elke ronde sneller."
+
+#: game/ui/shop_screen.gd:82
+msgid "Replace every offer in the shop. The price rises by 1 each reroll."
+msgstr "Vervangt elk aanbod in de winkel. De prijs stijgt met 1 bij elke vernieuwing."
+
+#: game/ui/shop_screen.gd:94
+msgid "WORKSHOP  -  edit your bag"
+msgstr "WERKPLAATS  -  pas je zak aan"
+
+#: game/ui/shop_screen.gd:97
+msgid "PIECES FOR YOUR BAG"
+msgstr "STUKKEN VOOR JE ZAK"
+
+#: game/ui/shop_screen.gd:110
+msgid "BOSS"
+msgstr "BAAS"
+
+#: game/ui/shop_screen.gd:134
+msgid "NEXT ROUND  >"
+msgstr "VOLGENDE RONDE  >"
+
+#: game/ui/shop_screen.gd:138
+msgid ""
+"BOSS\n"
+"CRATE"
+msgstr ""
+"BAAS-\n"
+"KIST"
+
+#: game/ui/shop_screen.gd:140
+msgid "Your free Boss Crate is still closed. Open it before you leave."
+msgstr "Je gratis baaskist is nog dicht. Open hem voordat je vertrekt."
+
+#: game/ui/shop_screen.gd:146
+msgid "YOUR JOKERS"
+msgstr "JE JOKERS"
+
+#: game/ui/shop_screen.gd:150
+msgid "YOUR ITEMS"
+msgstr "JE ITEMS"
+
+#: game/ui/shop_screen.gd:155
+msgid "Every piece in your bag (B)"
+msgstr "Elk stuk in je zak (B)"
+
+#: game/ui/shop_screen.gd:161
+msgid "Pause, settings, Save & Quit to the main menu (Esc)"
+msgstr "Pauze, instellingen, Opslaan & stoppen naar het hoofdmenu (Esc)"
+
+#: game/ui/shop_screen.gd:217
+msgid "BOSS CRATE!"
+msgstr "BAASKIST!"
+
+#: game/ui/shop_screen.gd:222
+msgid "You beat the boss. Open it and take one thing for free."
+msgstr "Je hebt de baas verslagen. Open hem en neem er gratis één ding uit."
+
+#: game/ui/shop_screen.gd:237
+msgid "Open the crate"
+msgstr "Open de kist"
+
+#: game/ui/shop_screen.gd:240
+msgid "CLICK TO OPEN"
+msgstr "KLIK OM TE OPENEN"
+
+#: game/ui/shop_screen.gd:274 game/ui/shop_screen.gd:283
+msgid "TAKE IT"
+msgstr "PAKKEN"
+
+#: game/ui/shop_screen.gd:282
+#, c-format
+msgid "From the crate: %s."
+msgstr "Uit de kist: %s."
+
+#: game/ui/shop_screen.gd:296 game/ui/shop_screen.gd:342
+msgid "sell a Joker"
+msgstr "verkoop een Joker"
+
+#: game/ui/shop_screen.gd:296 game/ui/shop_screen.gd:342
+msgid "use an item"
+msgstr "gebruik een item"
+
+#: game/ui/shop_screen.gd:310
+msgid "LATER"
+msgstr "LATER"
+
+#: game/ui/shop_screen.gd:311
+msgid "Close the crate for now: the BOSS CRATE button reopens it until you leave the shop."
+msgstr "Sluit de kist voorlopig: de knop BAASKIST opent hem weer zolang je in de winkel bent."
+
+#: game/ui/shop_screen.gd:315
+msgid " or "
+msgstr " of "
+
+#: game/ui/shop_screen.gd:315
+#, c-format
+msgid "Slots full? Press LATER, %s, then reopen the crate."
+msgstr "Vakken vol? Druk op LATER, %s, en open de kist daarna opnieuw."
+
+#: game/ui/shop_screen.gd:332
+msgid "Joker slots are full"
+msgstr "De Joker-vakken zijn vol"
+
+#: game/ui/shop_screen.gd:335
+msgid "Item slots are full"
+msgstr "De itemvakken zijn vol"
+
+#: game/ui/shop_screen.gd:348
+#, c-format
+msgid "%s. Press LATER, %s, then reopen the crate with the BOSS CRATE button."
+msgstr "%s. Druk op LATER, %s, en open de kist daarna opnieuw met de knop BAASKIST."
+
+#: game/ui/shop_screen.gd:349
+#, c-format
+msgid "LOCKED: %s. Press LATER, %s, then reopen the crate."
+msgstr "VERGRENDELD: %s. Druk op LATER, %s, en open de kist daarna opnieuw."
+
+#: game/ui/shop_screen.gd:367
+msgid "SLOTS FULL"
+msgstr "VAKKEN VOL"
+
+#: game/ui/shop_screen.gd:377
+#, c-format
+msgid "%d Credit"
+msgid_plural "%d Credits"
+msgstr[0] "%d credit"
+msgstr[1] "%d credits"
+
+#: game/ui/shop_screen.gd:382
+#, c-format
+msgid "%d Credit, straight into your wallet."
+msgid_plural "%d Credits, straight into your wallet."
+msgstr[0] "%d credit, zo in je portemonnee."
+msgstr[1] "%d credits, zo in je portemonnee."
+
+#: game/ui/shop_screen.gd:386
+#, c-format
+msgid "%d CREDIT"
+msgid_plural "%d CREDITS"
+msgstr[0] "%d CREDIT"
+msgstr[1] "%d CREDITS"
+
+#: game/ui/shop_screen.gd:388
+msgid "Straight into your wallet."
+msgstr "Zo in je portemonnee."
+
+#: game/ui/shop_screen.gd:419
+#, c-format
+msgid "Sold for %d Credits."
+msgstr "Verkocht voor %d credits."
+
+#: game/ui/shop_screen.gd:473
+#, c-format
+msgid "Added %s to your bag (%d pieces)."
+msgstr "%s aan je zak toegevoegd (%d stukken)."
+
+#: game/ui/shop_screen.gd:478
+#, c-format
+msgid "Loan Shark lent you %d Credits. It takes %d back after each won round."
+msgstr "De Woekeraar leende je %d credits. Na elke gewonnen ronde neemt hij er %d terug."
+
+#: game/ui/shop_screen.gd:479
+#, c-format
+msgid "%s joined your rack!"
+msgstr "%s staat nu in je rek!"
+
+#: game/ui/shop_screen.gd:481
+#, c-format
+msgid "Bought %s."
+msgstr "%s gekocht."
+
+#: game/ui/shop_screen.gd:512
+#, c-format
+msgid "REROLL  %d"
+msgstr "VERNIEUW  %d"
+
+#: game/ui/shop_screen.gd:523
+#, c-format
+msgid "Score target for round %d: %s points"
+msgstr "Scoredoel voor ronde %d: %s punten"
+
+#: game/ui/shop_screen.gd:524
+msgid "Overtime: targets climb faster every round."
+msgstr "Verlenging: de doelen stijgen elke ronde sneller."
+
+#: game/ui/shop_screen.gd:531
+#, c-format
+msgid "%s  (ROUND %d)"
+msgstr "%s  (RONDE %d)"
+
+#: game/ui/shop_screen.gd:533
+#, c-format
+msgid "Round %d boss: %s"
+msgstr "Baas van ronde %d: %s"
+
+#: game/ui/shop_screen.gd:548
+msgid "Joker slots are full. Sell one first."
+msgstr "De Joker-vakken zijn vol. Verkoop er eerst een."
+
+#: game/ui/shop_screen.gd:571
+#, c-format
+msgid "PICK %d"
+msgstr "KIES %d"
+
+#: game/ui/shop_screen.gd:583
+msgid "Your bag is full."
+msgstr "Je zak is vol."
+
+#: game/ui/shop_screen.gd:587
+#, c-format
+msgid "YOUR JOKERS %d/%d"
+msgstr "JE JOKERS %d/%d"
+
+#: game/ui/shop_screen.gd:666
+#, c-format
+msgid "BUY %d"
+msgstr "KOOP %d"
+
+#: game/ui/shop_screen.gd:681
+msgid "SOLD OUT"
+msgstr "UITVERKOCHT"
+
+#: game/ui/shop_screen.gd:720
+#, c-format
+msgid "CHOOSE ROUND %d"
+msgstr "KIES RONDE %d"
+
+#: game/ui/shop_screen.gd:726
+msgid "Play it straight, or take a twist for a reward. Keys 1-3 choose, Esc goes back."
+msgstr "Speel hem gewoon, of kies een variant voor een beloning. Toetsen 1-3 kiezen, Esc gaat terug."
+
+#: game/ui/shop_screen.gd:743
+msgid "STANDARD"
+msgstr "STANDAARD"
+
+#: game/ui/shop_screen.gd:743
+msgid "TWIST"
+msgstr "VARIANT"
+
+#: game/ui/shop_screen.gd:765
+#, c-format
+msgid "+%d IF YOU WIN"
+msgstr "+%d ALS JE WINT"
+
+#: game/ui/shop_screen.gd:768
+#, c-format
+msgid "PLAY  %d"
+msgstr "SPEEL  %d"
+
+#: game/ui/shop_screen.gd:780
+msgid "BACK TO THE SHOP"
+msgstr "TERUG NAAR DE WINKEL"
+
+#: game/ui/shop_screen.gd:854
+#, c-format
+msgid "%s  -  %d CREDITS"
+msgstr "%s  -  %d CREDITS"
+
+#: game/ui/shop_screen.gd:858
+#, c-format
+msgid "Choose up to %d piece."
+msgid_plural "Choose up to %d pieces."
+msgstr[0] "Kies tot %d stuk."
+msgstr[1] "Kies tot %d stukken."
+
+#: game/ui/shop_screen.gd:861
+msgid "CONFIRM PURCHASE"
+msgstr "AANKOOP BEVESTIGEN"
+
+#: game/ui/shop_screen.gd:867
+#, c-format
+msgid "%d of %d chosen"
+msgstr "%d van %d gekozen"
+
+#: game/ui/shop_screen.gd:869
+#, c-format
+msgid "   -   color: %s"
+msgstr "   -   kleur: %s"
+
+#: game/ui/shop_screen.gd:869
+msgid "pick one"
+msgstr "kies er een"
+
+#: game/ui/shop_screen.gd:910
+msgid "CANCEL  (ESC)"
+msgstr "ANNULEREN  (ESC)"
+
+#: game/ui/tip_plate.gd:25
+msgid "TIP"
+msgstr "TIP"
+
+#: game/ui/tip_plate.gd:34
+msgid "Turn tips off in Options."
+msgstr "Zet tips uit in Opties."
+
+#: game/ui/tip_plate.gd:38
+msgid "GOT IT"
+msgstr "BEGREPEN"
+
+#: game/ui/title_screen.gd:69
+msgid "a toy-block roguelike of tricks, jokers and one very full board"
+msgstr "een roguelike met speelgoedblokken, trucs, jokers en één heel vol bord"
+
+#: game/ui/title_screen.gd:81
+msgid "CONTINUE RUN"
+msgstr "RUN VOORTZETTEN"
+
+#: game/ui/title_screen.gd:86
+msgid "Pick a Kit and a Heat level, then twelve rounds and three bosses."
+msgstr "Kies een kit en een hitteniveau, en dan twaalf rondes en drie bazen."
+
+#: game/ui/title_screen.gd:90 game/ui/title_screen.gd:165 game/ui/title_screen.gd:655
+msgid "DAILY"
+msgstr "DAGELIJKS"
+
+#: game/ui/title_screen.gd:93 game/ui/title_screen.gd:166
+msgid "Today's run: the same seed for everyone, Standard Kit, Heat 0."
+msgstr "De run van vandaag: dezelfde seed voor iedereen, standaardkit, Hitte 0."
+
+#: game/ui/title_screen.gd:98
+msgid "Relaxed block placement. Clear rows and columns, build a combo, and chase your best score."
+msgstr "Ontspannen blokken leggen. Speel rijen en kolommen weg, bouw een combo op en jaag op je beste score."
+
+#: game/ui/title_screen.gd:102
+msgid "TROPHIES"
+msgstr "TROFEEËN"
+
+#: game/ui/title_screen.gd:106
+msgid "HISTORY"
+msgstr "GESCHIEDENIS"
+
+#: game/ui/title_screen.gd:109
+#, c-format
+msgid "Your last %d campaign runs: Kit, Heat, seed, how far you got and your Jokers."
+msgstr "Je laatste %d campagneruns: kit, Hitte, seed, hoe ver je kwam en je Jokers."
+
+#: game/ui/title_screen.gd:111
+msgid "SCORES"
+msgstr "SCORES"
+
+#: game/ui/title_screen.gd:114
+msgid "Endless high scores"
+msgstr "Highscores van Eindeloos"
+
+#: game/ui/title_screen.gd:122
+msgid "QUIT"
+msgstr "STOPPEN"
+
+#: game/ui/title_screen.gd:127
+msgid "prototype build"
+msgstr "prototypeversie"
+
+#: game/ui/title_screen.gd:165
+msgid "DAILY  *"
+msgstr "DAGELIJKS  *"
+
+#: game/ui/title_screen.gd:167
+#, c-format
+msgid ""
+"\n"
+"Today: %s"
+msgstr ""
+"\n"
+"Vandaag: %s"
+
+#: game/ui/title_screen.gd:167
+#, c-format
+msgid "reached round %d"
+msgstr "ronde %d gehaald"
+
+#: game/ui/title_screen.gd:167
+msgid "won!"
+msgstr "gewonnen!"
+
+#: game/ui/title_screen.gd:222
+#, c-format
+msgid "You have a game in progress:  %s points."
+msgstr "Je hebt een spel bezig:  %s punten."
+
+#: game/ui/title_screen.gd:225
+msgid "CONTINUE"
+msgstr "DOORGAAN"
+
+#: game/ui/title_screen.gd:230
+msgid "NEW GAME"
+msgstr "NIEUW SPEL"
+
+#: game/ui/title_screen.gd:234
+msgid "Start over. The game in progress is discarded (it was not finished, so it is not a high score)."
+msgstr "Begin opnieuw. Het lopende spel vervalt (het was niet af, dus het telt niet als highscore)."
+
+#: game/ui/title_screen.gd:236
+msgid "A new game replaces the one in progress."
+msgstr "Een nieuw spel vervangt het lopende."
+
+#: game/ui/title_screen.gd:272
+#, c-format
+msgid "Trophy Case: %d of %d achievements, and your personal records.%s"
+msgstr "Trofeeënkast: %d van %d prestaties, en je persoonlijke records.%s"
+
+#: game/ui/title_screen.gd:273
+#, c-format
+msgid ""
+"\n"
+"%d new since your last visit!"
+msgstr ""
+"\n"
+"%d nieuw sinds je laatste bezoek!"
+
+#: game/ui/title_screen.gd:301
+msgid "ENDLESS HIGH SCORES"
+msgstr "HIGHSCORES VAN EINDELOOS"
+
+#: game/ui/title_screen.gd:307
+msgid "NO SAVED SCORES YET"
+msgstr "NOG GEEN OPGESLAGEN SCORES"
+
+#: game/ui/title_screen.gd:307
+msgid ""
+"NO SCORES YET\n"
+"FINISH A GAME TO START"
+msgstr ""
+"NOG GEEN SCORES\n"
+"SPEEL EEN SPEL UIT OM TE BEGINNEN"
+
+#: game/ui/title_screen.gd:314
+#, c-format
+msgid "%d lines  •  x%d combo  •  %s"
+msgstr "%d lijnen  •  x%d combo  •  %s"
+
+#: game/ui/title_screen.gd:390
+#, c-format
+msgid "Starting replaces your saved run (round %d, %s)."
+msgstr "Starten vervangt je opgeslagen run (ronde %d, %s)."
+
+#: game/ui/title_screen.gd:405
+msgid "CHOOSE YOUR KIT"
+msgstr "KIES JE KIT"
+
+#: game/ui/title_screen.gd:432
+msgid "PLAY"
+msgstr "SPELEN"
+
+#: game/ui/title_screen.gd:437
+msgid "Locked: "
+msgstr "Vergrendeld: "
+
+#: game/ui/title_screen.gd:475 game/ui/title_screen.gd:482
+#, c-format
+msgid "Heat %d:  %s"
+msgstr "Hitte %d:  %s"
+
+#: game/ui/title_screen.gd:475 game/ui/title_screen.gd:482
+msgid "Heat 0: standard rules."
+msgstr "Hitte 0: standaardregels."
+
+#: game/ui/title_screen.gd:475
+msgid "Standard rules. Win a run to unlock Heat 1."
+msgstr "Standaardregels. Win een run om Hitte 1 te ontgrendelen."
+
+#: game/ui/title_screen.gd:484
+#, c-format
+msgid ""
+"\n"
+"Locked: win a run at Heat %d first."
+msgstr ""
+"\n"
+"Vergrendeld: win eerst een run op Hitte %d."
+
+#: game/ui/title_screen.gd:500
+msgid "random"
+msgstr "willekeurig"
+
+#: game/ui/title_screen.gd:504
+msgid ""
+"Leave empty for a random run. The same seed deals the same pieces, shops and bosses.\n"
+"A run on a seed you choose is practice: it earns no achievements, records or unlocks."
+msgstr ""
+"Laat leeg voor een willekeurige run. Dezelfde seed deelt dezelfde stukken, winkels en bazen.\n"
+"Een run op een gekozen seed is oefening: geen prestaties, records of ontgrendelingen."
+
+#: game/ui/title_screen.gd:506
+msgid "Chosen seeds are practice: no achievements or unlocks."
+msgstr "Gekozen seeds zijn oefening: geen prestaties of ontgrendelingen."
+
+#: game/ui/title_screen.gd:531
+msgid "DAILY RUN"
+msgstr "DAGELIJKSE RUN"
+
+#: game/ui/title_screen.gd:534
+#, c-format
+msgid "%s   -   SEED %d"
+msgstr "%s   -   SEED %d"
+
+#: game/ui/title_screen.gd:537
+msgid "Standard Kit, Heat 0, every Joker in the pool."
+msgstr "Standaardkit, Hitte 0, alle Jokers in de pool."
+
+#: game/ui/title_screen.gd:538
+msgid "Everyone gets the same pieces, shops and bosses today."
+msgstr "Iedereen krijgt vandaag dezelfde stukken, winkels en bazen."
+
+#: game/ui/title_screen.gd:539
+msgid "A new Daily starts at midnight."
+msgstr "Om middernacht begint een nieuwe dagelijkse run."
+
+#: game/ui/title_screen.gd:543
+msgid "Not played yet today."
+msgstr "Vandaag nog niet gespeeld."
+
+#: game/ui/title_screen.gd:545
+msgid "Today's best:  WON!"
+msgstr "Beste van vandaag:  GEWONNEN!"
+
+#: game/ui/title_screen.gd:545
+#, c-format
+msgid "Today's best:  reached round %d."
+msgstr "Beste van vandaag:  ronde %d gehaald."
+
+#: game/ui/title_screen.gd:554
+msgid "PLAY TODAY'S RUN"
+msgstr "SPEEL DE RUN VAN VANDAAG"
+
+#: game/ui/title_screen.gd:601
+msgid "RUN HISTORY"
+msgstr "RUNGESCHIEDENIS"
+
+#: game/ui/title_screen.gd:605
+#, c-format
+msgid "%d run"
+msgid_plural "%d runs"
+msgstr[0] "%d run"
+msgstr[1] "%d runs"
+
+#: game/ui/title_screen.gd:605
+#, c-format
+msgid "%d won"
+msgid_plural "%d won"
+msgstr[0] "%d gewonnen"
+msgstr[1] "%d gewonnen"
+
+#: game/ui/title_screen.gd:614
+msgid ""
+"NO RUNS YET\n"
+"FINISH A CAMPAIGN RUN TO START YOUR HISTORY"
+msgstr ""
+"NOG GEEN RUNS\n"
+"SPEEL EEN CAMPAGNERUN UIT OM JE GESCHIEDENIS TE BEGINNEN"
+
+#: game/ui/title_screen.gd:642
+msgid "BROKE THE MACHINE"
+msgstr "MACHINE STUK"
+
+#: game/ui/title_screen.gd:645
+msgid "WON"
+msgstr "GEWONNEN"
+
+#: game/ui/title_screen.gd:645
+#, c-format
+msgid "WON  +%d OVERTIME"
+msgstr "GEWONNEN  +%d VERL."
+
+#: game/ui/title_screen.gd:647
+#, c-format
+msgid "ABANDONED  R%d"
+msgstr "AFGEBROKEN  R%d"
+
+#: game/ui/title_screen.gd:648
+#, c-format
+msgid "LOST  ROUND %d"
+msgstr "VERLOREN  RONDE %d"
+
+#: game/ui/title_screen.gd:655
+#, c-format
+msgid "HEAT %d"
+msgstr "HITTE %d"
+
+#: game/ui/title_screen.gd:657
+#, c-format
+msgid "%s  -  %s  -  %s  -  seed %d"
+msgstr "%s  -  %s  -  %s  -  seed %d"
+
+#: game/ui/title_screen.gd:701
+#, c-format
+msgid "%s  -  Heat %d"
+msgstr "%s  -  Hitte %d"
+
+#: game/ui/title_screen.gd:701
+msgid "Daily "
+msgstr "Dagelijks "
+
+#: game/ui/title_screen.gd:701
+msgid "MODE"
+msgstr "MODUS"
+
+#: game/ui/title_screen.gd:701
+msgid "PLAYED"
+msgstr "GESPEELD"
+
+#: game/ui/title_screen.gd:702
+msgid "ROUND REACHED"
+msgstr "RONDE BEREIKT"
+
+#: game/ui/title_screen.gd:703
+msgid "TOTAL SCORE"
+msgstr "TOTALE SCORE"
+
+#: game/ui/title_screen.gd:708
+#, c-format
+msgid "JOKERS  (%d)"
+msgstr "JOKERS  (%d)"
+
+#: game/ui/title_screen.gd:722
+msgid "No Jokers at the end of this run."
+msgstr "Geen Jokers aan het eind van deze run."
+
+#: game/ui/title_screen.gd:728
+msgid "PLAY THIS SEED"
+msgstr "SPEEL DEZE SEED"
+
+#: game/ui/title_screen.gd:729
+msgid "Open the Kit screen with this seed filled in."
+msgstr "Open het kitscherm met deze seed al ingevuld."
+
+#: game/ui/title_screen.gd:749
+msgid "Locked. "
+msgstr "Vergrendeld. "
+
+#: game/ui/title_screen.gd:777
+#, c-format
+msgid "%d JOKER"
+msgid_plural "%d JOKERS"
+msgstr[0] "%d JOKER"
+msgstr[1] "%d JOKERS"
+
+#: game/ui/title_screen.gd:778
+#, c-format
+msgid "%d REFRESH"
+msgid_plural "%d REFRESHES"
+msgstr[0] "%d RUILBEURT"
+msgstr[1] "%d RUILBEURTEN"
+
+#: game/ui/title_screen.gd:785
+#, c-format
+msgid "+%d STARTING CREDIT"
+msgid_plural "+%d STARTING CREDITS"
+msgstr[0] "+%d STARTCREDIT"
+msgstr[1] "+%d STARTCREDITS"
+
+#: game/ui/title_screen.gd:814
+#, c-format
+msgid "%d PIECE"
+msgid_plural "%d PIECES"
+msgstr[0] "%d STUK"
+msgstr[1] "%d STUKKEN"
+
+#: game/ui/title_screen.gd:823
+msgid "? JOKERS  -  ? REFRESHES"
+msgstr "? JOKERS  -  ? RUILBEURTEN"
+
+#: game/ui/title_screen.gd:824
+msgid "? PLACEMENTS"
+msgstr "? ZETTEN"
+
+#: game/ui/title_screen.gd:849
+msgid "TO UNLOCK"
+msgstr "OM TE ONTGRENDELEN"
+
+#: game/ui/tray_slot.gd:4 game/ui/tray_slot.gd:158
+msgid "HOLDING"
+msgstr "BEWAARD"
+
+#: game/ui/tray_slot.gd:4 game/ui/tray_slot.gd:160
+msgid "NO ROOM"
+msgstr "GEEN RUIMTE"
+
+#: game/ui/tray_slot.gd:126
+msgid "placed"
+msgstr "gelegd"
+
+#: game/ui/tray_slot.gd:162
+msgid "BRICK: 1 BLOCK"
+msgstr "BAKSTEEN: 1 BLOK"
+
+#: game/ui/tray_slot.gd:164
+msgid "TEMPORARY"
+msgstr "TIJDELIJK"
+
+#: game/ui/trophy_case.gd:47
+msgid "Previous page (Q)"
+msgstr "Vorige pagina (Q)"
+
+#: game/ui/trophy_case.gd:52
+msgid "Next page (E)"
+msgstr "Volgende pagina (E)"
+
+#: game/ui/trophy_case.gd:80
+msgid "TROPHY CASE"
+msgstr "TROFEEËNKAST"
+
+#: game/ui/trophy_case.gd:101
+#, c-format
+msgid "%d / %d UNLOCKED  -  %d%%"
+msgstr "%d / %d ONTGRENDELD  -  %d%%"
+
+#: game/ui/trophy_case.gd:113
+#, c-format
+msgid "%s badges unlocked"
+msgstr "%s badges ontgrendeld"
+
+#: game/ui/trophy_case.gd:141
+msgid "PERSONAL RECORDS"
+msgstr "PERSOONLIJKE RECORDS"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/trophy_case.gd:148
+msgid "FURTHEST ROUND"
+msgstr "VERSTE RONDE"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/trophy_case.gd:150
+msgid "BEST ROUND"
+msgstr "BESTE RONDE"
+
+#: game/ui/trophy_case.gd:151
+#, c-format
+msgid "BROKEN IN ROUND %d"
+msgstr "STUK IN RONDE %d"
+
+#: game/ui/trophy_case.gd:151
+msgid "STILL IN ONE PIECE"
+msgstr "NOG HEEL"
+
+#. rules text (shown through BMLoc.tf)
+#: game/ui/trophy_case.gd:151
+msgid "THE MACHINE"
+msgstr "DE MACHINE"
+
+#: game/ui/trophy_case.gd:313
+msgid "SECRET"
+msgstr "GEHEIM"
+
+#: game/ui/trophy_case.gd:319
+#, c-format
+msgid "LOCKED  -  %s"
+msgstr "VERGRENDELD  -  %s"
+
+#: game/ui/trophy_case.gd:383
+msgid "NEW!"
+msgstr "NIEUW!"
+
+#: game/ui/trophy_case.gd:404
+msgid "  -  SECRET"
+msgstr "  -  GEHEIM"
+
+#: game/ui/trophy_case.gd:406
+#, c-format
+msgid "Hint: %s"
+msgstr "Hint: %s"
+
+#: game/ui/trophy_case.gd:417
+#, c-format
+msgid "Unlocked Joker: %s"
+msgid_plural "Unlocked Jokers: %s"
+msgstr[0] "Joker ontgrendeld: %s"
+msgstr[1] "Jokers ontgrendeld: %s"
+
+#: game/ui/trophy_case.gd:418
+#, c-format
+msgid "Unlocks Joker: %s"
+msgid_plural "Unlocks Jokers: %s"
+msgstr[0] "Ontgrendelt Joker: %s"
+msgstr[1] "Ontgrendelt Jokers: %s"
+
+#: game/ui/trophy_case.gd:423
+#, c-format
+msgid "\"%s\""
+msgstr "‘%s’"
+
+#: game/ui/trophy_case.gd:428
+#, c-format
+msgid "Unlocked %s"
+msgstr "Ontgrendeld op %s"
+
+#: game/ui/trophy_case.gd:432
+#, c-format
+msgid "Progress: %s / %s"
+msgstr "Voortgang: %s / %s"
+
+#: game/ui/trophy_case.gd:433
+msgid "Locked"
+msgstr "Vergrendeld"
+
+#: game/ui/tutorial.gd:116 game/ui/tutorial.gd:375
+msgid "SKIP TUTORIAL"
+msgstr "OVERSLAAN"
+
+#: game/ui/tutorial.gd:125 game/ui/tutorial.gd:365
+msgid "NEXT  >"
+msgstr "VOLGENDE  >"
+
+#: game/ui/tutorial.gd:365
+msgid "BYE!"
+msgstr "DOEI!"
+
+#: game/ui/tutorial.gd:365
+msgid "SHOW ME!"
+msgstr "LAAT ZIEN!"
+
+#: game/ui/tutorial.gd:366
+msgid "Clear a line"
+msgstr "Speel een lijn weg"
+
+#: game/ui/tutorial.gd:366
+msgid "Win the round"
+msgstr "Win de ronde"
+
+#: game/ui/tutorial.gd:367
+msgid "Press NEXT ROUND"
+msgstr "Druk op VOLGENDE RONDE"
+

@@ -64,9 +64,15 @@ func run() -> void:
 				var ducked := false
 				while tut.step_id == "clear" and n < 12 and main.run.phase == BMRun.Phase.ROUND:
 					await _place_via_ui()
-					await wait(0.3)
-					if tut.step_id == "clear":
+					# POPS ducks once his line is typed out: give it up to 2 s rather than one
+					# sample (a slow machine may still be typing 0.3 s after the placement).
+					for t in 20:
+						await wait(0.1)
+						if tut.step_id != "clear":
+							break
 						ducked = ducked or (tut.minimized() and not tut._dialog.visible and tut.target_rect().size == Vector2.ZERO)
+						if ducked:
+							break
 					n += 1
 				if n > 1:
 					check(ducked, "F15: POPS ducks down while the clear takes several turns")

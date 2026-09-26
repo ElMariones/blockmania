@@ -18,7 +18,7 @@ const RARE := ["aurora", "starfall"]
 ## hold: extra rest frames (frame 0) appended to each loop, so shine waves and sparkles breathe.
 ## glow: strength of the stepped halo under the block (0 = none); glow_color: "hue" | "sun" | "mint".
 ## place / clear: particle styles (see emit()).
-const DEFS := {
+const DEFS := { # i18n: name, tag
 	"classic": {"name": "CLASSIC PLASTIC", "tag": "Bright toy plastic. The original.", "phase": "none", "hold": 0,
 		"glow": 0.0, "glow_color": "hue", "place": "", "clear": "pop"},
 	"glass": {"name": "STAINED GLASS", "tag": "Lead-lined jewel panes. Light rolls through them.", "phase": "diag", "hold": 18,
@@ -65,7 +65,11 @@ static func def(id: String) -> Dictionary:
 
 
 static func display_name(id: String) -> String:
-	return String(def(id).name)
+	return BMLoc.t(String(def(id).name))
+
+
+static func display_tag(id: String) -> String:
+	return BMLoc.t(String(def(id).get("tag", "")))
 
 
 static func hue(color_id: int) -> Color:

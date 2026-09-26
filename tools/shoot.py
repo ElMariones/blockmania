@@ -15,6 +15,7 @@ after `res://game/main.tscn` loads, e.g.:
 
 Set BM_GODOT to the Godot 4.7.2 console executable if it is not at the default path.
 The launch splash is skipped (`-- --no-splash`); set BM_SPLASH=1 to keep it.
+The UI is English (`--lang=en`); set BM_LANG to another language code to shoot that one.
 Set BM_SANDBOX=1 to run on a fresh, empty profile (user://shoot_sandbox: saves, settings,
 achievements, Endless) instead of the owner's: nothing real is overwritten, the window stays
 windowed, and the tutorial and tips are off.
@@ -81,8 +82,11 @@ func _go() -> void:
 ''' % ("true" if os.environ.get("BM_SANDBOX") == "1" else "false", work, out))
     cmd = [GODOT, "--path", PROJECT, "--resolution", res, "--position", "%d,%d" % (-w - 400, -h - 400),
            "--windowed", "--audio-driver", "Dummy", "--script", work + "/runner.gd"]
+    cmd += ["--"]
     if os.environ.get("BM_SPLASH") != "1":
-        cmd += ["--", "--no-splash"]
+        cmd += ["--no-splash"]
+    # English unless BM_LANG names another UI language (BMLoc code, e.g. de, ja, pt_BR).
+    cmd += ["--lang=" + os.environ.get("BM_LANG", "en")]
     flags = 0x08000000 if os.name == "nt" else 0  # CREATE_NO_WINDOW: no console flash
     p = subprocess.run(cmd, capture_output=True, text=True, timeout=180, creationflags=flags)
     txt = p.stdout + p.stderr

@@ -11,7 +11,7 @@ extends Control
 const STAGE := Vector2(1920, 1080)
 const PANEL := Rect2(170, 60, 1580, 960)
 const TABS := ["run", "game", "audio", "display", "access", "controls"]
-const TAB_NAMES := {"run": "RUN", "game": "GAME", "audio": "AUDIO", "display": "DISPLAY",
+const TAB_NAMES := {"run": "RUN", "game": "GAME", "audio": "AUDIO", "display": "DISPLAY", # i18n
 	"access": "ACCESSIBILITY", "controls": "CONTROLS"}
 ## The last page opened, so the menu reopens where the player left it.
 static var last_tab := "game"
@@ -75,7 +75,7 @@ func _build() -> void:
 	var panel := Panel.new()
 	panel.add_theme_stylebox_override("panel", BMStyle.box("panel_plate", Vector4.ZERO))
 	_place(stage, panel, PANEL)
-	var title := BMStyle.label("PAUSED" if in_run else "OPTIONS", 60, BMStyle.SUN, true, 14)
+	var title := BMStyle.label(BMLoc.t("PAUSED") if in_run else BMLoc.t("OPTIONS"), 60, BMStyle.SUN, true, 14)
 	_place(panel, title, Rect2(40, 14, 520, 90))
 	_build_context(panel)
 	var rule := ColorRect.new()
@@ -86,7 +86,7 @@ func _build() -> void:
 	for id in TABS:
 		if id == "run" and context != "campaign" and context != "shop":
 			continue
-		var b := BMStyle.button(TAB_NAMES[id], show_tab.bind(id), "plum", 30)
+		var b := BMStyle.button(BMLoc.t(TAB_NAMES[id]), show_tab.bind(id), "plum", 30)
 		b.name = "Tab_" + id
 		b.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		_place(panel, b, Rect2(32, y, 330, 68))
@@ -94,26 +94,26 @@ func _build() -> void:
 		y += 78.0
 	# Run buttons at the bottom of the rail.
 	if in_run:
-		_resume = BMStyle.button("RESUME", func() -> void: main.close_pause(), "sun", 30)
+		_resume = BMStyle.button(BMLoc.t("RESUME"), func() -> void: main.close_pause(), "sun", 30)
 		_place(panel, _resume, Rect2(32, 692, 330, 80))
-		var save := BMStyle.button("SAVE & QUIT", func() -> void: main.save_and_quit(), "plum", 20)
-		save.tooltip_text = "Save and go back to the main menu. CONTINUE picks it up exactly here." if context != "endless" \
-			else "Save and go back to the main menu. ENDLESS offers to continue this game."
+		var save := BMStyle.button(BMLoc.t("SAVE & QUIT"), func() -> void: main.save_and_quit(), "plum", 20)
+		save.tooltip_text = BMLoc.t("Save and go back to the main menu. CONTINUE picks it up exactly here.") if context != "endless" \
+			else BMLoc.t("Save and go back to the main menu. ENDLESS offers to continue this game.")
 		_place(panel, save, Rect2(32, 782, 330, 60))
 		if context != "endless":
-			var abandon := BMStyle.button("ABANDON RUN...", func() -> void: pass, "pink", 20)
+			var abandon := BMStyle.button(BMLoc.t("ABANDON RUN..."), func() -> void: pass, "pink", 20)
 			abandon.name = "Abandon"
-			abandon.tooltip_text = "End this run now. It counts as a loss and cannot be continued."
+			abandon.tooltip_text = BMLoc.t("End this run now. It counts as a loss and cannot be continued.")
 			abandon.pressed.connect(func() -> void:
-				if abandon.text == "ABANDON RUN...":
-					abandon.text = "CLICK AGAIN TO ABANDON"
+				if abandon.text == BMLoc.t("ABANDON RUN..."):
+					abandon.text = BMLoc.t("CLICK AGAIN TO ABANDON")
 					BMStyle.button_boxes(abandon, "pink")
 				else:
 					main.abandon_run())
-			abandon.focus_exited.connect(func() -> void: abandon.text = "ABANDON RUN...")
+			abandon.focus_exited.connect(func() -> void: abandon.text = BMLoc.t("ABANDON RUN..."))
 			_place(panel, abandon, Rect2(32, 852, 330, 60))
 	else:
-		_resume = BMStyle.button("BACK", func() -> void: main.close_pause(), "sun", 30)
+		_resume = BMStyle.button(BMLoc.t("BACK"), func() -> void: main.close_pause(), "sun", 30)
 		_place(panel, _resume, Rect2(32, 832, 330, 80))
 	# Page area.
 	var inset := BMStyle.panel("panel_inset", Vector4(0, 0, 0, 0))
@@ -127,12 +127,16 @@ func _build() -> void:
 	_page = BMStyle.vbox(6)
 	_page.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_scroll.add_child(_page)
-	var hint := BMStyle.label("Q / E  switch page    ESC  %s" % ("resume" if in_run else "back"), 20, BMStyle.TEXT_DIM, false, 4)
+	var hint := BMStyle.label(BMLoc.t("Q / E  switch page    ESC  %s") % (BMLoc.t("resume") if in_run else BMLoc.t("back")), 20, BMStyle.TEXT_DIM, false, 4)
 	_place(panel, hint, Rect2(400, 858, 700, 40))
-	var reset := BMStyle.button("RESET PAGE", _reset_page, "plum", 20)
+	var reset := BMStyle.button(BMLoc.t("RESET PAGE"), _reset_page, "plum", 20)
 	reset.name = "ResetPage"
-	reset.tooltip_text = "Put this page's settings back to their defaults."
+	reset.tooltip_text = BMLoc.t("Put this page's settings back to their defaults.")
 	_place(panel, reset, Rect2(1308, 850, 240, 60))
+	# A longer translation widens the button leftward (measured once it has the theme's font).
+	var reset_w := maxf(240.0, reset.get_combined_minimum_size().x + 24.0)
+	reset.position.x = 1548 - reset_w
+	reset.size.x = reset_w
 
 
 ## Header context: where the player is and the seed, with a copy button.
@@ -142,34 +146,38 @@ func _build_context(panel: Control) -> void:
 	var line2 := ""
 	match context:
 		"campaign", "shop":
-			var where := "OVERTIME ROUND %d" % run.round_number if run.round_number > BMRunConfig.ROUND_COUNT \
-				else "ROUND %d OF %d  -  ACT %d" % [run.round_number, BMRunConfig.ROUND_COUNT, run.act()]
+			var where := BMLoc.t("OVERTIME ROUND %d") % run.round_number if run.round_number > BMRunConfig.ROUND_COUNT \
+				else BMLoc.t("ROUND %d OF %d  -  ACT %d") % [run.round_number, BMRunConfig.ROUND_COUNT, run.act()]
 			if context == "shop":
-				where = "THE TOYBOX, AFTER ROUND %d" % run.round_number
+				where = BMLoc.t("THE TOYBOX, AFTER ROUND %d") % run.round_number
 			line1 = where
-			var kit := String(run.kit().name).to_upper()
-			line2 = ("DAILY %s" % run.daily) if run.daily != "" else "%s  -  HEAT %d" % [kit, run.heat]
+			var kit := BMLoc.t(run.kit().name).to_upper()
+			line2 = (BMLoc.t("DAILY %s") % run.daily) if run.daily != "" else BMLoc.t("%s  -  HEAT %d") % [kit, run.heat]
 			if run.custom_seed:
-				line2 += "  -  PRACTICE SEED"
-			line2 += "  -  SEED %d" % run.run_seed
+				line2 += BMLoc.t("  -  PRACTICE SEED")
+			line2 += BMLoc.t("  -  SEED %d") % run.run_seed
 		"endless":
-			line1 = "ENDLESS  -  %s POINTS" % BMUI.fmt_int(main.endless_screen.game.score)
-			line2 = "SEED %d" % main.endless_screen.game.seed
+			line1 = BMLoc.t("ENDLESS  -  %s POINTS") % BMUI.fmt_int(main.endless_screen.game.score)
+			line2 = BMLoc.t("SEED %d") % main.endless_screen.game.seed
 		_:
-			line1 = "SETTINGS ARE SAVED AS YOU CHANGE THEM"
+			line1 = BMLoc.t("SETTINGS ARE SAVED AS YOU CHANGE THEM")
 			line2 = ""
 	var l1 := BMStyle.label(line1, 30 if context != "" else 20, BMStyle.CREAM if context != "" else BMStyle.TEXT_DIM, true, 6)
 	l1.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	var right_edge := PANEL.size.x - 40.0
 	var copy_w := 0.0
 	if context != "":
-		copy_w = 190.0
 		var seed_value: int = run.run_seed if context != "endless" else int(main.endless_screen.game.seed)
-		var copy := BMStyle.button("COPY SEED", func() -> void: pass, "sky", 20)
-		copy.tooltip_text = "Copy the seed to the clipboard. Type it on the Kit screen to replay this run's draws."
+		var copy := BMStyle.button(BMLoc.t("COPIED!"), func() -> void: pass, "sky", 20)
+		panel.add_child(copy) # in the tree, so the size below uses the theme's font
+		copy_w = copy.get_combined_minimum_size().x
+		copy.text = BMLoc.t("COPY SEED")
+		copy_w = maxf(190.0, maxf(copy_w, copy.get_combined_minimum_size().x) + 24.0)
+		panel.remove_child(copy)
+		copy.tooltip_text = BMLoc.t("Copy the seed to the clipboard. Type it on the Kit screen to replay this run's draws.")
 		copy.pressed.connect(func() -> void:
 			DisplayServer.clipboard_set(str(seed_value))
-			copy.text = "COPIED!")
+			copy.text = BMLoc.t("COPIED!"))
 		_place(panel, copy, Rect2(right_edge - copy_w, 30, copy_w, 60))
 		copy_w += 20.0
 	_place(panel, l1, Rect2(560, 18, right_edge - copy_w - 560, 44))
@@ -188,7 +196,7 @@ func show_tab(id: String) -> void:
 	for t in _tab_buttons:
 		var b: Button = _tab_buttons[t]
 		BMStyle.button_boxes(b, "mint" if t == id else "plum")
-		b.text = ("> " if t == id else "") + String(TAB_NAMES[t])
+		b.text = ("> " if t == id else "") + BMLoc.t(TAB_NAMES[t])
 	BMUI.clear_children(_page)
 	_refreshers.clear()
 	_scroll.scroll_vertical = 0
@@ -239,110 +247,155 @@ func refresh_values() -> void:
 # --- Pages ---------------------------------------------------------------------------------
 
 func _page_game() -> void:
-	_choice("Game speed", "Speeds up scoring, clears and round animations. Results are identical at every speed.",
-		"game_speed", ["normal", "fast", "turbo"], {"normal": "NORMAL", "fast": "FAST", "turbo": "TURBO"})
-	_choice("Tips", "A short hint the first time something new shows up: Hold, bosses, round cards, Heat...",
-		"tips", [true, false], {true: "ON", false: "OFF"})
-	_action("Replay tips", "Show every tip again, as if this were your first run.", "RESET TIPS", func(b: Button) -> void:
+	_language_row()
+	_choice(BMLoc.t("Game speed"), BMLoc.t("Speeds up scoring, clears and round animations. Results are identical at every speed."),
+		"game_speed", ["normal", "fast", "turbo"], {"normal": BMLoc.t("NORMAL"), "fast": BMLoc.t("FAST"), "turbo": BMLoc.t("TURBO")})
+	_choice(BMLoc.t("Tips"), BMLoc.t("A short hint the first time something new shows up: Hold, bosses, round cards, Heat..."),
+		"tips", [true, false], {true: BMLoc.t("ON"), false: BMLoc.t("OFF")})
+	_action(BMLoc.t("Replay tips"), BMLoc.t("Show every tip again, as if this were your first run."), BMLoc.t("RESET TIPS"), func(b: Button) -> void:
 		main.settings.tips_seen = []
 		main.settings.tips = true
 		BMSaveStore.save_settings(main.settings)
 		refresh_values()
-		b.text = "DONE!")
-	_choice("Boss intros", "CINEMATIC plays the warning, the name slam and the rule. QUICK goes straight to the rule card.",
-		"boss_intro", ["cinematic", "quick"], {"cinematic": "CINEMATIC", "quick": "QUICK"})
-	_action("Tutorial", "POPS shows you around again the next time a run starts.", "REPLAY TUTORIAL", func(b: Button) -> void:
+		b.text = BMLoc.t("DONE!"))
+	_choice(BMLoc.t("Boss intros"), BMLoc.t("CINEMATIC plays the warning, the name slam and the rule. QUICK goes straight to the rule card."),
+		"boss_intro", ["cinematic", "quick"], {"cinematic": BMLoc.t("CINEMATIC"), "quick": BMLoc.t("QUICK")})
+	_action(BMLoc.t("Tutorial"), BMLoc.t("POPS shows you around again the next time a run starts."), BMLoc.t("REPLAY TUTORIAL"), func(b: Button) -> void:
 		if main.tutorial:
 			main.tutorial.reset()
-		b.text = "READY!")
+		b.text = BMLoc.t("READY!"))
 	for btn in _page.get_children().back().find_children("*", "Button", true, false):
 		btn.name = "ReplayTutorial"
 
 
+## Language: every choice shown in its own language (and script), plus SYSTEM, which follows
+## the OS. Changing it rebuilds every screen, then this menu reopens on the same page.
+func _language_row() -> void:
+	var caption := BMLoc.t("Language")
+	if BMLoc.current != "en":
+		caption += "  (Language)"
+	var row := _row(caption, BMLoc.t("Menus, cards and tips. Names like BLOCKMANIA and POPS stay the same."))
+	# Twelve buttons with native names: the grid goes under the description, full page width.
+	var grid := GridContainer.new()
+	grid.columns = 4
+	grid.add_theme_constant_override("h_separation", 6)
+	grid.add_theme_constant_override("v_separation", 6)
+	var gap := Control.new()
+	gap.custom_minimum_size.y = 10
+	row.desc.get_parent().add_child(gap)
+	row.desc.get_parent().add_child(grid)
+	var values: Array = ["auto"]
+	for entry in BMLoc.LANGUAGES:
+		values.append(entry[0])
+	var buttons: Array[Button] = []
+	for v in values:
+		var b := BMStyle.button("", func() -> void: pass, "plum", 20)
+		b.name = "Setting_language_%s" % v
+		b.custom_minimum_size = Vector2(260, 56)
+		b.clip_text = true
+		if v != "auto":
+			b.add_theme_font_override("font", BMStyle.font_for_language(v, true))
+		b.pressed.connect(func() -> void:
+			if String(main.settings.get("language", "auto")) != v:
+				main.set_language(v))
+		grid.add_child(b)
+		buttons.append(b)
+	var sync := func() -> void:
+		for i in values.size():
+			var on: bool = String(main.settings.get("language", "auto")) == values[i]
+			BMStyle.button_boxes(buttons[i], "sun" if on else "plum")
+			var n := BMLoc.t("SYSTEM") if values[i] == "auto" else BMLoc.native_name(values[i])
+			buttons[i].text = ("* " + n) if on else n
+			buttons[i].tooltip_text = (BMLoc.t("Follow the computer's language (%s).") % BMLoc.native_name(BMLoc.resolve("auto"))) \
+				if values[i] == "auto" else BMLoc.native_name(values[i])
+	sync.call()
+	_refreshers.append(sync)
+
+
 func _page_audio() -> void:
-	_volume("Master volume", "Everything at once.", "master_volume")
-	_volume("Music volume", "The soundtrack. Each part of the game has its own songs.", "music_volume")
-	_volume("Effects volume", "Clicks, clears, Jokers and fanfares.", "sfx_volume")
-	_choice("Sound", "Turns every sound on or off. M toggles it anywhere.", "muted", [false, true], {false: "ON", true: "OFF"})
-	_choice("Soundtrack", "Keep the effects but switch the songs off.", "music_on", [true, false], {true: "ON", false: "OFF"})
-	_choice("Danger heartbeat", "A soft heartbeat when three or fewer placements are left and the target is not met.",
-		"heartbeat", [true, false], {true: "ON", false: "OFF"})
-	_choice("Mute in background", "Silence the game while its window is not focused.", "mute_unfocused", [false, true], {false: "OFF", true: "ON"})
-	var row := _row("Now playing", "")
+	_volume(BMLoc.t("Master volume"), BMLoc.t("Everything at once."), "master_volume")
+	_volume(BMLoc.t("Music volume"), BMLoc.t("The soundtrack. Each part of the game has its own songs."), "music_volume")
+	_volume(BMLoc.t("Effects volume"), BMLoc.t("Clicks, clears, Jokers and fanfares."), "sfx_volume")
+	_choice(BMLoc.t("Sound"), BMLoc.t("Turns every sound on or off. M toggles it anywhere."), "muted", [false, true], {false: BMLoc.t("ON"), true: BMLoc.t("OFF")})
+	_choice(BMLoc.t("Soundtrack"), BMLoc.t("Keep the effects but switch the songs off."), "music_on", [true, false], {true: BMLoc.t("ON"), false: BMLoc.t("OFF")})
+	_choice(BMLoc.t("Danger heartbeat"), BMLoc.t("A soft heartbeat when three or fewer placements are left and the target is not met."),
+		"heartbeat", [true, false], {true: BMLoc.t("ON"), false: BMLoc.t("OFF")})
+	_choice(BMLoc.t("Mute in background"), BMLoc.t("Silence the game while its window is not focused."), "mute_unfocused", [false, true], {false: BMLoc.t("OFF"), true: BMLoc.t("ON")})
+	var row := _row(BMLoc.t("Now playing"), "")
 	var now := NowPlaying.new()
 	now.custom_minimum_size = Vector2(340, 40)
 	row.desc.add_sibling(now)
 	row.desc.queue_free()
-	var skip := BMStyle.button("NEXT SONG  >", func() -> void: main.audio.skip_track(), "sky", 20)
-	skip.tooltip_text = "Play another song from this part of the game."
+	var skip := BMStyle.button(BMLoc.t("NEXT SONG  >"), func() -> void: main.audio.skip_track(), "sky", 20)
+	skip.tooltip_text = BMLoc.t("Play another song from this part of the game.")
 	skip.custom_minimum_size = Vector2(240, 56)
 	row.controls.add_child(skip)
 
 
 func _page_display() -> void:
-	_choice("Window", "Fullscreen uses your desktop resolution. The board always stays square.",
-		"fullscreen", [false, true], {false: "WINDOWED", true: "FULLSCREEN"})
-	_choice("V-Sync", "Locks the frame rate to your screen and removes tearing.", "vsync", [true, false], {true: "ON", false: "OFF"})
-	_choice("CRT filter", "Scanlines and a curved-glass glow. SOFT keeps text sharpest.",
-		"crt", ["off", "soft", "full"], {"off": "OFF", "soft": "SOFT", "full": "FULL"})
-	_choice("Screen effects", "Hazard frame on boss rounds, the danger vignette and heat haze at the screen's edges.",
-		"screen_fx", ["off", "soft", "full"], {"off": "OFF", "soft": "SOFT", "full": "FULL"})
-	_choice("FPS counter", "Frames per second in the top-left corner.", "show_fps", [false, true], {false: "OFF", true: "ON"})
-	_choice("Mouse cursor", "CUSTOM: a pixel arrow, POPS's glove over buttons and little click sparks. SYSTEM: your normal pointer.",
-		"cursor", ["custom", "system"], {"custom": "CUSTOM", "system": "SYSTEM"})
+	_choice(BMLoc.t("Window"), BMLoc.t("Fullscreen uses your desktop resolution. The board always stays square."),
+		"fullscreen", [false, true], {false: BMLoc.t("WINDOWED"), true: BMLoc.t("FULLSCREEN")})
+	_choice(BMLoc.t("V-Sync"), BMLoc.t("Locks the frame rate to your screen and removes tearing."), "vsync", [true, false], {true: BMLoc.t("ON"), false: BMLoc.t("OFF")})
+	_choice(BMLoc.t("CRT filter"), BMLoc.t("Scanlines and a curved-glass glow. SOFT keeps text sharpest."),
+		"crt", ["off", "soft", "full"], {"off": BMLoc.t("OFF"), "soft": BMLoc.t("SOFT"), "full": BMLoc.t("FULL")})
+	_choice(BMLoc.t("Screen effects"), BMLoc.t("Hazard frame on boss rounds, the danger vignette and heat haze at the screen's edges."),
+		"screen_fx", ["off", "soft", "full"], {"off": BMLoc.t("OFF"), "soft": BMLoc.t("SOFT"), "full": BMLoc.t("FULL")})
+	_choice(BMLoc.t("FPS counter"), BMLoc.t("Frames per second in the top-left corner."), "show_fps", [false, true], {false: BMLoc.t("OFF"), true: BMLoc.t("ON")})
+	_choice(BMLoc.t("Mouse cursor"), BMLoc.t("CUSTOM: a pixel arrow, POPS's glove over buttons and little click sparks. SYSTEM: your normal pointer."),
+		"cursor", ["custom", "system"], {"custom": BMLoc.t("CUSTOM"), "system": BMLoc.t("SYSTEM")})
 
 
 func _page_access() -> void:
-	_choice("Motion", "REDUCED stops background motion, bobbing and fly-ins. Every number and effect is still shown.",
-		"reduced_motion", [false, true], {false: "FULL", true: "REDUCED"})
-	_choice("Screen shake", "How hard big clears, slams and bosses shake the screen.",
-		"shake", ["off", "low", "full"], {"off": "OFF", "low": "LOW", "full": "FULL"})
-	_choice("Flashes", "Bright full-screen flashes and CRT jolts on slams and bosses. OFF removes them all.",
-		"flashes", ["off", "soft", "full"], {"off": "OFF", "soft": "SOFT", "full": "FULL"})
-	_choice("Block patterns", "Every block color also gets its own pattern, so colors never have to be told apart by hue.",
-		"block_patterns", [false, true], {false: "OFF", true: "ON"})
-	_choice("Boss intros", "QUICK skips the flashing warning cinematic before boss rounds.",
-		"boss_intro", ["cinematic", "quick"], {"cinematic": "CINEMATIC", "quick": "QUICK"})
+	_choice(BMLoc.t("Motion"), BMLoc.t("REDUCED stops background motion, bobbing and fly-ins. Every number and effect is still shown."),
+		"reduced_motion", [false, true], {false: BMLoc.t("FULL"), true: BMLoc.t("REDUCED")})
+	_choice(BMLoc.t("Screen shake"), BMLoc.t("How hard big clears, slams and bosses shake the screen."),
+		"shake", ["off", "low", "full"], {"off": BMLoc.t("OFF"), "low": BMLoc.t("LOW"), "full": BMLoc.t("FULL")})
+	_choice(BMLoc.t("Flashes"), BMLoc.t("Bright full-screen flashes and CRT jolts on slams and bosses. OFF removes them all."),
+		"flashes", ["off", "soft", "full"], {"off": BMLoc.t("OFF"), "soft": BMLoc.t("SOFT"), "full": BMLoc.t("FULL")})
+	_choice(BMLoc.t("Block patterns"), BMLoc.t("Every block color also gets its own pattern, so colors never have to be told apart by hue."),
+		"block_patterns", [false, true], {false: BMLoc.t("OFF"), true: BMLoc.t("ON")})
+	_choice(BMLoc.t("Boss intros"), BMLoc.t("QUICK skips the flashing warning cinematic before boss rounds."),
+		"boss_intro", ["cinematic", "quick"], {"cinematic": BMLoc.t("CINEMATIC"), "quick": BMLoc.t("QUICK")})
 
 
 func _page_controls() -> void:
 	var cols := BMStyle.hbox(24)
 	_page.add_child(cols)
 	var campaign := [
-		["MOUSE", "Drag a piece, or click it, then a cell"],
-		["RIGHT CLICK", "Put the carried piece back"],
-		["1  2  3", "Pick up a tray piece"],
-		["ARROWS / WASD", "Move the carried piece"],
-		["ENTER / SPACE", "Place it"],
-		["H", "Hold or swap a piece"],
-		["R", "Refresh the tray"],
-		["B", "Open your bag"],
-		["ALT + UP / DOWN", "Move a focused Joker"],
-		["M", "Sound on / off"],
-		["ESC", "Pause, or put a piece back"],
+		[BMLoc.t("MOUSE"), BMLoc.t("Drag a piece, or click it, then a cell")],
+		[BMLoc.t("RIGHT CLICK"), BMLoc.t("Put the carried piece back")],
+		[BMLoc.t("1  2  3"), BMLoc.t("Pick up a tray piece")],
+		[BMLoc.t("ARROWS / WASD"), BMLoc.t("Move the carried piece")],
+		[BMLoc.t("ENTER / SPACE"), BMLoc.t("Place it")],
+		["H", BMLoc.t("Hold or swap a piece")],
+		["R", BMLoc.t("Refresh the tray")],
+		["B", BMLoc.t("Open your bag")],
+		[BMLoc.t("ALT + UP / DOWN"), BMLoc.t("Move a focused Joker")],
+		["M", BMLoc.t("Sound on / off")],
+		[BMLoc.t("ESC"), BMLoc.t("Pause, or put a piece back")],
 	]
 	var endless := [
-		["MOUSE", "Drag a piece, or click it, then a cell"],
-		["1  2  3", "Pick up a tray piece"],
-		["ARROWS / WASD", "Move the carried piece"],
-		["ENTER / SPACE", "Place it"],
-		["H", "Hold or swap the piece"],
-		["M", "Sound on / off"],
-		["ESC", "Pause, or put a piece back"],
+		[BMLoc.t("MOUSE"), BMLoc.t("Drag a piece, or click it, then a cell")],
+		[BMLoc.t("1  2  3"), BMLoc.t("Pick up a tray piece")],
+		[BMLoc.t("ARROWS / WASD"), BMLoc.t("Move the carried piece")],
+		[BMLoc.t("ENTER / SPACE"), BMLoc.t("Place it")],
+		["H", BMLoc.t("Hold or swap the piece")],
+		["M", BMLoc.t("Sound on / off")],
+		[BMLoc.t("ESC"), BMLoc.t("Pause, or put a piece back")],
 	]
-	var menus := [["TAB / ARROWS", "Move between buttons"], ["ENTER", "Press the focused button"],
-		["Q  E", "Switch pages in this menu"], ["ESC", "Close a window"]]
+	var menus := [[BMLoc.t("TAB / ARROWS"), BMLoc.t("Move between buttons")], [BMLoc.t("ENTER"), BMLoc.t("Press the focused button")],
+		[BMLoc.t("Q  E"), BMLoc.t("Switch pages in this menu")], [BMLoc.t("ESC"), BMLoc.t("Close a window")]]
 	var left := BMStyle.vbox(8)
 	left.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	cols.add_child(left)
-	left.add_child(BMStyle.pill("CAMPAIGN", "sun", 20))
+	left.add_child(BMStyle.pill(BMLoc.t("CAMPAIGN"), "sun", 20))
 	left.add_child(_keys(campaign))
 	var right := BMStyle.vbox(8)
 	right.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	cols.add_child(right)
-	right.add_child(BMStyle.pill("ENDLESS", "sky", 20))
+	right.add_child(BMStyle.pill(BMLoc.t("ENDLESS"), "sky", 20))
 	right.add_child(_keys(endless))
-	right.add_child(BMStyle.pill("MENUS", "mint", 20))
+	right.add_child(BMStyle.pill(BMLoc.t("MENUS"), "mint", 20))
 	right.add_child(_keys(menus))
 
 
@@ -378,14 +431,14 @@ func _page_run() -> void:
 	_page.add_child(grid)
 	var s: Dictionary = run.stats
 	var facts := [
-		["KIT", String(run.kit().name)],
-		["HEAT", "%d  %s" % [run.heat, "(standard)" if run.heat == 0 else ""]],
-		["CREDITS", str(run.credits)],
-		["JOKERS", "%d / %d" % [run.jokers.size(), run.joker_slots()]],
-		["BAG", "%d pieces" % run.bag.size()],
-		["LINES", BMUI.fmt_int(int(s.get("lines_cleared", 0)))],
-		["BEST PLACEMENT", BMUI.fmt_score(int(s.get("best_placement", 0)))],
-		["BOSSES BEATEN", str(int(s.get("bosses_beaten", 0)))],
+		[BMLoc.t("KIT"), BMLoc.t(run.kit().name)],
+		[BMLoc.t("HEAT"), "%d  %s" % [run.heat, BMLoc.t("(standard)") if run.heat == 0 else ""]],
+		[BMLoc.t("CREDITS"), str(run.credits)],
+		[BMLoc.t("JOKERS"), "%d / %d" % [run.jokers.size(), run.joker_slots()]],
+		[BMLoc.t("BAG"), BMLoc.tn("%d piece", "%d pieces", run.bag.size()) % run.bag.size()],
+		[BMLoc.t("LINES"), BMUI.fmt_int(int(s.get("lines_cleared", 0)))],
+		[BMLoc.t("BEST PLACEMENT"), BMUI.fmt_score(int(s.get("best_placement", 0)))],
+		[BMLoc.t("BOSSES BEATEN"), str(int(s.get("bosses_beaten", 0)))],
 	]
 	for f in facts:
 		var k := BMStyle.label(f[0], 20, BMStyle.TEXT_DIM, true, 4)
@@ -395,18 +448,18 @@ func _page_run() -> void:
 		v.custom_minimum_size.x = 300
 		grid.add_child(v)
 	if run.heat > 0:
-		_note("HEAT %d RULES" % run.heat, "  -  ".join(BMRunConfig.heat_rules(run.heat)), BMStyle.PINK_L)
+		_note(BMLoc.t("HEAT %d RULES") % run.heat, "  -  ".join(BMRunConfig.heat_rules(run.heat)), BMStyle.PINK_L)
 	var boss_act := clampi(run.act(), 1, run.bosses.size())
 	if run.shop != null and run.phase == BMRun.Phase.SHOP and run.round_number % BMRunConfig.ROUNDS_PER_ACT == 0:
 		boss_act = clampi(run.act() + 1, 1, run.bosses.size())
 	var boss_id: String = run.bosses[boss_act - 1] if boss_act - 1 < run.bosses.size() else ""
 	if boss_id != "":
 		var mk2 := run.boss_is_mk2(boss_act)
-		var at := "NOW" if run.current_boss() == boss_id else "ROUND %d" % (boss_act * BMRunConfig.ROUNDS_PER_ACT)
-		_note("ACT %d BOSS  -  %s  (%s)" % [boss_act, BMBosses.title(boss_id, mk2).to_upper(), at], BMBosses.rule_text(boss_id, mk2), BMStyle.SUN_L)
+		var at := BMLoc.t("NOW") if run.current_boss() == boss_id else BMLoc.t("ROUND %d") % (boss_act * BMRunConfig.ROUNDS_PER_ACT)
+		_note(BMLoc.t("ACT %d BOSS  -  %s  (%s)") % [boss_act, BMBosses.title(boss_id, mk2).to_upper(), at], BMBosses.rule_text(boss_id, mk2), BMStyle.SUN_L)
 	if run.round_card != "" and run.round_card != "standard" and run.phase == BMRun.Phase.ROUND:
 		var card := BMRoundCards.get_def(run.round_card)
-		_note("THIS ROUND  -  %s" % String(card.name).to_upper(), String(card.text), BMStyle.MINT_L)
+		_note(BMLoc.t("THIS ROUND  -  %s") % BMLoc.t(card.name).to_upper(), BMLoc.t(card.text), BMStyle.MINT_L)
 
 
 func _note(head: String, text: String, color: Color) -> void:
@@ -526,7 +579,7 @@ class NowPlaying extends Label:
 
 	func _process(_delta: float) -> void:
 		var t := BMAudio.instance.now_playing() if BMAudio.instance else ""
-		text = t if t != "" else "(silence between songs)"
+		text = t if t != "" else BMLoc.t("(silence between songs)")
 
 
 ## Twelve round pips; boss rounds are bigger and marked B, the current round is lit and
@@ -561,9 +614,13 @@ class RoundTrack extends Control:
 			var label := "B" if boss else str(r)
 			var tc := BMStyle.INK if col != BMStyle.PLUM_L or boss else BMStyle.CREAM
 			draw_string(f, Vector2(at.x - 30, at.y + 8), label, HORIZONTAL_ALIGNMENT_CENTER, 60, 20, tc)
+			# Captions get 200 px centered on their node: nothing else is drawn beside them.
 			if col == BMStyle.SUN:
-				draw_string(f, Vector2(at.x - 60, y + 58), "NEXT" if run.phase == BMRun.Phase.SHOP else "NOW", HORIZONTAL_ALIGNMENT_CENTER, 120, 20, BMStyle.SUN)
+				var now := BMLoc.t("NEXT") if run.phase == BMRun.Phase.SHOP else BMLoc.t("NOW")
+				BMUI.draw_fit(self, f, Vector2(at.x - 100, y + 58), now, HORIZONTAL_ALIGNMENT_CENTER, 200, 20, BMStyle.SUN, 200)
 			if boss:
-				draw_string(f, Vector2(at.x - 60, y - 34), "ACT %d" % (r / BMRunConfig.ROUNDS_PER_ACT), HORIZONTAL_ALIGNMENT_CENTER, 120, 20, BMStyle.TEXT_DIM)
+				var act := BMLoc.t("ACT %d") % (r / BMRunConfig.ROUNDS_PER_ACT)
+				BMUI.draw_fit(self, f, Vector2(at.x - 100, y - 34), act, HORIZONTAL_ALIGNMENT_CENTER, 200, 20, BMStyle.TEXT_DIM, 200)
 		if cur > n:
-			draw_string(f, Vector2(0, y + 58), "OVERTIME  -  ROUND %d  (%d PAST THE FINAL BOSS)" % [cur, cur - n], HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.PINK_L)
+			var ot := BMLoc.t("OVERTIME  -  ROUND %d  (%d PAST THE FINAL BOSS)") % [cur, cur - n]
+			BMUI.draw_fit(self, f, Vector2(0, y + 58), ot, HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.PINK_L)

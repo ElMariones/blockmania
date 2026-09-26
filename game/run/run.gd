@@ -320,7 +320,7 @@ func is_joker_active(id: String) -> bool:
 
 func joker_disabled_reason(id: String) -> String:
 	if BMJokers.is_color_dependent(id) and current_boss() == "color_blind":
-		return "Disabled by The Color Blind: color effects are off this round."
+		return BMLoc.m("Disabled by The Color Blind: color effects are off this round.")
 	return ""
 
 
@@ -371,40 +371,40 @@ func tray_is_empty() -> bool:
 func consumable_usable(index: int) -> String:
 	## Returns "" when usable, otherwise the reason.
 	if index < 0 or index >= consumables.size():
-		return "No item in that slot."
+		return BMLoc.m("No item in that slot.")
 	if not can_act_in_round():
-		return "Items can be used during a round, between placements."
+		return BMLoc.m("Items can be used during a round, between placements.")
 	var id := consumables[index]
 	match id:
 		"second_tray":
 			if current_boss() == "lockdown":
-				return "The Lockdown disables tray refreshes."
+				return BMLoc.m("The Lockdown disables tray refreshes.")
 			if tray_is_empty():
-				return "The tray is empty."
+				return BMLoc.m("The tray is empty.")
 		"extra_turn":
 			if round_state.placements_left >= BMConsumables.MAX_PLACEMENTS:
-				return "Already at %d placements." % BMConsumables.MAX_PLACEMENTS
+				return BMLoc.m("Already at %d placements.") % BMConsumables.MAX_PLACEMENTS
 		"eraser", "punch", "color_purge":
 			if board.occupied_count() == 0:
-				return "The board is empty."
+				return BMLoc.m("The board is empty.")
 		"lucky_paint", "blueprint":
 			if tray_is_empty():
-				return "The tray is empty."
+				return BMLoc.m("The tray is empty.")
 		"polish", "spark", "cash_out", "emergency_brick", "overclock", "coin_roll":
 			pass
 		"coffee_break":
 			if current_boss() == "lockdown":
-				return "The Lockdown disables Refresh this round."
+				return BMLoc.m("The Lockdown disables Refresh this round.")
 			if round_card == "rush_hour":
-				return "Rush Hour: no Refresh this round."
+				return BMLoc.m("Rush Hour: no Refresh this round.")
 		"tune_up":
 			if tray_is_empty():
-				return "The tray is empty."
+				return BMLoc.m("The tray is empty.")
 		_:
 			if not BMConsumables.is_implemented(id):
-				return "Not usable yet in this build."
+				return BMLoc.m("Not usable yet in this build.")
 	if round_state.status == OUT_OF_PLACEMENTS and id != "extra_turn":
-		return "Only Extra Turn helps when placements are spent."
+		return BMLoc.m("Only Extra Turn helps when placements are spent.")
 	return ""
 
 
@@ -463,13 +463,13 @@ func apply_action(a: Dictionary) -> Dictionary:
 
 func place(slot: int, anchor: Vector2i) -> Dictionary:
 	if not can_place():
-		return _fail("Cannot place right now.")
+		return _fail(BMLoc.m("Cannot place right now."))
 	if slot < 0 or slot >= tray.size() or tray[slot].is_empty():
-		return _fail("That tray slot is empty.")
+		return _fail(BMLoc.m("That tray slot is empty."))
 	if slot_locked(slot):
-		return _fail("The Warden barred this slot. Clear a line to free it.")
+		return _fail(BMLoc.m("The Warden barred this slot. Clear a line to free it."))
 	if not board.can_place(tray[slot].cells, anchor):
-		return _fail("The shape does not fit there.")
+		return _fail(BMLoc.m("The shape does not fit there."))
 	var result := BMResolver.resolve_placement(self, slot, anchor)
 	history.append({"a": "place", "slot": slot, "x": anchor.x, "y": anchor.y})
 	round_state.hold_used = false
@@ -486,7 +486,7 @@ func place(slot: int, anchor: Vector2i) -> Dictionary:
 			board.set_cell(t, BMShapes.COLOR_STONE)
 			round_state.tombs.append([t.x, t.y])
 			result.tomb = t
-			result.events.append("The Undertaker raised a tombstone")
+			result.events.append(BMLoc.m("The Undertaker raised a tombstone"))
 	result.merge(_after_round_action(), true)
 	return result
 
@@ -495,18 +495,18 @@ func place(slot: int, anchor: Vector2i) -> Dictionary:
 ## stored piece with a tray slot (an empty slot takes it back). Once between placements.
 func hold(slot: int) -> Dictionary:
 	if not can_act_in_round() or round_state.status == OUT_OF_PLACEMENTS:
-		return _fail("Cannot hold right now.")
+		return _fail(BMLoc.m("Cannot hold right now."))
 	if hold_blocked():
-		return _fail("The Lockdown Mk II disables Hold this round.")
+		return _fail(BMLoc.m("The Lockdown Mk II disables Hold this round."))
 	var rs := round_state
 	if rs.hold_used:
-		return _fail("Hold is available again after a placement.")
+		return _fail(BMLoc.m("Hold is available again after a placement."))
 	if slot < 0 or slot >= tray.size() or slot_locked(slot):
-		return _fail("Choose an open tray slot.")
+		return _fail(BMLoc.m("Choose an open tray slot."))
 	var outgoing: Dictionary = tray[slot]
 	var incoming: Dictionary = rs.held
 	if outgoing.is_empty() and incoming.is_empty():
-		return _fail("Nothing to hold.")
+		return _fail(BMLoc.m("Nothing to hold."))
 	var events: Array = []
 	if not outgoing.is_empty():
 		outgoing.erase("hand")
@@ -515,14 +515,14 @@ func hold(slot: int) -> Dictionary:
 		tray[slot] = {}
 		if tray_spent():
 			_deal_fresh_tray()
-			events.append("New tray")
+			events.append(BMLoc.m("New tray"))
 		else:
 			BMBag.deal(self, [slot])
-		events.append("Held %s" % BMPieces.describe(outgoing).get_slice("\n", 0))
+		events.append(BMLoc.m("Held %s") % BMPieces.english_name(outgoing))
 	else:
 		tray[slot] = incoming
 		rs.held = outgoing
-		events.append("Swapped in %s" % BMPieces.describe(incoming).get_slice("\n", 0))
+		events.append(BMLoc.m("Swapped in %s") % BMPieces.english_name(incoming))
 	rs.hold_used = true
 	if rs.status == STUCK:
 		rs.status = PLAYING
@@ -535,10 +535,10 @@ func hold(slot: int) -> Dictionary:
 ## Picks the round card for the next round (shop only; index into shop.round_cards).
 func pick_round(i: int) -> Dictionary:
 	if phase != Phase.SHOP:
-		return _fail("The shop is closed.")
+		return _fail(BMLoc.m("The shop is closed."))
 	var cards: Array = shop.get("round_cards", [])
 	if i < 0 or i >= cards.size():
-		return _fail("No round card there.")
+		return _fail(BMLoc.m("No round card there."))
 	shop.round_pick = i
 	history.append({"a": "pick_round", "i": i})
 	return {"ok": true, "type": "pick_round", "card": String(cards[i])}
@@ -546,16 +546,16 @@ func pick_round(i: int) -> Dictionary:
 
 func refresh() -> Dictionary:
 	if not can_act_in_round() or round_state.status == OUT_OF_PLACEMENTS:
-		return _fail("Cannot refresh right now.")
+		return _fail(BMLoc.m("Cannot refresh right now."))
 	if current_boss() == "lockdown":
-		return _fail("The Lockdown disables Refresh this round.")
+		return _fail(BMLoc.m("The Lockdown disables Refresh this round."))
 	if round_state.refreshes_left <= 0:
-		return _fail("No Refresh left this round.")
+		return _fail(BMLoc.m("No Refresh left this round."))
 	if tray_is_empty():
-		return _fail("The tray is empty.")
+		return _fail(BMLoc.m("The tray is empty."))
 	round_state.refreshes_left -= 1
 	_used_refresh()
-	var result := _do_tray_refresh("Refresh")
+	var result := _do_tray_refresh(BMLoc.m("Refresh"))
 	history.append({"a": "refresh"})
 	result.merge(_after_round_action(), true)
 	return result
@@ -578,7 +578,8 @@ func use_consumable(index: int, t: Dictionary = {}) -> Dictionary:
 			var cells: Array[Vector2i] = []
 			cells.assign(target.cells)
 			result.removed = board.clear_cells(cells)
-			result.events.append("%s removed %d block%s" % [BMConsumables.get_def(id).name, result.removed.size(), "" if result.removed.size() == 1 else "s"])
+			var nrem: int = result.removed.size()
+			result.events.append(BMLoc.mn("%s removed %d block", "%s removed %d blocks", nrem) % [BMConsumables.get_def(id).name, nrem])
 		"lucky_paint":
 			tray[target.slot].color = int(target.color)
 			result.slot = target.slot
@@ -607,7 +608,7 @@ func use_consumable(index: int, t: Dictionary = {}) -> Dictionary:
 			round_state.pending_mult += 1.0
 		"second_tray":
 			_used_refresh()
-			result.merge(_do_tray_refresh("Second Tray"), true)
+			result.merge(_do_tray_refresh(BMLoc.m("Second Tray")), true)
 			result.type = "use"
 			result.item = id
 		"overclock":
@@ -647,55 +648,55 @@ func _validate_target(id: String, t: Dictionary) -> Dictionary:
 			for c in t.get("cells", []):
 				var p := Vector2i(int(c[0]), int(c[1]))
 				if not BMBoard.in_bounds(p) or board.is_empty(p):
-					return {"error": "Choose blocks on the board."}
+					return {"error": BMLoc.m("Choose blocks on the board.")}
 				if not cells.has(p):
 					cells.append(p)
 			if cells.is_empty() or cells.size() > BMConsumables.ERASER_CELLS:
-				return {"error": "Choose 1 or 2 blocks."}
+				return {"error": BMLoc.m("Choose 1 or 2 blocks.")}
 			return {"cells": cells}
 		"cell":
 			var c: Array = t.get("cells", [])
 			if c.size() != 1:
-				return {"error": "Choose where to hit."}
+				return {"error": BMLoc.m("Choose where to hit.")}
 			var hits: Array[Vector2i] = []
 			for p: Vector2i in BMConsumables.punch_cells(Vector2i(int(c[0][0]), int(c[0][1]))):
 				if not board.is_empty(p):
 					hits.append(p)
 			if hits.is_empty():
-				return {"error": "Nothing to hit there."}
+				return {"error": BMLoc.m("Nothing to hit there.")}
 			return {"cells": hits}
 		"color":
 			var color := int(t.get("color", -1))
 			if color < 0 or color >= BMShapes.OFFER_COLOR_COUNT:
-				return {"error": "Choose a color."}
+				return {"error": BMLoc.m("Choose a color.")}
 			var hits: Array[Vector2i] = []
 			for y in BMBoard.SIZE:
 				for x in BMBoard.SIZE:
 					if board.get_cell(Vector2i(x, y)) == color:
 						hits.append(Vector2i(x, y))
 			if hits.is_empty():
-				return {"error": "No %s blocks on the board." % BMShapes.COLOR_NAMES[color]}
+				return {"error": BMLoc.m("No %s blocks on the board.") % BMShapes.COLOR_NAMES[color]}
 			return {"cells": hits}
 		"slot", "slot_color", "slot_shape":
 			var slot := int(t.get("slot", -1))
 			if slot < 0 or slot >= tray.size():
-				return {"error": "Choose a tray slot."}
+				return {"error": BMLoc.m("Choose a tray slot.")}
 			var kind := BMConsumables.target_kind(id)
 			if slot_locked(slot):
-				return {"error": "The Warden barred that slot."}
+				return {"error": BMLoc.m("The Warden barred that slot.")}
 			if (kind != "slot" or id == "tune_up") and tray[slot].is_empty():
-				return {"error": "That tray slot is empty."}
+				return {"error": BMLoc.m("That tray slot is empty.")}
 			if kind == "slot_color":
 				var color := int(t.get("color", -1))
 				if color < 0 or color >= BMShapes.OFFER_COLOR_COUNT:
-					return {"error": "Choose a color."}
+					return {"error": BMLoc.m("Choose a color.")}
 				if color == int(tray[slot].color):
-					return {"error": "That piece is already %s." % BMShapes.COLOR_NAMES[color]}
+					return {"error": BMLoc.m("That piece is already %s.") % BMShapes.COLOR_NAMES[color]}
 				return {"slot": slot, "color": color}
 			if kind == "slot_shape":
 				var choice := int(t.get("choice", -1))
 				if choice < 0 or choice >= BMConsumables.BLUEPRINT_CHOICES.size():
-					return {"error": "Choose a shape."}
+					return {"error": BMLoc.m("Choose a shape.")}
 				return {"slot": slot, "choice": choice}
 			return {"slot": slot}
 	return {}
@@ -704,26 +705,26 @@ func _validate_target(id: String, t: Dictionary) -> Dictionary:
 ## Patch Panel: after the first clear each round, remove one block of your choice (no score).
 func patch_cell(p: Vector2i) -> Dictionary:
 	if not can_act_in_round() or round_state.status == OUT_OF_PLACEMENTS:
-		return _fail("Cannot patch right now.")
+		return _fail(BMLoc.m("Cannot patch right now."))
 	if not round_state.patch_ready:
-		return _fail("Patch Panel is not ready.")
+		return _fail(BMLoc.m("Patch Panel is not ready."))
 	if not BMBoard.in_bounds(p) or board.is_empty(p):
-		return _fail("Choose a block on the board.")
+		return _fail(BMLoc.m("Choose a block on the board."))
 	var cells: Array[Vector2i] = [p]
 	var removed := board.clear_cells(cells)
 	round_state.patch_ready = false
 	round_state.patch_used = true
 	history.append({"a": "patch", "x": p.x, "y": p.y})
-	var result := {"ok": true, "type": "patch", "removed": removed, "events": ["Patch Panel removed a block"]}
+	var result := {"ok": true, "type": "patch", "removed": removed, "events": [BMLoc.m("Patch Panel removed a block")]}
 	result.merge(_after_round_action(), true)
 	return result
 
 
 func concede_round() -> Dictionary:
 	if not (phase == Phase.ROUND and round_state.status in [STUCK, OUT_OF_PLACEMENTS]):
-		return _fail("You can only concede when stuck.")
+		return _fail(BMLoc.m("You can only concede when stuck."))
 	history.append({"a": "concede"})
-	_lose("Conceded: no legal placement remained." if round_state.status == STUCK else "Conceded: out of placements.")
+	_lose(BMLoc.m("Conceded: no legal placement remained.") if round_state.status == STUCK else BMLoc.m("Conceded: out of placements."))
 	var r := {"ok": true, "type": "concede", "phase": phase}
 	if _insurance_event:
 		_insurance_event = false
@@ -733,20 +734,20 @@ func concede_round() -> Dictionary:
 
 func abandon() -> Dictionary:
 	if phase in [Phase.RUN_WON, Phase.RUN_LOST, Phase.ABANDONED]:
-		return _fail("The run is already over.")
+		return _fail(BMLoc.m("The run is already over."))
 	history.append({"a": "abandon"})
 	phase = Phase.ABANDONED
-	end_reason = "Run abandoned."
+	end_reason = BMLoc.m("Run abandoned.")
 	return {"ok": true, "type": "abandon"}
 
 
 func continue_after_round() -> Dictionary:
 	if phase != Phase.ROUND_RESULT:
-		return _fail("No round result to continue from.")
+		return _fail(BMLoc.m("No round result to continue from."))
 	history.append({"a": "continue"})
 	if round_number >= BMRunConfig.ROUND_COUNT and not overtime:
 		phase = Phase.RUN_WON
-		end_reason = "All %d rounds cleared!" % BMRunConfig.ROUND_COUNT
+		end_reason = BMLoc.m("All %d rounds cleared!") % BMRunConfig.ROUND_COUNT
 		return {"ok": true, "type": "continue", "phase": phase}
 	_open_shop()
 	return {"ok": true, "type": "continue", "phase": phase}
@@ -756,7 +757,7 @@ func continue_after_round() -> Dictionary:
 ## rising targets (BMRunConfig.target) and a boss every fourth round, until a round is lost.
 func start_overtime() -> Dictionary:
 	if phase != Phase.RUN_WON or overtime or machine_broken or round_number < BMRunConfig.ROUND_COUNT:
-		return _fail("Overtime starts after winning the final round.")
+		return _fail(BMLoc.m("Overtime starts after winning the final round."))
 	overtime = true
 	history.append({"a": "overtime"})
 	_open_shop()
@@ -769,22 +770,22 @@ func _break_machine() -> void:
 	round_state.status = WON
 	phase = Phase.RUN_WON
 	stats.rounds_won += 1
-	end_reason = "You broke the machine in round %d: one placement hit its limit of %s points." % [round_number, BMRunConfig.SCORE_CAP_TEXT]
+	end_reason = BMLoc.m("You broke the machine in round %d: one placement hit its limit of %s points.") % [round_number, BMRunConfig.SCORE_CAP_TEXT]
 
 
 # --- Shop commands -------------------------------------------------------------------------
 
 func buy_joker(offer: int) -> Dictionary:
 	if phase != Phase.SHOP:
-		return _fail("The shop is closed.")
+		return _fail(BMLoc.m("The shop is closed."))
 	if offer < 0 or offer >= shop.jokers.size() or shop.jokers[offer] == "":
-		return _fail("That offer is gone.")
+		return _fail(BMLoc.m("That offer is gone."))
 	var id: String = shop.jokers[offer]
 	var price := BMJokers.cost(id)
 	if credits < price:
-		return _fail("Not enough Credits.")
+		return _fail(BMLoc.m("Not enough Credits."))
 	if jokers.size() >= joker_slots():
-		return _fail("Joker slots are full. Sell a Joker first.")
+		return _fail(BMLoc.m("Joker slots are full. Sell a Joker first."))
 	credits -= price
 	jokers.append(id)
 	shop.jokers[offer] = ""
@@ -798,15 +799,15 @@ func buy_joker(offer: int) -> Dictionary:
 
 func buy_consumable(offer: int) -> Dictionary:
 	if phase != Phase.SHOP:
-		return _fail("The shop is closed.")
+		return _fail(BMLoc.m("The shop is closed."))
 	if offer < 0 or offer >= shop.consumables.size() or shop.consumables[offer] == "":
-		return _fail("That offer is gone.")
+		return _fail(BMLoc.m("That offer is gone."))
 	var id: String = shop.consumables[offer]
 	var price := BMConsumables.cost(id)
 	if credits < price:
-		return _fail("Not enough Credits.")
+		return _fail(BMLoc.m("Not enough Credits."))
 	if consumables.size() >= BMRunConfig.CONSUMABLE_SLOTS:
-		return _fail("Item slots are full. Use an item first.")
+		return _fail(BMLoc.m("Item slots are full. Use an item first."))
 	credits -= price
 	consumables.append(id)
 	shop.consumables[offer] = ""
@@ -818,49 +819,49 @@ func buy_consumable(offer: int) -> Dictionary:
 ## `color` is required by Repaint. Nothing changes if validation fails.
 func buy_tool(offer: int, targets: Array = [], color: int = -1) -> Dictionary:
 	if phase != Phase.SHOP:
-		return _fail("The shop is closed.")
+		return _fail(BMLoc.m("The shop is closed."))
 	if offer < 0 or offer >= shop.tools.size() or shop.tools[offer].is_empty():
-		return _fail("That offer is gone.")
+		return _fail(BMLoc.m("That offer is gone."))
 	var o: Dictionary = shop.tools[offer]
 	var def := BMTools.get_def(o.id)
 	if credits < int(def.cost):
-		return _fail("Not enough Credits.")
+		return _fail(BMLoc.m("Not enough Credits."))
 	var uids: Array[int] = []
 	for t in targets:
 		if not uids.has(int(t)):
 			uids.append(int(t))
 	var max_targets := int(def.max_targets)
 	if max_targets == 0 and not uids.is_empty():
-		return _fail("This card does not target pieces.")
+		return _fail(BMLoc.m("This card does not target pieces."))
 	if max_targets > 0 and (uids.is_empty() or uids.size() > max_targets):
-		return _fail("Choose 1 to %d piece%s." % [max_targets, "s" if max_targets > 1 else ""])
+		return _fail(BMLoc.mn("Choose 1 to %d piece.", "Choose 1 to %d pieces.", max_targets) % max_targets)
 	var pieces: Array = []
 	for uid in uids:
 		var p := BMBag.piece_by_uid(self, uid)
 		if p.is_empty():
-			return _fail("That piece is not in your bag.")
+			return _fail(BMLoc.m("That piece is not in your bag."))
 		pieces.append(p)
 	match def.kind:
 		"material":
 			for p in pieces:
 				if p.material == def.value:
-					return _fail("A chosen piece is already %s." % BMPieces.MATERIAL_DEFS[def.value].name)
+					return _fail(BMLoc.m("A chosen piece is already %s.") % BMPieces.MATERIAL_DEFS[def.value].name)
 			for p in pieces:
 				p.material = def.value
 		"stamp":
 			for p in pieces:
 				if p.stamp == def.value:
-					return _fail("That piece already has this stamp.")
+					return _fail(BMLoc.m("That piece already has this stamp."))
 			for p in pieces:
 				p.stamp = def.value
 		"copy":
 			if bag.size() + pieces.size() > BMPieces.MAX_BAG:
-				return _fail("Your bag is full (%d pieces)." % BMPieces.MAX_BAG)
+				return _fail(BMLoc.m("Your bag is full (%d pieces).") % BMPieces.MAX_BAG)
 			for p in pieces:
 				BMBag.add_piece(self, p)
 		"remove":
 			if bag.size() - pieces.size() < BMPieces.MIN_BAG:
-				return _fail("Your bag must keep at least %d pieces." % BMPieces.MIN_BAG)
+				return _fail(BMLoc.m("Your bag must keep at least %d pieces.") % BMPieces.MIN_BAG)
 			for uid in uids:
 				BMBag.remove_piece(self, uid)
 		"rotate":
@@ -873,7 +874,7 @@ func buy_tool(offer: int, targets: Array = [], color: int = -1) -> Dictionary:
 				p.cells = turned.cells
 		"repaint":
 			if color < 0 or color >= BMShapes.OFFER_COLOR_COUNT:
-				return _fail("Choose a color.")
+				return _fail(BMLoc.m("Choose a color."))
 			for p in pieces:
 				p.color = color
 		"schematic":
@@ -881,7 +882,7 @@ func buy_tool(offer: int, targets: Array = [], color: int = -1) -> Dictionary:
 			family_levels[key] = int(family_levels.get(key, 0)) + 1
 		"slot":
 			if joker_slots() >= BMRunConfig.MAX_JOKER_SLOTS:
-				return _fail("Your Joker rack is already at %d slots." % BMRunConfig.MAX_JOKER_SLOTS)
+				return _fail(BMLoc.m("Your Joker rack is already at %d slots.") % BMRunConfig.MAX_JOKER_SLOTS)
 			extra_slots += 1
 	credits -= int(def.cost)
 	shop.tools[offer] = {}
@@ -892,14 +893,14 @@ func buy_tool(offer: int, targets: Array = [], color: int = -1) -> Dictionary:
 
 func buy_piece(offer: int) -> Dictionary:
 	if phase != Phase.SHOP:
-		return _fail("The shop is closed.")
+		return _fail(BMLoc.m("The shop is closed."))
 	if offer < 0 or offer >= shop.pieces.size() or shop.pieces[offer].is_empty():
-		return _fail("That offer is gone.")
+		return _fail(BMLoc.m("That offer is gone."))
 	var d: Dictionary = shop.pieces[offer]
 	if credits < int(d.cost):
-		return _fail("Not enough Credits.")
+		return _fail(BMLoc.m("Not enough Credits."))
 	if bag.size() >= BMPieces.MAX_BAG:
-		return _fail("Your bag is full (%d pieces)." % BMPieces.MAX_BAG)
+		return _fail(BMLoc.m("Your bag is full (%d pieces).") % BMPieces.MAX_BAG)
 	credits -= int(d.cost)
 	var p := BMBag.add_piece(self, BMPieces.from_dict(d))
 	shop.pieces[offer] = {}
@@ -914,10 +915,10 @@ func has_crate() -> bool:
 
 func reroll_shop() -> Dictionary:
 	if phase != Phase.SHOP:
-		return _fail("The shop is closed.")
+		return _fail(BMLoc.m("The shop is closed."))
 	var price: int = shop.reroll_cost
 	if credits < price:
-		return _fail("Not enough Credits.")
+		return _fail(BMLoc.m("Not enough Credits."))
 	credits -= price
 	shop.reroll_cost = price + 1
 	_fill_shop_offers()
@@ -927,12 +928,12 @@ func reroll_shop() -> Dictionary:
 
 func sell_joker(index: int) -> Dictionary:
 	if not (phase == Phase.SHOP or can_act_in_round()):
-		return _fail("Jokers can be sold in the shop or between placements.")
+		return _fail(BMLoc.m("Jokers can be sold in the shop or between placements."))
 	if index < 0 or index >= jokers.size():
-		return _fail("No Joker in that slot.")
+		return _fail(BMLoc.m("No Joker in that slot."))
 	var id := jokers[index]
 	if id == "loan_shark" and loan_debt > 0:
-		return _fail("Repay the loan first (%d Credits owed)." % loan_debt)
+		return _fail(BMLoc.m("Repay the loan first (%d Credits owed).") % loan_debt)
 	var value := BMJokers.sell_value(id)
 	jokers.remove_at(index)
 	if not jokers.has(id):
@@ -948,9 +949,9 @@ func sell_joker(index: int) -> Dictionary:
 
 func move_joker(from: int, to: int) -> Dictionary:
 	if not (phase == Phase.SHOP or can_act_in_round()):
-		return _fail("Jokers can be reordered in the shop or between placements.")
+		return _fail(BMLoc.m("Jokers can be reordered in the shop or between placements."))
 	if from < 0 or from >= jokers.size() or to < 0 or to >= jokers.size() or from == to:
-		return _fail("Invalid Joker move.")
+		return _fail(BMLoc.m("Invalid Joker move."))
 	var id := jokers[from]
 	jokers.remove_at(from)
 	jokers.insert(to, id)
@@ -960,7 +961,7 @@ func move_joker(from: int, to: int) -> Dictionary:
 
 func leave_shop() -> Dictionary:
 	if phase != Phase.SHOP:
-		return _fail("The shop is closed.")
+		return _fail(BMLoc.m("The shop is closed."))
 	history.append({"a": "leave_shop"})
 	var cards: Array = shop.get("round_cards", [])
 	var pick := int(shop.get("round_pick", 0))
@@ -1072,18 +1073,18 @@ func _do_tray_refresh(label: String) -> Dictionary:
 	var dealt := BMBag.deal(self, slots)
 	var events: Array = [label]
 	if dealt.temporary:
-		events.append("No piece in your bag fits: a temporary Single was dealt")
+		events.append(BMLoc.m("No piece in your bag fits: a temporary Single was dealt"))
 	var hand := ""
 	if slots.size() == 3 and has_active_joker("card_sharp"):
 		hand = _apply_hand()
 		if hand != "":
-			events.append("Card Sharp: %s!" % BMHands.get_def(hand).name)
+			events.append(BMLoc.m("Card Sharp: %s!") % BMHands.get_def(hand).name)
 	if not round_state.first_refresh_done:
 		round_state.first_refresh_done = true
 		var bonus := jokers.count("second_look")
 		if bonus > 0:
 			round_state.placements_left += bonus
-			events.append("Second Look: +%d placement" % bonus)
+			events.append(BMLoc.mn("Second Look: +%d placement", "Second Look: +%d placements", bonus) % bonus)
 	stats.refreshes += 1
 	if round_state.status == STUCK:
 		round_state.status = PLAYING
@@ -1115,15 +1116,15 @@ func _evaluate_round() -> Dictionary:
 	var hand := ""
 	if tray_spent():
 		hand = _deal_fresh_tray()
-		events.append("New tray")
+		events.append(BMLoc.m("New tray"))
 		for p in tray:
 			if not p.is_empty() and bool(p.get("temporary", false)):
-				events.append("No piece in your bag fits: a temporary Single was dealt")
+				events.append(BMLoc.m("No piece in your bag fits: a temporary Single was dealt"))
 	if rs.placements_left <= 0:
 		if consumables.has("extra_turn"):
 			rs.status = OUT_OF_PLACEMENTS
 		else:
-			_lose("Out of placements: %d / %d points." % [rs.score, rs.target])
+			_lose(BMLoc.m("Out of placements: %d / %d points.") % [rs.score, rs.target])
 		return {"status": rs.status, "phase": phase, "tray_events": events, "tray_hand": hand}
 	var any_fit := false
 	for i in tray.size():
@@ -1146,11 +1147,11 @@ func _evaluate_round() -> Dictionary:
 				tray[i] = BMPieces.temporary_single(color)
 				break
 		rs.status = PLAYING
-		events.append("Tiny Insurance: a Single replaced a stuck shape")
+		events.append(BMLoc.m("Tiny Insurance: a Single replaced a stuck shape"))
 	elif _has_rescue_consumable():
 		rs.status = STUCK
 	else:
-		_lose("No offered shape fits and no rescue remains.")
+		_lose(BMLoc.m("No offered shape fits and no rescue remains."))
 	return {"status": rs.status, "phase": phase, "tray_events": events, "tray_hand": hand}
 
 
@@ -1171,65 +1172,65 @@ func _win_round() -> void:
 	var unused := maxi(0, rs.placements_left)
 	var held := credits
 	var lines: Array = []
-	lines.append({"label": "Round won", "value": BMRunConfig.WIN_CREDITS})
+	lines.append({"label": BMLoc.m("Round won"), "value": BMRunConfig.WIN_CREDITS})
 	var bonus := mini(BMRunConfig.UNUSED_PLACEMENT_BONUS_CAP, unused / 2)
 	if bonus > 0:
-		lines.append({"label": "Unused placements (%d)" % unused, "value": bonus})
+		lines.append({"label": BMLoc.m("Unused placements (%d)") % unused, "value": bonus})
 	if BMRunConfig.is_boss_round(round_number):
-		lines.append({"label": "Boss defeated", "value": BMRunConfig.BOSS_CREDITS})
+		lines.append({"label": BMLoc.m("Boss defeated"), "value": BMRunConfig.BOSS_CREDITS})
 		stats["bosses_beaten"] = int(stats.get("bosses_beaten", 0)) + 1
 	if unused >= 2:
 		for i in jokers.count("spare_parts"):
-			lines.append({"label": "Spare Parts", "value": BMRunConfig.SPARE_PARTS_CREDITS})
+			lines.append({"label": BMLoc.m("Spare Parts"), "value": BMRunConfig.SPARE_PARTS_CREDITS})
 	for i in rs.cash_out:
-		lines.append({"label": "Cash Out", "value": BMRunConfig.CASH_OUT_CREDITS})
+		lines.append({"label": BMLoc.m("Cash Out"), "value": BMRunConfig.CASH_OUT_CREDITS})
 	# Overkill: every full half-target scored beyond the target pays a Credit.
 	var overkill := 0
 	if rs.target > 0:
 		overkill = mini(BMRunConfig.OVERKILL_CAP, floori(float(rs.score - rs.target) / (rs.target * BMRunConfig.OVERKILL_STEP)))
 	if overkill > 0:
-		lines.append({"label": "Overkill (%s of target)" % ("%.1fx" % (float(rs.score) / rs.target)), "value": overkill})
+		lines.append({"label": BMLoc.m("Overkill (%s of target)") % ("%.1fx" % (float(rs.score) / rs.target)), "value": overkill})
 	var card := BMRoundCards.get_def(round_card)
 	if int(card.reward) > 0:
-		lines.append({"label": "%s bonus" % card.name, "value": int(card.reward)})
+		lines.append({"label": BMLoc.m("%s bonus") % card.name, "value": int(card.reward)})
 	# Compact Kit, Thrift: Refreshes left unused pay.
 	var thrift := int(kit().get("thrift_credits", 0))
 	if thrift > 0 and rs.refreshes_left > 0:
-		lines.append({"label": "Thrift (%d unused Refresh%s)" % [rs.refreshes_left, "es" if rs.refreshes_left != 1 else ""], "value": thrift * rs.refreshes_left})
+		lines.append({"label": BMLoc.mn("Thrift (%d unused Refresh)", "Thrift (%d unused Refreshes)", rs.refreshes_left) % rs.refreshes_left, "value": thrift * rs.refreshes_left})
 	# Interest on the Credits held when the round ended (High Roller: Compound Interest).
 	var cap := (BMRunConfig.HEAT_INTEREST_CAP if heat >= 3 else BMRunConfig.INTEREST_CAP) + int(kit().get("interest_bonus", 0))
 	var interest := mini(cap, held / BMRunConfig.INTEREST_STEP)
 	if interest > 0:
-		lines.append({"label": "Interest (%d held)" % held, "value": interest})
+		lines.append({"label": BMLoc.m("Interest (%d held)") % held, "value": interest})
 	# Scaling Jokers that grow when a round is won.
 	var growth: Array = []
 	if jokers.has("overachiever") and rs.score >= rs.target * BMJokers.OVERACHIEVER_RATIO:
 		_grow_joker("overachiever", 1.0)
-		growth.append("Overachiever grew to +%s Mult" % BMJokers._num(joker_value("overachiever")))
+		growth.append(BMLoc.m("Overachiever grew to +%s Mult") % BMJokers._num(joker_value("overachiever")))
 	if jokers.has("hot_streak") and not rs.refresh_used:
 		_grow_joker("hot_streak", BMJokers.HOT_STREAK_STEP)
-		growth.append("Hot Streak heated up to x%s Mult" % BMJokers._num(joker_value("hot_streak")))
+		growth.append(BMLoc.m("Hot Streak heated up to x%s Mult") % BMJokers._num(joker_value("hot_streak")))
 	var drops: Array = []
 	if round_card == "treasure_hunt" and consumables.size() < BMRunConfig.CONSUMABLE_SLOTS:
 		var tpool := BMConsumables.shop_pool()
 		var titem: String = tpool[rng_shop.randi_range(0, tpool.size() - 1)]
 		consumables.append(titem)
 		drops.append(titem)
-		growth.append("Treasure Hunt: found %s" % BMConsumables.get_def(titem).name)
+		growth.append(BMLoc.m("Treasure Hunt: found %s") % BMConsumables.get_def(titem).name)
 	if round_card == "scholarship" and rs.last_family != "":
 		family_levels[rs.last_family] = int(family_levels.get(rs.last_family, 0)) + 1
-		growth.append("Scholarship: %s is now level %d" % [BMShapes.family(StringName(rs.last_family)).name, family_levels[rs.last_family]])
+		growth.append(BMLoc.m("Scholarship: %s is now level %d") % [BMShapes.family(StringName(rs.last_family)).name, family_levels[rs.last_family]])
 	for i in jokers.count("vending_machine"):
 		if consumables.size() < BMRunConfig.CONSUMABLE_SLOTS:
 			var pool := BMConsumables.shop_pool()
 			var item: String = pool[rng_shop.randi_range(0, pool.size() - 1)]
 			consumables.append(item)
 			drops.append(item)
-			growth.append("Vending Machine dropped %s" % BMConsumables.get_def(item).name)
+			growth.append(BMLoc.m("Vending Machine dropped %s") % BMConsumables.get_def(item).name)
 	if loan_debt > 0:
 		var pay := mini(BMJokers.LOAN_INSTALLMENT, loan_debt)
 		loan_debt -= pay
-		lines.append({"label": "Loan Shark repayment", "value": -pay})
+		lines.append({"label": BMLoc.m("Loan Shark repayment"), "value": -pay})
 	var total := 0
 	for l in lines:
 		total += int(l.value)
@@ -1309,24 +1310,24 @@ func _roll_crate() -> Array:
 ## Takes one Boss Crate offer for free; the rest of the crate is gone.
 func open_crate(i: int) -> Dictionary:
 	if phase != Phase.SHOP:
-		return _fail("The shop is closed.")
+		return _fail(BMLoc.m("The shop is closed."))
 	var crate: Array = shop.get("crate", [])
 	if i < 0 or i >= crate.size():
-		return _fail("Nothing in the crate there.")
+		return _fail(BMLoc.m("Nothing in the crate there."))
 	var o: Dictionary = crate[i]
 	match String(o.kind):
 		"joker":
 			if String(o.id) == "":
-				return _fail("That offer is empty.")
+				return _fail(BMLoc.m("That offer is empty."))
 			if jokers.size() >= joker_slots():
-				return _fail("Joker slots are full. Sell a Joker first.")
+				return _fail(BMLoc.m("Joker slots are full. Sell a Joker first."))
 			jokers.append(String(o.id))
 			if o.id == "loan_shark":
 				add_credits(BMJokers.LOAN_CREDITS)
 				loan_debt += BMJokers.LOAN_TOTAL
 		"item":
 			if consumables.size() >= BMRunConfig.CONSUMABLE_SLOTS:
-				return _fail("Item slots are full. Use an item first.")
+				return _fail(BMLoc.m("Item slots are full. Use an item first."))
 			consumables.append(String(o.id))
 		"credits":
 			add_credits(int(o.value))

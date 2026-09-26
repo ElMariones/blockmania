@@ -24,7 +24,7 @@ extends RefCounted
 
 ## Single-placement milestones (a banner the first time each is crossed in a run).
 const MILESTONES := [1_000_000, 1_000_000_000, 1_000_000_000_000]
-const MILESTONE_NAMES := ["", "SEVEN DIGITS", "BILLION-POINT BLOCK", "TRILLION TERRITORY"]
+const MILESTONE_NAMES := ["", "SEVEN DIGITS", "BILLION-POINT BLOCK", "TRILLION TERRITORY"] # i18n
 
 
 ## Caller (BMRun.place) has validated phase, slot, and legality.
@@ -165,53 +165,53 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 	var chips := 0
 	var cell_chips := BMRunConfig.CHIPS_PER_CELL * placed.size()
 	if run.has_active_joker("long_game") and rs.placements_made <= 1:
-		items.append({"label": "Cells x%d (Long Game: no cell Chips)" % placed.size(), "kind": "chips", "value": 0, "source": "joker", "joker": "long_game"})
+		items.append({"label": BMLoc.m("Cells x%d (Long Game: no cell Chips)") % placed.size(), "kind": "chips", "value": 0, "source": "joker", "joker": "long_game"})
 	else:
-		items.append({"label": "Cells x%d" % placed.size(), "kind": "chips", "value": cell_chips, "source": "base"})
+		items.append({"label": BMLoc.m("Cells x%d") % placed.size(), "kind": "chips", "value": cell_chips, "source": "base"})
 		chips += cell_chips
 	if material == "chrome":
 		var chrome := BMPieces.CHROME_CHIPS_PER_CELL * placed.size() * (2 if stone else 1)
-		items.append({"label": "Chrome cells x%d%s" % [placed.size(), " (Stone: doubled)" if stone else ""], "kind": "chips", "value": chrome, "source": "piece"})
+		items.append({"label": (BMLoc.m("Chrome cells x%d (Stone: doubled)") if stone else BMLoc.m("Chrome cells x%d")) % placed.size(), "kind": "chips", "value": chrome, "source": "piece"})
 		chips += chrome
 	var veteran_chips := int(piece.get("veteran", 0))
 	if veteran_chips > 0:
-		items.append({"label": "Veteran training", "kind": "chips", "value": veteran_chips, "source": "piece"})
+		items.append({"label": BMLoc.m("Veteran training"), "kind": "chips", "value": veteran_chips, "source": "piece"})
 		chips += veteran_chips
 	# Chunky Kit, Heavy Lifting: big pieces pay per block.
 	var big_chips := int(run.kit().get("big_piece_chips", 0))
 	if big_chips > 0 and placed.size() >= 5:
-		items.append({"label": "Heavy Lifting x%d" % placed.size(), "kind": "chips", "value": big_chips * placed.size(), "source": "kit"})
+		items.append({"label": BMLoc.m("Heavy Lifting x%d") % placed.size(), "kind": "chips", "value": big_chips * placed.size(), "source": "kit"})
 		chips += big_chips * placed.size()
 	if family_level > 0:
 		var lvl_chips := BMPieces.LEVEL_CHIPS * family_level
-		items.append({"label": "%s Lv %d" % [BMShapes.family(piece.family).name, family_level], "kind": "chips", "value": lvl_chips, "source": "piece"})
+		items.append({"label": BMLoc.m("%s Lv %d") % [BMShapes.family(piece.family).name, family_level], "kind": "chips", "value": lvl_chips, "source": "piece"})
 		chips += lvl_chips
 	if lines > 0:
 		var line_chips := BMRunConfig.CHIPS_PER_LINE * lines
-		var line_label := "Lines x%d" % lines
+		var line_label := BMLoc.m("Lines x%d") % lines
 		if run.boss_active("taxman"):
 			var first := BMBosses.TAXMAN_FIRST_LINE_CHIPS_MK2 if run.boss_is_mk2() else BMBosses.TAXMAN_FIRST_LINE_CHIPS
 			line_chips -= BMRunConfig.CHIPS_PER_LINE - first
-			line_label += " (Taxman: first line %d)" % first
+			line_label = BMLoc.m("Lines x%d (Taxman: first line %d)") % [lines, first]
 		items.append({"label": line_label, "kind": "chips", "value": line_chips, "source": "base"})
 		chips += line_chips
 		if lines > 1:
 			var extra := BMRunConfig.CHIPS_PER_EXTRA_LINE * (lines - 1)
-			items.append({"label": "Multi-line bonus", "kind": "chips", "value": extra, "source": "base"})
+			items.append({"label": BMLoc.m("Multi-line bonus"), "kind": "chips", "value": extra, "source": "base"})
 			chips += extra
 		if combo_before > 0:
 			var combo_chips := BMRunConfig.CHIPS_PER_COMBO * combo_before
-			items.append({"label": "Combo %d" % combo_before, "kind": "chips", "value": combo_chips, "source": "base"})
+			items.append({"label": BMLoc.m("Combo %d") % combo_before, "kind": "chips", "value": combo_chips, "source": "base"})
 			chips += combo_chips
 		if lines > 1 and run.boss_active("last_call"):
-			items.append({"label": "Last Call multi-line", "kind": "chips", "value": BMBosses.LAST_CALL_MULTI_LINE_CHIPS, "source": "boss"})
+			items.append({"label": BMLoc.m("Last Call multi-line"), "kind": "chips", "value": BMBosses.LAST_CALL_MULTI_LINE_CHIPS, "source": "boss"})
 			chips += BMBosses.LAST_CALL_MULTI_LINE_CHIPS
 
 	var effects := _joker_effects(run)
 
 	# Step 4: additive Chips — consumables first, then Jokers top to bottom.
 	if rs.pending_chips != 0:
-		items.append({"label": "Polish", "kind": "chips", "value": rs.pending_chips, "source": "consumable"})
+		items.append({"label": BMLoc.m("Polish"), "kind": "chips", "value": rs.pending_chips, "source": "consumable"})
 		chips += rs.pending_chips
 	for e in effects:
 		var c := BMJokers.chips(e.effect, ctx)
@@ -223,29 +223,29 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 	var mult := 1.0
 	if family_level > 0:
 		var lvl_mult := BMPieces.LEVEL_MULT * family_level
-		items.append({"label": "%s Lv %d" % [BMShapes.family(piece.family).name, family_level], "kind": "mult", "value": lvl_mult, "source": "piece"})
+		items.append({"label": BMLoc.m("%s Lv %d") % [BMShapes.family(piece.family).name, family_level], "kind": "mult", "value": lvl_mult, "source": "piece"})
 		mult += lvl_mult
 	if hand == BMHands.TWINS:
-		items.append({"label": "Twins hand", "kind": "mult", "value": BMHands.TWINS_MULT, "source": "hand", "hand": hand})
+		items.append({"label": BMLoc.m("Twins hand"), "kind": "mult", "value": BMHands.TWINS_MULT, "source": "hand", "hand": hand})
 		mult += BMHands.TWINS_MULT
 	if run.round_card == "mult_fever":
-		items.append({"label": "Mult Fever", "kind": "mult", "value": 1.0, "source": "round"})
+		items.append({"label": BMLoc.m("Mult Fever"), "kind": "mult", "value": 1.0, "source": "round"})
 		mult += 1.0
 	if lines > 1:
 		var ml := BMRunConfig.MULT_PER_EXTRA_LINE * (lines - 1)
 		if run.boss_active("taxman") and run.boss_is_mk2():
 			ml *= 0.5
-		items.append({"label": "Multi-line Mult (%d lines)" % lines, "kind": "mult", "value": ml, "source": "base"})
+		items.append({"label": BMLoc.m("Multi-line Mult (%d lines)") % lines, "kind": "mult", "value": ml, "source": "base"})
 		mult += ml
 	if neon_cleared > 0:
 		var neon := BMPieces.NEON_MULT_PER_CELL * neon_cleared * (2.0 if stone else 1.0)
-		items.append({"label": "Neon cells cleared x%d" % neon_cleared, "kind": "mult", "value": neon, "source": "piece"})
+		items.append({"label": BMLoc.m("Neon cells cleared x%d") % neon_cleared, "kind": "mult", "value": neon, "source": "piece"})
 		mult += neon
 	if rs.pending_mult != 0.0:
-		items.append({"label": "Spark", "kind": "mult", "value": rs.pending_mult, "source": "consumable"})
+		items.append({"label": BMLoc.m("Spark"), "kind": "mult", "value": rs.pending_mult, "source": "consumable"})
 		mult += rs.pending_mult
 	if hand in [BMHands.TRIPLETS, BMHands.GRAND_SLAM]:
-		items.append({"label": "%s hand" % BMHands.get_def(hand).name, "kind": "mult", "value": BMHands.TRIPLETS_MULT, "source": "hand", "hand": hand})
+		items.append({"label": BMLoc.m("%s hand") % BMHands.get_def(hand).name, "kind": "mult", "value": BMHands.TRIPLETS_MULT, "source": "hand", "hand": hand})
 		mult += BMHands.TRIPLETS_MULT
 	for e in effects:
 		var m := BMJokers.add_mult(e.effect, ctx)
@@ -257,20 +257,20 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 	# Step 6: multiplicative Mult.
 	if is_clearing and stamp == "encore":
 		var enc := pow(BMPieces.ENCORE_X_MULT, stamp_times)
-		items.append({"label": "Encore Stamp" + (" (Double Stamp)" if stamp_times > 1 else ""), "kind": "xmult", "value": enc, "source": "piece"})
+		items.append({"label": BMLoc.m("Encore Stamp (Double Stamp)") if stamp_times > 1 else BMLoc.m("Encore Stamp"), "kind": "xmult", "value": enc, "source": "piece"})
 		mult *= enc
 	if glass_cleared > 0:
 		var gx := BMPieces.GLASS_X_MULT * (BMPieces.GLASS_X_MULT if stone else 1.0)
-		items.append({"label": "Glass cleared" + (" (Stone: doubled)" if stone else ""), "kind": "xmult", "value": gx, "source": "piece"})
+		items.append({"label": BMLoc.m("Glass cleared (Stone: doubled)") if stone else BMLoc.m("Glass cleared"), "kind": "xmult", "value": gx, "source": "piece"})
 		mult *= gx
 	if rs.pending_xmult != 1.0:
-		items.append({"label": "Turbo", "kind": "xmult", "value": rs.pending_xmult, "source": "consumable"})
+		items.append({"label": BMLoc.m("Turbo"), "kind": "xmult", "value": rs.pending_xmult, "source": "consumable"})
 		mult *= rs.pending_xmult
 	if hand in [BMHands.MONOCHROME, BMHands.GRAND_SLAM]:
-		items.append({"label": "%s hand" % BMHands.get_def(hand).name, "kind": "xmult", "value": BMHands.MONOCHROME_X_MULT, "source": "hand", "hand": hand})
+		items.append({"label": BMLoc.m("%s hand") % BMHands.get_def(hand).name, "kind": "xmult", "value": BMHands.MONOCHROME_X_MULT, "source": "hand", "hand": hand})
 		mult *= BMHands.MONOCHROME_X_MULT
 	elif hand == BMHands.TRIPLETS:
-		items.append({"label": "Triplets hand", "kind": "xmult", "value": BMHands.TRIPLETS_X_MULT, "source": "hand", "hand": hand})
+		items.append({"label": BMLoc.m("Triplets hand"), "kind": "xmult", "value": BMHands.TRIPLETS_X_MULT, "source": "hand", "hand": hand})
 		mult *= BMHands.TRIPLETS_X_MULT
 	for e in effects:
 		var x := BMJokers.x_mult(e.effect, ctx)
@@ -317,10 +317,10 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 			var wset := BMBoard.line_union(wr, wc)
 			var n := waves.size() + 1
 			var wchips := BMRunConfig.CHIPS_PER_LINE * wl + BMRunConfig.CHIPS_PER_EXTRA_LINE * (wl - 1) + BMRunConfig.CHIPS_PER_CELL * wset.size()
-			var wlabel := "Avalanche wave %d: lines x%d" % [n, wl]
+			var wlabel := BMLoc.m("Avalanche wave %d: lines x%d") % [n, wl]
 			if run.boss_active("echo_chamber"):
 				wchips = wchips / 2
-				wlabel += " (Echo Chamber: half)"
+				wlabel = BMLoc.m("Avalanche wave %d: lines x%d (Echo Chamber: half)") % [n, wl]
 			var wmult := mult * pow(2.0, n - 1)
 			var wraw := float(wchips) * wmult
 			var wpoints := 0
@@ -331,7 +331,7 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 				wpoints = floori(wraw)
 			var witems: Array[Dictionary] = [
 				{"label": wlabel, "kind": "chips", "value": wchips, "source": "wave", "wave": n},
-				{"label": "Chain x%d" % int(pow(2.0, n - 1)), "kind": "xmult", "value": pow(2.0, n - 1), "source": "wave", "wave": n}]
+				{"label": BMLoc.m("Chain x%d") % int(pow(2.0, n - 1)), "kind": "xmult", "value": pow(2.0, n - 1), "source": "wave", "wave": n}]
 			var wcleared := board.clear_cells(wset)
 			for c in wcleared:
 				match BMPieces.MATERIALS[int(c.mat)]:
@@ -363,34 +363,34 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 	if gold_cleared > 0:
 		var gold := BMPieces.GOLD_CREDITS_PER_CELL * gold_cleared * (2 if stone else 1)
 		run.add_credits(gold)
-		events.append("Gold: +%d Credit%s" % [gold, "s" if gold != 1 else ""])
+		events.append(BMLoc.mn("Gold: +%d Credit", "Gold: +%d Credits", gold) % gold)
 	if stamp == "tip":
 		run.add_credits(BMPieces.TIP_CREDITS * stamp_times)
-		events.append("Tip Stamp: +%d Credits" % (BMPieces.TIP_CREDITS * stamp_times))
+		events.append(BMLoc.m("Tip Stamp: +%d Credits") % (BMPieces.TIP_CREDITS * stamp_times))
 	if stamp == "refund":
 		rs.placements_left += stamp_times
-		events.append("Refund Stamp: this placement was free" + (" (+1 more)" if stamp_times > 1 else ""))
+		events.append(BMLoc.m("Refund Stamp: this placement was free (+1 more)") if stamp_times > 1 else BMLoc.m("Refund Stamp: this placement was free"))
 	var refilled := 0
 	if all_lines > 0:
 		refilled = clampi(all_lines * BMRunConfig.REFILL_PER_LINE, 0, maxi(0, rs.placement_cap - rs.placements_left))
 		rs.placements_left += refilled
 		if refilled > 0:
-			events.append("Lines cleared: +%d placement%s" % [refilled, "" if refilled == 1 else "s"])
+			events.append(BMLoc.mn("Lines cleared: +%d placement", "Lines cleared: +%d placements", refilled) % refilled)
 		var wasted := all_lines * BMRunConfig.REFILL_PER_LINE - refilled
 		if wasted > 0 and run.has_active_joker("overflow"):
 			var pay := mini(wasted, BMJokers.OVERFLOW_MAX - rs.overflow_paid)
 			if pay > 0:
 				rs.overflow_paid += pay
 				run.add_credits(pay)
-				events.append("Overflow: +%d Credit%s" % [pay, "" if pay == 1 else "s"])
+				events.append(BMLoc.mn("Overflow: +%d Credit", "Overflow: +%d Credits", pay) % pay)
 	if run.has_active_joker("patience"):
 		rs.patience_store = 0 if is_clearing else mini(BMJokers.PATIENCE_MAX, rs.patience_store + BMJokers.PATIENCE_STEP)
 	if rows.size() > 0 and cols.size() > 0 and run.has_active_joker("draftsman"):
 		if run.consumables.size() < BMRunConfig.CONSUMABLE_SLOTS:
 			run.consumables.append("eraser")
-			events.append("Draftsman: gained an Eraser")
+			events.append(BMLoc.m("Draftsman: gained an Eraser"))
 		else:
-			events.append("Draftsman: item slots full")
+			events.append(BMLoc.m("Draftsman: item slots full"))
 	for f in feats:
 		if not rs.feats_seen.has(f):
 			rs.feats_seen.append(f)
@@ -399,27 +399,27 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 	if is_clearing and rs.locked_slot >= 0:
 		unlocked = rs.locked_slot
 		rs.locked_slot = -1
-		events.append("The Warden's bars break: slot %d is free" % (unlocked + 1))
+		events.append(BMLoc.m("The Warden's bars break: slot %d is free") % (unlocked + 1))
 	if is_clearing and not rs.patch_used and not rs.patch_ready and run.has_active_joker("patch_panel"):
 		rs.patch_ready = true
-		events.append("Patch Panel ready: remove one block")
+		events.append(BMLoc.m("Patch Panel ready: remove one block"))
 	if stamp == "memory":
 		for i in stamp_times:
 			if run.consumables.size() < BMRunConfig.CONSUMABLE_SLOTS:
 				run.consumables.append("spark")
-				events.append("Memory Stamp: gained a Spark")
+				events.append(BMLoc.m("Memory Stamp: gained a Spark"))
 			else:
-				events.append("Memory Stamp: item slots full")
+				events.append(BMLoc.m("Memory Stamp: item slots full"))
 	if lines >= 2 and run.jokers.has("snowball") and run.is_joker_active("snowball"):
 		run._grow_joker("snowball", BMJokers.SNOWBALL_STEP)
-		events.append("Snowball grew to x%s Mult" % BMJokers._num(run.joker_value("snowball")))
+		events.append(BMLoc.m("Snowball grew to x%s Mult") % BMJokers._num(run.joker_value("snowball")))
 	# Veteran: a bag piece that completes a line trains for good (+5 Chips per Veteran copy).
 	var veterans := run.jokers.count("veteran") if run.is_joker_active("veteran") else 0
 	if veterans > 0 and is_clearing and int(piece.get("uid", -1)) >= 0 and not bool(piece.get("temporary", false)):
 		var vp := BMBag.piece_by_uid(run, int(piece.uid))
 		if not vp.is_empty():
 			vp.veteran = int(vp.get("veteran", 0)) + BMJokers.VETERAN_STEP * veterans
-			events.append("Veteran: this piece now scores +%d Chips" % int(vp.veteran))
+			events.append(BMLoc.m("Veteran: this piece now scores +%d Chips") % int(vp.veteran))
 	# Philosopher's Stone: a plain bag piece turns into a random material for good.
 	var transmuted := ""
 	if stone and material == "" and int(piece.get("uid", -1)) >= 0 and not bool(piece.get("temporary", false)):
@@ -428,22 +428,22 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 			transmuted = BMPieces.MATERIALS[run.rng_shapes.randi_range(1, BMPieces.MATERIALS.size() - 1)]
 			bp.material = transmuted
 			run.stats["transmuted"] = int(run.stats.get("transmuted", 0)) + 1
-			events.append("Philosopher's Stone: it turned %s" % BMPieces.MATERIAL_DEFS[transmuted].name)
+			events.append(BMLoc.m("Philosopher's Stone: it turned %s") % BMPieces.MATERIAL_DEFS[transmuted].name)
 	var shattered: Array[int] = []
 	for uid in glass_owners:
 		# A Glass piece that already shattered can still have cells on the board; it rolls no more.
 		if BMBag.piece_by_uid(run, uid).is_empty():
 			continue
 		if run.rng_shapes.randi_range(1, BMPieces.GLASS_SHATTER_ONE_IN) == 1:
-			var name := BMPieces.describe(BMBag.piece_by_uid(run, uid)).get_slice("\n", 0)
+			var name := BMPieces.english_name(BMBag.piece_by_uid(run, uid))
 			if BMBag.remove_piece(run, uid):
 				shattered.append(uid)
-				events.append("Glass %s shattered and left your bag" % name)
+				events.append(BMLoc.m("Glass %s shattered and left your bag") % name)
 				if run.has_active_joker("breakage_bonus"):
 					run.add_credits(2)
-					events.append("Breakage Bonus: +2 Credits")
+					events.append(BMLoc.m("Breakage Bonus: +2 Credits"))
 			else:
-				events.append("Glass %s cracked but held (bag at minimum size)" % name)
+				events.append(BMLoc.m("Glass %s cracked but held (bag at minimum size)") % name)
 	run.stats.lines_cleared += all_lines
 	rs.lines_cleared += all_lines
 	rs.last_family = String(piece.family)
@@ -522,13 +522,13 @@ static func _joker_effects(run: BMRun) -> Array[Dictionary]:
 			if i + 1 < run.jokers.size():
 				var target: String = run.jokers[i + 1]
 				if BMJokers.is_copyable(target) and run.is_joker_active(target):
-					out.append({"id": id, "effect": target, "slot": i, "label": "Mimic (%s)" % BMJokers.get_def(target).name})
+					out.append({"id": id, "effect": target, "slot": i, "label": BMLoc.m("Mimic (%s)") % BMJokers.get_def(target).name})
 					if twice:
-						out.append({"id": id, "effect": target, "slot": i, "label": "Mimic (%s), mirrored" % BMJokers.get_def(target).name, "mirrored": true})
+						out.append({"id": id, "effect": target, "slot": i, "label": BMLoc.m("Mimic (%s), mirrored") % BMJokers.get_def(target).name, "mirrored": true})
 			continue
 		out.append({"id": id, "effect": id, "slot": i, "label": name})
 		if twice and id != "hall_of_mirrors":
-			out.append({"id": id, "effect": id, "slot": i, "label": name + ", mirrored", "mirrored": true})
+			out.append({"id": id, "effect": id, "slot": i, "label": BMLoc.m("%s, mirrored") % name, "mirrored": true})
 	return out
 
 

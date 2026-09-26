@@ -183,6 +183,94 @@ g("¡", E, "#", E, "#", "#", "#", "#", "#")
 g("¿", E, "..#..", E, "..#..", ".#...", "#....", "#...#", ".###.")
 
 
+# --- The other UI languages (French, Italian, German, Dutch, Polish, Portuguese) ---------------
+# Lowercase marks sit in rows 0-1 above the x-height (row 3), like the Spanish ones. A capital
+# has only row 0 above it, so an accented capital drops one body row (DROP picks a row the
+# letter can lose) and sits in rows 2-7 under a two-row mark.
+MARK = {
+    "acute": ["..#", ".#."], "grave": ["#..", ".#."], "circ": [".#.", "#.#"],
+    "tilde": [".#.#", "#.#."], "dia": ["#.#", ""], "dot": [".#.", ""],
+}
+DROP = {"A": 2, "C": 3, "E": 2, "I": 3, "N": 5, "O": 3, "S": 2, "U": 3, "Y": 5, "Z": 1}
+
+
+def _lower_mark(base, mark):
+    rows = list(G[base]) + [E] * (10 - len(G[base]))
+    w = glyph_width(G[base])
+    m = [r for r in MARK[mark]]
+    for i, r in enumerate(m):
+        if r == "":
+            continue
+        pad = max(0, (w - len(r) + 1) // 2)
+        rows[i if mark not in ("dia", "dot") else 1] = ("." * pad + r).ljust(w, ".")[:max(w, len(r))]
+    return rows
+
+
+def _cap_mark(base, mark):
+    body = [r for r in G[base][1:8]]
+    del body[DROP[base]]
+    w = glyph_width(G[base])
+    rows = [E, E] + body + list(G[base][8:])
+    for i, r in enumerate(MARK[mark]):
+        if r == "":
+            continue
+        pad = max(0, (w - len(r) + 1) // 2)
+        rows[i] = ("." * pad + r).ljust(w, ".")[:max(w, len(r))]
+    return rows
+
+
+for _ch, _base, _mark in [
+        ("à", "a", "grave"), ("â", "a", "circ"), ("ã", "a", "tilde"), ("ä", "a", "dia"),
+        ("è", "e", "grave"), ("ê", "e", "circ"), ("ë", "e", "dia"),
+        ("ò", "o", "grave"), ("ô", "o", "circ"), ("õ", "o", "tilde"), ("ö", "o", "dia"),
+        ("ù", "u", "grave"), ("û", "u", "circ"), ("ü", "u", "dia"),
+        ("ć", "c", "acute"), ("ń", "n", "acute"), ("ś", "s", "acute"), ("ź", "z", "acute"), ("ż", "z", "dot")]:
+    G[_ch] = _lower_mark(_base, _mark)
+G["ÿ"] = _lower_mark("y", "dia")
+# Dotless i under its mark (width 3, stem in the middle; í keeps its Spanish drawing).
+G["ì"] = ["#.", ".#", E, ".#", ".#", ".#", ".#", ".#"]
+G["î"] = [".#.", "#.#", E, ".#.", ".#.", ".#.", ".#.", ".#."]
+G["ï"] = [E, "#.#", E, ".#.", ".#.", ".#.", ".#.", ".#."]
+for _ch, _base, _mark in [
+        ("Á", "A", "acute"), ("À", "A", "grave"), ("Â", "A", "circ"), ("Ã", "A", "tilde"), ("Ä", "A", "dia"),
+        ("É", "E", "acute"), ("È", "E", "grave"), ("Ê", "E", "circ"), ("Ë", "E", "dia"),
+        ("Í", "I", "acute"), ("Ì", "I", "grave"), ("Î", "I", "circ"), ("Ï", "I", "dia"),
+        ("Ó", "O", "acute"), ("Ò", "O", "grave"), ("Ô", "O", "circ"), ("Õ", "O", "tilde"), ("Ö", "O", "dia"),
+        ("Ú", "U", "acute"), ("Ù", "U", "grave"), ("Û", "U", "circ"), ("Ü", "U", "dia"),
+        ("Ñ", "N", "tilde"), ("Ń", "N", "acute"), ("Ć", "C", "acute"), ("Ś", "S", "acute"),
+        ("Ź", "Z", "acute"), ("Ż", "Z", "dot"), ("Ÿ", "Y", "dia")]:
+    G[_ch] = _cap_mark(_base, _mark)
+# Cedilla and ogonek hang in the descender rows.
+G["ç"] = list(G["c"]) + ["..#..", ".##.."]
+G["Ç"] = list(G["C"]) + ["..#..", ".##.."]
+G["ą"] = list(G["a"]) + ["...#.", "...##"]
+G["ę"] = list(G["e"]) + ["...#.", "...##"]
+G["Ą"] = list(G["A"]) + ["...#.", "...##"]
+G["Ę"] = list(G["E"]) + ["...#.", "...##"]
+# Barred l, sharp s, ligatures.
+g("ł", E, ".#.", ".#.", ".##", "##.", ".#.", ".#.", "..#")
+g("Ł", E, ".#...", ".#...", ".#.#.", ".##..", "##...", ".#...", ".####")
+g("ß", E, ".##.", "#..#", "#.#.", "#..#", "#..#", "#..#", "#.#.")
+g("ẞ", E, "####.", "#..#.", "#.#..", "#..#.", "#...#", "#...#", "#.##.")
+g("æ", E, E, E, ".##.##.", "...#..#", ".######", "#..#...", ".##.###")
+g("Æ", E, ".######", "#..#...", "#..#...", "######.", "#..#...", "#..#...", "#..####")
+g("œ", E, E, E, ".##.##.", "#..#..#", "#..####", "#..#...", ".##.###")
+g("Œ", E, ".######", "#..#...", "#..#...", "#..####", "#..#...", "#..#...", ".######")
+# Quotes and guillemets.
+g("«", E, E, E, E, ".#.#", "#.#.", ".#.#")
+g("»", E, E, E, E, "#.#.", ".#.#", "#.#.")
+g("‹", E, E, E, E, ".#", "#.", ".#")
+g("›", E, E, E, E, "#.", ".#", "#.")
+g("„", E, E, E, E, E, E, E, "#.#", "#.#")
+g("‚", E, E, E, E, E, E, E, "#", "#")
+g("º", E, ".#.", "#.#", ".#.", E, "###")
+g("ª", E, ".##", "#.#", ".##", E, "###")
+g("¨", E, "#.#")
+g("´", E, ".#", "#.")
+# Spaces: no-break (like a space) and narrow no-break (thousands separator, French ! ? : ;).
+SPACES = {0x00A0: 4, 0x202F: 2}
+
+
 
 def build(path, bold=False):
     names = [".notdef", "space"]
@@ -191,6 +279,9 @@ def build(path, bold=False):
         n = "uni%04X" % ord(ch)
         names.append(n)
         cmap[ord(ch)] = n
+    for cp in SPACES:
+        names.append("uni%04X" % cp)
+        cmap[cp] = "uni%04X" % cp
     fb = FontBuilder(unitsPerEm=1000, isTTF=True)
     fb.setupGlyphOrder(names)
     fb.setupCharacterMap(cmap)
@@ -201,6 +292,9 @@ def build(path, bold=False):
     metrics[".notdef"] = (500, 0)
     glyphs["space"] = empty
     metrics["space"] = ((5 if bold else 4) * PX, 0)
+    for cp, w in SPACES.items():
+        glyphs["uni%04X" % cp] = empty
+        metrics["uni%04X" % cp] = ((w + (1 if bold else 0)) * PX, 0)
     for ch, rows in G.items():
         if bold:
             rows = emboldened(rows)
