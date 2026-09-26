@@ -1806,16 +1806,16 @@ msgid "Citrus Twist"
 msgstr "柑橘旋風"
 
 #: game/content/jokers.gd:98
-msgid "Orange shapes gain +60 Chips."
-msgstr "橙色形狀獲得+60籌碼。"
+msgid "Orange shapes gain +2 Mult."
+msgstr "橙色形狀獲得+2倍率。"
 
 #: game/content/jokers.gd:99
 msgid "Lemon Drop"
 msgstr "檸檬糖"
 
 #: game/content/jokers.gd:99
-msgid "Yellow shapes gain +60 Chips."
-msgstr "黃色形狀獲得+60籌碼。"
+msgid "Yellow shapes gain +2 Mult."
+msgstr "黃色形狀獲得+2倍率。"
 
 #: game/content/jokers.gd:100
 msgid "Green Thumb"
@@ -1830,8 +1830,8 @@ msgid "Plum Job"
 msgstr "紫李美差"
 
 #: game/content/jokers.gd:101
-msgid "Purple shapes gain +60 Chips."
-msgstr "紫色形狀獲得+60籌碼。"
+msgid "Purple shapes gain +2 Mult."
+msgstr "紫色形狀獲得+2倍率。"
 
 #: game/content/jokers.gd:102
 msgid "Red Giant"
@@ -2351,7 +2351,7 @@ msgstr "老兵:+%d籌碼"
 msgid "No upgrades."
 msgstr "無強化。"
 
-#: game/content/round_cards.gd:8 game/content/run_config.gd:121
+#: game/content/round_cards.gd:8 game/content/run_config.gd:122
 msgid "Standard"
 msgstr "標準"
 
@@ -2416,164 +2416,164 @@ msgstr "獎學金"
 msgid "Win to level up the family of the last piece you place. Target x1.4."
 msgstr "獲勝後提升你最後放置的拼塊所屬家族的等級。目標x1.4。"
 
-#: game/content/run_config.gd:121
+#: game/content/run_config.gd:122
 msgid "Standard Kit"
 msgstr "標準套裝"
 
-#: game/content/run_config.gd:122
+#: game/content/run_config.gd:123
 msgid "CLASSIC"
 msgstr "經典"
 
-#: game/content/run_config.gd:122
+#: game/content/run_config.gd:123
 msgid "No twist: the rules as designed. The best Kit to learn with."
 msgstr "沒有變數:原汁原味的規則。最適合上手的套裝。"
 
-#: game/content/run_config.gd:123
+#: game/content/run_config.gd:124
 msgid "The 24-piece starter bag: a bit of every shape."
 msgstr "24個拼塊的初始袋子:每種形狀都有一點。"
 
-#: game/content/run_config.gd:124
+#: game/content/run_config.gd:125
 msgid "Compact"
 msgstr "緊湊"
 
-#: game/content/run_config.gd:124
+#: game/content/run_config.gd:125
 msgid "Compact Kit"
 msgstr "緊湊套裝"
 
-#: game/content/run_config.gd:125
+#: game/content/run_config.gd:126
 msgid "+1 Credit for every Refresh you did not use when you win a round."
 msgstr "贏下回合時,每有一次未使用的刷新+1代幣。"
 
-#: game/content/run_config.gd:125
+#: game/content/run_config.gd:126
 msgid "THRIFT"
 msgstr "節儉"
 
-#: game/content/run_config.gd:126
+#: game/content/run_config.gd:127
 msgid "An 18-piece bag of small pieces: Singles, Bars, little Ls and Squares. Only 4 Joker slots."
 msgstr "18個小拼塊的袋子:單格、長條、小L和正方形。只有4個小丑牌欄位。"
 
-#: game/content/run_config.gd:126
+#: game/content/run_config.gd:127
 msgid "Clear 100 lines across runs."
 msgstr "累計消除100條線(跨對局)。"
 
-#: game/content/run_config.gd:127
+#: game/content/run_config.gd:128
 msgid "High Roller"
 msgstr "豪賭"
 
-#: game/content/run_config.gd:127
+#: game/content/run_config.gd:128
 msgid "High Roller Kit"
 msgstr "豪賭套裝"
 
-#: game/content/run_config.gd:128
+#: game/content/run_config.gd:129
 msgid "COMPOUND INTEREST"
 msgstr "複利"
 
-#: game/content/run_config.gd:128
+#: game/content/run_config.gd:129
 msgid "Interest can pay up to +3 more Credits each round."
 msgstr "利息每回合最多可多給+3代幣。"
 
-#: game/content/run_config.gd:129
+#: game/content/run_config.gd:130
 msgid "Start with 4 Credits. The standard bag, 14 placements per round."
 msgstr "開局有4代幣。標準袋子,每回合14次放置。"
 
-#: game/content/run_config.gd:129
+#: game/content/run_config.gd:130
 msgid "Win a standard run."
 msgstr "贏下一局標準對局。"
 
-#: game/content/run_config.gd:130
+#: game/content/run_config.gd:131
 msgid "Chunky"
 msgstr "厚重"
 
-#: game/content/run_config.gd:130
+#: game/content/run_config.gd:131
 msgid "Chunky Kit"
 msgstr "厚重套裝"
 
-#: game/content/run_config.gd:131
+#: game/content/run_config.gd:132
 msgid "HEAVY LIFTING"
 msgstr "重活"
 
-#: game/content/run_config.gd:131
+#: game/content/run_config.gd:132
 msgid "Pieces of 5 or more blocks score +10 Chips per block."
 msgstr "5個方塊以上的拼塊每個方塊+10籌碼。"
 
-#: game/content/run_config.gd:132
+#: game/content/run_config.gd:133
 msgid "A 19-piece bag of big, plump shapes: squares, Ts, pluses, a Bar 5 and a 3x3. Only 13 placements."
 msgstr "19個又大又胖的形狀:正方形、T形、十字、長條5和3x3。只有13次放置。"
 
-#: game/content/run_config.gd:132
+#: game/content/run_config.gd:133
 msgid "Defeat 3 bosses across runs."
 msgstr "累計擊敗3個首領(跨對局)。"
 
-#: game/content/run_config.gd:133
+#: game/content/run_config.gd:134
 msgid "Tetromino"
 msgstr "四格"
 
-#: game/content/run_config.gd:133
+#: game/content/run_config.gd:134
 msgid "Tetromino Kit"
 msgstr "四格套裝"
 
-#: game/content/run_config.gd:134
+#: game/content/run_config.gd:135
 msgid "+1 Credit every time a Tray Hand forms."
 msgstr "每組成一個托盤牌型+1代幣。"
 
-#: game/content/run_config.gd:134
+#: game/content/run_config.gd:135
 msgid "FULL HOUSE"
 msgstr "葫蘆"
 
-#: game/content/run_config.gd:135
+#: game/content/run_config.gd:136
 msgid "Form 25 Tray Hands across runs."
 msgstr "累計組成25個托盤牌型(跨對局)。"
 
-#: game/content/run_config.gd:135
+#: game/content/run_config.gd:136
 msgid "Only four-block pieces: 20 of them, so Twins and Triplets come often."
 msgstr "只有四格拼塊:共20個,所以常出雙胞胎和三胞胎。"
 
-#: game/content/run_config.gd:142
+#: game/content/run_config.gd:143
 msgid "Heat 0"
 msgstr "熱度0"
 
-#: game/content/run_config.gd:142
+#: game/content/run_config.gd:143
 msgid "Standard rules."
 msgstr "標準規則。"
 
-#: game/content/run_config.gd:143
+#: game/content/run_config.gd:144
 msgid "Heat 1"
 msgstr "熱度1"
 
-#: game/content/run_config.gd:143
+#: game/content/run_config.gd:144
 #, c-format
 msgid "Targets +15%."
 msgstr "目標+15%。"
 
-#: game/content/run_config.gd:144
+#: game/content/run_config.gd:145
 msgid "Heat 2"
 msgstr "熱度2"
 
-#: game/content/run_config.gd:144
+#: game/content/run_config.gd:145
 msgid "One fewer placement every round."
 msgstr "每回合放置次數減少一次。"
 
-#: game/content/run_config.gd:145
+#: game/content/run_config.gd:146
 msgid "Heat 3"
 msgstr "熱度3"
 
-#: game/content/run_config.gd:145
+#: game/content/run_config.gd:146
 msgid "Interest pays at most +3; rerolls start at 3."
 msgstr "利息最多+3;重擲從3開始。"
 
-#: game/content/run_config.gd:146
+#: game/content/run_config.gd:147
 msgid "Every boss is its Mk II version."
 msgstr "每個首領都是Mk II版本。"
 
-#: game/content/run_config.gd:146
+#: game/content/run_config.gd:147
 msgid "Heat 4"
 msgstr "熱度4"
 
-#: game/content/run_config.gd:147
+#: game/content/run_config.gd:148
 msgid "Heat 5"
 msgstr "熱度5"
 
-#: game/content/run_config.gd:147
+#: game/content/run_config.gd:148
 #, c-format
 msgid "Targets +35% and one fewer Refresh."
 msgstr "目標+35%,刷新次數減少一次。"
@@ -4246,19 +4246,19 @@ msgstr "負片"
 msgid "AGAIN"
 msgstr "再來"
 
-#: game/ui/card.gd:190 game/ui/card.gd:412
+#: game/ui/card.gd:190 game/ui/card.gd:425
 msgid "COMMON"
 msgstr "普通"
 
-#: game/ui/card.gd:190 game/ui/card.gd:412
+#: game/ui/card.gd:190 game/ui/card.gd:425
 msgid "LEGEND"
 msgstr "傳說"
 
-#: game/ui/card.gd:190 game/ui/card.gd:412
+#: game/ui/card.gd:190 game/ui/card.gd:425
 msgid "RARE"
 msgstr "稀有"
 
-#: game/ui/card.gd:190 game/ui/card.gd:412
+#: game/ui/card.gd:190 game/ui/card.gd:425
 msgid "UNCOM."
 msgstr "罕見"
 
@@ -4284,38 +4284,38 @@ msgstr "負片:不佔小丑牌欄位。"
 msgid "AGAIN: triggers once more after all your Jokers."
 msgstr "再來:在你所有小丑牌之後再觸發一次。"
 
-#: game/ui/card.gd:304 game/ui/card.gd:333
+#: game/ui/card.gd:313 game/ui/card.gd:342
 #, c-format
 msgid "%s  (Item)"
 msgstr "%s(道具)"
 
-#: game/ui/card.gd:369 game/ui/shop_screen.gd:402
+#: game/ui/card.gd:378 game/ui/shop_screen.gd:402
 msgid "ITEM"
 msgstr "道具"
 
-#: game/ui/card.gd:376
+#: game/ui/card.gd:385
 msgid "WORKSHOP"
 msgstr "工坊"
 
-#: game/ui/card.gd:383
+#: game/ui/card.gd:392
 msgid "PIECE"
 msgstr "拼塊"
 
-#: game/ui/card.gd:390
+#: game/ui/card.gd:399
 msgid "HOLO"
 msgstr "全像"
 
-#: game/ui/card.gd:409
+#: game/ui/card.gd:418
 msgid "OWNED"
 msgstr "已擁有"
 
-#: game/ui/card.gd:416
+#: game/ui/card.gd:430
 #, c-format
 msgid "You own %d of this Joker."
 msgid_plural "You own %d of this Joker."
 msgstr[0] "你擁有%d張這張小丑牌。"
 
-#: game/ui/card.gd:531
+#: game/ui/card.gd:545
 msgid "+1 LV"
 msgstr "+1級"
 
@@ -4969,7 +4969,7 @@ msgstr "返回"
 msgid "CONCEDE"
 msgstr "認輸"
 
-#: game/ui/game_screen.gd:1389 game/ui/shop_screen.gd:890
+#: game/ui/game_screen.gd:1389 game/ui/shop_screen.gd:891
 msgid "CLOSE  (ESC)"
 msgstr "關閉  (ESC)"
 
@@ -6235,71 +6235,71 @@ msgstr "你的小丑牌 %d/%d"
 msgid "BUY %d"
 msgstr "購買 %d"
 
-#: game/ui/shop_screen.gd:738
+#: game/ui/shop_screen.gd:739
 msgid "SOLD OUT"
 msgstr "已售罄"
 
-#: game/ui/shop_screen.gd:777
+#: game/ui/shop_screen.gd:778
 #, c-format
 msgid "CHOOSE ROUND %d"
 msgstr "選擇第%d回合"
 
-#: game/ui/shop_screen.gd:783
+#: game/ui/shop_screen.gd:784
 msgid "Play it straight, or take a twist for a reward. Keys 1-3 choose, Esc goes back."
 msgstr "直接開始,或選擇一個變數換取獎勵。按1-3選擇,Esc返回。"
 
-#: game/ui/shop_screen.gd:800
+#: game/ui/shop_screen.gd:801
 msgid "STANDARD"
 msgstr "標準"
 
-#: game/ui/shop_screen.gd:800
+#: game/ui/shop_screen.gd:801
 msgid "TWIST"
 msgstr "變數"
 
-#: game/ui/shop_screen.gd:822
+#: game/ui/shop_screen.gd:823
 #, c-format
 msgid "+%d IF YOU WIN"
 msgstr "獲勝+%d"
 
-#: game/ui/shop_screen.gd:825
+#: game/ui/shop_screen.gd:826
 #, c-format
 msgid "PLAY  %d"
 msgstr "開始  %d"
 
-#: game/ui/shop_screen.gd:837
+#: game/ui/shop_screen.gd:838
 msgid "BACK TO THE SHOP"
 msgstr "返回商店"
 
-#: game/ui/shop_screen.gd:911
+#: game/ui/shop_screen.gd:912
 #, c-format
 msgid "%s  -  %d CREDITS"
 msgstr "%s  -  %d代幣"
 
-#: game/ui/shop_screen.gd:915
+#: game/ui/shop_screen.gd:916
 #, c-format
 msgid "Choose up to %d piece."
 msgid_plural "Choose up to %d pieces."
 msgstr[0] "最多選擇%d個拼塊。"
 
-#: game/ui/shop_screen.gd:918
+#: game/ui/shop_screen.gd:919
 msgid "CONFIRM PURCHASE"
 msgstr "確認購買"
 
-#: game/ui/shop_screen.gd:924
+#: game/ui/shop_screen.gd:925
 #, c-format
 msgid "%d of %d chosen"
 msgstr "已選%d/%d"
 
-#: game/ui/shop_screen.gd:926
+#: game/ui/shop_screen.gd:927
 #, c-format
 msgid "   -   color: %s"
 msgstr "   -   顏色:%s"
 
-#: game/ui/shop_screen.gd:926
+#: game/ui/shop_screen.gd:927
 msgid "pick one"
 msgstr "選一種"
 
-#: game/ui/shop_screen.gd:967
+#: game/ui/shop_screen.gd:968
 msgid "CANCEL  (ESC)"
 msgstr "取消  (ESC)"
 

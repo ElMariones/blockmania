@@ -1806,16 +1806,16 @@ msgid "Citrus Twist"
 msgstr "シトラスツイスト"
 
 #: game/content/jokers.gd:98
-msgid "Orange shapes gain +60 Chips."
-msgstr "オレンジの形は+60チップ。"
+msgid "Orange shapes gain +2 Mult."
+msgstr "オレンジの形は倍率+2。"
 
 #: game/content/jokers.gd:99
 msgid "Lemon Drop"
 msgstr "レモンドロップ"
 
 #: game/content/jokers.gd:99
-msgid "Yellow shapes gain +60 Chips."
-msgstr "黄色い形は+60チップ。"
+msgid "Yellow shapes gain +2 Mult."
+msgstr "黄色い形は倍率+2。"
 
 #: game/content/jokers.gd:100
 msgid "Green Thumb"
@@ -1830,8 +1830,8 @@ msgid "Plum Job"
 msgstr "プラムな仕事"
 
 #: game/content/jokers.gd:101
-msgid "Purple shapes gain +60 Chips."
-msgstr "紫の形は+60チップ。"
+msgid "Purple shapes gain +2 Mult."
+msgstr "紫の形は倍率+2。"
 
 #: game/content/jokers.gd:102
 msgid "Red Giant"
@@ -2351,7 +2351,7 @@ msgstr "ベテラン:+%dチップ"
 msgid "No upgrades."
 msgstr "強化なし。"
 
-#: game/content/round_cards.gd:8 game/content/run_config.gd:121
+#: game/content/round_cards.gd:8 game/content/run_config.gd:122
 msgid "Standard"
 msgstr "スタンダード"
 
@@ -2416,164 +2416,164 @@ msgstr "奨学金"
 msgid "Win to level up the family of the last piece you place. Target x1.4."
 msgstr "勝つと、最後に置いたピースのファミリーがレベルアップ。目標x1.4。"
 
-#: game/content/run_config.gd:121
+#: game/content/run_config.gd:122
 msgid "Standard Kit"
 msgstr "スタンダードキット"
 
-#: game/content/run_config.gd:122
+#: game/content/run_config.gd:123
 msgid "CLASSIC"
 msgstr "クラシック"
 
-#: game/content/run_config.gd:122
+#: game/content/run_config.gd:123
 msgid "No twist: the rules as designed. The best Kit to learn with."
 msgstr "ひねりなし:設計どおりのルール。覚えるのに一番いいキット。"
 
-#: game/content/run_config.gd:123
+#: game/content/run_config.gd:124
 msgid "The 24-piece starter bag: a bit of every shape."
 msgstr "24ピースのスターターバッグ:どの形も少しずつ。"
 
-#: game/content/run_config.gd:124
+#: game/content/run_config.gd:125
 msgid "Compact"
 msgstr "コンパクト"
 
-#: game/content/run_config.gd:124
+#: game/content/run_config.gd:125
 msgid "Compact Kit"
 msgstr "コンパクトキット"
 
-#: game/content/run_config.gd:125
+#: game/content/run_config.gd:126
 msgid "+1 Credit for every Refresh you did not use when you win a round."
 msgstr "ラウンドに勝ったとき、使わなかったリフレッシュ1回につき+1クレジット。"
 
-#: game/content/run_config.gd:125
+#: game/content/run_config.gd:126
 msgid "THRIFT"
 msgstr "倹約"
 
-#: game/content/run_config.gd:126
+#: game/content/run_config.gd:127
 msgid "An 18-piece bag of small pieces: Singles, Bars, little Ls and Squares. Only 4 Joker slots."
 msgstr "小さいピース18個のバッグ:シングル、バー、小さいL、スクエア。ジョーカー枠は4つだけ。"
 
-#: game/content/run_config.gd:126
+#: game/content/run_config.gd:127
 msgid "Clear 100 lines across runs."
 msgstr "ラン通算で100ラインを消す。"
 
-#: game/content/run_config.gd:127
+#: game/content/run_config.gd:128
 msgid "High Roller"
 msgstr "ハイローラー"
 
-#: game/content/run_config.gd:127
+#: game/content/run_config.gd:128
 msgid "High Roller Kit"
 msgstr "ハイローラーキット"
 
-#: game/content/run_config.gd:128
+#: game/content/run_config.gd:129
 msgid "COMPOUND INTEREST"
 msgstr "複利"
 
-#: game/content/run_config.gd:128
+#: game/content/run_config.gd:129
 msgid "Interest can pay up to +3 more Credits each round."
 msgstr "利子が毎ラウンド最大+3クレジット多くもらえる。"
 
-#: game/content/run_config.gd:129
+#: game/content/run_config.gd:130
 msgid "Start with 4 Credits. The standard bag, 14 placements per round."
 msgstr "4クレジットで開始。スタンダードのバッグで、ラウンドごとの配置は14回。"
 
-#: game/content/run_config.gd:129
+#: game/content/run_config.gd:130
 msgid "Win a standard run."
 msgstr "スタンダードのランに勝つ。"
 
-#: game/content/run_config.gd:130
+#: game/content/run_config.gd:131
 msgid "Chunky"
 msgstr "どっしり"
 
-#: game/content/run_config.gd:130
+#: game/content/run_config.gd:131
 msgid "Chunky Kit"
 msgstr "どっしりキット"
 
-#: game/content/run_config.gd:131
+#: game/content/run_config.gd:132
 msgid "HEAVY LIFTING"
 msgstr "力仕事"
 
-#: game/content/run_config.gd:131
+#: game/content/run_config.gd:132
 msgid "Pieces of 5 or more blocks score +10 Chips per block."
 msgstr "5ブロック以上のピースは、1ブロックにつき+10チップ。"
 
-#: game/content/run_config.gd:132
+#: game/content/run_config.gd:133
 msgid "A 19-piece bag of big, plump shapes: squares, Ts, pluses, a Bar 5 and a 3x3. Only 13 placements."
 msgstr "大きくてずんぐりした形19個のバッグ:スクエア、T、プラス、バー5、3x3。配置は13回だけ。"
 
-#: game/content/run_config.gd:132
+#: game/content/run_config.gd:133
 msgid "Defeat 3 bosses across runs."
 msgstr "ラン通算でボスを3体倒す。"
 
-#: game/content/run_config.gd:133
+#: game/content/run_config.gd:134
 msgid "Tetromino"
 msgstr "テトロミノ"
 
-#: game/content/run_config.gd:133
+#: game/content/run_config.gd:134
 msgid "Tetromino Kit"
 msgstr "テトロミノキット"
 
-#: game/content/run_config.gd:134
+#: game/content/run_config.gd:135
 msgid "+1 Credit every time a Tray Hand forms."
 msgstr "トレイ役ができるたびに+1クレジット。"
 
-#: game/content/run_config.gd:134
+#: game/content/run_config.gd:135
 msgid "FULL HOUSE"
 msgstr "フルハウス"
 
-#: game/content/run_config.gd:135
+#: game/content/run_config.gd:136
 msgid "Form 25 Tray Hands across runs."
 msgstr "ラン通算でトレイ役を25回作る。"
 
-#: game/content/run_config.gd:135
+#: game/content/run_config.gd:136
 msgid "Only four-block pieces: 20 of them, so Twins and Triplets come often."
 msgstr "4ブロックのピースだけ20個。ツインズやトリプレットがよくできる。"
 
-#: game/content/run_config.gd:142
+#: game/content/run_config.gd:143
 msgid "Heat 0"
 msgstr "ヒート0"
 
-#: game/content/run_config.gd:142
+#: game/content/run_config.gd:143
 msgid "Standard rules."
 msgstr "標準ルール。"
 
-#: game/content/run_config.gd:143
+#: game/content/run_config.gd:144
 msgid "Heat 1"
 msgstr "ヒート1"
 
-#: game/content/run_config.gd:143
+#: game/content/run_config.gd:144
 #, c-format
 msgid "Targets +15%."
 msgstr "目標+15%。"
 
-#: game/content/run_config.gd:144
+#: game/content/run_config.gd:145
 msgid "Heat 2"
 msgstr "ヒート2"
 
-#: game/content/run_config.gd:144
+#: game/content/run_config.gd:145
 msgid "One fewer placement every round."
 msgstr "毎ラウンドの配置回数が1回少ない。"
 
-#: game/content/run_config.gd:145
+#: game/content/run_config.gd:146
 msgid "Heat 3"
 msgstr "ヒート3"
 
-#: game/content/run_config.gd:145
+#: game/content/run_config.gd:146
 msgid "Interest pays at most +3; rerolls start at 3."
 msgstr "利子は最大+3、リロールは3から。"
 
-#: game/content/run_config.gd:146
+#: game/content/run_config.gd:147
 msgid "Every boss is its Mk II version."
 msgstr "すべてのボスがMk II版になる。"
 
-#: game/content/run_config.gd:146
+#: game/content/run_config.gd:147
 msgid "Heat 4"
 msgstr "ヒート4"
 
-#: game/content/run_config.gd:147
+#: game/content/run_config.gd:148
 msgid "Heat 5"
 msgstr "ヒート5"
 
-#: game/content/run_config.gd:147
+#: game/content/run_config.gd:148
 #, c-format
 msgid "Targets +35% and one fewer Refresh."
 msgstr "目標+35%、リフレッシュが1回少ない。"
@@ -4246,19 +4246,19 @@ msgstr "ネガ"
 msgid "AGAIN"
 msgstr "アゲイン"
 
-#: game/ui/card.gd:190 game/ui/card.gd:412
+#: game/ui/card.gd:190 game/ui/card.gd:425
 msgid "COMMON"
 msgstr "コモン"
 
-#: game/ui/card.gd:190 game/ui/card.gd:412
+#: game/ui/card.gd:190 game/ui/card.gd:425
 msgid "LEGEND"
 msgstr "レジェンド"
 
-#: game/ui/card.gd:190 game/ui/card.gd:412
+#: game/ui/card.gd:190 game/ui/card.gd:425
 msgid "RARE"
 msgstr "レア"
 
-#: game/ui/card.gd:190 game/ui/card.gd:412
+#: game/ui/card.gd:190 game/ui/card.gd:425
 msgid "UNCOM."
 msgstr "アンコモン"
 
@@ -4284,38 +4284,38 @@ msgstr "ネガ:ジョーカー枠を使わない。"
 msgid "AGAIN: triggers once more after all your Jokers."
 msgstr "アゲイン:全ジョーカーの後にもう一度発動する。"
 
-#: game/ui/card.gd:304 game/ui/card.gd:333
+#: game/ui/card.gd:313 game/ui/card.gd:342
 #, c-format
 msgid "%s  (Item)"
 msgstr "%s(アイテム)"
 
-#: game/ui/card.gd:369 game/ui/shop_screen.gd:402
+#: game/ui/card.gd:378 game/ui/shop_screen.gd:402
 msgid "ITEM"
 msgstr "アイテム"
 
-#: game/ui/card.gd:376
+#: game/ui/card.gd:385
 msgid "WORKSHOP"
 msgstr "工房"
 
-#: game/ui/card.gd:383
+#: game/ui/card.gd:392
 msgid "PIECE"
 msgstr "ピース"
 
-#: game/ui/card.gd:390
+#: game/ui/card.gd:399
 msgid "HOLO"
 msgstr "ホロ"
 
-#: game/ui/card.gd:409
+#: game/ui/card.gd:418
 msgid "OWNED"
 msgstr "所持"
 
-#: game/ui/card.gd:416
+#: game/ui/card.gd:430
 #, c-format
 msgid "You own %d of this Joker."
 msgid_plural "You own %d of this Joker."
 msgstr[0] "このジョーカーを%d枚持っています。"
 
-#: game/ui/card.gd:531
+#: game/ui/card.gd:545
 msgid "+1 LV"
 msgstr "+1 LV"
 
@@ -4969,7 +4969,7 @@ msgstr "戻る"
 msgid "CONCEDE"
 msgstr "降参"
 
-#: game/ui/game_screen.gd:1389 game/ui/shop_screen.gd:890
+#: game/ui/game_screen.gd:1389 game/ui/shop_screen.gd:891
 msgid "CLOSE  (ESC)"
 msgstr "閉じる  (ESC)"
 
@@ -6235,71 +6235,71 @@ msgstr "きみのジョーカー %d/%d"
 msgid "BUY %d"
 msgstr "購入 %d"
 
-#: game/ui/shop_screen.gd:738
+#: game/ui/shop_screen.gd:739
 msgid "SOLD OUT"
 msgstr "売り切れ"
 
-#: game/ui/shop_screen.gd:777
+#: game/ui/shop_screen.gd:778
 #, c-format
 msgid "CHOOSE ROUND %d"
 msgstr "ラウンド%dを選ぶ"
 
-#: game/ui/shop_screen.gd:783
+#: game/ui/shop_screen.gd:784
 msgid "Play it straight, or take a twist for a reward. Keys 1-3 choose, Esc goes back."
 msgstr "そのまま遊ぶか、報酬と引き換えにひねりを選ぼう。1〜3キーで選択、Escで戻る。"
 
-#: game/ui/shop_screen.gd:800
+#: game/ui/shop_screen.gd:801
 msgid "STANDARD"
 msgstr "スタンダード"
 
-#: game/ui/shop_screen.gd:800
+#: game/ui/shop_screen.gd:801
 msgid "TWIST"
 msgstr "ひねり"
 
-#: game/ui/shop_screen.gd:822
+#: game/ui/shop_screen.gd:823
 #, c-format
 msgid "+%d IF YOU WIN"
 msgstr "勝てば+%d"
 
-#: game/ui/shop_screen.gd:825
+#: game/ui/shop_screen.gd:826
 #, c-format
 msgid "PLAY  %d"
 msgstr "プレイ  %d"
 
-#: game/ui/shop_screen.gd:837
+#: game/ui/shop_screen.gd:838
 msgid "BACK TO THE SHOP"
 msgstr "ショップに戻る"
 
-#: game/ui/shop_screen.gd:911
+#: game/ui/shop_screen.gd:912
 #, c-format
 msgid "%s  -  %d CREDITS"
 msgstr "%s  -  %dクレジット"
 
-#: game/ui/shop_screen.gd:915
+#: game/ui/shop_screen.gd:916
 #, c-format
 msgid "Choose up to %d piece."
 msgid_plural "Choose up to %d pieces."
 msgstr[0] "ピースを%d個まで選んでください。"
 
-#: game/ui/shop_screen.gd:918
+#: game/ui/shop_screen.gd:919
 msgid "CONFIRM PURCHASE"
 msgstr "購入を確定"
 
-#: game/ui/shop_screen.gd:924
+#: game/ui/shop_screen.gd:925
 #, c-format
 msgid "%d of %d chosen"
 msgstr "%d / %d 選択中"
 
-#: game/ui/shop_screen.gd:926
+#: game/ui/shop_screen.gd:927
 #, c-format
 msgid "   -   color: %s"
 msgstr "   -   色:%s"
 
-#: game/ui/shop_screen.gd:926
+#: game/ui/shop_screen.gd:927
 msgid "pick one"
 msgstr "1色選ぶ"
 
-#: game/ui/shop_screen.gd:967
+#: game/ui/shop_screen.gd:968
 msgid "CANCEL  (ESC)"
 msgstr "キャンセル  (ESC)"
 

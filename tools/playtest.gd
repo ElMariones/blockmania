@@ -77,7 +77,7 @@ const PERSONAS := {
 const META_VALUE := {
 	# Color and form Jokers (2026-09-26): flat commons like Blue Mood; the bag-scaling rares
 	# like the strong xMult cards.
-	"red_alert": 45, "citrus_twist": 35, "lemon_drop": 35, "green_thumb": 45, "plum_job": 35,
+	"red_alert": 45, "citrus_twist": 45, "lemon_drop": 45, "green_thumb": 45, "plum_job": 45,
 	"red_giant": 60, "sunset_glow": 60, "solar_flare": 60, "evergreen": 60, "deep_blue": 60, "royal_purple": 60,
 	"lone_wolf": 30, "tee_time": 30, "zigzagger": 35, "plus_side": 30,
 	"solitaire": 45, "barbell": 65, "elbow_room": 60, "town_square": 50, "t_rex": 45, "lightning_bolt": 45, "compass_rose": 40,

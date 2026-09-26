@@ -1809,16 +1809,16 @@ msgid "Citrus Twist"
 msgstr "Tocco d'agrume"
 
 #: game/content/jokers.gd:98
-msgid "Orange shapes gain +60 Chips."
-msgstr "Le forme arancioni ottengono +60 Fiches."
+msgid "Orange shapes gain +2 Mult."
+msgstr "Le forme arancioni ottengono +2 Mult."
 
 #: game/content/jokers.gd:99
 msgid "Lemon Drop"
 msgstr "Caramella al limone"
 
 #: game/content/jokers.gd:99
-msgid "Yellow shapes gain +60 Chips."
-msgstr "Le forme gialle ottengono +60 Fiches."
+msgid "Yellow shapes gain +2 Mult."
+msgstr "Le forme gialle ottengono +2 Mult."
 
 #: game/content/jokers.gd:100
 msgid "Green Thumb"
@@ -1833,8 +1833,8 @@ msgid "Plum Job"
 msgstr "Affare prugna"
 
 #: game/content/jokers.gd:101
-msgid "Purple shapes gain +60 Chips."
-msgstr "Le forme viola ottengono +60 Fiches."
+msgid "Purple shapes gain +2 Mult."
+msgstr "Le forme viola ottengono +2 Mult."
 
 #: game/content/jokers.gd:102
 msgid "Red Giant"
@@ -2360,7 +2360,7 @@ msgstr "Veterano: +%d Fiches"
 msgid "No upgrades."
 msgstr "Nessun potenziamento."
 
-#: game/content/round_cards.gd:8 game/content/run_config.gd:121
+#: game/content/round_cards.gd:8 game/content/run_config.gd:122
 msgid "Standard"
 msgstr "Standard"
 
@@ -2425,164 +2425,164 @@ msgstr "Borsa di studio"
 msgid "Win to level up the family of the last piece you place. Target x1.4."
 msgstr "Vinci per far salire di livello la famiglia dell'ultimo pezzo piazzato. Obiettivo x1.4."
 
-#: game/content/run_config.gd:121
+#: game/content/run_config.gd:122
 msgid "Standard Kit"
 msgstr "Kit standard"
 
-#: game/content/run_config.gd:122
+#: game/content/run_config.gd:123
 msgid "CLASSIC"
 msgstr "CLASSICO"
 
-#: game/content/run_config.gd:122
+#: game/content/run_config.gd:123
 msgid "No twist: the rules as designed. The best Kit to learn with."
 msgstr "Nessuna variante: le regole così come sono. Il kit migliore per imparare."
 
-#: game/content/run_config.gd:123
+#: game/content/run_config.gd:124
 msgid "The 24-piece starter bag: a bit of every shape."
 msgstr "Il sacco iniziale da 24 pezzi: un po' di ogni forma."
 
-#: game/content/run_config.gd:124
+#: game/content/run_config.gd:125
 msgid "Compact"
 msgstr "Compatto"
 
-#: game/content/run_config.gd:124
+#: game/content/run_config.gd:125
 msgid "Compact Kit"
 msgstr "Kit compatto"
 
-#: game/content/run_config.gd:125
+#: game/content/run_config.gd:126
 msgid "+1 Credit for every Refresh you did not use when you win a round."
 msgstr "+1 credito per ogni rimescolata non usata quando vinci un round."
 
-#: game/content/run_config.gd:125
+#: game/content/run_config.gd:126
 msgid "THRIFT"
 msgstr "RISPARMIO"
 
-#: game/content/run_config.gd:126
+#: game/content/run_config.gd:127
 msgid "An 18-piece bag of small pieces: Singles, Bars, little Ls and Squares. Only 4 Joker slots."
 msgstr "Un sacco da 18 pezzi piccoli: Singoli, Barre, piccole L e Quadrati. Solo 4 slot per i Jolly."
 
-#: game/content/run_config.gd:126
+#: game/content/run_config.gd:127
 msgid "Clear 100 lines across runs."
 msgstr "Elimina 100 linee in totale tra le partite."
 
-#: game/content/run_config.gd:127
+#: game/content/run_config.gd:128
 msgid "High Roller"
 msgstr "Scommettitore"
 
-#: game/content/run_config.gd:127
+#: game/content/run_config.gd:128
 msgid "High Roller Kit"
 msgstr "Kit Scommettitore"
 
-#: game/content/run_config.gd:128
+#: game/content/run_config.gd:129
 msgid "COMPOUND INTEREST"
 msgstr "INTERESSE COMPOSTO"
 
-#: game/content/run_config.gd:128
+#: game/content/run_config.gd:129
 msgid "Interest can pay up to +3 more Credits each round."
 msgstr "L'interesse può pagare fino a +3 crediti in più a ogni round."
 
-#: game/content/run_config.gd:129
+#: game/content/run_config.gd:130
 msgid "Start with 4 Credits. The standard bag, 14 placements per round."
 msgstr "Inizia con 4 crediti. Il sacco standard, 14 mosse per round."
 
-#: game/content/run_config.gd:129
+#: game/content/run_config.gd:130
 msgid "Win a standard run."
 msgstr "Vinci una partita standard."
 
-#: game/content/run_config.gd:130
+#: game/content/run_config.gd:131
 msgid "Chunky"
 msgstr "Robusto"
 
-#: game/content/run_config.gd:130
+#: game/content/run_config.gd:131
 msgid "Chunky Kit"
 msgstr "Kit Robusto"
 
-#: game/content/run_config.gd:131
+#: game/content/run_config.gd:132
 msgid "HEAVY LIFTING"
 msgstr "SOLLEVAMENTO PESI"
 
-#: game/content/run_config.gd:131
+#: game/content/run_config.gd:132
 msgid "Pieces of 5 or more blocks score +10 Chips per block."
 msgstr "I pezzi da 5 o più blocchi danno +10 Fiches per blocco."
 
-#: game/content/run_config.gd:132
+#: game/content/run_config.gd:133
 msgid "A 19-piece bag of big, plump shapes: squares, Ts, pluses, a Bar 5 and a 3x3. Only 13 placements."
 msgstr "Un sacco da 19 forme grandi e paffute: quadrati, T, croci, una Barra 5 e un 3x3. Solo 13 mosse."
 
-#: game/content/run_config.gd:132
+#: game/content/run_config.gd:133
 msgid "Defeat 3 bosses across runs."
 msgstr "Sconfiggi 3 boss in totale tra le partite."
 
-#: game/content/run_config.gd:133
+#: game/content/run_config.gd:134
 msgid "Tetromino"
 msgstr "Tetramino"
 
-#: game/content/run_config.gd:133
+#: game/content/run_config.gd:134
 msgid "Tetromino Kit"
 msgstr "Kit Tetramino"
 
-#: game/content/run_config.gd:134
+#: game/content/run_config.gd:135
 msgid "+1 Credit every time a Tray Hand forms."
 msgstr "+1 credito ogni volta che si forma una mano del vassoio."
 
-#: game/content/run_config.gd:134
+#: game/content/run_config.gd:135
 msgid "FULL HOUSE"
 msgstr "FULL"
 
-#: game/content/run_config.gd:135
+#: game/content/run_config.gd:136
 msgid "Form 25 Tray Hands across runs."
 msgstr "Forma 25 mani del vassoio in totale tra le partite."
 
-#: game/content/run_config.gd:135
+#: game/content/run_config.gd:136
 msgid "Only four-block pieces: 20 of them, so Twins and Triplets come often."
 msgstr "Solo pezzi da quattro blocchi: 20, quindi Gemelli e Tris escono spesso."
 
-#: game/content/run_config.gd:142
+#: game/content/run_config.gd:143
 msgid "Heat 0"
 msgstr "Calore 0"
 
-#: game/content/run_config.gd:142
+#: game/content/run_config.gd:143
 msgid "Standard rules."
 msgstr "Regole standard."
 
-#: game/content/run_config.gd:143
+#: game/content/run_config.gd:144
 msgid "Heat 1"
 msgstr "Calore 1"
 
-#: game/content/run_config.gd:143
+#: game/content/run_config.gd:144
 #, c-format
 msgid "Targets +15%."
 msgstr "Obiettivi +15%."
 
-#: game/content/run_config.gd:144
+#: game/content/run_config.gd:145
 msgid "Heat 2"
 msgstr "Calore 2"
 
-#: game/content/run_config.gd:144
+#: game/content/run_config.gd:145
 msgid "One fewer placement every round."
 msgstr "Una mossa in meno ogni round."
 
-#: game/content/run_config.gd:145
+#: game/content/run_config.gd:146
 msgid "Heat 3"
 msgstr "Calore 3"
 
-#: game/content/run_config.gd:145
+#: game/content/run_config.gd:146
 msgid "Interest pays at most +3; rerolls start at 3."
 msgstr "L'interesse paga al massimo +3; i rinnovi partono da 3."
 
-#: game/content/run_config.gd:146
+#: game/content/run_config.gd:147
 msgid "Every boss is its Mk II version."
 msgstr "Ogni boss è nella sua versione Mk II."
 
-#: game/content/run_config.gd:146
+#: game/content/run_config.gd:147
 msgid "Heat 4"
 msgstr "Calore 4"
 
-#: game/content/run_config.gd:147
+#: game/content/run_config.gd:148
 msgid "Heat 5"
 msgstr "Calore 5"
 
-#: game/content/run_config.gd:147
+#: game/content/run_config.gd:148
 #, c-format
 msgid "Targets +35% and one fewer Refresh."
 msgstr "Obiettivi +35% e una rimescolata in meno."
@@ -4265,19 +4265,19 @@ msgstr "NEGATIVO"
 msgid "AGAIN"
 msgstr "ANCORA"
 
-#: game/ui/card.gd:190 game/ui/card.gd:412
+#: game/ui/card.gd:190 game/ui/card.gd:425
 msgid "COMMON"
 msgstr "COMUNE"
 
-#: game/ui/card.gd:190 game/ui/card.gd:412
+#: game/ui/card.gd:190 game/ui/card.gd:425
 msgid "LEGEND"
 msgstr "LEGGEND."
 
-#: game/ui/card.gd:190 game/ui/card.gd:412
+#: game/ui/card.gd:190 game/ui/card.gd:425
 msgid "RARE"
 msgstr "RARO"
 
-#: game/ui/card.gd:190 game/ui/card.gd:412
+#: game/ui/card.gd:190 game/ui/card.gd:425
 msgid "UNCOM."
 msgstr "NON COM."
 
@@ -4303,39 +4303,39 @@ msgstr "NEGATIVO: non occupa uno slot Jolly."
 msgid "AGAIN: triggers once more after all your Jokers."
 msgstr "ANCORA: si attiva un'altra volta dopo tutti i tuoi Jolly."
 
-#: game/ui/card.gd:304 game/ui/card.gd:333
+#: game/ui/card.gd:313 game/ui/card.gd:342
 #, c-format
 msgid "%s  (Item)"
 msgstr "%s  (oggetto)"
 
-#: game/ui/card.gd:369 game/ui/shop_screen.gd:402
+#: game/ui/card.gd:378 game/ui/shop_screen.gd:402
 msgid "ITEM"
 msgstr "OGGETTO"
 
-#: game/ui/card.gd:376
+#: game/ui/card.gd:385
 msgid "WORKSHOP"
 msgstr "OFFICINA"
 
-#: game/ui/card.gd:383
+#: game/ui/card.gd:392
 msgid "PIECE"
 msgstr "PEZZO"
 
-#: game/ui/card.gd:390
+#: game/ui/card.gd:399
 msgid "HOLO"
 msgstr "HOLO"
 
-#: game/ui/card.gd:409
+#: game/ui/card.gd:418
 msgid "OWNED"
 msgstr "POSSEDUTO"
 
-#: game/ui/card.gd:416
+#: game/ui/card.gd:430
 #, c-format
 msgid "You own %d of this Joker."
 msgid_plural "You own %d of this Joker."
 msgstr[0] "Possiedi %d copia di questo Jolly."
 msgstr[1] "Possiedi %d copie di questo Jolly."
 
-#: game/ui/card.gd:531
+#: game/ui/card.gd:545
 msgid "+1 LV"
 msgstr "+1 LV"
 
@@ -4995,7 +4995,7 @@ msgstr "INDIETRO"
 msgid "CONCEDE"
 msgstr "ARRENDITI"
 
-#: game/ui/game_screen.gd:1389 game/ui/shop_screen.gd:890
+#: game/ui/game_screen.gd:1389 game/ui/shop_screen.gd:891
 msgid "CLOSE  (ESC)"
 msgstr "CHIUDI  (ESC)"
 
@@ -6272,72 +6272,72 @@ msgstr "I TUOI JOLLY %d/%d"
 msgid "BUY %d"
 msgstr "COMPRA %d"
 
-#: game/ui/shop_screen.gd:738
+#: game/ui/shop_screen.gd:739
 msgid "SOLD OUT"
 msgstr "ESAURITO"
 
-#: game/ui/shop_screen.gd:777
+#: game/ui/shop_screen.gd:778
 #, c-format
 msgid "CHOOSE ROUND %d"
 msgstr "SCEGLI IL ROUND %d"
 
-#: game/ui/shop_screen.gd:783
+#: game/ui/shop_screen.gd:784
 msgid "Play it straight, or take a twist for a reward. Keys 1-3 choose, Esc goes back."
 msgstr "Giocalo così com'è, o scegli una variante in cambio di una ricompensa. I tasti 1-3 scelgono, Esc torna indietro."
 
-#: game/ui/shop_screen.gd:800
+#: game/ui/shop_screen.gd:801
 msgid "STANDARD"
 msgstr "STANDARD"
 
-#: game/ui/shop_screen.gd:800
+#: game/ui/shop_screen.gd:801
 msgid "TWIST"
 msgstr "VARIANTE"
 
-#: game/ui/shop_screen.gd:822
+#: game/ui/shop_screen.gd:823
 #, c-format
 msgid "+%d IF YOU WIN"
 msgstr "+%d SE VINCI"
 
-#: game/ui/shop_screen.gd:825
+#: game/ui/shop_screen.gd:826
 #, c-format
 msgid "PLAY  %d"
 msgstr "GIOCA  %d"
 
-#: game/ui/shop_screen.gd:837
+#: game/ui/shop_screen.gd:838
 msgid "BACK TO THE SHOP"
 msgstr "TORNA AL NEGOZIO"
 
-#: game/ui/shop_screen.gd:911
+#: game/ui/shop_screen.gd:912
 #, c-format
 msgid "%s  -  %d CREDITS"
 msgstr "%s  -  %d CREDITI"
 
-#: game/ui/shop_screen.gd:915
+#: game/ui/shop_screen.gd:916
 #, c-format
 msgid "Choose up to %d piece."
 msgid_plural "Choose up to %d pieces."
 msgstr[0] "Scegli fino a %d pezzo."
 msgstr[1] "Scegli fino a %d pezzi."
 
-#: game/ui/shop_screen.gd:918
+#: game/ui/shop_screen.gd:919
 msgid "CONFIRM PURCHASE"
 msgstr "CONFERMA ACQUISTO"
 
-#: game/ui/shop_screen.gd:924
+#: game/ui/shop_screen.gd:925
 #, c-format
 msgid "%d of %d chosen"
 msgstr "%d di %d scelti"
 
-#: game/ui/shop_screen.gd:926
+#: game/ui/shop_screen.gd:927
 #, c-format
 msgid "   -   color: %s"
 msgstr "   -   colore: %s"
 
-#: game/ui/shop_screen.gd:926
+#: game/ui/shop_screen.gd:927
 msgid "pick one"
 msgstr "scegline uno"
 
-#: game/ui/shop_screen.gd:967
+#: game/ui/shop_screen.gd:968
 msgid "CANCEL  (ESC)"
 msgstr "ANNULLA  (ESC)"
 

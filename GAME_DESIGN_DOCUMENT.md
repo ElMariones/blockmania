@@ -961,11 +961,13 @@ Colors (the Color Blind disables them; Prism counts as every color):
 | Color | Common | Rare (×1 + 0.15 per piece of that color in the bag, max ×3) |
 |---|---|---|
 | Red | Red Alert: +2 Mult | Red Giant |
-| Orange | Citrus Twist: +60 Chips | Sunset Glow |
-| Yellow | Lemon Drop: +60 Chips | Solar Flare |
+| Orange | Citrus Twist: +2 Mult | Sunset Glow |
+| Yellow | Lemon Drop: +2 Mult | Solar Flare |
 | Green | Green Thumb: +2 Mult | Evergreen |
 | Blue | Blue Mood (existing): +2 Mult | Deep Blue |
-| Purple | Plum Job: +60 Chips | Royal Purple |
+| Purple | Plum Job: +2 Mult | Royal Purple |
+
+*All color commons give +2 Mult like Blue Mood. A first draft gave Orange, Yellow and Purple +60 Chips instead; in the 400-run population those runs won 0–6% of the time when holding them (+2 Mult cards: 37–46%).*
 
 Forms (Bars are Bar 2–5, Ls are L 3–4, Squares are 2×2 and 3×3):
 

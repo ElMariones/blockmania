@@ -95,10 +95,10 @@ const CATALOG := [ # i18n: name, text
 	#   add_chips / add_mult   a common's flat boost when such a piece is placed
 	#   bag_step      a rare's xMult: x1 plus this for each such piece in your bag, max BAG_X_MAX
 	{"id": "red_alert", "name": "Red Alert", "rarity": COMMON, "phase": "add_mult", "color": true, "tint": 0, "add_mult": 2.0, "text": "Red shapes gain +2 Mult."},
-	{"id": "citrus_twist", "name": "Citrus Twist", "rarity": COMMON, "phase": "chips", "color": true, "tint": 1, "add_chips": 60, "text": "Orange shapes gain +60 Chips."},
-	{"id": "lemon_drop", "name": "Lemon Drop", "rarity": COMMON, "phase": "chips", "color": true, "tint": 2, "add_chips": 60, "text": "Yellow shapes gain +60 Chips."},
+	{"id": "citrus_twist", "name": "Citrus Twist", "rarity": COMMON, "phase": "add_mult", "color": true, "tint": 1, "add_mult": 2.0, "text": "Orange shapes gain +2 Mult."},
+	{"id": "lemon_drop", "name": "Lemon Drop", "rarity": COMMON, "phase": "add_mult", "color": true, "tint": 2, "add_mult": 2.0, "text": "Yellow shapes gain +2 Mult."},
 	{"id": "green_thumb", "name": "Green Thumb", "rarity": COMMON, "phase": "add_mult", "color": true, "tint": 3, "add_mult": 2.0, "text": "Green shapes gain +2 Mult."},
-	{"id": "plum_job", "name": "Plum Job", "rarity": COMMON, "phase": "chips", "color": true, "tint": 5, "add_chips": 60, "text": "Purple shapes gain +60 Chips."},
+	{"id": "plum_job", "name": "Plum Job", "rarity": COMMON, "phase": "add_mult", "color": true, "tint": 5, "add_mult": 2.0, "text": "Purple shapes gain +2 Mult."},
 	{"id": "red_giant", "name": "Red Giant", "rarity": RARE, "phase": "x_mult", "color": true, "tint": 0, "bag_step": 0.15, "text": "Red shapes gain x1 Mult plus x0.15 for each Red piece in your bag (max x3)."},
 	{"id": "sunset_glow", "name": "Sunset Glow", "rarity": RARE, "phase": "x_mult", "color": true, "tint": 1, "bag_step": 0.15, "text": "Orange shapes gain x1 Mult plus x0.15 for each Orange piece in your bag (max x3)."},
 	{"id": "solar_flare", "name": "Solar Flare", "rarity": RARE, "phase": "x_mult", "color": true, "tint": 2, "bag_step": 0.15, "text": "Yellow shapes gain x1 Mult plus x0.15 for each Yellow piece in your bag (max x3)."},
