@@ -1,0 +1,1 @@
+Roguelike z puzzlami z klocków. Układaj klocki na planszy 8×8, usuwaj linie i zdobywaj Żetony × Mult. Ulepszaj własny worek klocków, zbierz 70 jokerów naginających zasady i pokonaj 12 rund z bossami, a potem wejdź w dogrywkę i spróbuj rozwalić maszynę.

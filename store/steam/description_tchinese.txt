@@ -1,0 +1,66 @@
+[img src="{STEAM_APP_IMAGE}/extras/banner_tchinese.jpg"][/img]
+
+[b]BLOCKMANIA[/b] 一開始就是大家都熟悉的方塊拼圖：托盤裡有三塊拼塊，一個 8×8 棋盤，填滿一行或一列就會消除。接下來，事情就一發不可收拾了。
+
+[video mp4="{STEAM_APP_IMAGE}/extras/clip_gameplay.mp4" webm="{STEAM_APP_IMAGE}/extras/clip_gameplay.webm" autoplay="true" controls="false"][/video]
+
+每一塊拼塊都來自[b]你自己的袋子[/b]，而且都能升級：鉻會產出籌碼，霓虹會增加倍率，黃金會印出代幣，玻璃碎裂時會換來倍數加成。回合之間，玩具箱會出售[b]小丑牌[/b]：70 張扭曲規則的卡牌，有的每消除一行就成長，有的複製鄰居，有的獎勵耐心，有的把其他卡牌的效果全部加倍。每次放置都以[b]籌碼×倍率[/b]計分，每個數字都會逐項列在收據上，讓你永遠知道一步棋為什麼值 12 分，或是 1200 萬分。
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_how_tchinese.png"][/img]
+[img src="{STEAM_APP_IMAGE}/extras/loop_tchinese.png"][/img]
+[list]
+[*]從三塊拼塊中選一塊[b]放置[/b]。確定之前，棋盤會顯示它能放在哪裡、會補滿哪些行列，以及確切能得幾分。
+[*][b]消除[/b]整行與整列來賺取籌碼，再用連擊、材質和小丑牌帶來的倍率相乘。
+[*]在放置次數用完之前[b]達成目標[/b]，領取代幣，然後到玩具箱消費。
+[*]在三幕中[b]撐過 12 個回合[/b]。每一幕的最後都有一名改寫一條規則的首領。
+[/list]
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_features_tchinese.png"][/img]
+
+[h2]70 張小丑牌，其中 4 張傳說[/h2]
+籌碼、倍率與×倍率卡牌，經濟卡牌，整局持續成長的卡牌，以及複製旁邊那張的卡牌。順序很重要。四張傳說卡牌會改變遊戲玩法：[b]雪崩[/b]帶來重力與連鎖波，[b]鏡廳[/b]讓每張小丑牌都觸發兩次，[b]賢者之石[/b]把你的袋子變成金屬，[b]超新星[/b]則讓每個回合層層推向高潮。
+[img src="{STEAM_APP_IMAGE}/extras/jokers_tchinese.png"][/img]
+
+[h2]一眼就能看懂的拼圖[/h2]
+沒有暗中的抽選，也沒有計時器。拿起拼塊，放下之前就能看到得分：每個結果都由規則決定，特效只是把它[i]呈現[/i]出來。行列閃爍，方塊依照材質風格炸開，小丑牌帶著各自的音效一張接一張觸發，分數在管子裡一路攀升。
+[img src="{STEAM_APP_IMAGE}/extras/shot_clear.jpg"][/img]
+
+[h2]打造的是袋子，不只是牌組[/h2]
+玩具箱販售小丑牌、一次性道具（可以投擲的應急磚塊、橡皮擦、第二托盤），以及直接改造拼塊的[b]工坊[/b]升級：重新上色、旋轉、複製、粉碎、加上材質與印章。存下代幣賺取利息，或是大幅超越目標拿獎勵。
+[img src="{STEAM_APP_IMAGE}/extras/shot_shop.jpg"][/img]
+
+[h2]登場就很有排場的首領[/h2]
+每一幕的最後，都會有一名扭曲一條規則的首領：固定方塊、對第一行課稅、被封鎖的托盤格、每三步冒出一塊墓碑。從第二幕起，他們會以 [b]Mk II[/b] 的姿態回歸，附帶警告過場、封鎖膠帶邊框和專屬音樂。
+[video mp4="{STEAM_APP_IMAGE}/extras/clip_boss.mp4" webm="{STEAM_APP_IMAGE}/extras/clip_boss.webm" autoplay="true" controls="false"][/video]
+
+[h2]下一回合有多難，由你決定[/h2]
+每個普通回合開始前，可以照常進行，也可以接受一個變化來換取獎勵：[i]加倍或歸零[/i]、[i]淘金熱[/i]、[i]尖峰時段[/i]、[i]倍率狂熱[/i]、[i]尋寶[/i]等等。用[b]暫存[/b]先留下一塊拼塊，決定之前也能查看袋子裡的機率。
+[img src="{STEAM_APP_IMAGE}/extras/shot_round_pick.jpg"][/img]
+
+[h2]有個性的方塊[/h2]
+十四種動態材質：光線流過彩繪玻璃，霓虹燈管閃爍，熔岩脈動，流星墜落。每一種都有自己的光暈、粒子和音效。
+[img src="{STEAM_APP_IMAGE}/extras/finishes_tchinese.png"][/img]
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_modes_tchinese.png"][/img]
+[list]
+[*][b]五種套裝[/b]：不同的起始袋子和專屬規則（標準、緊湊、豪賭、厚重、四格），透過遊玩解鎖。
+[*][b]熱度 0–5[/b]：贏下一局即可解鎖下一級。目標更高、放置次數更少、利息有上限，熱度 4 時每個首領都是 Mk II。
+[*][b]每日挑戰[/b]：每天一個種子，所有人面對相同的拼塊、商店和首領。
+[*][b]延長賽[/b]：打贏第 12 回合後繼續挑戰。目標急遽飆升，唯一的出路是落敗，或是單次放置拿下一千兆分、[b]打爆機器[/b]。
+[*][b]無盡模式[/b]：輕鬆的街機模式，有最高×10 的連擊階梯、暫存、15 種方塊風格、本機前十名排行榜，以及每局的分數走勢圖。
+[*]五頁共 [b]60 項成就[/b]，其中十個是隱藏成就。有些會解鎖新的小丑牌。
+[*]街機廳的老管理員機器人 [b]POPS[/b] 會帶新玩家認識環境，之後就不再打擾。
+[/list]
+[img src="{STEAM_APP_IMAGE}/extras/badges_tchinese.png"][/img]
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_options_tchinese.png"][/img]
+[list]
+[*]以滑鼠操作為主，每個畫面也都能完全用鍵盤遊玩。
+[*]將動態效果設為「減弱」會讓動畫更平緩，同時保留畫面上的所有數字。
+[*]方塊圖案選項，顏色永遠不是唯一的提示。
+[*]畫面震動、閃光和邊緣特效的強度可分別調整；可選 CRT 濾鏡；遊戲速度；自訂或系統游標。
+[*]每一次得分都逐項列出，每條首領規則、目標和卡牌都會在生效前展示給你。
+[*][b]十一種語言[/b]：English、Español、Français、Italiano、Deutsch、Nederlands、Polski、Português (BR)、日本語、简体中文和繁體中文。遊戲會使用你在 Steam 中為它選擇的語言，也可以隨時在選項中切換。
+[/list]
+
+BLOCKMANIA 中的每一個像素、每一個音效和每一個音符，都是一名獨立開發者專為本作打造的：用程式碼繪製的像素畫和 Blockhead 字體，以及原創合成配樂。日文與中文文字使用開源字體 Fusion Pixel。

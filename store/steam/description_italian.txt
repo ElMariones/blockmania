@@ -1,0 +1,66 @@
+[img src="{STEAM_APP_IMAGE}/extras/banner_italian.jpg"][/img]
+
+[b]BLOCKMANIA[/b] parte come il puzzle a blocchi che conoscono tutti: tre pezzi nel vassoio, un tabellone 8×8, completa una riga o una colonna e sparisce. Poi la situazione sfugge di mano.
+
+[video mp4="{STEAM_APP_IMAGE}/extras/clip_gameplay.mp4" webm="{STEAM_APP_IMAGE}/extras/clip_gameplay.webm" autoplay="true" controls="false"][/video]
+
+Ogni pezzo esce dal [b]tuo sacco[/b], e puoi potenziarlo: il cromo paga Fiches, il neon aggiunge Mult, l'oro stampa crediti, il vetro si frantuma in cambio di un moltiplicatore. Tra un round e l'altro il Baule dei giocattoli vende [b]jolly[/b]: 70 carte che piegano le regole, crescono a ogni linea eliminata, copiano le vicine, premiano la pazienza o raddoppiano tutto quello che fanno le altre. Ogni mossa si calcola come [b]Fiches × Mult[/b], e ogni numero è dettagliato su uno scontrino, così sai sempre perché una mossa valeva 12 punti o 12 milioni.
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_how_italian.png"][/img]
+[img src="{STEAM_APP_IMAGE}/extras/loop_italian.png"][/img]
+[list]
+[*][b]Piazza[/b] uno dei tre pezzi. Prima di confermare, il tabellone mostra dove entra, quali linee completa e quanto farà esattamente.
+[*][b]Elimina[/b] righe e colonne per ottenere Fiches, poi moltiplicale con il Mult delle combo, dei materiali e dei jolly.
+[*][b]Supera l'obiettivo[/b] prima di finire le mosse, incassa i crediti e spendili nel Baule dei giocattoli.
+[*][b]Sopravvivi a 12 round[/b] divisi in tre atti. Ogni atto finisce con un boss che riscrive una regola.
+[/list]
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_features_italian.png"][/img]
+
+[h2]70 jolly, 4 dei quali leggendari[/h2]
+Carte di Fiches, di Mult e di ×Mult, carte economiche, carte che crescono per tutta la partita e carte che copiano quella accanto. L'ordine conta. I quattro leggendari cambiano il modo di giocare: [b]La Valanga[/b] aggiunge la gravità e ondate a catena, la [b]Galleria degli specchi[/b] fa attivare ogni jolly due volte, la [b]Pietra filosofale[/b] trasforma il tuo sacco in metallo e [b]Supernova[/b] porta ogni round a un crescendo.
+[img src="{STEAM_APP_IMAGE}/extras/jokers_italian.png"][/img]
+
+[h2]Un puzzle che si legge a colpo d'occhio[/h2]
+Niente estrazioni nascoste, niente timer. Prendi un pezzo e vedi il punteggio prima di piazzarlo: ogni risultato è deciso dalle regole e solo [i]mostrato[/i] dagli effetti. Le linee lampeggiano, i blocchi esplodono nello stile della loro finitura, i jolly si attivano uno a uno con il loro suono e il punteggio sale nel tubo.
+[img src="{STEAM_APP_IMAGE}/extras/shot_clear.jpg"][/img]
+
+[h2]Costruisci il sacco, non solo il mazzo[/h2]
+Il Baule dei giocattoli vende jolly, oggetti monouso (un Mattone d'emergenza da lanciare, una Gomma, un Secondo vassoio) e potenziamenti dell'[b]Officina[/b] che modificano i pezzi stessi: ridipingi, ruota, copia, distruggi, aggiungi materiali e timbri. Risparmia i crediti per guadagnare interessi, o stravinci un obiettivo per un bonus.
+[img src="{STEAM_APP_IMAGE}/extras/shot_shop.jpg"][/img]
+
+[h2]Boss che sanno come entrare in scena[/h2]
+Ogni atto finisce con un boss che piega una regola: blocchi fissi, una tassa sulla prima linea, slot del vassoio bloccati, una lapide ogni tre mosse. Dall'atto 2 tornano come [b]Mk II[/b], con un filmato d'allarme, una cornice di nastro da cantiere e la loro musica.
+[video mp4="{STEAM_APP_IMAGE}/extras/clip_boss.mp4" webm="{STEAM_APP_IMAGE}/extras/clip_boss.webm" autoplay="true" controls="false"][/video]
+
+[h2]Scegli quanto sarà difficile il prossimo round[/h2]
+Prima di ogni round normale, giocalo così com'è o accetta una variante in cambio di una ricompensa: [i]Lascia o raddoppia[/i], [i]Corsa all'oro[/i], [i]Ora di punta[/i], [i]Febbre da Mult[/i], [i]Caccia al tesoro[/i] e altre. Tieni un pezzo da parte con la [b]Riserva[/b], e controlla le probabilità del sacco prima di deciderti.
+[img src="{STEAM_APP_IMAGE}/extras/shot_round_pick.jpg"][/img]
+
+[h2]Blocchi con carattere[/h2]
+Quattordici finiture animate: la luce attraversa le vetrate, i tubi al neon sfarfallano, la lava pulsa, le stelle cadono. Ognuna ha il suo bagliore, le sue particelle e i suoi suoni.
+[img src="{STEAM_APP_IMAGE}/extras/finishes_italian.png"][/img]
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_modes_italian.png"][/img]
+[list]
+[*][b]Cinque kit[/b]: sacchi iniziali e regole distintive diverse (Standard, Compatto, Scommettitore, Robusto, Tetramino), sbloccati giocando.
+[*][b]Calore 0–5[/b]: vinci una partita per sbloccare il livello successivo. Obiettivi più alti, meno mosse, interessi limitati, e al Calore 4 ogni boss è Mk II.
+[*][b]Giornaliera[/b]: un seme al giorno, con gli stessi pezzi, negozi e boss per tutti.
+[*][b]Supplementari[/b]: batti il round 12 e continua. Gli obiettivi esplodono, e l'unica via d'uscita è perdere, o segnare un biliardo di punti con una sola mossa e [b]rompere la macchina[/b].
+[*][b]Infinita[/b]: una modalità arcade rilassata con una scala di combo fino a ×10, la Riserva, 15 stili di blocchi, una top ten locale e un grafico del punteggio per ogni partita.
+[*][b]60 obiettivi[/b] su cinque pagine, dieci dei quali segreti. Alcuni sbloccano nuovi jolly.
+[*][b]POPS[/b], il vecchio robot custode della sala giochi, fa da guida a chi gioca per la prima volta, poi si fa da parte.
+[/list]
+[img src="{STEAM_APP_IMAGE}/extras/badges_italian.png"][/img]
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_options_italian.png"][/img]
+[list]
+[*]Pensato per il mouse, giocabile interamente con la tastiera in ogni schermata.
+[*]Il movimento ridotto calma le animazioni e lascia ogni numero sullo schermo.
+[*]Motivi dei blocchi, così il colore non è mai l'unico indizio.
+[*]Intensità regolabile di scossoni dello schermo, lampi ed effetti ai bordi; filtro CRT opzionale; velocità di gioco; cursore del gioco o di sistema.
+[*]Ogni punteggio è dettagliato, e ogni regola dei boss, obiettivo e carta viene mostrata prima che conti.
+[*][b]Undici lingue[/b]: English, Español, Français, Italiano, Deutsch, Nederlands, Polski, Português (BR), 日本語, 简体中文 e 繁體中文. Il gioco usa la lingua scelta per BLOCKMANIA su Steam, e puoi cambiarla in qualsiasi momento dalle opzioni.
+[/list]
+
+Ogni pixel, suono e nota di BLOCKMANIA è stato creato per questo gioco da uno sviluppatore solitario: pixel art e il font Blockhead disegnati con il codice, e una colonna sonora originale sintetizzata. Il testo in giapponese e cinese usa il font libero Fusion Pixel.

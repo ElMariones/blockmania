@@ -1,0 +1,1 @@
+Een blokpuzzel-roguelike. Leg stukken op een bord van 8×8, speel lijnen weg en scoor chips × Mult. Verbeter je eigen zak met blokken, verzamel 70 jokers die de regels verbuigen en versla 12 rondes met bazen, ga dan door in de verlenging en probeer de machine te breken.

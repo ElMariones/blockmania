@@ -51,7 +51,7 @@ static func load_translations() -> void:
 
 ## Steam API language codes (ISteamApps::GetCurrentGameLanguage) -> our codes. Every language
 ## the game ships is reachable from one, so the Steamworks language lists can name all of them
-## (docs/steam_languages.md). Steam codes we do not ship are absent.
+## (store/steam/LANGUAGES.md). Steam codes we do not ship are absent.
 const STEAM_CODES := {
 	"english": "en", "spanish": "es", "latam": "es", "french": "fr", "italian": "it",
 	"german": "de", "dutch": "nl", "polish": "pl", "brazilian": "pt_BR", "portuguese": "pt_BR",

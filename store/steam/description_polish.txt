@@ -1,0 +1,66 @@
+[img src="{STEAM_APP_IMAGE}/extras/banner_polish.jpg"][/img]
+
+[b]BLOCKMANIA[/b] zaczyna się jak puzzle z klockami, które zna każdy: trzy klocki na tacy, plansza 8×8, zapełnij wiersz albo kolumnę, a zniknie. A potem wszystko wymyka się spod kontroli.
+
+[video mp4="{STEAM_APP_IMAGE}/extras/clip_gameplay.mp4" webm="{STEAM_APP_IMAGE}/extras/clip_gameplay.webm" autoplay="true" controls="false"][/video]
+
+Każdy klocek pochodzi z [b]twojego własnego worka[/b] i możesz go ulepszyć: chrom daje Żetony, neon dodaje Mult, złoto drukuje kredyty, szkło pęka w zamian za mnożnik. Między rundami Skrzynia z zabawkami sprzedaje [b]jokery[/b]: 70 kart, które naginają zasady, rosną z każdą usuniętą linią, kopiują sąsiadów, nagradzają cierpliwość albo podwajają wszystko, co robią pozostałe. Każdy ruch liczy się jako [b]Żetony × Mult[/b], a każda liczba jest rozpisana na paragonie, więc zawsze wiesz, dlaczego ruch był wart 12 punktów albo 12 milionów.
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_how_polish.png"][/img]
+[img src="{STEAM_APP_IMAGE}/extras/loop_polish.png"][/img]
+[list]
+[*][b]Ułóż[/b] jeden z trzech klocków. Zanim go postawisz, plansza pokaże, gdzie pasuje, które linie uzupełni i dokładnie ile przyniesie.
+[*][b]Usuwaj[/b] wiersze i kolumny, by zdobywać Żetony, a potem mnóż je Multem z combo, materiałów i jokerów.
+[*][b]Pobij cel[/b], zanim skończą ci się ruchy, odbierz kredyty i wydaj je w Skrzyni z zabawkami.
+[*][b]Przetrwaj 12 rund[/b] w trzech aktach. Każdy akt kończy się bossem, który zmienia jedną zasadę.
+[/list]
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_features_polish.png"][/img]
+
+[h2]70 jokerów, w tym 4 legendarne[/h2]
+Karty Żetonów, Multu i ×Multu, karty ekonomiczne, karty rosnące przez całą rozgrywkę i karty kopiujące sąsiada. Kolejność ma znaczenie. Cztery legendarne jokery zmieniają sposób gry: [b]Lawina[/b] dodaje grawitację i fale łańcuchowe, [b]Sala Luster[/b] sprawia, że każdy joker działa dwa razy, [b]Kamień filozoficzny[/b] zamienia twój worek w metal, a [b]Supernowa[/b] prowadzi każdą rundę do wielkiego finału.
+[img src="{STEAM_APP_IMAGE}/extras/jokers_polish.png"][/img]
+
+[h2]Puzzle, które czytasz jednym spojrzeniem[/h2]
+Żadnych ukrytych losowań i żadnych zegarów. Weź klocek, a zobaczysz wynik, zanim go położysz: każdy rezultat wynika z zasad, a efekty tylko go [i]pokazują[/i]. Linie błyskają, klocki rozpryskują się w stylu swojego wykończenia, jokery odpalają po kolei, każdy z własnym dźwiękiem, a wynik rośnie w rurce.
+[img src="{STEAM_APP_IMAGE}/extras/shot_clear.jpg"][/img]
+
+[h2]Buduj worek, nie tylko talię[/h2]
+Skrzynia z zabawkami sprzedaje jokery, przedmioty jednorazowe (Cegłę awaryjną do rzucania, Gumkę, Drugą tacę) i ulepszenia z [b]Warsztatu[/b], które zmieniają same klocki: przemaluj, obróć, skopiuj, zniszcz, dodaj materiały i pieczątki. Oszczędzaj kredyty, by zarabiać odsetki, albo przebij cel z nawiązką, by dostać premię.
+[img src="{STEAM_APP_IMAGE}/extras/shot_shop.jpg"][/img]
+
+[h2]Bossowie z wejściem smoka[/h2]
+Każdy akt kończy się bossem, który nagina jedną zasadę: stałe kostki, podatek od pierwszej linii, zablokowane miejsca na tacy, nagrobek co trzeci ruch. Od aktu 2 wracają jako [b]Mk II[/b], z ostrzegawczą scenką, ramką z taśmy ostrzegawczej i własną muzyką.
+[video mp4="{STEAM_APP_IMAGE}/extras/clip_boss.mp4" webm="{STEAM_APP_IMAGE}/extras/clip_boss.webm" autoplay="true" controls="false"][/video]
+
+[h2]Wybierz, jak trudna będzie następna runda[/h2]
+Przed każdą zwykłą rundą zagraj ją normalnie albo weź utrudnienie w zamian za nagrodę: [i]Wszystko albo nic[/i], [i]Gorączka złota[/i], [i]Godzina szczytu[/i], [i]Gorączka Multu[/i], [i]Poszukiwanie skarbu[/i] i inne. Odłóż jeden klocek do [b]Schowka[/b] i sprawdź szanse w worku, zanim się zdecydujesz.
+[img src="{STEAM_APP_IMAGE}/extras/shot_round_pick.jpg"][/img]
+
+[h2]Klocki z charakterem[/h2]
+Czternaście animowanych wykończeń: światło przesuwa się przez witraże, neony migoczą, lawa pulsuje, spadają gwiazdy. Każde ma własną poświatę, cząsteczki i dźwięki.
+[img src="{STEAM_APP_IMAGE}/extras/finishes_polish.png"][/img]
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_modes_polish.png"][/img]
+[list]
+[*][b]Pięć zestawów[/b]: różne worki startowe i charakterystyczne zasady (Standardowy, Kompaktowy, Hazardzisty, Masywny, Tetromino), odblokowywane w trakcie gry.
+[*][b]Żar 0–5[/b]: wygraj rozgrywkę, by odblokować kolejny poziom. Wyższe cele, mniej ruchów, ograniczone odsetki, a od Żaru 4 każdy boss jest w wersji Mk II.
+[*][b]Dzienna[/b]: jedno ziarno dziennie, z tymi samymi klockami, sklepami i bossami dla wszystkich.
+[*][b]Dogrywka[/b]: pokonaj rundę 12 i graj dalej. Cele rosną lawinowo, a jedynym wyjściem jest przegrana albo zdobycie biliarda punktów jednym ruchem i [b]rozwalenie maszyny[/b].
+[*][b]Bez końca[/b]: spokojny tryb arcade z drabinką combo do ×10, Schowkiem, 15 stylami klocków, lokalną pierwszą dziesiątką i wykresem wyniku z każdej gry.
+[*][b]60 osiągnięć[/b] na pięciu stronach, w tym dziesięć tajnych. Niektóre odblokowują nowe jokery.
+[*][b]POPS[/b], stary robot dozorca salonu gier, oprowadza nowych graczy, a potem schodzi z drogi.
+[/list]
+[img src="{STEAM_APP_IMAGE}/extras/badges_polish.png"][/img]
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_options_polish.png"][/img]
+[list]
+[*]Stworzona z myślą o myszy, w pełni grywalna na klawiaturze na każdym ekranie.
+[*]Ograniczony ruch uspokaja animacje i zostawia każdą liczbę na ekranie.
+[*]Wzory kostek, żeby kolor nigdy nie był jedyną wskazówką.
+[*]Regulowana siła wstrząsów ekranu, błysków i efektów na krawędziach; opcjonalny filtr CRT; szybkość gry; własny lub systemowy kursor.
+[*]Każdy wynik jest rozpisany, a każda zasada bossa, cel i karta są pokazane, zanim zaczną mieć znaczenie.
+[*][b]Jedenaście języków[/b]: English, Español, Français, Italiano, Deutsch, Nederlands, Polski, Português (BR), 日本語, 简体中文 i 繁體中文. Gra używa języka, który wybierzesz dla niej w Steamie, i w każdej chwili możesz go zmienić w opcjach.
+[/list]
+
+Każdy piksel, dźwięk i nuta w BLOCKMANII powstały dla tej gry, stworzonej przez jednego twórcę: pixel art i czcionka Blockhead narysowane w kodzie oraz oryginalna, syntezowana ścieżka dźwiękowa. Tekst japoński i chiński używa otwartej czcionki Fusion Pixel.

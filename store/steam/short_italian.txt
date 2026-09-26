@@ -1,0 +1,1 @@
+Un roguelike puzzle a blocchi. Piazza i pezzi su un tabellone 8×8, elimina linee e segna Fiches × Mult. Potenzia il tuo sacco di blocchi, colleziona 70 jolly che piegano le regole e supera 12 round di boss, poi lanciati nei supplementari e prova a rompere la macchina.

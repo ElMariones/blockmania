@@ -60,6 +60,7 @@ Fourteen animated finishes: light rolls through stained glass, neon tubes flicke
 [*]Block patterns, so colours never carry meaning on their own.
 [*]Separate strengths for screen shake, flashes and edge effects; an optional CRT filter; game speed; custom or system cursor.
 [*]Every score is itemized, and every boss rule, target and card is shown before it matters.
+[*][b]Eleven languages[/b]: English, Español, Français, Italiano, Deutsch, Nederlands, Polski, Português (BR), 日本語, 简体中文 and 繁體中文. The game follows the language you pick for it in Steam, or choose another in the options at any time.
 [/list]
 
-Every pixel, sound and note in BLOCKMANIA was made for this game by a solo developer: pixel art and the Blockhead font drawn in code, and an original synthesized soundtrack.
+Every pixel, sound and note in BLOCKMANIA was made for this game by a solo developer: pixel art and the Blockhead font drawn in code, and an original synthesized soundtrack. Japanese and Chinese text uses the open-source Fusion Pixel font.

@@ -1,0 +1,66 @@
+[img src="{STEAM_APP_IMAGE}/extras/banner_dutch.jpg"][/img]
+
+[b]BLOCKMANIA[/b] begint als de blokpuzzel die iedereen kent: drie stukken in je bakje, een bord van 8×8, maak een rij of kolom vol en hij verdwijnt. Daarna loopt het volledig uit de hand.
+
+[video mp4="{STEAM_APP_IMAGE}/extras/clip_gameplay.mp4" webm="{STEAM_APP_IMAGE}/extras/clip_gameplay.webm" autoplay="true" controls="false"][/video]
+
+Elk stuk komt uit [b]je eigen zak[/b], en je kunt het verbeteren: chroom levert chips op, neon geeft Mult, goud drukt credits, glas spat uiteen voor een vermenigvuldiger. Tussen de rondes verkoopt de Speelgoedkist [b]jokers[/b]: 70 kaarten die de regels verbuigen, groeien bij elke weggespeelde lijn, hun buren kopiëren, geduld belonen of alles verdubbelen wat de andere doen. Elke zet telt als [b]chips × Mult[/b], en elk getal staat uitgesplitst op een bonnetje, dus je weet altijd waarom een zet 12 punten of 12 miljoen waard was.
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_how_dutch.png"][/img]
+[img src="{STEAM_APP_IMAGE}/extras/loop_dutch.png"][/img]
+[list]
+[*][b]Leg[/b] een van drie stukken. Voordat je hem neerlegt, laat het bord zien waar hij past, welke lijnen hij afmaakt en precies wat hij oplevert.
+[*][b]Speel[/b] rijen en kolommen [b]weg[/b] voor chips, en vermenigvuldig ze met Mult uit combo's, materialen en jokers.
+[*][b]Haal het doel[/b] voordat je zetten op zijn, int je credits en geef ze uit in de Speelgoedkist.
+[*][b]Overleef 12 rondes[/b] in drie aktes. Elke akte eindigt met een baas die één regel herschrijft.
+[/list]
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_features_dutch.png"][/img]
+
+[h2]70 jokers, waarvan 4 legendarisch[/h2]
+Chips-, Mult- en ×Mult-kaarten, economiekaarten, kaarten die de hele run groeien en kaarten die hun buurman kopiëren. De volgorde telt. De vier legendarische jokers veranderen het spel: [b]De Lawine[/b] voegt zwaartekracht en kettinggolven toe, de [b]Spiegelzaal[/b] laat elke joker twee keer werken, de [b]Steen der wijzen[/b] verandert je zak in metaal en [b]Supernova[/b] bouwt elke ronde op naar een climax.
+[img src="{STEAM_APP_IMAGE}/extras/jokers_dutch.png"][/img]
+
+[h2]Een puzzel die je in één oogopslag leest[/h2]
+Geen verborgen worpen en geen timers. Pak een stuk op en je ziet de score voordat je hem legt: elk resultaat wordt bepaald door de regels en alleen [i]getoond[/i] door de effecten. Lijnen flitsen, blokken spatten uiteen in de stijl van hun afwerking, jokers werken een voor een met hun eigen geluid en de score stijgt in de buis.
+[img src="{STEAM_APP_IMAGE}/extras/shot_clear.jpg"][/img]
+
+[h2]Bouw je zak, niet alleen je deck[/h2]
+De Speelgoedkist verkoopt jokers, items voor eenmalig gebruik (een Noodbaksteen om te gooien, een Gum, een Tweede bakje) en upgrades uit de [b]Werkplaats[/b] die de stukken zelf aanpassen: overschilderen, draaien, kopiëren, versnipperen, materialen en stempels toevoegen. Spaar je credits voor rente, of ga ver over een doel heen voor een bonus.
+[img src="{STEAM_APP_IMAGE}/extras/shot_shop.jpg"][/img]
+
+[h2]Bazen met een entree[/h2]
+Elke akte eindigt met een baas die één regel verbuigt: vaste blokken, belasting op je eerste lijn, vergrendelde vakken in je bakje, een grafsteen bij elke derde zet. Vanaf akte 2 keren ze terug als [b]Mk II[/b], met een waarschuwingsfilmpje, een rand van afzetlint en hun eigen muziek.
+[video mp4="{STEAM_APP_IMAGE}/extras/clip_boss.mp4" webm="{STEAM_APP_IMAGE}/extras/clip_boss.webm" autoplay="true" controls="false"][/video]
+
+[h2]Kies hoe zwaar de volgende ronde wordt[/h2]
+Speel elke normale ronde gewoon, of kies een twist voor een beloning: [i]Dubbel of niks[/i], [i]Goudkoorts[/i], [i]Spitsuur[/i], [i]Multkoorts[/i], [i]Schatzoeken[/i] en meer. Houd een stuk achter met [b]Bewaren[/b], en bekijk de kansen in je zak voordat je beslist.
+[img src="{STEAM_APP_IMAGE}/extras/shot_round_pick.jpg"][/img]
+
+[h2]Blokken met karakter[/h2]
+Veertien geanimeerde afwerkingen: licht trekt door glas-in-lood, neonbuizen flikkeren, lava pulseert, sterren vallen. Elke afwerking heeft haar eigen gloed, deeltjes en geluiden.
+[img src="{STEAM_APP_IMAGE}/extras/finishes_dutch.png"][/img]
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_modes_dutch.png"][/img]
+[list]
+[*][b]Vijf kits[/b]: andere startzakken en eigen regels (Standaard, Compact, High roller, Kloek, Tetromino), vrij te spelen door te spelen.
+[*][b]Hitte 0–5[/b]: win een run om het volgende niveau vrij te spelen. Hogere doelen, minder zetten, rente met een plafond, en vanaf Hitte 4 is elke baas Mk II.
+[*][b]Dagelijks[/b]: één seed per dag, met dezelfde stukken, winkels en bazen voor iedereen.
+[*][b]Verlenging[/b]: versla ronde 12 en ga door. De doelen exploderen, en de enige uitweg is verliezen, of met één zet een biljard punten scoren en [b]de machine breken[/b].
+[*][b]Eindeloos[/b]: een ontspannen arcademodus met een comboladder tot ×10, Bewaren, 15 blokstijlen, een lokale top tien en een scoregrafiek voor elk potje.
+[*][b]60 prestaties[/b] op vijf pagina's, waarvan tien geheim. Sommige spelen nieuwe jokers vrij.
+[*][b]POPS[/b], de oude conciërgerobot van de speelhal, leidt nieuwe spelers rond en gaat daarna aan de kant.
+[/list]
+[img src="{STEAM_APP_IMAGE}/extras/badges_dutch.png"][/img]
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_options_dutch.png"][/img]
+[list]
+[*]Gemaakt voor de muis, op elk scherm volledig met het toetsenbord te spelen.
+[*]Beweging op Beperkt maakt de animaties rustiger en houdt elk getal in beeld.
+[*]Blokpatronen, zodat kleur nooit de enige aanwijzing is.
+[*]Instelbare sterkte voor schermschudden, flitsen en randeffecten; optioneel CRT-filter; spelsnelheid; eigen of systeemcursor.
+[*]Elke score wordt uitgesplitst, en elke baasregel, elk doel en elke kaart wordt getoond voordat het ertoe doet.
+[*][b]Elf talen[/b]: English, Español, Français, Italiano, Deutsch, Nederlands, Polski, Português (BR), 日本語, 简体中文 en 繁體中文. Het spel volgt de taal die je er in Steam voor kiest, en je kunt altijd een andere kiezen in de opties.
+[/list]
+
+Elke pixel, elk geluid en elke noot in BLOCKMANIA is voor dit spel gemaakt door één ontwikkelaar: pixelart en het lettertype Blockhead, getekend in code, en een eigen gesynthetiseerde soundtrack. Japanse en Chinese tekst gebruikt het vrije lettertype Fusion Pixel.

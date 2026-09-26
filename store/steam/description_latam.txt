@@ -1,0 +1,66 @@
+[img src="{STEAM_APP_IMAGE}/extras/banner_latam.jpg"][/img]
+
+[b]BLOCKMANIA[/b] empieza como el puzle de bloques que todo el mundo conoce: tres piezas en la bandeja, un tablero de 8×8, completa una fila o una columna y desaparece. Después, se te va de las manos.
+
+[video mp4="{STEAM_APP_IMAGE}/extras/clip_gameplay.mp4" webm="{STEAM_APP_IMAGE}/extras/clip_gameplay.webm" autoplay="true" controls="false"][/video]
+
+Cada pieza sale de [b]tu propia bolsa[/b], y puedes mejorarla: cromo que da Fichas, neón que suma Multi, oro que imprime Créditos, vidrio que se rompe a cambio de un multiplicador. Entre rondas, la Juguetería vende [b]comodines[/b]: 70 cartas que rompen las reglas, crecen con cada línea, copian a su vecino, te pagan por tener paciencia o duplican todo lo que hacen los demás. Cada colocación puntúa [b]Fichas × Multi[/b], y cada número aparece desglosado en un ticket, así que siempre sabes por qué una jugada valió 12 puntos o 12 millones.
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_how_latam.png"][/img]
+[img src="{STEAM_APP_IMAGE}/extras/loop_latam.png"][/img]
+[list]
+[*][b]Coloca[/b] una de tus tres piezas. Antes de soltarla, el tablero te muestra dónde cabe, qué líneas completa y exactamente cuánto va a puntuar.
+[*][b]Limpia[/b] filas y columnas para ganar Fichas y multiplícalas con el Multi de los combos, los materiales y los comodines.
+[*][b]Supera el objetivo[/b] antes de quedarte sin colocaciones, cobra tus Créditos y gástalos en la Juguetería.
+[*][b]Sobrevive 12 rondas[/b] repartidas en tres actos. Cada acto termina con un jefe que reescribe una regla.
+[/list]
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_features_latam.png"][/img]
+
+[h2]70 comodines, 4 de ellos legendarios[/h2]
+Comodines de Fichas, de Multi y de ×Multi, comodines de economía, comodines que crecen durante toda la partida y comodines que copian al de al lado. El orden importa. Los cuatro legendarios cambian la forma de jugar: [b]La Avalancha[/b] añade gravedad y oleadas en cadena, [b]Sala de los Espejos[/b] hace que cada comodín se active dos veces, [b]Piedra Filosofal[/b] convierte tu bolsa en metal y [b]Supernova[/b] hace que cada ronda vaya a más hasta el final.
+[img src="{STEAM_APP_IMAGE}/extras/jokers_latam.png"][/img]
+
+[h2]Un puzle que se entiende de un vistazo[/h2]
+Sin tiradas ocultas ni temporizadores. Coge una pieza y verás la puntuación antes de colocarla: las reglas deciden cada resultado y los efectos solo lo [i]muestran[/i]. Las líneas destellan, los bloques estallan con el estilo de su acabado, los comodines se disparan uno a uno con su propio sonido y la puntuación sube por el tubo.
+[img src="{STEAM_APP_IMAGE}/extras/shot_clear.jpg"][/img]
+
+[h2]Mejora tu bolsa, no solo tu mazo[/h2]
+La Juguetería vende comodines, objetos de un solo uso (un Ladrillo de Emergencia que se lanza, una Goma, una Segunda Bandeja) y mejoras del [b]Taller[/b] que modifican las propias piezas: repintar, girar, copiar, destruir, añadir materiales y sellos. Ahorra Créditos para cobrar intereses o arrasa un objetivo para ganar una bonificación.
+[img src="{STEAM_APP_IMAGE}/extras/shot_shop.jpg"][/img]
+
+[h2]Jefes con una entrada a la altura[/h2]
+Cada acto termina con un jefe que dobla una regla: bloques fijos, un impuesto sobre tu primera línea, huecos de la bandeja bloqueados, una lápida cada tres movimientos. Desde el acto 2 vuelven como [b]Mk II[/b], con una cinemática de aviso, un marco de cinta de peligro y su propia música.
+[video mp4="{STEAM_APP_IMAGE}/extras/clip_boss.mp4" webm="{STEAM_APP_IMAGE}/extras/clip_boss.webm" autoplay="true" controls="false"][/video]
+
+[h2]Elige la dificultad de la siguiente ronda[/h2]
+Antes de cada ronda normal, juégala tal cual o acepta un giro a cambio de una recompensa: [i]Doble o Nada[/i], [i]Fiebre del Oro[/i], [i]Hora Punta[/i], [i]Fiebre de Multi[/i], [i]Caza del Tesoro[/i] y más. Guarda una pieza en reserva con [b]Reservar[/b] y consulta las probabilidades de tu bolsa antes de decidir.
+[img src="{STEAM_APP_IMAGE}/extras/shot_round_pick.jpg"][/img]
+
+[h2]Bloques con personalidad[/h2]
+Catorce acabados animados: la luz recorre la vidriera, los tubos de neón parpadean, la lava palpita, caen estrellas. Cada uno tiene su propio brillo, partículas y sonidos.
+[img src="{STEAM_APP_IMAGE}/extras/finishes_latam.png"][/img]
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_modes_latam.png"][/img]
+[list]
+[*][b]Cinco kits[/b]: bolsas iniciales y reglas propias distintas (Estándar, Compacto, Gran Apostador, Robusto, Tetrominó), que se desbloquean jugando.
+[*][b]Calor 0–5[/b]: gana una partida para desbloquear el siguiente nivel. Objetivos más altos, menos colocaciones, intereses limitados y, desde Calor 4, todos los jefes en versión Mk II.
+[*][b]Partida diaria[/b]: una semilla al día, con las mismas piezas, tiendas y jefes para todo el mundo.
+[*][b]Prórroga[/b]: supera la ronda 12 y sigue jugando. Los objetivos se disparan, y la única salida es perder o conseguir mil billones de puntos en una sola colocación y [b]romper la máquina[/b].
+[*][b]Infinito[/b]: un modo arcade relajado con una escalera de combo hasta ×10, Reservar, 15 estilos de bloque, un top diez local y una gráfica de puntuación de cada partida.
+[*][b]60 logros[/b] en cinco páginas, diez de ellos secretos. Algunos desbloquean nuevos comodines.
+[*][b]POPS[/b], el viejo robot conserje del salón recreativo, enseña el juego a los recién llegados y luego se aparta.
+[/list]
+[img src="{STEAM_APP_IMAGE}/extras/badges_latam.png"][/img]
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_options_latam.png"][/img]
+[list]
+[*]Pensado para ratón, y se puede jugar entero con teclado en todas las pantallas.
+[*]Movimiento Reducido calma las animaciones y mantiene todos los números en pantalla.
+[*]Patrones en los bloques, para que el color nunca sea la única pista.
+[*]Intensidad ajustable de la vibración de pantalla, los destellos y los efectos de borde; filtro CRT opcional; velocidad de juego; cursor propio o del sistema.
+[*]Cada puntuación aparece desglosada, y cada regla de jefe, objetivo y carta se muestra antes de que importe.
+[*][b]Once idiomas[/b]: English, Español, Français, Italiano, Deutsch, Nederlands, Polski, Português (BR), 日本語, 简体中文 y 繁體中文. El juego usa el idioma que elijas para él en Steam, y puedes cambiarlo en las opciones cuando quieras.
+[/list]
+
+Cada píxel, sonido y nota de BLOCKMANIA se ha creado para este juego por un desarrollador en solitario: pixel art y la fuente Blockhead dibujados con código, y una banda sonora original sintetizada. El texto en japonés y chino usa la fuente libre Fusion Pixel.

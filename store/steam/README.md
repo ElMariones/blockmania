@@ -1,19 +1,21 @@
 # Steam store page kit
 
-Text and media for the BLOCKMANIA store page (app 5328810), in English, Spanish and Simplified Chinese.
-Everything here is rebuilt from the game itself:
+Text and media for the BLOCKMANIA store page (app 5328810), in the eleven languages the game ships (plus copies for
+Latin American Spanish and European Portuguese). Everything here is rebuilt from the game itself. The Steamworks
+language settings are in [LANGUAGES.md](LANGUAGES.md):
 
 ```bash
 python tools/store/capture.py       # real-game captures on a sandboxed profile -> build/store/ (needs Godot)
 python tools/store/build_store.py   # compose -> store/steam/images and store/steam/screenshots
+python tools/store/build_store.py text   # only the images with words, every language (no captures needed)
 ```
 
 ## Where each file goes in Steamworks
 
 | Steamworks field | File |
 |---|---|
-| Store page > Description > **About this game** (Acerca de este juego) | `description_english.txt`, `description_spanish.txt`, `description_schinese.txt` (Steam BBCode; pick the language in the dropdown on the right) |
-| Store page > Description > **Short description** (Descripción breve) | `short_english.txt` (238 characters), `short_spanish.txt` (252), `short_schinese.txt` (107); Steam allows 300 |
+| Store page > Description > **About this game** (Acerca de este juego) | `description_<lang>.txt` for each Steam language (Steam BBCode; pick the language in the dropdown on the right; the table in [LANGUAGES.md](LANGUAGES.md) step 3 lists them) |
+| Store page > Description > **Short description** (Descripción breve) | `short_<lang>.txt` (all under Steam's 300 characters) |
 | Store page > Description > **Custom images** (Cargar imágenes personalizadas) | every file in `images/` |
 | Graphical assets > **Screenshots** (5 or more) | `screenshots/*.jpg`, 1920×1080, numbered in the suggested order |
 
@@ -30,7 +32,8 @@ Code-authored key art: the block logo, the 8x8 board a beat before a gold T piec
 Legendary Joker portraits, POPS, the swirl and a soft CRT, drawn by the trailer engine (`tools/store/capsules.html`
 + `capsules.js`). Steam allows only game art, the game name and an official subtitle on base capsules, so the only
 localized element is the subtitle (the trailer's line). Upload each file in its Steamworks slot; the `_english`,
-`_spanish`, `_schinese` suffix assigns the language automatically.
+`_spanish`, `_schinese` suffix assigns the language automatically. The other languages show the English capsules (Steam's
+fallback); add `SUBTITLE` lines in `tools/store/capsules.js` to localize them too.
 
 | Steamworks slot | Size | Files | Localized text |
 |---|---|---|---|
@@ -64,8 +67,8 @@ store text, or remove it from `SUBTITLE` in `tools/store/capsules.js` if review 
 
 ## Uploading the description images
 
-1. Upload all of `images/` in the custom images box. Files ending in `_english`, `_spanish` and `_schinese` are
-   grouped by Steam, which matches the files to each language.
+1. Upload all of `images/` in the custom images box. Files ending in a Steam language (`_english`, `_french`,
+   `_japanese`, `_latam`...) are grouped by Steam, which matches the files to each language.
 2. Paste each description into its language. The image tags already point at
    `{STEAM_APP_IMAGE}/extras/<file name>`, which is where Steam stores the custom images. If the preview shows a broken image,
    delete that tag, place the cursor there and use the editor's **Insert image** button on the same file.
@@ -107,7 +110,7 @@ enlarged viewer when clicked.
 
 ## Things to check before submitting
 
-- **Language support.** A Spanish or Chinese store page is fine while the game is English only, but in Steamworks list only the languages the build actually supports (interface / audio / subtitles). Add Spanish and Chinese there once the game's localization (`locale/`) ships.
+- **Language support.** The build ships eleven interface languages (`locale/`); tick Interface for those in Steamworks, and no Full Audio or Subtitles ([LANGUAGES.md](LANGUAGES.md)).
 - **Claims match the build.** The text describes the current build: 70 Jokers (4 Legendary), 12 rounds in three acts, Mk II bosses, 5 Kits, Heat 0–5, Daily, Overtime, Endless (15 styles), 60 achievements (10 secret), POPS. Six of them are also Steam achievements (`achievements/README.md`): tick "Steam Achievements" only once a build with GodotSteam is uploaded; do not tick "Steam Cloud". Controller support is not claimed.
-- **Chinese pixel text.** The Chinese words in the images are drawn with Microsoft YaHei Bold (a Windows system font) at 16 px, without antialiasing. Microsoft generally allows fonts shipped with Windows in static images, but confirm that for commercial use, or swap in an open font (for example an OFL pixel CJK font) by changing `CJK` in `tools/store/build_store.py`.
+- **Japanese and Chinese pixel text.** The images draw it with the Fusion Pixel 10 px fonts (SIL OFL 1.1), the same ones the game ships for those languages, so no system-font license is involved. `build_store.py` reads the unpacked release from `build/fontsrc/` (see `tools/art/gen_cjk_fonts.py`).
 - **No links or social images** in the About section (Steam rule); the texts contain none.

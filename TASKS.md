@@ -186,7 +186,9 @@ Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/r
 - [x] E2E sandbox is per checkout (`user://e2e_sandbox_<hash>`): worktrees share `user://`, and a suite in another checkout was wiping this one's saves mid-run.
 - [x] Untranslated text found by the scenario: feat banners, item rack bodies (round and shop), the Legendary Joker pop.
 - [ ] Native-speaker review of all ten translations (machine-assisted; terms are consistent with the glossary but unreviewed by native players). **(owner)**
-- [ ] Localized Steam store text and capsules for the languages beyond English, Spanish and Chinese, if the store should list them.
+- [x] **Steam languages** (owner request, 2026-09-26): SYSTEM follows the language picked for the game in Steam (`ISteamApps::GetCurrentGameLanguage` through GodotSteam, Steam codes mapped in `BMLoc.STEAM_CODES`, isolated test `test_language_choice`); `-- --lang-report` build check wired into `tools/steam/build_steam.sh` (a Windows release export reported 10/10 translations and 3/3 CJK fonts); Steam achievements in every language from the game's texts; store descriptions, short descriptions and text images in all eleven languages (plus `latam`/`portuguese` copies), CJK store images now drawn with Fusion Pixel (no system-font license); Steamworks guide [store/steam/LANGUAGES.md](store/steam/LANGUAGES.md).
+- [ ] **(owner)** Steamworks: base languages, store Supported Languages (Interface only), store text and images per language, achievement localization, then test with the Properties > Language dropdown ([store/steam/LANGUAGES.md](store/steam/LANGUAGES.md)).
+- [ ] Optional: localized capsules and system requirements beyond English, Spanish and Simplified Chinese (Steam shows the English ones).
 - [ ] Fixed-size cards still shorten some longer translations with an ellipsis (full text in the tooltip); the scenario counts them (`shortened_with_tooltip`). Trim the translations further if playtests show players miss them.
 
 ## M2 — Content complete

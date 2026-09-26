@@ -1,0 +1,66 @@
+[img src="{STEAM_APP_IMAGE}/extras/banner_portuguese.jpg"][/img]
+
+[b]BLOCKMANIA[/b] começa como o quebra-cabeça de blocos que todo mundo conhece: três peças na bandeja, um tabuleiro 8×8, complete uma linha ou coluna e ela some. Depois, a coisa sai do controle.
+
+[video mp4="{STEAM_APP_IMAGE}/extras/clip_gameplay.mp4" webm="{STEAM_APP_IMAGE}/extras/clip_gameplay.webm" autoplay="true" controls="false"][/video]
+
+Cada peça sai da [b]sua própria sacola[/b], e você pode melhorá-la: o cromo paga Fichas, o neon soma Mult, o ouro imprime créditos, o vidro se estilhaça em troca de um multiplicador. Entre as rodadas, o Baú de brinquedos vende [b]curingas[/b]: 70 cartas que dobram as regras, crescem a cada linha limpa, copiam as vizinhas, recompensam a paciência ou dobram tudo o que as outras fazem. Cada jogada vale [b]Fichas × Mult[/b], e cada número aparece detalhado em um recibo, então você sempre sabe por que uma jogada valeu 12 pontos ou 12 milhões.
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_how_portuguese.png"][/img]
+[img src="{STEAM_APP_IMAGE}/extras/loop_portuguese.png"][/img]
+[list]
+[*][b]Posicione[/b] uma de três peças. Antes de confirmar, o tabuleiro mostra onde ela cabe, quais linhas completa e exatamente quanto vai pontuar.
+[*][b]Limpe[/b] linhas e colunas para ganhar Fichas e multiplique-as com o Mult de combos, materiais e curingas.
+[*][b]Bata a meta[/b] antes de ficar sem jogadas, receba seus créditos e gaste-os no Baú de brinquedos.
+[*][b]Sobreviva a 12 rodadas[/b] em três atos. Cada ato termina com um chefe que reescreve uma regra.
+[/list]
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_features_portuguese.png"][/img]
+
+[h2]70 curingas, 4 deles lendários[/h2]
+Cartas de Fichas, de Mult e de ×Mult, cartas de economia, cartas que crescem a partida inteira e cartas que copiam a vizinha. A ordem importa. Os quatro lendários mudam o jeito de jogar: [b]A Avalanche[/b] traz gravidade e ondas em cadeia, o [b]Salão dos Espelhos[/b] faz cada curinga ativar duas vezes, a [b]Pedra Filosofal[/b] transforma sua sacola em metal e [b]Supernova[/b] leva cada rodada a um grande final.
+[img src="{STEAM_APP_IMAGE}/extras/jokers_portuguese.png"][/img]
+
+[h2]Um quebra-cabeça que se lê num relance[/h2]
+Nada de sorteios escondidos nem de cronômetro. Pegue uma peça e veja a pontuação antes de posicioná-la: cada resultado é decidido pelas regras e só [i]mostrado[/i] pelos efeitos. As linhas piscam, os blocos estouram no estilo do seu acabamento, os curingas ativam um por um com som próprio e a pontuação sobe no tubo.
+[img src="{STEAM_APP_IMAGE}/extras/shot_clear.jpg"][/img]
+
+[h2]Monte sua sacola, não só seu baralho[/h2]
+O Baú de brinquedos vende curingas, itens de uso único (um Tijolo de emergência para arremessar, uma Borracha, uma Segunda Bandeja) e melhorias da [b]Oficina[/b] que alteram as próprias peças: repintar, girar, copiar, destruir, adicionar materiais e selos. Guarde seus créditos para render juros, ou passe muito da meta para ganhar um bônus.
+[img src="{STEAM_APP_IMAGE}/extras/shot_shop.jpg"][/img]
+
+[h2]Chefes que sabem entrar em cena[/h2]
+Cada ato termina com um chefe que distorce uma regra: blocos fixos, um imposto na primeira linha, espaços da bandeja trancados, uma lápide a cada três jogadas. A partir do ato 2, eles voltam como [b]Mk II[/b], com cena de alerta, moldura de fita zebrada e música própria.
+[video mp4="{STEAM_APP_IMAGE}/extras/clip_boss.mp4" webm="{STEAM_APP_IMAGE}/extras/clip_boss.webm" autoplay="true" controls="false"][/video]
+
+[h2]Escolha quão difícil será a próxima rodada[/h2]
+Antes de cada rodada normal, jogue do jeito padrão ou aceite uma reviravolta em troca de uma recompensa: [i]Dobro ou nada[/i], [i]Corrida do ouro[/i], [i]Hora do rush[/i], [i]Febre do Mult[/i], [i]Caça ao tesouro[/i] e mais. Guarde uma peça com a [b]Reserva[/b] e confira as chances da sua sacola antes de decidir.
+[img src="{STEAM_APP_IMAGE}/extras/shot_round_pick.jpg"][/img]
+
+[h2]Blocos com personalidade[/h2]
+Catorze acabamentos animados: a luz atravessa vitrais, tubos de neon piscam, a lava pulsa, estrelas caem. Cada um tem seu brilho, suas partículas e seus sons.
+[img src="{STEAM_APP_IMAGE}/extras/finishes_portuguese.png"][/img]
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_modes_portuguese.png"][/img]
+[list]
+[*][b]Cinco kits[/b]: sacolas iniciais e regras exclusivas diferentes (Padrão, Compacto, Apostador, Parrudo, Tetraminó), desbloqueados jogando.
+[*][b]Calor 0–5[/b]: vença uma partida para desbloquear o próximo nível. Metas maiores, menos jogadas, juros limitados, e a partir do Calor 4 todo chefe é Mk II.
+[*][b]Diária[/b]: uma semente por dia, com as mesmas peças, lojas e chefes para todo mundo.
+[*][b]Prorrogação[/b]: vença a rodada 12 e continue. As metas explodem, e a única saída é perder ou marcar um quatrilhão de pontos em uma única jogada e [b]quebrar a máquina[/b].
+[*][b]Infinito[/b]: um modo arcade tranquilo com escada de combo até ×10, Reserva, 15 estilos de bloco, um top 10 local e um gráfico de pontuação para cada partida.
+[*][b]60 conquistas[/b] em cinco páginas, dez delas secretas. Algumas desbloqueiam novos curingas.
+[*][b]POPS[/b], o velho robô zelador do fliperama, apresenta o jogo a quem chega e depois sai do caminho.
+[/list]
+[img src="{STEAM_APP_IMAGE}/extras/badges_portuguese.png"][/img]
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_options_portuguese.png"][/img]
+[list]
+[*]Feito para o mouse, totalmente jogável no teclado em todas as telas.
+[*]O movimento reduzido acalma as animações e mantém todos os números na tela.
+[*]Padrões de bloco, para que a cor nunca seja a única pista.
+[*]Intensidade ajustável de tremor de tela, clarões e efeitos de borda; filtro CRT opcional; velocidade de jogo; cursor do jogo ou do sistema.
+[*]Toda pontuação é detalhada, e toda regra de chefe, meta e carta é mostrada antes de importar.
+[*][b]Onze idiomas[/b]: English, Español, Français, Italiano, Deutsch, Nederlands, Polski, Português (BR), 日本語, 简体中文 e 繁體中文. O jogo segue o idioma que você escolher para ele na Steam, e dá para trocar nas opções a qualquer momento.
+[/list]
+
+Cada pixel, som e nota de BLOCKMANIA foi criado para este jogo por um desenvolvedor solo: pixel art e a fonte Blockhead desenhados em código, e uma trilha sonora original sintetizada. O texto em japonês e chinês usa a fonte livre Fusion Pixel.

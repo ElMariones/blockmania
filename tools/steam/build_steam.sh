@@ -27,7 +27,7 @@ for f in "$OUT/windows/BLOCKMANIA.exe" "$OUT/windows/steam_api64.dll" "$OUT/linu
   [ -s "$f" ] || { echo "missing in Steam build: $f" >&2; exit 1; }
 done
 # Every UI language must be in the depot: the exported game reports the translations and CJK fonts it
-# carries (docs/steam_languages.md). The Linux build runs headless here; on Windows, the .exe.
+# carries (store/steam/LANGUAGES.md). The Linux build runs headless here; on Windows, the .exe.
 case "$(uname -s)" in
   Linux) REPORT_BIN="$OUT/linux/BLOCKMANIA.x86_64" ;;
   MINGW*|MSYS*|CYGWIN*) REPORT_BIN="$OUT/windows/BLOCKMANIA.exe" ;;

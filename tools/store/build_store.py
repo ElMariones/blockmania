@@ -1,12 +1,15 @@
-"""Builds the Steam store description media in store/steam/ (English, Spanish, Simplified Chinese).
+"""Builds the Steam store description media in store/steam/, in every language the game ships.
 
-    python tools/store/capture.py       # real-game captures -> build/store/ (needs Godot)
-    python tools/store/build_store.py   # compose -> store/steam/
+    python tools/store/capture.py            # real-game captures -> build/store/ (needs Godot)
+    python tools/store/build_store.py        # compose -> store/steam/
+    python tools/store/build_store.py text   # only the images with words (all languages)
 
-Images with words come in one file per Steam language (suffix _english / _spanish / _schinese,
-so Steam groups them); screenshots and clips are shared. Latin text uses the game's Blockhead
-font; Chinese uses Microsoft YaHei Bold rendered at 16 px without antialiasing and scaled by
-whole numbers, so both read as the same chunky pixel type. Pillow + ffmpeg (libx264, libvpx-vp9).
+Images with words come in one file per Steam language (suffix _english, _french, _japanese...,
+so Steam assigns them); screenshots and clips are shared. Latin text uses the game's Blockhead
+font; Japanese and Chinese use the same Fusion Pixel 10 px fonts (OFL) the game falls back to,
+so every language reads as the same chunky pixel type. The Steam languages "latam" and
+"portuguese" get copies of the Spanish and Brazilian Portuguese images (the game's Spanish and
+Portuguese are what those players get). Pillow + ffmpeg (libx264, libvpx-vp9).
 """
 import glob, json, os, re, shutil, subprocess, sys
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
@@ -16,18 +19,32 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 sys.path.insert(0, os.path.join(ROOT, "tools/readme"))
 from build_media import BLOCKS, CREAM, DIM, INK, LILAC, MINT, PINK, PLUM_D, PLUM_DD, PLUM_L, SKY, SUN, SUN_D, block, plate  # noqa: E402
 
-RAW = os.path.join(ROOT, "build/store/raw")
-FRAMES = os.path.join(ROOT, "build/store/frames")
+def _build_dir(rel):
+    """build/<rel> here, or in the main checkout when this is a git worktree without captures."""
+    here = os.path.join(ROOT, "build", rel)
+    main = os.path.join(os.path.dirname(ROOT), "blockmania", "build", rel)
+    return here if os.path.isdir(here) or not os.path.isdir(main) else main
+
+
+RAW = os.path.join(_build_dir("store"), "raw")
+FRAMES = os.path.join(_build_dir("store"), "frames")
 OUT = os.path.join(ROOT, "store/steam")
 IMG = os.path.join(OUT, "images")
 SHOTS = os.path.join(OUT, "screenshots")
-LANGS = ("english", "spanish", "schinese")
+LANGS = ("english", "spanish", "french", "italian", "german", "dutch", "polish", "brazilian", "japanese",
+         "schinese", "tchinese")
+# Steam store languages that reuse another language's files: Latin American Spanish players get the
+# game's Spanish, Portuguese (Portugal) players the game's Brazilian Portuguese.
+COPIES = {"latam": "spanish", "portuguese": "brazilian"}
 W = 1600  # description images: wide enough to stay sharp in Steam's 780 px column on HiDPI
 FFMPEG = shutil.which("ffmpeg") or "C:/ffmpeg/bin/ffmpeg.exe"
 
 LATIN = os.path.join(ROOT, "assets/fonts/blockhead_bold.ttf")
 LATIN_REG = os.path.join(ROOT, "assets/fonts/blockhead.ttf")
-CJK = "C:/Windows/Fonts/msyhbd.ttc"
+# Full Fusion Pixel 10 px fonts (the game ships subsets of them): tools/art/gen_cjk_fonts.py explains
+# where the unpacked release goes.
+CJK = {lang: os.path.join(_build_dir("fontsrc"), "fusion-pixel-10px-proportional-%s.ttf" % f)
+       for lang, f in (("japanese", "ja"), ("schinese", "zh_hans"), ("tchinese", "zh_hant"))}
 
 # Every word drawn into an image, per language.
 T = {
@@ -69,16 +86,120 @@ T = {
         "loop": ["放置", "消除", "计分", "商店"],
         "loop_sub": ["三块拼图，8x8棋盘", "整行与整列", "筹码 x 倍率", "小丑牌与升级"],
     },
+    # The languages below take their finish and rarity names from the game's own translations
+    # (locale/*.po), shortened where a tile is too narrow, so the store says what the game says.
+    "french": {
+        "tags": ["ROGUELIKE", "PUZZLE DE BLOCS", "70 JOKERS", "COMBATS DE BOSS", "ARCADE PIXEL"],
+        "tagline": "POSEZ DES BLOCS. EFFACEZ DES LIGNES. CASSEZ LA MACHINE.",
+        "h_how": "COMMENT ON JOUE", "h_features": "POINTS FORTS", "h_modes": "D'AUTRES FAÇONS DE JOUER",
+        "h_options": "JOUEZ À VOTRE FAÇON",
+        "jokers": "70 JOKERS", "rarity": ["LÉGENDAIRES", "RARES", "PEU COMMUNS", "COMMUNS"],
+        "finishes": "FINITIONS DE BLOCS", "finishes_sub": "chaque face est un pixel art animé",
+        "fin": ["VITRAIL", "CRISTAL", "NÉON", "OR", "MARBRE", "CYBERPUNK", "BOIS JOUET", "BONBON", "LAVE",
+                "GLACE", "CHROME", "PRISME", "AURORE", "PLUIE D'ÉTOILES"],
+        "badges": "60 SUCCÈS", "badges_sub": "cinq pages de médailles, dont dix secrètes",
+        "loop": ["POSEZ", "EFFACEZ", "MARQUEZ", "ACHETEZ"],
+        "loop_sub": ["3 pièces, plateau 8x8", "lignes et colonnes", "Jetons x Mult", "Jokers et améliorations"],
+    },
+    "italian": {
+        "tags": ["ROGUELIKE", "PUZZLE A BLOCCHI", "70 JOLLY", "BOSS FINALI", "ARCADE PIXEL"],
+        "tagline": "PIAZZA BLOCCHI. ELIMINA LINEE. ROMPI LA MACCHINA.",
+        "h_how": "COME SI GIOCA", "h_features": "CARATTERISTICHE", "h_modes": "ALTRI MODI DI GIOCARE",
+        "h_options": "GIOCA A MODO TUO",
+        "jokers": "70 JOLLY", "rarity": ["LEGGENDARI", "RARI", "NON COMUNI", "COMUNI"],
+        "finishes": "FINITURE DEI BLOCCHI", "finishes_sub": "ogni faccia è pixel art animata",
+        "fin": ["VETRATA", "CRISTALLO", "NEON", "ORO", "MARMO", "CYBERPUNK", "LEGNO", "CARAMELLA",
+                "LAVA", "GHIACCIO", "CROMO", "PRISMA", "AURORA", "STELLE CADENTI"],
+        "badges": "60 OBIETTIVI", "badges_sub": "cinque pagine di medaglie, dieci delle quali segrete",
+        "loop": ["PIAZZA", "ELIMINA", "SEGNA", "COMPRA"],
+        "loop_sub": ["3 pezzi, tabellone 8x8", "righe e colonne", "Fiches x Mult", "jolly e potenziamenti"],
+    },
+    "german": {
+        "tags": ["ROGUELIKE", "BLOCK-PUZZLE", "70 JOKER", "BOSSKÄMPFE", "PIXEL-ARCADE"],
+        "tagline": "BLÖCKE LEGEN. LINIEN RÄUMEN. DIE MASCHINE SPRENGEN.",
+        "h_how": "SO WIRD GESPIELT", "h_features": "HIGHLIGHTS", "h_modes": "NOCH MEHR SPIELARTEN",
+        "h_options": "SPIEL, WIE DU WILLST",
+        "jokers": "70 JOKER", "rarity": ["LEGENDÄRE", "SELTENE", "UNGEWÖHNLICHE", "GEWÖHNLICHE"],
+        "finishes": "BLOCK-OBERFLÄCHEN", "finishes_sub": "jede Seite ist animierte Pixelkunst",
+        "fin": ["BUNTGLAS", "KRISTALL", "NEON", "GOLD", "MARMOR", "CYBERPUNK", "SPIELZEUGHOLZ", "BONBON", "LAVA",
+                "EIS", "CHROM", "PRISMA", "POLARLICHT", "STERNSCHNUPPEN"],
+        "badges": "60 ERFOLGE", "badges_sub": "fünf Seiten voller Medaillen, zehn davon geheim",
+        "loop": ["LEGEN", "RÄUMEN", "PUNKTEN", "KAUFEN"],
+        "loop_sub": ["3 Teile, 8x8-Brett", "Reihen und Spalten", "Chips x Mult", "Joker und Upgrades"],
+    },
+    "dutch": {
+        "tags": ["ROGUELIKE", "BLOKPUZZEL", "70 JOKERS", "BAASGEVECHTEN", "PIXELARCADE"],
+        "tagline": "LEG BLOKKEN. SPEEL LIJNEN WEG. BREEK DE MACHINE.",
+        "h_how": "ZO SPEEL JE", "h_features": "KENMERKEN", "h_modes": "MEER MANIEREN OM TE SPELEN",
+        "h_options": "SPEEL OP JOUW MANIER",
+        "jokers": "70 JOKERS", "rarity": ["LEGENDARISCH", "ZELDZAAM", "ONGEWOON", "GEWOON"],
+        "finishes": "BLOKAFWERKINGEN", "finishes_sub": "elke kant is geanimeerde pixelart",
+        "fin": ["GLAS-IN-LOOD", "KRISTAL", "NEON", "GOUD", "MARMER", "CYBERPUNK", "SPEELGOEDHOUT", "SNOEP", "LAVA",
+                "IJS", "CHROOM", "PRISMA", "NOORDERLICHT", "STERRENREGEN"],
+        "badges": "60 PRESTATIES", "badges_sub": "vijf pagina's medailles, waarvan tien geheim",
+        "loop": ["LEGGEN", "WEGSPELEN", "SCOREN", "KOPEN"],
+        "loop_sub": ["3 stukken, 8x8-bord", "rijen en kolommen", "chips x Mult", "jokers en upgrades"],
+    },
+    "polish": {
+        "tags": ["ROGUELIKE", "PUZZLE Z KLOCKÓW", "70 JOKERÓW", "WALKI Z BOSSAMI", "ARCADE PIXEL"],
+        "tagline": "UKŁADAJ KLOCKI. USUWAJ LINIE. ROZWAL MASZYNĘ.",
+        "h_how": "JAK SIĘ GRA", "h_features": "NAJWAŻNIEJSZE", "h_modes": "WIĘCEJ SPOSOBÓW GRY",
+        "h_options": "GRAJ PO SWOJEMU",
+        "jokers": "70 JOKERÓW", "rarity": ["LEGENDARNE", "RZADKIE", "NIEZWYKŁE", "ZWYKŁE"],
+        "finishes": "WYKOŃCZENIA KLOCKÓW", "finishes_sub": "każda ścianka to animowany pixel art",
+        "fin": ["WITRAŻ", "KRYSZTAŁ", "NEON", "ZŁOTO", "MARMUR", "CYBERPUNK", "DREWNO", "CUKIERKI",
+                "LAWA", "LÓD", "CHROM", "PRYZMAT", "ZORZA", "DESZCZ GWIAZD"],
+        "badges": "60 OSIĄGNIĘĆ", "badges_sub": "pięć stron medali, w tym dziesięć tajnych",
+        "loop": ["UŁÓŻ", "USUŃ", "PUNKTUJ", "KUP"],
+        "loop_sub": ["3 klocki, plansza 8x8", "wiersze i kolumny", "Żetony x Mult", "jokery i ulepszenia"],
+    },
+    "brazilian": {
+        "tags": ["ROGUELIKE", "PUZZLE DE BLOCOS", "70 CURINGAS", "CHEFÕES", "ARCADE PIXEL"],
+        "tagline": "POSICIONE BLOCOS. LIMPE LINHAS. QUEBRE A MÁQUINA.",
+        "h_how": "COMO SE JOGA", "h_features": "DESTAQUES", "h_modes": "MAIS JEITOS DE JOGAR",
+        "h_options": "JOGUE DO SEU JEITO",
+        "jokers": "70 CURINGAS", "rarity": ["LENDÁRIOS", "RAROS", "INCOMUNS", "COMUNS"],
+        "finishes": "ACABAMENTOS DE BLOCO", "finishes_sub": "cada face é pixel art animada",
+        "fin": ["VITRAL", "CRISTAL", "NEON", "OURO", "MÁRMORE", "CYBERPUNK", "MADEIRA", "BALA", "LAVA",
+                "GELO", "CROMO", "PRISMA", "AURORA", "ESTRELAS"],
+        "badges": "60 CONQUISTAS", "badges_sub": "cinco páginas de medalhas, dez delas secretas",
+        "loop": ["JOGUE", "LIMPE", "PONTUE", "COMPRE"],
+        "loop_sub": ["3 peças, tabuleiro 8x8", "linhas e colunas", "Fichas x Mult", "curingas e melhorias"],
+    },
+    "japanese": {
+        "tags": ["ローグライク", "ブロックパズル", "ジョーカー70枚", "ボス戦", "ドット絵アーケード"],
+        "tagline": "ブロックを置け。ラインを消せ。マシンをぶっ壊せ。",
+        "h_how": "遊び方", "h_features": "特徴", "h_modes": "ほかの遊び方", "h_options": "自分好みに",
+        "jokers": "ジョーカー70枚", "rarity": ["レジェンド", "レア", "アンコモン", "コモン"],
+        "finishes": "ブロックの仕上げ", "finishes_sub": "どの面も動くドット絵",
+        "fin": ["ステンドグラス", "クリスタル", "ネオン", "ゴールド", "大理石", "サイバーパンク", "木のおもちゃ",
+                "キャンディ", "溶岩", "氷", "クローム", "プリズム", "オーロラ", "流星群"],
+        "badges": "実績60個", "badges_sub": "メダルは全5ページ、うち10個はシークレット",
+        "loop": ["置く", "消す", "稼ぐ", "買う"],
+        "loop_sub": ["3つのピース、8x8の盤面", "行と列", "チップ x 倍率", "ジョーカーと強化"],
+    },
+    "tchinese": {
+        "tags": ["ROGUELIKE", "方塊拼圖", "70張小丑牌", "首領戰", "像素街機"],
+        "tagline": "放置方塊 · 消除整行 · 打爆機器",
+        "h_how": "玩法", "h_features": "遊戲特色", "h_modes": "更多玩法", "h_options": "隨心設定",
+        "jokers": "70張小丑牌", "rarity": ["傳說", "稀有", "罕見", "普通"],
+        "finishes": "方塊材質", "finishes_sub": "每一面都是動態像素畫",
+        "fin": ["彩繪玻璃", "水晶", "霓虹", "黃金", "大理石", "賽博龐克", "玩具木塊", "糖果", "熔岩",
+                "冰塊", "鉻", "稜鏡", "極光", "流星雨"],
+        "badges": "60項成就", "badges_sub": "五頁獎章，其中十個是隱藏成就",
+        "loop": ["放置", "消除", "計分", "商店"],
+        "loop_sub": ["三塊拼塊，8x8棋盤", "整行與整列", "籌碼 x 倍率", "小丑牌與升級"],
+    },
 }
 FIN_IDS = ["glass", "crystal", "neon", "gold", "marble", "cyberpunk", "wood", "candy", "lava", "ice", "chrome",
            "prism", "aurora", "starfall"]
 
 
 def glyphs(s, lang, px, bold=True):
-    """Text as a 1-bit mask at pixel size `px` (Blockhead: multiples of 10; CJK: 16 px glyphs scaled
-    to about the same cap height)."""
-    if lang == "schinese":
-        f, native, k = ImageFont.truetype(CJK, 16), 16, max(1, round(px / 16))
+    """Text as a 1-bit mask at pixel size `px` (multiples of 10: Blockhead and Fusion Pixel are both
+    10 px fonts, scaled by whole numbers)."""
+    if lang in CJK:
+        f, native, k = ImageFont.truetype(CJK[lang], 10), 10, max(1, px // 10)
     else:
         f, native, k = ImageFont.truetype(LATIN if bold else LATIN_REG, 10), 10, max(1, px // 10)
     probe = ImageDraw.Draw(Image.new("L", (1, 1)))
@@ -118,6 +239,22 @@ def text_w(s, lang, px):
     return glyphs(s, lang, px).width
 
 
+_CMAPS = {}
+
+
+def fit(s, lang, px, width, what, bold=True):
+    """Fails the build when a text is wider than its slot or has a character its font cannot draw:
+    every language must look as intended, not just English."""
+    from fontTools.ttLib import TTFont
+    path = CJK[lang] if lang in CJK else (LATIN if bold else LATIN_REG)
+    if path not in _CMAPS:
+        _CMAPS[path] = set(TTFont(path).getBestCmap())
+    missing = sorted({c for c in s if not c.isspace() and ord(c) not in _CMAPS[path]})
+    assert not missing, "%s (%s): no glyph for %s in %r" % (what, lang, "".join(missing), s)
+    w = text_w(s, lang, px)
+    assert w <= width, "%s (%s): %r is %d px, the slot is %d" % (what, lang, s, w, width)
+
+
 def save_png(im, name):
     im.save(os.path.join(IMG, name), optimize=True)
 
@@ -136,7 +273,11 @@ def banner(lang):
     y0 = logo.height
     d.rectangle([0, y0, W, y0 + 5], fill=INK)
     colors = [SUN, MINT, PINK, SKY, LILAC]
+    for t in tr["tags"]:
+        fit(t, lang, 30, W, "banner tag")
     widths = [text_w(t, lang, 30) + 44 for t in tr["tags"]]
+    assert sum(widths) + 14 * (len(widths) - 1) <= W - 40, "banner tags (%s) do not fit in one row" % lang
+    fit(tr["tagline"], lang, 40, W - 60, "tagline")
     x = (W - (sum(widths) + 14 * (len(widths) - 1))) // 2
     for t, w, c in zip(tr["tags"], widths, colors):
         d.rectangle([x, y0 + 26, x + w, y0 + 84], fill=INK)
@@ -153,6 +294,7 @@ def header(lang, slug, color=SUN, blocks=(0, 1, 2)):
     title = T[lang]["h_" + slug]
     im = Image.new("RGBA", (W, 130), (0, 0, 0, 0))
     d = ImageDraw.Draw(im)
+    fit(title, lang, 60, W - 2 * (60 + 3 * 44) - 40, "section header")
     tw = text_w(title, lang, 60)
     s = 36
     for i, b in enumerate(blocks):
@@ -179,6 +321,8 @@ def loop(lang):
         im.alpha_composite(plate(cw, 230, fill=PLUM_D, rim=colors[i]), (x, 10))
         draw_text(im, (x + cw // 2, 44), str(i + 1), "english", 30, INK)
         d.rectangle([x + cw // 2 - 20, 26, x + cw // 2 + 20, 62], outline=INK, width=4)
+        fit(tr["loop"][i], lang, 40, cw - 30, "loop step")
+        fit(tr["loop_sub"][i], lang, 20, cw - 24, "loop caption", bold=False)
         draw_text(im, (x + cw // 2, 110), tr["loop"][i], lang, 40, colors[i], outline=4)
         draw_text(im, (x + cw // 2, 168), tr["loop_sub"][i], lang, 20, CREAM, bold=False)
         if i < 3:
@@ -201,6 +345,9 @@ def jokers(lang):
     w = cols * tile + (cols - 1) * gap + 80
     h = rows * tile + (rows - 1) * gap + 200
     im = plate(w, h)
+    fit(tr["jokers"], lang, 60, w - 80, "Joker title")
+    for name in tr["rarity"]:
+        fit(name, lang, 20, w, "rarity")
     draw_text(im, (w // 2, 60), tr["jokers"], lang, 60, SUN, outline=5, shadow=4)
     counts = [sum(1 for t in defs if t[2] == r) for r in order]
     x = w // 2 - sum(text_w("%d %s" % (n, name), lang, 20) + 60 for n, name in zip(counts, tr["rarity"])) // 2
@@ -230,6 +377,10 @@ def finishes(lang):
     w = cols * tile + 80
     h = 150 + 2 * (tile + 20)
     im = plate(w, h)
+    fit(tr["finishes"], lang, 60, w - 80, "finishes title")
+    fit(tr["finishes_sub"], lang, 20, w - 80, "finishes caption", bold=False)
+    for name in tr["fin"]:
+        fit(name, lang, 20, tile - 10, "finish name")
     draw_text(im, (w // 2, 60), tr["finishes"], lang, 60, SUN, outline=5, shadow=4)
     draw_text(im, (w // 2, 118), tr["finishes_sub"], lang, 20, DIM, bold=False)
     for i, fid in enumerate(FIN_IDS):
@@ -254,6 +405,8 @@ def badges(lang):
     px, tile = 5, 96
     w = 12 * tile + 80
     im = plate(w, 2 * tile + 180)
+    fit(tr["badges"], lang, 60, w - 80, "badges title")
+    fit(tr["badges_sub"], lang, 20, w - 80, "badges caption", bold=False)
     draw_text(im, (w // 2, 60), tr["badges"], lang, 60, SUN, outline=5, shadow=4)
     draw_text(im, (w // 2, 116), tr["badges_sub"], lang, 20, DIM, bold=False)
     for i, aid in enumerate(ids):
@@ -324,10 +477,19 @@ if __name__ == "__main__":
         jokers(lang)
         finishes(lang)
         badges(lang)
-    for name in FEATURES:
-        framed(name)
-    steam_screenshots()
-    clip("clip_long", "clip_gameplay")
-    clip("clip_boss", "clip_boss", start=2)
+    for dst, src in COPIES.items():
+        for f in glob.glob(os.path.join(IMG, "*_%s.*" % src)):
+            shutil.copyfile(f, f.replace("_%s." % src, "_%s." % dst))
+        # The texts too, pointing at the copied images.
+        for kind in ("description", "short"):
+            text = open(os.path.join(OUT, "%s_%s.txt" % (kind, src)), encoding="utf-8").read()
+            with open(os.path.join(OUT, "%s_%s.txt" % (kind, dst)), "w", encoding="utf-8", newline="\n") as fh:
+                fh.write(text.replace("_%s." % src, "_%s." % dst))
+    if sys.argv[1:] != ["text"]:
+        for name in FEATURES:
+            framed(name)
+        steam_screenshots()
+        clip("clip_long", "clip_gameplay")
+        clip("clip_boss", "clip_boss", start=2)
     for f in sorted(os.listdir(IMG)):
         print("%-32s %5d KB" % (f, os.path.getsize(os.path.join(IMG, f)) // 1024))

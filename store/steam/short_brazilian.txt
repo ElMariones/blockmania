@@ -1,0 +1,1 @@
+Um roguelike de quebra-cabeça de blocos. Posicione peças num tabuleiro 8×8, limpe linhas e marque Fichas × Mult. Melhore sua própria sacola de blocos, colecione 70 curingas que dobram as regras e vença 12 rodadas de chefes, depois siga para a prorrogação e tente quebrar a máquina.

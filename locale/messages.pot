@@ -2628,11 +2628,11 @@ msgstr ""
 msgid "You're a natural! Every fourth round a boss shows up, so read its rule. Have fun!"
 msgstr ""
 
-#: game/main.gd:602
+#: game/main.gd:606
 msgid "SOUND OFF  (M)"
 msgstr ""
 
-#: game/main.gd:602
+#: game/main.gd:606
 msgid "SOUND ON  (M)"
 msgstr ""
 

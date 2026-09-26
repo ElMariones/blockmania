@@ -1,6 +1,6 @@
 # Localization
 
-BLOCKMANIA's interface ships in eleven languages: English (source), Spanish, French, Italian, German, Dutch, Polish, Brazilian Portuguese, Japanese, Simplified Chinese and Traditional Chinese. The player chooses one in **Settings > Game > Language**. **SYSTEM**, the default, follows the OS locale and falls back to English. Changing the language rebuilds the screens in place. A run, the shop or an Endless game in progress stays untouched.
+BLOCKMANIA's interface ships in eleven languages: English (source), Spanish, French, Italian, German, Dutch, Polish, Brazilian Portuguese, Japanese, Simplified Chinese and Traditional Chinese. The player chooses one in **Settings > Game > Language**. **SYSTEM**, the default, follows the language chosen for the game in Steam (`BMSteam.game_language()`), else the OS locale, else English (`BMLoc.resolve_with`). The Steamworks side (store languages, base languages, localized store text and achievements) is in [store/steam/LANGUAGES.md](../store/steam/LANGUAGES.md). Changing the language rebuilds the screens in place. A run, the shop or an Endless game in progress stays untouched.
 
 ## How text flows
 

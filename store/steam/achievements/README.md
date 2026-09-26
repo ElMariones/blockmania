@@ -19,7 +19,7 @@ order**: Steam names the localization tokens by creation order, and `achievement
 | 3 | `ACH_LEGEND_FOUND` | none | Once Upon a Legend | Own a Legendary Joker. | Client | No | `ACH_LEGEND_FOUND_unlocked.jpg` | `ACH_LEGEND_FOUND_locked.jpg` |
 | 4 | `ACH_ARCADE_REGULAR` | none | Arcade Regular | Score 25,000 points in one Endless game. | Client | No | `ACH_ARCADE_REGULAR_unlocked.jpg` | `ACH_ARCADE_REGULAR_locked.jpg` |
 | 5 | `ACH_BLOCKMANIA` | none | BLOCKMANIA! | Beat the game: win round 12. | Client | No | `ACH_BLOCKMANIA_unlocked.jpg` | `ACH_BLOCKMANIA_locked.jpg` |
-| 6 | `ACH_BROKE_THE_MACHINE` | none | Broke the Machine | Score a single placement past the machine's limit of one quadrillion points. | Client | **Yes** | `ACH_BROKE_THE_MACHINE_unlocked.jpg` | `ACH_BROKE_THE_MACHINE_locked.jpg` |
+| 6 | `ACH_BROKE_THE_MACHINE` | none | Broke the Machine | Score a single placement past the machine's limit (1,000,000,000,000,000 points). | Client | **Yes** | `ACH_BROKE_THE_MACHINE_unlocked.jpg` | `ACH_BROKE_THE_MACHINE_locked.jpg` |
 
 - **API name** is what the game sends. Never change it after the achievements are published.
 - **Progress stat**: leave it empty. These are one-shot unlocks, so no stats are needed.
@@ -29,21 +29,15 @@ order**: Steam names the localization tokens by creation order, and `achievement
 - In game, the local ids behind them are `crossroads`, `boss_buster`, `legend_found`, `arcade_regular`,
   `champion` and `broke_machine` (`game/content/achievements.gd`).
 
-## 2. Spanish and Simplified Chinese
+## 2. Every other language
 
-| API name | Español: nombre | Español: descripción | 简体中文：名称 | 简体中文：描述 |
-|---|---|---|---|---|
-| `ACH_CROSSROADS` | Encrucijada | Limpia una fila y una columna con una sola colocación. | 十字路口 | 单次放置同时消除一行和一列。 |
-| `ACH_BOSS_BUSTER` | Revientajefes | Derrota a un jefe. | 首领克星 | 击败一个首领。 |
-| `ACH_LEGEND_FOUND` | Érase una leyenda | Consigue un comodín legendario. | 传说的开端 | 拥有一张传说小丑牌。 |
-| `ACH_ARCADE_REGULAR` | Habitual del arcade | Consigue 25.000 puntos en una partida del modo Infinito. | 街机常客 | 在一局无尽模式中获得25,000分。 |
-| `ACH_BLOCKMANIA` | ¡BLOCKMANIA! | Pásate el juego: gana la ronda 12. | BLOCKMANIA! | 通关：赢下第12回合。 |
-| `ACH_BROKE_THE_MACHINE` | Máquina rota | Supera con una sola colocación el límite de la máquina: mil billones de puntos. | 机器被玩坏了 | 单次放置得分超过机器上限（1,000,000,000,000,000分）。 |
+The names and descriptions come from the game's own translations (`game/content/achievements.gd` and `locale/*.po`),
+so Steam and the game say the same thing. `texts.md` lists them per Steam language; `achievements_loc.vdf` holds them
+all: English, Spanish (also as `latam`), French, Italian, German, Dutch, Polish, Brazilian Portuguese (also as
+`portuguese`), Japanese, Simplified and Traditional Chinese. Enter them in either of two ways:
 
-These use the same names as the game's own translations. Enter them in either of two ways:
-
-- **By hand:** on the Achievements page, switch the language dropdown to Spanish, then Simplified Chinese, and fill
-  in each achievement's name and description.
+- **By hand:** on the Achievements page, switch the language dropdown to each language and fill in each
+  achievement's name and description from `texts.md`.
 - **By file:** in the **Achievement Localization** section, download Steam's current localization file first. If its token names
   match `achievements_loc.vdf` (`NEW_ACHIEVEMENT_1_0_NAME` ... `NEW_ACHIEVEMENT_1_5_DESC`, in the order above), upload
   `achievements_loc.vdf`. If Steam used different token names, copy the texts from this file into Steam's file and upload that.
@@ -79,6 +73,7 @@ Steamworks' **Reset** button or `Steam.clearAchievement("ACH_...")` to lock them
 | File | Use |
 |---|---|
 | `ACH_*_unlocked.jpg` / `ACH_*_locked.jpg` | the icons, 256×256 JPG |
-| `achievements_loc.vdf` | English, Spanish and Simplified Chinese names and descriptions (Steam localization format) |
+| `achievements_loc.vdf` | names and descriptions in every Steam language the game ships (Steam localization format) |
+| `texts.md` | the same texts as tables, one per language, for entering them by hand |
 | `achievements.json` | the same data, for tools |
 | `contact_sheet.png` | preview: unlocked row over locked row |

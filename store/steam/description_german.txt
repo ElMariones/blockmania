@@ -1,0 +1,66 @@
+[img src="{STEAM_APP_IMAGE}/extras/banner_german.jpg"][/img]
+
+[b]BLOCKMANIA[/b] beginnt als das Block-Puzzle, das alle kennen: drei Teile in der Auslage, ein 8×8-Brett, füll eine Reihe oder Spalte und sie verschwindet. Dann gerät alles außer Kontrolle.
+
+[video mp4="{STEAM_APP_IMAGE}/extras/clip_gameplay.mp4" webm="{STEAM_APP_IMAGE}/extras/clip_gameplay.webm" autoplay="true" controls="false"][/video]
+
+Jedes Teil stammt aus [b]deinem eigenen Beutel[/b], und du kannst es verbessern: Chrom bringt Chips, Neon gibt Mult, Gold druckt Credits, Glas zerspringt für einen Multiplikator. Zwischen den Runden verkauft die Spielzeugkiste [b]Joker[/b]: 70 Karten, die die Regeln verbiegen, mit jeder Linie wachsen, ihre Nachbarn kopieren, Geduld belohnen oder alles verdoppeln, was die anderen tun. Jeder Zug wird als [b]Chips × Mult[/b] gewertet, und jede Zahl steht aufgeschlüsselt auf einem Bon. So weißt du immer, warum ein Zug 12 Punkte oder 12 Millionen wert war.
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_how_german.png"][/img]
+[img src="{STEAM_APP_IMAGE}/extras/loop_german.png"][/img]
+[list]
+[*][b]Leg[/b] eines von drei Teilen. Bevor du es festlegst, zeigt das Brett, wo es passt, welche Linien es vervollständigt und genau, was es einbringt.
+[*][b]Räum[/b] Reihen und Spalten ab, um Chips zu bekommen, und multiplizier sie mit Mult aus Combos, Materialien und Jokern.
+[*][b]Knack das Ziel[/b], bevor dir die Züge ausgehen, kassier deine Credits und gib sie in der Spielzeugkiste aus.
+[*][b]Überleb 12 Runden[/b] in drei Akten. Jeder Akt endet mit einem Boss, der eine Regel umschreibt.
+[/list]
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_features_german.png"][/img]
+
+[h2]70 Joker, 4 davon legendär[/h2]
+Chips-, Mult- und ×Mult-Karten, Wirtschaftskarten, Karten, die die ganze Partie über wachsen, und Karten, die ihren Nachbarn kopieren. Die Reihenfolge zählt. Die vier legendären Joker verändern das Spiel: [b]Die Lawine[/b] bringt Schwerkraft und Kettenwellen, der [b]Spiegelsaal[/b] lässt jeden Joker doppelt auslösen, der [b]Stein der Weisen[/b] verwandelt deinen Beutel in Metall und [b]Supernova[/b] steigert jede Runde bis zum großen Finale.
+[img src="{STEAM_APP_IMAGE}/extras/jokers_german.png"][/img]
+
+[h2]Ein Puzzle, das du auf einen Blick liest[/h2]
+Keine versteckten Würfe, kein Zeitdruck. Nimm ein Teil und du siehst die Punkte, bevor du es legst: Jedes Ergebnis wird von den Regeln entschieden und von den Effekten nur [i]gezeigt[/i]. Linien blitzen auf, Blöcke zerplatzen im Stil ihrer Oberfläche, Joker lösen nacheinander mit eigenem Klang aus, und die Punkte steigen in der Röhre.
+[img src="{STEAM_APP_IMAGE}/extras/shot_clear.jpg"][/img]
+
+[h2]Bau deinen Beutel, nicht nur dein Deck[/h2]
+Die Spielzeugkiste verkauft Joker, Einweg-Gegenstände (einen Notfallziegel zum Werfen, einen Radiergummi, eine Zweite Auslage) und [b]Werkstatt[/b]-Upgrades, die die Teile selbst verändern: umlackieren, drehen, kopieren, schreddern, Materialien und Stempel hinzufügen. Spar deine Credits für Zinsen oder übertriff ein Ziel deutlich für einen Bonus.
+[img src="{STEAM_APP_IMAGE}/extras/shot_shop.jpg"][/img]
+
+[h2]Bosse mit großem Auftritt[/h2]
+Jeder Akt endet mit einem Boss, der eine Regel verbiegt: feste Blöcke, eine Steuer auf deine erste Linie, gesperrte Plätze in der Auslage, ein Grabstein bei jedem dritten Zug. Ab Akt 2 kehren sie als [b]Mk II[/b] zurück, mit Warn-Zwischensequenz, Absperrband-Rahmen und eigener Musik.
+[video mp4="{STEAM_APP_IMAGE}/extras/clip_boss.mp4" webm="{STEAM_APP_IMAGE}/extras/clip_boss.webm" autoplay="true" controls="false"][/video]
+
+[h2]Du bestimmst, wie schwer die nächste Runde wird[/h2]
+Vor jeder normalen Runde spielst du sie ganz normal oder nimmst eine Wendung für eine Belohnung: [i]Doppelt oder nichts[/i], [i]Goldrausch[/i], [i]Stoßzeit[/i], [i]Mult-Fieber[/i], [i]Schatzsuche[/i] und mehr. Heb dir mit [b]Halten[/b] ein Teil auf, und prüf die Chancen deines Beutels, bevor du dich festlegst.
+[img src="{STEAM_APP_IMAGE}/extras/shot_round_pick.jpg"][/img]
+
+[h2]Blöcke mit Charakter[/h2]
+Vierzehn animierte Oberflächen: Licht wandert durch Buntglas, Neonröhren flackern, Lava pulsiert, Sterne fallen. Jede hat ihr eigenes Leuchten, eigene Partikel und eigene Klänge.
+[img src="{STEAM_APP_IMAGE}/extras/finishes_german.png"][/img]
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_modes_german.png"][/img]
+[list]
+[*][b]Fünf Kits[/b]: verschiedene Startbeutel und eigene Regeln (Standard, Kompakt, Highroller, Klotz, Tetromino), die du durch Spielen freischaltest.
+[*][b]Hitze 0–5[/b]: Gewinn eine Partie, um die nächste Stufe freizuschalten. Höhere Ziele, weniger Züge, gedeckelte Zinsen, und ab Hitze 4 ist jeder Boss Mk II.
+[*][b]Tagesspiel[/b]: ein Seed pro Tag, mit denselben Teilen, Läden und Bossen für alle.
+[*][b]Verlängerung[/b]: Schlag Runde 12 und spiel weiter. Die Ziele explodieren, und der einzige Ausweg ist zu verlieren oder mit einem einzigen Zug eine Billiarde Punkte zu machen und [b]die Maschine zu sprengen[/b].
+[*][b]Endlos[/b]: ein entspannter Arcade-Modus mit einer Combo-Leiter bis ×10, Halten, 15 Blockstilen, einer lokalen Top Ten und einem Punkteverlauf für jede Partie.
+[*][b]60 Erfolge[/b] auf fünf Seiten, zehn davon geheim. Manche schalten neue Joker frei.
+[*][b]POPS[/b], der alte Hausmeister-Roboter der Spielhalle, führt Neulinge herum und hält sich dann zurück.
+[/list]
+[img src="{STEAM_APP_IMAGE}/extras/badges_german.png"][/img]
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_options_german.png"][/img]
+[list]
+[*]Für die Maus gemacht, auf jedem Bildschirm vollständig mit der Tastatur spielbar.
+[*]Reduzierte Bewegung beruhigt die Animationen und lässt jede Zahl auf dem Bildschirm.
+[*]Blockmuster, damit Farbe nie die einzige Information ist.
+[*]Einstellbare Stärke für Bildschirmwackeln, Blitze und Randeffekte; optionaler CRT-Filter; Spieltempo; eigener oder System-Mauszeiger.
+[*]Jede Punktzahl wird aufgeschlüsselt, und jede Bossregel, jedes Ziel und jede Karte wird gezeigt, bevor es darauf ankommt.
+[*][b]Elf Sprachen[/b]: English, Español, Français, Italiano, Deutsch, Nederlands, Polski, Português (BR), 日本語, 简体中文 und 繁體中文. Das Spiel übernimmt die Sprache, die du in Steam dafür wählst, und du kannst sie jederzeit in den Optionen ändern.
+[/list]
+
+Jedes Pixel, jeder Klang und jede Note in BLOCKMANIA wurde von einem Solo-Entwickler für dieses Spiel gemacht: Pixel-Art und die Schrift Blockhead, in Code gezeichnet, und ein eigener synthetisierter Soundtrack. Japanischer und chinesischer Text verwendet die freie Schrift Fusion Pixel.

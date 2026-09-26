@@ -1,0 +1,66 @@
+[img src="{STEAM_APP_IMAGE}/extras/banner_french.jpg"][/img]
+
+[b]BLOCKMANIA[/b] commence comme le puzzle de blocs que tout le monde connaît : trois pièces sur votre chevalet, un plateau de 8×8, remplissez une ligne ou une colonne et elle s'efface. Puis tout s'emballe.
+
+[video mp4="{STEAM_APP_IMAGE}/extras/clip_gameplay.mp4" webm="{STEAM_APP_IMAGE}/extras/clip_gameplay.webm" autoplay="true" controls="false"][/video]
+
+Chaque pièce sort de [b]votre propre sac[/b], et vous pouvez l'améliorer : le chrome rapporte des Jetons, le néon ajoute du Mult, l'or imprime des crédits, le verre se brise en échange d'un multiplicateur. Entre les manches, le Coffre à jouets vend des [b]Jokers[/b] : 70 cartes qui tordent les règles, grandissent à chaque ligne effacée, copient leurs voisines, récompensent la patience ou doublent tout ce que font les autres. Chaque pose se compte en [b]Jetons × Mult[/b], et chaque nombre est détaillé sur un ticket : vous savez toujours pourquoi un coup valait 12 points ou 12 millions.
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_how_french.png"][/img]
+[img src="{STEAM_APP_IMAGE}/extras/loop_french.png"][/img]
+[list]
+[*][b]Posez[/b] l'une de vos trois pièces. Avant de valider, le plateau montre où elle tient, quelles lignes elle complète et exactement ce qu'elle va rapporter.
+[*][b]Effacez[/b] des lignes et des colonnes pour gagner des Jetons, puis multipliez-les avec le Mult des combos, des matériaux et des Jokers.
+[*][b]Atteignez l'objectif[/b] avant d'être à court de poses, encaissez vos crédits et dépensez-les au Coffre à jouets.
+[*][b]Survivez à 12 manches[/b] réparties en trois actes. Chaque acte se termine par un boss qui réécrit une règle.
+[/list]
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_features_french.png"][/img]
+
+[h2]70 Jokers, dont 4 légendaires[/h2]
+Cartes de Jetons, de Mult et de ×Mult, cartes d'économie, cartes qui grandissent pendant toute la partie et cartes qui copient leur voisine. L'ordre compte. Les quatre légendaires changent la façon de jouer : [b]L'Avalanche[/b] ajoute la gravité et des vagues en chaîne, la [b]Galerie des glaces[/b] fait déclencher chaque Joker deux fois, la [b]Pierre philosophale[/b] change votre sac en métal et [b]Supernova[/b] fait monter chaque manche jusqu'au bouquet final.
+[img src="{STEAM_APP_IMAGE}/extras/jokers_french.png"][/img]
+
+[h2]Un puzzle qui se lit d'un coup d'œil[/h2]
+Pas de tirages cachés, pas de chronomètre. Prenez une pièce et vous voyez le score avant de la poser : chaque résultat est décidé par les règles et seulement [i]montré[/i] par les effets. Les lignes clignotent, les blocs éclatent dans le style de leur finition, les Jokers se déclenchent un par un avec leur propre son et le score grimpe dans le tube.
+[img src="{STEAM_APP_IMAGE}/extras/shot_clear.jpg"][/img]
+
+[h2]Construisez votre sac, pas seulement votre deck[/h2]
+Le Coffre à jouets vend des Jokers, des objets à usage unique (une Brique de secours à lancer, une Gomme, un Second chevalet) et des améliorations d'[b]Atelier[/b] qui modifient les pièces elles-mêmes : repeindre, faire pivoter, copier, déchiqueter, ajouter des matériaux et des tampons. Économisez vos crédits pour toucher des intérêts, ou pulvérisez un objectif pour un bonus.
+[img src="{STEAM_APP_IMAGE}/extras/shot_shop.jpg"][/img]
+
+[h2]Des boss qui soignent leur entrée[/h2]
+Chaque acte se termine par un boss qui tord une règle : des blocs fixes, une taxe sur votre première ligne, des emplacements verrouillés, une pierre tombale tous les trois coups. À partir de l'acte 2, ils reviennent en [b]Mk II[/b], avec une cinématique d'alerte, un cadre de ruban de chantier et leur propre musique.
+[video mp4="{STEAM_APP_IMAGE}/extras/clip_boss.mp4" webm="{STEAM_APP_IMAGE}/extras/clip_boss.webm" autoplay="true" controls="false"][/video]
+
+[h2]Choisissez la difficulté de la prochaine manche[/h2]
+Avant chaque manche normale, jouez-la telle quelle ou prenez une variante contre une récompense : [i]Quitte ou double[/i], [i]Ruée vers l'or[/i], [i]Heure de pointe[/i], [i]Fièvre du Mult[/i], [i]Chasse au trésor[/i] et plus encore. Gardez une pièce de côté avec la [b]Réserve[/b], et consultez les probabilités de votre sac avant de vous engager.
+[img src="{STEAM_APP_IMAGE}/extras/shot_round_pick.jpg"][/img]
+
+[h2]Des blocs qui ont du caractère[/h2]
+Quatorze finitions animées : la lumière traverse les vitraux, les tubes de néon grésillent, la lave palpite, les étoiles tombent. Chacune a sa lueur, ses particules et ses sons.
+[img src="{STEAM_APP_IMAGE}/extras/finishes_french.png"][/img]
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_modes_french.png"][/img]
+[list]
+[*][b]Cinq kits[/b] : des sacs de départ et des règles signature différents (Standard, Compact, Flambeur, Costaud, Tétromino), débloqués en jouant.
+[*][b]Chaleur 0–5[/b] : gagnez une partie pour débloquer le palier suivant. Objectifs plus hauts, moins de poses, intérêts plafonnés, et à la Chaleur 4, tous les boss sont en Mk II.
+[*][b]Défi du jour[/b] : une graine par jour, avec les mêmes pièces, boutiques et boss pour tout le monde.
+[*][b]Prolongations[/b] : battez la manche 12 et continuez. Les objectifs explosent, et la seule sortie est la défaite, ou marquer un billiard de points en une seule pose et [b]casser la machine[/b].
+[*][b]Infini[/b] : un mode arcade détendu avec une échelle de combo jusqu'à ×10, la Réserve, 15 styles de blocs, un top dix local et un graphique de score pour chaque partie.
+[*][b]60 succès[/b] sur cinq pages, dont dix secrets. Certains débloquent de nouveaux Jokers.
+[*][b]POPS[/b], le vieux robot gardien de la salle d'arcade, fait visiter les lieux aux nouveaux venus, puis s'efface.
+[/list]
+[img src="{STEAM_APP_IMAGE}/extras/badges_french.png"][/img]
+
+[img src="{STEAM_APP_IMAGE}/extras/hdr_options_french.png"][/img]
+[list]
+[*]Pensé pour la souris, entièrement jouable au clavier sur tous les écrans.
+[*]Le mouvement réduit calme les animations et garde chaque nombre à l'écran.
+[*]Motifs des blocs, pour que la couleur ne soit jamais le seul indice.
+[*]Intensité réglable des secousses d'écran, des flashs et des effets de bord ; filtre CRT optionnel ; vitesse de jeu ; curseur du jeu ou du système.
+[*]Chaque score est détaillé, et chaque règle de boss, objectif et carte est affiché avant d'avoir de l'importance.
+[*][b]Onze langues[/b] : English, Español, Français, Italiano, Deutsch, Nederlands, Polski, Português (BR), 日本語, 简体中文 et 繁體中文. Le jeu suit la langue que vous lui choisissez dans Steam, et vous pouvez en changer à tout moment dans les options.
+[/list]
+
+Chaque pixel, chaque son et chaque note de BLOCKMANIA ont été créés pour ce jeu par un développeur solo : pixel art et police Blockhead dessinés en code, et une bande-son originale synthétisée. Le texte japonais et chinois utilise la police libre Fusion Pixel.

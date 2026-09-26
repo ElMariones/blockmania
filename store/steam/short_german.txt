@@ -1,0 +1,1 @@
+Ein Block-Puzzle-Roguelike. Leg Teile auf ein 8×8-Brett, räum Linien ab und punkte mit Chips × Mult. Verbessere deinen eigenen Beutel voller Blöcke, sammle 70 regelbrechende Joker und besiege 12 Runden voller Bosse, dann geh in die Verlängerung und versuch, die Maschine zu sprengen.

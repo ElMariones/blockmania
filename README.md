@@ -106,7 +106,7 @@ Twelve rounds, three acts, and a boss at the end of each act that rewrites one r
 - **Overtime.** Keep playing after the final boss, with milestone moments at one million, one billion and one trillion points in a single placement.
 - **Endless.** A relaxed arcade mode with a ×10 combo ladder, Hold, 15 block styles, a local top ten and a score graph for every game.
 - **60 achievements** on five pages, ten of them secret. Some unlock new Jokers.
-- **Eleven languages.** English, Español, Français, Italiano, Deutsch, Nederlands, Polski, Português (BR), 日本語, 简体中文 and 繁體中文, switchable any time from the options.
+- **Eleven languages.** English, Español, Français, Italiano, Deutsch, Nederlands, Polski, Português (BR), 日本語, 简体中文 and 繁體中文. The game follows your Steam language and switches any time from the options.
 - **POPS**, the arcade's old caretaker bot, shows first-time players around: he pops up in the corners, points at things and chatters in toy gibberish. Skip him any time.
 
 <p align="center"><img src="docs/media/badges.png" alt="Pixel icons of 24 achievements" width="80%"></p>

@@ -31,6 +31,11 @@ If Steam gives different ids, set them as GitHub repository **variables** (Setti
 **Variables**: `DEPOT_WINDOWS`, `DEPOT_MACOS`, `DEPOT_LINUX`), or pass them locally: `DEPOT_MACOS=... tools/steam/upload_steam.sh`.
 Click **Save**, then **Publish** (A4): an unpublished depot makes the upload fail with "Access Denied".
 
+On the same page, set the **base languages** to the eleven the game ships (English, French, Italian, German,
+Spanish - Spain, Dutch, Polish, Portuguese - Brazil, Japanese, Simplified Chinese, Traditional Chinese). That list
+fills the Language dropdown in the game's Properties in the Steam client, and the game follows it. Details and the
+optional Latin American / European Portuguese entries: [LANGUAGES.md](LANGUAGES.md) step 1.
+
 ### A2. Launch options ✋ (App Admin > Installation > General Installation)
 
 - **Install folder**: `BLOCKMANIA`
@@ -154,18 +159,21 @@ Before release, the default branch is only available to your team and to people 
    Afterwards, reset your test unlocks in Steamworks (Stats & Achievements > the achievement > reset for a user), or run in the dev build
    `Steam.clearAchievement("ACH_CROSSROADS")`.
 4. Controller: Valve checks what the store page claims. The page must **not** claim controller support.
+5. Languages: in the game's Properties > General > **Language**, pick Japanese and start the game (it opens in
+   Japanese), then one Latin language. Full checklist: [LANGUAGES.md](LANGUAGES.md) step 5.
 
 ---
 
 ## Part D. Store page ✋ (Store page admin)
 
-1. **Description**: `store/steam/README.md` (About, short description, custom images and clips, three languages).
+1. **Description**: `store/steam/README.md` (About, short description, custom images and clips) and
+   [LANGUAGES.md](LANGUAGES.md) step 3: text and images for all eleven languages.
 2. **Graphical assets**: the capsules and background in `store/steam/capsules/`, the library assets in `store/steam/library/`, screenshots in `store/steam/screenshots/`.
 3. **Trailer**: upload `tools/trailer/build/BLOCKMANIA_trailer.mp4`.
 4. **System requirements**: `store/steam/system_requirements.md`, one tab per OS, for English, Spanish and
    Simplified Chinese.
-5. **Supported languages**: **English only** (interface), until the game ships its Spanish/Chinese localization.
-   The Spanish and Chinese store text is fine anyway.
+5. **Supported languages**: **Interface** for the eleven languages, no Full Audio, no Subtitles (the game has no
+   spoken dialogue). See [LANGUAGES.md](LANGUAGES.md) step 2.
 6. **Supported features**: Single-player, **Steam Achievements**, **Steam Cloud** (once A3b is published). Leave
    controller support, Remote Play and Trading Cards unticked (none is implemented).
    **Controller support description** (checklist item): answer that the game has **no controller support**. Every

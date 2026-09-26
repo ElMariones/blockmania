@@ -1,0 +1,1 @@
+Un roguelike de puzzle de blocs. Posez des pièces sur un plateau de 8×8, effacez des lignes et marquez des Jetons × Mult. Améliorez votre propre sac de blocs, collectionnez 70 Jokers qui tordent les règles et battez 12 manches de boss, puis foncez dans les prolongations pour casser la machine.
