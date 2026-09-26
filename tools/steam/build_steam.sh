@@ -26,4 +26,21 @@ for f in "$OUT/windows/BLOCKMANIA.exe" "$OUT/windows/steam_api64.dll" "$OUT/linu
          "$OUT/linux/libsteam_api.so" "$OUT/macos/BLOCKMANIA.app/Contents/Info.plist"; do
   [ -s "$f" ] || { echo "missing in Steam build: $f" >&2; exit 1; }
 done
+# Every UI language must be in the depot: the exported game reports the translations and CJK fonts it
+# carries (docs/steam_languages.md). The Linux build runs headless here; on Windows, the .exe.
+case "$(uname -s)" in
+  Linux) REPORT_BIN="$OUT/linux/BLOCKMANIA.x86_64" ;;
+  MINGW*|MSYS*|CYGWIN*) REPORT_BIN="$OUT/windows/BLOCKMANIA.exe" ;;
+  *) REPORT_BIN="" ;;
+esac
+if [ -n "$REPORT_BIN" ]; then
+  REPORT="$("$REPORT_BIN" --headless --audio-driver Dummy -- --lang-report --no-splash --no-steam 2>&1 | grep LANG_REPORT || true)"
+  echo "$REPORT"
+  case "$REPORT" in
+    *"missing=none cjk_fonts=3/3"*) ;;
+    *) echo "Steam build is missing a language or a CJK font: $REPORT" >&2; exit 1 ;;
+  esac
+else
+  echo "language check skipped on this OS (run it on Linux or Windows)" >&2
+fi
 du -sh "$OUT"/*

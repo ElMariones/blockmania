@@ -300,13 +300,16 @@ func _language_row() -> void:
 				main.set_language(v))
 		grid.add_child(b)
 		buttons.append(b)
+	# SYSTEM follows the language chosen for the game in Steam, or the computer's without Steam.
+	var system_tip := BMLoc.t("Follow the language chosen for BLOCKMANIA in Steam (%s).") if BMSteam.game_language() != "" \
+		else BMLoc.t("Follow the computer's language (%s).")
 	var sync := func() -> void:
 		for i in values.size():
 			var on: bool = String(main.settings.get("language", "auto")) == values[i]
 			BMStyle.button_boxes(buttons[i], "sun" if on else "plum")
 			var n := BMLoc.t("SYSTEM") if values[i] == "auto" else BMLoc.native_name(values[i])
 			buttons[i].text = ("* " + n) if on else n
-			buttons[i].tooltip_text = (BMLoc.t("Follow the computer's language (%s).") % BMLoc.native_name(BMLoc.resolve("auto"))) \
+			buttons[i].tooltip_text = (system_tip % BMLoc.native_name(BMLoc.resolve("auto"))) \
 				if values[i] == "auto" else BMLoc.native_name(values[i])
 	sync.call()
 	_refreshers.append(sync)

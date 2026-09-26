@@ -49,11 +49,32 @@ static func load_translations() -> void:
 				TranslationServer.add_translation(tr_res)
 
 
-## The language a setting value stands for ("auto" follows the OS).
+## Steam API language codes (ISteamApps::GetCurrentGameLanguage) -> our codes. Every language
+## the game ships is reachable from one, so the Steamworks language lists can name all of them
+## (docs/steam_languages.md). Steam codes we do not ship are absent.
+const STEAM_CODES := {
+	"english": "en", "spanish": "es", "latam": "es", "french": "fr", "italian": "it",
+	"german": "de", "dutch": "nl", "polish": "pl", "brazilian": "pt_BR", "portuguese": "pt_BR",
+	"japanese": "ja", "schinese": "zh_CN", "tchinese": "zh_TW",
+}
+
+
+## The language a setting value stands for. "auto" follows the language chosen for the game in
+## Steam (Properties > General > Language; Steam's own language when none was chosen), else
+## the OS language, else English.
 static func resolve(pref: String) -> String:
+	return resolve_with(pref, BMSteam.game_language(), OS.get_locale())
+
+
+## resolve() with its inputs spelled out (tests): an explicit in-game choice wins, then Steam's
+## game language when the game ships it, then the OS locale.
+static func resolve_with(pref: String, steam_language: String, os_locale: String) -> String:
 	if pref != "auto" and has_language(pref):
 		return pref
-	return from_os_locale(OS.get_locale())
+	var from_steam: String = STEAM_CODES.get(steam_language, "")
+	if from_steam != "":
+		return from_steam
+	return from_os_locale(os_locale)
 
 
 ## Best supported language for an OS locale such as "es_ES", "pt_BR", "zh_Hant_TW", "de".
@@ -91,6 +112,32 @@ static func apply(pref: String) -> void:
 	current = resolve(pref)
 	TranslationServer.set_locale(current)
 	BMStyle.apply_language(current)
+
+
+## One line for build checks (`-- --lang-report`): the language picked, Steam's game language, and
+## every shipped language whose translation loaded and translates a known message.
+static func report() -> String:
+	var ok: Array[String] = []
+	var missing: Array[String] = []
+	for entry in LANGUAGES:
+		var code: String = entry[0]
+		if code == "en":
+			continue
+		var tr_res := TranslationServer.get_translation_object(code)
+		if tr_res != null and tr_res.locale == code and String(tr_res.get_message("NEW RUN")) not in ["", "NEW RUN"]:
+			ok.append(code)
+		else:
+			missing.append(code)
+	# The Japanese and Chinese glyphs are separate fonts loaded by path: check they were exported.
+	var fonts := 0
+	for code in CJK:
+		var f := BMStyle.cjk_font(code)
+		if f != null and f.has_char(0x7684 if code != "ja" else 0x3042):
+			fonts += 1
+	var steam := BMSteam.game_language()
+	return "LANG_REPORT current=%s steam=%s loaded=%d/%d ok=%s missing=%s cjk_fonts=%d/%d" % [current,
+		steam if steam != "" else "none", ok.size(), LANGUAGES.size() - 1, ",".join(ok),
+		",".join(missing) if not missing.is_empty() else "none", fonts, CJK.size()]
 
 
 static func is_cjk(code: String = "") -> bool:

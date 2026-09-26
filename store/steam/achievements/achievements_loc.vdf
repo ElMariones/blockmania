@@ -15,7 +15,7 @@
 			"NEW_ACHIEVEMENT_1_4_NAME"	"BLOCKMANIA!"
 			"NEW_ACHIEVEMENT_1_4_DESC"	"Beat the game: win round 12."
 			"NEW_ACHIEVEMENT_1_5_NAME"	"Broke the Machine"
-			"NEW_ACHIEVEMENT_1_5_DESC"	"Score a single placement past the machine's limit of one quadrillion points."
+			"NEW_ACHIEVEMENT_1_5_DESC"	"Score a single placement past the machine's limit (1,000,000,000,000,000 points)."
 		}
 	}
 	"spanish"
@@ -23,17 +23,179 @@
 		"Tokens"
 		{
 			"NEW_ACHIEVEMENT_1_0_NAME"	"Encrucijada"
-			"NEW_ACHIEVEMENT_1_0_DESC"	"Limpia una fila y una columna con una sola colocación."
+			"NEW_ACHIEVEMENT_1_0_DESC"	"Limpia una fila y una columna con una colocación."
 			"NEW_ACHIEVEMENT_1_1_NAME"	"Revientajefes"
 			"NEW_ACHIEVEMENT_1_1_DESC"	"Derrota a un jefe."
 			"NEW_ACHIEVEMENT_1_2_NAME"	"Érase una leyenda"
-			"NEW_ACHIEVEMENT_1_2_DESC"	"Consigue un comodín legendario."
+			"NEW_ACHIEVEMENT_1_2_DESC"	"Ten un comodín legendario."
 			"NEW_ACHIEVEMENT_1_3_NAME"	"Habitual del arcade"
-			"NEW_ACHIEVEMENT_1_3_DESC"	"Consigue 25.000 puntos en una partida del modo Infinito."
+			"NEW_ACHIEVEMENT_1_3_DESC"	"Consigue 25 000 puntos en una partida del modo Infinito."
 			"NEW_ACHIEVEMENT_1_4_NAME"	"¡BLOCKMANIA!"
 			"NEW_ACHIEVEMENT_1_4_DESC"	"Pásate el juego: gana la ronda 12."
 			"NEW_ACHIEVEMENT_1_5_NAME"	"Máquina rota"
-			"NEW_ACHIEVEMENT_1_5_DESC"	"Supera con una sola colocación el límite de la máquina: mil billones de puntos."
+			"NEW_ACHIEVEMENT_1_5_DESC"	"Supera el límite de la máquina con una sola colocación (1 000 000 000 000 000 puntos)."
+		}
+	}
+	"latam"
+	{
+		"Tokens"
+		{
+			"NEW_ACHIEVEMENT_1_0_NAME"	"Encrucijada"
+			"NEW_ACHIEVEMENT_1_0_DESC"	"Limpia una fila y una columna con una colocación."
+			"NEW_ACHIEVEMENT_1_1_NAME"	"Revientajefes"
+			"NEW_ACHIEVEMENT_1_1_DESC"	"Derrota a un jefe."
+			"NEW_ACHIEVEMENT_1_2_NAME"	"Érase una leyenda"
+			"NEW_ACHIEVEMENT_1_2_DESC"	"Ten un comodín legendario."
+			"NEW_ACHIEVEMENT_1_3_NAME"	"Habitual del arcade"
+			"NEW_ACHIEVEMENT_1_3_DESC"	"Consigue 25 000 puntos en una partida del modo Infinito."
+			"NEW_ACHIEVEMENT_1_4_NAME"	"¡BLOCKMANIA!"
+			"NEW_ACHIEVEMENT_1_4_DESC"	"Pásate el juego: gana la ronda 12."
+			"NEW_ACHIEVEMENT_1_5_NAME"	"Máquina rota"
+			"NEW_ACHIEVEMENT_1_5_DESC"	"Supera el límite de la máquina con una sola colocación (1 000 000 000 000 000 puntos)."
+		}
+	}
+	"french"
+	{
+		"Tokens"
+		{
+			"NEW_ACHIEVEMENT_1_0_NAME"	"Carrefour"
+			"NEW_ACHIEVEMENT_1_0_DESC"	"Effacez une rangée et une colonne en une pose."
+			"NEW_ACHIEVEMENT_1_1_NAME"	"Chasseur de boss"
+			"NEW_ACHIEVEMENT_1_1_DESC"	"Battez un boss."
+			"NEW_ACHIEVEMENT_1_2_NAME"	"Il était une légende"
+			"NEW_ACHIEVEMENT_1_2_DESC"	"Possédez un Joker légendaire."
+			"NEW_ACHIEVEMENT_1_3_NAME"	"Habitué de l'arcade"
+			"NEW_ACHIEVEMENT_1_3_DESC"	"Marquez 25 000 points dans une partie Infinie."
+			"NEW_ACHIEVEMENT_1_4_NAME"	"BLOCKMANIA !"
+			"NEW_ACHIEVEMENT_1_4_DESC"	"Terminez le jeu : gagnez la manche 12."
+			"NEW_ACHIEVEMENT_1_5_NAME"	"Machine cassée"
+			"NEW_ACHIEVEMENT_1_5_DESC"	"Dépassez la limite de la machine en une seule pose (1 000 000 000 000 000 points)."
+		}
+	}
+	"italian"
+	{
+		"Tokens"
+		{
+			"NEW_ACHIEVEMENT_1_0_NAME"	"Crocevia"
+			"NEW_ACHIEVEMENT_1_0_DESC"	"Elimina una riga e una colonna con una mossa."
+			"NEW_ACHIEVEMENT_1_1_NAME"	"Spaccaboss"
+			"NEW_ACHIEVEMENT_1_1_DESC"	"Sconfiggi un boss."
+			"NEW_ACHIEVEMENT_1_2_NAME"	"C'era una volta una leggenda"
+			"NEW_ACHIEVEMENT_1_2_DESC"	"Possiedi un Jolly leggendario."
+			"NEW_ACHIEVEMENT_1_3_NAME"	"Habitué della sala giochi"
+			"NEW_ACHIEVEMENT_1_3_DESC"	"Fai 25 000 punti in una partita Infinita."
+			"NEW_ACHIEVEMENT_1_4_NAME"	"BLOCKMANIA!"
+			"NEW_ACHIEVEMENT_1_4_DESC"	"Finisci il gioco: vinci il round 12."
+			"NEW_ACHIEVEMENT_1_5_NAME"	"Macchina rotta"
+			"NEW_ACHIEVEMENT_1_5_DESC"	"Supera il limite della macchina con una sola mossa (1 000 000 000 000 000 punti)."
+		}
+	}
+	"german"
+	{
+		"Tokens"
+		{
+			"NEW_ACHIEVEMENT_1_0_NAME"	"Kreuzung"
+			"NEW_ACHIEVEMENT_1_0_DESC"	"Räume eine Zeile und eine Spalte mit einem Zug ab."
+			"NEW_ACHIEVEMENT_1_1_NAME"	"Bossbrecher"
+			"NEW_ACHIEVEMENT_1_1_DESC"	"Besiege einen Boss."
+			"NEW_ACHIEVEMENT_1_2_NAME"	"Es war einmal eine Legende"
+			"NEW_ACHIEVEMENT_1_2_DESC"	"Besitze einen legendären Joker."
+			"NEW_ACHIEVEMENT_1_3_NAME"	"Spielhallen-Stammgast"
+			"NEW_ACHIEVEMENT_1_3_DESC"	"Erziele 25 000 Punkte in einem Endlos-Spiel."
+			"NEW_ACHIEVEMENT_1_4_NAME"	"BLOCKMANIA!"
+			"NEW_ACHIEVEMENT_1_4_DESC"	"Schlag das Spiel: Gewinne Runde 12."
+			"NEW_ACHIEVEMENT_1_5_NAME"	"Maschine kaputt"
+			"NEW_ACHIEVEMENT_1_5_DESC"	"Übertriff mit einem einzigen Zug das Limit der Maschine (1 000 000 000 000 000 Punkte)."
+		}
+	}
+	"dutch"
+	{
+		"Tokens"
+		{
+			"NEW_ACHIEVEMENT_1_0_NAME"	"Kruispunt"
+			"NEW_ACHIEVEMENT_1_0_DESC"	"Speel een rij en een kolom weg met één zet."
+			"NEW_ACHIEVEMENT_1_1_NAME"	"Baasbreker"
+			"NEW_ACHIEVEMENT_1_1_DESC"	"Versla een baas."
+			"NEW_ACHIEVEMENT_1_2_NAME"	"Er was eens een legende"
+			"NEW_ACHIEVEMENT_1_2_DESC"	"Bezit een legendarische Joker."
+			"NEW_ACHIEVEMENT_1_3_NAME"	"Vaste gast in de speelhal"
+			"NEW_ACHIEVEMENT_1_3_DESC"	"Scoor 25 000 punten in één Eindeloos-potje."
+			"NEW_ACHIEVEMENT_1_4_NAME"	"BLOCKMANIA!"
+			"NEW_ACHIEVEMENT_1_4_DESC"	"Speel het spel uit: win ronde 12."
+			"NEW_ACHIEVEMENT_1_5_NAME"	"Machine stuk"
+			"NEW_ACHIEVEMENT_1_5_DESC"	"Ga met één enkele zet over de limiet van de machine (1 000 000 000 000 000 punten)."
+		}
+	}
+	"polish"
+	{
+		"Tokens"
+		{
+			"NEW_ACHIEVEMENT_1_0_NAME"	"Skrzyżowanie"
+			"NEW_ACHIEVEMENT_1_0_DESC"	"Usuń wiersz i kolumnę jednym ruchem."
+			"NEW_ACHIEVEMENT_1_1_NAME"	"Pogromca bossów"
+			"NEW_ACHIEVEMENT_1_1_DESC"	"Pokonaj bossa."
+			"NEW_ACHIEVEMENT_1_2_NAME"	"Dawno temu była legenda"
+			"NEW_ACHIEVEMENT_1_2_DESC"	"Miej legendarnego Jokera."
+			"NEW_ACHIEVEMENT_1_3_NAME"	"Bywalec salonu gier"
+			"NEW_ACHIEVEMENT_1_3_DESC"	"Zdobądź 25 000 punktów w jednej grze Bez końca."
+			"NEW_ACHIEVEMENT_1_4_NAME"	"BLOCKMANIA!"
+			"NEW_ACHIEVEMENT_1_4_DESC"	"Ukończ grę: wygraj rundę 12."
+			"NEW_ACHIEVEMENT_1_5_NAME"	"Zepsuta maszyna"
+			"NEW_ACHIEVEMENT_1_5_DESC"	"Przekrocz limit maszyny jednym ruchem (1 000 000 000 000 000 punktów)."
+		}
+	}
+	"brazilian"
+	{
+		"Tokens"
+		{
+			"NEW_ACHIEVEMENT_1_0_NAME"	"Encruzilhada"
+			"NEW_ACHIEVEMENT_1_0_DESC"	"Limpe uma fileira e uma coluna com uma jogada."
+			"NEW_ACHIEVEMENT_1_1_NAME"	"Caça-chefes"
+			"NEW_ACHIEVEMENT_1_1_DESC"	"Derrote um chefe."
+			"NEW_ACHIEVEMENT_1_2_NAME"	"Era uma vez uma lenda"
+			"NEW_ACHIEVEMENT_1_2_DESC"	"Tenha um Curinga lendário."
+			"NEW_ACHIEVEMENT_1_3_NAME"	"Frequentador do fliperama"
+			"NEW_ACHIEVEMENT_1_3_DESC"	"Faça 25 000 pontos em uma partida do Infinito."
+			"NEW_ACHIEVEMENT_1_4_NAME"	"BLOCKMANIA!"
+			"NEW_ACHIEVEMENT_1_4_DESC"	"Zere o jogo: vença a rodada 12."
+			"NEW_ACHIEVEMENT_1_5_NAME"	"Máquina quebrada"
+			"NEW_ACHIEVEMENT_1_5_DESC"	"Passe do limite da máquina com uma única jogada (1 000 000 000 000 000 pontos)."
+		}
+	}
+	"portuguese"
+	{
+		"Tokens"
+		{
+			"NEW_ACHIEVEMENT_1_0_NAME"	"Encruzilhada"
+			"NEW_ACHIEVEMENT_1_0_DESC"	"Limpe uma fileira e uma coluna com uma jogada."
+			"NEW_ACHIEVEMENT_1_1_NAME"	"Caça-chefes"
+			"NEW_ACHIEVEMENT_1_1_DESC"	"Derrote um chefe."
+			"NEW_ACHIEVEMENT_1_2_NAME"	"Era uma vez uma lenda"
+			"NEW_ACHIEVEMENT_1_2_DESC"	"Tenha um Curinga lendário."
+			"NEW_ACHIEVEMENT_1_3_NAME"	"Frequentador do fliperama"
+			"NEW_ACHIEVEMENT_1_3_DESC"	"Faça 25 000 pontos em uma partida do Infinito."
+			"NEW_ACHIEVEMENT_1_4_NAME"	"BLOCKMANIA!"
+			"NEW_ACHIEVEMENT_1_4_DESC"	"Zere o jogo: vença a rodada 12."
+			"NEW_ACHIEVEMENT_1_5_NAME"	"Máquina quebrada"
+			"NEW_ACHIEVEMENT_1_5_DESC"	"Passe do limite da máquina com uma única jogada (1 000 000 000 000 000 pontos)."
+		}
+	}
+	"japanese"
+	{
+		"Tokens"
+		{
+			"NEW_ACHIEVEMENT_1_0_NAME"	"十字路"
+			"NEW_ACHIEVEMENT_1_0_DESC"	"1回の配置で行と列を同時に消す。"
+			"NEW_ACHIEVEMENT_1_1_NAME"	"ボスバスター"
+			"NEW_ACHIEVEMENT_1_1_DESC"	"ボスを倒す。"
+			"NEW_ACHIEVEMENT_1_2_NAME"	"むかしむかし、伝説が"
+			"NEW_ACHIEVEMENT_1_2_DESC"	"レジェンドのジョーカーを持つ。"
+			"NEW_ACHIEVEMENT_1_3_NAME"	"ゲーセン常連"
+			"NEW_ACHIEVEMENT_1_3_DESC"	"エンドレス1回で25,000点を取る。"
+			"NEW_ACHIEVEMENT_1_4_NAME"	"BLOCKMANIA!"
+			"NEW_ACHIEVEMENT_1_4_DESC"	"ゲームをクリアする:ラウンド12に勝つ。"
+			"NEW_ACHIEVEMENT_1_5_NAME"	"マシン破壊"
+			"NEW_ACHIEVEMENT_1_5_DESC"	"1回の配置でマシンの限界(1,000,000,000,000,000点)を超える。"
 		}
 	}
 	"schinese"
@@ -49,9 +211,27 @@
 			"NEW_ACHIEVEMENT_1_3_NAME"	"街机常客"
 			"NEW_ACHIEVEMENT_1_3_DESC"	"在一局无尽模式中获得25,000分。"
 			"NEW_ACHIEVEMENT_1_4_NAME"	"BLOCKMANIA!"
-			"NEW_ACHIEVEMENT_1_4_DESC"	"通关：赢下第12回合。"
+			"NEW_ACHIEVEMENT_1_4_DESC"	"通关:赢下第12回合。"
 			"NEW_ACHIEVEMENT_1_5_NAME"	"机器被玩坏了"
-			"NEW_ACHIEVEMENT_1_5_DESC"	"单次放置得分超过机器上限（1,000,000,000,000,000分）。"
+			"NEW_ACHIEVEMENT_1_5_DESC"	"单次放置得分超过机器上限(1,000,000,000,000,000分)。"
+		}
+	}
+	"tchinese"
+	{
+		"Tokens"
+		{
+			"NEW_ACHIEVEMENT_1_0_NAME"	"十字路口"
+			"NEW_ACHIEVEMENT_1_0_DESC"	"單次放置同時消除一行和一列。"
+			"NEW_ACHIEVEMENT_1_1_NAME"	"首領剋星"
+			"NEW_ACHIEVEMENT_1_1_DESC"	"擊敗一個首領。"
+			"NEW_ACHIEVEMENT_1_2_NAME"	"傳說的開端"
+			"NEW_ACHIEVEMENT_1_2_DESC"	"擁有一張傳說小丑牌。"
+			"NEW_ACHIEVEMENT_1_3_NAME"	"街機常客"
+			"NEW_ACHIEVEMENT_1_3_DESC"	"在一局無盡模式中獲得25,000分。"
+			"NEW_ACHIEVEMENT_1_4_NAME"	"BLOCKMANIA!"
+			"NEW_ACHIEVEMENT_1_4_DESC"	"破關:贏下第12回合。"
+			"NEW_ACHIEVEMENT_1_5_NAME"	"機器被玩壞了"
+			"NEW_ACHIEVEMENT_1_5_DESC"	"單次放置得分超過機器上限(1,000,000,000,000,000分)。"
 		}
 	}
 }

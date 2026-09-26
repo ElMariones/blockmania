@@ -69,6 +69,15 @@ static func active() -> bool:
 	return _steam != null
 
 
+## The language the player chose for BLOCKMANIA in Steam (Properties > General > Language), or
+## Steam's own UI language when they never chose one, as a Steam API code ("latam",
+## "schinese"...). "" without Steam. BMLoc maps it to a UI language.
+static func game_language() -> String:
+	if _steam == null:
+		return ""
+	return String(_steam.call("getCurrentGameLanguage"))
+
+
 static func _allowed() -> bool:
 	if BMAchievementStore.path != BMAchievementStore.PATH:
 		return false

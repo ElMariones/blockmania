@@ -41,7 +41,13 @@ func _ready() -> void:
 	settings = BMSaveStore.load_settings()
 	# Every text is translated explicitly (BMLoc), never by matching a Label's text.
 	auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	# Steam first: the SYSTEM language setting follows the language chosen for the game in Steam.
+	BMSteam.start()
 	BMLoc.apply(language_pref())
+	if OS.get_cmdline_user_args().has("--lang-report"):
+		# Build check (tools/steam/build_steam.sh): which translations the exported game carries.
+		print(BMLoc.report())
+		get_tree().quit.call_deferred()
 	audio = BMAudio.new()
 	add_child(audio)
 	audio.apply_settings(settings)
@@ -86,7 +92,6 @@ func _ready() -> void:
 	add_child(_pause)
 	toasts = BMAchievementToasts.new()
 	add_child(toasts)
-	BMSteam.start()
 	crt = BMCrtLayer.new()
 	crt.mode = String(settings.get("crt", "soft"))
 	add_child(crt)

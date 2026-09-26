@@ -1,4 +1,4 @@
-"""Builds the Steam achievement kit in store/steam/achievements/ (English, Spanish, Simplified Chinese).
+"""Builds the Steam achievement kit in store/steam/achievements/, in every language the game ships.
 
     python tools/store/build_achievements.py
 
@@ -8,7 +8,7 @@ so a local unlock also unlocks on Steam (game/run/steam_bridge.gd). Icons are th
 unlocked and grayscale when locked, as Steam recommends. A hidden achievement's locked icon is the "?" medal,
 so it spoils nothing. Also writes the localization VDF and a contact sheet.
 """
-import json, math, os, sys
+import json, math, os, re, sys
 from PIL import Image, ImageDraw, ImageEnhance
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -23,32 +23,40 @@ SIZE, SCALE = 256, 10  # a 24 px medal at x10 = 240 px, 8 px margin
 # Order matters: Steamworks names localization tokens by creation order (NEW_ACHIEVEMENT_1_0, 1_1, ...).
 # `local` is the game's achievement id; `api` is the Steamworks API name (never rename once published).
 ACH = [
-    {"api": "ACH_CROSSROADS", "local": "crossroads", "tier": "bronze", "hidden": False,
-     "english": ("Crossroads", "Clear a row and a column with one placement."),
-     "spanish": ("Encrucijada", "Limpia una fila y una columna con una sola colocación."),
-     "schinese": ("十字路口", "单次放置同时消除一行和一列。")},
-    {"api": "ACH_BOSS_BUSTER", "local": "boss_buster", "tier": "bronze", "hidden": False,
-     "english": ("Boss Buster", "Defeat a boss."),
-     "spanish": ("Revientajefes", "Derrota a un jefe."),
-     "schinese": ("首领克星", "击败一个首领。")},
-    {"api": "ACH_LEGEND_FOUND", "local": "legend_found", "tier": "silver", "hidden": False,
-     "english": ("Once Upon a Legend", "Own a Legendary Joker."),
-     "spanish": ("Érase una leyenda", "Consigue un comodín legendario."),
-     "schinese": ("传说的开端", "拥有一张传说小丑牌。")},
-    {"api": "ACH_ARCADE_REGULAR", "local": "arcade_regular", "tier": "silver", "hidden": False,
-     "english": ("Arcade Regular", "Score 25,000 points in one Endless game."),
-     "spanish": ("Habitual del arcade", "Consigue 25.000 puntos en una partida del modo Infinito."),
-     "schinese": ("街机常客", "在一局无尽模式中获得25,000分。")},
-    {"api": "ACH_BLOCKMANIA", "local": "champion", "tier": "gold", "hidden": False,
-     "english": ("BLOCKMANIA!", "Beat the game: win round 12."),
-     "spanish": ("¡BLOCKMANIA!", "Pásate el juego: gana la ronda 12."),
-     "schinese": ("BLOCKMANIA!", "通关：赢下第12回合。")},
-    {"api": "ACH_BROKE_THE_MACHINE", "local": "broke_machine", "tier": "legend", "hidden": True,
-     "english": ("Broke the Machine", "Score a single placement past the machine's limit of one quadrillion points."),
-     "spanish": ("Máquina rota", "Supera con una sola colocación el límite de la máquina: mil billones de puntos."),
-     "schinese": ("机器被玩坏了", "单次放置得分超过机器上限（1,000,000,000,000,000分）。")},
+    {"api": "ACH_CROSSROADS", "local": "crossroads", "tier": "bronze", "hidden": False},
+    {"api": "ACH_BOSS_BUSTER", "local": "boss_buster", "tier": "bronze", "hidden": False},
+    {"api": "ACH_LEGEND_FOUND", "local": "legend_found", "tier": "silver", "hidden": False},
+    {"api": "ACH_ARCADE_REGULAR", "local": "arcade_regular", "tier": "silver", "hidden": False},
+    {"api": "ACH_BLOCKMANIA", "local": "champion", "tier": "gold", "hidden": False},
+    {"api": "ACH_BROKE_THE_MACHINE", "local": "broke_machine", "tier": "legend", "hidden": True},
 ]
-LANGS = ("english", "spanish", "schinese")
+# Steam API language -> the game's locale/<code>.po ("" = the English source). Steam shows English for any
+# language missing here; latam and portuguese reuse the game's Spanish and Brazilian Portuguese.
+STEAM_LANGS = [("english", ""), ("spanish", "es"), ("latam", "es"), ("french", "fr"), ("italian", "it"),
+               ("german", "de"), ("dutch", "nl"), ("polish", "pl"), ("brazilian", "pt_BR"), ("portuguese", "pt_BR"),
+               ("japanese", "ja"), ("schinese", "zh_CN"), ("tchinese", "zh_TW")]
+sys.path.insert(0, os.path.join(ROOT, "tools/i18n"))
+import po  # noqa: E402
+
+
+def game_texts():
+    """{local id: (name, text)} from game/content/achievements.gd, the English source of every language."""
+    src = open(os.path.join(ROOT, "game/content/achievements.gd"), encoding="utf-8").read()
+    out = {}
+    for m in re.finditer(r'\{"id": "([a-z_0-9]+)".*?"name": "((?:[^"\\]|\\.)*)", "text": "((?:[^"\\]|\\.)*)"', src):
+        out[m.group(1)] = (m.group(2).replace('\\"', '"'), m.group(3).replace('\\"', '"'))
+    return out
+
+
+def texts(a, code):
+    """(name, description) of achievement `a` in the game's language `code` ("" = English). Narrow and no-break
+    spaces become plain spaces: Steam's fonts may lack them."""
+    name, desc = game_texts()[a["local"]]
+    if code:
+        tr = {e["id"]: e["str"] for e in po.read(os.path.join(ROOT, "locale", code + ".po"))[1]}
+        name, desc = tr.get(name) or name, tr.get(desc) or desc
+    plain = lambda t: t.replace("\u202f", " ").replace("\u00a0", " ")
+    return plain(name), plain(desc)
 GLOW = {"bronze": (222, 132, 70), "silver": (190, 200, 230), "gold": SUN, "legend": LILAC}
 
 
@@ -110,10 +118,10 @@ def vdf():
     """Steam's localization file. Tokens follow Steamworks' own naming for achievements created in this order
     in a new app; compare with the file Steamworks exports before uploading."""
     lines = ['"lang"', "{"]
-    for lang in LANGS:
+    for lang, code in STEAM_LANGS:
         lines += ['\t"%s"' % lang, "\t{", '\t\t"Tokens"', "\t\t{"]
         for i, a in enumerate(ACH):
-            name, desc = a[lang]
+            name, desc = texts(a, code)
             esc = lambda s: s.replace("\\", "\\\\").replace('"', '\\"')
             lines.append('\t\t\t"NEW_ACHIEVEMENT_1_%d_NAME"\t"%s"' % (i, esc(name)))
             lines.append('\t\t\t"NEW_ACHIEVEMENT_1_%d_DESC"\t"%s"' % (i, esc(desc)))
@@ -121,6 +129,20 @@ def vdf():
     lines.append("}")
     with open(os.path.join(OUT, "achievements_loc.vdf"), "w", encoding="utf-8", newline="\n") as fh:
         fh.write("\n".join(lines) + "\n")
+
+
+def table():
+    """texts.md: every achievement in every Steam language, for entering them by hand in Steamworks."""
+    out = ["# Steam achievement texts", "", "Generated by `tools/store/build_achievements.py` from the game's own texts",
+           "(`game/content/achievements.gd` and `locale/*.po`). Do not edit by hand.", ""]
+    for lang, code in STEAM_LANGS:
+        out += ["## %s%s" % (lang, " (the game's %s)" % code if code else ""), "", "| API name | Name | Description |", "|---|---|---|"]
+        for a in ACH:
+            name, desc = texts(a, code)
+            out.append("| `%s` | %s | %s |" % (a["api"], name, desc))
+        out.append("")
+    with open(os.path.join(OUT, "texts.md"), "w", encoding="utf-8", newline="\n") as fh:
+        fh.write("\n".join(out))
 
 
 def contact(pairs):
@@ -143,7 +165,9 @@ if __name__ == "__main__":
         pairs.append((un, lk))
     vdf()
     contact(pairs)
+    full = [dict(a, texts={lang: texts(a, code) for lang, code in STEAM_LANGS}) for a in ACH]
     with open(os.path.join(OUT, "achievements.json"), "w", encoding="utf-8", newline="\n") as fh:
-        json.dump(ACH, fh, ensure_ascii=False, indent=1)
+        json.dump(full, fh, ensure_ascii=False, indent=1)
+    table()
     for f in sorted(os.listdir(OUT)):
         print("%-40s %4d KB" % (f, os.path.getsize(os.path.join(OUT, f)) // 1024))
