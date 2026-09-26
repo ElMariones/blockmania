@@ -3,7 +3,7 @@
 Living backlog. Update it in the same commit as the work. Milestones follow GDD §12.
 Legend: `[x]` done · `[~]` partial · `[ ]` open · **(owner)** needs a project-owner decision.
 
-_Last updated: 2026-09-24 — Plan items from the review (campaign Hold, round cards, Mk II bosses, Heat 0–5, Joker unlocks, Daily, run history, milestones, tips), boss cinematic and mood shader, 6 new songs, settings/menu redesign (GDD §22). Earlier: persona playtest review (docs/playtests), engine update (interest, overkill, multi-line Mult, scaling Jokers, Rack Extender, 13 Jokers, 4 items, 4 Legendary Jokers, Legends achievement page, targets raised). Earlier today: shop menu, card portraits, Overtime, 48 achievements._
+_Last updated: 2026-09-25 — Translations: ten more UI languages, the languages layout scenario (see Owner requests, 2026-09-25). Earlier: Plan items from the review (campaign Hold, round cards, Mk II bosses, Heat 0–5, Joker unlocks, Daily, run history, milestones, tips), boss cinematic and mood shader, 6 new songs, settings/menu redesign (GDD §22). Earlier: persona playtest review (docs/playtests), engine update (interest, overkill, multi-line Mult, scaling Jokers, Rack Extender, 13 Jokers, 4 items, 4 Legendary Jokers, Legends achievement page, targets raised). Earlier today: shop menu, card portraits, Overtime, 48 achievements._
 
 ## M0 — Rules prototype
 
@@ -155,6 +155,16 @@ Full specs, odds and reasoning: [docs/design/round_play_update.md](docs/design/r
 - [x] **Downloadable builds**: Windows (x86_64), macOS (universal, ad-hoc signed) and Linux (x86_64) presets; `tools/release/build_release.sh` + `install_templates.sh`; `.github/workflows/release.yml` publishes a GitHub Release on a `v*` tag with fixed asset names; README download buttons point at `releases/latest/download/...`. ETC2/ASTC import enabled (required for Apple Silicon). Linux export smoke-tested (900 frames, no script errors); Windows and macOS builds exported but not launched here.
 - [ ] Launch-test the Windows and macOS downloads on real machines (the Mac build is unsigned and not notarized: right-click → Open).
 - [ ] Code signing / notarization before a wider release (Windows SmartScreen, macOS Gatekeeper).
+
+## Owner requests, 2026-09-25 (translations)
+
+- [x] **Eleven UI languages**: English, Spanish, French, Italian, German, Dutch, Polish, Brazilian Portuguese, Japanese, Simplified and Traditional Chinese (all 1,442 messages; `tools/i18n/check.py` clean). Settings > Game > Language (SYSTEM follows the OS); switching rebuilds the screens in place. Rules text stays English in saves and results and is translated for display (`BMLoc.tf`). Blockhead gained the Latin accents; CJK comes from Fusion Pixel 10 px subsets (OFL). Guide and glossary: [docs/localization.md](docs/localization.md).
+- [x] **No broken UI in any language**: `tests/e2e/scenario_languages.gd` visits 30 screens and overlays (title popups, every Options tab, Kit picker, trophies, tutorial, round intro, round, bag, pause, round result, shop, round picker, boss intro and cinematic, crate, run end, history, Endless and its style picker and game over) in all eleven languages and fails on missing glyphs, text escaping its panel, controls grown past their rect, cut text without a tooltip, untranslated text and drawn text that does not fit. Fixes: text-measured buttons (RESET PAGE, COPY SEED, Heat/Seed labels, language grid), `BMUI.draw_fit` for code-drawn text, two-line Kit facts and Bag tile labels, fitted price buttons, taller boss panel (+12 px, receipt −12 px), Joker rack text on two lines when there is room, shorter translations where they ran long. Achievement toasts on screen re-show in the new language. Later passes: title menu buttons keep their text clear of the icon, POPS's bubble is really `DIALOG_W` wide and stays on screen (it used to hang 56 px past the right edge in every language), tutorial buttons fit, the Endless block-style button falls back to the style name, bag and reroll buttons step down, no word is split mid-line (Fiskus, Rückgabestempel, Versnipperaar).
+- [x] E2E sandbox is per checkout (`user://e2e_sandbox_<hash>`): worktrees share `user://`, and a suite in another checkout was wiping this one's saves mid-run.
+- [x] Untranslated text found by the scenario: feat banners, item rack bodies (round and shop), the Legendary Joker pop.
+- [ ] Native-speaker review of all ten translations (machine-assisted; terms are consistent with the glossary but unreviewed by native players). **(owner)**
+- [ ] Localized Steam store text and capsules for the languages beyond English, Spanish and Chinese, if the store should list them.
+- [ ] Fixed-size cards still shorten some longer translations with an ellipsis (full text in the tooltip); the scenario counts them (`shortened_with_tooltip`). Trim the translations further if playtests show players miss them.
 
 ## M2 — Content complete
 

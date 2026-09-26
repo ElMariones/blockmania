@@ -10,7 +10,9 @@ extends SceneTree
 ## The fingerprint is a hash of each scenario's seeded facts: run it twice on the same build
 ## and it must not change. Runtime engine/script errors fail a scenario.
 
-const SANDBOX := "user://e2e_sandbox"
+## One sandbox per checkout: worktrees share user:// (same project name), and a suite running
+## in another checkout must not wipe this one's saves mid-run.
+var SANDBOX := "user://e2e_sandbox_%x" % absi(ProjectSettings.globalize_path("res://").hash())
 
 
 func _init() -> void:

@@ -192,12 +192,12 @@ func _build() -> void:
 
 	# --- Left: boss + receipt ---
 	_boss_panel = BMStyle.panel("panel_plate", Vector4(8, 2, 8, 2))
-	_at(_boss_panel, Vector2(36, 400), Vector2(508, 152))
+	_at(_boss_panel, Vector2(36, 400), Vector2(508, 164))
 	_boss_box = BMStyle.vbox(2)
 	_boss_panel.add_child(_boss_box)
 	_receipt = BMHud.Receipt.new()
 	_receipt.clip_contents = true
-	_at(_receipt, Vector2(52, 562), Vector2(476, 304))
+	_at(_receipt, Vector2(52, 574), Vector2(476, 292))
 	_hold_box = HoldBox.new()
 	_hold_box.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	_hold_box.gui_input.connect(_on_hold_box_input)
@@ -211,6 +211,8 @@ func _build() -> void:
 	var hint := BMStyle.label(BMLoc.t("drag to reorder  |  top first"), 20, BMStyle.TEXT_DIM, false, 6)
 	hint.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	hint.clip_text = true
+	hint.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	jh.add_child(hint)
 	_jokers_box = BMStyle.vbox(8)
 	_at(_jokers_box, Vector2(1376, 64), Vector2(508, 652))
@@ -392,6 +394,7 @@ func refresh_all() -> void:
 	_refresh_jokers()
 	_refresh_items()
 	_bag_button.text = BMLoc.t("BAG  %d") % run.draw_pile.size()
+	BMUI.fit_button(_bag_button, 300, 30)
 	_bag_button.tooltip_text = BMLoc.t("Your bag: %d pieces. Draw pile %d, discard pile %d. (B)") % [run.bag.size(), run.draw_pile.size(), run.discard_pile.size()]
 	_refresh_status_banner()
 	board_view.queue_redraw()
@@ -454,7 +457,7 @@ func _refresh_items() -> void:
 		var card := BMCard.item_rack(run.consumables[i])
 		card.custom_minimum_size = Vector2(248, 180)
 		var box := card.get_child(0) as VBoxContainer
-		var body := BMStyle.label(BMConsumables.get_def(run.consumables[i]).text, 20, Color(BMStyle.INK, 0.75))
+		var body := BMStyle.label(BMConsumables.display_text(run.consumables[i]), 20, Color(BMStyle.INK, 0.75))
 		body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		body.max_lines_visible = 2
 		body.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
@@ -2163,8 +2166,8 @@ func _feat_banner(feat: String, delay: float, row: int) -> void:
 	h.add_child(medal)
 	var v := BMStyle.vbox(0)
 	h.add_child(v)
-	v.add_child(BMStyle.label(String(d.name).to_upper() + "!", 30, BMStyle.INK, true))
-	var desc := BMStyle.label(String(d.text), 20, Color(BMStyle.INK, 0.75))
+	v.add_child(BMStyle.label(BMLoc.t(String(d.name)).to_upper() + "!", 30, BMStyle.INK, true))
+	var desc := BMStyle.label(BMLoc.t(String(d.text)), 20, Color(BMStyle.INK, 0.75))
 	desc.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	desc.custom_minimum_size = Vector2(440, 0)
 	v.add_child(desc)
@@ -2267,14 +2270,14 @@ class HoldBox extends Control:
 		draw_style_box(BMStyle.box("panel_inset", Vector4.ZERO), well)
 		if drop_ready:
 			draw_rect(well.grow(-5), BMStyle.MINT_L, false, 4.0)
-		draw_string(BMStyle.font_bold, Vector2(26, 50), BMLoc.t("HOLD"), HORIZONTAL_ALIGNMENT_LEFT, -1, 40, BMStyle.MINT_L if drop_ready else BMStyle.SUN)
+		BMUI.draw_fit(self, BMStyle.font_bold, Vector2(26, 50), BMLoc.t("HOLD"), HORIZONTAL_ALIGNMENT_LEFT, -1, 40, BMStyle.MINT_L if drop_ready else BMStyle.SUN, size.x - 240 - 26)
 		var line1 := BMLoc.t("LOCKED BY BOSS") if blocked else (BMLoc.t("USED THIS TURN") if used else (BMLoc.t("DROP IT HERE") if drop_ready else BMLoc.t("PRESS H OR DROP")))
 		var col := BMStyle.PINK_L if blocked or used else BMStyle.CREAM
-		draw_string(BMStyle.font_bold, Vector2(26, 92), line1, HORIZONTAL_ALIGNMENT_LEFT, size.x - 240, 20, col)
-		draw_string(BMStyle.font, Vector2(26, 124), BMLoc.t("Store a piece, swap later."), HORIZONTAL_ALIGNMENT_LEFT, size.x - 240, 20, BMStyle.TEXT_DIM)
-		draw_string(BMStyle.font, Vector2(26, 150), BMLoc.t("Once per placement."), HORIZONTAL_ALIGNMENT_LEFT, size.x - 240, 20, BMStyle.TEXT_DIM)
+		BMUI.draw_fit(self, BMStyle.font_bold, Vector2(26, 92), line1, HORIZONTAL_ALIGNMENT_LEFT, size.x - 240, 20, col, size.x - 240)
+		BMUI.draw_fit(self, BMStyle.font, Vector2(26, 124), BMLoc.t("Store a piece, swap later."), HORIZONTAL_ALIGNMENT_LEFT, size.x - 240, 20, BMStyle.TEXT_DIM, size.x - 240)
+		BMUI.draw_fit(self, BMStyle.font, Vector2(26, 150), BMLoc.t("Once per placement."), HORIZONTAL_ALIGNMENT_LEFT, size.x - 240, 20, BMStyle.TEXT_DIM, size.x - 240)
 		if shape.is_empty():
-			draw_string(BMStyle.font, Vector2(well.position.x, well.get_center().y + 10), BMLoc.t("EMPTY"), HORIZONTAL_ALIGNMENT_CENTER, well.size.x, 20, BMStyle.TEXT_DIM)
+			BMUI.draw_fit(self, BMStyle.font, Vector2(well.position.x, well.get_center().y + 10), BMLoc.t("EMPTY"), HORIZONTAL_ALIGNMENT_CENTER, well.size.x, 20, BMStyle.TEXT_DIM)
 		else:
 			var dims := Vector2(BMShapes.shape_size(shape))
 			var cell := minf(30.0, floorf(minf((well.size.x - 24) / dims.x, (well.size.y - 24) / dims.y)))

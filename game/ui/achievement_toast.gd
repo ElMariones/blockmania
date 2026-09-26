@@ -11,6 +11,7 @@ const WIDTH := 600.0
 var reduced_motion := false
 var _queue: Array[String] = []
 var _busy := false
+var _current := ""
 
 
 func _ready() -> void:
@@ -30,7 +31,18 @@ func _next() -> void:
 		_busy = false
 		return
 	_busy = true
-	_show(_queue.pop_front())
+	_current = _queue.pop_front()
+	_show(_current)
+
+
+## The language changed: the plate on screen is shown again in the new one.
+func relocalize() -> void:
+	if not _busy:
+		return
+	for c in get_children():
+		c.queue_free()
+	_queue.push_front(_current)
+	_next()
 
 
 func _show(id: String) -> void:

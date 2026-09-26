@@ -133,6 +133,10 @@ func _build() -> void:
 	reset.name = "ResetPage"
 	reset.tooltip_text = BMLoc.t("Put this page's settings back to their defaults.")
 	_place(panel, reset, Rect2(1308, 850, 240, 60))
+	# A longer translation widens the button leftward (measured once it has the theme's font).
+	var reset_w := maxf(240.0, reset.get_combined_minimum_size().x + 24.0)
+	reset.position.x = 1548 - reset_w
+	reset.size.x = reset_w
 
 
 ## Header context: where the player is and the seed, with a copy button.
@@ -163,9 +167,13 @@ func _build_context(panel: Control) -> void:
 	var right_edge := PANEL.size.x - 40.0
 	var copy_w := 0.0
 	if context != "":
-		copy_w = 190.0
 		var seed_value: int = run.run_seed if context != "endless" else int(main.endless_screen.game.seed)
-		var copy := BMStyle.button(BMLoc.t("COPY SEED"), func() -> void: pass, "sky", 20)
+		var copy := BMStyle.button(BMLoc.t("COPIED!"), func() -> void: pass, "sky", 20)
+		panel.add_child(copy) # in the tree, so the size below uses the theme's font
+		copy_w = copy.get_combined_minimum_size().x
+		copy.text = BMLoc.t("COPY SEED")
+		copy_w = maxf(190.0, maxf(copy_w, copy.get_combined_minimum_size().x) + 24.0)
+		panel.remove_child(copy)
 		copy.tooltip_text = BMLoc.t("Copy the seed to the clipboard. Type it on the Kit screen to replay this run's draws.")
 		copy.pressed.connect(func() -> void:
 			DisplayServer.clipboard_set(str(seed_value))
@@ -267,11 +275,15 @@ func _language_row() -> void:
 	if BMLoc.current != "en":
 		caption += "  (Language)"
 	var row := _row(caption, BMLoc.t("Menus, cards and tips. Names like BLOCKMANIA and POPS stay the same."))
+	# Twelve buttons with native names: the grid goes under the description, full page width.
 	var grid := GridContainer.new()
-	grid.columns = 3
+	grid.columns = 4
 	grid.add_theme_constant_override("h_separation", 6)
 	grid.add_theme_constant_override("v_separation", 6)
-	row.controls.add_child(grid)
+	var gap := Control.new()
+	gap.custom_minimum_size.y = 10
+	row.desc.get_parent().add_child(gap)
+	row.desc.get_parent().add_child(grid)
 	var values: Array = ["auto"]
 	for entry in BMLoc.LANGUAGES:
 		values.append(entry[0])
@@ -279,7 +291,7 @@ func _language_row() -> void:
 	for v in values:
 		var b := BMStyle.button("", func() -> void: pass, "plum", 20)
 		b.name = "Setting_language_%s" % v
-		b.custom_minimum_size = Vector2(200, 56)
+		b.custom_minimum_size = Vector2(260, 56)
 		b.clip_text = true
 		if v != "auto":
 			b.add_theme_font_override("font", BMStyle.font_for_language(v, true))
@@ -602,9 +614,13 @@ class RoundTrack extends Control:
 			var label := "B" if boss else str(r)
 			var tc := BMStyle.INK if col != BMStyle.PLUM_L or boss else BMStyle.CREAM
 			draw_string(f, Vector2(at.x - 30, at.y + 8), label, HORIZONTAL_ALIGNMENT_CENTER, 60, 20, tc)
+			# Captions get 200 px centered on their node: nothing else is drawn beside them.
 			if col == BMStyle.SUN:
-				draw_string(f, Vector2(at.x - 60, y + 58), BMLoc.t("NEXT") if run.phase == BMRun.Phase.SHOP else BMLoc.t("NOW"), HORIZONTAL_ALIGNMENT_CENTER, 120, 20, BMStyle.SUN)
+				var now := BMLoc.t("NEXT") if run.phase == BMRun.Phase.SHOP else BMLoc.t("NOW")
+				BMUI.draw_fit(self, f, Vector2(at.x - 100, y + 58), now, HORIZONTAL_ALIGNMENT_CENTER, 200, 20, BMStyle.SUN, 200)
 			if boss:
-				draw_string(f, Vector2(at.x - 60, y - 34), BMLoc.t("ACT %d") % (r / BMRunConfig.ROUNDS_PER_ACT), HORIZONTAL_ALIGNMENT_CENTER, 120, 20, BMStyle.TEXT_DIM)
+				var act := BMLoc.t("ACT %d") % (r / BMRunConfig.ROUNDS_PER_ACT)
+				BMUI.draw_fit(self, f, Vector2(at.x - 100, y - 34), act, HORIZONTAL_ALIGNMENT_CENTER, 200, 20, BMStyle.TEXT_DIM, 200)
 		if cur > n:
-			draw_string(f, Vector2(0, y + 58), BMLoc.t("OVERTIME  -  ROUND %d  (%d PAST THE FINAL BOSS)") % [cur, cur - n], HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.PINK_L)
+			var ot := BMLoc.t("OVERTIME  -  ROUND %d  (%d PAST THE FINAL BOSS)") % [cur, cur - n]
+			BMUI.draw_fit(self, f, Vector2(0, y + 58), ot, HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.PINK_L)

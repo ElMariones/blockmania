@@ -489,6 +489,8 @@ func rebuild_screens() -> void:
 			title_screen.refresh()
 	if tutorial != null:
 		tutorial.relocalize()
+	if toasts != null:
+		toasts.relocalize()
 
 
 func save_and_quit() -> void:

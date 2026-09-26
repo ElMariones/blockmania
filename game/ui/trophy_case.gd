@@ -464,6 +464,7 @@ class Meter extends Control:
 			draw_rect(b, c)
 			draw_rect(Rect2(b.position, Vector2(b.size.x, 4)), c.lightened(0.35))
 		var f := BMStyle.font_bold
+		BMUI.fit_size(text, f, 20, size.x - 12) # only reports text wider than the bar
 		var tw := f.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x
 		var at := Vector2((size.x - tw) / 2.0, size.y / 2.0 + 8)
 		draw_string_outline(f, at, text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, 8, BMStyle.INK)

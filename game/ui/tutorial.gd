@@ -93,7 +93,7 @@ func _ready() -> void:
 
 
 func _build_dialog() -> void:
-	_dialog = BMStyle.panel("panel_plate", Vector4(22, 16, 22, 18))
+	_dialog = BMStyle.panel("panel_plate", Vector4(12, 16, 12, 18))
 	_dialog.custom_minimum_size.x = DIALOG_W
 	_dialog.mouse_filter = Control.MOUSE_FILTER_STOP
 	stage.add_child(_dialog)
@@ -108,7 +108,8 @@ func _build_dialog() -> void:
 	head.add_child(_dots)
 	_text = BMStyle.label("", 30, BMStyle.CREAM, false, 0)
 	_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_text.custom_minimum_size = Vector2(DIALOG_W - 44, 120)
+	# The bubble is DIALOG_W wide in total: the text gets what the frame leaves.
+	_text.custom_minimum_size = Vector2(DIALOG_W - _dialog.get_theme_stylebox("panel").get_minimum_size().x, 120)
 	_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	v.add_child(_text)
 	var row := BMStyle.hbox(10)
@@ -366,6 +367,10 @@ func _step_labels(st: Dictionary) -> void:
 	_wait_hint.text = {"placed": BMLoc.t("Place a piece"), "cleared": BMLoc.t("Clear a line"), "shop": BMLoc.t("Win the round"),
 		"left_shop": BMLoc.t("Press NEXT ROUND")}.get(adv, "")
 	_peek_label.text = String(_wait_hint.text).to_upper() + "!" if _wait_hint.text != "" else ""
+	# The button row is as wide as the text: longer words step the buttons' font down.
+	var row_w := _text.custom_minimum_size.x
+	BMUI.fit_button(_skip, row_w - 190.0, 20)
+	BMUI.fit_button(_next, row_w - 10.0 - maxf(210.0, _skip.get_minimum_size().x), 30)
 
 
 ## The language changed: re-read the visible lines; the tour keeps its place.
@@ -502,13 +507,14 @@ func _corner_point(k: String) -> Vector2:
 ## column so it never covers the board.
 func _rects_for(k: String) -> Array:
 	var ps := _pops.size
-	var ds := Vector2(DIALOG_W, maxf(_dialog.size.y, 200.0))
+	var ds := Vector2(maxf(_dialog.size.x, DIALOG_W), maxf(_dialog.size.y, 200.0))
 	var right := k.ends_with("r")
 	var bottom := k.begins_with("b")
 	var px := STAGE.x - ps.x - MARGIN if right else MARGIN
 	var py := STAGE.y - ps.y - MARGIN if bottom else MARGIN
 	var dx := STAGE.x - ds.x - MARGIN if right else MARGIN
 	var dy := py - ds.y - 6.0 if bottom else py + ps.y + 6.0
+	dy = clampf(dy, MARGIN, STAGE.y - ds.y - MARGIN)
 	return [Rect2(px, py, ps.x, ps.y), Rect2(dx, dy, ds.x, ds.y)]
 
 

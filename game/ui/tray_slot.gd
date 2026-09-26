@@ -123,7 +123,7 @@ func _draw() -> void:
 	if _flare > 0.0:
 		draw_rect(r.grow(-4), Color(1, 1, 1, 0.5 * _flare))
 	if shape.is_empty():
-		draw_string(BMStyle.font, Vector2(0, size.y / 2.0 + 8), BMLoc.t("placed"), HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, Color(BMStyle.TEXT_DIM, 0.5))
+		BMUI.draw_fit(self, BMStyle.font, Vector2(0, size.y / 2.0 + 8), BMLoc.t("placed"), HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, Color(BMStyle.TEXT_DIM, 0.5))
 		return
 	var dims := Vector2(BMShapes.shape_size(shape))
 	var cell := floorf(minf(MINI_CELL, minf((size.x - 36) / dims.x, (size.y - 56) / dims.y)))
@@ -165,6 +165,7 @@ func _draw() -> void:
 
 
 func _caption(text: String, color: Color) -> void:
+	BMUI.fit_size(text, BMStyle.font_bold, 20, size.x - 32) # only reports a pill wider than the slot
 	var w := BMStyle.font_bold.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x + 24
 	var rr := Rect2(Vector2((size.x - w) / 2.0, size.y - 40), Vector2(w, 32))
 	draw_style_box(BMStyle.box("pill_plum", Vector4.ZERO), rr)
@@ -224,6 +225,7 @@ func _draw_hand_lights(color: Color) -> void:
 
 ## Hand name ribbon across the top-right of the well.
 func _ribbon(text: String, color: Color) -> void:
+	BMUI.fit_size(text, BMStyle.font_bold, 20, size.x - 36) # only reports a pill wider than the slot
 	var w := BMStyle.font_bold.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x + 20
 	var rr := Rect2(Vector2(size.x - w - 8, 10), Vector2(w, 28))
 	draw_rect(rr.grow(2), BMStyle.INK)

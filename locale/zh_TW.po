@@ -1730,7 +1730,7 @@ msgstr "本回合消除:%d"
 msgid "Recent: %s"
 msgstr "最近:%s"
 
-#: game/content/jokers.gd:379 game/content/jokers.gd:395 game/ui/game_screen.gd:1558
+#: game/content/jokers.gd:379 game/content/jokers.gd:395 game/ui/game_screen.gd:1560
 msgid "none"
 msgstr "無"
 
@@ -2627,11 +2627,11 @@ msgstr "想逛多久都行。準備好了,下一回合在這裡:你甚至可以�
 msgid "You're a natural! Every fourth round a boss shows up, so read its rule. Have fun!"
 msgstr "你很有天分!每四個回合會出現一個首領,記得看它的規則。玩得開心!"
 
-#: game/main.gd:596
+#: game/main.gd:598
 msgid "SOUND OFF  (M)"
 msgstr "聲音關  (M)"
 
-#: game/main.gd:596
+#: game/main.gd:598
 msgid "SOUND ON  (M)"
 msgstr "聲音開  (M)"
 
@@ -3155,7 +3155,7 @@ msgid "%s, mirrored"
 msgstr "%s,鏡像"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/achievement_store.gd:144 game/ui/game_screen.gd:1547
+#: game/run/achievement_store.gd:144 game/ui/game_screen.gd:1549
 msgid "Best placement"
 msgstr "最佳單次放置"
 
@@ -3261,7 +3261,7 @@ msgid "Cannot hold right now."
 msgstr "現在不能暫存。"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:500 game/ui/game_screen.gd:695
+#: game/run/run.gd:500 game/ui/game_screen.gd:697
 msgid "The Lockdown Mk II disables Hold this round."
 msgstr "大封鎖Mk II停用了本回合的暫存。"
 
@@ -3340,7 +3340,7 @@ msgid "Choose where to hit."
 msgstr "選擇要打擊的位置。"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:666 game/ui/game_screen.gd:1828
+#: game/run/run.gd:666 game/ui/game_screen.gd:1830
 msgid "Nothing to hit there."
 msgstr "那裡沒有可以打的東西。"
 
@@ -3449,7 +3449,7 @@ msgid "That offer is gone."
 msgstr "這件商品已經沒了。"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:786 game/run/run.gd:808 game/run/run.gd:828 game/run/run.gd:901 game/run/run.gd:921 game/ui/shop_screen.gd:666
+#: game/run/run.gd:786 game/run/run.gd:808 game/run/run.gd:828 game/run/run.gd:901 game/run/run.gd:921 game/ui/shop_screen.gd:674
 msgid "Not enough Credits."
 msgstr "代幣不足。"
 
@@ -3459,7 +3459,7 @@ msgid "Joker slots are full. Sell a Joker first."
 msgstr "小丑牌欄位已滿。先賣掉一張小丑牌。"
 
 #. rules text (shown through BMLoc.tf)
-#: game/run/run.gd:810 game/run/run.gd:1330 game/ui/shop_screen.gd:554
+#: game/run/run.gd:810 game/run/run.gd:1330 game/ui/shop_screen.gd:560
 msgid "Item slots are full. Use an item first."
 msgstr "道具欄位已滿。先使用一個道具。"
 
@@ -3655,23 +3655,23 @@ msgstr "箱子裡那個位置什麼都沒有。"
 msgid "That offer is empty."
 msgstr "這件商品是空的。"
 
-#: game/ui/achievement_toast.gd:56
+#: game/ui/achievement_toast.gd:68
 msgid "ACHIEVEMENT UNLOCKED"
 msgstr "成就解鎖"
 
-#: game/ui/achievement_toast.gd:56 game/ui/shop_screen.gd:457
+#: game/ui/achievement_toast.gd:68 game/ui/shop_screen.gd:463
 msgid "LEGENDARY!"
 msgstr "傳說!"
 
-#: game/ui/achievement_toast.gd:56
+#: game/ui/achievement_toast.gd:68
 msgid "SECRET UNLOCKED!"
 msgstr "秘密解鎖!"
 
-#: game/ui/achievement_toast.gd:112
+#: game/ui/achievement_toast.gd:124
 msgid "NEW JOKER UNLOCKED"
 msgstr "新小丑牌解鎖"
 
-#: game/ui/achievement_toast.gd:115
+#: game/ui/achievement_toast.gd:127
 #, c-format
 msgid "Now in the shop pool. %s"
 msgstr "已加入商店。%s"
@@ -3723,7 +3723,7 @@ msgstr "抽取堆用完時會洗回去"
 msgid "(empty)"
 msgstr "(空)"
 
-#: game/ui/bag_view.gd:128 game/ui/game_screen.gd:221 game/ui/settings_menu.gd:426 game/ui/shop_screen.gd:150
+#: game/ui/bag_view.gd:128 game/ui/game_screen.gd:223 game/ui/settings_menu.gd:438 game/ui/shop_screen.gd:153
 msgid "BAG"
 msgstr "袋子"
 
@@ -3758,7 +3758,7 @@ msgstr "警告"
 msgid "BOSS ROUND"
 msgstr "首領回合"
 
-#: game/ui/boss_intro.gd:153
+#: game/ui/boss_intro.gd:156
 msgid "CLICK OR PRESS ANY KEY"
 msgstr "點擊或按任意鍵"
 
@@ -3790,49 +3790,49 @@ msgstr "稀有"
 msgid "UNCOM."
 msgstr "罕見"
 
-#: game/ui/card.gd:193
+#: game/ui/card.gd:196
 msgid "(DISABLED)"
 msgstr "(已停用)"
 
-#: game/ui/card.gd:196
+#: game/ui/card.gd:199
 #, c-format
 msgid "DISABLED: %s"
 msgstr "已停用:%s"
 
-#: game/ui/card.gd:223
+#: game/ui/card.gd:226
 #, c-format
 msgid "%s  (Item)"
 msgstr "%s(道具)"
 
-#: game/ui/card.gd:253 game/ui/shop_screen.gd:383
+#: game/ui/card.gd:256 game/ui/shop_screen.gd:389
 msgid "ITEM"
 msgstr "道具"
 
-#: game/ui/card.gd:260
+#: game/ui/card.gd:263
 msgid "WORKSHOP"
 msgstr "工坊"
 
-#: game/ui/card.gd:267
+#: game/ui/card.gd:270
 msgid "PIECE"
 msgstr "拼塊"
 
-#: game/ui/card.gd:375
+#: game/ui/card.gd:378
 msgid "+1 LV"
 msgstr "+1級"
 
-#: game/ui/endless_screen.gd:77 game/ui/game_screen.gd:2270
+#: game/ui/endless_screen.gd:77 game/ui/game_screen.gd:2272
 msgid "HOLD"
 msgstr "暫存"
 
-#: game/ui/endless_screen.gd:80 game/ui/game_screen.gd:2277
+#: game/ui/endless_screen.gd:80 game/ui/game_screen.gd:2279
 msgid "EMPTY"
 msgstr "空"
 
-#: game/ui/endless_screen.gd:87 game/ui/game_screen.gd:2271
+#: game/ui/endless_screen.gd:87 game/ui/game_screen.gd:2273
 msgid "USED THIS TURN"
 msgstr "本回合已使用"
 
-#: game/ui/endless_screen.gd:100 game/ui/settings_menu.gd:384 game/ui/title_screen.gd:95 game/ui/title_screen.gd:220
+#: game/ui/endless_screen.gd:100 game/ui/settings_menu.gd:396 game/ui/title_screen.gd:95 game/ui/title_screen.gd:220
 msgid "ENDLESS"
 msgstr "無盡模式"
 
@@ -3856,7 +3856,7 @@ msgstr "選擇一個拼塊,然後放到這裡或按H。"
 msgid "BLOCK STYLE"
 msgstr "方塊風格"
 
-#: game/ui/endless_screen.gd:150 game/ui/game_screen.gd:225 game/ui/shop_screen.gd:155
+#: game/ui/endless_screen.gd:150 game/ui/game_screen.gd:227 game/ui/shop_screen.gd:158
 msgid "MENU"
 msgstr "選單"
 
@@ -3865,7 +3865,7 @@ msgstr "選單"
 msgid "BEST  %s"
 msgstr "最佳  %s"
 
-#: game/ui/endless_screen.gd:209 game/ui/game_screen.gd:941
+#: game/ui/endless_screen.gd:209 game/ui/game_screen.gd:943
 #, c-format
 msgid "COMBO x%d"
 msgstr "連擊 x%d"
@@ -3959,24 +3959,24 @@ msgstr "達到x10連擊解鎖。"
 msgid "Unlock with a clean board."
 msgstr "清空棋盤解鎖。"
 
-#: game/ui/endless_screen.gd:539 game/ui/game_screen.gd:306 game/ui/refresh_lever.gd:173 game/ui/shop_screen.gd:340 game/ui/title_screen.gd:432 game/ui/tray_slot.gd:156
+#: game/ui/endless_screen.gd:539 game/ui/endless_screen.gd:547 game/ui/game_screen.gd:308 game/ui/refresh_lever.gd:173 game/ui/shop_screen.gd:344 game/ui/title_screen.gd:432
 msgid "LOCKED"
 msgstr "未解鎖"
 
-#: game/ui/endless_screen.gd:543
+#: game/ui/endless_screen.gd:551
 msgid "BACK TO GAME"
 msgstr "返回遊戲"
 
-#: game/ui/endless_screen.gd:580
+#: game/ui/endless_screen.gd:588
 #, c-format
 msgid "NEW STYLE: %s"
 msgstr "新風格:%s"
 
-#: game/ui/endless_screen.gd:613
+#: game/ui/endless_screen.gd:621
 msgid "ENDLESS RUN"
 msgstr "無盡模式對局"
 
-#: game/ui/endless_screen.gd:615
+#: game/ui/endless_screen.gd:623
 msgid ""
 "NO ROOM\n"
 "LEFT"
@@ -3984,24 +3984,24 @@ msgstr ""
 "沒有空位\n"
 "了"
 
-#: game/ui/endless_screen.gd:623
+#: game/ui/endless_screen.gd:631
 #, c-format
 msgid "HIGH SCORE  #%02d"
 msgstr "最高分  #%02d"
 
-#: game/ui/endless_screen.gd:623
+#: game/ui/endless_screen.gd:631
 msgid "RUN COMPLETE"
 msgstr "對局完成"
 
-#: game/ui/endless_screen.gd:632
+#: game/ui/endless_screen.gd:640
 msgid "PLAY AGAIN"
 msgstr "再玩一次"
 
-#: game/ui/endless_screen.gd:636
+#: game/ui/endless_screen.gd:644
 msgid "HIGH SCORES"
 msgstr "最高分"
 
-#: game/ui/endless_screen.gd:641 game/ui/game_screen.gd:1617
+#: game/ui/endless_screen.gd:649 game/ui/game_screen.gd:1619
 msgid "TITLE"
 msgstr "標題"
 
@@ -4009,92 +4009,92 @@ msgstr "標題"
 msgid "NO SCORE HISTORY FOR THIS RUN"
 msgstr "本局沒有分數紀錄"
 
-#: game/ui/endless_stats_panel.gd:30
+#: game/ui/endless_stats_panel.gd:31
 msgid "0 PLACEMENTS"
 msgstr "0次放置"
 
-#: game/ui/endless_stats_panel.gd:31 game/ui/title_screen.gd:773
+#: game/ui/endless_stats_panel.gd:32 game/ui/title_screen.gd:780
 #, c-format
 msgid "%d PLACEMENT"
 msgid_plural "%d PLACEMENTS"
 msgstr[0] "%d次放置"
 
-#: game/ui/endless_stats_panel.gd:37
+#: game/ui/endless_stats_panel.gd:38
 msgid "RUN BREAKDOWN"
 msgstr "對局詳情"
 
 #. rules text (shown through BMLoc.tf)
-#: game/ui/endless_stats_panel.gd:44
+#: game/ui/endless_stats_panel.gd:45
 msgid "LINES CLEARED"
 msgstr "消除的線"
 
 #. rules text (shown through BMLoc.tf)
-#: game/ui/endless_stats_panel.gd:45
+#: game/ui/endless_stats_panel.gd:46
 msgid "BLOCKS PLACED"
 msgstr "放置的方塊"
 
 #. rules text (shown through BMLoc.tf)
-#: game/ui/endless_stats_panel.gd:46
+#: game/ui/endless_stats_panel.gd:47
 msgid "HIGHEST COMBO"
 msgstr "最高連擊"
 
 #. rules text (shown through BMLoc.tf)
-#: game/ui/endless_stats_panel.gd:47
+#: game/ui/endless_stats_panel.gd:48
 msgid "PERFECT CLEARS"
 msgstr "完美清空"
 
-#: game/ui/endless_stats_panel.gd:48
+#: game/ui/endless_stats_panel.gd:49
 #, c-format
 msgid "%d line"
 msgid_plural "%d lines"
 msgstr[0] "%d條線"
 
 #. rules text (shown through BMLoc.tf)
-#: game/ui/endless_stats_panel.gd:48
+#: game/ui/endless_stats_panel.gd:49
 msgid "LARGEST CLEAR"
 msgstr "最大消除"
 
 #. rules text (shown through BMLoc.tf)
-#: game/ui/endless_stats_panel.gd:49
+#: game/ui/endless_stats_panel.gd:50
 msgid "RUN DURATION"
 msgstr "對局時長"
 
 #. rules text (shown through BMLoc.tf)
-#: game/ui/endless_stats_panel.gd:50
+#: game/ui/endless_stats_panel.gd:51
 msgid "BOARD COVERAGE PEAK"
 msgstr "棋盤最高佔用"
 
-#: game/ui/endless_stats_panel.gd:51
+#: game/ui/endless_stats_panel.gd:52
 #, c-format
 msgid "%.1f sec"
 msgstr "%.1f秒"
 
 #. rules text (shown through BMLoc.tf)
-#: game/ui/endless_stats_panel.gd:51
+#: game/ui/endless_stats_panel.gd:52
 msgid "AVERAGE PLACEMENT"
 msgstr "平均放置用時"
 
 #. rules text (shown through BMLoc.tf)
-#: game/ui/endless_stats_panel.gd:52
+#: game/ui/endless_stats_panel.gd:53
 msgid "SCORE / PLACEMENT"
 msgstr "得分 / 放置"
 
 #. rules text (shown through BMLoc.tf)
-#: game/ui/endless_stats_panel.gd:53
+#: game/ui/endless_stats_panel.gd:54
 msgid "BEST STREAK"
 msgstr "最佳連續"
 
 #. rules text (shown through BMLoc.tf)
-#: game/ui/endless_stats_panel.gd:54 game/ui/title_screen.gd:488 game/ui/title_screen.gd:695
+#: game/ui/endless_stats_panel.gd:55 game/ui/title_screen.gd:491 game/ui/title_screen.gd:702
 msgid "SEED"
 msgstr "種子"
 
 #. rules text (shown through BMLoc.tf)
-#: game/ui/endless_stats_panel.gd:55
+#: game/ui/endless_stats_panel.gd:56
 msgid "DATE"
 msgstr "日期"
 
-#: game/ui/endless_stats_panel.gd:69
+#: game/ui/endless_stats_panel.gd:70
 msgid "SCORE PROGRESSION"
 msgstr "得分變化"
 
@@ -4106,7 +4106,7 @@ msgstr "刷新(R):替換托盤中所有未放置的拼塊。不消耗放置次�
 msgid "SCORE"
 msgstr "得分"
 
-#: game/ui/game_screen.gd:148 game/ui/game_screen.gd:791
+#: game/ui/game_screen.gd:148 game/ui/game_screen.gd:793
 msgid "Pick up a piece to preview its score"
 msgstr "拿起一個拼塊預覽它的得分"
 
@@ -4114,7 +4114,7 @@ msgstr "拿起一個拼塊預覽它的得分"
 msgid "Placements left this round"
 msgstr "本回合剩餘放置次數"
 
-#: game/ui/game_screen.gd:209 game/ui/settings_menu.gd:425 game/ui/shop_screen.gd:85
+#: game/ui/game_screen.gd:209 game/ui/settings_menu.gd:437 game/ui/shop_screen.gd:88
 msgid "JOKERS"
 msgstr "小丑牌"
 
@@ -4122,49 +4122,49 @@ msgstr "小丑牌"
 msgid "drag to reorder  |  top first"
 msgstr "拖曳以排序  |  上方的先觸發"
 
-#: game/ui/game_screen.gd:217 game/ui/shop_screen.gd:88
+#: game/ui/game_screen.gd:219 game/ui/shop_screen.gd:91
 msgid "ITEMS"
 msgstr "道具"
 
-#: game/ui/game_screen.gd:223
+#: game/ui/game_screen.gd:225
 msgid "See every piece in your bag: draw pile, tray, and discard pile. (B)"
 msgstr "查看袋子裡的所有拼塊:抽取堆、托盤和棄置堆。(B)"
 
-#: game/ui/game_screen.gd:227
+#: game/ui/game_screen.gd:229
 msgid "Pause, settings and controls (Esc)"
 msgstr "暫停、設定和操作(Esc)"
 
-#: game/ui/game_screen.gd:258
+#: game/ui/game_screen.gd:260
 #, c-format
 msgid "Round %d. Good luck!"
 msgstr "第%d回合。祝你好運!"
 
-#: game/ui/game_screen.gd:291 game/ui/settings_menu.gd:446 game/ui/shop_screen.gd:511
+#: game/ui/game_screen.gd:293 game/ui/settings_menu.gd:458 game/ui/shop_screen.gd:517
 #, c-format
 msgid "ROUND %d"
 msgstr "第%d回合"
 
-#: game/ui/game_screen.gd:292
+#: game/ui/game_screen.gd:294
 #, c-format
 msgid "ACT %d OF 3"
 msgstr "第%d幕 / 共3幕"
 
-#: game/ui/game_screen.gd:292 game/ui/game_screen.gd:345 game/ui/game_screen.gd:1394
+#: game/ui/game_screen.gd:294 game/ui/game_screen.gd:347 game/ui/game_screen.gd:1396
 #, c-format
 msgid "BOSS: %s"
 msgstr "首領:%s"
 
-#: game/ui/game_screen.gd:296
+#: game/ui/game_screen.gd:298
 #, c-format
 msgid "OVERTIME  -  ACT %d"
 msgstr "延長賽  -  第%d幕"
 
-#: game/ui/game_screen.gd:298
+#: game/ui/game_screen.gd:300
 #, c-format
 msgid "Target: %s points"
 msgstr "目標:%s分"
 
-#: game/ui/game_screen.gd:304
+#: game/ui/game_screen.gd:306
 #, c-format
 msgid ""
 "Placements left this round.\n"
@@ -4173,64 +4173,64 @@ msgstr ""
 "本回合剩餘放置次數。\n"
 "每消除一條線返還一次,最多%d次。"
 
-#: game/ui/game_screen.gd:311
+#: game/ui/game_screen.gd:313
 #, c-format
 msgid "Combo: each clearing placement adds 1 (max %d). It survives %d placement without a clear, then resets."
 msgstr "連擊:每次消除型放置+1(最多%d)。可以撐過%d次未消除的放置,然後重置。"
 
-#: game/ui/game_screen.gd:312
+#: game/ui/game_screen.gd:314
 msgid "HANGING ON: clear on your next placement to keep it."
 msgstr "岌岌可危:下一次放置消除即可保住連擊。"
 
-#: game/ui/game_screen.gd:346
+#: game/ui/game_screen.gd:348
 #, c-format
 msgid "R%d BOSS: %s"
 msgstr "R%d首領:%s"
 
-#: game/ui/game_screen.gd:346
+#: game/ui/game_screen.gd:348
 #, c-format
 msgid "R%d: %s"
 msgstr "R%d:%s"
 
-#: game/ui/game_screen.gd:346
+#: game/ui/game_screen.gd:348
 #, c-format
 msgid "ROUND %d BOSS: %s"
 msgstr "第%d回合首領:%s"
 
-#: game/ui/game_screen.gd:378
+#: game/ui/game_screen.gd:380
 msgid "No legal move is left. Use an item that can help, or pull to concede the round and end the run."
 msgstr "已經沒有合法的放置了。使用能幫上忙的道具,或拉下拉桿認輸並結束本局。"
 
-#: game/ui/game_screen.gd:388
+#: game/ui/game_screen.gd:390
 msgid "Locked by The Lockdown this round."
 msgstr "本回合被大封鎖鎖定。"
 
-#: game/ui/game_screen.gd:389
+#: game/ui/game_screen.gd:391
 #, c-format
 msgid "%d Refresh left this round."
 msgid_plural "%d Refreshes left this round."
 msgstr[0] "本回合還剩%d次刷新。"
 
-#: game/ui/game_screen.gd:390
+#: game/ui/game_screen.gd:392
 msgid "Refresh (R): pull the lever to replace every unplaced piece in the tray. Costs no placement.\n"
 msgstr "刷新(R):拉下拉桿,替換托盤中所有未放置的拼塊。不消耗放置次數。\n"
 
-#: game/ui/game_screen.gd:394 game/ui/shop_screen.gd:508
+#: game/ui/game_screen.gd:396 game/ui/shop_screen.gd:514
 #, c-format
 msgid "BAG  %d"
 msgstr "袋子  %d"
 
-#: game/ui/game_screen.gd:395
+#: game/ui/game_screen.gd:397
 #, c-format
 msgid "Your bag: %d pieces. Draw pile %d, discard pile %d. (B)"
 msgstr "你的袋子:%d個拼塊。抽取堆%d,棄置堆%d。(B)"
 
-#: game/ui/game_screen.gd:403
+#: game/ui/game_screen.gd:405
 #, c-format
 msgid "JOKERS %d/%d"
 msgstr "小丑牌 %d/%d"
 
-#: game/ui/game_screen.gd:416 game/ui/shop_screen.gd:594
+#: game/ui/game_screen.gd:418 game/ui/shop_screen.gd:599
 msgid ""
 "\n"
 "Drag onto another Joker to reorder. Alt+Up/Down while focused also moves it."
@@ -4238,345 +4238,345 @@ msgstr ""
 "\n"
 "拖到另一張小丑牌上即可排序。取得焦點時,Alt+上/下也能移動。"
 
-#: game/ui/game_screen.gd:426 game/ui/shop_screen.gd:612
+#: game/ui/game_screen.gd:428 game/ui/shop_screen.gd:617
 msgid "empty slot"
 msgstr "空欄位"
 
-#: game/ui/game_screen.gd:440
+#: game/ui/game_screen.gd:442
 #, c-format
 msgid "SELL +%d"
 msgstr "賣出 +%d"
 
-#: game/ui/game_screen.gd:451
+#: game/ui/game_screen.gd:453
 #, c-format
 msgid "ITEMS %d/%d"
 msgstr "道具 %d/%d"
 
-#: game/ui/game_screen.gd:467
+#: game/ui/game_screen.gd:469
 msgid "USE"
 msgstr "使用"
 
-#: game/ui/game_screen.gd:473
+#: game/ui/game_screen.gd:475
 msgid "Use this item now."
 msgstr "立即使用這個道具。"
 
-#: game/ui/game_screen.gd:473
+#: game/ui/game_screen.gd:475
 msgid "Use this item now: you choose where next."
 msgstr "立即使用這個道具:接著選擇目標。"
 
-#: game/ui/game_screen.gd:482 game/ui/shop_screen.gd:630
+#: game/ui/game_screen.gd:484 game/ui/shop_screen.gd:635
 msgid "empty"
 msgstr "空"
 
-#: game/ui/game_screen.gd:500 game/ui/game_screen.gd:506
+#: game/ui/game_screen.gd:502 game/ui/game_screen.gd:508
 msgid "NOTHING FITS!  HIT REFRESH"
 msgstr "放不下了!請刷新"
 
-#: game/ui/game_screen.gd:502 game/ui/game_screen.gd:506
+#: game/ui/game_screen.gd:504 game/ui/game_screen.gd:508
 msgid "NOTHING FITS!  USE AN ITEM OR CONCEDE"
 msgstr "放不下了!使用道具或認輸"
 
-#: game/ui/game_screen.gd:504 game/ui/game_screen.gd:506
+#: game/ui/game_screen.gd:506 game/ui/game_screen.gd:508
 msgid "OUT OF PLACEMENTS!  EXTRA TURN OR CONCEDE"
 msgstr "放置次數用完!使用額外回合或認輸"
 
-#: game/ui/game_screen.gd:570
+#: game/ui/game_screen.gd:572
 msgid "That piece doesn't fit there, so it went back to the tray."
 msgstr "這個拼塊放不進那裡,已退回托盤。"
 
-#: game/ui/game_screen.gd:588 game/ui/game_screen.gd:660
+#: game/ui/game_screen.gd:590 game/ui/game_screen.gd:662
 msgid "That piece doesn't fit there."
 msgstr "這個拼塊放不進那裡。"
 
-#: game/ui/game_screen.gd:698
+#: game/ui/game_screen.gd:700
 msgid "Hold is used. Place a piece to recharge it."
 msgstr "暫存已使用。放置一個拼塊來恢復。"
 
-#: game/ui/game_screen.gd:702
+#: game/ui/game_screen.gd:704
 msgid "Pick up a tray piece first, then drop it on HOLD (or press H)."
 msgstr "先拿起托盤裡的拼塊,再放到暫存區(或按H)。"
 
-#: game/ui/game_screen.gd:709
+#: game/ui/game_screen.gd:711
 msgid "Pick up a tray piece to swap with the stored one."
 msgstr "拿起托盤裡的拼塊,與暫存的拼塊交換。"
 
-#: game/ui/game_screen.gd:786
+#: game/ui/game_screen.gd:788
 msgid "Doesn't fit here"
 msgstr "這裡放不下"
 
-#: game/ui/game_screen.gd:791
+#: game/ui/game_screen.gd:793
 msgid "Move over the board"
 msgstr "移到棋盤上方"
 
-#: game/ui/game_screen.gd:804
+#: game/ui/game_screen.gd:806
 #, c-format
 msgid "%d LINE"
 msgid_plural "%d LINES"
 msgstr[0] "%d條線"
 
-#: game/ui/game_screen.gd:889 game/ui/shop_screen.gd:469
+#: game/ui/game_screen.gd:891 game/ui/shop_screen.gd:475
 #, c-format
 msgid "Used %s."
 msgstr "使用了%s。"
 
-#: game/ui/game_screen.gd:892
+#: game/ui/game_screen.gd:894
 msgid "TURBO: NEXT PLACEMENT x2 MULT"
 msgstr "渦輪:下一次放置x2倍率"
 
-#: game/ui/game_screen.gd:894
+#: game/ui/game_screen.gd:896
 msgid "COFFEE BREAK: +1 REFRESH"
 msgstr "咖啡時間:+1次刷新"
 
-#: game/ui/game_screen.gd:896
+#: game/ui/game_screen.gd:898
 #, c-format
 msgid "COIN ROLL: +%d CREDITS"
 msgstr "硬幣捲:+%d代幣"
 
-#: game/ui/game_screen.gd:904
+#: game/ui/game_screen.gd:906
 #, c-format
 msgid "Sold %s for %d Credits."
 msgstr "賣出了%s,獲得%d代幣。"
 
-#: game/ui/game_screen.gd:937
+#: game/ui/game_screen.gd:939
 msgid "DOUBLE!"
 msgstr "雙消!"
 
-#: game/ui/game_screen.gd:937
+#: game/ui/game_screen.gd:939
 msgid "MEGA!"
 msgstr "超級!"
 
-#: game/ui/game_screen.gd:937
+#: game/ui/game_screen.gd:939
 msgid "QUAD!"
 msgstr "四消!"
 
-#: game/ui/game_screen.gd:937
+#: game/ui/game_screen.gd:939
 msgid "TRIPLE!"
 msgstr "三消!"
 
-#: game/ui/game_screen.gd:965
+#: game/ui/game_screen.gd:967
 #, c-format
 msgid "+%d STORED"
 msgstr "+%d已儲存"
 
-#: game/ui/game_screen.gd:970
+#: game/ui/game_screen.gd:972
 #, c-format
 msgid "AVALANCHE x%d!"
 msgstr "雪崩x%d!"
 
-#: game/ui/game_screen.gd:985
+#: game/ui/game_screen.gd:987
 #, c-format
 msgid "TRANSMUTED: %s"
 msgstr "轉化:%s"
 
-#: game/ui/game_screen.gd:997
+#: game/ui/game_screen.gd:999
 msgid "HANG ON!"
 msgstr "撐住!"
 
-#: game/ui/game_screen.gd:1017
+#: game/ui/game_screen.gd:1019
 msgid "MILESTONE!"
 msgstr "里程碑!"
 
-#: game/ui/game_screen.gd:1026
+#: game/ui/game_screen.gd:1028
 #, c-format
 msgid "MILESTONE: %s IN ONE PLACEMENT"
 msgstr "里程碑:單次放置達到%s"
 
-#: game/ui/game_screen.gd:1160
+#: game/ui/game_screen.gd:1162
 #, c-format
 msgid "+%s MULT"
 msgstr "+%s倍率"
 
-#: game/ui/game_screen.gd:1163
+#: game/ui/game_screen.gd:1165
 #, c-format
 msgid "x%s MULT"
 msgstr "x%s倍率"
 
-#: game/ui/game_screen.gd:1180
+#: game/ui/game_screen.gd:1182
 #, c-format
 msgid "%s  (%d cell)"
 msgid_plural "%s  (%d cells)"
 msgstr[0] "%s  (%d格)"
 
-#: game/ui/game_screen.gd:1188
+#: game/ui/game_screen.gd:1190
 #, c-format
 msgid "+%s mult"
 msgstr "+%s倍率"
 
-#: game/ui/game_screen.gd:1190
+#: game/ui/game_screen.gd:1192
 #, c-format
 msgid "x%s mult"
 msgstr "x%s倍率"
 
-#: game/ui/game_screen.gd:1192
+#: game/ui/game_screen.gd:1194
 #, c-format
 msgid "Mirror Maze removed %d cells"
 msgstr "鏡子迷宮移除了%d個格子"
 
-#: game/ui/game_screen.gd:1202
+#: game/ui/game_screen.gd:1204
 #, c-format
 msgid "Avalanche wave %d  (x%d chain)"
 msgstr "雪崩第%d波  (連鎖x%d)"
 
-#: game/ui/game_screen.gd:1203
+#: game/ui/game_screen.gd:1205
 msgid "Total"
 msgstr "總計"
 
-#: game/ui/game_screen.gd:1207
+#: game/ui/game_screen.gd:1209
 #, c-format
 msgid "Combo now x%d"
 msgstr "目前連擊x%d"
 
-#: game/ui/game_screen.gd:1209
+#: game/ui/game_screen.gd:1211
 #, c-format
 msgid "Feat: %s"
 msgstr "壯舉:%s"
 
-#: game/ui/game_screen.gd:1215
+#: game/ui/game_screen.gd:1217
 #, c-format
 msgid "Sell %s for %d Credits?"
 msgstr "賣出%s,獲得%d代幣?"
 
-#: game/ui/game_screen.gd:1216
+#: game/ui/game_screen.gd:1218
 msgid "KEEP"
 msgstr "保留"
 
-#: game/ui/game_screen.gd:1216
+#: game/ui/game_screen.gd:1218
 msgid "SELL"
 msgstr "賣出"
 
-#: game/ui/game_screen.gd:1220
+#: game/ui/game_screen.gd:1222
 msgid "Concede this round? The run will end."
 msgstr "要在本回合認輸嗎?本局將會結束。"
 
-#: game/ui/game_screen.gd:1221 game/ui/game_screen.gd:2092 game/ui/game_screen.gd:2137 game/ui/settings_menu.gd:116 game/ui/title_screen.gd:239 game/ui/title_screen.gd:321
+#: game/ui/game_screen.gd:1223 game/ui/game_screen.gd:2094 game/ui/game_screen.gd:2139 game/ui/settings_menu.gd:116 game/ui/title_screen.gd:239 game/ui/title_screen.gd:321
 msgid "BACK"
 msgstr "返回"
 
-#: game/ui/game_screen.gd:1221 game/ui/refresh_lever.gd:170
+#: game/ui/game_screen.gd:1223 game/ui/refresh_lever.gd:170
 msgid "CONCEDE"
 msgstr "認輸"
 
-#: game/ui/game_screen.gd:1320 game/ui/shop_screen.gd:825
+#: game/ui/game_screen.gd:1322 game/ui/shop_screen.gd:833
 msgid "CLOSE  (ESC)"
 msgstr "關閉  (ESC)"
 
-#: game/ui/game_screen.gd:1348
+#: game/ui/game_screen.gd:1350
 #, c-format
 msgid "ROUND %d  -  ACT %d"
 msgstr "第%d回合  -  第%d幕"
 
-#: game/ui/game_screen.gd:1350
+#: game/ui/game_screen.gd:1352
 #, c-format
 msgid "ROUND %d  -  OVERTIME"
 msgstr "第%d回合  -  延長賽"
 
-#: game/ui/game_screen.gd:1352
+#: game/ui/game_screen.gd:1354
 msgid "TARGET"
 msgstr "目標"
 
-#: game/ui/game_screen.gd:1356
+#: game/ui/game_screen.gd:1358
 #, c-format
 msgid "%s points"
 msgstr "%s分"
 
-#: game/ui/game_screen.gd:1367
+#: game/ui/game_screen.gd:1369
 #, c-format
 msgid "%d placement, +1 per line"
 msgid_plural "%d placements, +1 per line"
 msgstr[0] "%d次放置,每消一條線+1"
 
-#: game/ui/game_screen.gd:1368
+#: game/ui/game_screen.gd:1370
 #, c-format
 msgid "Each line you clear gives one placement back, up to %d."
 msgstr "每消除一條線返還一次放置,最多%d次。"
 
-#: game/ui/game_screen.gd:1372
+#: game/ui/game_screen.gd:1374
 #, c-format
 msgid "%d refresh"
 msgid_plural "%d refreshes"
 msgstr[0] "%d次刷新"
 
-#: game/ui/game_screen.gd:1381
+#: game/ui/game_screen.gd:1383
 #, c-format
 msgid "TWIST: %s"
 msgstr "變數:%s"
 
-#: game/ui/game_screen.gd:1399
+#: game/ui/game_screen.gd:1401
 #, c-format
 msgid "Tip: %s"
 msgstr "提示:%s"
 
-#: game/ui/game_screen.gd:1407
+#: game/ui/game_screen.gd:1409
 #, c-format
 msgid "Disabled this round: %s"
 msgstr "本回合失效:%s"
 
-#: game/ui/game_screen.gd:1413
+#: game/ui/game_screen.gd:1415
 msgid "OVERTIME: the targets climb faster every round. How far can you go?"
 msgstr "延長賽:目標每回合漲得更快。你能走多遠?"
 
-#: game/ui/game_screen.gd:1424
+#: game/ui/game_screen.gd:1426
 #, c-format
 msgid "ACT BOSS, ROUND %d:  %s"
 msgstr "本幕首領,第%d回合:  %s"
 
-#: game/ui/game_screen.gd:1433
+#: game/ui/game_screen.gd:1435
 msgid "START ROUND"
 msgstr "開始回合"
 
-#: game/ui/game_screen.gd:1438
+#: game/ui/game_screen.gd:1440
 #, c-format
 msgid "THE WARDEN BARRED SLOT %d: CLEAR A LINE TO FREE IT"
 msgstr "典獄長封鎖了欄位%d:消除一條線即可解放"
 
-#: game/ui/game_screen.gd:1450
+#: game/ui/game_screen.gd:1452
 #, c-format
 msgid "ROUND %d CLEARED!"
 msgstr "第%d回合通過!"
 
-#: game/ui/game_screen.gd:1456
+#: game/ui/game_screen.gd:1458
 #, c-format
 msgid "%s / %s points   -   %d placement unused"
 msgid_plural "%s / %s points   -   %d placements unused"
 msgstr[0] "%s / %s分   -   %d次放置未使用"
 
-#: game/ui/game_screen.gd:1473
+#: game/ui/game_screen.gd:1475
 msgid "Earned"
 msgstr "獲得"
 
-#: game/ui/game_screen.gd:1486
+#: game/ui/game_screen.gd:1488
 msgid "YOU HAVE"
 msgstr "你擁有"
 
-#: game/ui/game_screen.gd:1491
+#: game/ui/game_screen.gd:1493
 msgid "FINISH RUN"
 msgstr "結束本局"
 
-#: game/ui/game_screen.gd:1491
+#: game/ui/game_screen.gd:1493
 msgid "TO THE SHOP"
 msgstr "前往商店"
 
-#: game/ui/game_screen.gd:1514
+#: game/ui/game_screen.gd:1516
 msgid "GAME OVER"
 msgstr "遊戲結束"
 
-#: game/ui/game_screen.gd:1514
+#: game/ui/game_screen.gd:1516
 msgid "RUN ABANDONED"
 msgstr "已放棄本局"
 
-#: game/ui/game_screen.gd:1514
+#: game/ui/game_screen.gd:1516
 msgid "YOU WIN!"
 msgstr "你贏了!"
 
-#: game/ui/game_screen.gd:1516
+#: game/ui/game_screen.gd:1518
 msgid "MACHINE BROKEN!"
 msgstr "機器被玩壞了!"
 
-#: game/ui/game_screen.gd:1518
+#: game/ui/game_screen.gd:1520
 msgid "OVERTIME OVER"
 msgstr "延長賽結束"
 
-#: game/ui/game_screen.gd:1528
+#: game/ui/game_screen.gd:1530
 #, c-format
 msgid ""
 "Your run was already a win. Overtime ended in round %d.\n"
@@ -4585,280 +4585,280 @@ msgstr ""
 "你的這一局已經獲勝。延長賽在第%d回合結束。\n"
 "%s"
 
-#: game/ui/game_screen.gd:1545
+#: game/ui/game_screen.gd:1547
 #, c-format
 msgid "%d  (OVERTIME +%d)"
 msgstr "%d  (延長賽 +%d)"
 
-#: game/ui/game_screen.gd:1546
+#: game/ui/game_screen.gd:1548
 msgid "Lines cleared"
 msgstr "消除的線"
 
-#: game/ui/game_screen.gd:1546
+#: game/ui/game_screen.gd:1548
 msgid "Round"
 msgstr "回合"
 
-#: game/ui/game_screen.gd:1547
+#: game/ui/game_screen.gd:1549
 msgid "Last score"
 msgstr "最後得分"
 
-#: game/ui/game_screen.gd:1548
+#: game/ui/game_screen.gd:1550
 msgid "Bag size"
 msgstr "袋子大小"
 
-#: game/ui/game_screen.gd:1548
+#: game/ui/game_screen.gd:1550
 msgid "Highest combo"
 msgstr "最高連擊"
 
-#: game/ui/game_screen.gd:1558
+#: game/ui/game_screen.gd:1560
 #, c-format
 msgid "Jokers: %s"
 msgstr "小丑牌:%s"
 
-#: game/ui/game_screen.gd:1561
+#: game/ui/game_screen.gd:1563
 #, c-format
 msgid "Seed %d  -  %s"
 msgstr "種子 %d  -  %s"
 
-#: game/ui/game_screen.gd:1562
+#: game/ui/game_screen.gd:1564
 msgid "  -  practice seed: no achievements, records or unlocks"
 msgstr "  -  練習種子:不計成就、紀錄和解鎖"
 
-#: game/ui/game_screen.gd:1572
+#: game/ui/game_screen.gd:1574
 #, c-format
 msgid "NEW RECORD!  %s: %s"
 msgstr "新紀錄!  %s:%s"
 
-#: game/ui/game_screen.gd:1574
+#: game/ui/game_screen.gd:1576
 #, c-format
 msgid "  (was %s)"
 msgstr "  (之前 %s)"
 
-#: game/ui/game_screen.gd:1582
+#: game/ui/game_screen.gd:1584
 #, c-format
 msgid "NEW KIT UNLOCKED: %s!"
 msgstr "新套裝解鎖:%s!"
 
-#: game/ui/game_screen.gd:1594
+#: game/ui/game_screen.gd:1596
 msgid "THE ARCADE STAYS OPEN..."
 msgstr "遊樂場還沒打烊……"
 
-#: game/ui/game_screen.gd:1597
+#: game/ui/game_screen.gd:1599
 #, c-format
 msgid "Keep this build and play on: round 13 needs %s, and every target after climbs faster. A boss every fourth round. Your win is already saved."
 msgstr "保留這套構築繼續玩:第13回合需要%s,之後每個目標漲得更快。每四回合一個首領。你的勝利已經儲存。"
 
-#: game/ui/game_screen.gd:1601
+#: game/ui/game_screen.gd:1603
 msgid "KEEP PLAYING: OVERTIME  >"
 msgstr "繼續遊戲:延長賽  >"
 
-#: game/ui/game_screen.gd:1605
+#: game/ui/game_screen.gd:1607
 msgid "Rounds 13 and beyond. How far can your build go before the machine gives up?"
 msgstr "第13回合及以後。在機器認輸之前,你的構築能走多遠?"
 
-#: game/ui/game_screen.gd:1611 game/ui/title_screen.gd:84
+#: game/ui/game_screen.gd:1613 game/ui/title_screen.gd:84
 msgid "NEW RUN"
 msgstr "新的一局"
 
-#: game/ui/game_screen.gd:1614
+#: game/ui/game_screen.gd:1616
 msgid "SAME SEED"
 msgstr "相同種子"
 
-#: game/ui/game_screen.gd:1649
+#: game/ui/game_screen.gd:1651
 msgid "ERASER: click up to 2 blocks to rub out"
 msgstr "橡皮擦:點擊最多2個方塊將其擦除"
 
-#: game/ui/game_screen.gd:1650
+#: game/ui/game_screen.gd:1652
 msgid "PUNCH: click where to smash (plus shape)"
 msgstr "重拳:點擊要打擊的位置(十字形)"
 
-#: game/ui/game_screen.gd:1651
+#: game/ui/game_screen.gd:1653
 msgid "COLOR PURGE: click a block to remove its whole color"
 msgstr "顏色清洗:點擊一個方塊,移除它的整種顏色"
 
-#: game/ui/game_screen.gd:1652
+#: game/ui/game_screen.gd:1654
 msgid "LUCKY PAINT: click a tray piece to repaint"
 msgstr "幸運油漆:點擊托盤中要重新上色的拼塊"
 
-#: game/ui/game_screen.gd:1653
+#: game/ui/game_screen.gd:1655
 msgid "BLUEPRINT: click a tray piece to swap"
 msgstr "藍圖:點擊托盤中要替換的拼塊"
 
-#: game/ui/game_screen.gd:1654
+#: game/ui/game_screen.gd:1656
 msgid "BRICK: throw it at a tray slot, or click one"
 msgstr "磚塊:丟向一個托盤欄位,或點擊其中一個"
 
-#: game/ui/game_screen.gd:1655
+#: game/ui/game_screen.gd:1657
 msgid "PATCH PANEL: click one block to remove"
 msgstr "補丁面板:點擊要移除的方塊"
 
-#: game/ui/game_screen.gd:1656
+#: game/ui/game_screen.gd:1658
 msgid "TUNE-UP: click a tray piece to level up its family"
 msgstr "調校:點擊托盤中的拼塊,提升其家族等級"
 
-#: game/ui/game_screen.gd:1670
+#: game/ui/game_screen.gd:1672
 msgid "Right-click or Esc to cancel"
 msgstr "右鍵或Esc取消"
 
-#: game/ui/game_screen.gd:1712
+#: game/ui/game_screen.gd:1714
 #, c-format
 msgid "ERASE %d"
 msgstr "擦除 %d"
 
-#: game/ui/game_screen.gd:1715
+#: game/ui/game_screen.gd:1717
 msgid "CANCEL"
 msgstr "取消"
 
-#: game/ui/game_screen.gd:1717
+#: game/ui/game_screen.gd:1719
 msgid "Put the item away (right-click or Esc)."
 msgstr "收起道具(右鍵或Esc)。"
 
-#: game/ui/game_screen.gd:1725
+#: game/ui/game_screen.gd:1727
 #, c-format
 msgid "%s (Joker)"
 msgstr "%s(小丑牌)"
 
-#: game/ui/game_screen.gd:1728
+#: game/ui/game_screen.gd:1730
 msgid "Remove one block of your choice."
 msgstr "移除一個你選擇的方塊。"
 
-#: game/ui/game_screen.gd:1734
+#: game/ui/game_screen.gd:1736
 msgid "PATCH"
 msgstr "修補"
 
-#: game/ui/game_screen.gd:1808 game/ui/game_screen.gd:1839
+#: game/ui/game_screen.gd:1810 game/ui/game_screen.gd:1841
 msgid "Pick a block, not an empty cell."
 msgstr "請選擇方塊,而不是空格。"
 
-#: game/ui/game_screen.gd:1820
+#: game/ui/game_screen.gd:1822
 #, c-format
 msgid "%d OF 2 CHOSEN: PICK ANOTHER, OR PRESS ERASE"
 msgstr "已選%d/2:再選一個,或按擦除"
 
-#: game/ui/game_screen.gd:1833
+#: game/ui/game_screen.gd:1835
 msgid "Pick a colored block (stone is immune)."
 msgstr "請選擇有顏色的方塊(石頭免疫)。"
 
-#: game/ui/game_screen.gd:1850 game/ui/game_screen.gd:1855
+#: game/ui/game_screen.gd:1852 game/ui/game_screen.gd:1857
 msgid "That slot is empty."
 msgstr "這個欄位是空的。"
 
-#: game/ui/game_screen.gd:1911
+#: game/ui/game_screen.gd:1913
 #, c-format
 msgid "RUBBED OUT %d BLOCK"
 msgid_plural "RUBBED OUT %d BLOCKS"
 msgstr[0] "擦掉了%d個方塊"
 
-#: game/ui/game_screen.gd:1924 game/ui/game_screen.gd:1992
+#: game/ui/game_screen.gd:1926 game/ui/game_screen.gd:1994
 msgid "SMASH!"
 msgstr "砰!"
 
-#: game/ui/game_screen.gd:1927
+#: game/ui/game_screen.gd:1929
 #, c-format
 msgid "PUNCHED OUT %d BLOCK"
 msgid_plural "PUNCHED OUT %d BLOCKS"
 msgstr[0] "打飛了%d個方塊"
 
-#: game/ui/game_screen.gd:1942
+#: game/ui/game_screen.gd:1944
 #, c-format
 msgid "PURGED %d BLOCK: %s"
 msgid_plural "PURGED %d BLOCKS: %s"
 msgstr[0] "清除了%d個方塊:%s"
 
-#: game/ui/game_screen.gd:1951
+#: game/ui/game_screen.gd:1953
 msgid "SPLASH!"
 msgstr "啪嗒!"
 
-#: game/ui/game_screen.gd:1952
+#: game/ui/game_screen.gd:1954
 #, c-format
 msgid "REPAINTED %s"
 msgstr "重新塗成%s"
 
-#: game/ui/game_screen.gd:1961
+#: game/ui/game_screen.gd:1963
 msgid "BLUEPRINT: A FRESH PIECE, DRAFTED"
 msgstr "藍圖:新拼塊,剛剛畫好"
 
-#: game/ui/game_screen.gd:1971
+#: game/ui/game_screen.gd:1973
 #, c-format
 msgid "LV %d!"
 msgstr "%d級!"
 
-#: game/ui/game_screen.gd:1972
+#: game/ui/game_screen.gd:1974
 #, c-format
 msgid "TUNE-UP: %s IS NOW LEVEL %d"
 msgstr "調校:%s現在是%d級"
 
-#: game/ui/game_screen.gd:1994
+#: game/ui/game_screen.gd:1996
 msgid "BRICK!"
 msgstr "磚塊!"
 
-#: game/ui/game_screen.gd:1999
+#: game/ui/game_screen.gd:2001
 msgid "BRICK IN THE TRAY"
 msgstr "磚塊進了托盤"
 
-#: game/ui/game_screen.gd:1999
+#: game/ui/game_screen.gd:2001
 #, c-format
 msgid "SMASHED %s!"
 msgstr "砸碎了%s!"
 
-#: game/ui/game_screen.gd:2069
+#: game/ui/game_screen.gd:2071
 msgid "PAINT IT WHICH COLOR?"
 msgstr "塗成什麼顏色?"
 
-#: game/ui/game_screen.gd:2088
+#: game/ui/game_screen.gd:2090
 msgid "Already this color."
 msgstr "已經是這個顏色了。"
 
-#: game/ui/game_screen.gd:2104
+#: game/ui/game_screen.gd:2106
 msgid "DRAFT A NEW PIECE"
 msgstr "畫一個新拼塊"
 
-#: game/ui/game_screen.gd:2224
+#: game/ui/game_screen.gd:2226
 msgid "INSURANCE CLAIMED!"
 msgstr "保險理賠!"
 
-#: game/ui/game_screen.gd:2227
+#: game/ui/game_screen.gd:2229
 #, c-format
 msgid "Your policy paid out. Round %d starts over from an empty board, without the free Refresh. The Insurance Policy card is used up."
 msgstr "你的保險生效了。第%d回合從空棋盤重新開始,沒有免費刷新。保險單已用掉。"
 
-#: game/ui/game_screen.gd:2231
+#: game/ui/game_screen.gd:2233
 msgid "TRY AGAIN"
 msgstr "再試一次"
 
-#: game/ui/game_screen.gd:2248
+#: game/ui/game_screen.gd:2250
 msgid "FREE!"
 msgstr "免費!"
 
-#: game/ui/game_screen.gd:2262
+#: game/ui/game_screen.gd:2264
 msgid "HOLD (H): store a tray piece; its slot draws a new one. Later, swap it back in or click here to return it to an empty slot. Once between placements."
 msgstr "暫存(H):存下托盤中的一個拼塊,它的欄位會補發一個新的。之後可以換回來,或點擊這裡把它放回空欄位。每兩次放置之間一次。"
 
-#: game/ui/game_screen.gd:2271
+#: game/ui/game_screen.gd:2273
 msgid "DROP IT HERE"
 msgstr "放在這裡"
 
-#: game/ui/game_screen.gd:2271
+#: game/ui/game_screen.gd:2273
 msgid "LOCKED BY BOSS"
 msgstr "被首領鎖定"
 
-#: game/ui/game_screen.gd:2271
+#: game/ui/game_screen.gd:2273
 msgid "PRESS H OR DROP"
 msgstr "按H或拖放"
 
-#: game/ui/game_screen.gd:2274
+#: game/ui/game_screen.gd:2276
 msgid "Store a piece, swap later."
 msgstr "存下拼塊,之後再換。"
 
-#: game/ui/game_screen.gd:2275
+#: game/ui/game_screen.gd:2277
 msgid "Once per placement."
 msgstr "每次放置一次。"
 
-#: game/ui/hud.gd:226
+#: game/ui/hud.gd:228
 msgid "RECEIPT"
 msgstr "收據"
 
-#: game/ui/piece_tile.gd:5 game/ui/piece_tile.gd:66 game/ui/piece_tile.gd:69
+#: game/ui/piece_tile.gd:5 game/ui/piece_tile.gd:67 game/ui/piece_tile.gd:70
 msgid "PICKED"
 msgstr "已選"
 
@@ -4947,564 +4947,564 @@ msgstr "重設本頁"
 msgid "Put this page's settings back to their defaults."
 msgstr "把本頁設定恢復為預設值。"
 
-#: game/ui/settings_menu.gd:145
+#: game/ui/settings_menu.gd:149
 #, c-format
 msgid "OVERTIME ROUND %d"
 msgstr "延長賽第%d回合"
 
-#: game/ui/settings_menu.gd:146
+#: game/ui/settings_menu.gd:150
 #, c-format
 msgid "ROUND %d OF %d  -  ACT %d"
 msgstr "第%d回合 / 共%d回合  -  第%d幕"
 
-#: game/ui/settings_menu.gd:148
+#: game/ui/settings_menu.gd:152
 #, c-format
 msgid "THE TOYBOX, AFTER ROUND %d"
 msgstr "玩具箱,第%d回合之後"
 
-#: game/ui/settings_menu.gd:151
+#: game/ui/settings_menu.gd:155
 #, c-format
 msgid "%s  -  HEAT %d"
 msgstr "%s  -  熱度%d"
 
-#: game/ui/settings_menu.gd:151
+#: game/ui/settings_menu.gd:155
 #, c-format
 msgid "DAILY %s"
 msgstr "每日挑戰 %s"
 
-#: game/ui/settings_menu.gd:153
+#: game/ui/settings_menu.gd:157
 msgid "  -  PRACTICE SEED"
 msgstr "  -  練習種子"
 
-#: game/ui/settings_menu.gd:154
+#: game/ui/settings_menu.gd:158
 #, c-format
 msgid "  -  SEED %d"
 msgstr "  -  種子 %d"
 
-#: game/ui/settings_menu.gd:156
+#: game/ui/settings_menu.gd:160
 #, c-format
 msgid "ENDLESS  -  %s POINTS"
 msgstr "無盡模式  -  %s分"
 
-#: game/ui/settings_menu.gd:157
+#: game/ui/settings_menu.gd:161
 #, c-format
 msgid "SEED %d"
 msgstr "種子 %d"
 
-#: game/ui/settings_menu.gd:159
+#: game/ui/settings_menu.gd:163
 msgid "SETTINGS ARE SAVED AS YOU CHANGE THEM"
 msgstr "設定在變更時自動儲存"
 
-#: game/ui/settings_menu.gd:168
-msgid "COPY SEED"
-msgstr "複製種子"
-
-#: game/ui/settings_menu.gd:169
-msgid "Copy the seed to the clipboard. Type it on the Kit screen to replay this run's draws."
-msgstr "把種子複製到剪貼簿。在套裝畫面輸入它,即可重現本局的發牌。"
-
-#: game/ui/settings_menu.gd:172
+#: game/ui/settings_menu.gd:171 game/ui/settings_menu.gd:180
 msgid "COPIED!"
 msgstr "已複製!"
 
-#: game/ui/settings_menu.gd:243
+#: game/ui/settings_menu.gd:174
+msgid "COPY SEED"
+msgstr "複製種子"
+
+#: game/ui/settings_menu.gd:177
+msgid "Copy the seed to the clipboard. Type it on the Kit screen to replay this run's draws."
+msgstr "把種子複製到剪貼簿。在套裝畫面輸入它,即可重現本局的發牌。"
+
+#: game/ui/settings_menu.gd:251
 msgid "Game speed"
 msgstr "遊戲速度"
 
-#: game/ui/settings_menu.gd:243
+#: game/ui/settings_menu.gd:251
 msgid "Speeds up scoring, clears and round animations. Results are identical at every speed."
 msgstr "加快計分、消除和回合動畫。任何速度下結果都完全相同。"
 
-#: game/ui/settings_menu.gd:244
+#: game/ui/settings_menu.gd:252
 msgid "FAST"
 msgstr "快"
 
-#: game/ui/settings_menu.gd:244
+#: game/ui/settings_menu.gd:252
 msgid "NORMAL"
 msgstr "普通"
 
-#: game/ui/settings_menu.gd:244
+#: game/ui/settings_menu.gd:252
 msgid "TURBO"
 msgstr "極速"
 
-#: game/ui/settings_menu.gd:245
+#: game/ui/settings_menu.gd:253
 msgid "A short hint the first time something new shows up: Hold, bosses, round cards, Heat..."
 msgstr "新東西第一次出現時給出簡短提示:暫存、首領、回合卡、熱度……"
 
-#: game/ui/settings_menu.gd:245
+#: game/ui/settings_menu.gd:253
 msgid "Tips"
 msgstr "提示"
 
-#: game/ui/settings_menu.gd:246 game/ui/settings_menu.gd:307 game/ui/settings_menu.gd:308 game/ui/settings_menu.gd:310 game/ui/settings_menu.gd:311 game/ui/settings_menu.gd:326
+#: game/ui/settings_menu.gd:254 game/ui/settings_menu.gd:319 game/ui/settings_menu.gd:320 game/ui/settings_menu.gd:322 game/ui/settings_menu.gd:323 game/ui/settings_menu.gd:338
 msgid "OFF"
 msgstr "關"
 
-#: game/ui/settings_menu.gd:246 game/ui/settings_menu.gd:307 game/ui/settings_menu.gd:308 game/ui/settings_menu.gd:310 game/ui/settings_menu.gd:311 game/ui/settings_menu.gd:326
+#: game/ui/settings_menu.gd:254 game/ui/settings_menu.gd:319 game/ui/settings_menu.gd:320 game/ui/settings_menu.gd:322 game/ui/settings_menu.gd:323 game/ui/settings_menu.gd:338
 msgid "ON"
 msgstr "開"
 
-#: game/ui/settings_menu.gd:247
+#: game/ui/settings_menu.gd:255
 msgid "RESET TIPS"
 msgstr "重設提示"
 
-#: game/ui/settings_menu.gd:247
+#: game/ui/settings_menu.gd:255
 msgid "Replay tips"
 msgstr "重新顯示提示"
 
-#: game/ui/settings_menu.gd:247
+#: game/ui/settings_menu.gd:255
 msgid "Show every tip again, as if this were your first run."
 msgstr "把所有提示再顯示一遍,就像第一次玩一樣。"
 
-#: game/ui/settings_menu.gd:252
+#: game/ui/settings_menu.gd:260
 msgid "DONE!"
 msgstr "完成!"
 
-#: game/ui/settings_menu.gd:253 game/ui/settings_menu.gd:345
+#: game/ui/settings_menu.gd:261 game/ui/settings_menu.gd:357
 msgid "Boss intros"
 msgstr "首領登場"
 
-#: game/ui/settings_menu.gd:253
+#: game/ui/settings_menu.gd:261
 msgid "CINEMATIC plays the warning, the name slam and the rule. QUICK goes straight to the rule card."
 msgstr "電影式會播放警告、名字登場和規則。快速則直接顯示規則卡。"
 
-#: game/ui/settings_menu.gd:254 game/ui/settings_menu.gd:346
+#: game/ui/settings_menu.gd:262 game/ui/settings_menu.gd:358
 msgid "CINEMATIC"
 msgstr "電影式"
 
-#: game/ui/settings_menu.gd:254 game/ui/settings_menu.gd:346
+#: game/ui/settings_menu.gd:262 game/ui/settings_menu.gd:358
 msgid "QUICK"
 msgstr "快速"
 
-#: game/ui/settings_menu.gd:255
+#: game/ui/settings_menu.gd:263
 msgid "POPS shows you around again the next time a run starts."
 msgstr "下次開始對局時,POPS會再帶你參觀一遍。"
 
-#: game/ui/settings_menu.gd:255
+#: game/ui/settings_menu.gd:263
 msgid "REPLAY TUTORIAL"
 msgstr "重播教學"
 
-#: game/ui/settings_menu.gd:255
+#: game/ui/settings_menu.gd:263
 msgid "Tutorial"
 msgstr "教學"
 
-#: game/ui/settings_menu.gd:258
+#: game/ui/settings_menu.gd:266
 msgid "READY!"
 msgstr "準備好了!"
 
-#: game/ui/settings_menu.gd:266
+#: game/ui/settings_menu.gd:274
 msgid "Language"
 msgstr "語言"
 
-#: game/ui/settings_menu.gd:269
+#: game/ui/settings_menu.gd:277
 msgid "Menus, cards and tips. Names like BLOCKMANIA and POPS stay the same."
 msgstr "選單、卡牌和提示。BLOCKMANIA和POPS等名稱保持不變。"
 
-#: game/ui/settings_menu.gd:295 game/ui/settings_menu.gd:333
+#: game/ui/settings_menu.gd:307 game/ui/settings_menu.gd:345
 msgid "SYSTEM"
 msgstr "系統"
 
-#: game/ui/settings_menu.gd:297
+#: game/ui/settings_menu.gd:309
 #, c-format
 msgid "Follow the computer's language (%s)."
 msgstr "跟隨電腦的語言(%s)。"
 
-#: game/ui/settings_menu.gd:304
+#: game/ui/settings_menu.gd:316
 msgid "Everything at once."
 msgstr "全部聲音。"
 
-#: game/ui/settings_menu.gd:304
+#: game/ui/settings_menu.gd:316
 msgid "Master volume"
 msgstr "主音量"
 
-#: game/ui/settings_menu.gd:305
+#: game/ui/settings_menu.gd:317
 msgid "Music volume"
 msgstr "音樂音量"
 
-#: game/ui/settings_menu.gd:305
+#: game/ui/settings_menu.gd:317
 msgid "The soundtrack. Each part of the game has its own songs."
 msgstr "背景音樂。遊戲的每個部分都有自己的曲子。"
 
-#: game/ui/settings_menu.gd:306
+#: game/ui/settings_menu.gd:318
 msgid "Clicks, clears, Jokers and fanfares."
 msgstr "點擊、消除、小丑牌和號角聲。"
 
-#: game/ui/settings_menu.gd:306
+#: game/ui/settings_menu.gd:318
 msgid "Effects volume"
 msgstr "音效音量"
 
-#: game/ui/settings_menu.gd:307
+#: game/ui/settings_menu.gd:319
 msgid "Sound"
 msgstr "聲音"
 
-#: game/ui/settings_menu.gd:307
+#: game/ui/settings_menu.gd:319
 msgid "Turns every sound on or off. M toggles it anywhere."
 msgstr "開啟或關閉所有聲音。隨時按M切換。"
 
-#: game/ui/settings_menu.gd:308
+#: game/ui/settings_menu.gd:320
 msgid "Keep the effects but switch the songs off."
 msgstr "保留音效,但關閉音樂。"
 
-#: game/ui/settings_menu.gd:308
+#: game/ui/settings_menu.gd:320
 msgid "Soundtrack"
 msgstr "背景音樂"
 
-#: game/ui/settings_menu.gd:309
+#: game/ui/settings_menu.gd:321
 msgid "A soft heartbeat when three or fewer placements are left and the target is not met."
 msgstr "剩餘放置次數不超過三次且未達成目標時,會有輕柔的心跳聲。"
 
-#: game/ui/settings_menu.gd:309
+#: game/ui/settings_menu.gd:321
 msgid "Danger heartbeat"
 msgstr "危險心跳"
 
-#: game/ui/settings_menu.gd:311
+#: game/ui/settings_menu.gd:323
 msgid "Mute in background"
 msgstr "背景靜音"
 
-#: game/ui/settings_menu.gd:311
+#: game/ui/settings_menu.gd:323
 msgid "Silence the game while its window is not focused."
 msgstr "遊戲視窗不在前景時靜音。"
 
-#: game/ui/settings_menu.gd:312
+#: game/ui/settings_menu.gd:324
 msgid "Now playing"
 msgstr "正在播放"
 
-#: game/ui/settings_menu.gd:317
+#: game/ui/settings_menu.gd:329
 msgid "NEXT SONG  >"
 msgstr "下一首  >"
 
-#: game/ui/settings_menu.gd:318
+#: game/ui/settings_menu.gd:330
 msgid "Play another song from this part of the game."
 msgstr "播放這個部分的另一首曲子。"
 
-#: game/ui/settings_menu.gd:324
+#: game/ui/settings_menu.gd:336
 msgid "Fullscreen uses your desktop resolution. The board always stays square."
 msgstr "全螢幕使用桌面解析度。棋盤始終保持正方形。"
 
-#: game/ui/settings_menu.gd:324
+#: game/ui/settings_menu.gd:336
 msgid "Window"
 msgstr "視窗"
 
-#: game/ui/settings_menu.gd:325
+#: game/ui/settings_menu.gd:337
 msgid "FULLSCREEN"
 msgstr "全螢幕"
 
-#: game/ui/settings_menu.gd:325
+#: game/ui/settings_menu.gd:337
 msgid "WINDOWED"
 msgstr "視窗化"
 
-#: game/ui/settings_menu.gd:326
+#: game/ui/settings_menu.gd:338
 msgid "Locks the frame rate to your screen and removes tearing."
 msgstr "將影格率鎖定到螢幕更新率,消除畫面撕裂。"
 
-#: game/ui/settings_menu.gd:326
+#: game/ui/settings_menu.gd:338
 msgid "V-Sync"
 msgstr "垂直同步"
 
-#: game/ui/settings_menu.gd:327
+#: game/ui/settings_menu.gd:339
 msgid "CRT filter"
 msgstr "CRT濾鏡"
 
-#: game/ui/settings_menu.gd:327
+#: game/ui/settings_menu.gd:339
 msgid "Scanlines and a curved-glass glow. SOFT keeps text sharpest."
 msgstr "掃描線和曲面玻璃的光暈。柔和能讓文字最清晰。"
 
-#: game/ui/settings_menu.gd:328 game/ui/settings_menu.gd:330 game/ui/settings_menu.gd:338 game/ui/settings_menu.gd:340 game/ui/settings_menu.gd:342
+#: game/ui/settings_menu.gd:340 game/ui/settings_menu.gd:342 game/ui/settings_menu.gd:350 game/ui/settings_menu.gd:352 game/ui/settings_menu.gd:354
 msgid "FULL"
 msgstr "完整"
 
-#: game/ui/settings_menu.gd:328 game/ui/settings_menu.gd:330 game/ui/settings_menu.gd:342
+#: game/ui/settings_menu.gd:340 game/ui/settings_menu.gd:342 game/ui/settings_menu.gd:354
 msgid "SOFT"
 msgstr "柔和"
 
-#: game/ui/settings_menu.gd:329
+#: game/ui/settings_menu.gd:341
 msgid "Hazard frame on boss rounds, the danger vignette and heat haze at the screen's edges."
 msgstr "首領回合的危險邊框、危險暗角和螢幕邊緣的熱浪。"
 
-#: game/ui/settings_menu.gd:329
+#: game/ui/settings_menu.gd:341
 msgid "Screen effects"
 msgstr "螢幕特效"
 
-#: game/ui/settings_menu.gd:331
+#: game/ui/settings_menu.gd:343
 msgid "FPS counter"
 msgstr "FPS計數器"
 
-#: game/ui/settings_menu.gd:331
+#: game/ui/settings_menu.gd:343
 msgid "Frames per second in the top-left corner."
 msgstr "在左上角顯示每秒影格數。"
 
-#: game/ui/settings_menu.gd:332
+#: game/ui/settings_menu.gd:344
 msgid "CUSTOM: a pixel arrow, POPS's glove over buttons and little click sparks. SYSTEM: your normal pointer."
 msgstr "自訂:像素箭頭、按鈕上的POPS手套和點擊時的小火花。系統:你平常的指標。"
 
-#: game/ui/settings_menu.gd:332
+#: game/ui/settings_menu.gd:344
 msgid "Mouse cursor"
 msgstr "滑鼠指標"
 
-#: game/ui/settings_menu.gd:333
+#: game/ui/settings_menu.gd:345
 msgid "CUSTOM"
 msgstr "自訂"
 
-#: game/ui/settings_menu.gd:337
+#: game/ui/settings_menu.gd:349
 msgid "Motion"
 msgstr "動態效果"
 
-#: game/ui/settings_menu.gd:337
+#: game/ui/settings_menu.gd:349
 msgid "REDUCED stops background motion, bobbing and fly-ins. Every number and effect is still shown."
 msgstr "減弱會停止背景運動、晃動和飛入動畫。所有數字和效果仍會顯示。"
 
-#: game/ui/settings_menu.gd:338
+#: game/ui/settings_menu.gd:350
 msgid "REDUCED"
 msgstr "減弱"
 
-#: game/ui/settings_menu.gd:339
+#: game/ui/settings_menu.gd:351
 msgid "How hard big clears, slams and bosses shake the screen."
 msgstr "大消除、重擊和首領讓螢幕震動的強度。"
 
-#: game/ui/settings_menu.gd:339
+#: game/ui/settings_menu.gd:351
 msgid "Screen shake"
 msgstr "螢幕震動"
 
-#: game/ui/settings_menu.gd:340
+#: game/ui/settings_menu.gd:352
 msgid "LOW"
 msgstr "低"
 
-#: game/ui/settings_menu.gd:341
+#: game/ui/settings_menu.gd:353
 msgid "Bright full-screen flashes and CRT jolts on slams and bosses. OFF removes them all."
 msgstr "重擊和首領時的全螢幕閃光和CRT抖動。關閉會全部移除。"
 
-#: game/ui/settings_menu.gd:341
+#: game/ui/settings_menu.gd:353
 msgid "Flashes"
 msgstr "閃光"
 
-#: game/ui/settings_menu.gd:343
+#: game/ui/settings_menu.gd:355
 msgid "Block patterns"
 msgstr "方塊圖案"
 
-#: game/ui/settings_menu.gd:343
+#: game/ui/settings_menu.gd:355
 msgid "Every block color also gets its own pattern, so colors never have to be told apart by hue."
 msgstr "每種方塊顏色還會有自己的圖案,無需靠色調區分顏色。"
 
-#: game/ui/settings_menu.gd:345
+#: game/ui/settings_menu.gd:357
 msgid "QUICK skips the flashing warning cinematic before boss rounds."
 msgstr "快速會跳過首領回合前的閃爍警告動畫。"
 
-#: game/ui/settings_menu.gd:353 game/ui/settings_menu.gd:366
+#: game/ui/settings_menu.gd:365 game/ui/settings_menu.gd:378
 msgid "Drag a piece, or click it, then a cell"
 msgstr "拖曳拼塊,或先點擊它再點擊格子"
 
-#: game/ui/settings_menu.gd:353 game/ui/settings_menu.gd:366
+#: game/ui/settings_menu.gd:365 game/ui/settings_menu.gd:378
 msgid "MOUSE"
 msgstr "滑鼠"
 
-#: game/ui/settings_menu.gd:354
+#: game/ui/settings_menu.gd:366
 msgid "Put the carried piece back"
 msgstr "放回手中的拼塊"
 
-#: game/ui/settings_menu.gd:354
+#: game/ui/settings_menu.gd:366
 msgid "RIGHT CLICK"
 msgstr "右鍵"
 
-#: game/ui/settings_menu.gd:355 game/ui/settings_menu.gd:367
+#: game/ui/settings_menu.gd:367 game/ui/settings_menu.gd:379
 msgid "1  2  3"
 msgstr "1  2  3"
 
-#: game/ui/settings_menu.gd:355 game/ui/settings_menu.gd:367
+#: game/ui/settings_menu.gd:367 game/ui/settings_menu.gd:379
 msgid "Pick up a tray piece"
 msgstr "拿起托盤中的拼塊"
 
-#: game/ui/settings_menu.gd:356 game/ui/settings_menu.gd:368
+#: game/ui/settings_menu.gd:368 game/ui/settings_menu.gd:380
 msgid "ARROWS / WASD"
 msgstr "方向鍵 / WASD"
 
-#: game/ui/settings_menu.gd:356 game/ui/settings_menu.gd:368
+#: game/ui/settings_menu.gd:368 game/ui/settings_menu.gd:380
 msgid "Move the carried piece"
 msgstr "移動手中的拼塊"
 
-#: game/ui/settings_menu.gd:357 game/ui/settings_menu.gd:369
+#: game/ui/settings_menu.gd:369 game/ui/settings_menu.gd:381
 msgid "ENTER / SPACE"
 msgstr "ENTER / 空白鍵"
 
-#: game/ui/settings_menu.gd:357 game/ui/settings_menu.gd:369
+#: game/ui/settings_menu.gd:369 game/ui/settings_menu.gd:381
 msgid "Place it"
 msgstr "放下"
 
-#: game/ui/settings_menu.gd:358
+#: game/ui/settings_menu.gd:370
 msgid "Hold or swap a piece"
 msgstr "暫存或交換拼塊"
 
-#: game/ui/settings_menu.gd:359
+#: game/ui/settings_menu.gd:371
 msgid "Refresh the tray"
 msgstr "刷新托盤"
 
-#: game/ui/settings_menu.gd:360
+#: game/ui/settings_menu.gd:372
 msgid "Open your bag"
 msgstr "打開袋子"
 
-#: game/ui/settings_menu.gd:361
+#: game/ui/settings_menu.gd:373
 msgid "ALT + UP / DOWN"
 msgstr "ALT + 上 / 下"
 
-#: game/ui/settings_menu.gd:361
+#: game/ui/settings_menu.gd:373
 msgid "Move a focused Joker"
 msgstr "移動選中的小丑牌"
 
-#: game/ui/settings_menu.gd:362 game/ui/settings_menu.gd:371
+#: game/ui/settings_menu.gd:374 game/ui/settings_menu.gd:383
 msgid "Sound on / off"
 msgstr "聲音開 / 關"
 
-#: game/ui/settings_menu.gd:363 game/ui/settings_menu.gd:372 game/ui/settings_menu.gd:375
+#: game/ui/settings_menu.gd:375 game/ui/settings_menu.gd:384 game/ui/settings_menu.gd:387
 msgid "ESC"
 msgstr "ESC"
 
-#: game/ui/settings_menu.gd:363 game/ui/settings_menu.gd:372
+#: game/ui/settings_menu.gd:375 game/ui/settings_menu.gd:384
 msgid "Pause, or put a piece back"
 msgstr "暫停,或放回拼塊"
 
-#: game/ui/settings_menu.gd:370
+#: game/ui/settings_menu.gd:382
 msgid "Hold or swap the piece"
 msgstr "暫存或交換拼塊"
 
-#: game/ui/settings_menu.gd:374
+#: game/ui/settings_menu.gd:386
 msgid "ENTER"
 msgstr "ENTER"
 
-#: game/ui/settings_menu.gd:374
+#: game/ui/settings_menu.gd:386
 msgid "Move between buttons"
 msgstr "在按鈕之間移動"
 
-#: game/ui/settings_menu.gd:374
+#: game/ui/settings_menu.gd:386
 msgid "Press the focused button"
 msgstr "按下選中的按鈕"
 
-#: game/ui/settings_menu.gd:374
+#: game/ui/settings_menu.gd:386
 msgid "TAB / ARROWS"
 msgstr "TAB / 方向鍵"
 
-#: game/ui/settings_menu.gd:375
+#: game/ui/settings_menu.gd:387
 msgid "Close a window"
 msgstr "關閉視窗"
 
-#: game/ui/settings_menu.gd:375
+#: game/ui/settings_menu.gd:387
 msgid "Q  E"
 msgstr "Q  E"
 
-#: game/ui/settings_menu.gd:375
+#: game/ui/settings_menu.gd:387
 msgid "Switch pages in this menu"
 msgstr "切換本選單的頁面"
 
-#: game/ui/settings_menu.gd:379
+#: game/ui/settings_menu.gd:391
 msgid "CAMPAIGN"
 msgstr "戰役"
 
-#: game/ui/settings_menu.gd:386
+#: game/ui/settings_menu.gd:398
 msgid "MENUS"
 msgstr "選單"
 
-#: game/ui/settings_menu.gd:422
+#: game/ui/settings_menu.gd:434
 msgid "KIT"
 msgstr "套裝"
 
-#: game/ui/settings_menu.gd:423
+#: game/ui/settings_menu.gd:435
 msgid "(standard)"
 msgstr "(標準)"
 
-#: game/ui/settings_menu.gd:423 game/ui/title_screen.gd:451
+#: game/ui/settings_menu.gd:435 game/ui/title_screen.gd:451
 msgid "HEAT"
 msgstr "熱度"
 
-#: game/ui/settings_menu.gd:424 game/ui/shop_screen.gd:384
+#: game/ui/settings_menu.gd:436 game/ui/shop_screen.gd:390
 msgid "CREDITS"
 msgstr "代幣"
 
-#: game/ui/settings_menu.gd:426
+#: game/ui/settings_menu.gd:438
 #, c-format
 msgid "%d piece"
 msgid_plural "%d pieces"
 msgstr[0] "%d個拼塊"
 
-#: game/ui/settings_menu.gd:427
+#: game/ui/settings_menu.gd:439
 msgid "LINES"
 msgstr "消線"
 
 #. rules text (shown through BMLoc.tf)
-#: game/ui/settings_menu.gd:428 game/ui/title_screen.gd:696 game/ui/trophy_case.gd:149
+#: game/ui/settings_menu.gd:440 game/ui/title_screen.gd:703 game/ui/trophy_case.gd:149
 msgid "BEST PLACEMENT"
 msgstr "最佳單次放置"
 
-#: game/ui/settings_menu.gd:429
+#: game/ui/settings_menu.gd:441
 msgid "BOSSES BEATEN"
 msgstr "擊敗的首領"
 
-#: game/ui/settings_menu.gd:439
+#: game/ui/settings_menu.gd:451
 #, c-format
 msgid "HEAT %d RULES"
 msgstr "熱度%d規則"
 
-#: game/ui/settings_menu.gd:446 game/ui/settings_menu.gd:606
+#: game/ui/settings_menu.gd:458 game/ui/settings_menu.gd:619
 msgid "NOW"
 msgstr "目前"
 
-#: game/ui/settings_menu.gd:447
+#: game/ui/settings_menu.gd:459
 #, c-format
 msgid "ACT %d BOSS  -  %s  (%s)"
 msgstr "第%d幕首領  -  %s  (%s)"
 
-#: game/ui/settings_menu.gd:450
+#: game/ui/settings_menu.gd:462
 #, c-format
 msgid "THIS ROUND  -  %s"
 msgstr "本回合  -  %s"
 
-#: game/ui/settings_menu.gd:570
+#: game/ui/settings_menu.gd:582
 msgid "(silence between songs)"
 msgstr "(曲間靜默)"
 
-#: game/ui/settings_menu.gd:606
+#: game/ui/settings_menu.gd:619
 msgid "NEXT"
 msgstr "下一個"
 
-#: game/ui/settings_menu.gd:608
+#: game/ui/settings_menu.gd:622
 #, c-format
 msgid "ACT %d"
 msgstr "第%d幕"
 
-#: game/ui/settings_menu.gd:610
+#: game/ui/settings_menu.gd:625
 #, c-format
 msgid "OVERTIME  -  ROUND %d  (%d PAST THE FINAL BOSS)"
 msgstr "延長賽  -  第%d回合  (最終首領後%d回合)"
 
-#: game/ui/shop_screen.gd:56
+#: game/ui/shop_screen.gd:57 game/ui/shop_screen.gd:58
 msgid "THE TOYBOX"
 msgstr "玩具箱"
 
-#: game/ui/shop_screen.gd:61
+#: game/ui/shop_screen.gd:64
 msgid "OVERTIME"
 msgstr "延長賽"
 
-#: game/ui/shop_screen.gd:62
+#: game/ui/shop_screen.gd:65
 msgid "You beat the game and kept playing. Targets climb faster every round."
 msgstr "你已破關並繼續遊戲。目標每回合漲得更快。"
 
-#: game/ui/shop_screen.gd:79
+#: game/ui/shop_screen.gd:82
 msgid "Replace every offer in the shop. The price rises by 1 each reroll."
 msgstr "替換商店裡的所有商品。每次重擲價格+1。"
 
-#: game/ui/shop_screen.gd:91
+#: game/ui/shop_screen.gd:94
 msgid "WORKSHOP  -  edit your bag"
 msgstr "工坊  -  編輯你的袋子"
 
-#: game/ui/shop_screen.gd:94
+#: game/ui/shop_screen.gd:97
 msgid "PIECES FOR YOUR BAG"
 msgstr "袋子用拼塊"
 
-#: game/ui/shop_screen.gd:107
+#: game/ui/shop_screen.gd:110
 msgid "BOSS"
 msgstr "首領"
 
-#: game/ui/shop_screen.gd:131
+#: game/ui/shop_screen.gd:134
 msgid "NEXT ROUND  >"
 msgstr "下一回合  >"
 
-#: game/ui/shop_screen.gd:135
+#: game/ui/shop_screen.gd:138
 msgid ""
 "BOSS\n"
 "CRATE"
@@ -5512,257 +5512,257 @@ msgstr ""
 "首領\n"
 "寶箱"
 
-#: game/ui/shop_screen.gd:137
+#: game/ui/shop_screen.gd:140
 msgid "Your free Boss Crate is still closed. Open it before you leave."
 msgstr "你的免費首領寶箱還沒打開。離開前先打開它。"
 
-#: game/ui/shop_screen.gd:143
+#: game/ui/shop_screen.gd:146
 msgid "YOUR JOKERS"
 msgstr "你的小丑牌"
 
-#: game/ui/shop_screen.gd:147
+#: game/ui/shop_screen.gd:150
 msgid "YOUR ITEMS"
 msgstr "你的道具"
 
-#: game/ui/shop_screen.gd:152
+#: game/ui/shop_screen.gd:155
 msgid "Every piece in your bag (B)"
 msgstr "袋子裡的所有拼塊(B)"
 
-#: game/ui/shop_screen.gd:158
+#: game/ui/shop_screen.gd:161
 msgid "Pause, settings, Save & Quit to the main menu (Esc)"
 msgstr "暫停、設定、儲存並退出到主選單(Esc)"
 
-#: game/ui/shop_screen.gd:214
+#: game/ui/shop_screen.gd:217
 msgid "BOSS CRATE!"
 msgstr "首領寶箱!"
 
-#: game/ui/shop_screen.gd:219
+#: game/ui/shop_screen.gd:222
 msgid "You beat the boss. Open it and take one thing for free."
 msgstr "你擊敗了首領。打開它,免費拿走一樣東西。"
 
-#: game/ui/shop_screen.gd:234
+#: game/ui/shop_screen.gd:237
 msgid "Open the crate"
 msgstr "打開寶箱"
 
-#: game/ui/shop_screen.gd:237
+#: game/ui/shop_screen.gd:240
 msgid "CLICK TO OPEN"
 msgstr "點擊打開"
 
-#: game/ui/shop_screen.gd:271
+#: game/ui/shop_screen.gd:274 game/ui/shop_screen.gd:283
 msgid "TAKE IT"
 msgstr "拿走"
 
-#: game/ui/shop_screen.gd:279
+#: game/ui/shop_screen.gd:282
 #, c-format
 msgid "From the crate: %s."
 msgstr "來自寶箱:%s。"
 
-#: game/ui/shop_screen.gd:292 game/ui/shop_screen.gd:338
+#: game/ui/shop_screen.gd:296 game/ui/shop_screen.gd:342
 msgid "sell a Joker"
 msgstr "賣掉一張小丑牌"
 
-#: game/ui/shop_screen.gd:292 game/ui/shop_screen.gd:338
+#: game/ui/shop_screen.gd:296 game/ui/shop_screen.gd:342
 msgid "use an item"
 msgstr "使用一個道具"
 
-#: game/ui/shop_screen.gd:306
+#: game/ui/shop_screen.gd:310
 msgid "LATER"
 msgstr "稍後"
 
-#: game/ui/shop_screen.gd:307
+#: game/ui/shop_screen.gd:311
 msgid "Close the crate for now: the BOSS CRATE button reopens it until you leave the shop."
 msgstr "暫時關上寶箱:離開商店前,首領寶箱按鈕都能再次打開它。"
 
-#: game/ui/shop_screen.gd:311
+#: game/ui/shop_screen.gd:315
 msgid " or "
 msgstr "或"
 
-#: game/ui/shop_screen.gd:311
+#: game/ui/shop_screen.gd:315
 #, c-format
 msgid "Slots full? Press LATER, %s, then reopen the crate."
 msgstr "欄位滿了?點「稍後」,%s,然後重新打開寶箱。"
 
-#: game/ui/shop_screen.gd:328
+#: game/ui/shop_screen.gd:332
 msgid "Joker slots are full"
 msgstr "小丑牌欄位已滿"
 
-#: game/ui/shop_screen.gd:331
+#: game/ui/shop_screen.gd:335
 msgid "Item slots are full"
 msgstr "道具欄位已滿"
 
-#: game/ui/shop_screen.gd:342
+#: game/ui/shop_screen.gd:348
 #, c-format
 msgid "%s. Press LATER, %s, then reopen the crate with the BOSS CRATE button."
 msgstr "%s。點「稍後」,%s,然後用首領寶箱按鈕重新打開。"
 
-#: game/ui/shop_screen.gd:343
+#: game/ui/shop_screen.gd:349
 #, c-format
 msgid "LOCKED: %s. Press LATER, %s, then reopen the crate."
 msgstr "已鎖定:%s。點「稍後」,%s,然後重新打開寶箱。"
 
-#: game/ui/shop_screen.gd:361
+#: game/ui/shop_screen.gd:367
 msgid "SLOTS FULL"
 msgstr "欄位已滿"
 
-#: game/ui/shop_screen.gd:371
+#: game/ui/shop_screen.gd:377
 #, c-format
 msgid "%d Credit"
 msgid_plural "%d Credits"
 msgstr[0] "%d代幣"
 
-#: game/ui/shop_screen.gd:376
+#: game/ui/shop_screen.gd:382
 #, c-format
 msgid "%d Credit, straight into your wallet."
 msgid_plural "%d Credits, straight into your wallet."
 msgstr[0] "%d代幣,直接進你的錢包。"
 
-#: game/ui/shop_screen.gd:380
+#: game/ui/shop_screen.gd:386
 #, c-format
 msgid "%d CREDIT"
 msgid_plural "%d CREDITS"
 msgstr[0] "%d代幣"
 
-#: game/ui/shop_screen.gd:382
+#: game/ui/shop_screen.gd:388
 msgid "Straight into your wallet."
 msgstr "直接進你的錢包。"
 
-#: game/ui/shop_screen.gd:413
+#: game/ui/shop_screen.gd:419
 #, c-format
 msgid "Sold for %d Credits."
 msgstr "賣出,獲得%d代幣。"
 
-#: game/ui/shop_screen.gd:467
+#: game/ui/shop_screen.gd:473
 #, c-format
 msgid "Added %s to your bag (%d pieces)."
 msgstr "已把%s加入袋子(%d個拼塊)。"
 
-#: game/ui/shop_screen.gd:472
+#: game/ui/shop_screen.gd:478
 #, c-format
 msgid "Loan Shark lent you %d Credits. It takes %d back after each won round."
 msgstr "高利貸借給你%d代幣。每贏下一個回合,它會收回%d。"
 
-#: game/ui/shop_screen.gd:473
+#: game/ui/shop_screen.gd:479
 #, c-format
 msgid "%s joined your rack!"
 msgstr "%s加入了你的牌架!"
 
-#: game/ui/shop_screen.gd:475
+#: game/ui/shop_screen.gd:481
 #, c-format
 msgid "Bought %s."
 msgstr "購買了%s。"
 
-#: game/ui/shop_screen.gd:506
+#: game/ui/shop_screen.gd:512
 #, c-format
 msgid "REROLL  %d"
 msgstr "重擲  %d"
 
-#: game/ui/shop_screen.gd:517
+#: game/ui/shop_screen.gd:523
 #, c-format
 msgid "Score target for round %d: %s points"
 msgstr "第%d回合目標分數:%s分"
 
-#: game/ui/shop_screen.gd:518
+#: game/ui/shop_screen.gd:524
 msgid "Overtime: targets climb faster every round."
 msgstr "延長賽:目標每回合漲得更快。"
 
-#: game/ui/shop_screen.gd:525
+#: game/ui/shop_screen.gd:531
 #, c-format
 msgid "%s  (ROUND %d)"
 msgstr "%s  (第%d回合)"
 
-#: game/ui/shop_screen.gd:527
+#: game/ui/shop_screen.gd:533
 #, c-format
 msgid "Round %d boss: %s"
 msgstr "第%d回合首領:%s"
 
-#: game/ui/shop_screen.gd:542
+#: game/ui/shop_screen.gd:548
 msgid "Joker slots are full. Sell one first."
 msgstr "小丑牌欄位已滿。先賣掉一張。"
 
-#: game/ui/shop_screen.gd:566
+#: game/ui/shop_screen.gd:571
 #, c-format
 msgid "PICK %d"
 msgstr "選擇 %d"
 
-#: game/ui/shop_screen.gd:578
+#: game/ui/shop_screen.gd:583
 msgid "Your bag is full."
 msgstr "你的袋子滿了。"
 
-#: game/ui/shop_screen.gd:582
+#: game/ui/shop_screen.gd:587
 #, c-format
 msgid "YOUR JOKERS %d/%d"
 msgstr "你的小丑牌 %d/%d"
 
-#: game/ui/shop_screen.gd:660
+#: game/ui/shop_screen.gd:666
 #, c-format
 msgid "BUY %d"
 msgstr "購買 %d"
 
-#: game/ui/shop_screen.gd:673
+#: game/ui/shop_screen.gd:681
 msgid "SOLD OUT"
 msgstr "已售罄"
 
-#: game/ui/shop_screen.gd:712
+#: game/ui/shop_screen.gd:720
 #, c-format
 msgid "CHOOSE ROUND %d"
 msgstr "選擇第%d回合"
 
-#: game/ui/shop_screen.gd:718
+#: game/ui/shop_screen.gd:726
 msgid "Play it straight, or take a twist for a reward. Keys 1-3 choose, Esc goes back."
 msgstr "直接開始,或選擇一個變數換取獎勵。按1-3選擇,Esc返回。"
 
-#: game/ui/shop_screen.gd:735
+#: game/ui/shop_screen.gd:743
 msgid "STANDARD"
 msgstr "標準"
 
-#: game/ui/shop_screen.gd:735
+#: game/ui/shop_screen.gd:743
 msgid "TWIST"
 msgstr "變數"
 
-#: game/ui/shop_screen.gd:757
+#: game/ui/shop_screen.gd:765
 #, c-format
 msgid "+%d IF YOU WIN"
 msgstr "獲勝+%d"
 
-#: game/ui/shop_screen.gd:760
+#: game/ui/shop_screen.gd:768
 #, c-format
 msgid "PLAY  %d"
 msgstr "開始  %d"
 
-#: game/ui/shop_screen.gd:772
+#: game/ui/shop_screen.gd:780
 msgid "BACK TO THE SHOP"
 msgstr "返回商店"
 
-#: game/ui/shop_screen.gd:846
+#: game/ui/shop_screen.gd:854
 #, c-format
 msgid "%s  -  %d CREDITS"
 msgstr "%s  -  %d代幣"
 
-#: game/ui/shop_screen.gd:850
+#: game/ui/shop_screen.gd:858
 #, c-format
 msgid "Choose up to %d piece."
 msgid_plural "Choose up to %d pieces."
 msgstr[0] "最多選擇%d個拼塊。"
 
-#: game/ui/shop_screen.gd:853
+#: game/ui/shop_screen.gd:861
 msgid "CONFIRM PURCHASE"
 msgstr "確認購買"
 
-#: game/ui/shop_screen.gd:859
+#: game/ui/shop_screen.gd:867
 #, c-format
 msgid "%d of %d chosen"
 msgstr "已選%d/%d"
 
-#: game/ui/shop_screen.gd:861
+#: game/ui/shop_screen.gd:869
 #, c-format
 msgid "   -   color: %s"
 msgstr "   -   顏色:%s"
 
-#: game/ui/shop_screen.gd:861
+#: game/ui/shop_screen.gd:869
 msgid "pick one"
 msgstr "選一種"
 
-#: game/ui/shop_screen.gd:902
+#: game/ui/shop_screen.gd:910
 msgid "CANCEL  (ESC)"
 msgstr "取消  (ESC)"
 
@@ -5790,7 +5790,7 @@ msgstr "繼續對局"
 msgid "Pick a Kit and a Heat level, then twelve rounds and three bosses."
 msgstr "選擇套裝和熱度等級,然後迎接十二個回合和三個首領。"
 
-#: game/ui/title_screen.gd:90 game/ui/title_screen.gd:165 game/ui/title_screen.gd:648
+#: game/ui/title_screen.gd:90 game/ui/title_screen.gd:165 game/ui/title_screen.gd:655
 msgid "DAILY"
 msgstr "每日挑戰"
 
@@ -5926,20 +5926,20 @@ msgstr "開始"
 msgid "Locked: "
 msgstr "未解鎖:"
 
-#: game/ui/title_screen.gd:472 game/ui/title_screen.gd:479
+#: game/ui/title_screen.gd:475 game/ui/title_screen.gd:482
 #, c-format
 msgid "Heat %d:  %s"
 msgstr "熱度%d:  %s"
 
-#: game/ui/title_screen.gd:472 game/ui/title_screen.gd:479
+#: game/ui/title_screen.gd:475 game/ui/title_screen.gd:482
 msgid "Heat 0: standard rules."
 msgstr "熱度0:標準規則。"
 
-#: game/ui/title_screen.gd:472
+#: game/ui/title_screen.gd:475
 msgid "Standard rules. Win a run to unlock Heat 1."
 msgstr "標準規則。贏下一局即可解鎖熱度1。"
 
-#: game/ui/title_screen.gd:481
+#: game/ui/title_screen.gd:484
 #, c-format
 msgid ""
 "\n"
@@ -5948,11 +5948,11 @@ msgstr ""
 "\n"
 "未解鎖:先在熱度%d下贏下一局。"
 
-#: game/ui/title_screen.gd:493
+#: game/ui/title_screen.gd:500
 msgid "random"
 msgstr "隨機"
 
-#: game/ui/title_screen.gd:497
+#: game/ui/title_screen.gd:504
 msgid ""
 "Leave empty for a random run. The same seed deals the same pieces, shops and bosses.\n"
 "A run on a seed you choose is practice: it earns no achievements, records or unlocks."
@@ -5960,65 +5960,65 @@ msgstr ""
 "留空則隨機開局。相同的種子會發出相同的拼塊、商店和首領。\n"
 "使用自選種子的對局屬於練習:不計成就、紀錄和解鎖。"
 
-#: game/ui/title_screen.gd:499
+#: game/ui/title_screen.gd:506
 msgid "Chosen seeds are practice: no achievements or unlocks."
 msgstr "自選種子屬於練習:不計成就和解鎖。"
 
-#: game/ui/title_screen.gd:524
+#: game/ui/title_screen.gd:531
 msgid "DAILY RUN"
 msgstr "每日挑戰"
 
-#: game/ui/title_screen.gd:527
+#: game/ui/title_screen.gd:534
 #, c-format
 msgid "%s   -   SEED %d"
 msgstr "%s   -   種子 %d"
 
-#: game/ui/title_screen.gd:530
+#: game/ui/title_screen.gd:537
 msgid "Standard Kit, Heat 0, every Joker in the pool."
 msgstr "標準套裝、熱度0、所有小丑牌都會出現。"
 
-#: game/ui/title_screen.gd:531
+#: game/ui/title_screen.gd:538
 msgid "Everyone gets the same pieces, shops and bosses today."
 msgstr "今天所有人都會拿到相同的拼塊、商店和首領。"
 
-#: game/ui/title_screen.gd:532
+#: game/ui/title_screen.gd:539
 msgid "A new Daily starts at midnight."
 msgstr "新的每日挑戰在午夜開始。"
 
-#: game/ui/title_screen.gd:536
+#: game/ui/title_screen.gd:543
 msgid "Not played yet today."
 msgstr "今天還沒玩過。"
 
-#: game/ui/title_screen.gd:538
+#: game/ui/title_screen.gd:545
 msgid "Today's best:  WON!"
 msgstr "今日最佳:  獲勝!"
 
-#: game/ui/title_screen.gd:538
+#: game/ui/title_screen.gd:545
 #, c-format
 msgid "Today's best:  reached round %d."
 msgstr "今日最佳:  抵達第%d回合。"
 
-#: game/ui/title_screen.gd:547
+#: game/ui/title_screen.gd:554
 msgid "PLAY TODAY'S RUN"
 msgstr "開始今天的挑戰"
 
-#: game/ui/title_screen.gd:594
+#: game/ui/title_screen.gd:601
 msgid "RUN HISTORY"
 msgstr "對局歷史"
 
-#: game/ui/title_screen.gd:598
+#: game/ui/title_screen.gd:605
 #, c-format
 msgid "%d run"
 msgid_plural "%d runs"
 msgstr[0] "%d局"
 
-#: game/ui/title_screen.gd:598
+#: game/ui/title_screen.gd:605
 #, c-format
 msgid "%d won"
 msgid_plural "%d won"
 msgstr[0] "勝%d局"
 
-#: game/ui/title_screen.gd:607
+#: game/ui/title_screen.gd:614
 msgid ""
 "NO RUNS YET\n"
 "FINISH A CAMPAIGN RUN TO START YOUR HISTORY"
@@ -6026,118 +6026,118 @@ msgstr ""
 "還沒有對局\n"
 "完成一局戰役即可開始記錄歷史"
 
-#: game/ui/title_screen.gd:635
+#: game/ui/title_screen.gd:642
 msgid "BROKE THE MACHINE"
 msgstr "機器被玩壞了"
 
-#: game/ui/title_screen.gd:638
+#: game/ui/title_screen.gd:645
 msgid "WON"
 msgstr "獲勝"
 
-#: game/ui/title_screen.gd:638
+#: game/ui/title_screen.gd:645
 #, c-format
 msgid "WON  +%d OVERTIME"
 msgstr "獲勝  延長+%d"
 
-#: game/ui/title_screen.gd:640
+#: game/ui/title_screen.gd:647
 #, c-format
 msgid "ABANDONED  R%d"
 msgstr "放棄  R%d"
 
-#: game/ui/title_screen.gd:641
+#: game/ui/title_screen.gd:648
 #, c-format
 msgid "LOST  ROUND %d"
 msgstr "失敗  第%d回合"
 
-#: game/ui/title_screen.gd:648
+#: game/ui/title_screen.gd:655
 #, c-format
 msgid "HEAT %d"
 msgstr "熱度%d"
 
-#: game/ui/title_screen.gd:650
+#: game/ui/title_screen.gd:657
 #, c-format
 msgid "%s  -  %s  -  %s  -  seed %d"
 msgstr "%s  -  %s  -  %s  -  種子 %d"
 
-#: game/ui/title_screen.gd:694
+#: game/ui/title_screen.gd:701
 #, c-format
 msgid "%s  -  Heat %d"
 msgstr "%s  -  熱度%d"
 
-#: game/ui/title_screen.gd:694
+#: game/ui/title_screen.gd:701
 msgid "Daily "
 msgstr "每日挑戰"
 
-#: game/ui/title_screen.gd:694
+#: game/ui/title_screen.gd:701
 msgid "MODE"
 msgstr "模式"
 
-#: game/ui/title_screen.gd:694
+#: game/ui/title_screen.gd:701
 msgid "PLAYED"
 msgstr "遊玩時間"
 
-#: game/ui/title_screen.gd:695
+#: game/ui/title_screen.gd:702
 msgid "ROUND REACHED"
 msgstr "抵達回合"
 
-#: game/ui/title_screen.gd:696
+#: game/ui/title_screen.gd:703
 msgid "TOTAL SCORE"
 msgstr "總得分"
 
-#: game/ui/title_screen.gd:701
+#: game/ui/title_screen.gd:708
 #, c-format
 msgid "JOKERS  (%d)"
 msgstr "小丑牌  (%d)"
 
-#: game/ui/title_screen.gd:715
+#: game/ui/title_screen.gd:722
 msgid "No Jokers at the end of this run."
 msgstr "本局結束時沒有小丑牌。"
 
-#: game/ui/title_screen.gd:721
+#: game/ui/title_screen.gd:728
 msgid "PLAY THIS SEED"
 msgstr "使用這個種子"
 
-#: game/ui/title_screen.gd:722
+#: game/ui/title_screen.gd:729
 msgid "Open the Kit screen with this seed filled in."
 msgstr "打開套裝畫面並填好這個種子。"
 
-#: game/ui/title_screen.gd:742
+#: game/ui/title_screen.gd:749
 msgid "Locked. "
 msgstr "未解鎖。"
 
-#: game/ui/title_screen.gd:770
+#: game/ui/title_screen.gd:777
 #, c-format
 msgid "%d JOKER"
 msgid_plural "%d JOKERS"
 msgstr[0] "%d個小丑牌欄位"
 
-#: game/ui/title_screen.gd:771
+#: game/ui/title_screen.gd:778
 #, c-format
 msgid "%d REFRESH"
 msgid_plural "%d REFRESHES"
 msgstr[0] "%d次刷新"
 
-#: game/ui/title_screen.gd:776
+#: game/ui/title_screen.gd:785
 #, c-format
 msgid "+%d STARTING CREDIT"
 msgid_plural "+%d STARTING CREDITS"
 msgstr[0] "初始+%d代幣"
 
-#: game/ui/title_screen.gd:805
+#: game/ui/title_screen.gd:814
 #, c-format
 msgid "%d PIECE"
 msgid_plural "%d PIECES"
 msgstr[0] "%d個拼塊"
 
-#: game/ui/title_screen.gd:814
+#: game/ui/title_screen.gd:823
 msgid "? JOKERS  -  ? REFRESHES"
 msgstr "?個小丑牌欄位  -  ?次刷新"
 
-#: game/ui/title_screen.gd:815
+#: game/ui/title_screen.gd:824
 msgid "? PLACEMENTS"
 msgstr "?次放置"
 
-#: game/ui/title_screen.gd:838
+#: game/ui/title_screen.gd:849
 msgid "TO UNLOCK"
 msgstr "解鎖條件"
 

@@ -34,6 +34,7 @@ var _continue: Button
 var _new: Button
 var _trophies: Button
 var _highscore_overlay: Control
+var _menu_buttons: Array[Button] = []
 var _score_rows: Array[Button] = []
 var _t := 0.0
 var _intro_t := 0.0
@@ -150,10 +151,49 @@ func _menu_button(text: String, cb: Callable, kind: String, font_size: int, icon
 		# Vertically centered on the face (4 px above the button's center: the 9-slice has a
 		# bottom lip); the pressed face sits 4 px lower.
 		ic.position = Vector2(margin, (b.size.y - ic.size.y) / 2.0 - 4.0 + (4.0 if down else 0.0)).round()
+	b.set_meta("menu_font", font_size)
+	b.set_meta("menu_clear", margin + ic.size.x + 8.0)
+	var fit := func() -> void: _fit_menu_row(b.get_parent())
+	b.set_meta("refit", fit)
+	_menu_buttons.append(b)
 	b.button_down.connect(place.bind(true))
 	b.button_up.connect(place.bind(false))
 	b.resized.connect(place.bind(false))
+	b.resized.connect(fit)
 	return b
+
+
+## Menu buttons keep their centered text clear of the icon on both sides; a longer translation
+## steps the font down, and if it still does not fit it centers in the space right of the icon.
+## Buttons that share a row share the smallest of their sizes, so the row reads evenly.
+func _fit_menu_row(row: Node) -> void:
+	if row == null:
+		return
+	var buttons: Array[Button] = []
+	for c in row.get_children():
+		if c is Button and c.has_meta("menu_clear") and (c as Button).size.x > 0.0 and (c as Button).visible:
+			buttons.append(c)
+	var fs := 80
+	for b in buttons:
+		var f := b.get_theme_font("font")
+		var clear: float = b.get_meta("menu_clear")
+		var s := BMUI.fit_size(b.text, f, int(b.get_meta("menu_font")), b.size.x - 2.0 * clear, false)
+		if f.get_string_size(b.text, HORIZONTAL_ALIGNMENT_LEFT, -1, s).x > b.size.x - 2.0 * clear + 0.5:
+			s = BMUI.fit_size(b.text, f, int(b.get_meta("menu_font")), b.size.x - clear - 16.0, false)
+		fs = mini(fs, s)
+	for b in buttons:
+		var f := b.get_theme_font("font")
+		var clear: float = b.get_meta("menu_clear")
+		var w := f.get_string_size(b.text, HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x
+		var room := b.size.x - 2.0 * clear
+		if w > room + 0.5:
+			room = b.size.x - clear - 16.0
+			for state in ["normal", "hover", "pressed", "disabled", "focus"]:
+				var sb := b.get_theme_stylebox(state).duplicate() as StyleBox
+				sb.content_margin_left = clear
+				b.add_theme_stylebox_override(state, sb)
+		b.add_theme_font_size_override("font_size", fs)
+		b.set_meta("text_overflow", w > room + 0.5)
 
 
 func refresh() -> void:
@@ -163,6 +203,13 @@ func refresh() -> void:
 	var today := Time.get_date_string_from_system()
 	var played := String(profile.get("daily_date", "")) == today
 	_daily.text = BMLoc.t("DAILY  *") if played and int(profile.get("daily_won", 0)) > 0 else BMLoc.t("DAILY")
+	# Popups build menu buttons too; forget the ones already freed.
+	var live: Array[Button] = []
+	for b in _menu_buttons:
+		if is_instance_valid(b):
+			live.append(b)
+			(b.get_meta("refit") as Callable).call()
+	_menu_buttons = live
 	_daily.tooltip_text = BMLoc.t("Today's run: the same seed for everyone, Standard Kit, Heat 0.") + \
 		(BMLoc.t("\nToday: %s") % (BMLoc.t("won!") if int(profile.get("daily_won", 0)) > 0 else BMLoc.t("reached round %d") % int(profile.get("daily_round", 0))) if played else "")
 	refresh_trophy_button()
@@ -452,6 +499,9 @@ func _show_kit_picker(seed_text: String = "") -> void:
 	hl.position = Vector2(24, 14)
 	hl.size = Vector2(120, 50)
 	body.add_child(hl)
+	# A longer word for Heat pushes the Heat buttons right (there is room before the seed).
+	hl.size.x = maxf(120.0, hl.get_combined_minimum_size().x)
+	var heat_x := maxf(150.0, 24.0 + hl.size.x + 12.0)
 	var desc := BMStyle.label("", 20, BMStyle.CREAM, false, 4)
 	desc.position = Vector2(24, 80)
 	desc.size = Vector2(1000, 34)
@@ -472,7 +522,7 @@ func _show_kit_picker(seed_text: String = "") -> void:
 		desc.text = BMLoc.t("Standard rules. Win a run to unlock Heat 1.") if _heat == 0 and avail == 0 else 			(BMLoc.t("Heat 0: standard rules.") if _heat == 0 else BMLoc.t("Heat %d:  %s") % [_heat, "  -  ".join(rules)])
 	for h in BMRunConfig.MAX_HEAT + 1:
 		var hb := BMStyle.button(str(h), func() -> void: pass, "plum", 30)
-		hb.position = Vector2(150 + h * 104, 10)
+		hb.position = Vector2(heat_x + h * 104, 10)
 		hb.size = Vector2(92, 60)
 		hb.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
 		hb.add_theme_constant_override("h_separation", 6)
@@ -489,6 +539,10 @@ func _show_kit_picker(seed_text: String = "") -> void:
 	sl.position = Vector2(1080, 14)
 	sl.size = Vector2(110, 50)
 	body.add_child(sl)
+	var seed_w := sl.get_combined_minimum_size().x
+	if seed_w > 104.0: # a longer word for Seed grows leftward, into the gap after the Heat buttons
+		sl.position.x = 1184.0 - seed_w
+		sl.size.x = seed_w
 	_seed_edit = LineEdit.new()
 	_seed_edit.placeholder_text = BMLoc.t("random")
 	_seed_edit.text = seed_text
@@ -605,6 +659,7 @@ func _show_history() -> void:
 	_place_score_widget(body, back, Vector2(12, 790), Vector2(720, 72))
 	if list.is_empty():
 		var empty := BMStyle.label(BMLoc.t("NO RUNS YET\nFINISH A CAMPAIGN RUN TO START YOUR HISTORY"), 20, BMStyle.CREAM, true)
+		empty.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		_place_score_widget(body, empty, Vector2(20, 120), Vector2(700, 90))
 		BMStyle.focus_later(back)
 		return
@@ -760,7 +815,7 @@ class KitCard extends Control:
 		var r := Rect2(Vector2.ZERO, size)
 		draw_style_box(BMStyle.box("panel_plate" if unlocked else "panel_inset", Vector4.ZERO), r)
 		var f := BMStyle.font_bold
-		draw_string(f, Vector2(0, 58), BMLoc.t(kit.name).to_upper(), HORIZONTAL_ALIGNMENT_CENTER, size.x, 30, BMStyle.SUN if unlocked else BMStyle.TEXT_DIM)
+		BMUI.draw_fit(self, f, Vector2(0, 58), BMLoc.t(kit.name).to_upper(), HORIZONTAL_ALIGNMENT_CENTER, size.x, 30, BMStyle.SUN if unlocked else BMStyle.TEXT_DIM)
 		if unlocked:
 			_draw_open(f)
 		else:
@@ -769,11 +824,13 @@ class KitCard extends Control:
 	func _draw_open(f: Font) -> void:
 		var facts := BMLoc.tn("%d JOKER", "%d JOKERS", int(kit.joker_slots)) % int(kit.joker_slots) + "  -  " \
 			+ BMLoc.tn("%d REFRESH", "%d REFRESHES", int(kit.refreshes)) % int(kit.refreshes)
-		draw_string(f, Vector2(0, 96), facts, HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.CREAM)
-		draw_string(f, Vector2(0, 124), BMLoc.tn("%d PLACEMENT", "%d PLACEMENTS", int(kit.placements)) % int(kit.placements), HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.CREAM)
-		var y := 142.0
+		var rows := _fact_rows(facts, f)
+		rows.append(BMLoc.tn("%d PLACEMENT", "%d PLACEMENTS", int(kit.placements)) % int(kit.placements))
+		for i in rows.size():
+			BMUI.draw_fit(self, f, Vector2(0, 96 + i * 28), rows[i], HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.CREAM)
+		var y := 142.0 + (rows.size() - 2) * 28.0
 		if int(kit.credits) > 0:
-			draw_string(f, Vector2(0, 152), BMLoc.tn("+%d STARTING CREDIT", "+%d STARTING CREDITS", int(kit.credits)) % int(kit.credits), HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.SUN_L)
+			BMUI.draw_fit(self, f, Vector2(0, y + 10), BMLoc.tn("+%d STARTING CREDIT", "+%d STARTING CREDITS", int(kit.credits)) % int(kit.credits), HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.SUN_L)
 			y += 26.0
 		# Signature perk on a sun plate.
 		if String(kit.get("perk", "")) != "":
@@ -781,9 +838,9 @@ class KitCard extends Control:
 			var ph := 84.0 + (lines.size() - 1) * 24.0
 			var pr := Rect2(Vector2(16, y), Vector2(size.x - 32, ph))
 			draw_style_box(BMStyle.box("panel_sun", Vector4.ZERO), pr)
-			draw_string(f, Vector2(pr.position.x, y + 28), BMLoc.t(kit.perk), HORIZONTAL_ALIGNMENT_CENTER, pr.size.x, 20, BMStyle.INK)
+			BMUI.draw_fit(self, f, Vector2(pr.position.x, y + 28), BMLoc.t(kit.perk), HORIZONTAL_ALIGNMENT_CENTER, pr.size.x, 20, BMStyle.INK)
 			for i in lines.size():
-				draw_string(BMStyle.font, Vector2(pr.position.x, y + 52 + i * 24), lines[i], HORIZONTAL_ALIGNMENT_CENTER, pr.size.x, 20, BMStyle.PLUM_D)
+				BMUI.draw_fit(self, BMStyle.font, Vector2(pr.position.x, y + 52 + i * 24), lines[i], HORIZONTAL_ALIGNMENT_CENTER, pr.size.x, 20, BMStyle.PLUM_D)
 			y += ph + 12.0
 		else:
 			y += 8.0
@@ -802,7 +859,7 @@ class KitCard extends Control:
 			BMBlockPainter.draw_shape(self, p, Vector2(x, y + bob), cell, 1.0)
 			x += dims.x * cell + 9.0
 			row_h = maxf(row_h, dims.y * cell)
-		draw_string(f, Vector2(0, y + row_h + 30), BMLoc.tn("%d PIECE", "%d PIECES", bag.size()) % bag.size(), HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.TEXT_DIM)
+		BMUI.draw_fit(self, f, Vector2(0, y + row_h + 30), BMLoc.tn("%d PIECE", "%d PIECES", bag.size()) % bag.size(), HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.TEXT_DIM)
 		var ty := y + row_h + 64
 		for l in _wrap(BMLoc.t(kit.text), size.x - 40, BMStyle.font):
 			if ty > size.y - 14:
@@ -811,14 +868,16 @@ class KitCard extends Control:
 			ty += 26
 
 	func _draw_locked(f: Font) -> void:
-		draw_string(f, Vector2(0, 96), BMLoc.t("? JOKERS  -  ? REFRESHES"), HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, Color(BMStyle.TEXT_DIM, 0.6))
-		draw_string(f, Vector2(0, 124), BMLoc.t("? PLACEMENTS"), HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, Color(BMStyle.TEXT_DIM, 0.6))
+		var rows := _fact_rows(BMLoc.t("? JOKERS  -  ? REFRESHES"), f)
+		rows.append(BMLoc.t("? PLACEMENTS"))
+		for i in rows.size():
+			BMUI.draw_fit(self, f, Vector2(0, 96 + i * 28), rows[i], HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, Color(BMStyle.TEXT_DIM, 0.6))
 		# Mystery pieces: stone blocks with question marks.
 		var n := 5
 		var cs := 40.0
 		var gx := (size.x - (n * cs + (n - 1) * 12.0)) / 2.0
 		for i in n:
-			var br := Rect2(Vector2(gx + i * (cs + 12.0), 150), Vector2(cs, cs))
+			var br := Rect2(Vector2(gx + i * (cs + 12.0), 150 + (rows.size() - 2) * 22.0), Vector2(cs, cs))
 			BMBlockPainter.draw_block(self, br, BMShapes.COLOR_STONE, 0.45)
 			draw_string(f, br.position + Vector2(0, 30), "?", HORIZONTAL_ALIGNMENT_CENTER, cs, 30, Color(BMStyle.INK, 0.8))
 		# The padlock: bobs gently, wobbles when pointed at.
@@ -835,10 +894,10 @@ class KitCard extends Control:
 		# Requirement, wrapped inside the card with the font it is drawn in.
 		var ul := _wrap(BMLoc.t(kit.unlock), size.x - 48, f)
 		var ty := 430.0
-		draw_string(f, Vector2(0, ty), BMLoc.t("TO UNLOCK"), HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.TEXT_DIM)
+		BMUI.draw_fit(self, f, Vector2(0, ty), BMLoc.t("TO UNLOCK"), HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.TEXT_DIM)
 		ty += 32
 		for l in ul:
-			draw_string(f, Vector2(0, ty), l, HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.PINK_L)
+			BMUI.draw_fit(self, f, Vector2(0, ty), l, HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.PINK_L)
 			ty += 26
 		var need: Dictionary = kit.get("need", {})
 		for key in need:
@@ -848,10 +907,20 @@ class KitCard extends Control:
 			draw_rect(bar.grow(3), BMStyle.INK)
 			draw_rect(bar, BMStyle.PLUM_D)
 			draw_rect(Rect2(bar.position, Vector2(roundf(bar.size.x * have / float(goal)), bar.size.y)), BMStyle.MINT)
-			draw_string(f, Vector2(0, size.y - 22), "%d / %d" % [have, goal], HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.MINT_L)
+			BMUI.draw_fit(self, f, Vector2(0, size.y - 22), "%d / %d" % [have, goal], HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.MINT_L)
 
 	func _wrap(text: String, width: float, font: Font) -> PackedStringArray:
 		return BMUI.wrap_lines(text, font, 20, width)
+
+	## "5 JOKERS  -  2 REFRESHES" on one line, or split at the dash when a translation is too
+	## long for the card.
+	func _fact_rows(facts: String, font: Font) -> Array[String]:
+		if font.get_string_size(facts, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x <= size.x - 16:
+			return [facts]
+		var out: Array[String] = []
+		for part in facts.split("  -  "):
+			out.append(part.strip_edges())
+		return out
 
 
 func _seed_drifters() -> void:

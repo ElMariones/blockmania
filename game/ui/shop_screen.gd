@@ -53,7 +53,10 @@ func _ready() -> void:
 	_awning.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_awning.draw.connect(_draw_awning)
 	_put(_awning, Vector2(28, 8), Vector2(1412, 104))
-	var sign := BMStyle.label(BMLoc.t("THE TOYBOX"), 60, BMStyle.SUN, true, 14)
+	# A longer name steps down to 40, still clear of the Overtime pill and the credits.
+	var sign_size := BMUI.fit_size(BMLoc.t("THE TOYBOX"), BMStyle.font_bold, 60, 572)
+	var sign := BMStyle.label(BMLoc.t("THE TOYBOX"), sign_size, BMStyle.SUN, true, 14)
+	sign.vertical_alignment = VERTICAL_ALIGNMENT_CENTER if sign_size < 60 else VERTICAL_ALIGNMENT_TOP
 	sign.add_theme_color_override("font_shadow_color", Color(BMStyle.PINK, 0.8))
 	sign.add_theme_constant_override("shadow_offset_y", 6)
 	sign.add_theme_constant_override("shadow_offset_x", 0)
@@ -276,7 +279,8 @@ func _crate_offers(dim: Control) -> void:
 				if String(o.kind) == "joker" and BMJokers.is_legendary(String(o.id)):
 					_legendary_fanfare(String(o.id))
 				_message.add_theme_color_override("font_color", BMStyle.MINT_L)
-				_message.text = BMLoc.t("From the crate: %s.") % _crate_name(o), "mint", 30)
+				_message.text = BMLoc.t("From the crate: %s.") % _crate_name(o), "mint",
+			BMUI.fit_size(BMLoc.t("TAKE IT"), BMStyle.font_bold, 30, 190))
 		var card: BMCard
 		match String(o.kind):
 			"joker":
@@ -339,6 +343,8 @@ func _lock_offer(card: BMCard, take: Button, why: String, joker: bool) -> void:
 	take.disabled = true
 	take.text = BMLoc.t("LOCKED")
 	take.icon = BMStyle.tex("icon_lock")
+	# With the padlock beside it, a longer word steps down to 20 to stay inside the card.
+	take.add_theme_font_size_override("font_size", BMUI.fit_size(take.text, BMStyle.font_bold, 30, 150))
 	take.tooltip_text = BMLoc.t("%s. Press LATER, %s, then reopen the crate with the BOSS CRATE button.") % [why, fix]
 	card.tooltip_body += "\n\n" + BMLoc.t("LOCKED: %s. Press LATER, %s, then reopen the crate.") % [why, fix]
 	# A light veil keeps the card readable; the padlock covers the emblem and SLOTS FULL
@@ -455,7 +461,7 @@ func _legendary_fanfare(id: String) -> void:
 	var c := get_global_rect().get_center()
 	fx.confetti(Rect2(Vector2.ZERO, size), 200)
 	fx.pop_text(c + Vector2(0, -120), BMLoc.t("LEGENDARY!"), BMStyle.LILAC, 80, 70.0, 1.6)
-	fx.pop_text(c + Vector2(0, -40), String(BMJokers.get_def(id).name).to_upper(), BMStyle.SUN_L, 40, 60.0, 1.6)
+	fx.pop_text(c + Vector2(0, -40), BMJokers.display_name(id).to_upper(), BMStyle.SUN_L, 40, 60.0, 1.6)
 	fx.shake(10.0)
 	if BMCrtLayer.instance:
 		BMCrtLayer.instance.shock(0.6)
@@ -505,7 +511,9 @@ func refresh_all() -> void:
 	_overtime_pill.visible = run.overtime
 	_reroll_button.text = BMLoc.t("REROLL  %d") % int(run.shop.reroll_cost)
 	_reroll_button.disabled = run.credits < int(run.shop.reroll_cost)
+	BMUI.fit_button(_reroll_button, 330, 30)
 	_bag_button.text = BMLoc.t("BAG  %d") % run.bag.size()
+	BMUI.fit_button(_bag_button, 236, 30)
 	var next := run.round_number + 1
 	var boss_next := BMRunConfig.is_boss_round(next)
 	_next_label.text = BMLoc.t("ROUND %d") % next
@@ -526,6 +534,9 @@ func refresh_all() -> void:
 	_boss_label.text = brule
 	_ticker.tooltip_text = BMLoc.t("Round %d boss: %s") % [boss_round, bname] + "\n" + brule
 	_fit_ticker(_crate_button.visible)
+	# Again once the wrapped labels have their width: measured before layout, their minimum
+	# height is far too tall and the ticker would keep that size (past the screen bottom).
+	_fit_ticker.call_deferred(_crate_button.visible)
 
 	BMUI.clear_children(_jokers_row)
 	for i in run.shop.jokers.size():
@@ -561,9 +572,8 @@ func refresh_all() -> void:
 			_tools_row.add_child(_sold_out())
 			continue
 		var def := BMTools.get_def(o.id)
-		var buy := _price_button(int(def.cost), func() -> void: _begin_tool(i))
-		if int(def.max_targets) > 0:
-			buy.text = BMLoc.t("PICK %d") % int(def.cost)
+		var buy := _price_button(int(def.cost), func() -> void: _begin_tool(i),
+			BMLoc.t("PICK %d") if int(def.max_targets) > 0 else "")
 		_tools_row.add_child(_card(BMCard.offer(run, "tool", o, buy)))
 
 	BMUI.clear_children(_pieces_row)
@@ -618,7 +628,7 @@ func refresh_all() -> void:
 	for id in run.consumables:
 		var c := BMCard.item_rack(id)
 		c.custom_minimum_size = Vector2(204, 132)
-		var body := BMStyle.label(BMConsumables.get_def(id).text, 20, Color(BMStyle.INK, 0.75))
+		var body := BMStyle.label(BMConsumables.display_text(id), 20, Color(BMStyle.INK, 0.75))
 		body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		body.max_lines_visible = 2
 		body.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
@@ -656,8 +666,11 @@ func _fit_ticker(crate_showing: bool) -> void:
 	_ticker.size = Vector2(_ticker.size.x, h)
 
 
-func _price_button(cost: int, cb: Callable) -> Button:
-	var b := BMStyle.button(BMLoc.t("BUY %d") % cost, cb, "sun", 30)
+## `label` is the translated "BUY %d" (or "PICK %d" for Workshop cards that take targets).
+func _price_button(cost: int, cb: Callable, label := "") -> Button:
+	var text := (label if label != "" else BMLoc.t("BUY %d")) % cost
+	# Longer words for "buy" step down to 20 so the button stays inside the offer card.
+	var b := BMStyle.button(text, cb, "sun", BMUI.fit_size(text, BMStyle.font_bold, 30, 128)) # + coin icon, 224 px
 	b.icon = BMStyle.tex("icon_coin")
 	b.add_theme_constant_override("icon_max_width", 32)
 	b.custom_minimum_size.y = 64

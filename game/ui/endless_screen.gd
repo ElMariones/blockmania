@@ -75,16 +75,16 @@ class HoldWell extends Control:
 		if drop_highlight and not locked:
 			draw_rect(Rect2(Vector2(5, 5), size - Vector2(10, 10)), BMStyle.MINT_L, false, 5.0)
 		var title := BMLoc.t("HOLD")
-		draw_string(BMStyle.font_bold, Vector2(24, 42), title, HORIZONTAL_ALIGNMENT_LEFT, -1, 30, BMStyle.MINT_L if drop_highlight else BMStyle.SUN)
+		BMUI.draw_fit(self, BMStyle.font_bold, Vector2(24, 42), title, HORIZONTAL_ALIGNMENT_LEFT, -1, 30, BMStyle.MINT_L if drop_highlight else BMStyle.SUN, size.x - 48)
 		if shape.is_empty():
-			draw_string(BMStyle.font, Vector2(0, size.y / 2.0 + 20), BMLoc.t("EMPTY"), HORIZONTAL_ALIGNMENT_CENTER, size.x, 30, BMStyle.TEXT_DIM)
+			BMUI.draw_fit(self, BMStyle.font, Vector2(0, size.y / 2.0 + 20), BMLoc.t("EMPTY"), HORIZONTAL_ALIGNMENT_CENTER, size.x, 30, BMStyle.TEXT_DIM)
 		else:
 			var dims := Vector2(BMShapes.shape_size(shape))
 			var cell := 44.0 if dims.x <= 4 and dims.y <= 3 else 33.0
 			var at := ((size - dims * cell) / 2.0 + Vector2(0, 22)).round()
 			BMBlockPainter.draw_shape(self, shape, at, cell, 1.0, Color.WHITE, skin)
 		if locked:
-			draw_string(BMStyle.font_bold, Vector2(0, size.y - 20), BMLoc.t("USED THIS TURN"), HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.PINK_L)
+			BMUI.draw_fit(self, BMStyle.font_bold, Vector2(0, size.y - 20), BMLoc.t("USED THIS TURN"), HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, BMStyle.PINK_L)
 
 
 func _ready() -> void:
@@ -216,6 +216,10 @@ func refresh_all() -> void:
 	_hold_well.queue_redraw()
 	_hold_hint.text = BMLoc.t("HOLD USED — place a piece to recharge") if game.hold_used else BMLoc.t("Select a piece, then drop it here or press H")
 	_skin_button.text = BMLoc.t("BLOCK STYLE:  %s") % BMFinishes.display_name(_skin)
+	# Too long for the panel (a long style name in a long language): the name alone.
+	if _skin_button.get_minimum_size().x > 469.0:
+		_skin_button.text = BMFinishes.display_name(_skin).to_upper()
+	_skin_button.tooltip_text = BMLoc.t("BLOCK STYLE:  %s") % BMFinishes.display_name(_skin)
 	for i in 3:
 		slots[i].setup(game.tray[i], i == _held, game.fits(i))
 		slots[i].tooltip_text = BMLoc.t("No board fit. Select this piece to use Hold.") if not game.tray[i].is_empty() and not game.fits(i) and not game.hold_used else ""
@@ -536,10 +540,18 @@ func _open_style_picker() -> void:
 		var preview := SkinPreview.new()
 		preview.skin = id
 		_at_in(tile, preview, Vector2(22, 10), Vector2(224, 72))
-		var caption := BMStyle.label(label if allowed else label + "  " + BMLoc.t("LOCKED"), 20, BMStyle.CREAM if allowed else BMStyle.TEXT_DIM, true)
+		var text := label if allowed else label + "  " + BMLoc.t("LOCKED")
+		var caption := BMStyle.label(text, 20, BMStyle.CREAM if allowed else BMStyle.TEXT_DIM, true)
 		caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		_at_in(tile, caption, Vector2(4, 90), Vector2(260, 35))
+		if BMStyle.font_bold.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x <= 248:
+			_at_in(tile, caption, Vector2(4, 90), Vector2(260, 35))
+		else:
+			# A longer translation takes two lines under the preview.
+			caption.text = label if allowed else label + "\n" + BMLoc.t("LOCKED")
+			caption.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			caption.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+			_at_in(tile, caption, Vector2(4, 82), Vector2(260, 56))
 	var back := BMStyle.button(BMLoc.t("BACK TO GAME"), _close_style_picker, "sky", 30)
 	_at_in(body, back, Vector2(26, 722), Vector2(1128, 56))
 	BMStyle.focus_later(back)

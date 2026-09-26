@@ -21,7 +21,7 @@ const LANGUAGES := [
 	["de", "Deutsch"],
 	["nl", "Nederlands"],
 	["pl", "Polski"],
-	["pt_BR", "Português (Brasil)"],
+	["pt_BR", "Português (BR)"],
 	["ja", "日本語"],
 	["zh_CN", "简体中文"],
 	["zh_TW", "繁體中文"],

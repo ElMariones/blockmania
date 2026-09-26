@@ -178,7 +178,7 @@ func _draw() -> void:
 	if chase and look == Look.READY:
 		# Jackpot flash: the title blinks sun and white while the lamps chase.
 		title_col = BMStyle.SUN_L if int(_slam_t * 14.0) % 2 == 0 else Color.WHITE
-	draw_string(f, o + Vector2(0, 7.5 * scale), title, HORIZONTAL_ALIGNMENT_CENTER, art.x, 20, title_col)
+	BMUI.draw_fit(self, f, o + Vector2(0, 7.5 * scale), title, HORIZONTAL_ALIGNMENT_CENTER, art.x, 20, title_col)
 	# Lamps: one per Refresh left (a number past MAX_LAMPS); skull or padlock otherwise.
 	var row_y := o.y + 10.0 * scale
 	if look == Look.CONCEDE:

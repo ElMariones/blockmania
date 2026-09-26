@@ -102,5 +102,5 @@ func _draw() -> void:
 	var txt := "%d%%" % int(roundf(value * 100)) if lit > 0 else BMLoc.t("OFF")
 	var f := BMStyle.font_bold
 	var tx := STEPS * (BLOCK + GAP) + 10.0
-	draw_string_outline(f, Vector2(tx, size.y / 2.0 + 10), txt, HORIZONTAL_ALIGNMENT_LEFT, LABEL_W, 30, 8, BMStyle.INK)
-	draw_string(f, Vector2(tx, size.y / 2.0 + 10), txt, HORIZONTAL_ALIGNMENT_LEFT, LABEL_W, 30, BMStyle.CREAM if lit > 0 else BMStyle.TEXT_DIM)
+	draw_string_outline(f, Vector2(tx, size.y / 2.0 + 10), txt, HORIZONTAL_ALIGNMENT_LEFT, LABEL_W, BMUI.fit_size(txt, f, 30, LABEL_W), 8, BMStyle.INK)
+	BMUI.draw_fit(self, f, Vector2(tx, size.y / 2.0 + 10), txt, HORIZONTAL_ALIGNMENT_LEFT, LABEL_W, 30, BMStyle.CREAM if lit > 0 else BMStyle.TEXT_DIM, LABEL_W)

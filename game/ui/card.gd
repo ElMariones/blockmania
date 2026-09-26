@@ -169,13 +169,16 @@ static func joker_rack(run: BMRun, id: String, height: int = RACK_HEIGHT, width:
 	var fb := BMStyle.font_bold
 	if fb.get_string_size(jname, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x + fb.get_string_size(tag, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x > width - 130.0:
 		tag = [BMLoc.t("COMMON"), BMLoc.t("UNCOM."), BMLoc.t("RARE"), BMLoc.t("LEGEND")][rarity]
-	var rl := BMStyle.label(tag, 20, [Color("#5c4282"), Color("#1f63b8"), Color("#a86a00"), Color("#7a3fd0")][rarity], true)
-	top.add_child(rl)
+	# Still too long (a narrow rack, a long translation): the name wins; the frame and the
+	# tooltip still give the rarity.
+	if fb.get_string_size(jname, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x + fb.get_string_size(tag, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x <= width - 130.0:
+		var rl := BMStyle.label(tag, 20, [Color("#5c4282"), Color("#1f63b8"), Color("#a86a00"), Color("#7a3fd0")][rarity], true)
+		top.add_child(rl)
 	var body := BMJokers.display_text(id)
 	var counter := BMJokers.counter_text(id, run) if run != null else ""
 	var text := BMStyle.label(body, 20, Color(BMStyle.INK, 0.8))
 	text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	text.max_lines_visible = 1 if counter != "" or compact else 2
+	text.max_lines_visible = 1 if counter != "" or height < 110 else 2
 	text.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	v.add_child(text)
 	if id == "periscope" and run != null:
@@ -427,6 +430,7 @@ class Emblem extends Control:
 				draw_texture_rect(t, Rect2(Vector2(size.x - s.x - 4, size.y - s.y - 4), s), false)
 		if level_text != "":
 			var f := BMStyle.font_bold
+			BMUI.fit_size(level_text, f, 20, size.x - 8) # only reports text wider than the card
 			var w := f.get_string_size(level_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x
 			draw_string_outline(f, Vector2((size.x - w) / 2.0, size.y - 8), level_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, 8, BMStyle.INK)
 			draw_string(f, Vector2((size.x - w) / 2.0, size.y - 8), level_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, BMStyle.SUN)

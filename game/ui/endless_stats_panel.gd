@@ -13,7 +13,8 @@ class ScoreGraph extends Control:
 	func _draw() -> void:
 		draw_style_box(BMStyle.box("panel_inset", Vector4.ZERO), Rect2(Vector2.ZERO, size))
 		if samples.size() < 2:
-			draw_string(BMStyle.font, Vector2(24, size.y / 2.0), BMLoc.t("NO SCORE HISTORY FOR THIS RUN"), HORIZONTAL_ALIGNMENT_LEFT, -1, 20, BMStyle.TEXT_DIM)
+			var none := BMLoc.t("NO SCORE HISTORY FOR THIS RUN")
+			BMUI.draw_fit(self, BMStyle.font, Vector2(24, size.y / 2.0), none, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, BMStyle.TEXT_DIM, size.x - 48)
 			return
 		var plot := Rect2(Vector2(34, 28), size - Vector2(66, 72))
 		for step in 4:
@@ -28,7 +29,7 @@ class ScoreGraph extends Control:
 		draw_polyline(points, BMStyle.SUN, 5.0, false)
 		draw_circle(points[points.size() - 1], 7.0, BMStyle.MINT_L)
 		draw_string(BMStyle.font, Vector2(plot.position.x, size.y - 16), BMLoc.t("0 PLACEMENTS"), HORIZONTAL_ALIGNMENT_LEFT, -1, 20, BMStyle.TEXT_DIM)
-		draw_string(BMStyle.font, Vector2(plot.end.x - 300, size.y - 16), BMLoc.tn("%d PLACEMENT", "%d PLACEMENTS", last_p) % last_p, HORIZONTAL_ALIGNMENT_RIGHT, 300, 20, BMStyle.TEXT_DIM)
+		BMUI.draw_fit(self, BMStyle.font, Vector2(plot.end.x - 300, size.y - 16), BMLoc.tn("%d PLACEMENT", "%d PLACEMENTS", last_p) % last_p, HORIZONTAL_ALIGNMENT_RIGHT, 300, 20, BMStyle.TEXT_DIM, 300)
 
 
 func set_entry(value: Dictionary) -> void:

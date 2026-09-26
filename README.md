@@ -106,6 +106,7 @@ Twelve rounds, three acts, and a boss at the end of each act that rewrites one r
 - **Overtime.** Keep playing after the final boss, with milestone moments at one million, one billion and one trillion points in a single placement.
 - **Endless.** A relaxed arcade mode with a ×10 combo ladder, Hold, 15 block styles, a local top ten and a score graph for every game.
 - **60 achievements** on five pages, ten of them secret. Some unlock new Jokers.
+- **Eleven languages.** English, Español, Français, Italiano, Deutsch, Nederlands, Polski, Português (BR), 日本語, 简体中文 and 繁體中文, switchable any time from the options.
 - **POPS**, the arcade's old caretaker bot, shows first-time players around: he pops up in the corners, points at things and chatters in toy gibberish. Skip him any time.
 
 <p align="center"><img src="docs/media/badges.png" alt="Pixel icons of 24 achievements" width="80%"></p>
@@ -129,6 +130,7 @@ Everything you see and hear is **authored as code** in this repository, with no 
 
 - **Pixel art from Python.** The UI kit, 9-slice frames, 69 Joker and item portraits, achievement icons, 14 animated block finishes and the app icon are drawn by Pillow scripts in [`tools/art/`](tools/art) and regenerated on demand.
 - **An original pixel font.** *Blockhead* regular and bold are built glyph by glyph with fontTools ([`gen_font.py`](tools/art/gen_font.py)).
+- **Localized pixel type.** Blockhead carries the accents of seven Latin languages; Japanese and Chinese fall back to Fusion Pixel subsets (OFL) tuned to the same 10-pixel grid. A layout scenario walks every screen in every language ([docs/localization.md](docs/localization.md)).
 - **Synthesized audio.** About 140 sound effects and 13 music tracks are synthesized with NumPy/SciPy DSP (oscillators, envelopes, filters, drum and pad voices, arrangement data) in [`tools/audio/`](tools/audio). Provenance is in the [audio manifest](assets/audio/AUDIO_MANIFEST.md).
 - **Shaders.** A domain-warped swirl background with per-mood palettes, a CRT pass (curvature, scanlines, chromatic aberration, bloom; mouse input is remapped through the same warp) and an edge-only mood layer (hazard tape, danger vignette, heat haze), all in Godot shading language ([`game/presentation/shaders/`](game/presentation/shaders)).
 - **These README images** come from the game itself. [`tools/readme/`](tools/readme) replays a seeded run in an off-screen window, captures frames in slow motion for the GIFs, and composes the banner and galleries from the game's own art.
