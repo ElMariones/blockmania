@@ -14,8 +14,11 @@ extends RefCounted
 
 var shop_policy := "full"
 ## Items the bot knows how to use (it cannot aim board tools, paint, or Blueprints).
-const BOT_ITEMS := ["polish", "spark", "second_tray", "extra_turn", "cash_out", "emergency_brick", "overclock", "coffee_break", "coin_roll"]
+const BOT_ITEMS := ["polish", "spark", "second_tray", "extra_turn", "cash_out", "emergency_brick", "overclock", "coffee_break", "coin_roll",
+	"lucky_draw", "double_down", "mystery_stamp", "phantom_line"]
 var top_k := 6
+## Weight of `room` (share of the bag's shapes that still fit) in a placement's quality.
+const ROOM_WEIGHT := 300.0
 ## Weight of the best follow-up clear (lines^2) available to the remaining tray pieces.
 ## Weight for "potential": rows/columns that are nearly full after the placement (sets up
 ## multi-line clears and combos the way a human builds toward them).
@@ -79,7 +82,9 @@ func _round_step(run: BMRun) -> Dictionary:
 			return run.use_consumable(st)
 		var bk := run.consumables.find("emergency_brick")
 		if bk >= 0 and run.board.empty_count() > 0:
-			return run.use_consumable(bk, {"slot": 0})
+			for s in run.tray.size():
+				if not run.slot_locked(s):
+					return run.use_consumable(bk, {"slot": s})
 		return run.concede_round()
 	# A stored piece that fits while nothing in the tray does: swap it in.
 	var any_tray := false
@@ -90,9 +95,9 @@ func _round_step(run: BMRun) -> Dictionary:
 		for i in run.tray.size():
 			if not run.slot_locked(i):
 				return run.hold(i)
-	for instant in ["cash_out", "coin_roll"]:
+	for instant in ["cash_out", "coin_roll", "lucky_draw", "mystery_stamp", "double_down"]:
 		var ci := run.consumables.find(instant)
-		if ci >= 0:
+		if ci >= 0 and run.consumable_usable(ci) == "":
 			return run.use_consumable(ci)
 	var best := choose_placement(run)
 	if best.is_empty():
@@ -103,7 +108,7 @@ func _round_step(run: BMRun) -> Dictionary:
 	# Save Polish/Spark for a clearing placement.
 	if best.lines > 0:
 		for i in run.consumables.size():
-			if run.consumables[i] in ["polish", "spark", "overclock"] and run.consumable_usable(i) == "":
+			if run.consumables[i] in ["polish", "spark", "overclock", "phantom_line"] and run.consumable_usable(i) == "":
 				return run.use_consumable(i)
 	var r := run.place(best.slot, best.anchor)
 	if r.ok:
@@ -167,6 +172,8 @@ func _heuristic(run: BMRun, slot: int, anchor: Vector2i) -> Dictionary:
 				others += 1
 		dead_end = others > 0 or b.empty_count() < 6
 	var quality := touch * 6.0 - holes * 45.0 - (800.0 if dead_end else 0.0) + b.empty_count() * 2.0
+	# Trays refilled during a round are not guaranteed to fit: keep room for the bag's shapes.
+	quality += ROOM_WEIGHT * room(b, run)
 	if potential_weight > 0.0:
 		quality += potential_weight * _line_potential(b)
 	return {"slot": slot, "anchor": anchor, "lines": lines, "dead_end": dead_end,
@@ -208,6 +215,23 @@ static func _best_followup_lines(run: BMRun, slot: int, anchor: Vector2i) -> int
 					lines += 1
 			best = maxi(best, lines)
 	return best
+
+
+## Share of the bag's distinct shapes of 3+ blocks that still fit somewhere on `b` (what a
+## player sees: the board and their own bag, never the hidden draw order).
+static func room(b: BMBoard, run: BMRun) -> float:
+	var seen := {}
+	var fit := 0
+	for p in run.bag:
+		if p.cells.size() < 3:
+			continue
+		var key := "%s/%d" % [p.family, int(p.rot)]
+		if seen.has(key):
+			continue
+		seen[key] = true
+		if b.fits_anywhere(p.cells):
+			fit += 1
+	return 1.0 if seen.is_empty() else float(fit) / seen.size()
 
 
 ## Sum over rows and columns with 5-7 filled cells of (filled - 4)^2.
@@ -259,7 +283,7 @@ func _record_jokers(run: BMRun, r: Dictionary) -> void:
 func _shop_step(run: BMRun) -> Dictionary:
 	if run.has_crate():
 		var take := 2
-		if run.jokers.size() < run.joker_slots() and String(run.shop.crate[0].id) != "":
+		if not run.rack_full() and String(run.shop.crate[0].id) != "":
 			take = 0
 		return run.open_crate(take)
 	if shop_policy == "none":
@@ -269,7 +293,7 @@ func _shop_step(run: BMRun) -> Dictionary:
 	var best_rarity := -1
 	for i in run.shop.jokers.size():
 		var id: String = run.shop.jokers[i]
-		if id == "" or run.credits < BMJokers.cost(id) or run.jokers.size() >= run.joker_slots():
+		if id == "" or run.credits < BMJokers.cost(id) or run.rack_full():
 			continue
 		var rarity := int(BMJokers.get_def(id).rarity)
 		if rarity > best_rarity:
@@ -280,7 +304,18 @@ func _shop_step(run: BMRun) -> Dictionary:
 	if shop_policy == "jokers":
 		return run.leave_shop()
 	# Keep a small reserve for the next Joker once Joker slots are still open.
-	var reserve := 3 if run.jokers.size() < run.joker_slots() else 0
+	var reserve := 3 if not run.rack_full() else 0
+	# The Holo shelf: the dearest card that applies, when it is affordable.
+	var holo: Array = run.shop.get("holo", [])
+	var hbest := -1
+	for i in holo.size():
+		var ho: Dictionary = holo[i]
+		if ho.is_empty() or run.credits < run.holo_price(ho) or run.holo_blocked(ho) != "":
+			continue
+		if hbest < 0 or run.holo_price(ho) > run.holo_price(holo[hbest]):
+			hbest = i
+	if hbest >= 0:
+		return run.buy_holo(hbest)
 	for i in run.shop.tools.size():
 		var o: Dictionary = run.shop.tools[i]
 		if o.is_empty() or run.credits - reserve < int(BMTools.get_def(o.id).cost):
@@ -300,7 +335,7 @@ func _shop_step(run: BMRun) -> Dictionary:
 			return run.buy_piece(i)
 	for i in run.shop.consumables.size():
 		var id: String = run.shop.consumables[i]
-		if id != "" and id in BOT_ITEMS and run.credits - reserve >= BMConsumables.cost(id) + 2 and run.consumables.size() < BMRunConfig.CONSUMABLE_SLOTS:
+		if id != "" and id in BOT_ITEMS and run.credits - reserve >= BMConsumables.cost(id) + 2 and not run.items_full():
 			return run.buy_consumable(i)
 	return run.leave_shop()
 
@@ -339,14 +374,26 @@ static func tool_plan(run: BMRun, offer: Dictionary) -> Dictionary:
 			if not t.is_empty() and run.bag.size() - t.size() >= BMPieces.MIN_BAG:
 				return {"ok": true, "targets": t}
 		"repaint":
-			if run.jokers.has("blue_mood"):
+			# Paint toward the color an owned color Joker boosts (Blue Mood's blue by default).
+			var tint := -1
+			for id in run.jokers:
+				if BMJokers.get_def(id).has("tint"):
+					tint = int(BMJokers.get_def(id).tint)
+					break
+			if tint < 0 and run.jokers.has("blue_mood"):
+				tint = BMShapes.COLOR_BLUE
+			if tint >= 0:
 				var t: Array = []
 				for p in by_size:
-					if int(p.color) != BMShapes.COLOR_BLUE and t.size() < 3:
+					if int(p.color) != tint and t.size() < 3:
 						t.append(int(p.uid))
-				return {"ok": not t.is_empty(), "targets": t, "color": BMShapes.COLOR_BLUE}
+				return {"ok": not t.is_empty(), "targets": t, "color": tint}
 		"slot":
 			return {"ok": run.joker_slots() < BMRunConfig.MAX_JOKER_SLOTS, "targets": []}
+		"joker_level":
+			return {"ok": not run.levelable_jokers().is_empty(), "targets": []}
+		"item_slot":
+			return {"ok": run.consumable_slots() < BMRunConfig.MAX_ITEM_SLOTS, "targets": []}
 		"schematic":
 			var count := 0
 			for p in run.bag:

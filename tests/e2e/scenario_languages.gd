@@ -126,6 +126,8 @@ func run() -> void:
 	await frames(2)
 	await _stop("history", func() -> void: main.title_screen._show_history())
 	main.title_screen._close_high_scores()
+	# --- Late game (2026-09-26): the Holo shelf, Joker traits, four item tiles, board note ----
+	await _late_game()
 	# --- Endless ------------------------------------------------------------------------------
 	main.start_endless()
 	await frames(3)
@@ -138,6 +140,45 @@ func run() -> void:
 	facts["problems"] = _report
 	facts["shortened_with_tooltip"] = _shortened
 	facts["languages"] = _langs
+
+
+## Setup (written into the run, then loaded through CONTINUE): a late shop and round with the
+## widest new content: Negative / AGAIN / leveled Jokers, a Holo shelf with a Legend Crate, four
+## items as tiles, and a round that starts on a carried-over board with rubble.
+func _late_game() -> void:
+	main.start_new_run(SEED + 1, KIT, 0)
+	await frames(3)
+	main.game_screen.close_overlay()
+	var r: BMRun = main.run
+	r.jokers.assign(["compass_rose", "sunset_glow", "barbell", "supernova", "lone_wolf", "plum_job", "elbow_room"])
+	r.joker_mods = [{"negative": true}, {"again": true, "level": 3}, {"level": 2}, {}, {"again": true}, {"negative": true}, {}]
+	r.extra_item_slots = 2
+	r.consumables.assign(["emergency_brick", "mystery_stamp", "double_down", "phantom_line"])
+	r.credits = 60
+	r.round_number = 9
+	r._open_shop()
+	r.shop.holo = [{"id": "again_seal", "joker": ""}, {"id": "legend_crate", "joker": "philosophers_stone"}]
+	r.shop.jokers[0] = "barbell"
+	BMSaveStore.save_run(r)
+	main.continue_run()
+	await frames(3)
+	await _stop("late_shop", func() -> void: pass)
+	r = main.run
+	r.round_number = 10
+	r.round_card = "standard"
+	r._start_round()
+	r.round_state.carried = true # setup: the intro's board note
+	r.round_state.rubble = 3
+	BMSaveStore.save_run(r)
+	main.continue_run()
+	await frames(3)
+	await _stop("late_round_intro", func() -> void:
+		main.game_screen.close_overlay()
+		main.game_screen._show_round_intro())
+	main.game_screen.close_overlay()
+	await _stop("late_round", func() -> void: main.game_screen.close_overlay())
+	main.abandon_run()
+	await frames(2)
 
 
 ## One stop: for every language, switch, reopen the view with `setup`, check and screenshot.

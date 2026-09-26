@@ -58,6 +58,46 @@ const OVERKILL_STEP := 0.5
 const OVERKILL_CAP := 3
 ## Joker slots can grow with Rack Extender (Workshop) up to this many.
 const MAX_JOKER_SLOTS := 7
+## Negative Jokers take no slot, so the rack can hold more cards than slots; never more than
+## this many Jokers in all (the rack stays legible).
+const MAX_RACK := 10
+## Item slots can grow with the Item Pouch (Workshop, act 2+) up to this many.
+const MAX_ITEM_SLOTS := 4
+
+## Board pressure (study follow-up 2026-09-26, GDD §25.6): `carry_board` keeps the board
+## between the rounds of an act (swept at each act start); `rubble_by_act[act-1]` stone blocks
+## drop on empty cells at a round's start (never completing a line; Overtime uses the last).
+## Static so the study harness can compare variants (BM_CARRY, BM_RUBBLE); these are the
+## shipped values.
+static var carry_board := true
+static var rubble_by_act: Array = [0, 2, 3, 4]
+## Multiplier on the targets of rounds 3+ per act (GDD §25.8; Overtime grows from round 12's
+## target, so it uses the last entry). Harness override: BM_TSCALE.
+static var act_scale: Array = [1.15, 1.35, 1.55]
+
+
+## Stone blocks at the start of a round in `act` (Overtime acts use the last entry).
+static func rubble(act: int) -> int:
+	return int(rubble_by_act[clampi(act, 1, rubble_by_act.size()) - 1])
+
+
+## Act bosses (rounds 4 and 8) ask for more (release study 2026-09-26: five of six act bosses
+## were cleared 91-98% of the time). The final boss and Overtime are unchanged.
+const BOSS_TARGET_MULT := 1.15
+
+## Shop odds of a Joker you already own, relative to one you do not (release study: a bought
+## Joker came back in a later shop 33% of the time; copies are still possible, just rarer).
+const OWNED_JOKER_WEIGHT := 1
+const NEW_JOKER_WEIGHT := 5
+
+## The Holo shelf (late-game Credit sink): from the shop after this round, the pieces shelf
+## becomes a shelf of HOLO_OFFERS premium cards (BMHolo).
+const HOLO_FROM_ROUND := 8
+const HOLO_OFFERS := 2
+
+## Joker levels (Tuning Fork, Master Tuning): each level adds this share of the card's effect.
+const JOKER_LEVEL_STEP := 0.5
+const MAX_JOKER_LEVEL := 3
 
 ## Rarity weights [common, uncommon, rare, legendary] per act: 65/30/5 shifting to 40/40/19/1
 ## by act 3; Overtime acts use the last row. Legendary Jokers mostly come from Boss Crates.
@@ -134,9 +174,10 @@ static func daily_seed(date: String) -> int:
 
 static func target(round_number: int) -> int:
 	if round_number <= ROUND_COUNT:
-		return TARGETS[clampi(round_number, 1, ROUND_COUNT) - 1]
+		var base := int(TARGETS[clampi(round_number, 1, ROUND_COUNT) - 1])
+		return base if round_number < 3 else roundi(base * float(act_scale[act_of(round_number) - 1]) / 10.0) * 10
 	var k := round_number - ROUND_COUNT
-	var raw := float(TARGETS[ROUND_COUNT - 1]) * pow(OVERTIME_BASE, k) * (1.0 + OVERTIME_CURVE * k * k)
+	var raw := float(TARGETS[ROUND_COUNT - 1]) * float(act_scale[act_scale.size() - 1]) * pow(OVERTIME_BASE, k) * (1.0 + OVERTIME_CURVE * k * k)
 	if raw >= SCORE_CAP:
 		return SCORE_CAP
 	# Two significant digits: 17,280 -> 17,000; 2,611,000 -> 2,600,000.

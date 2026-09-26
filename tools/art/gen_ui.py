@@ -49,6 +49,10 @@ LIL = (160, 96, 250, 255)
 LIL_D = (108, 54, 200, 255)
 LIL_DD = (70, 34, 130, 255)
 WHITE = (255, 255, 255, 255)
+# Chrome for the Holo shelf (2026-09-26): cool silver, the shader adds the rainbow foil.
+CHROME_L = (246, 248, 255, 255)
+CHROME = (196, 204, 222, 255)
+CHROME_D = (128, 136, 164, 255)
 
 BLOCKS = {
     # name: (highlight, light, base, dark, darker)
@@ -1066,6 +1070,7 @@ def main():
     save("card_item", card_frame(PINK_D, PINK, PINK_DD, MINT_L), [6, 7, 6, 8])
     save("card_tool", card_frame(MINT_D, MINT, MINT_DD, SUN_L), [6, 7, 6, 8])
     save("card_legendary", card_frame(LIL, LIL_L, LIL_D, SUN_L), [6, 7, 6, 8])
+    save("card_holo", card_frame(CHROME, CHROME_L, CHROME_D, LILAC), [6, 7, 6, 8])
     save("rack_common", rack_frame(PLUM_L, PLUM_LL, PLUM_D), [5, 5, 5, 6])
     save("rack_uncommon", rack_frame(SKY_D, SKY, SKY_DD), [5, 5, 5, 6])
     save("rack_rare", rack_frame(SUN_D, SUN, SUN_DD), [5, 5, 5, 6])
@@ -1077,6 +1082,7 @@ def main():
     save("pill_mint", pill(MINT, MINT_L, MINT_D), [3, 3, 3, 3])
     save("pill_plum", pill(PLUM_L, PLUM_LL, PLUM), [3, 3, 3, 3])
     save("pill_lilac", pill(LIL, LIL_L, LIL_D), [3, 3, 3, 3])
+    save("pill_holo", pill(CHROME, CHROME_L, CHROME_D), [3, 3, 3, 3])
     for name in ICONS:
         save("icon_" + name, icon(name))
     save("crate_big", crate_big())

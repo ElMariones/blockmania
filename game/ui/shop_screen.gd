@@ -22,9 +22,12 @@ var _jokers_row: HBoxContainer
 var _items_row: HBoxContainer
 var _tools_row: HBoxContainer
 var _pieces_row: HBoxContainer
+var _pieces_pill: Control
+var _holo_pill: Control
 var _owned_header: Label
 var _owned_box: VBoxContainer
 var _owned_items: HBoxContainer
+var _owned_grid: GridContainer
 var _bag_button: Button
 var _next_label: Label
 var _boss_label: Label
@@ -94,7 +97,12 @@ func _ready() -> void:
 	_put(BMStyle.pill(BMLoc.t("WORKSHOP  -  edit your bag"), "mint", 20), Vector2(40, 578), Vector2(0, 0))
 	_tools_row = BMStyle.hbox(16)
 	_put(_tools_row, Vector2(40, 626), Vector2(536, card_h))
-	_put(BMStyle.pill(BMLoc.t("PIECES FOR YOUR BAG"), "sky", 20), Vector2(600, 578), Vector2(0, 0))
+	_pieces_pill = BMStyle.pill(BMLoc.t("PIECES FOR YOUR BAG"), "sky", 20)
+	_put(_pieces_pill, Vector2(600, 578), Vector2(0, 0))
+	# From the shop after round 8 this shelf holds the Holo cards instead of pieces.
+	_holo_pill = BMStyle.pill(BMLoc.t("HOLO SHELF"), "holo", 20)
+	_holo_pill.visible = false
+	_put(_holo_pill, Vector2(600, 578), Vector2(0, 0))
 	_pieces_row = BMStyle.hbox(16)
 	_put(_pieces_row, Vector2(600, 626), Vector2(536, card_h))
 
@@ -150,6 +158,11 @@ func _ready() -> void:
 	_put(BMStyle.header(BMLoc.t("YOUR ITEMS"), 30), Vector2(1464, 728), Vector2(420, 40))
 	_owned_items = BMStyle.hbox(12)
 	_put(_owned_items, Vector2(1464, 772), Vector2(420, 160))
+	_owned_grid = GridContainer.new()
+	_owned_grid.columns = 2
+	_owned_grid.add_theme_constant_override("h_separation", 12)
+	_owned_grid.add_theme_constant_override("v_separation", 8)
+	_put(_owned_grid, Vector2(1464, 772), Vector2(420, 160))
 	_bag_button = BMStyle.button(BMLoc.t("BAG"), _show_bag, "sky", 30)
 	_bag_button.icon = BMStyle.tex("icon_bag")
 	_bag_button.tooltip_text = BMLoc.t("Every piece in your bag (B)")
@@ -328,10 +341,10 @@ func _crate_offers(dim: Control) -> void:
 func _crate_block_reason(o: Dictionary) -> String:
 	match String(o.kind):
 		"joker":
-			if run.jokers.size() >= run.joker_slots():
+			if run.rack_full():
 				return BMLoc.t("Joker slots are full")
 		"item":
-			if run.consumables.size() >= BMRunConfig.CONSUMABLE_SLOTS:
+			if run.items_full():
 				return BMLoc.t("Item slots are full")
 	return ""
 
@@ -408,7 +421,7 @@ func _act(a: Dictionary) -> Dictionary:
 	var before := run.credits
 	var r: Dictionary = main.act(a)
 	_play_result_sound(a, r)
-	if r.ok and a.a in ["buy_tool", "buy_piece", "buy_joker", "buy_consumable"]:
+	if r.ok and a.a in ["buy_tool", "buy_piece", "buy_joker", "buy_consumable", "buy_holo"]:
 		_message.add_theme_color_override("font_color", BMStyle.MINT_L)
 		_message.text = _purchase_text(r)
 		if BMFx.instance:
@@ -436,6 +449,9 @@ func _play_result_sound(a: Dictionary, r: Dictionary) -> void:
 	match String(a.a):
 		"buy_tool":
 			BMAudio.sfx("workshop")
+		"buy_holo":
+			BMAudio.sfx("buy")
+			_holo_fanfare(r)
 		"buy_joker", "buy_consumable", "buy_piece":
 			BMAudio.sfx("buy")
 			if String(a.a) == "buy_joker" and BMJokers.is_legendary(String(r.get("item", ""))):
@@ -450,6 +466,22 @@ func _play_result_sound(a: Dictionary, r: Dictionary) -> void:
 			BMAudio.sfx("reroll")
 		"move":
 			BMAudio.sfx("tick")
+
+
+## A Holo card applies: chrome sparkle, and a callout naming what changed.
+func _holo_fanfare(r: Dictionary) -> void:
+	if String(r.get("item", "")) == "legend_crate":
+		_legendary_fanfare(String(r.get("joker", "")))
+		return
+	BMAudio.sfx_later("legendary_reveal", 0.1)
+	var fx := BMFx.instance
+	if fx == null:
+		return
+	var c := get_global_rect().get_center()
+	fx.confetti(Rect2(Vector2.ZERO, size), 120)
+	fx.pop_text(c + Vector2(0, -80), BMHolo.display_name(String(r.item)).to_upper(), BMStyle.CREAM, 60, 70.0, 1.4)
+	if BMCrtLayer.instance:
+		BMCrtLayer.instance.shock(0.4)
 
 
 ## A Legendary joins the rack: its own sting, lilac confetti and a callout.
@@ -479,6 +511,8 @@ func _purchase_text(r: Dictionary) -> String:
 			return BMLoc.t("%s joined your rack!") % BMJokers.display_name(r.item)
 		"buy_consumable":
 			return BMLoc.t("Bought %s.") % BMConsumables.display_name(r.item)
+		"buy_holo":
+			return BMLoc.tf_join(r.get("events", []), "  ")
 	return ""
 
 
@@ -548,7 +582,7 @@ func refresh_all() -> void:
 		if BMJokers.is_legendary(id) and _legend_seen != "%d:%s" % [run.round_number, id]:
 			_legend_seen = "%d:%s" % [run.round_number, id]
 			BMAudio.sfx_later("legendary_reveal", 0.3)
-		if run.jokers.size() >= run.joker_slots():
+		if run.rack_full():
 			buy.disabled = true
 			buy.tooltip_text = BMLoc.t("Joker slots are full. Sell one first.")
 		_jokers_row.add_child(_card(BMCard.offer(run, "joker", id, buy)))
@@ -560,7 +594,7 @@ func refresh_all() -> void:
 			_items_row.add_child(_sold_out())
 			continue
 		var buy := _price_button(BMConsumables.cost(id), func() -> void: _act({"a": "buy_consumable", "i": i}))
-		if run.consumables.size() >= BMRunConfig.CONSUMABLE_SLOTS:
+		if run.items_full():
 			buy.disabled = true
 			buy.tooltip_text = BMLoc.t("Item slots are full. Use an item first.")
 		_items_row.add_child(_card(BMCard.offer(run, "item", id, buy)))
@@ -577,6 +611,20 @@ func refresh_all() -> void:
 		_tools_row.add_child(_card(BMCard.offer(run, "tool", o, buy)))
 
 	BMUI.clear_children(_pieces_row)
+	var holo: Array = run.shop.get("holo", [])
+	_pieces_pill.visible = holo.is_empty()
+	_holo_pill.visible = not holo.is_empty()
+	for i in holo.size():
+		var ho: Dictionary = holo[i]
+		if ho.is_empty():
+			_pieces_row.add_child(_sold_out())
+			continue
+		var hbuy := _price_button(run.holo_price(ho), func() -> void: _act({"a": "buy_holo", "i": i}))
+		var why := run.holo_blocked(ho)
+		if why != "":
+			hbuy.disabled = true
+			hbuy.tooltip_text = BMLoc.tf(why)
+		_pieces_row.add_child(_card(BMCard.offer(run, "holo", ho, hbuy)))
 	for i in run.shop.pieces.size():
 		var d: Dictionary = run.shop.pieces[i]
 		if d.is_empty():
@@ -589,10 +637,11 @@ func refresh_all() -> void:
 		_pieces_row.add_child(_card(BMCard.offer(run, "piece", BMPieces.from_dict(d), buy)))
 
 	BMUI.clear_children(_owned_box)
-	_owned_header.text = BMLoc.t("YOUR JOKERS %d/%d") % [run.jokers.size(), run.joker_slots()]
+	_owned_header.text = BMLoc.t("YOUR JOKERS %d/%d") % [run.occupied_slots(), run.joker_slots()]
+	var card_h := BMCard.rack_height(run.rack_size())
 	for i in run.jokers.size():
 		var id := run.jokers[i]
-		var card := BMCard.joker_rack(run, id, BMCard.rack_height(run.joker_slots()), 420.0)
+		var card := BMCard.joker_rack(run, id, card_h, 420.0, i)
 		card.reduced_motion = main.settings.reduced_motion
 		card.drag_index = i
 		card.drag_enabled = true
@@ -616,32 +665,35 @@ func refresh_all() -> void:
 		card.hover_controls = wrap
 		card.add_child(wrap)
 		_owned_box.add_child(card)
-	for i in range(run.jokers.size(), run.joker_slots()):
+	for i in maxi(0, run.joker_slots() - run.occupied_slots()):
 		var empty := BMStyle.panel("panel_inset", Vector4.ZERO)
-		empty.custom_minimum_size = Vector2(0, BMCard.rack_height(run.joker_slots()))
+		empty.custom_minimum_size = Vector2(0, card_h)
 		var l := BMStyle.label(BMLoc.t("empty slot"), 20, Color(BMStyle.TEXT_DIM, 0.5))
 		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		empty.add_child(l)
 		_owned_box.add_child(empty)
 	BMUI.clear_children(_owned_items)
+	BMUI.clear_children(_owned_grid)
+	var islots := run.consumable_slots()
+	var ilayout := BMCard.item_layout(islots)
+	var itiles := ilayout == "tile"
+	_owned_items.visible = not itiles
+	_owned_grid.visible = itiles
+	var iholder: Container = _owned_grid if itiles else _owned_items
+	var isize := Vector2(204, 76) if itiles else Vector2(204, 132)
 	for id in run.consumables:
-		var c := BMCard.item_rack(id)
-		c.custom_minimum_size = Vector2(204, 132)
-		var body := BMStyle.label(BMConsumables.display_text(id), 20, Color(BMStyle.INK, 0.75))
-		body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		body.max_lines_visible = 2
-		body.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		(c.get_child(0) as VBoxContainer).add_child(body)
-		_owned_items.add_child(c)
-	for i in range(run.consumables.size(), BMRunConfig.CONSUMABLE_SLOTS):
+		var c := BMCard.item_rack(id, run, ilayout, 2, false)
+		c.custom_minimum_size = isize
+		iholder.add_child(c)
+	for i in range(run.consumables.size(), islots):
 		var empty := BMStyle.panel("panel_inset", Vector4.ZERO)
-		empty.custom_minimum_size = Vector2(204, 132)
+		empty.custom_minimum_size = isize
 		var el := BMStyle.label(BMLoc.t("empty"), 20, Color(BMStyle.TEXT_DIM, 0.5))
 		el.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		el.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		empty.add_child(el)
-		_owned_items.add_child(empty)
+		iholder.add_child(empty)
 
 
 func _card(c: BMCard) -> BMCard:
@@ -670,7 +722,8 @@ func _fit_ticker(crate_showing: bool) -> void:
 func _price_button(cost: int, cb: Callable, label := "") -> Button:
 	var text := (label if label != "" else BMLoc.t("BUY %d")) % cost
 	# Longer words for "buy" step down to 20 so the button stays inside the offer card.
-	var b := BMStyle.button(text, cb, "sun", BMUI.fit_size(text, BMStyle.font_bold, 30, 128)) # + coin icon, 224 px
+	# The button is the card's 224-px inner width: text room is what the coin icon leaves.
+	var b := BMStyle.button(text, cb, "sun", BMUI.fit_size(text, BMStyle.font_bold, 30, 140)) # + coin icon, 224 px
 	b.icon = BMStyle.tex("icon_coin")
 	b.add_theme_constant_override("icon_max_width", 32)
 	b.custom_minimum_size.y = 64

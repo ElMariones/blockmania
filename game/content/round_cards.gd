@@ -7,24 +7,26 @@ extends RefCounted
 const CATALOG := [ # i18n: name, text
 	{"id": "standard", "name": "Standard", "reward": 0,
 		"text": "No twist."},
-	{"id": "gold_rush", "name": "Gold Rush", "reward": 2,
-		"text": "Six Gold blocks start on the board (+1 Credit per Gold cell cleared). +2 Credits if you win."},
-	{"id": "tight_budget", "name": "Tight Budget", "reward": 4,
-		"text": "Three fewer placements. +4 Credits if you win."},
-	{"id": "rush_hour", "name": "Rush Hour", "reward": 0,
-		"text": "Target x0.8, but no Refresh this round."},
-	{"id": "double_or_nothing", "name": "Double or Nothing", "reward": 6,
-		"text": "Target x1.4. +6 Credits if you win."},
+	{"id": "gold_rush", "name": "Gold Rush", "reward": 1,
+		"text": "Six Gold blocks start on the board (+1 Credit per Gold cell cleared). +1 Credit if you win."},
+	{"id": "tight_budget", "name": "Tight Budget", "reward": 5,
+		"text": "Five fewer placements. +5 Credits if you win."},
+	{"id": "rush_hour", "name": "Rush Hour", "reward": 3,
+		"text": "Target x0.8, but no Refresh this round. +3 Credits if you win."},
+	{"id": "double_or_nothing", "name": "Double or Nothing", "reward": 7,
+		"text": "Target x1.7. +7 Credits if you win."},
 	{"id": "mult_fever", "name": "Mult Fever", "reward": 0,
-		"text": "Every placement gets +1 Mult. Target x1.3."},
+		"text": "Every placement gets +1 Mult. Target x1.5."},
 	{"id": "treasure_hunt", "name": "Treasure Hunt", "reward": 0,
-		"text": "Win to find a random item (needs a free item slot). Target x1.15."},
+		"text": "Win to find a random item (needs a free item slot). Target x1.35."},
 	{"id": "scholarship", "name": "Scholarship", "reward": 0,
-		"text": "Win to level up the family of the last piece you place. Target x1.2."},
+		"text": "Win to level up the family of the last piece you place. Target x1.4."},
 ]
 
 const GOLD_RUSH_CELLS := 6
-const TIGHT_BUDGET_PLACEMENTS := 3
+## Release study 2026-09-26: twists were cleared as often as Standard (96%) and picking them
+## lifted wins 79% -> 89%. They are real bets now: harsher rules, smaller sure rewards.
+const TIGHT_BUDGET_PLACEMENTS := 5
 
 static var _by_id := {}
 
@@ -42,13 +44,13 @@ static func target_mult(id: String) -> float:
 		"rush_hour":
 			return 0.8
 		"double_or_nothing":
-			return 1.4
+			return 1.7
 		"mult_fever":
-			return 1.3
+			return 1.5
 		"treasure_hunt":
-			return 1.15
+			return 1.35
 		"scholarship":
-			return 1.2
+			return 1.4
 	return 1.0
 
 

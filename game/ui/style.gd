@@ -178,7 +178,7 @@ static func button_boxes(b: Button, kind: String = "sun") -> void:
 	b.add_theme_stylebox_override("pressed", box("btn_%s_pressed" % kind, Vector4(10, 6, 10, 0)))
 	b.add_theme_stylebox_override("disabled", box("btn_disabled", Vector4(10, 2, 10, 4)))
 	b.add_theme_stylebox_override("focus", focus_box())
-	var dark := kind in ["sun", "mint", "sky"]
+	var dark := kind in ["sun", "mint", "sky", "holo"]
 	var fc := INK if dark else CREAM
 	for s in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color"]:
 		b.add_theme_color_override(s, fc)
@@ -351,7 +351,7 @@ static func hbox(sep: int = 8) -> HBoxContainer:
 static func pill(text: String, kind: String = "sun", size: int = 20) -> PanelContainer:
 	var p := PanelContainer.new()
 	p.add_theme_stylebox_override("panel", box("pill_" + kind, Vector4(6, -2, 6, 0)))
-	var dark := kind in ["sun", "mint", "sky"]
+	var dark := kind in ["sun", "mint", "sky", "holo"]
 	var l := label(text, size, INK if dark else CREAM, true)
 	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	p.add_child(l)

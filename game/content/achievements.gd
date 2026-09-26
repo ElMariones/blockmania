@@ -170,7 +170,7 @@ static func check_campaign(run: BMRun, action: Dictionary, r: Dictionary, life: 
 		out.append("broke_machine")
 	# The bag and the shop (state checks, any action).
 	out.append_array(_bag_checks(run))
-	if run.jokers.size() >= run.joker_slots():
+	if run.occupied_slots() >= run.joker_slots():
 		out.append("full_house")
 	var rares := 0
 	for id in run.jokers:

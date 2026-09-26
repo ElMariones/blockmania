@@ -47,6 +47,11 @@ static func load_run() -> BMRun:
 	if int(data.get("schema", 0)) < 2:
 		push_warning("Run save predates the Bag (schema 1); it cannot be resumed.")
 		return null
+	# Schema 8 -> 9 (study follow-up, 2026-09-26): `joker_mods` ([], padded to the rack),
+	# `extra_item_slots` (0), `holo_bought` ({}), the round's `pending_lines` (0), `start_board`
+	# ({}), `carried` (false) and `rubble` (0), the shop's `holo` shelf ([]) and the item stream
+	# (started from the seed) load with defaults. Retired items (Punch, Coffee
+	# Break, Cash Out, Blueprint) held in an older save still work.
 	# Schema 7 -> 8: run `custom_seed` (false) and a bag piece's `veteran` Chips (0) load with
 	# defaults.
 	# Schema 6 -> 7 (GDD §22): run `heat`, `daily`, `round_card`, `locked_jokers`; round `held`,

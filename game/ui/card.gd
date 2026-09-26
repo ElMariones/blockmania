@@ -28,6 +28,7 @@ const PHASE_STYLE := {
 	"copy": ["pill_plum", "icon_target"],
 }
 const OFFER_SIZE := Vector2(260, 392)
+const CARD_FX := preload("res://game/presentation/shaders/card_fx.gdshader")
 const OFFER_BODY_LINES := 4
 const JOKER_ICON := {
 	"spare_parts": "icon_coin", "fire_sale": "icon_coin", "tiny_insurance": "icon_lock",
@@ -45,6 +46,9 @@ const JOKER_ICON := {
 func _ready() -> void:
 	mouse_entered.connect(_on_hover.bind(true))
 	mouse_exited.connect(_on_hover.bind(false))
+	# Reduced Motion freezes the Negative / AGAIN / Holo shader (the look itself stays).
+	if reduced_motion and material is ShaderMaterial:
+		(material as ShaderMaterial).set_shader_parameter("motion", 0.0)
 	if drag_index >= 0:
 		focus_mode = Control.FOCUS_ALL
 		mouse_default_cursor_shape = Control.CURSOR_MOVE
@@ -134,7 +138,7 @@ func pulse(text: String = "", color: Color = BMStyle.SUN) -> void:
 
 ## `height` shrinks the card when Rack Extender adds slots (the rack keeps its height).
 ## `width` is the rack's width (the round screen's rack is wider than the shop's).
-static func joker_rack(run: BMRun, id: String, height: int = RACK_HEIGHT, width: float = 508.0) -> BMCard:
+static func joker_rack(run: BMRun, id: String, height: int = RACK_HEIGHT, width: float = 508.0, index: int = -1) -> BMCard:
 	var def := BMJokers.get_def(id)
 	var compact := height < RACK_HEIGHT
 	var c := BMCard.new()
@@ -150,7 +154,9 @@ static func joker_rack(run: BMRun, id: String, height: int = RACK_HEIGHT, width:
 	c.custom_minimum_size = Vector2(0, height)
 	var h := BMStyle.hbox(10)
 	c.add_child(h)
-	var em := 80 if not compact else (64 if height >= 96 else 48)
+	# The emblem must leave room for the rim: at 6+ cards (Negative Jokers) a 64-px one would
+	# push the card past its slot and the rack into the ITEMS header.
+	var em := 80 if not compact else (64 if height >= 108 else 48)
 	c.emblem = Emblem.for_joker(id, Vector2(em, em))
 	var em_box := CenterContainer.new()
 	em_box.add_child(c.emblem)
@@ -165,6 +171,19 @@ static func joker_rack(run: BMRun, id: String, height: int = RACK_HEIGHT, width:
 	name_l.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	top.add_child(name_l)
 	# A long name keeps its full width: the rarity tag shortens instead (full words in the tooltip).
+	# Traits (level, Negative, AGAIN) show as words next to the name: never color alone.
+	var mod: Dictionary = run.joker_mod(index) if run != null and index >= 0 else {}
+	var traits := PackedStringArray()
+	if int(mod.get("level", 0)) > 0:
+		traits.append(BMLoc.t("LV%d") % int(mod.level))
+	if bool(mod.get("negative", false)):
+		traits.append(BMLoc.t("NEGATIVE"))
+	if bool(mod.get("again", false)):
+		traits.append(BMLoc.t("AGAIN"))
+	if not traits.is_empty():
+		var tl := BMStyle.label(" ".join(traits), 20, Color("#c42848") if bool(mod.get("again", false)) else Color("#1f63b8"), true)
+		top.add_child(tl)
+		width -= BMStyle.font_bold.get_string_size(" ".join(traits), HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x + 8.0
 	var tag: String = BMJokers.rarity_name(rarity).to_upper()
 	var fb := BMStyle.font_bold
 	if fb.get_string_size(jname, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x + fb.get_string_size(tag, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x > width - 130.0:
@@ -195,9 +214,46 @@ static func joker_rack(run: BMRun, id: String, height: int = RACK_HEIGHT, width:
 		c.modulate = Color(0.65, 0.6, 0.7)
 		name_l.text = jname + "  " + BMLoc.t("(DISABLED)")
 	c.tooltip_text = jname
-	c.tooltip_body = "%s  (%s)\n%s%s%s" % [jname, BMJokers.rarity_name(rarity), body,
-		("\n" + counter) if counter != "" else "", ("\n" + BMLoc.t("DISABLED: %s") % disabled) if disabled != "" else ""]
+	c.tooltip_body = "%s  (%s)\n%s%s%s%s" % [jname, BMJokers.rarity_name(rarity), body,
+		("\n" + counter) if counter != "" else "", ("\n" + BMLoc.t("DISABLED: %s") % disabled) if disabled != "" else "",
+		trait_lines(mod)]
+	apply_fx(c, bool(mod.get("negative", false)), bool(mod.get("again", false)), false, run == null)
 	return c
+
+
+## Tooltip lines explaining a Joker's traits ("" when it has none).
+static func trait_lines(mod: Dictionary) -> String:
+	var out := ""
+	var lvl := int(mod.get("level", 0))
+	if lvl > 0:
+		out += "\n" + BMLoc.t("Level %d: +%d%% effect.") % [lvl, roundi(lvl * BMRunConfig.JOKER_LEVEL_STEP * 100.0)]
+	if bool(mod.get("negative", false)):
+		out += "\n" + BMLoc.t("NEGATIVE: takes no Joker slot.")
+	if bool(mod.get("again", false)):
+		out += "\n" + BMLoc.t("AGAIN: triggers once more after all your Jokers.")
+	return out
+
+
+## Card effects (Negative, AGAIN, Holo foil) drawn by one shader that every part of the card
+## inherits. `still` freezes the motion (Reduced Motion or no run context); the look stays.
+static func apply_fx(c: Control, negative: bool, again: bool, holo: bool, still: bool = false) -> void:
+	if not (negative or again or holo):
+		return
+	var m := ShaderMaterial.new()
+	m.shader = CARD_FX
+	m.set_shader_parameter("negative", negative)
+	m.set_shader_parameter("again", again)
+	m.set_shader_parameter("holo", holo)
+	m.set_shader_parameter("motion", 0.0 if still else 1.0)
+	c.material = m
+	_inherit_material(c)
+
+
+static func _inherit_material(n: Node) -> void:
+	for ch in n.get_children():
+		if ch is CanvasItem:
+			(ch as CanvasItem).use_parent_material = true
+		_inherit_material(ch)
 
 
 ## Card height that fits `slots` cards in the 652-px rack with 8-px gaps, leaving room under
@@ -206,25 +262,91 @@ static func rack_height(slots: int) -> int:
 	return mini(RACK_HEIGHT, (640 - 8 * (slots - 1)) / maxi(1, slots))
 
 
-static func item_rack(id: String) -> BMCard:
-	var def := BMConsumables.get_def(id)
+## An owned item. `layout`: "full" (name row, rules text, live value), "compact" (name row and
+## live value) or "mini" (portrait over the name, for 3-4 narrow slots). The rules text is always
+## in the tooltip; the live value (what the item is worth right now) shows on the card.
+static func item_rack(id: String, run: BMRun = null, layout: String = "full", body_lines: int = 2, tile_live: bool = true, tile_room: float = 204.0) -> BMCard:
 	var c := BMCard.new()
 	c.kind = "item"
 	c.data = id
 	c.add_theme_stylebox_override("panel", BMStyle.box("rack_item", Vector4(2, -2, 2, -6)))
 	var v := BMStyle.vbox(2)
 	c.add_child(v)
-	var top := BMStyle.hbox(8)
-	v.add_child(top)
-	c.emblem = Emblem.for_item(id, Vector2(40, 40))
-	top.add_child(c.emblem)
+	var live := BMConsumables.live_text(id, run)
+	c.emblem = Emblem.for_item(id, Vector2(32, 32) if layout == "tile" else Vector2(40, 40))
 	var n := BMStyle.label(BMConsumables.display_name(id), 20, BMStyle.INK, true)
-	n.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	n.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	top.add_child(n)
+	n.max_lines_visible = 2
+	n.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	if layout == "tile":
+		# A short card for 3-4 item slots (2x2 grid): portrait, then name and live value.
+		var row := BMStyle.hbox(8)
+		row.name = "Row"
+		v.add_child(row)
+		var em_box := CenterContainer.new()
+		em_box.add_child(c.emblem)
+		row.add_child(em_box)
+		var info := BMStyle.vbox(0)
+		info.name = "Info"
+		info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		info.alignment = BoxContainer.ALIGNMENT_CENTER
+		row.add_child(info)
+		# The name wraps to two lines (never inside a word: a word too long for the tile trims
+		# with an ellipsis instead); the live value takes the second line when there is one.
+		n.max_lines_visible = 1 if (tile_live and live != "") else 2
+		n.autowrap_mode = TextServer.AUTOWRAP_WORD
+		n.clip_text = true
+		n.tooltip_text = BMConsumables.display_name(id)
+		var room := tile_room - 84.0 # rims, the 32-px portrait and the gap
+		for word in BMConsumables.display_name(id).split(" "):
+			if BMStyle.font_bold.get_string_size(word, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x > room:
+				n.autowrap_mode = TextServer.AUTOWRAP_OFF
+				n.max_lines_visible = -1
+		info.add_child(n)
+		if tile_live and live != "":
+			var tl := BMStyle.label(live, 20, Color("#1f63b8"), true)
+			tl.name = "LiveValue"
+			tl.clip_text = true
+			tl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+			info.add_child(tl)
+		c.tooltip_text = BMConsumables.display_name(id)
+		c.tooltip_body = BMLoc.t("%s  (Item)") % BMConsumables.display_name(id) + "\n" + BMConsumables.display_text(id) \
+			+ ("\n" + live if live != "" else "")
+		return c
+	if layout == "mini":
+		var em := CenterContainer.new()
+		em.add_child(c.emblem)
+		v.add_child(em)
+		n.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		v.add_child(n)
+	else:
+		var top := BMStyle.hbox(8)
+		v.add_child(top)
+		top.add_child(c.emblem)
+		n.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		top.add_child(n)
+	if layout == "full":
+		var body := BMStyle.label(BMConsumables.display_text(id), 20, Color(BMStyle.INK, 0.75))
+		body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		body.max_lines_visible = maxi(1, body_lines - (1 if live != "" else 0))
+		body.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		v.add_child(body)
+	if live != "":
+		var ll := BMStyle.label(live, 20, Color("#1f63b8"), true)
+		ll.name = "LiveValue"
+		ll.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		if layout == "mini":
+			ll.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		v.add_child(ll)
 	c.tooltip_text = BMConsumables.display_name(id)
-	c.tooltip_body = BMLoc.t("%s  (Item)") % BMConsumables.display_name(id) + "\n" + BMConsumables.display_text(id)
+	c.tooltip_body = BMLoc.t("%s  (Item)") % BMConsumables.display_name(id) + "\n" + BMConsumables.display_text(id) \
+		+ ("\n" + live if live != "" else "")
 	return c
+
+
+## Item card layout for `slots` item slots: full cards for two, a 2x2 grid of tiles beyond.
+static func item_layout(slots: int) -> String:
+	return "full" if slots <= 2 else "tile"
 
 
 ## Tall shop card. `price_button` is placed at the bottom.
@@ -270,6 +392,13 @@ static func offer(run: BMRun, offer_kind: String, value: Variant, price_button: 
 			tag = BMLoc.t("PIECE")
 			tag_kind = "sky"
 			emblem = Emblem.for_piece(value, Vector2(80, 80))
+		"holo":
+			frame = "card_holo"
+			title = BMHolo.offer_name(value)
+			body = BMHolo.offer_text(value)
+			tag = BMLoc.t("HOLO")
+			tag_kind = "holo"
+			emblem = Emblem.for_holo(value, Vector2(80, 80))
 	c.add_theme_stylebox_override("panel", BMStyle.box(frame, Vector4(-6, -4, -6, -8)))
 	c.custom_minimum_size = OFFER_SIZE
 	var v := BMStyle.vbox(6)
@@ -278,8 +407,30 @@ static func offer(run: BMRun, offer_kind: String, value: Variant, price_button: 
 	em_row.add_child(emblem)
 	c.emblem = emblem as Emblem
 	v.add_child(em_row)
-	var tag_row := CenterContainer.new()
-	tag_row.add_child(BMStyle.pill(tag, tag_kind, 20))
+	var tag_row := HBoxContainer.new()
+	tag_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	tag_row.add_theme_constant_override("separation", 6)
+	# A Joker you already own says so (a copy is possible, just rarer in the shop).
+	var owned := 0
+	if offer_kind == "joker" and run != null:
+		owned = run.jokers.count(String(value))
+	if owned > 0:
+		var otag := BMLoc.t("OWNED")
+		var fb := BMStyle.font_bold
+		# Two pills (36 px of rim each) and a gap must fit the card's 224-px inner width: the
+		# rarity word shortens, and if it still does not fit only OWNED shows (the frame color
+		# and the tooltip still give the rarity).
+		var room := OFFER_SIZE.x - 36.0 - 78.0 - 4.0
+		if fb.get_string_size(tag + otag, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x > room:
+			tag = [BMLoc.t("COMMON"), BMLoc.t("UNCOM."), BMLoc.t("RARE"), BMLoc.t("LEGEND")][int(BMJokers.get_def(value).rarity)]
+		if fb.get_string_size(tag + otag, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x <= room:
+			tag_row.add_child(BMStyle.pill(tag, tag_kind, 20))
+		var op := BMStyle.pill(otag, "plum", 20)
+		op.name = "OwnedTag"
+		op.tooltip_text = BMLoc.tn("You own %d of this Joker.", "You own %d of this Joker.", owned) % owned
+		tag_row.add_child(op)
+	else:
+		tag_row.add_child(BMStyle.pill(tag, tag_kind, 20))
 	v.add_child(tag_row)
 	var t := BMStyle.label(title, 20, BMStyle.INK, true)
 	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -298,6 +449,8 @@ static func offer(run: BMRun, offer_kind: String, value: Variant, price_button: 
 	v.add_child(price_button)
 	c.tooltip_text = title
 	c.tooltip_body = "%s\n%s" % [title, body if offer_kind != "piece" else BMPieces.describe(value)]
+	if offer_kind == "holo":
+		apply_fx(c, false, false, true, run == null)
 	return c
 
 
@@ -356,6 +509,20 @@ class Emblem extends Control:
 		var e := Emblem.new()
 		e.bg = "pill_plum"
 		e.piece = p
+		e.custom_minimum_size = sz
+		return e
+
+	## Holo cards: a Legend Crate shows its Legendary's portrait; the rest their own.
+	static func for_holo(o: Dictionary, sz: Vector2) -> Emblem:
+		if String(o.get("id", "")) == "legend_crate" and String(o.get("joker", "")) != "":
+			return Emblem.for_joker(String(o.joker), sz)
+		var e := Emblem.new()
+		e.bg = "pill_holo"
+		e.glint_period = 2.6
+		e.twinkle = true
+		if BMCardArt.has("tools", String(o.get("id", ""))):
+			e.art_set = "tools"
+			e.art_id = String(o.id)
 		e.custom_minimum_size = sz
 		return e
 

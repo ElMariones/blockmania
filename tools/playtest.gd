@@ -75,6 +75,12 @@ const PERSONAS := {
 ## General card sense for the "meta" shopper (a player who has read the cards and seen them
 ## work): a base value per Joker. Cards the bots cannot operate (Patch Panel, Periscope) are 0.
 const META_VALUE := {
+	# Color and form Jokers (2026-09-26): flat commons like Blue Mood; the bag-scaling rares
+	# like the strong xMult cards.
+	"red_alert": 45, "citrus_twist": 35, "lemon_drop": 35, "green_thumb": 45, "plum_job": 35,
+	"red_giant": 60, "sunset_glow": 60, "solar_flare": 60, "evergreen": 60, "deep_blue": 60, "royal_purple": 60,
+	"lone_wolf": 30, "tee_time": 30, "zigzagger": 35, "plus_side": 30,
+	"solitaire": 45, "barbell": 65, "elbow_room": 60, "town_square": 50, "t_rex": 45, "lightning_bolt": 45, "compass_rose": 40,
 	"recycler": 70, "foundry": 70, "pressure_cooker": 65, "color_cycle": 60, "collector": 60,
 	"compound_interest": 60, "blue_mood": 50, "patience": 50, "chain_link": 45, "hollow_point": 45,
 	"hoarder": 45, "hot_hand": 50, "jackpot_window": 55, "wide_awake": 45, "golden_ratio": 45,
@@ -210,6 +216,10 @@ class Persona extends BMAutoplayer:
 				# Crossing the target: finishing sooner keeps placements for the payout.
 				var won := s.phase in [BMRun.Phase.ROUND_RESULT, BMRun.Phase.RUN_WON]
 				var leaf := acc + gained + (1.0e7 - depth * 1.0e5 if won else -1.0e7)
+				# The clone dealt the next tray, which a player cannot see: a dead one is judged by
+				# the board it lands on, never by the hidden draw.
+				if s.phase == BMRun.Phase.RUN_LOST and String(s.end_reason).begins_with("No offered shape fits"):
+					leaf = acc + gained + _board_health(s)
 				if leaf > res.value:
 					res.value = leaf
 					res.seq = seq + [step]
@@ -226,11 +236,18 @@ class Persona extends BMAutoplayer:
 	func _board_value(s: BMRun, depth: int, max_depth: int) -> float:
 		if s.phase == BMRun.Phase.RUN_LOST:
 			return -1.0e7
-		var holes := BMAutoplayer._isolated_holes(s.board)
-		var v := -holes * 45.0 + s.board.empty_count() * 6.0
+		var v := _board_health(s)
 		# Pieces of this tray that found no place: the tray is stuck.
 		if depth < max_depth:
 			v -= 900.0
+		return v
+
+	## Board health: few holes, open space, room for the bag's shapes (refilled trays are not
+	## guaranteed to fit), placements in hand and lines close to full.
+	func _board_health(s: BMRun) -> float:
+		var holes := BMAutoplayer._isolated_holes(s.board)
+		var v := -holes * 45.0 + s.board.empty_count() * 6.0
+		v += 500.0 * BMAutoplayer.room(s.board, s)
 		# Placements still in hand matter as much as the points they can earn.
 		v += s.round_state.placements_left * 20.0
 		v += BMAutoplayer._line_potential(s.board) * 8.0
@@ -277,21 +294,21 @@ class Persona extends BMAutoplayer:
 
 	func _newcomer_shop(run: BMRun) -> Dictionary:
 		if run.has_crate():
-			var take := 0 if run.jokers.size() < run.joker_slots() else 2
+			var take := 0 if not run.rack_full() else 2
 			return run.open_crate(take)
 		for i in run.shop.jokers.size():
 			var id: String = run.shop.jokers[i]
-			if id != "" and run.credits >= BMJokers.cost(id) and run.jokers.size() < run.joker_slots():
+			if id != "" and run.credits >= BMJokers.cost(id) and not run.rack_full():
 				return run.buy_joker(i)
 		for i in run.shop.consumables.size():
 			var id: String = run.shop.consumables[i]
 			if id != "" and id in BOT_ITEMS and run.credits >= BMConsumables.cost(id) + 3 \
-					and run.consumables.size() < BMRunConfig.CONSUMABLE_SLOTS and rng.randf() < 0.5:
+					and not run.items_full() and rng.randf() < 0.5:
 				return run.buy_consumable(i)
 		return run.leave_shop()
 
 	func _meta_shop(run: BMRun) -> Dictionary:
-		var full := run.jokers.size() >= run.joker_slots()
+		var full := run.rack_full()
 		if run.has_crate():
 			var cj: String = run.shop.crate[0].id
 			var cw := _worst_owned(run)
@@ -357,7 +374,7 @@ class Persona extends BMAutoplayer:
 			var id: String = run.shop.consumables[i]
 			var usable := id in BOT_ITEMS or wish_items.has(id)
 			if id != "" and usable and run.credits - reserve >= BMConsumables.cost(id) + 1 \
-					and run.consumables.size() < BMRunConfig.CONSUMABLE_SLOTS:
+					and not run.items_full():
 				return run.buy_consumable(i)
 		return run.leave_shop()
 
@@ -376,7 +393,11 @@ class Persona extends BMAutoplayer:
 					return {"ok": not t.is_empty(), "targets": t}
 			"repaint":
 				var color := BMShapes.COLOR_BLUE
-				if run.jokers.has("blue_mood") or wish_jokers.has("blue_mood"):
+				for id in run.jokers:
+					if BMJokers.get_def(id).has("tint"):
+						color = int(BMJokers.get_def(id).tint)
+						break
+				if run.jokers.has("blue_mood") or wish_jokers.has("blue_mood") or color != BMShapes.COLOR_BLUE:
 					var t: Array = []
 					for p in by_size:
 						if int(p.color) != color and t.size() < 3:

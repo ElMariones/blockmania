@@ -89,6 +89,33 @@ const CATALOG := [ # i18n: name, text
 	{"id": "demolition_crew", "name": "Demolition Crew", "rarity": UNCOMMON, "phase": "chips", "text": "+15 Chips for every block cleared by the placement."},
 	{"id": "overachiever", "name": "Overachiever", "rarity": UNCOMMON, "phase": "add_mult", "scaling": true, "text": "Gains +1 Mult whenever a round ends at 1.5 times its target or more. Never resets."},
 	{"id": "full_pockets", "name": "Full Pockets", "rarity": COMMON, "phase": "add_mult", "text": "+1.5 Mult for each item you hold."},
+	# --- Color and form Jokers (owner request, 2026-09-26): a common and a rare for every block
+	# color and every piece form, so building the bag pays. Effects come from the fields:
+	#   tint / form   which pieces the card cares about (tint: a color index; Prism counts)
+	#   add_chips / add_mult   a common's flat boost when such a piece is placed
+	#   bag_step      a rare's xMult: x1 plus this for each such piece in your bag, max BAG_X_MAX
+	{"id": "red_alert", "name": "Red Alert", "rarity": COMMON, "phase": "add_mult", "color": true, "tint": 0, "add_mult": 2.0, "text": "Red shapes gain +2 Mult."},
+	{"id": "citrus_twist", "name": "Citrus Twist", "rarity": COMMON, "phase": "chips", "color": true, "tint": 1, "add_chips": 60, "text": "Orange shapes gain +60 Chips."},
+	{"id": "lemon_drop", "name": "Lemon Drop", "rarity": COMMON, "phase": "chips", "color": true, "tint": 2, "add_chips": 60, "text": "Yellow shapes gain +60 Chips."},
+	{"id": "green_thumb", "name": "Green Thumb", "rarity": COMMON, "phase": "add_mult", "color": true, "tint": 3, "add_mult": 2.0, "text": "Green shapes gain +2 Mult."},
+	{"id": "plum_job", "name": "Plum Job", "rarity": COMMON, "phase": "chips", "color": true, "tint": 5, "add_chips": 60, "text": "Purple shapes gain +60 Chips."},
+	{"id": "red_giant", "name": "Red Giant", "rarity": RARE, "phase": "x_mult", "color": true, "tint": 0, "bag_step": 0.15, "text": "Red shapes gain x1 Mult plus x0.15 for each Red piece in your bag (max x3)."},
+	{"id": "sunset_glow", "name": "Sunset Glow", "rarity": RARE, "phase": "x_mult", "color": true, "tint": 1, "bag_step": 0.15, "text": "Orange shapes gain x1 Mult plus x0.15 for each Orange piece in your bag (max x3)."},
+	{"id": "solar_flare", "name": "Solar Flare", "rarity": RARE, "phase": "x_mult", "color": true, "tint": 2, "bag_step": 0.15, "text": "Yellow shapes gain x1 Mult plus x0.15 for each Yellow piece in your bag (max x3)."},
+	{"id": "evergreen", "name": "Evergreen", "rarity": RARE, "phase": "x_mult", "color": true, "tint": 3, "bag_step": 0.15, "text": "Green shapes gain x1 Mult plus x0.15 for each Green piece in your bag (max x3)."},
+	{"id": "deep_blue", "name": "Deep Blue", "rarity": RARE, "phase": "x_mult", "color": true, "tint": 4, "bag_step": 0.15, "text": "Blue shapes gain x1 Mult plus x0.15 for each Blue piece in your bag (max x3)."},
+	{"id": "royal_purple", "name": "Royal Purple", "rarity": RARE, "phase": "x_mult", "color": true, "tint": 5, "bag_step": 0.15, "text": "Purple shapes gain x1 Mult plus x0.15 for each Purple piece in your bag (max x3)."},
+	{"id": "lone_wolf", "name": "Lone Wolf", "rarity": COMMON, "phase": "add_mult", "form": "single", "add_mult": 2.0, "text": "+2 Mult when placing a Single."},
+	{"id": "tee_time", "name": "Tee Time", "rarity": COMMON, "phase": "chips", "form": "t", "add_chips": 60, "text": "+60 Chips when placing a T piece."},
+	{"id": "zigzagger", "name": "Zigzagger", "rarity": COMMON, "phase": "add_mult", "form": "zigzag", "add_mult": 2.0, "text": "+2 Mult when placing a Zigzag piece."},
+	{"id": "plus_side", "name": "Plus Side", "rarity": COMMON, "phase": "chips", "form": "plus", "add_chips": 80, "text": "+80 Chips when placing a Plus piece."},
+	{"id": "solitaire", "name": "Solitaire", "rarity": RARE, "phase": "x_mult", "form": "single", "bag_step": 0.3, "text": "Singles gain x1 Mult plus x0.3 for each Single in your bag (max x3)."},
+	{"id": "barbell", "name": "Barbell", "rarity": RARE, "phase": "x_mult", "form": "bar", "bag_step": 0.1, "text": "Bar pieces gain x1 Mult plus x0.1 for each Bar in your bag (max x3)."},
+	{"id": "elbow_room", "name": "Elbow Room", "rarity": RARE, "phase": "x_mult", "form": "l", "bag_step": 0.15, "text": "L pieces gain x1 Mult plus x0.15 for each L piece in your bag (max x3)."},
+	{"id": "town_square", "name": "Town Square", "rarity": RARE, "phase": "x_mult", "form": "square", "bag_step": 0.25, "text": "Square pieces gain x1 Mult plus x0.25 for each Square in your bag (max x3)."},
+	{"id": "t_rex", "name": "T-Rex", "rarity": RARE, "phase": "x_mult", "form": "t", "bag_step": 0.25, "text": "T pieces gain x1 Mult plus x0.25 for each T piece in your bag (max x3)."},
+	{"id": "lightning_bolt", "name": "Lightning Bolt", "rarity": RARE, "phase": "x_mult", "form": "zigzag", "bag_step": 0.25, "text": "Zigzag pieces gain x1 Mult plus x0.25 for each Zigzag in your bag (max x3)."},
+	{"id": "compass_rose", "name": "Compass Rose", "rarity": RARE, "phase": "x_mult", "form": "plus", "bag_step": 0.3, "text": "Plus pieces gain x1 Mult plus x0.3 for each Plus piece in your bag (max x3)."},
 	{"id": "veteran", "name": "Veteran", "rarity": RARE, "phase": "rule", "text": "Each time a piece completes a line, that exact piece permanently gains +5 Chips. The Chips stay on the piece (and on its Copier copies) even if you sell Veteran."},
 	# --- Legendary (unique; Boss Crates from act 2, rare in late shops) ---
 	{"id": "avalanche", "name": "The Avalanche", "rarity": LEGENDARY, "phase": "rule", "unique": true, "text": "After a clear, blocks fall down their columns. New full lines clear as chain waves, each scoring double the last (x2, x4, x8...)."},
@@ -97,6 +124,8 @@ const CATALOG := [ # i18n: name, text
 	{"id": "supernova", "name": "Supernova", "rarity": LEGENDARY, "phase": "x_mult", "unique": true, "text": "x1 Mult plus x0.5 for every line cleared earlier this round."},
 ]
 
+## Color and form rares: the most xMult a bag can give them.
+const BAG_X_MAX := 3.0
 const PATIENCE_STEP := 40
 const PATIENCE_MAX := 200
 const LOAN_CREDITS := 6
@@ -210,8 +239,34 @@ static func ids_of_rarity(rarity: int) -> Array[String]:
 # ctx is built by BMResolver: see BMResolver._make_context for fields.
 
 
+## Color and form cards: does the placed piece match the card's tint or form?
+static func _matches(d: Dictionary, ctx: Dictionary) -> bool:
+	if d.has("tint"):
+		return int(ctx.color) == int(d.tint) or bool(ctx.prism)
+	if d.has("form"):
+		return BMShapes.form(StringName(ctx.family)) == String(d.form)
+	return false
+
+
+## Pieces in the bag a color or form card counts (Prism pieces count for every color).
+static func bag_count(d: Dictionary, ctx: Dictionary) -> int:
+	if d.has("tint"):
+		return int(ctx.bag_colors.get(int(d.tint), 0)) + int(ctx.bag_colors.get(-1, 0))
+	if d.has("form"):
+		return int(ctx.bag_forms.get(String(d.form), 0))
+	return 0
+
+
+## xMult of a color or form rare with `n` matching pieces in the bag.
+static func bag_x(d: Dictionary, n: int) -> float:
+	return minf(BAG_X_MAX, 1.0 + float(d.get("bag_step", 0.0)) * n)
+
+
 ## Additive Chips (pipeline step 4). Returns 0 when the card does not trigger.
 static func chips(id: String, ctx: Dictionary) -> int:
+	var d := get_def(id)
+	if d.has("add_chips"):
+		return int(d.add_chips) if _matches(d, ctx) else 0
 	match id:
 		"clean_sweep":
 			return 50 if ctx.lines == 1 else 0
@@ -256,6 +311,9 @@ static func chips(id: String, ctx: Dictionary) -> int:
 
 ## Additive Mult (pipeline step 5).
 static func add_mult(id: String, ctx: Dictionary) -> float:
+	var d := get_def(id)
+	if d.has("add_mult"):
+		return float(d.add_mult) if _matches(d, ctx) else 0.0
 	match id:
 		"blue_mood":
 			return 2.0 if ctx.color == BMShapes.COLOR_BLUE or ctx.prism else 0.0
@@ -302,6 +360,9 @@ static func add_mult(id: String, ctx: Dictionary) -> float:
 
 ## Multiplicative Mult (pipeline step 6). Returns 1.0 when the card does not trigger.
 static func x_mult(id: String, ctx: Dictionary) -> float:
+	var d := get_def(id)
+	if d.has("bag_step"):
+		return bag_x(d, bag_count(d, ctx)) if _matches(d, ctx) else 1.0
 	match id:
 		"golden_ratio":
 			return 1.5 if ctx.placement_index % 3 == 0 else 1.0
@@ -365,6 +426,10 @@ static func _same_color(a: int, b: int) -> bool:
 
 ## Live counter text for card tooltips/HUD, or "" when the card has none.
 static func counter_text(id: String, run: BMRun) -> String:
+	var d := get_def(id)
+	if d.has("bag_step"):
+		var n := bag_count(d, {"bag_colors": BMBag.color_counts(run), "bag_forms": BMBag.form_counts(run)})
+		return BMLoc.tn("%d in your bag: x%s Mult", "%d in your bag: x%s Mult", n) % [n, _num(bag_x(d, n))]
 	match id:
 		"golden_ratio":
 			var next := 3 - (run.round_state.placements_made % 3)
@@ -439,7 +504,7 @@ static func counter_text(id: String, run: BMRun) -> String:
 		"coin_pusher":
 			return BMLoc.t("%d Credits: +%s Mult") % [run.credits, _num(minf(5.0, 0.1 * run.credits))]
 		"solo_act":
-			var empty := maxi(0, run.joker_slots() - run.jokers.size())
+			var empty := maxi(0, run.joker_slots() - run.occupied_slots())
 			return BMLoc.tn("%d empty slot: x%s Mult", "%d empty slots: x%s Mult", empty) % [empty, _num(1.0 + 0.75 * empty)]
 		"full_pockets":
 			var held := run.consumables.size()

@@ -86,7 +86,7 @@ Standard mode has no Undo. Placement previews and cancel input must be reliable 
 | Square 3×3 | 9 | 2% | 0 (buy in shop) |
 
 The exact weights are tuning values to review after prototype playtests. The tutorial uses scripted offers.
-- Each fresh tray must contain at least one legal offered piece at the time it is dealt (method in §16.2). This guarantee does not prevent the player from creating a future dead end with later placements.
+- Each fresh tray must contain at least one legal offered piece at the time it is dealt (method in §16.2). This guarantee does not prevent the player from creating a future dead end with later placements. *(Revised 2026-09-26, §25.6: only a round's first tray, a Refresh and Second Tray are guaranteed; trays refilled during play are dealt as drawn, and the board carries over within an act.)*
 - Dealing uses the seeded shape stream. Balancing should measure legal placement counts, early failures, and rescued deals rather than secretly rewriting the board.
 
 ### Refresh and failure
@@ -252,6 +252,8 @@ Jokers are passive, visible, orderable modifiers. The table below is the origina
 **Content review requirement:** before production, verify that every trigger can occur in the rules as written, every card has a detectable event, and no pair creates an unbounded scoring loop. “Tiny Insurance” is deliberately a utility common; if shop data shows it is never purchased, revisit its price or frequency rather than hiding essential input help behind a card.
 
 ### Consumables
+
+*Revised 2026-09-26 (§25.2): Polish and Spark scale, Eraser takes three blocks, four chance/line items are new, and Punch, Coffee Break, Cash Out and Blueprint are retired from the shop. The table below is the original list.*
 
 Consumables are one-time, player-triggered tools. They may be used between placements, never during an animation. Unless stated otherwise, they do not score or trigger Joker scoring effects.
 
@@ -766,6 +768,8 @@ Owner request: "do the open report points, then add more songs, make more effect
 
 ### 22.2 Round cards
 
+*Revised 2026-09-26 (§25.5): the twists are real bets now (Double or Nothing ×1.7 +7, Tight Budget −5 +5, Gold Rush +1, Rush Hour +3, Mult Fever ×1.5, Treasure Hunt ×1.35, Scholarship ×1.4). The table below is the first version.*
+
 Before every **non-boss** round, NEXT ROUND opens a choice of three cards: **Standard** plus two seeded twists (shop stream). The pick is a run command (`pick_round`), saved with the shop and applied when the round starts. Targets are rounded to tens.
 
 | Card | Target | Rule | Reward on a win |
@@ -870,3 +874,121 @@ Owner request: a skippable tutorial with a small bot-like helper, a dialogue box
 - **Custom cursor** (Options > Display > Mouse cursor, default CUSTOM): a pixel arrow, POPS's white glove over anything clickable (fingers wiggle), a pressed frame, a fist while dragging; click ring and sparks, a twinkle on new buttons, a trail on fast flicks. Hardware cursors (no lag), scaled by a whole number for the window. SYSTEM restores the OS pointer; Reduced Motion drops the effects.
 - **Boss hazard frame:** sized in stage pixels: 7 stage px deep over the playfield (clear of the HUD's top text at every resolution), widening into letterbox space up to 22 px.
 - **Boss panel:** its header picks the longest wording that fits ("ROUND 8 BOSS: …", "R8 BOSS: …", dropping "THE" last) and the rule wraps to at most four lines, so the panel never grows into the board; the full text is in its tooltip.
+
+## 25. Study follow-up: items, shop, Holo shelf, board pressure, color and form Jokers (owner request, 2026-09-26)
+
+Owner request after the [release study](docs/playtests/2026-09-26_release_study.md) and the [Overtime study](docs/playtests/2026-09-26_overtime_study.md): fix the bugs, merge similar items and make boosts scale and show their value, make owned Jokers rarer in the shop, make round-card twists real bets, give late Credits a job (Joker upgrade, extra item slot, a pricier tier after act 2), sharpen the act bosses, add randomized items, make running out of room a real way to lose, keep breaking the machine reachable but rare (about 1 run in 100), add an expensive chrome "Holo" set of late upgrades (Negative, AGAIN), and a common and a rare Joker for every block color and every piece form so bag building pays. Not changed on request: rare Tray Hand odds, hidden commons, shop hints. All numbers are **provisional**. Save schema 9 (§25.9).
+
+### 25.1 Bugs
+
+- **Tiny Insurance** never drops its Single into a Warden-barred slot (it used to soft-lock the round: PLAYING with no legal move, no Concede).
+- **Warden Mk II**: each clearing placement frees one barred slot (the second bar used to stay all round). §22.3.
+- **Receipt**: lines scroll inside the tape's rect, the newest stays in view, and the player can scroll back up; a long receipt used to grow under the Hold box.
+
+### 25.2 Items
+
+| Item | Cost | Effect | Change |
+|---|---:|---|---|
+| Polish | 3 | +40 Chips × round number to the next placement | was +100 flat |
+| Spark | 3 | +1 Mult × act to the next placement | was +1 flat |
+| Turbo | 5 | ×2 Mult to the next placement | — |
+| Eraser | 4 | Remove up to **three** blocks | absorbs Punch |
+| Second Tray | 3 | Refresh now without spending the free Refresh (guaranteed playable) | absorbs Coffee Break |
+| Coin Roll | 3 | Credits = round number (max 12) | absorbs Cash Out |
+| Emergency Brick | 4 | A slot becomes a one-block piece | absorbs Blueprint |
+| Extra Turn, Lucky Paint, Color Purge, Tune-Up | — | unchanged | |
+| **Lucky Draw** | 3 | 1 in 5: a random Uncommon+ Joker joins the rack (needs a free slot; rarity weights 0/60/36/4) | new |
+| **Mystery Stamp** | 3 | A random stamp on a random unstamped bag piece, for good | new |
+| **Double Down** | 3 | 1 in 5: double your Credits (at most +20) | new |
+| **Phantom Line** | 4 | The next placement that clears counts one extra line (Chips, multi-line Mult, refills, Jokers, statistics) | new |
+
+- Punch, Coffee Break, Cash Out and Blueprint are **retired**: never offered by the shop, crates, Treasure Hunt or the Vending Machine; one held from an older save still works.
+- **Chance items** roll on their own seeded stream (`rng_items`), so using one never shifts shapes, shop or bosses, and a seed plus its history replays them.
+- **Values on the card**: an item shows what it is worth right now ("+360 Chips", "+3 Mult", "+9 Credits", "Win +18"); the score preview includes a boost once it is used.
+- **3–4 item slots** (Item Pouch) show as a 2×2 grid of short tiles; a tile is its own USE button (click or Enter); targeted items show ERASE / CANCEL in place of the name.
+
+### 25.3 Shop
+
+- **Owned Jokers** are offered at 1/5 the weight of unowned ones (copies stay possible) and their shop card has an **OWNED** tag.
+- **Workshop, act 2+**: **Tuning Fork** (6 Credits): the top *scoring* Joker in the rack gains a level (reorder to choose; max level 3). **Item Pouch** (7): +1 item slot (max 4).
+- **Holo shelf** (shop after round 8: act 3 and Overtime): the pieces shelf becomes two chrome-foil **Holo** cards (seeded on the shop stream, rerolled with the shop). Each purchase of a card raises its next price by half its base.
+
+| Holo card | Base | Effect |
+|---|---:|---|
+| Negative Film | 14 | A random non-Negative Joker turns **Negative**: it takes no Joker slot |
+| AGAIN Seal | 15 | A random scoring Joker gains **AGAIN** |
+| Master Schematic | 12 | Every shape family in the bag gains a level |
+| Master Tuning | 12 | Every scoring Joker below level 3 gains a level |
+| Legend Crate | 20 | The Legendary shown on the card joins the rack (needs a free slot; never one you own) |
+| Hologram | 18 | A random non-Legendary Joker gets a Negative copy |
+
+- Caps: at most **3 Negative** and **3 AGAIN** Jokers; at most 10 Jokers in all.
+
+### 25.4 Joker traits (per rack position, `BMRun.joker_mods`)
+
+- **Level** (Tuning Fork, Master Tuning): +50% of the card's effect per level. Chips and Mult ×(1 + 0.5 × level); for xMult the part above ×1 grows the same way (×2 at level 2 becomes ×3). Receipt: "Name Lv 2".
+- **Negative**: takes no slot (`occupied_slots`); the card is drawn as a photographic negative and says NEGATIVE.
+- **AGAIN**: in every scoring phase, after all Jokers have scored, the card scores once more (a second receipt line "Name, AGAIN"). Scoring Jokers only; Hall of Mirrors does not mirror the extra trigger. The card turns red with a slow pulse and says AGAIN.
+- Traits move with the card when it is reordered and leave with it when it is sold. Reduced Motion freezes the shader; the words stay.
+
+### 25.5 Round cards and bosses
+
+| Card | Target | Rule | Win reward |
+|---|---:|---|---|
+| Gold Rush | ×1 | six Gold blocks | +1 (was +2) |
+| Tight Budget | ×1 | **five** fewer placements (was three) | +5 (was +4) |
+| Rush Hour | ×0.8 | no Refresh | **+3** (was nothing) |
+| Double or Nothing | **×1.7** (was ×1.4) | — | +7 (was +6) |
+| Mult Fever | **×1.5** (was ×1.3) | +1 Mult per placement | — |
+| Treasure Hunt | **×1.35** (was ×1.15) | — | an item |
+| Scholarship | **×1.4** (was ×1.2) | — | a family level |
+
+Act bosses (rounds 4 and 8) ask ×1.15 their round's target; the final boss and Overtime are unchanged.
+
+### 25.6 Board pressure: running out of room
+
+Evidence: with every tray guaranteed to fit, only 0.2% of rounds ever reached "no room". Removing the guarantee on refilled trays alone changed nothing for competent play (no stuck state in 720 simulated runs): a round ends at its target long before an 8×8 board fills.
+
+- **Dead trays:** only the round's first tray, a Refresh and Second Tray are guaranteed to hold a piece that fits; trays refilled during play (and Hold's replacement draw) are dealt as drawn. A dead tray with a Refresh left is STUCK (Refresh prompt); with no rescue left the round is lost ("No offered shape fits and no rescue remains.").
+- **The board carries over** between the rounds of an act and is swept when an act starts. Winning with a messy board now costs you next round; an Insurance Policy replay restores the round's own starting board.
+- **Rubble:** each round drops stone blocks on empty cells that complete no line (boss stream): 0 / 2 / 3 per round in acts 1 / 2 / 3, 4 in Overtime. They clear with their line like any block.
+- The round intro says when the board carried over and how many stones dropped.
+
+### 25.7 Color and form Jokers (22 new, 92 in all)
+
+Colors (the Color Blind disables them; Prism counts as every color):
+
+| Color | Common | Rare (×1 + 0.15 per piece of that color in the bag, max ×3) |
+|---|---|---|
+| Red | Red Alert: +2 Mult | Red Giant |
+| Orange | Citrus Twist: +60 Chips | Sunset Glow |
+| Yellow | Lemon Drop: +60 Chips | Solar Flare |
+| Green | Green Thumb: +2 Mult | Evergreen |
+| Blue | Blue Mood (existing): +2 Mult | Deep Blue |
+| Purple | Plum Job: +60 Chips | Royal Purple |
+
+Forms (Bars are Bar 2–5, Ls are L 3–4, Squares are 2×2 and 3×3):
+
+| Form | Common | Rare (×1 + step per piece of that form in the bag, max ×3) |
+|---|---|---|
+| Single | Lone Wolf: +2 Mult | Solitaire (step 0.3) |
+| Bar | Straight Edge (existing) | Barbell (0.1) |
+| L | Architect (existing) | Elbow Room (0.15) |
+| Square | Square Deal (existing) | Town Square (0.25) |
+| T | Tee Time: +60 Chips | T-Rex (0.25) |
+| Zigzag | Zigzagger: +2 Mult | Lightning Bolt (0.25) |
+| Plus | Plus Side: +80 Chips | Compass Rose (0.3) |
+
+The rares reward shaping the bag (Repaint, Copier, pieces for sale, Shredder); a rare's counter shows the pieces it counts and its current ×. The catalog fields `tint`, `form`, `add_chips`, `add_mult` and `bag_step` drive both the effect and the card text.
+
+### 25.8 Targets
+
+Rounds 1–2 keep their targets; rounds 3+ multiply them by their act's scale: **×1.15** (act 1), **×1.35** (act 2), **×1.55** (act 3), so round 12 asks 19,380 and Overtime grows from that (`BMRunConfig.act_scale`). Act bosses add ×1.15 on top. Reason: the owner found the game too easy, and builds now grow faster (bag-scaling rares, Holo cards, the carried-over board's near-full lines). Tuning (paired seeds, 40–60 runs each, with the carried board and rubble): a flat ×1.2 / ×1.35 / ×1.5 left the planner bot at 90% / 80% / 72%; the act ramp ×1.2 / ×1.4 / ×1.6 gave planner 67%, careful 22%, casual 3% (77% of its losses were board locks). The shipped ramp is a little softer; its results are in TASKS.md (balance watch).
+
+### 25.9 Saves
+
+Schema 9: run `joker_mods`, `extra_item_slots`, `holo_bought` and the `items` random stream; round `pending_lines`, `start_board`, `carried`, `rubble`; shop `holo`. A schema-8 save loads with defaults (traits padded to the rack, the item stream started from the seed); retired items keep working.
+
+### 25.10 Verification
+
+E2E: `scenario_warden` (W1–W7), `scenario_receipt` (R1–R4), `scenario_late_game` (items, shop, Holo, round cards, bosses, dead trays, color and form Jokers, schema 8 → 9; failure modes written first), the campaign invariant "a PLAYING round always has a legal move", and two late-game stops in `scenario_languages`. Balance: `tools/study.gd` arms, summarized in TASKS.md (balance watch).

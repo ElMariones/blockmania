@@ -5,10 +5,11 @@ extends RefCounted
 ##   run.draw_pile    uids still to be drawn this round, front = next
 ##   run.discard_pile uids placed or refreshed away this round
 ## Each round starts with the whole bag shuffled into the draw pile. An empty draw pile is
-## refilled by shuffling the discard pile back in. Every dealt tray must contain at least one
-## piece that fits the board (legality guarantee), achieved by swapping in the first fitting
-## piece from the draw pile, then the discard pile; only if no owned piece fits anywhere is a
-## temporary Single (uid -1) dealt. All randomness uses the run's shapes stream.
+## refilled by shuffling the discard pile back in. A guaranteed deal (the round's first tray, a
+## Refresh, Second Tray) must contain at least one piece that fits the board, achieved by
+## swapping in the first fitting piece from the draw pile, then the discard pile; only if no
+## owned piece fits anywhere is a temporary Single (uid -1) dealt. Trays refilled during play
+## are dealt as drawn and can be dead. All randomness uses the run's shapes stream.
 
 
 static func shuffle(rng: BMRngStream, arr: Array) -> void:
@@ -54,11 +55,15 @@ static func draw_one(run: BMRun) -> Dictionary:
 	return piece_by_uid(run, uid).duplicate(true)
 
 
-## Fills the given tray slots from the draw pile, then enforces the legality guarantee.
+## Fills the given tray slots from the draw pile, then (with `guarantee`) enforces the legality
+## guarantee. The round's first tray, a Refresh and Second Tray are guaranteed; trays refilled
+## during play are dealt as drawn (GDD §4 "Refresh and failure", 2026-09-26).
 ## Returns {rescued: bool (a swap happened), temporary: bool (a temporary Single was dealt)}.
-static func deal(run: BMRun, slots: Array) -> Dictionary:
+static func deal(run: BMRun, slots: Array, guarantee: bool = true) -> Dictionary:
 	for s in slots:
 		run.tray[s] = draw_one(run)
+	if not guarantee:
+		return {"rescued": false, "temporary": false}
 	return ensure_legal(run, slots)
 
 
@@ -139,6 +144,24 @@ static func upgraded_count(run: BMRun) -> int:
 		if BMPieces.is_upgraded(p):
 			n += 1
 	return n
+
+
+## Bag pieces per color (Prism pieces under -1, since they count as every color).
+static func color_counts(run: BMRun) -> Dictionary:
+	var out := {}
+	for p in run.bag:
+		var k := -1 if String(p.get("material", "")) == "prism" else int(p.color)
+		out[k] = int(out.get(k, 0)) + 1
+	return out
+
+
+## Bag pieces per form (BMShapes.form).
+static func form_counts(run: BMRun) -> Dictionary:
+	var out := {}
+	for p in run.bag:
+		var f := BMShapes.form(p.family)
+		out[f] = int(out.get(f, 0)) + 1
+	return out
 
 
 static func material_count(run: BMRun, material: String) -> int:

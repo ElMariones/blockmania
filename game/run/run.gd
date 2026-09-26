@@ -5,7 +5,7 @@ extends RefCounted
 ## a result Dictionary ({ok: bool, error: String, ...}). Seed + history replays a run exactly.
 ## to_dict()/from_dict() capture a complete state between actions (saves, previews, tests).
 
-const SCHEMA_VERSION := 8
+const SCHEMA_VERSION := 9
 
 enum Phase { ROUND, ROUND_RESULT, SHOP, RUN_WON, RUN_LOST, ABANDONED }
 
@@ -55,8 +55,12 @@ class RoundState:
 	var hold_used := false ## Hold was used since the last placement.
 	var locked_slot2 := -1 ## The Warden Mk II: a second barred slot.
 	var last_family := "" ## Family of the last placed piece (Scholarship).
+	var start_board: Dictionary = {} ## Board at the round's start when it carried over (Insurance replays).
+	var carried := false ## The board carried over from the last round of the act.
+	var rubble := 0 ## Stone blocks dropped at the round's start.
 	var lines_cleared := 0 ## Lines cleared this round (Supernova).
 	var refresh_used := false ## A Refresh or Second Tray was used this round (Hot Streak).
+	var pending_lines := 0 ## Phantom Line: extra lines for the next clearing placement.
 
 	func to_dict() -> Dictionary:
 		var fixed: Array = []
@@ -76,7 +80,8 @@ class RoundState:
 			"locked_slot": locked_slot, "tombs": tombs.duplicate(true), "combo_misses": combo_misses,
 			"pending_xmult": pending_xmult, "lines_cleared": lines_cleared, "refresh_used": refresh_used,
 			"held": BMPieces.to_dict(held), "hold_used": hold_used, "locked_slot2": locked_slot2,
-			"last_family": last_family,
+			"last_family": last_family, "pending_lines": pending_lines, "start_board": start_board.duplicate(true),
+			"carried": carried, "rubble": rubble,
 		}
 
 	static func from_dict(d: Dictionary) -> RoundState:
@@ -124,6 +129,11 @@ class RoundState:
 		r.hold_used = bool(d.get("hold_used", false))
 		r.locked_slot2 = int(d.get("locked_slot2", -1))
 		r.last_family = String(d.get("last_family", ""))
+		r.pending_lines = int(d.get("pending_lines", 0))
+		var sb: Variant = BMRun._integral(d.get("start_board", {}))
+		r.start_board = sb if sb is Dictionary else {}
+		r.carried = bool(d.get("carried", false))
+		r.rubble = int(d.get("rubble", 0))
 		return r
 
 
@@ -132,10 +142,16 @@ var kit_id := "standard"
 var rng_shapes: BMRngStream
 var rng_shop: BMRngStream
 var rng_boss: BMRngStream
+## Chance items (Lucky Draw, Mystery Stamp, Double Down): their own stream, so using one never
+## changes the shapes, the shop or the bosses.
+var rng_items: BMRngStream
 var phase: int = Phase.ROUND
 var round_number := 1
 var credits := 0
 var jokers: Array[String] = []
+## Per-Joker traits, aligned with `jokers` (same index): {"level": int, "negative": bool,
+## "again": bool}; {} = none (BMHolo). Keep them aligned through _add_joker/_remove_joker_at.
+var joker_mods: Array = []
 var consumables: Array[String] = []
 var jokers_sold := 0
 var bosses: Array[String] = []
@@ -170,6 +186,10 @@ var recorded := {}
 var joker_state := {}
 ## Joker slots added by Rack Extender.
 var extra_slots := 0
+## Item slots added by the Item Pouch.
+var extra_item_slots := 0
+## Holo cards bought so far, by id (each makes the next one dearer).
+var holo_bought := {}
 ## Heat (stakes) level 0-5 chosen at the start (GDD §22.5).
 var heat := 0
 ## "YYYY-MM-DD" for a Daily run (fixed seed, standard Kit, nothing locked), else "".
@@ -194,6 +214,7 @@ static func new_run(seed_value: int, kit: String = "standard", heat_level: int =
 	run.rng_shapes = BMRngStream.new(seed_value, "shapes")
 	run.rng_shop = BMRngStream.new(seed_value, "shop")
 	run.rng_boss = BMRngStream.new(seed_value, "boss")
+	run.rng_items = BMRngStream.new(seed_value, "items")
 	run.credits = int(BMRunConfig.kit(run.kit_id).credits)
 	run.bosses = BMBosses.choose_run_bosses(run.rng_boss)
 	run.bag = BMPieces.starter_bag(String(BMRunConfig.kit(run.kit_id).get("bag", "standard")))
@@ -237,6 +258,87 @@ func joker_slots() -> int:
 	return int(kit().joker_slots) + extra_slots
 
 
+## Slots in use: every Joker except Negative ones.
+func occupied_slots() -> int:
+	_sync_mods()
+	var n := 0
+	for i in jokers.size():
+		if not bool(joker_mods[i].get("negative", false)):
+			n += 1
+	return n
+
+
+## No room for one more (non-Negative) Joker.
+func rack_full() -> bool:
+	return occupied_slots() >= joker_slots() or jokers.size() >= BMRunConfig.MAX_RACK
+
+
+## Cards the rack shows: every slot, plus the Negative Jokers beyond them.
+func rack_size() -> int:
+	return maxi(joker_slots(), mini(BMRunConfig.MAX_RACK, jokers.size() + maxi(0, joker_slots() - occupied_slots())))
+
+
+func consumable_slots() -> int:
+	return BMRunConfig.CONSUMABLE_SLOTS + extra_item_slots
+
+
+func items_full() -> bool:
+	return consumables.size() >= consumable_slots()
+
+
+## Traits of the Joker at rack index `i` ({} when it has none).
+func joker_mod(i: int) -> Dictionary:
+	if i < 0 or i >= joker_mods.size() or not (joker_mods[i] is Dictionary):
+		return {}
+	return joker_mods[i]
+
+
+func joker_level(i: int) -> int:
+	return int(joker_mod(i).get("level", 0))
+
+
+## Keeps `joker_mods` the same length as `jokers` (older saves, tools and tests that append to
+## `jokers` directly).
+func _sync_mods() -> void:
+	while joker_mods.size() < jokers.size():
+		joker_mods.append({})
+	if joker_mods.size() > jokers.size():
+		joker_mods.resize(jokers.size())
+
+
+func _add_joker(id: String, mod: Dictionary = {}) -> void:
+	_sync_mods()
+	jokers.append(id)
+	joker_mods.append(mod)
+
+
+func _remove_joker_at(i: int) -> void:
+	_sync_mods()
+	var id := jokers[i]
+	jokers.remove_at(i)
+	joker_mods.remove_at(i)
+	if not jokers.has(id):
+		joker_state.erase(id)
+
+
+## Rack indices of scoring Jokers that can still gain a level, top first.
+func levelable_jokers() -> Array[int]:
+	var out: Array[int] = []
+	for i in jokers.size():
+		if BMHolo.is_scoring(jokers[i]) and joker_level(i) < BMRunConfig.MAX_JOKER_LEVEL:
+			out.append(i)
+	return out
+
+
+## Uids of bag pieces without a stamp (Mystery Stamp), in bag order.
+func unstamped_uids() -> Array[int]:
+	var out: Array[int] = []
+	for p in bag:
+		if String(p.get("stamp", "")) == "":
+			out.append(int(p.uid))
+	return out
+
+
 ## Current run-long value of a scaling Joker (its starting value when it has none yet).
 func joker_value(id: String) -> float:
 	return float(joker_state.get(id, BMJokers.scaling_start(id)))
@@ -266,6 +368,8 @@ func round_target(n: int, card: String = "") -> int:
 	if card == "":
 		card = round_card if n == round_number else "standard"
 	var t := float(BMRunConfig.target(n)) * float(BMRunConfig.heat_def(heat).target) * BMRoundCards.target_mult(card)
+	if BMRunConfig.is_boss_round(n) and n < BMRunConfig.ROUND_COUNT:
+		t *= BMRunConfig.BOSS_TARGET_MULT
 	if t >= float(BMRunConfig.SCORE_CAP):
 		return BMRunConfig.SCORE_CAP
 	return maxi(10, roundi(t / 10.0) * 10)
@@ -390,8 +494,17 @@ func consumable_usable(index: int) -> String:
 		"lucky_paint", "blueprint":
 			if tray_is_empty():
 				return BMLoc.m("The tray is empty.")
-		"polish", "spark", "cash_out", "emergency_brick", "overclock", "coin_roll":
+		"polish", "spark", "cash_out", "emergency_brick", "overclock", "coin_roll", "phantom_line":
 			pass
+		"lucky_draw":
+			if rack_full():
+				return BMLoc.m("Lucky Draw needs a free Joker slot.")
+		"mystery_stamp":
+			if unstamped_uids().is_empty():
+				return BMLoc.m("Every piece in your bag already has a stamp.")
+		"double_down":
+			if credits <= 0:
+				return BMLoc.m("You have no Credits to double.")
 		"coffee_break":
 			if current_boss() == "lockdown":
 				return BMLoc.m("The Lockdown disables Refresh this round.")
@@ -458,6 +571,8 @@ func apply_action(a: Dictionary) -> Dictionary:
 			return pick_round(int(a.i))
 		"overtime":
 			return start_overtime()
+		"buy_holo":
+			return buy_holo(int(a.i))
 	return _fail("Unknown action %s" % a)
 
 
@@ -513,11 +628,12 @@ func hold(slot: int) -> Dictionary:
 	if incoming.is_empty():
 		rs.held = outgoing
 		tray[slot] = {}
+		# A natural draw: Hold is not a free, guaranteed Refresh.
 		if tray_spent():
-			_deal_fresh_tray()
+			_deal_fresh_tray(false)
 			events.append(BMLoc.m("New tray"))
 		else:
-			BMBag.deal(self, [slot])
+			BMBag.deal(self, [slot], false)
 		events.append(BMLoc.m("Held %s") % BMPieces.english_name(outgoing))
 	else:
 		tray[slot] = incoming
@@ -603,9 +719,55 @@ func use_consumable(index: int, t: Dictionary = {}) -> Dictionary:
 			tray[target.slot] = BMPieces.brick()
 			result.slot = target.slot
 		"polish":
-			round_state.pending_chips += 100
+			var pc := BMConsumables.polish_chips(round_number)
+			round_state.pending_chips += pc
+			result.value = pc
 		"spark":
-			round_state.pending_mult += 1.0
+			var sm := BMConsumables.spark_mult(act())
+			round_state.pending_mult += sm
+			result.value = sm
+		"phantom_line":
+			round_state.pending_lines += 1
+			result.events.append(BMLoc.m("Phantom Line: your next clear counts one extra line"))
+		"lucky_draw":
+			if rng_items.randi_range(1, BMConsumables.LUCKY_DRAW_ONE_IN) == 1:
+				var rarity := rng_items.weighted_index(BMConsumables.LUCKY_DRAW_WEIGHTS)
+				var pick := _pick_joker(rarity, [], rng_items)
+				for r in [BMJokers.RARE, BMJokers.UNCOMMON]:
+					if pick == "":
+						pick = _pick_joker(r, [], rng_items)
+				if pick != "":
+					_add_joker(pick)
+					_joker_joined(pick)
+					result.joker = pick
+					result.events.append(BMLoc.m("Lucky Draw: %s joined your rack!") % BMJokers.get_def(pick).name)
+			if not result.has("joker"):
+				result.events.append(BMLoc.m("Lucky Draw: no luck this time"))
+		"mystery_stamp":
+			var uids := unstamped_uids()
+			var uid: int = uids[rng_items.randi_range(0, uids.size() - 1)]
+			var stamps: Array = BMPieces.STAMP_DEFS.keys()
+			var stamp: String = stamps[rng_items.randi_range(0, stamps.size() - 1)]
+			var bp := BMBag.piece_by_uid(self, uid)
+			bp.stamp = stamp
+			# The copy on the tray or in Hold shows it at once.
+			for i in tray.size():
+				if not tray[i].is_empty() and int(tray[i].get("uid", -1)) == uid:
+					tray[i].stamp = stamp
+			if not round_state.held.is_empty() and int(round_state.held.get("uid", -1)) == uid:
+				round_state.held.stamp = stamp
+			result.uid = uid
+			result.stamp = stamp
+			result.events.append(BMLoc.m("Mystery Stamp: your %s got a %s") % [BMPieces.english_name(bp), BMPieces.STAMP_DEFS[stamp].name])
+		"double_down":
+			if rng_items.randi_range(1, BMConsumables.DOUBLE_DOWN_ONE_IN) == 1:
+				var gain := mini(BMConsumables.DOUBLE_DOWN_MAX, credits)
+				add_credits(gain)
+				result.credits = gain
+				result.events.append(BMLoc.m("Double Down: +%d Credits!") % gain)
+			else:
+				result.credits = 0
+				result.events.append(BMLoc.m("Double Down: no luck this time"))
 		"second_tray":
 			_used_refresh()
 			result.merge(_do_tray_refresh(BMLoc.m("Second Tray")), true)
@@ -652,7 +814,7 @@ func _validate_target(id: String, t: Dictionary) -> Dictionary:
 				if not cells.has(p):
 					cells.append(p)
 			if cells.is_empty() or cells.size() > BMConsumables.ERASER_CELLS:
-				return {"error": BMLoc.m("Choose 1 or 2 blocks.")}
+				return {"error": BMLoc.m("Choose 1 to %d blocks.") % BMConsumables.ERASER_CELLS}
 			return {"cells": cells}
 		"cell":
 			var c: Array = t.get("cells", [])
@@ -784,15 +946,13 @@ func buy_joker(offer: int) -> Dictionary:
 	var price := BMJokers.cost(id)
 	if credits < price:
 		return _fail(BMLoc.m("Not enough Credits."))
-	if jokers.size() >= joker_slots():
+	if rack_full():
 		return _fail(BMLoc.m("Joker slots are full. Sell a Joker first."))
 	credits -= price
-	jokers.append(id)
+	_add_joker(id)
 	shop.jokers[offer] = ""
 	stats.jokers_bought += 1
-	if id == "loan_shark":
-		add_credits(BMJokers.LOAN_CREDITS)
-		loan_debt += BMJokers.LOAN_TOTAL
+	_joker_joined(id)
 	history.append({"a": "buy_joker", "i": offer})
 	return {"ok": true, "type": "buy_joker", "item": id, "price": price}
 
@@ -806,7 +966,7 @@ func buy_consumable(offer: int) -> Dictionary:
 	var price := BMConsumables.cost(id)
 	if credits < price:
 		return _fail(BMLoc.m("Not enough Credits."))
-	if consumables.size() >= BMRunConfig.CONSUMABLE_SLOTS:
+	if items_full():
 		return _fail(BMLoc.m("Item slots are full. Use an item first."))
 	credits -= price
 	consumables.append(id)
@@ -884,6 +1044,18 @@ func buy_tool(offer: int, targets: Array = [], color: int = -1) -> Dictionary:
 			if joker_slots() >= BMRunConfig.MAX_JOKER_SLOTS:
 				return _fail(BMLoc.m("Your Joker rack is already at %d slots.") % BMRunConfig.MAX_JOKER_SLOTS)
 			extra_slots += 1
+		"item_slot":
+			if consumable_slots() >= BMRunConfig.MAX_ITEM_SLOTS:
+				return _fail(BMLoc.m("You already have %d item slots.") % BMRunConfig.MAX_ITEM_SLOTS)
+			extra_item_slots += 1
+		"joker_level":
+			var up := levelable_jokers()
+			if up.is_empty():
+				return _fail(BMLoc.m("No scoring Joker can gain a level."))
+			_sync_mods()
+			var m: Dictionary = joker_mods[up[0]].duplicate()
+			m.level = int(m.get("level", 0)) + 1
+			joker_mods[up[0]] = m
 	credits -= int(def.cost)
 	shop.tools[offer] = {}
 	stats.tools_bought += 1
@@ -935,9 +1107,7 @@ func sell_joker(index: int) -> Dictionary:
 	if id == "loan_shark" and loan_debt > 0:
 		return _fail(BMLoc.m("Repay the loan first (%d Credits owed).") % loan_debt)
 	var value := BMJokers.sell_value(id)
-	jokers.remove_at(index)
-	if not jokers.has(id):
-		joker_state.erase(id)
+	_remove_joker_at(index)
 	credits = mini(BMRunConfig.CREDIT_CAP, credits + value)
 	jokers_sold += 1
 	history.append({"a": "sell", "i": index})
@@ -952,9 +1122,13 @@ func move_joker(from: int, to: int) -> Dictionary:
 		return _fail(BMLoc.m("Jokers can be reordered in the shop or between placements."))
 	if from < 0 or from >= jokers.size() or to < 0 or to >= jokers.size() or from == to:
 		return _fail(BMLoc.m("Invalid Joker move."))
+	_sync_mods()
 	var id := jokers[from]
+	var mod: Dictionary = joker_mods[from]
 	jokers.remove_at(from)
+	joker_mods.remove_at(from)
 	jokers.insert(to, id)
+	joker_mods.insert(to, mod)
 	history.append({"a": "move", "from": from, "to": to})
 	return {"ok": true, "type": "move"}
 
@@ -977,10 +1151,17 @@ func _fail(msg: String) -> Dictionary:
 	return {"ok": false, "error": msg}
 
 
-func _start_round() -> void:
+func _start_round(replay: bool = false) -> void:
 	_ensure_bosses(act())
 	phase = Phase.ROUND
-	board = BMBoard.new()
+	# Board pressure: inside an act the board can carry over from the last round (it is swept
+	# when an act starts). An Insurance replay restarts from the round's own starting board.
+	var carried := {}
+	if replay and not round_state.start_board.is_empty():
+		carried = round_state.start_board
+	elif BMRunConfig.carry_board and (round_number - 1) % BMRunConfig.ROUNDS_PER_ACT != 0:
+		carried = board.to_dict()
+	board = BMBoard.from_dict(carried) if not carried.is_empty() else BMBoard.new()
 	var boss := current_boss()
 	if boss != "":
 		round_card = "standard"
@@ -1001,15 +1182,24 @@ func _start_round() -> void:
 	rs.placements_left += jokers.count("long_game")
 	rs.placement_cap = rs.placements_left
 	if boss == "cramped_cabinet":
-		rs.fixed_cells = BMBosses.cramped_cells(rng_boss, BMBosses.FIXED_CELL_COUNT_MK2 if mk2 else BMBosses.FIXED_CELL_COUNT)
+		rs.fixed_cells = _seed_cells(BMBosses.FIXED_CELL_COUNT_MK2 if mk2 else BMBosses.FIXED_CELL_COUNT)
 		for p in rs.fixed_cells:
 			board.set_cell(p, BMShapes.COLOR_STONE)
 	if round_card == "gold_rush":
 		# Six seeded Gold blocks (boss stream). Six cells can never complete a line.
-		var gold := BMBosses.cramped_cells(rng_boss, BMRoundCards.GOLD_RUSH_CELLS)
+		var gold := _seed_cells(BMRoundCards.GOLD_RUSH_CELLS)
 		for p in gold:
 			board.set_cell(p, rng_boss.randi_range(0, BMShapes.OFFER_COLOR_COUNT - 1))
 			board.mats[p.y * BMBoard.SIZE + p.x] = BMPieces.material_index("gold")
+	# Rubble: stone blocks on empty cells that never complete a line (boss stream).
+	rs.carried = not carried.is_empty()
+	if not replay:
+		for i in BMRunConfig.rubble(act()):
+			var t := BMBosses.tomb_cell(rng_boss, board)
+			if t.x >= 0:
+				board.set_cell(t, BMShapes.COLOR_STONE)
+				rs.rubble += 1
+	rs.start_board = board.to_dict() if BMRunConfig.carry_board else {}
 	round_state = rs
 	tray = [{}, {}, {}]
 	BMBag.start_round(self)
@@ -1026,14 +1216,33 @@ func _start_round() -> void:
 		BMBag.ensure_legal(self, open_slots)
 
 
+## Seeded cells for a round's starting blocks (boss stream): anywhere on an empty board (fewer
+## than 8 can never complete a line), else only empty cells that complete no line.
+func _seed_cells(count: int) -> Array[Vector2i]:
+	if board.occupied_count() == 0:
+		return BMBosses.cramped_cells(rng_boss, count)
+	var out: Array[Vector2i] = []
+	var probe := board.duplicate_board()
+	for i in count:
+		var t := BMBosses.tomb_cell(rng_boss, probe)
+		if t.x < 0:
+			break
+		probe.set_cell(t, BMShapes.COLOR_STONE)
+		out.append(t)
+	return out
+
+
 ## Deals a whole new tray and checks it for a Hand. Returns the Hand id or "".
-func _deal_fresh_tray() -> String:
+## `guarantee`: swap in a fitting piece if none fits (the round's first tray only). A tray
+## refilled during play is dealt as drawn, so a crowded board can leave it dead (study
+## follow-up 2026-09-26: running out of room should be a real way to lose).
+func _deal_fresh_tray(guarantee: bool = true) -> String:
 	var slots: Array = []
 	for i in 3:
 		if not slot_locked(i):
 			tray[i] = {}
 			slots.append(i)
-	BMBag.deal(self, slots)
+	BMBag.deal(self, slots, guarantee)
 	return _apply_hand() if slots.size() == 3 else ""
 
 
@@ -1115,7 +1324,7 @@ func _evaluate_round() -> Dictionary:
 		return {"round_won": true, "phase": phase}
 	var hand := ""
 	if tray_spent():
-		hand = _deal_fresh_tray()
+		hand = _deal_fresh_tray(false)
 		events.append(BMLoc.m("New tray"))
 		for p in tray:
 			if not p.is_empty() and bool(p.get("temporary", false)):
@@ -1219,7 +1428,7 @@ func _win_round() -> void:
 		_grow_joker("hot_streak", BMJokers.HOT_STREAK_STEP)
 		growth.append(BMLoc.m("Hot Streak heated up to x%s Mult") % BMJokers._num(joker_value("hot_streak")))
 	var drops: Array = []
-	if round_card == "treasure_hunt" and consumables.size() < BMRunConfig.CONSUMABLE_SLOTS:
+	if round_card == "treasure_hunt" and not items_full():
 		var tpool := BMConsumables.shop_pool()
 		var titem: String = tpool[rng_shop.randi_range(0, tpool.size() - 1)]
 		consumables.append(titem)
@@ -1229,7 +1438,7 @@ func _win_round() -> void:
 		family_levels[rs.last_family] = int(family_levels.get(rs.last_family, 0)) + 1
 		growth.append(BMLoc.m("Scholarship: %s is now level %d") % [BMShapes.family(StringName(rs.last_family)).name, family_levels[rs.last_family]])
 	for i in jokers.count("vending_machine"):
-		if consumables.size() < BMRunConfig.CONSUMABLE_SLOTS:
+		if not items_full():
 			var pool := BMConsumables.shop_pool()
 			var item: String = pool[rng_shop.randi_range(0, pool.size() - 1)]
 			consumables.append(item)
@@ -1254,9 +1463,9 @@ func _win_round() -> void:
 func _lose(reason: String) -> void:
 	if phase == Phase.ROUND and jokers.has("insurance_policy"):
 		# Insurance Policy: replay this round from the start without the free Refresh.
-		jokers.erase("insurance_policy")
+		_remove_joker_at(jokers.find("insurance_policy"))
 		stats["insurance_claims"] = int(stats.get("insurance_claims", 0)) + 1
-		_start_round()
+		_start_round(true)
 		round_state.refreshes_left = 0
 		round_state.insured = true
 		_insurance_event = true
@@ -1327,14 +1536,12 @@ func open_crate(i: int) -> Dictionary:
 		"joker":
 			if String(o.id) == "":
 				return _fail(BMLoc.m("That offer is empty."))
-			if jokers.size() >= joker_slots():
+			if rack_full():
 				return _fail(BMLoc.m("Joker slots are full. Sell a Joker first."))
-			jokers.append(String(o.id))
-			if o.id == "loan_shark":
-				add_credits(BMJokers.LOAN_CREDITS)
-				loan_debt += BMJokers.LOAN_TOTAL
+			_add_joker(String(o.id))
+			_joker_joined(String(o.id))
 		"item":
-			if consumables.size() >= BMRunConfig.CONSUMABLE_SLOTS:
+			if items_full():
 				return _fail(BMLoc.m("Item slots are full. Use an item first."))
 			consumables.append(String(o.id))
 		"credits":
@@ -1379,6 +1586,12 @@ func _fill_shop_offers() -> void:
 					taken = true
 			if tid == "rack_extender" and joker_slots() >= BMRunConfig.MAX_JOKER_SLOTS:
 				taken = true
+			if next_act < BMTools.from_act(tid):
+				taken = true
+			if tid == "item_pouch" and consumable_slots() >= BMRunConfig.MAX_ITEM_SLOTS:
+				taken = true
+			if tid == "tuning_fork" and levelable_jokers().is_empty():
+				taken = true
 			tool_weights.append(0 if taken else int(BMTools.WEIGHTS[tid]))
 		var id: String = tool_ids[rng_shop.weighted_index(tool_weights)]
 		var offer := {"id": id, "family": ""}
@@ -1391,10 +1604,17 @@ func _fill_shop_offers() -> void:
 			offer.family = fams[rng_shop.randi_range(0, fams.size() - 1)]
 		tool_offers.append(offer)
 	shop.tools = tool_offers
+	# From the shop after round 8 the pieces shelf becomes the Holo shelf.
 	var piece_offers: Array = []
-	for i in BMRunConfig.PIECE_OFFERS:
-		piece_offers.append(_roll_piece_offer())
+	var holo_offers: Array = []
+	if holo_open():
+		for i in BMRunConfig.HOLO_OFFERS:
+			holo_offers.append(_roll_holo_offer(holo_offers))
+	else:
+		for i in BMRunConfig.PIECE_OFFERS:
+			piece_offers.append(_roll_piece_offer())
 	shop.pieces = piece_offers
+	shop.holo = holo_offers
 
 
 ## A random piece for sale: any family (including Bar 5 and Square 3x3), any rotation and
@@ -1418,20 +1638,226 @@ func _roll_piece_offer() -> Dictionary:
 	return d
 
 
-func _pick_joker(rarity: int, exclude: Array[String]) -> String:
+## A random Joker of `rarity` (never one in `exclude`, a locked one, or a unique one owned).
+## Jokers you own are BMRunConfig.OWNED_JOKER_WEIGHT / NEW_JOKER_WEIGHT as likely as the rest.
+func _pick_joker(rarity: int, exclude: Array[String], rng: BMRngStream = null) -> String:
+	if rng == null:
+		rng = rng_shop
 	var candidates: Array[String] = []
+	var weights: Array = []
 	for id in BMJokers.ids_of_rarity(rarity):
 		if exclude.has(id) or locked_jokers.has(id):
 			continue
 		if BMJokers.is_unique(id) and jokers.has(id):
 			continue
 		candidates.append(id)
+		weights.append(BMRunConfig.OWNED_JOKER_WEIGHT if jokers.has(id) else BMRunConfig.NEW_JOKER_WEIGHT)
 	if candidates.is_empty():
 		return ""
-	return candidates[rng_shop.randi_range(0, candidates.size() - 1)]
+	return candidates[rng.weighted_index(weights)]
+
+
+## A Joker just joined the rack (shop, crate, Lucky Draw, Legend Crate): one-time effects.
+func _joker_joined(id: String) -> void:
+	if id == "loan_shark":
+		add_credits(BMJokers.LOAN_CREDITS)
+		loan_debt += BMJokers.LOAN_TOTAL
+
+
+# --- The Holo shelf (BMHolo) ---------------------------------------------------------------
+
+## The shop in front of the player shows the Holo shelf (from the shop after round 8).
+func holo_open() -> bool:
+	return round_number >= BMRunConfig.HOLO_FROM_ROUND
+
+
+## Why a Holo card cannot apply to the current rack ("" = it can).
+func holo_blocked(offer: Dictionary) -> String:
+	match String(offer.get("id", "")):
+		"negative_film":
+			if _trait_count("negative") >= BMHolo.MAX_NEGATIVE:
+				return BMLoc.m("Your rack already has %d Negative Jokers.") % BMHolo.MAX_NEGATIVE
+			if _negative_candidates().is_empty():
+				return BMLoc.m("No Joker to turn Negative.")
+		"again_seal":
+			if _trait_count("again") >= BMHolo.MAX_AGAIN:
+				return BMLoc.m("Your rack already has %d AGAIN Jokers.") % BMHolo.MAX_AGAIN
+			if _again_candidates().is_empty():
+				return BMLoc.m("No scoring Joker without AGAIN.")
+		"master_tuning":
+			if levelable_jokers().is_empty():
+				return BMLoc.m("No scoring Joker can gain a level.")
+		"legend_crate":
+			if String(offer.get("joker", "")) == "" or jokers.has(String(offer.joker)):
+				return BMLoc.m("You already own that Legendary.")
+			if rack_full():
+				return BMLoc.m("Joker slots are full. Sell a Joker first.")
+		"hologram":
+			if _trait_count("negative") >= BMHolo.MAX_NEGATIVE:
+				return BMLoc.m("Your rack already has %d Negative Jokers.") % BMHolo.MAX_NEGATIVE
+			if _hologram_candidates().is_empty():
+				return BMLoc.m("No Joker to copy.")
+			if jokers.size() >= BMRunConfig.MAX_RACK:
+				return BMLoc.m("Your rack is full.")
+	return ""
+
+
+## What a Holo shelf offer costs now.
+func holo_price(offer: Dictionary) -> int:
+	var id := String(offer.get("id", ""))
+	return BMHolo.price(id, int(holo_bought.get(id, 0)))
+
+
+func _trait_count(key: String) -> int:
+	var n := 0
+	for i in jokers.size():
+		if bool(joker_mod(i).get(key, false)):
+			n += 1
+	return n
+
+
+func _negative_candidates() -> Array[int]:
+	var out: Array[int] = []
+	for i in jokers.size():
+		if not bool(joker_mod(i).get("negative", false)):
+			out.append(i)
+	return out
+
+
+func _again_candidates() -> Array[int]:
+	var out: Array[int] = []
+	for i in jokers.size():
+		if BMHolo.is_scoring(jokers[i]) and not bool(joker_mod(i).get("again", false)):
+			out.append(i)
+	return out
+
+
+func _hologram_candidates() -> Array[int]:
+	var out: Array[int] = []
+	for i in jokers.size():
+		if not BMJokers.is_unique(jokers[i]) and jokers[i] != "loan_shark":
+			out.append(i)
+	return out
+
+
+## One Holo shelf offer ({"id", "joker"}), never the same card twice on a shelf.
+func _roll_holo_offer(taken: Array) -> Dictionary:
+	var ids: Array = []
+	var weights: Array = []
+	for d in BMHolo.CATALOG:
+		var dup := false
+		for o in taken:
+			if String(o.id) == String(d.id):
+				dup = true
+		if d.id == "legend_crate" and _unowned_legendaries().is_empty():
+			dup = true
+		ids.append(String(d.id))
+		weights.append(0 if dup else int(d.weight))
+	var id: String = ids[rng_shop.weighted_index(weights)]
+	var offer := {"id": id, "joker": ""}
+	if id == "legend_crate":
+		var pool := _unowned_legendaries()
+		offer.joker = pool[rng_shop.randi_range(0, pool.size() - 1)]
+	return offer
+
+
+func _unowned_legendaries() -> Array[String]:
+	var out: Array[String] = []
+	for id in BMJokers.ids_of_rarity(BMJokers.LEGENDARY):
+		if not jokers.has(id) and not locked_jokers.has(id):
+			out.append(id)
+	return out
+
+
+## Buys a Holo card and applies it at once. Random targets use the shop stream.
+func buy_holo(i: int) -> Dictionary:
+	if phase != Phase.SHOP:
+		return _fail(BMLoc.m("The shop is closed."))
+	var offers: Array = shop.get("holo", [])
+	if i < 0 or i >= offers.size() or Dictionary(offers[i]).is_empty():
+		return _fail(BMLoc.m("That offer is gone."))
+	var o: Dictionary = offers[i]
+	var price := holo_price(o)
+	if credits < price:
+		return _fail(BMLoc.m("Not enough Credits."))
+	var blocked := holo_blocked(o)
+	if blocked != "":
+		return _fail(blocked)
+	_sync_mods()
+	var result := {"ok": true, "type": "buy_holo", "item": String(o.id), "price": price, "events": []}
+	match String(o.id):
+		"negative_film":
+			var c := _negative_candidates()
+			var k: int = c[rng_shop.randi_range(0, c.size() - 1)]
+			var m: Dictionary = joker_mods[k].duplicate()
+			m.negative = true
+			joker_mods[k] = m
+			result.joker = jokers[k]
+			result.index = k
+			result.events.append(BMLoc.m("%s turned Negative: it takes no slot") % BMJokers.get_def(jokers[k]).name)
+		"again_seal":
+			var c := _again_candidates()
+			var k: int = c[rng_shop.randi_range(0, c.size() - 1)]
+			var m: Dictionary = joker_mods[k].duplicate()
+			m.again = true
+			joker_mods[k] = m
+			result.joker = jokers[k]
+			result.index = k
+			result.events.append(BMLoc.m("%s gained AGAIN") % BMJokers.get_def(jokers[k]).name)
+		"master_schematic":
+			var fams: Array = []
+			for p in bag:
+				if not fams.has(String(p.family)):
+					fams.append(String(p.family))
+			for f in fams:
+				family_levels[f] = int(family_levels.get(f, 0)) + 1
+			result.events.append(BMLoc.mn("%d shape family gained a level", "%d shape families gained a level", fams.size()) % fams.size())
+		"master_tuning":
+			var up := levelable_jokers()
+			for k in up:
+				var m: Dictionary = joker_mods[k].duplicate()
+				m.level = int(m.get("level", 0)) + 1
+				joker_mods[k] = m
+			result.events.append(BMLoc.mn("%d Joker gained a level", "%d Jokers gained a level", up.size()) % up.size())
+		"legend_crate":
+			_add_joker(String(o.joker))
+			_joker_joined(String(o.joker))
+			result.joker = String(o.joker)
+			result.events.append(BMLoc.m("%s joined your rack") % BMJokers.get_def(String(o.joker)).name)
+		"hologram":
+			var c := _hologram_candidates()
+			var k: int = c[rng_shop.randi_range(0, c.size() - 1)]
+			var m: Dictionary = joker_mods[k].duplicate()
+			m.negative = true
+			_add_joker(jokers[k], m)
+			result.joker = jokers[k]
+			result.index = jokers.size() - 1
+			result.events.append(BMLoc.m("Hologram: a Negative copy of %s") % BMJokers.get_def(jokers[k]).name)
+	credits -= price
+	offers[i] = {}
+	holo_bought[String(o.id)] = int(holo_bought.get(String(o.id), 0)) + 1
+	stats["holo_bought"] = int(stats.get("holo_bought", 0)) + 1
+	history.append({"a": "buy_holo", "i": i})
+	return result
 
 
 # --- Serialization -------------------------------------------------------------------------
+
+## Joker traits for saves: one entry per Joker, only the traits it has.
+func _mods_data() -> Array:
+	_sync_mods()
+	var out: Array = []
+	for m in joker_mods:
+		var e := {}
+		if int(m.get("level", 0)) > 0:
+			e.level = int(m.level)
+		if bool(m.get("negative", false)):
+			e.negative = true
+		if bool(m.get("again", false)):
+			e.again = true
+		out.append(e)
+	return out
+
 
 func to_dict(include_history: bool = true) -> Dictionary:
 	var tray_data: Array = []
@@ -1443,9 +1869,11 @@ func to_dict(include_history: bool = true) -> Dictionary:
 	return {
 		"schema": SCHEMA_VERSION,
 		"seed": run_seed, "kit": kit_id,
-		"rng": {"shapes": rng_shapes.get_state(), "shop": rng_shop.get_state(), "boss": rng_boss.get_state()},
+		"rng": {"shapes": rng_shapes.get_state(), "shop": rng_shop.get_state(), "boss": rng_boss.get_state(),
+			"items": rng_items.get_state()},
 		"phase": PHASE_NAMES[phase], "round": round_number, "credits": credits,
-		"jokers": jokers.duplicate(), "consumables": consumables.duplicate(), "jokers_sold": jokers_sold,
+		"jokers": jokers.duplicate(), "joker_mods": _mods_data(), "consumables": consumables.duplicate(), "jokers_sold": jokers_sold,
+		"extra_item_slots": extra_item_slots, "holo_bought": holo_bought.duplicate(),
 		"bosses": bosses.duplicate(), "board": board.to_dict(), "tray": tray_data,
 		"bag": bag_data, "draw_pile": draw_pile.duplicate(), "discard_pile": discard_pile.duplicate(),
 		"next_uid": next_uid, "family_levels": family_levels.duplicate(), "loan_debt": loan_debt,
@@ -1469,11 +1897,23 @@ static func from_dict(d: Dictionary) -> BMRun:
 	run.rng_shop.set_state(d.rng.shop)
 	run.rng_boss = BMRngStream.new()
 	run.rng_boss.set_state(d.rng.boss)
+	# Schema 9 added the item stream; older saves start it from the seed.
+	if d.rng.has("items"):
+		run.rng_items = BMRngStream.new()
+		run.rng_items.set_state(d.rng.items)
+	else:
+		run.rng_items = BMRngStream.new(int(d.seed), "items")
 	run.phase = PHASE_NAMES.find(String(d.phase))
 	run.round_number = int(d.round)
 	run.credits = int(d.credits)
 	run.jokers.assign(d.jokers)
+	run.joker_mods = []
+	for m in d.get("joker_mods", []):
+		run.joker_mods.append(_integral(Dictionary(m).duplicate()) if m is Dictionary else {})
+	run._sync_mods()
 	run.consumables.assign(d.consumables)
+	run.extra_item_slots = int(d.get("extra_item_slots", 0))
+	run.holo_bought = _integral(Dictionary(d.get("holo_bought", {})).duplicate())
 	run.jokers_sold = int(d.jokers_sold)
 	run.bosses.assign(d.bosses)
 	run.board = BMBoard.from_dict(d.board)

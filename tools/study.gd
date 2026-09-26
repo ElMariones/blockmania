@@ -13,11 +13,13 @@ const PT := preload("res://tools/playtest.gd")
 
 ## Build families used to name what a run was "going for" (report only).
 const TAGS := {
-	"color": ["blue_mood", "color_cycle", "rainbow_road"],
+	"color": ["blue_mood", "color_cycle", "rainbow_road", "red_alert", "citrus_twist", "lemon_drop", "green_thumb", "plum_job",
+		"red_giant", "sunset_glow", "solar_flare", "evergreen", "deep_blue", "royal_purple"],
 	"multi_line": ["jackpot_window", "wide_awake", "crossbar", "keystone", "snowball", "demolition_crew", "chain_link", "compound_interest", "supernova", "avalanche"],
 	"bag_engine": ["foundry", "specialist", "hoarder", "collector", "lean_bag", "recycler", "postmaster", "neon_sign", "glass_cannon", "veteran", "philosophers_stone", "double_stamp", "breakage_bonus"],
 	"economy": ["loan_shark", "spare_parts", "overflow", "coin_pusher", "full_pockets", "vending_machine", "fire_sale"],
-	"shape": ["small_change", "heavy_hand", "architect", "straight_edge", "square_deal", "big_game_hunter", "countdown"],
+	"shape": ["small_change", "heavy_hand", "architect", "straight_edge", "square_deal", "big_game_hunter", "countdown",
+		"lone_wolf", "tee_time", "zigzagger", "plus_side", "solitaire", "barbell", "elbow_room", "town_square", "t_rex", "lightning_bolt", "compass_rose"],
 	"hands": ["hot_hand", "card_sharp"],
 	"scaling": ["hot_streak", "overachiever", "bonsai", "tally_counter"],
 	"safety": ["tiny_insurance", "second_look", "insurance_policy", "patch_panel", "periscope", "draftsman", "long_game", "mirror_maze"],
@@ -25,12 +27,12 @@ const TAGS := {
 
 ## Favorite lists a participant can adopt (a human who likes a style).
 const FAVORITES := {
-	"color": ["blue_mood", "color_cycle", "rainbow_road", "hot_hand", "golden_ratio"],
+	"color": ["deep_blue", "blue_mood", "color_cycle", "rainbow_road", "hot_hand", "golden_ratio"],
 	"multi_line": ["jackpot_window", "wide_awake", "keystone", "snowball", "compound_interest", "demolition_crew"],
 	"bag_engine": ["foundry", "specialist", "collector", "recycler", "veteran", "hoarder"],
 	"economy": ["coin_pusher", "spare_parts", "loan_shark", "full_pockets", "overflow", "bonsai"],
 	"scaling": ["hot_streak", "overachiever", "snowball", "bonsai", "tally_counter"],
-	"shape": ["big_game_hunter", "square_deal", "heavy_hand", "straight_edge", "small_change"],
+	"shape": ["barbell", "elbow_room", "straight_edge", "architect", "big_game_hunter", "square_deal"],
 	"xmult": ["compound_interest", "golden_ratio", "color_cycle", "hot_hand", "last_stand"],
 }
 
@@ -66,6 +68,8 @@ const ARMS := {
 	"skill_smart": {"placement": "smart", "shop": "full", "items": "hoarder"},
 	"skill_lite": {"placement": "expert_lite"},
 	"skill_expert": {"placement": "expert"},
+	# E7 board pressure (study follow-up): a bag of big pieces.
+	"kit_chunky": {"kit": "chunky"},
 	# E6 Overtime (won runs press KEEP PLAYING until a round is lost or round 80).
 	"ot_smart": {"placement": "smart", "shop": "full", "items": "hoarder", "overtime": true},
 	"ot_lite": {"overtime": true},
@@ -76,6 +80,12 @@ const ARMS := {
 	"ot_legend_probe": {"placement": "expert", "cards": "ev", "dup": "avoid", "overtime": true, "favorites": "multi_line",
 		"start_jokers": ["hall_of_mirrors", "supernova", "avalanche", "snowball", "jackpot_window"]},
 }
+
+
+## How much a participant wants each Holo card (all are bought when affordable; the order
+## decides between two on one shelf).
+const HOLO_VALUE := {"legend_crate": 60, "again_seal": 50, "negative_film": 45, "hologram": 40,
+	"master_tuning": 35, "master_schematic": 25}
 
 
 class Participant extends "res://tools/playtest.gd".Persona:
@@ -141,8 +151,10 @@ class Participant extends "res://tools/playtest.gd".Persona:
 				plan = []
 				return run.refresh()
 			if items_style in ["smart", "savvy"]:
-				for id in ["second_tray", "coffee_break"]:
+				for id in ["second_tray", "coffee_break", "eraser"]:
 					var k := run.consumables.find(id)
+					if id == "eraser" and k >= 0:
+						continue
 					if k >= 0 and run.consumable_usable(k) == "":
 						plan = []
 						return _use(run, k, {}, "tempo")
@@ -306,10 +318,17 @@ class Participant extends "res://tools/playtest.gd".Persona:
 			if run.consumable_usable(i) != "":
 				continue
 			match id:
-				"cash_out":
+				"cash_out", "mystery_stamp":
 					return _use(run, i, {}, "economy")
+				"lucky_draw":
+					if not run.rack_full():
+						return _use(run, i, {}, "economy")
+				"double_down":
+					# Worth it once the stake is near the +20 cap (impulse players roll at once).
+					if items_style == "impulse" or run.credits >= 15:
+						return _use(run, i, {}, "economy")
 				"coin_roll":
-					if items_style != "savvy" or run.round_number >= 6 or run.consumables.size() >= BMRunConfig.CONSUMABLE_SLOTS:
+					if items_style != "savvy" or run.round_number >= 6 or run.items_full():
 						return _use(run, i, {}, "economy")
 				"tune_up":
 					if items_style == "impulse":
@@ -412,7 +431,7 @@ class Participant extends "res://tools/playtest.gd".Persona:
 		var rs := run.round_state
 		for i in run.consumables.size():
 			var id := run.consumables[i]
-			if not id in ["polish", "spark", "overclock"] or run.consumable_usable(i) != "":
+			if not id in ["polish", "spark", "overclock", "phantom_line"] or run.consumable_usable(i) != "":
 				continue
 			var go := false
 			match items_style:
@@ -421,7 +440,9 @@ class Participant extends "res://tools/playtest.gd".Persona:
 				"smart":
 					go = lines >= 1
 				"savvy":
-					if id == "overclock":
+					if id == "phantom_line":
+						go = lines >= 1
+					elif id == "overclock":
 						go = lines >= 2 or (lines >= 1 and (BMRunConfig.is_boss_round(run.round_number) or rs.placements_left <= 4))
 					else:
 						go = lines >= 1
@@ -480,11 +501,14 @@ class Participant extends "res://tools/playtest.gd".Persona:
 			var t := _tool_step(run)
 			if not t.is_empty():
 				return t
+		var ho := _holo_step(run)
+		if not ho.is_empty():
+			return ho
 		var it := _item_step(run)
 		if not it.is_empty():
 			return it
 		if shop_style == "meta":
-			var full := run.jokers.size() >= run.joker_slots()
+			var full := run.rack_full()
 			var want_more := not favorites.is_empty() or not full
 			var reroll_cost := int(run.shop.get("reroll_cost", BMRunConfig.REROLL_BASE))
 			if want_more and rerolls_this_shop < max_rerolls and run.credits >= reroll_cost + 5 and run.round_number >= 2:
@@ -493,7 +517,7 @@ class Participant extends "res://tools/playtest.gd".Persona:
 				considered = {}
 				return run.reroll_shop()
 		if shop_style in ["meta", "full"]:
-			var full := run.jokers.size() >= run.joker_slots()
+			var full := run.rack_full()
 			var reserve := 3 if not full else 0
 			for i in run.shop.pieces.size():
 				var d: Dictionary = run.shop.pieces[i]
@@ -506,8 +530,8 @@ class Participant extends "res://tools/playtest.gd".Persona:
 
 	func _crate(run: BMRun) -> Dictionary:
 		var cj: String = run.shop.crate[0].id
-		var full := run.jokers.size() >= run.joker_slots()
-		var item_ok := run.consumables.size() < BMRunConfig.CONSUMABLE_SLOTS
+		var full := run.rack_full()
+		var item_ok := not run.items_full()
 		if items_style == "savvy" and item_buy >= 1.0 and item_ok and (full or pval(run, cj) < 60.0):
 			return run.open_crate(1)
 		match shop_style:
@@ -537,7 +561,7 @@ class Participant extends "res://tools/playtest.gd".Persona:
 		return worst
 
 	func _joker_step(run: BMRun) -> Dictionary:
-		var full := run.jokers.size() >= run.joker_slots()
+		var full := run.rack_full()
 		if shop_style == "newcomer":
 			if full:
 				return {}
@@ -572,7 +596,7 @@ class Participant extends "res://tools/playtest.gd".Persona:
 		return {}
 
 	func _tool_step(run: BMRun) -> Dictionary:
-		var full := run.jokers.size() >= run.joker_slots()
+		var full := run.rack_full()
 		var reserve := 3 if not full else 0
 		for pass_i in 2:
 			for i in run.shop.tools.size():
@@ -593,10 +617,30 @@ class Participant extends "res://tools/playtest.gd".Persona:
 						return r
 		return {}
 
-	func _item_step(run: BMRun) -> Dictionary:
-		if items_style == "never" or run.consumables.size() >= BMRunConfig.CONSUMABLE_SLOTS:
+	## The Holo shelf: buy the most valuable card that applies (newcomers never look at it).
+	func _holo_step(run: BMRun) -> Dictionary:
+		if shop_style in ["newcomer", "none"]:
 			return {}
-		var full := run.jokers.size() >= run.joker_slots()
+		var holo: Array = run.shop.get("holo", [])
+		var best := -1
+		var best_v := 0.0
+		for i in holo.size():
+			var o: Dictionary = holo[i]
+			if o.is_empty() or run.credits < run.holo_price(o) or run.holo_blocked(o) != "":
+				continue
+			var v := float(HOLO_VALUE.get(String(o.id), 10))
+			if v > best_v:
+				best_v = v
+				best = i
+		if best >= 0:
+			purchases["holo_" + String(holo[best].id)] = int(purchases.get("holo_" + String(holo[best].id), 0)) + 1
+			return run.buy_holo(best)
+		return {}
+
+	func _item_step(run: BMRun) -> Dictionary:
+		if items_style == "never" or run.items_full():
+			return {}
+		var full := run.rack_full()
 		var reserve := (reserve_items if not full else 0)
 		for i in run.shop.consumables.size():
 			var id: String = run.shop.consumables[i]
@@ -640,7 +684,7 @@ class Participant extends "res://tools/playtest.gd".Persona:
 				else:
 					pref = ["rush_hour", "gold_rush"]
 				for want in pref:
-					if want == "treasure_hunt" and run.consumables.size() >= BMRunConfig.CONSUMABLE_SLOTS:
+					if want == "treasure_hunt" and run.items_full():
 						continue
 					var k := cards.find(want)
 					if k > 0:
@@ -657,6 +701,13 @@ func _init() -> void:
 	var first := int(args[2]) if args.size() > 2 else 1
 	var out := args[3] if args.size() > 3 else "user://study_%s.json" % mode
 	var runs_each := int(args[4]) if args.size() > 4 else 3
+	# Board-pressure variants for tuning (BM_CARRY=1, BM_RUBBLE=0,2,4,6).
+	if OS.get_environment("BM_CARRY") != "":
+		BMRunConfig.carry_board = OS.get_environment("BM_CARRY") == "1"
+	if OS.get_environment("BM_TSCALE") != "":
+		BMRunConfig.act_scale = Array(OS.get_environment("BM_TSCALE").split(",")).map(func(v): return float(v))
+	if OS.get_environment("BM_RUBBLE") != "":
+		BMRunConfig.rubble_by_act = Array(OS.get_environment("BM_RUBBLE").split(",")).map(func(v): return int(v))
 	var population_overtime := args.size() > 5 and args[5] == "overtime"
 	var results: Array = []
 	var started := Time.get_ticks_msec()

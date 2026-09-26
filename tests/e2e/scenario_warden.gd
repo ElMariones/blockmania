@@ -24,21 +24,6 @@ func run() -> void:
 	await _mk2_frees_one_slot_per_clear()
 
 
-## Setup: moves a bag piece of `family` from the draw pile into tray `slot` (the piece that was
-## there goes back to the draw pile), keeping every piece in exactly one place.
-static func deal_family(r: BMRun, slot: int, family: String) -> bool:
-	for i in r.draw_pile.size():
-		var p := BMBag.piece_by_uid(r, int(r.draw_pile[i]))
-		if String(p.family) == family:
-			var old: Dictionary = r.tray[slot]
-			r.draw_pile.remove_at(i)
-			if not old.is_empty() and int(old.get("uid", -1)) >= 0:
-				r.draw_pile.append(int(old.uid))
-			r.tray[slot] = p.duplicate(true)
-			return true
-	return false
-
-
 func _load(r: BMRun) -> BMRun:
 	BMSaveStore.save_run(r)
 	main.continue_run()

@@ -114,7 +114,7 @@ func test_picking_a_card_changes_the_round() -> void:
 	check(run.apply_action({"a": "pick_round", "i": 2}).ok, "picked")
 	run.leave_shop()
 	eq(run.round_card, "double_or_nothing", "applied")
-	eq(run.round_state.target, run.round_target(2, "double_or_nothing"), "target x1.4")
+	eq(run.round_state.target, run.round_target(2, "double_or_nothing"), "target x1.7")
 	check(run.round_state.target > BMRunConfig.target(2), "harder")
 	run.round_state.score = run.round_state.target
 	run._after_round_action()
@@ -122,7 +122,7 @@ func test_picking_a_card_changes_the_round() -> void:
 	for l in run.last_round_result.credit_lines:
 		if String(l.label).begins_with("Double or Nothing"):
 			bonus = int(l.value)
-	eq(bonus, 6, "+6 Credits")
+	eq(bonus, 7, "+7 Credits")
 
 
 func test_tight_budget_rush_hour_and_gold_rush() -> void:
@@ -130,7 +130,7 @@ func test_tight_budget_rush_hour_and_gold_rush() -> void:
 	tight.shop.round_cards = ["standard", "tight_budget", "rush_hour"]
 	tight.apply_action({"a": "pick_round", "i": 1})
 	tight.leave_shop()
-	eq(tight.round_state.placements_left, int(tight.kit().placements) - 3, "three fewer")
+	eq(tight.round_state.placements_left, int(tight.kit().placements) - 5, "five fewer")
 	var rush := _shop(113)
 	rush.shop.round_cards = ["standard", "tight_budget", "rush_hour"]
 	rush.apply_action({"a": "pick_round", "i": 2})

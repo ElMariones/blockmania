@@ -39,6 +39,8 @@ var _jokers_header: Label
 var _jokers_box: VBoxContainer
 var _items_header: Label
 var _items_box: HBoxContainer
+## 3-4 item slots (Item Pouch): a 2x2 grid of tile cards in the same rect.
+var _items_grid: GridContainer
 var _bag_button: Button
 var _joker_cards: Array[BMCard] = []
 
@@ -220,6 +222,11 @@ func _build() -> void:
 	_at(_items_header, Vector2(1376, 728), Vector2(508, 40))
 	_items_box = BMStyle.hbox(12)
 	_at(_items_box, Vector2(1376, 772), Vector2(508, 184))
+	_items_grid = GridContainer.new()
+	_items_grid.columns = 2
+	_items_grid.add_theme_constant_override("h_separation", 12)
+	_items_grid.add_theme_constant_override("v_separation", 10)
+	_at(_items_grid, Vector2(1376, 772), Vector2(508, 184))
 	_bag_button = BMStyle.button(BMLoc.t("BAG"), _show_bag, "sky", 30)
 	_bag_button.icon = BMStyle.tex("icon_bag")
 	_bag_button.tooltip_text = BMLoc.t("See every piece in your bag: draw pile, tray, and discard pile. (B)")
@@ -403,11 +410,12 @@ func refresh_all() -> void:
 func _refresh_jokers() -> void:
 	BMUI.clear_children(_jokers_box)
 	_joker_cards.clear()
-	_jokers_header.text = BMLoc.t("JOKERS %d/%d") % [run.jokers.size(), run.joker_slots()]
+	_jokers_header.text = BMLoc.t("JOKERS %d/%d") % [run.occupied_slots(), run.joker_slots()]
 	var can_edit := run.can_act_in_round()
+	var card_h := BMCard.rack_height(run.rack_size())
 	for i in run.jokers.size():
 		var id := run.jokers[i]
-		var card := BMCard.joker_rack(run, id, BMCard.rack_height(run.joker_slots()))
+		var card := BMCard.joker_rack(run, id, card_h, 508.0, i)
 		card.reduced_motion = main.settings.reduced_motion
 		card.drag_index = i
 		card.drag_enabled = can_edit
@@ -423,9 +431,9 @@ func _refresh_jokers() -> void:
 		card.add_child(ctrl)
 		_jokers_box.add_child(card)
 		_joker_cards.append(card)
-	for i in range(run.jokers.size(), run.joker_slots()):
+	for i in maxi(0, run.joker_slots() - run.occupied_slots()):
 		var empty := BMStyle.panel("panel_inset", Vector4.ZERO)
-		empty.custom_minimum_size = Vector2(0, BMCard.rack_height(run.joker_slots()))
+		empty.custom_minimum_size = Vector2(0, card_h)
 		var l := BMStyle.label(BMLoc.t("empty slot"), 20, Color(BMStyle.TEXT_DIM, 0.5))
 		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
@@ -451,20 +459,29 @@ func _joker_controls(i: int, id: String, can_edit: bool) -> Control:
 
 func _refresh_items() -> void:
 	BMUI.clear_children(_items_box)
-	_items_header.text = BMLoc.t("ITEMS %d/%d") % [run.consumables.size(), BMRunConfig.CONSUMABLE_SLOTS]
+	BMUI.clear_children(_items_grid)
+	var slots := run.consumable_slots()
+	_items_header.text = BMLoc.t("ITEMS %d/%d") % [run.consumables.size(), slots]
+	# The Item Pouch adds slots: 3-4 items sit in a 2x2 grid of short tiles in the same rect.
+	var layout := BMCard.item_layout(slots)
+	var tiles := layout == "tile"
+	_items_box.visible = not tiles
+	_items_grid.visible = tiles
+	var holder: Container = _items_grid if tiles else _items_box
+	var item_size := Vector2(248, 87) if tiles else Vector2(248, 180)
+	var item_w := item_size.x
 	for i in run.consumables.size():
 		var reason := run.consumable_usable(i)
-		var card := BMCard.item_rack(run.consumables[i])
-		card.custom_minimum_size = Vector2(248, 180)
+		var card := BMCard.item_rack(run.consumables[i], run, layout, 2, true, item_size.x)
+		card.custom_minimum_size = item_size
 		var box := card.get_child(0) as VBoxContainer
-		var body := BMStyle.label(BMConsumables.display_text(run.consumables[i]), 20, Color(BMStyle.INK, 0.75))
-		body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		body.max_lines_visible = 2
-		body.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		box.add_child(body)
 		var id := run.consumables[i]
+		if tiles:
+			_tile_controls(card, i, id, reason)
+			holder.add_child(card)
+			continue
 		if not _tool.is_empty() and int(_tool.i) == i:
-			box.add_child(_tool_buttons())
+			box.add_child(_tool_buttons(layout == "mini"))
 		else:
 			var targeted := BMConsumables.target_kind(id) != ""
 			var use := BMStyle.button(BMLoc.t("USE"), func() -> void:
@@ -476,17 +493,48 @@ func _refresh_items() -> void:
 			use.tooltip_text = reason if reason != "" else (BMLoc.t("Use this item now: you choose where next.") if targeted else BMLoc.t("Use this item now."))
 			box.add_child(use)
 		_items_box.add_child(card)
-	var patch_shown := run.phase == BMRun.Phase.ROUND and run.round_state.patch_ready and run.consumables.size() < BMRunConfig.CONSUMABLE_SLOTS
+	var patch_shown := run.phase == BMRun.Phase.ROUND and run.round_state.patch_ready and not run.items_full()
 	if patch_shown:
-		_items_box.add_child(_patch_card())
-	for i in range(run.consumables.size() + (1 if patch_shown else 0), BMRunConfig.CONSUMABLE_SLOTS):
+		holder.add_child(_patch_card(item_w, layout, item_size.y))
+	for i in range(run.consumables.size() + (1 if patch_shown else 0), slots):
 		var empty := BMStyle.panel("panel_inset", Vector4.ZERO)
-		empty.custom_minimum_size = Vector2(248, 180)
+		empty.custom_minimum_size = item_size
 		var l := BMStyle.label(BMLoc.t("empty"), 20, Color(BMStyle.TEXT_DIM, 0.5))
 		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		empty.add_child(l)
-		_items_box.add_child(empty)
+		holder.add_child(empty)
+
+
+## A tile item card is its own USE button: click (or Enter when focused) to use it; a
+## targeted item then shows its ERASE / CANCEL buttons in place of the name.
+func _tile_controls(card: BMCard, i: int, id: String, reason: String) -> void:
+	var row := card.get_child(0).get_node("Row") as HBoxContainer
+	if not _tool.is_empty() and int(_tool.i) == i:
+		row.get_node("Info").visible = false
+		var tb := _tool_buttons(true)
+		tb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(tb)
+		return
+	var usable := reason == "" and _tool.is_empty()
+	card.focus_mode = Control.FOCUS_ALL
+	card.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND if usable else Control.CURSOR_ARROW
+	card.tooltip_body += "\n" + (BMLoc.t("Click to use it.") if usable else BMLoc.tf(reason))
+	if not usable:
+		card.modulate = Color(0.75, 0.72, 0.8)
+	var targeted := BMConsumables.target_kind(id) != ""
+	card.gui_input.connect(func(e: InputEvent) -> void:
+		var go: bool = (e is InputEventMouseButton and e.pressed and e.button_index == MOUSE_BUTTON_LEFT) or e.is_action_pressed("ui_accept")
+		if not go:
+			return
+		card.accept_event()
+		if run.consumable_usable(i) != "" or not _tool.is_empty():
+			BMAudio.sfx("deny")
+			return
+		if targeted:
+			_begin_tool(id, i)
+		else:
+			_do_action({"a": "use", "i": i}))
 
 
 func _refresh_status_banner() -> void:
@@ -890,7 +938,25 @@ func _do_action(a: Dictionary) -> Dictionary:
 				_present_tool(r)
 			else:
 				var msg := BMLoc.t("Used %s.") % BMConsumables.display_name(r.item)
+				var sound := "item"
 				match String(r.item):
+					"polish":
+						msg = BMLoc.t("POLISH: NEXT PLACEMENT +%s CHIPS") % BMUI.fmt_int(int(r.get("value", 0)))
+					"spark":
+						msg = BMLoc.t("SPARK: NEXT PLACEMENT +%s MULT") % BMJokers._num(float(r.get("value", 0.0)))
+					"phantom_line", "mystery_stamp":
+						msg = BMLoc.tf_join(r.get("events", []), "  ")
+						sound = "stamp" if r.item == "mystery_stamp" else "item"
+					"lucky_draw":
+						msg = BMLoc.tf_join(r.get("events", []), "  ")
+						sound = "legendary_get" if r.has("joker") else "deny"
+						if r.has("joker") and BMFx.instance:
+							BMFx.instance.confetti(_jokers_box.get_global_rect(), 60)
+					"double_down":
+						msg = BMLoc.tf_join(r.get("events", []), "  ")
+						sound = "loan_cash" if int(r.get("credits", 0)) > 0 else "deny"
+						if int(r.get("credits", 0)) > 0 and BMFx.instance:
+							BMFx.instance.coins(_items_box.get_global_rect().get_center(), _credits.get_global_rect().get_center(), mini(12, int(r.credits)))
 					"overclock":
 						msg = BMLoc.t("TURBO: NEXT PLACEMENT x2 MULT")
 					"coffee_break":
@@ -900,7 +966,7 @@ func _do_action(a: Dictionary) -> Dictionary:
 						if BMFx.instance:
 							BMFx.instance.coins(_items_box.get_global_rect().get_center(), _credits.get_global_rect().get_center(), mini(10, int(r.get("credits", 0))))
 				_set_message(msg, BMStyle.MINT_L)
-				BMAudio.sfx("item")
+				BMAudio.sfx(sound)
 			if r.item == "second_tray":
 				_spin_tray(0.1, String(r.get("hand", "")))
 		"sell":
@@ -1376,6 +1442,18 @@ func _show_round_intro() -> void:
 	facts.add_child(f1)
 	facts.add_child(f2)
 	v.add_child(facts)
+	# Board pressure: say what is already on the board and why.
+	var board_note := PackedStringArray()
+	if run.round_state.carried:
+		board_note.append(BMLoc.t("The board carries over from the last round."))
+	if run.round_state.rubble > 0:
+		board_note.append(BMLoc.tn("%d stone block dropped onto it.", "%d stone blocks dropped onto it.", run.round_state.rubble) % run.round_state.rubble)
+	if not board_note.is_empty():
+		var bn := BMStyle.label(" ".join(board_note), 20, BMStyle.SUN_L, true)
+		bn.name = "BoardNote"
+		bn.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		bn.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		v.add_child(bn)
 	if boss == "" and run.round_card != "standard":
 		var cd := BMRoundCards.get_def(run.round_card)
 		var cp := BMStyle.panel("panel_inset", Vector4(10, 6, 10, 8))
@@ -1719,8 +1797,8 @@ func _end_tool(sound: bool = true) -> void:
 	refresh_all()
 
 
-func _tool_buttons() -> HBoxContainer:
-	var row := BMStyle.hbox(6)
+func _tool_buttons(stacked: bool = false) -> BoxContainer:
+	var row: BoxContainer = BMStyle.vbox(4) if stacked else BMStyle.hbox(6)
 	if _tool.kind == "cells" and not _tool.cells.is_empty():
 		var ok := BMStyle.button(BMLoc.t("ERASE %d") % _tool.cells.size(), func() -> void: _commit_tool({"cells": _cells_arg(_tool.cells)}), "mint", 20)
 		ok.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -1732,17 +1810,35 @@ func _tool_buttons() -> HBoxContainer:
 	return row
 
 
-func _patch_card() -> BMCard:
-	var card := BMCard.item_rack("eraser")
-	card.custom_minimum_size = Vector2(248, 180)
+func _patch_card(width: float = 248.0, layout: String = "full", height: float = 180.0) -> BMCard:
+	var card := BMCard.item_rack("eraser", null, "tile" if layout == "tile" else "compact")
+	card.custom_minimum_size = Vector2(width, height)
 	card.tooltip_body = BMLoc.t("%s (Joker)") % BMJokers.display_name("patch_panel") + "\n" + BMJokers.display_text("patch_panel")
 	var box := card.get_child(0) as VBoxContainer
-	((box.get_child(0) as HBoxContainer).get_child(1) as Label).text = BMJokers.display_name("patch_panel")
-	var body := BMStyle.label(BMLoc.t("Remove one block of your choice."), 20, Color(BMStyle.INK, 0.75))
-	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	box.add_child(body)
+	for l in box.find_children("*", "Label", true, false):
+		if (l as Label).text == BMConsumables.display_name("eraser"):
+			(l as Label).text = BMJokers.display_name("patch_panel")
+	if layout == "tile":
+		if not _tool.is_empty() and _tool.id == "patch_panel":
+			(box.get_node("Row/Info") as Control).visible = false
+			box.get_node("Row").add_child(_tool_buttons(true))
+		else:
+			card.focus_mode = Control.FOCUS_ALL
+			card.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+			card.gui_input.connect(func(e: InputEvent) -> void:
+				if (e is InputEventMouseButton and e.pressed and e.button_index == MOUSE_BUTTON_LEFT) or e.is_action_pressed("ui_accept"):
+					card.accept_event()
+					if _tool.is_empty() and run.can_act_in_round():
+						_begin_tool("patch_panel", -1))
+		return card
+	if layout != "mini":
+		var body := BMStyle.label(BMLoc.t("Remove one block of your choice."), 20, Color(BMStyle.INK, 0.75))
+		body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		body.max_lines_visible = 2
+		body.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		box.add_child(body)
 	if not _tool.is_empty() and _tool.id == "patch_panel":
-		box.add_child(_tool_buttons())
+		box.add_child(_tool_buttons(layout == "mini"))
 	else:
 		var use := BMStyle.button(BMLoc.t("PATCH"), func() -> void: _begin_tool("patch_panel", -1), "mint", 20)
 		use.disabled = not _tool.is_empty() or not run.can_act_in_round()

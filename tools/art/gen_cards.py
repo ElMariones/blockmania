@@ -2059,6 +2059,13 @@ JOKERS.update(cards_engine.JOKERS)
 ITEMS.update(cards_engine.ITEMS)
 TOOLS.update(cards_engine.TOOLS)
 ACHIEVEMENTS.update(cards_engine.ACHIEVEMENTS)
+# Study follow-up sprites (new items, Tuning Fork, Item Pouch, the Holo shelf).
+import cards_holo  # noqa: E402
+ITEMS.update(cards_holo.ITEMS)
+TOOLS.update(cards_holo.TOOLS)
+# Color and form Jokers (owner request, 2026-09-26).
+import cards_palette  # noqa: E402
+JOKERS.update(cards_palette.JOKERS)
 
 
 def main():

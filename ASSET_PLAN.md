@@ -248,6 +248,18 @@ Original pixel art and synthesized audio authored as code, in the style of a cha
 | Speech bubble, spotlight dim and marching outline | `game/ui/tutorial.gd` (code-drawn) | In game |
 | Voice: 5 vowel blips (`pops_a`...`pops_u`), `pops_hi`, `pops_next`, `pops_bye` | `tools/audio/gen_sfx_helper.py` | In game; human listening pass open |
 
+## 12f. Study follow-up: new Jokers, items and the Holo shelf (2026-09-26)
+
+Original art authored as code (GDD §25). No new sounds: the new actions reuse existing cues (`legendary_get`, `loan_cash`, `stamp`, `deny`, `legendary_reveal`, `buy`).
+
+| Deliverable | Source | Status |
+|---|---|---|
+| 22 Joker portraits: color commons (siren, orange slice, lemon, sprout, plum) and rares (red giant, sunset, sun, pine, whale tail, crown); form commons (lone block under the moon, golf tee, zigzag, plus) and rares (diamond, barbell, L, town hall, T-rex, bolt, compass rose) | `tools/art/cards_palette.py` (merged by `gen_cards.py`) → `assets/ui/cards/jokers.png` | In game; contact sheet reviewed |
+| 4 item portraits (Lucky Draw ticket, Mystery Stamp, Double Down "x2" coin, Phantom Line ghost), Tuning Fork, Item Pouch, 6 Holo portraits (negative film strip, AGAIN wax seal, master blueprint, golden tuning fork, lilac crate, hologram card) | `tools/art/cards_holo.py` → `assets/ui/cards/{items,tools}.png` | In game; contact sheet reviewed |
+| Holo card frame (`card_holo`, chrome rim, lilac gem) and `pill_holo` | `tools/art/gen_ui.py` | In game; verified in shop screenshots |
+| Card effects shader: Negative (photographic negative), AGAIN (red with a slow pulse), Holo (chrome-foil rainbow sweep, pixelated); frozen under Reduced Motion, and every trait is also named on the card (NEGATIVE, AGAIN, LV2) | `game/presentation/shaders/card_fx.gdshader`, `BMCard.apply_fx` | In game; verified in shop and round screenshots at 1920×1080 |
+| 2×2 item tiles for 3–4 item slots (Item Pouch) | `game/ui/card.gd`, `game_screen.gd`, `shop_screen.gd` | In game; verified at 1920×1080 |
+
 ## 13. Endless arcade mode (2026-09-23)
 
 The main menu has a code-drawn pixel infinity emblem on the Endless entry (with a game in progress it opens a Continue / New Game popup) and a local high-score view. Its cabinet reuses the original board, tray, block textures, clear waves, CRT option, particles, and existing SFX. The right rail now has a large Hold well with an occupied-shape drawing, recharge state, and drop highlight. The swirl shader has calm teal, tense rose, and celebratory multicolor moods; original tracks are grouped into matching playlists. At x5, a code-synthesized percussion layer joins the current track, with a stronger level at x8. High combos add capped drag trails, board pulse, larger score text, scoreward particles, confetti, and subtle shake. DOUBLE CLEAR, TRIPLE CLEAR, MEGA CLEAR, PERFECT, BLOCKSTORM, and CLEAN BOARD have prominent text feedback; an empty-board clear gets the largest celebration. Reduced motion retains score, Hold state, and callout text. The Endless screen and game-over card are code-built UI; no external media or generated-image art is used. Human comfort/listening review remains open.

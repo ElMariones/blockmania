@@ -83,6 +83,22 @@ static func has_legal_move(r: BMRun) -> bool:
 	return not held.is_empty() and not r.round_state.hold_used and not r.hold_blocked() and r.board.fits_anywhere(held.cells)
 
 
+## Setup: moves a bag piece of `family` from the draw pile into tray `slot` (the piece that was
+## there goes back to the draw pile), keeping every piece in exactly one place.
+static func deal_family(r: BMRun, slot: int, family: String) -> bool:
+	for pile: Array in [r.draw_pile, r.discard_pile]:
+		for i in pile.size():
+			var p := BMBag.piece_by_uid(r, int(pile[i]))
+			if String(p.family) == family:
+				var old: Dictionary = r.tray[slot]
+				pile.remove_at(i)
+				if not old.is_empty() and int(old.get("uid", -1)) >= 0:
+					r.draw_pile.append(int(old.uid))
+				r.tray[slot] = p.duplicate(true)
+				return true
+	return false
+
+
 ## Saves a PNG of the current frame when a real display is present (skipped headless).
 func screenshot(name: String) -> void:
 	if DisplayServer.get_name() == "headless":

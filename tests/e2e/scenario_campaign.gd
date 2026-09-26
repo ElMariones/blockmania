@@ -57,7 +57,7 @@ func _play(seed_value: int, kit: String, heat: int) -> void:
 			await frames(2)
 			break
 		# Save & quit from the pause menu, then CONTINUE from the title: same run, same screen.
-		if not saved_resume and r.phase == BMRun.Phase.SHOP and r.round_number >= 3:
+		if not saved_resume and r.phase == BMRun.Phase.SHOP and r.round_number >= 2:
 			saved_resume = true
 			var before := run_digest(r)
 			main.show_pause()
@@ -127,13 +127,14 @@ func _play(seed_value: int, kit: String, heat: int) -> void:
 	r = main.run
 	check(actions < MAX_ACTIONS, tag + ": run finished within %d actions" % MAX_ACTIONS)
 	check(r.phase in [BMRun.Phase.RUN_WON, BMRun.Phase.RUN_LOST, BMRun.Phase.ABANDONED], tag + ": run ended (phase %d)" % r.phase)
-	check(saved_resume or r.round_number < 3, tag + ": save/resume was exercised")
+	check(saved_resume or r.round_number < 2, tag + ": save/resume was exercised")
 	await screenshot("%s_end" % kit)
 	# The seed plus the recorded history replays to the identical run.
 	var replayed := BMRun.replay(r.run_seed, r.kit_id, r.history, r.heat, r.locked_jokers)
 	eq(run_digest(replayed), run_digest(r), tag + ": replay reproduces the run")
 	facts[tag] = {"round": r.round_number, "phase": r.phase, "overtime": r.overtime, "actions": r.history.size(),
-		"credits": r.credits, "jokers": Array(r.jokers), "locked": Array(r.locked_jokers), "digest": run_digest(r)}
+		"credits": r.credits, "jokers": Array(r.jokers), "locked": Array(r.locked_jokers), "digest": run_digest(r),
+		"end_reason": r.end_reason}
 	checkpoint(tag + " end", facts[tag])
 	main.show_title()
 	await frames(2)

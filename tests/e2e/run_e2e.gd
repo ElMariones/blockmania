@@ -46,7 +46,14 @@ func _go() -> void:
 			if c is BMSplash:
 				c.queue_free()
 		current_scene.title_screen.refresh()
-		var scen: BME2ECase = load("res://tests/e2e/%s.gd" % n).new()
+		var script: GDScript = load("res://tests/e2e/%s.gd" % n)
+		if script == null or not script.can_instantiate():
+			# A scenario that does not compile fails at once (it used to hang the runner).
+			print("FAIL  %s  (script does not load)" % n)
+			summary[n] = {"ok": false, "fingerprint": "", "failures": 1}
+			failed += 1
+			continue
+		var scen: BME2ECase = script.new()
 		scen.main = current_scene
 		scen.artifact_dir = out_dir.path_join(n)
 		DirAccess.make_dir_recursive_absolute(scen.artifact_dir)

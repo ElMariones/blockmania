@@ -37,6 +37,16 @@ const FAMILIES := [ # i18n: name
 static var _rotation_cache := {}
 
 
+## A family's form, the group form Jokers boost: single, bar, l, square, t, zigzag, plus
+## ("" for families outside the bag, like the Endless-only rectangle).
+const FORMS := {&"single": "single", &"bar2": "bar", &"bar3": "bar", &"bar4": "bar", &"bar5": "bar",
+	&"l3": "l", &"l4": "l", &"square2": "square", &"square3": "square", &"t4": "t", &"zigzag4": "zigzag", &"plus5": "plus"}
+
+
+static func form(id: StringName) -> String:
+	return String(FORMS.get(StringName(id), ""))
+
+
 static func family(id: StringName) -> Dictionary:
 	for f in FAMILIES:
 		if f.id == id:

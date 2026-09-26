@@ -20,6 +20,10 @@ extends RefCounted
 ## Engine update (2026-09-24): multi-line clears add base Mult, Turbo xMult, Double Stamp,
 ## Philosopher's Stone (doubled materials, transmutation), Hall of Mirrors (Jokers twice),
 ## run-long scaling Jokers (BMRun.joker_state).
+## Study follow-up (2026-09-26): Phantom Line adds a line to the next clearing placement (every
+## line-based rule counts it); Joker levels scale a card's effect (+50% per level: Chips and Mult
+## times 1 + 0.5 x level, xMult's part above x1 the same); AGAIN Jokers trigger once more after
+## every Joker has scored, in each phase (BMRun.joker_mods, BMHolo).
 
 
 ## Single-placement milestones (a banner the first time each is crossed in a run).
@@ -61,6 +65,9 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 	var is_clearing := lines > 0
 	if is_clearing:
 		rs.clearing_placements += 1
+	# Phantom Line: the next clearing placement counts extra lines (never a non-clearing one).
+	var phantom := rs.pending_lines if is_clearing else 0
+	lines += phantom
 
 	var clear_set := BMBoard.line_union(rows, cols)
 
@@ -156,8 +163,10 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 		"items_held": run.consumables.size(),
 		"glass_in_bag": BMBag.material_count(run, "glass"),
 		"colors_before": colors_before.size(),
-		"empty_joker_slots": maxi(0, run.joker_slots() - run.jokers.size()),
+		"empty_joker_slots": maxi(0, run.joker_slots() - run.occupied_slots()),
 		"round_lines_before": rs.lines_cleared,
+		"bag_colors": BMBag.color_counts(run),
+		"bag_forms": BMBag.form_counts(run),
 	}
 
 	# Step 3: base Chips.
@@ -189,6 +198,8 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 	if lines > 0:
 		var line_chips := BMRunConfig.CHIPS_PER_LINE * lines
 		var line_label := BMLoc.m("Lines x%d") % lines
+		if phantom > 0:
+			line_label = BMLoc.m("Lines x%d (Phantom Line +%d)") % [lines, phantom]
 		if run.boss_active("taxman"):
 			var first := BMBosses.TAXMAN_FIRST_LINE_CHIPS_MK2 if run.boss_is_mk2() else BMBosses.TAXMAN_FIRST_LINE_CHIPS
 			line_chips -= BMRunConfig.CHIPS_PER_LINE - first
@@ -214,7 +225,7 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 		items.append({"label": BMLoc.m("Polish"), "kind": "chips", "value": rs.pending_chips, "source": "consumable"})
 		chips += rs.pending_chips
 	for e in effects:
-		var c := BMJokers.chips(e.effect, ctx)
+		var c := roundi(BMJokers.chips(e.effect, ctx) * float(e.scale))
 		if c != 0:
 			items.append({"label": e.label, "kind": "chips", "value": c, "source": "joker", "joker": e.id, "slot": e.slot})
 			chips += c
@@ -248,7 +259,7 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 		items.append({"label": BMLoc.m("%s hand") % BMHands.get_def(hand).name, "kind": "mult", "value": BMHands.TRIPLETS_MULT, "source": "hand", "hand": hand})
 		mult += BMHands.TRIPLETS_MULT
 	for e in effects:
-		var m := BMJokers.add_mult(e.effect, ctx)
+		var m := BMJokers.add_mult(e.effect, ctx) * float(e.scale)
 		if m != 0.0:
 			items.append({"label": e.label, "kind": "mult", "value": m, "source": "joker", "joker": e.id, "slot": e.slot})
 			mult += m
@@ -273,7 +284,7 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 		items.append({"label": BMLoc.m("Triplets hand"), "kind": "xmult", "value": BMHands.TRIPLETS_X_MULT, "source": "hand", "hand": hand})
 		mult *= BMHands.TRIPLETS_X_MULT
 	for e in effects:
-		var x := BMJokers.x_mult(e.effect, ctx)
+		var x := 1.0 + (BMJokers.x_mult(e.effect, ctx) - 1.0) * float(e.scale)
 		if x != 1.0:
 			items.append({"label": e.label, "kind": "xmult", "value": x, "source": "joker", "joker": e.id, "slot": e.slot})
 			mult *= x
@@ -360,6 +371,8 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 	rs.pending_chips = 0
 	rs.pending_mult = 0.0
 	rs.pending_xmult = 1.0
+	if phantom > 0:
+		rs.pending_lines = 0
 	if gold_cleared > 0:
 		var gold := BMPieces.GOLD_CREDITS_PER_CELL * gold_cleared * (2 if stone else 1)
 		run.add_credits(gold)
@@ -386,7 +399,7 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 	if run.has_active_joker("patience"):
 		rs.patience_store = 0 if is_clearing else mini(BMJokers.PATIENCE_MAX, rs.patience_store + BMJokers.PATIENCE_STEP)
 	if rows.size() > 0 and cols.size() > 0 and run.has_active_joker("draftsman"):
-		if run.consumables.size() < BMRunConfig.CONSUMABLE_SLOTS:
+		if not run.items_full():
 			run.consumables.append("eraser")
 			events.append(BMLoc.m("Draftsman: gained an Eraser"))
 		else:
@@ -411,7 +424,7 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 		events.append(BMLoc.m("Patch Panel ready: remove one block"))
 	if stamp == "memory":
 		for i in stamp_times:
-			if run.consumables.size() < BMRunConfig.CONSUMABLE_SLOTS:
+			if not run.items_full():
 				run.consumables.append("spark")
 				events.append(BMLoc.m("Memory Stamp: gained a Spark"))
 			else:
@@ -499,6 +512,7 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 		"points": points,
 		"broken": broken,
 		"triggered_jokers": triggered,
+		"phantom_lines": phantom,
 		"combo_before": combo_before,
 		"combo_after": rs.combo,
 		"score_before": score_before,
@@ -515,26 +529,39 @@ static func resolve_placement(run: BMRun, slot: int, anchor: Vector2i) -> Dictio
 
 
 ## Active scoring effects in resolution order. Mimic resolves as a copy of the Joker directly
-## below it (never another Mimic, never a rule-only or disabled card).
+## below it (never another Mimic, never a rule-only or disabled card). Each entry carries its
+## `scale` (1 + JOKER_LEVEL_STEP x level). AGAIN Jokers are appended once more at the end, so in
+## every phase they trigger again after all the others (Hall of Mirrors does not mirror that).
 static func _joker_effects(run: BMRun) -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
+	var again: Array[Dictionary] = []
 	var twice := run.has_active_joker("hall_of_mirrors")
 	for i in run.jokers.size():
 		var id: String = run.jokers[i]
 		if not run.is_joker_active(id):
 			continue
 		var name: String = BMJokers.get_def(id).name
+		var level := run.joker_level(i)
+		var scale := 1.0 + BMRunConfig.JOKER_LEVEL_STEP * level
+		var has_again := bool(run.joker_mod(i).get("again", false))
+		var effect := id
+		var label := name
 		if id == "mimic":
-			if i + 1 < run.jokers.size():
-				var target: String = run.jokers[i + 1]
-				if BMJokers.is_copyable(target) and run.is_joker_active(target):
-					out.append({"id": id, "effect": target, "slot": i, "label": BMLoc.m("Mimic (%s)") % BMJokers.get_def(target).name})
-					if twice:
-						out.append({"id": id, "effect": target, "slot": i, "label": BMLoc.m("Mimic (%s), mirrored") % BMJokers.get_def(target).name, "mirrored": true})
-			continue
-		out.append({"id": id, "effect": id, "slot": i, "label": name})
+			if i + 1 >= run.jokers.size():
+				continue
+			var target: String = run.jokers[i + 1]
+			if not (BMJokers.is_copyable(target) and run.is_joker_active(target)):
+				continue
+			effect = target
+			label = BMLoc.m("Mimic (%s)") % BMJokers.get_def(target).name
+		if level > 0:
+			label = BMLoc.m("%s Lv %d") % [label, level]
+		out.append({"id": id, "effect": effect, "slot": i, "label": label, "scale": scale})
 		if twice and id != "hall_of_mirrors":
-			out.append({"id": id, "effect": id, "slot": i, "label": BMLoc.m("%s, mirrored") % name, "mirrored": true})
+			out.append({"id": id, "effect": effect, "slot": i, "label": BMLoc.m("%s, mirrored") % label, "mirrored": true, "scale": scale})
+		if has_again and BMHolo.is_scoring(id):
+			again.append({"id": id, "effect": effect, "slot": i, "label": BMLoc.m("%s, AGAIN") % label, "again": true, "scale": scale})
+	out.append_array(again)
 	return out
 
 
